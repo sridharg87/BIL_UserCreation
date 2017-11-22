@@ -5,3 +5,57 @@
 # *.[oa]
 # *~
 .metadata/
+L3-data-code/.settings/
+L3-data-code/target/
+L3-data-code/src/main/
+L3-data-code/src/main/**
+L3-data-code/src/main/java/com/temenos/t24/
+L3-data-code/.classpath
+L3-data-code/.project
+L3-data-code/pom.xml
+L3-models/.settings/
+L3-models/Documentation/
+L3-models/src/
+L3-models/target/
+L3-models/.classpath
+L3-models/.project
+L3-models/pom.xml
+L3-models-gen/.settings/
+L3-models-gen/src/
+L3-models-gen/target/
+L3-models-gen/.classpath
+L3-models-gen/.project
+L3-models-gen/pom.xml
+L3-packager/
+t24-server/
+#Vendor specific project - Accenture
+L3_Accenture-data-code/.settings/
+L3_Accenture-data-code/target/
+L3_Accenture-data-code/src/main/
+L3_Accenture-data-code/src/main/**
+L3_Accenture-data-code/src/main/java/com/temenos/t24/
+L3_Accenture-data-code/.classpath
+L3_Accenture-data-code/.project
+L3_Accenture-data-code/pom.xml
+L3_Accenture-packager/
+#Vendor specific project - Syncordis
+L3_Syncordis-data-code/.settings/
+L3_Syncordis-data-code/target/
+L3_Syncordis-data-code/src/main/
+L3_Syncordis-data-code/src/main/**
+L3_Syncordis-data-code/src/main/java/com/temenos/t24/
+L3_Syncordis-data-code/.classpath
+L3_Syncordis-data-code/.project
+L3_Syncordis-data-code/pom.xml
+L3_Syncordis-packager/
+#Vendor specific project - BIL
+L3_BIL-data-code/.settings/
+L3_BIL-data-code/target/
+L3_BIL-data-code/src/main/
+L3_BIL-data-code/src/main/**
+L3_BIL-data-code/src/main/java/com/temenos/t24/
+L3_BIL-data-code/.classpath
+L3_BIL-data-code/.project
+L3_BIL-data-code/pom.xml
+L3_BIL-packager/
+*.java
