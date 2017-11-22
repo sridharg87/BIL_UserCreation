@@ -14,7 +14,7 @@ $PACKAGE BIL.UserCreation
 
 SUBROUTINE BIL.VAL.USER.CREATION
 *-----------------------------------------------------------------------------
-*
+* Attached to USER,BIL.NEW Version to restrict user access based on user sms
 *-----------------------------------------------------------------------------
 * Modification History :
 *-----------------------------------------------------------------------------
