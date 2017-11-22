@@ -1,0 +1,132 @@
+# UTF-8
+/* Local Clearing Debulking */
+Domain PP_LocalClearingHKCLGService
+    @t24:i (module=PP)
+    @java:Package (value=com.temenos.t24.datamodel.pp.pp_localclearinghkclgservice)
+namespace "http://www.temenos.com/t24/PP_LocalClearingHKCLGService"
+metamodelVersion 1.30.6
+Classes {
+    /* Store records in POR.HKCLG table. */
+    POR_HKCLG
+        @i18n:Description (en="")
+        @t24:i (t24Name=POR.HKCLG, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* CD Collecting Member Branch Code
+Validation Rules:
+3 alphanumeric characters */
+        CDCollectingMemberBranchCode : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=15.0, core=true, t24Name=CDCollectingMemberBranchCode, typeModifiers="0")
+/* CD Collecting Member Clearing Code
+Validation Rules:
+3 alphanumeric characters */
+        CDCollectingMemberClearingCode : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=14.0, core=true, t24Name=CDCollectingMemberClearingCode, typeModifiers="0")
+/* Payer’s bank
+Validation Rules:
+3 alphanumeric characters */
+        CDDraweeMemberBranchCode : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=9.0, core=true, t24Name=CDDraweeMemberBranchCode, typeModifiers="0")
+/* Payer’s bank
+Validation Rules:
+3 alphanumeric characters */
+        CDDraweeMemberClearingCode : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=8.0, core=true, t24Name=CDDraweeMemberClearingCode, typeModifiers="0")
+/* CD Drawer Account Number
+Validation Rules:
+10 alphanumeric characters */
+        CDDrawerAccountNumber : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=10.0, core=true, t24Name=CDDrawerAccountNumber, typeModifiers="0")
+        CDHighValueIndicator : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=16.0, core=true, t24Name=CDHighValueIndicator)
+/* CD NC Batch Indicator
+Possible Values:
+N=NC-EOC item
+blank=Non-NC-EOC item
+Validation Rules:
+1 alphanumeric character */
+        CDNCBatchIndicator : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=18.0, core=true, t24Name=CDNCBatchIndicator)
+/* Serial Number(Cheque Number)
+Validation Rules:
+18 alphanumeric characters */
+        CDReferenceNumber : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=18, sysNumber=7.0, core=true, t24Name=CDReferenceNumber)
+/* Special Handling Indicator
+Possible Values:
+S=Special handling item
+blank=normal item
+Validation Rules:
+1 alphanumeric character */
+        CDSpecialHandlingIndicator : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=17.0, core=true, t24Name=CDSpecialHandlingIndicator)
+/* CD Split Ticket Indicator
+Possible Values:
+O=Split ticket item
+blank=normal item
+Validation Rules:
+1 alphanumeric character */
+        CDSplitTicketIndicator : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=19.0, core=true, t24Name=CDSplitTicketIndicator)
+/* CD Transaction Amount
+Validation Rules:
+11 characters */
+        CDTransactionAmount : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=12.0, core=true, t24Name=CDTransactionAmount, typeModifiers="2")
+/* CD Transaction Code
+Validation Rules:
+2 alphanumeric characters */
+        CDTransactionCode : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=2, sysNumber=11.0, core=true, t24Name=CDTransactionCode, typeModifiers="0")
+/* Unique Identifier is a global unique number for each processed item.
+It needs to be stored in the cheque imaging system, outward clearing data file, outward index file, inward clearing data file and inward index file.
+It can be used as the unique search key for item search and return cheque process.
+Format of UID: YYYYMMDDBBBCNNNNNNNNNN
+where:
+YYYYMMDD = Clearing Date
+BBB = Collecting Member Clearing Code (i.e. 307)
+C = Capture Point (0=HKCLG, 1=Group A Member)
+NNNNNNNNNN = 10 digits Sequence Number
+Validation Rules:
+22 alphanumeric characters */
+        CDUniqueIdentifier : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=22, sysNumber=13.0, core=true, t24Name=CDUniqueIdentifier, typeModifiers="0")
+/* Clearing Processing Date
+Validation Rules:
+8 characters of type DATE. */
+        ClearingProcessingDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=8, sysNumber=5.0, core=true, t24Name=ClearingProcessingDate)
+/* Indicates the company ID for which the record is created.
+Example : BNK,GB1
+Validation Rules:
+3 alphanumeric characters.
+The value links to the field 'CompanyID' in PPT.COMPANY */
+        CompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+/* Currency Code
+Holds a 3 character unique code which denotes a specific currency used in the system.
+Validation Rules:
+Currency should be a valid entry in Currency Table (PPT.CURRENCY). */
+        CurrencyCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=6.0, core=true, t24Name=CurrencyCode)
+/* Denotes the unique ID generated by the payments hub upon generating a payment order.
+Validation Rules:
+Mandatory field; 16 alphanumeric characters. */
+        FTNumber : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=2.0, core=true, t24Name=FTNumber)
+/* Denotes the unique ID generated by the payments hub upon receiving a message from an external system.
+Validation Rules:
+This field can hold up to 50 alphanumeric characters generated by the system */
+        FileReference : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=3.0, core=true, t24Name=FileReference)
+/* File name appended with current business date.
+Validation Rules:
+50 alphanumeric characters */
+        FileSenderReference : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=4.0, core=true, t24Name=FileSenderReference)
+        /* Unique ID generated by the payments hub in order to identify each record in the application. */
+        ID -> PP_LocalClearingHKCLGService:POR_HKCLG PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+    }
+}

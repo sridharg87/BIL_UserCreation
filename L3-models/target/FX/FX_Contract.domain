@@ -1,0 +1,2867 @@
+# UTF-8
+/* Template Servicing of Forex related updates */
+Domain FX_Contract
+    @t24:i (module=FX)
+    @java:Package (value=com.temenos.t24.datamodel.fx.fx_contract)
+namespace "http://www.temenos.com/t24/FX_Contract"
+metamodelVersion 1.30.6
+Classes {
+    FOREX
+        @i18n:Description (en="")
+        @t24:i (t24Name=FOREX, level=F, type=H, additionalInfo="NOH UNP OEU NOC", allowedFunctions="A C D E H I L P Q R S V", localRefAllowed=true)
+    {
+        ACCOUNT_OFFICER -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Account Officer")
+            @i18n:Tooltip (en="Indicates Account Officer responsible")
+            @t24:i (align=L, inputBehaviour=F, maxLength=4, sysNumber=100.0, core=true, businessType=DEF, t24Name=ACCOUNT.OFFICER, typeModifiers="DAOCUSTOMER24.A")
+        ACCOUNT_TO_CHARGE -> AC_AccountOpening:ACCOUNT
+            @i18n:Label (en="Charge Account")
+            @i18n:Tooltip (en="Debit account for charges or commission")
+            @t24:i (align=R, inputBehaviour=F, maxLength=36, sysNumber=89.0, core=true, businessType=ACC, t24Name=ACCOUNT.TO.CHARGE)
+        ACTION_TYPE : FX_Contract:FOREX__ACTION_TYPE
+            @i18n:Label (en="Action Type")
+            @i18n:Tooltip (en="Action Type")
+            @t24:i (align=L, inputBehaviour=N, maxLength=1, sysNumber=177.0, core=true, t24Name=ACTION.TYPE)
+        ADDL_INFO_METAL -> byValue FX_Contract:FOREX__ADDL_INFO_METAL *
+            @t24:i (t24Name=ADDL.INFO.METAL)
+        ADDL_REP_INFO -> byValue FX_Contract:FOREX__ADDL_REP_INFO *
+            @t24:i (t24Name=ADDL.REP.INFO)
+        AGREEMENT_TYPE -> FX_Config:FX_AGREEMENT_TYPE
+            @i18n:Label (en="Agreement Type")
+            @i18n:Tooltip (en="Agreement Type Eg. ISDA, FRABBA, etc.")
+            @t24:i (align=L, inputBehaviour=I, maxLength=21, sysNumber=163.0, core=true, businessType=A, t24Name=AGREEMENT.TYPE)
+        ALLOCATION : FX_Contract:FOREX__ALLOCATION
+            @i18n:Label (en=Allocation)
+            @i18n:Tooltip (en="Is the metal required allocated or unallocated")
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=156.0, core=true, t24Name=ALLOCATION)
+        AMORTISE_CYCLE : T24BusinessTypes:FQU
+            @i18n:Label (en="Amortisation Cycle")
+            @i18n:Tooltip (en="Frequency of position amortisation")
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=137.0, core=true, t24Name=AMORTISE.CYCLE)
+        AMORTISE_FROM_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Amortise From Date")
+            @i18n:Tooltip (en="Date from which positn Amortisatn starts")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=136.0, core=true, t24Name=AMORTISE.FROM.DATE)
+        AMORTISE_POSITION : FX_Contract:FOREX__AMORTISE_POSITION
+            @i18n:Label (en="Amortise Position")
+            @i18n:Tooltip (en="Amortise Position")
+            @t24:i (align=L, inputBehaviour=F, maxLength=4, sysNumber=135.0, core=true, t24Name=AMORTISE.POSITION)
+        AMOUNT_BOUGHT : T24BusinessTypes:AMT
+            @i18n:Label (en="Buy Amount")
+            @i18n:Tooltip (en="Specifies the amount of the currency bought")
+            @t24:i (align=R, inputBehaviour=F, maxLength=19, sysNumber=7.0, core=true, t24Name=AMOUNT.BOUGHT, typeModifiers="6")
+        AMOUNT_SOLD : T24BusinessTypes:AMT
+            @i18n:Label (en="Sell Amount")
+            @i18n:Tooltip (en="Specifies the Amount of the currency sold")
+            @t24:i (align=R, inputBehaviour=F, maxLength=19, sysNumber=10.0, core=true, t24Name=AMOUNT.SOLD, typeModifiers="9")
+        AMT_BOUGHT_OS : T24BusinessTypes:AMT
+            @i18n:Label (en="Amt Bought Outstg")
+            @i18n:Tooltip (en="Amount Bought Outstanding")
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=130.0, core=true, t24Name=AMT.BOUGHT.OS, typeModifiers="6")
+        AMT_SOLD_OS : T24BusinessTypes:AMT
+            @i18n:Label (en="Amt Sold Outstg")
+            @i18n:Tooltip (en="Amount Sold Outstanding")
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=131.0, core=true, t24Name=AMT.SOLD.OS, typeModifiers="9")
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=224.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=225.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=221.0, core=true, t24Name=AUTHORISER)
+        AVAILABILITY : T24BusinessTypes:AAA
+            @i18n:Label (en=Availability)
+            @i18n:Tooltip (en="Location where the metal is available for delivery")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=155.0, core=true, t24Name=AVAILABILITY)
+        BASE_CCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en="Base Ccy")
+            @t24:i (align=L, inputBehaviour=F, maxLength=3, sysNumber=27.0, core=true, businessType=CCY, t24Name=BASE.CCY)
+        BROKER -> ST_Config:BROKER
+            @i18n:Label (en="Deal Method")
+            @i18n:Tooltip (en="Specifies the method of the deal done")
+            @t24:i (align=L, inputBehaviour=F, maxLength=10, sysNumber=15.0, core=true, businessType=BRK, t24Name=BROKER)
+        BROKERAGE : T24BusinessTypes:AMT
+            @i18n:Label (en=Brokerage)
+            @t24:i (align=R, inputBehaviour=F, maxLength=19, sysNumber=16.0, core=true, t24Name=BROKERAGE, typeModifiers="6")
+        BROKERAGE_AMOUNT : T24BusinessTypes:AMT
+            @i18n:Label (en="Brokerage Amount")
+            @i18n:Tooltip (en="Brokerage Amount")
+            @t24:i (align=R, inputBehaviour=F, maxLength=19, sysNumber=18.0, core=true, t24Name=BROKERAGE.AMOUNT, typeModifiers="-17")
+        BROKERAGE_CCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en="Brokerage Currency")
+            @i18n:Tooltip (en="Currency in which Brokerage is taken")
+            @t24:i (align=L, inputBehaviour=F, maxLength=3, sysNumber=17.0, core=true, businessType=CCY, t24Name=BROKERAGE.CCY)
+        BROKERAGE_EQUIV : T24BusinessTypes:AMT
+            @i18n:Label (en="Brokerage Equivalent")
+            @i18n:Tooltip (en="Indicates the brokerage in local currency")
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=112.0, core=true, t24Name=BROKERAGE.EQUIV, typeModifiers="-USD")
+        BULK_DEAL : FX_Contract:FOREX__BULK_DEAL
+            @i18n:Label (en="Bulk Deal ")
+            @i18n:Tooltip (en="If deal is a Bulk deal or not")
+            @t24:i (align=L, inputBehaviour=F, maxLength=1, sysNumber=124.0, core=true, t24Name=BULK.DEAL)
+        BULK_REFERENCE : T24BusinessTypes:A
+            @i18n:Label (en="Bulk Reference")
+            @i18n:Tooltip (en="Deal Reference of the Bulk Deal")
+            @t24:i (align=L, inputBehaviour=F, maxLength=15, sysNumber=125.0, core=true, t24Name=BULK.REFERENCE, mask="R##-#####-#####")
+        BUY_ACC_TDATE_F : T24BusinessTypes:AMT
+            @i18n:Label (en="Buy Ccy Accrual Todate")
+            @i18n:Tooltip (en="Buy Ccy Accrual Todate")
+            @t24:i (align=R, inputBehaviour=E, maxLength=19, sysNumber=81.0, core=true, t24Name=BUY.ACC.TDATE.F, typeModifiers="-6")
+        BUY_ACC_TDATE_L : T24BusinessTypes:AMT
+            @i18n:Label (en="Buy Ccy Accrual Todate")
+            @i18n:Tooltip (en="Buy Ccy Accrual Todate")
+            @t24:i (align=R, inputBehaviour=E, maxLength=19, sysNumber=79.0, core=true, t24Name=BUY.ACC.TDATE.L, typeModifiers="-USD")
+        BUY_COUNTRY_RISK : T24BusinessTypes:N
+            @t24:i (align=L, inputBehaviour=N, maxLength=10, core=false, t24Name=BUY.COUNTRY.RISK, genOperation="CURRENCY.BOUGHT>CURRENCY>COUNTRY.CODE")
+        BUY_CURRENCY_RISK : T24BusinessTypes:N
+            @t24:i (align=L, inputBehaviour=N, maxLength=10, core=false, t24Name=BUY.CURRENCY.RISK, genOperation=CURRENCY.BOUGHT)
+        BUY_DAILY_ACC_F : T24BusinessTypes:AMT
+            @i18n:Label (en="Buy Ccy Daily Accr")
+            @i18n:Tooltip (en="Daily accrual of foreign currency")
+            @t24:i (align=R, inputBehaviour=E, maxLength=19, sysNumber=80.0, core=true, t24Name=BUY.DAILY.ACC.F, typeModifiers="-6")
+        BUY_DAILY_ACC_L : T24BusinessTypes:AMT
+            @i18n:Label (en="Buy Ccy Daily Accr")
+            @i18n:Tooltip (en="Buy Ccy Daily Accr")
+            @t24:i (align=R, inputBehaviour=E, maxLength=19, sysNumber=78.0, core=true, t24Name=BUY.DAILY.ACC.L, typeModifiers="-USD")
+        BUY_LCY_EQUIV : T24BusinessTypes:AMT
+            @i18n:Label (en="Buy Local currency Equivalent")
+            @i18n:Tooltip (en="Local currency equivalent of the currency bought")
+            @t24:i (align=R, inputBehaviour=E, maxLength=19, sysNumber=76.0, core=true, t24Name=BUY.LCY.EQUIV, typeModifiers="-USD")
+        CATEGORY : T24BusinessTypes:N
+            @i18n:Label (en=Category)
+            @i18n:Tooltip (en="Specifies the Category")
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, core=false, t24Name=CATEGORY, genOperation=CATEGORY.CODE)
+        CATEGORY_CODE -> ST_Config:CATEGORY
+            @i18n:Label (en="Category Code")
+            @t24:i (align=R, inputBehaviour=F, maxLength=6, sysNumber=87.0, core=true, t24Name=CATEGORY.CODE, mask="R##-###")
+        CHARGE_CODE -> byValue FX_Contract:FOREX__CHARGE_CODE *
+            @t24:i (t24Name=CHARGE.CODE)
+        CHARGE_EQUIV -> byValue FX_Contract:FOREX__CHARGE_EQUIV *
+            @t24:i (t24Name=CHARGE.EQUIV)
+        CLOSING_ID : T24BusinessTypes:A
+            @i18n:Label (en="Fx Closing Group id")
+            @i18n:Tooltip (en="Fx Closing Group id")
+            @t24:i (align=L, inputBehaviour=N, maxLength=14, sysNumber=160.0, core=true, t24Name=CLOSING.ID)
+        CLS_DEAL : FX_Contract:FOREX__CLS_DEAL
+            @i18n:Label (en="Is it CLS deal?")
+            @i18n:Tooltip (en="Whether the Deal CLS deal or not")
+            @t24:i (align=L, inputBehaviour=F, maxLength=3, sysNumber=152.0, core=true, t24Name=CLS.DEAL)
+        COLLATERALISATION : FX_Contract:FOREX__COLLATERALISATION
+            @i18n:Label (en=Collateralisation)
+            @i18n:Tooltip (en=Collateralisation)
+            @t24:i (align=L, inputBehaviour=N, maxLength=2, sysNumber=171.0, core=true, t24Name=COLLATERALISATION)
+        COLLAT_PORT_CODE : T24BusinessTypes:N
+            @i18n:Label (en="Collateral Port Code")
+            @i18n:Tooltip (en="Collateral Port Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=10, sysNumber=173.0, core=true, t24Name=COLLAT.PORT.CODE)
+        COLLAT_PORT_IND : FX_Contract:FOREX__COLLAT_PORT_IND
+            @i18n:Label (en="Collateral port Indicator")
+            @i18n:Tooltip (en="Collateral port Indicator")
+            @t24:i (align=L, inputBehaviour=N, maxLength=1, sysNumber=172.0, core=true, t24Name=COLLAT.PORT.IND)
+        COMMISSION_TAKEN : T24BusinessTypes:AMT
+            @i18n:Label (en="Commission Taken")
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=91.0, core=true, t24Name=COMMISSION.TAKEN, typeModifiers="-USD")
+        CONFIRMD_BY_BROKER : T24BusinessTypes:A
+            @i18n:Label (en="Confirmed By Broker")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=19.0, core=true, t24Name=CONFIRMD.BY.BROKER)
+        CONF_BY_CPARTY : FX_Contract:FOREX__CONF_BY_CPARTY
+            @i18n:Label (en="Counterparty Confirmation")
+            @i18n:Tooltip (en="Cpty Confirmation")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=75.0, core=true, t24Name=CONF.BY.CPARTY)
+        CONSOL_IND -> byValue FX_Contract:FOREX__CONSOL_IND *
+            @t24:i (t24Name=CONSOL.IND)
+        CONTRACT_GRP : T24BusinessTypes:A
+            @i18n:Label (en="Contract Group")
+            @i18n:Tooltip (en="Contract group based on a set of conditions")
+            @t24:i (align=L, inputBehaviour=N, maxLength=5, sysNumber=195.0, core=true, t24Name=CONTRACT.GRP)
+        CORR_AMEND_MKR : FX_Contract:FOREX__CORR_AMEND_MKR
+            @i18n:Label (en="Correction or Amendment")
+            @i18n:Tooltip (en="Indicates if it is a Correction or Amendment")
+            @t24:i (align=L, inputBehaviour=I, maxLength=7, sysNumber=105.0, core=true, t24Name=CORR.AMEND.MKR)
+        COUNTERPARTY -> ST_Customer:CUSTOMER
+            @i18n:Label (en=Counterparty)
+            @i18n:Tooltip (en="Counterparty with whom the deal is made")
+            @t24:i (align=R, inputBehaviour=F, maxLength=10, sysNumber=3.0, core=true, businessType=CPARTY, t24Name=COUNTERPARTY)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=222.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CP_TRADE_PURPOSE : FX_Contract:FOREX__CP_TRADE_PURPOSE
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=184.0, core=true, t24Name=CP.TRADE.PURPOSE)
+        CURRENCY_BOUGHT -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en="Currency Bought")
+            @i18n:Tooltip (en="Specifies the code of the Currency bought")
+            @t24:i (align=L, inputBehaviour=F, maxLength=3, sysNumber=6.0, core=true, businessType=CCY, t24Name=CURRENCY.BOUGHT)
+        CURRENCY_MARKET -> ST_CurrencyConfig:CURRENCY_MARKET
+            @i18n:Label (en="Currency Market")
+            @i18n:Tooltip (en="Currency market applicable for the transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=1, sysNumber=5.0, core=true, t24Name=CURRENCY.MARKET)
+        CURRENCY_SOLD -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en="Sell Currency")
+            @t24:i (align=L, inputBehaviour=F, maxLength=3, sysNumber=9.0, core=true, businessType=CCY, t24Name=CURRENCY.SOLD)
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=218.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue FX_Contract:FOREX__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEALER_DESK -> ST_Config:DEALER_DESK
+            @i18n:Label (en="Dealer Desk")
+            @i18n:Tooltip (en="Specifies the Dealer Desk handling the transaction")
+            @t24:i (align=L, inputBehaviour=F, maxLength=2, sysNumber=4.0, core=true, businessType=A, t24Name=DEALER.DESK)
+        DEALER_NAME : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=166.5, core=false, t24Name=DEALER.NAME)
+        DEALER_NOTES -> byValue FX_Contract:FOREX__DEALER_NOTES *
+            @t24:i (t24Name=DEALER.NOTES)
+        DEAL_DATE : T24BusinessTypes:FOREXD
+            @i18n:Label (en="Deal Date")
+            @i18n:Tooltip (en="Indicates the Deal date")
+            @t24:i (align=R, inputBehaviour=F, maxLength=11, sysNumber=24.0, core=true, t24Name=DEAL.DATE, mask="RDD DDD DDDD")
+        DEAL_MARKET -> ST_CurrencyConfig:CURRENCY_MARKET
+            @i18n:Label (en="Deal Market")
+            @i18n:Tooltip (en="Default deal market for exchange rates")
+            @t24:i (align=R, inputBehaviour=I, maxLength=2, sysNumber=132.0, core=true, t24Name=DEAL.MARKET)
+        DEAL_SUB_TYPE : FX_Contract:FOREX__DEAL_SUB_TYPE
+            @i18n:Label (en="Sub Type")
+            @i18n:Tooltip (en="Deal type, if it is internal or broker")
+            @t24:i (align=L, inputBehaviour=F, maxLength=2, sysNumber=2.0, core=true, t24Name=DEAL.SUB.TYPE, onchangeBehaviour=HOT.FIELD)
+        DEAL_TYPE : FX_Contract:FOREX__DEAL_TYPE
+            @i18n:Label (en="Deal Type")
+            @i18n:Tooltip (en="Identifies the type of Foreign Exchange deal")
+            @t24:i (align=L, inputBehaviour=F, maxLength=2, sysNumber=1.0, core=true, t24Name=DEAL.TYPE, onchangeBehaviour=HOT.FIELD)
+        DELIVERY_DETAILS : FX_Contract:FOREX__DELIVERY_DETAILS
+            @i18n:Label (en="Delivery Details")
+            @i18n:Tooltip (en="Delivery Details - CIF")
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=154.0, core=true, t24Name=DELIVERY.DETAILS)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=223.0, core=true, t24Name=DEPT.CODE)
+        EQUIV_INT_BOUGHT : T24BusinessTypes:AMT
+            @i18n:Label (en="Equivalent Interest Bought")
+            @i18n:Tooltip (en="Local currency equivalent-Notional interest amount")
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=120.0, core=true, t24Name=EQUIV.INT.BOUGHT, typeModifiers="USD")
+        EQUIV_INT_SOLD : T24BusinessTypes:AMT
+            @i18n:Label (en="Equivalent Interest Sold")
+            @i18n:Tooltip (en="Local currency equivalent-Notional interest amount")
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=121.0, core=true, t24Name=EQUIV.INT.SOLD, typeModifiers="USD")
+        EQV_CODE -> byValue FX_Contract:FOREX__EQV_CODE *
+            @t24:i (t24Name=EQV.CODE)
+        EXEC_TIME_STAMP : T24BusinessTypes:A
+            @i18n:Label (en="Execution Time Stamp")
+            @i18n:Tooltip (en="Execution Time Stamp")
+            @t24:i (align=L, inputBehaviour=N, maxLength=23, sysNumber=183.0, core=true, t24Name=EXEC.TIME.STAMP)
+        EXEC_VENUE -> OC_Parameters:OC_EXCHANGE_FACILITY
+            @i18n:Label (en="Execution Venue")
+            @i18n:Tooltip (en="Execution Venue")
+            @t24:i (align=L, inputBehaviour=N, maxLength=10, sysNumber=175.0, core=true, businessType=A, t24Name=EXEC.VENUE)
+        FED_FUNDS : FX_Contract:FOREX__FED_FUNDS
+            @i18n:Label (en="Federal Funds")
+            @i18n:Tooltip (en="Specify Federal Funds or Not")
+            @t24:i (align=L, inputBehaviour=N, maxLength=1, sysNumber=101.0, core=true, t24Name=FED.FUNDS)
+        FIX_PL_REALISED : T24BusinessTypes:D
+            @i18n:Label (en="Accruals Realisation Date")
+            @i18n:Tooltip (en="Accrual Realisation Date")
+            @t24:i (align=R, inputBehaviour=N, maxLength=11, sysNumber=147.0, core=true, t24Name=FIX.PL.REALISED)
+        FORWARD_RATE : T24BusinessTypes:FWDR
+            @i18n:Label (en="Forward Rate")
+            @t24:i (align=L, inputBehaviour=F, maxLength=16, sysNumber=13.0, core=true, t24Name=FORWARD.RATE)
+        FTT_COLL_CPTY_TAX : FX_Contract:FOREX__FTT_COLL_CPTY_TAX
+            @t24:i (align=L, inputBehaviour=F, maxLength=3, sysNumber=203.0, core=true, t24Name=FTT.COLL.CPTY.TAX)
+        FTT_TAX_AMT_BASE : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=200.0, core=true, t24Name=FTT.TAX.AMT.BASE)
+        FTT_TAX_AMT_EUR : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=201.0, core=true, t24Name=FTT.TAX.AMT.EUR)
+        FTT_TAX_AMT_LCY : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=202.0, core=true, t24Name=FTT.TAX.AMT.LCY)
+        FTT_TAX_BASE_AMT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=199.0, core=true, t24Name=FTT.TAX.BASE.AMT)
+        FTT_TAX_BASE_CCY -> ST_CurrencyConfig:CURRENCY
+            @t24:i (align=L, inputBehaviour=F, maxLength=3, sysNumber=198.0, core=true, businessType=CCY, t24Name=FTT.TAX.BASE.CCY)
+        FTT_TAX_KEY -> ST_ChargeConfig:TAX
+            @t24:i (align=R, inputBehaviour=N, maxLength=2, sysNumber=197.0, core=true, t24Name=FTT.TAX.KEY)
+        FTT_TAX_TYPE_KEY : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=F, maxLength=17, sysNumber=196.0, core=true, t24Name=FTT.TAX.TYPE.KEY)
+        FURTHER_INDENT : FX_Contract:FOREX__FURTHER_INDENT
+            @i18n:Label (en="Futher Indent")
+            @i18n:Tooltip (en="Metal will be delivered / transferred")
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=158.0, core=true, t24Name=FURTHER.INDENT)
+        FWD_FWD_SWAP : FX_Contract:FOREX__FWD_FWD_SWAP
+            @i18n:Tooltip (en="Fwd Fwd Swap")
+            @t24:i (align=L, inputBehaviour=F, maxLength=3, sysNumber=207.0, core=true, t24Name=FWD.FWD.SWAP, onchangeBehaviour=HOT.FIELD)
+        FX_BULK_ORDR_ID -> byValue FX_Contract:FOREX__FX_BULK_ORDR_ID *
+            @t24:i (t24Name=FX.BULK.ORDR.ID)
+        FX_GROUP_COND_ID : T24BusinessTypes:A
+            @i18n:Label (en="Group ID")
+            @i18n:Tooltip (en="The field represents the Group ID")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=95.0, core=true, t24Name=FX.GROUP.COND.ID)
+        FX_ORDER_ID : T24BusinessTypes:A
+            @i18n:Label (en="Forex Order ID")
+            @i18n:Tooltip (en="The forex order ID placed by the customer")
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=151.0, core=true, t24Name=FX.ORDER.ID)
+        IDENTIFICATION : T24BusinessTypes:A
+            @i18n:Label (en=Identification)
+            @i18n:Tooltip (en="Details to be mandatorily displayed in contract")
+            @t24:i (align=L, inputBehaviour=N, maxLength=27, sysNumber=153.0, core=true, t24Name=IDENTIFICATION)
+        INPUTTER -> byValue FX_Contract:FOREX__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        INTEREST_BASIS : T24BusinessTypes:N
+            @i18n:Label (en="Interest Basis")
+            @i18n:Tooltip (en="Indicates the interest day basis")
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, core=false, t24Name=INTEREST.BASIS, genOperation="\"RTN\"")
+        INT_BASIS_BOUGHT : FX_Contract:FOREX__INT_BASIS_BOUGHT
+            @i18n:Label (en="Interest Basis Bought")
+            @i18n:Tooltip (en="Interest day basis of the currency bought")
+            @t24:i (align=L, inputBehaviour=N, maxLength=1, sysNumber=122.0, core=true, t24Name=INT.BASIS.BOUGHT)
+        INT_BASIS_SOLD : FX_Contract:FOREX__INT_BASIS_SOLD
+            @i18n:Label (en="Interest Basis Sold")
+            @i18n:Tooltip (en="Interest day basis of the currency sold")
+            @t24:i (align=L, inputBehaviour=N, maxLength=1, sysNumber=123.0, core=true, t24Name=INT.BASIS.SOLD)
+        INT_FLD_ID -> byValue FX_Contract:FOREX__INT_FLD_ID *
+            @t24:i (t24Name=INT.FLD.ID)
+        INT_RATE_BUY : T24BusinessTypes:R
+            @i18n:Label (en="Interest Rate Buy")
+            @i18n:Tooltip (en="Interest Rate applicable to Currency bought")
+            @t24:i (align=R, inputBehaviour=F, maxLength=16, sysNumber=30.0, core=true, t24Name=INT.RATE.BUY, mask="R##.####")
+        INT_RATE_SELL : T24BusinessTypes:R
+            @i18n:Label (en="Interest Rate Sell")
+            @i18n:Tooltip (en="Interest Rate applicable to Currency sold")
+            @t24:i (align=R, inputBehaviour=F, maxLength=16, sysNumber=31.0, core=true, t24Name=INT.RATE.SELL, mask="R##.####")
+        LAST_DEL_ID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=148.0, core=true, t24Name=LAST.DEL.ID)
+        LEG1_FWD_RATE : T24BusinessTypes:A
+            @i18n:Tooltip (en="Forward Rate of Leg1")
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=206.0, core=true, t24Name=LEG1.FWD.RATE)
+        LIMIT_REFERENCE_NO : T24BusinessTypes:N
+            @i18n:Label (en="Limit Reference")
+            @i18n:Tooltip (en="Limit Reference")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=20.0, core=true, t24Name=LIMIT.REFERENCE.NO)
+        LINK_REFERENCE : T24BusinessTypes:A
+            @i18n:Label (en="Link Reference")
+            @i18n:Tooltip (en="Transaction link reference of the contract")
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=133.0, core=true, t24Name=LINK.REFERENCE)
+        MARGIN_PERC : T24BusinessTypes:R
+            @i18n:Label (en="Margin percentage")
+            @i18n:Tooltip (en="Specifies the Margin Percentage")
+            @t24:i (align=R, inputBehaviour=F, maxLength=16, sysNumber=93.0, core=true, t24Name=MARGIN.PERC)
+        MARGIN_PIPS : T24BusinessTypes:R
+            @i18n:Label (en="Margin Pips")
+            @i18n:Tooltip (en="Specifies the Margin Pips")
+            @t24:i (align=R, inputBehaviour=N, maxLength=16, sysNumber=94.0, core=true, t24Name=MARGIN.PIPS)
+        METAL_TYPE : FX_Contract:FOREX__METAL_TYPE
+            @i18n:Label (en="Metal Type")
+            @i18n:Tooltip (en="Metal Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=157.0, core=true, t24Name=METAL.TYPE)
+        MKTG_EXCH_ADJ : T24BusinessTypes:AMT
+            @i18n:Label (en="Market Exchane Profit")
+            @i18n:Tooltip (en="Market Exchane Profit")
+            @t24:i (align=R, inputBehaviour=F, maxLength=19, sysNumber=138.0, core=true, t24Name=MKTG.EXCH.ADJ, typeModifiers="-USD")
+        MKTG_EXCH_PROFIT : T24BusinessTypes:AMT
+            @i18n:Label (en="Market Exchange Profit")
+            @i18n:Tooltip (en="Local currency profit taken on the FX trade")
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=90.0, core=true, t24Name=MKTG.EXCH.PROFIT, typeModifiers="-USD")
+        NEGOTIATED_REF_NO : T24BusinessTypes:N
+            @i18n:Label (en="Negotiated Reference")
+            @i18n:Tooltip (en="Reference Number of a deal negotiated by a Dealer")
+            @t24:i (align=R, inputBehaviour=F, maxLength=5, sysNumber=23.0, core=true, t24Name=NEGOTIATED.REF.NO)
+        NETTING_STATUS : FX_Contract:FOREX__NETTING_STATUS
+            @i18n:Label (en="Is Deal to be Netted")
+            @i18n:Tooltip (en="Is the Deal to be netted")
+            @t24:i (align=L, inputBehaviour=F, maxLength=1, sysNumber=134.0, core=true, t24Name=NETTING.STATUS)
+        NON_STND_FLAG : FX_Contract:FOREX__NON_STND_FLAG
+            @i18n:Label (en="Non Standard Flag")
+            @i18n:Tooltip (en="Non Standard Flag")
+            @t24:i (align=L, inputBehaviour=N, maxLength=1, sysNumber=180.0, core=true, t24Name=NON.STND.FLAG)
+        NOTES -> byValue FX_Contract:FOREX__NOTES *
+            @t24:i (t24Name=NOTES)
+        NOTIONAL_BUY_AMT : T24BusinessTypes:AMT
+            @i18n:Label (en="Notional Buy Amount")
+            @i18n:Tooltip (en="NPU amount of contract for amount brought")
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=115.0, core=true, t24Name=NOTIONAL.BUY.AMT, typeModifiers="6")
+        NOTIONAL_SELL_AMT : T24BusinessTypes:AMT
+            @i18n:Label (en="Notional Sell Amount")
+            @i18n:Tooltip (en="NPU amount of contract for amount sold")
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=116.0, core=true, t24Name=NOTIONAL.SELL.AMT, typeModifiers="9")
+        OLD_INT_RATE_CALC : FX_Contract:FOREX__OLD_INT_RATE_CALC
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=144.0, core=true, t24Name=OLD.INT.RATE.CALC)
+        OPTION_AMOUNT : T24BusinessTypes:AMT
+            @i18n:Label (en="Option Amount")
+            @i18n:Tooltip (en="Amount of the Option Contract")
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=34.0, core=true, t24Name=OPTION.AMOUNT)
+        OPTION_CURRENCY : T24BusinessTypes:CCY
+            @i18n:Label (en="Option Currency")
+            @i18n:Tooltip (en="Currency considered to be the Option currency")
+            @t24:i (align=L, inputBehaviour=F, maxLength=3, sysNumber=33.0, core=true, t24Name=OPTION.CURRENCY)
+        OPTION_DATE : T24BusinessTypes:FOREXD
+            @i18n:Label (en="Option Avail From")
+            @i18n:Tooltip (en="Starting date - partial or total delivery starts")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=32.0, core=true, t24Name=OPTION.DATE, mask="RDD DDD DDDD")
+        OPTION_OS_AMT : T24BusinessTypes:AMT
+            @i18n:Label (en="Outstg.Amt in Option Ccy")
+            @i18n:Tooltip (en="Outstanding Amount in Option Currency")
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=35.0, core=true, t24Name=OPTION.OS.AMT)
+        OPTION_RATEDATE -> byValue FX_Contract:FOREX__OPTION_RATEDATE *
+            @t24:i (t24Name=OPTION.RATEDATE)
+        OPTION_TYPE : T24BusinessTypes:A
+            @i18n:Label (en="Option Type")
+            @i18n:Tooltip (en="Indicates the type of contract")
+            @t24:i (align=L, inputBehaviour=N, maxLength=10, sysNumber=127.0, core=true, t24Name=OPTION.TYPE)
+        ORG_VALBUY_DATE -> byValue FX_Contract:FOREX__ORG_VALBUY_DATE *
+            @t24:i (t24Name=ORG.VALBUY.DATE)
+        ORIGINAL_FUNCTION : T24BusinessTypes:A
+            @i18n:Label (en="Dealer Comment")
+            @t24:i (align=L, inputBehaviour=E, maxLength=1, sysNumber=109.0, core=true, t24Name=ORIGINAL.FUNCTION)
+        ORIGINATING_DEPT : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=E, maxLength=4, sysNumber=167.0, core=true, t24Name=ORIGINATING.DEPT)
+        OS_DEL_BUY_AMT : T24BusinessTypes:AMT
+            @i18n:Label (en="Outstg. Del.Buy Amount")
+            @i18n:Tooltip (en="Outstg. Del.Buy Amount")
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=139.0, core=true, t24Name=OS.DEL.BUY.AMT, typeModifiers="6")
+        OS_DEL_SELL_AMT : T24BusinessTypes:AMT
+            @i18n:Label (en="Outstg.Del Sell Amount")
+            @i18n:Tooltip (en="Outstg.Del Sell Amount")
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=140.0, core=true, t24Name=OS.DEL.SELL.AMT, typeModifiers="9")
+        OS_LCY_EQUIV_AMT : T24BusinessTypes:AMT
+            @i18n:Label (en="Oustg.Lcy Equivalent Amt")
+            @i18n:Tooltip (en="Oustg.Lcy Equivalent Amt")
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=141.0, core=true, t24Name=OS.LCY.EQUIV.AMT, mask="AMT#USD")
+        OS_LST_LIM_BUY_EOP : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=N, maxLength=11, sysNumber=142.0, core=true, t24Name=OS.LST.LIM.BUY.EOP)
+        OS_LST_LIM_SEL_EOP : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=N, maxLength=11, sysNumber=143.0, core=true, t24Name=OS.LST.LIM.SEL.EOP)
+        OUR_ACCOUNT_PAY -> byValue FX_Contract:FOREX__OUR_ACCOUNT_PAY *
+            @t24:i (t24Name=OUR.ACCOUNT.PAY)
+        OVERRIDE -> byValue FX_Contract:FOREX__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        OWN_BOOK_PORT : T24BusinessTypes:A
+            @i18n:Label (en="Own Book Portfolio Id")
+            @i18n:Tooltip (en="Own Book Portfolio Id")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=179.0, core=true, t24Name=OWN.BOOK.PORT)
+        PHANTOM_IND : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=E, maxLength=1, sysNumber=168.0, core=true, t24Name=PHANTOM.IND)
+        PORTFOLIO_NUMBER : T24BusinessTypes:A
+            @i18n:Label (en="Portfolio Number")
+            @i18n:Tooltip (en="Portfolio Number")
+            @t24:i (align=L, inputBehaviour=F, maxLength=3, sysNumber=117.0, core=true, t24Name=PORTFOLIO.NUMBER)
+        PORT_COMPRESSION : FX_Contract:FOREX__PORT_COMPRESSION
+            @i18n:Label (en=Compression)
+            @i18n:Tooltip (en=Compression)
+            @t24:i (align=L, inputBehaviour=N, maxLength=1, sysNumber=176.0, core=true, t24Name=PORT.COMPRESSION)
+        POSITION_TYPE_BUY -> RE_Config:FX_POS_TYPE
+            @i18n:Label (en="Position Type for Buy")
+            @i18n:Tooltip (en="Position Type for Buy")
+            @t24:i (align=L, inputBehaviour=F, maxLength=2, sysNumber=21.0, core=true, businessType=DEF, t24Name=POSITION.TYPE.BUY, typeModifiers="ATR")
+        POSITION_TYPE_SELL -> RE_Config:FX_POS_TYPE
+            @i18n:Label (en="Position Type for Sell")
+            @i18n:Tooltip (en="Position Type for Sell")
+            @t24:i (align=L, inputBehaviour=F, maxLength=2, sysNumber=22.0, core=true, businessType=DEF, t24Name=POSITION.TYPE.SELL, typeModifiers="A")
+        PRE_UTI_ID_1 : T24BusinessTypes:A
+            @i18n:Label (en="PUTI Number.1")
+            @i18n:Tooltip (en="PUTI Number.1")
+            @t24:i (align=L, inputBehaviour=N, maxLength=52, sysNumber=181.0, core=true, t24Name=PRE.UTI.ID.1)
+        PRE_UTI_ID_2 : T24BusinessTypes:A
+            @i18n:Label (en="PUTI Number.2")
+            @i18n:Tooltip (en="PUTI Number.2")
+            @t24:i (align=L, inputBehaviour=N, maxLength=52, sysNumber=182.0, core=true, t24Name=PRE.UTI.ID.2)
+        PRODCAT : T24BusinessTypes:N
+            @i18n:Label (en="Deal Type")
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, core=false, t24Name=PRODCAT, genOperation=CATEGORY.CODE)
+        PRODCCY : T24BusinessTypes:N
+            @i18n:Label (en="Product Currency")
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, core=false, t24Name=PRODCCY, genOperation="\"\"")
+        PURPOSE_OF_TRAN : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=166.6, core=false, t24Name=PURPOSE.OF.TRAN)
+        PVP_SETTLEMENT : FX_Contract:FOREX__PVP_SETTLEMENT
+            @t24:i (align=L, inputBehaviour=F, maxLength=1, sysNumber=170.0, core=true, t24Name=PVP.SETTLEMENT)
+        QUANTITY : FX_Contract:FOREX__QUANTITY
+            @i18n:Label (en=Quantity)
+            @i18n:Tooltip (en="Type of unit of the metal")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=159.0, core=true, t24Name=QUANTITY)
+        REALISE_FIX_PL : FX_Contract:FOREX__REALISE_FIX_PL
+            @i18n:Label (en="Realised Profit")
+            @i18n:Tooltip (en="Realised Profit")
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=146.0, core=true, t24Name=REALISE.FIX.PL)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=217.0, core=true, t24Name=RECORD.STATUS)
+        REPLACING_DEAL_NO : T24BusinessTypes:A
+            @i18n:Label (en="Replacing Deal")
+            @i18n:Tooltip (en="Replacing a wrongly reversed deal")
+            @t24:i (align=L, inputBehaviour=F, maxLength=12, sysNumber=106.0, core=true, t24Name=REPLACING.DEAL.NO)
+        RESERVED1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=214.0, core=true, t24Name=RESERVED1)
+        RESERVED10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=209.0, core=true, t24Name=RESERVED10)
+        RESERVED11 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=208.0, core=true, t24Name=RESERVED11)
+        RESERVED2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=213.0, core=true, t24Name=RESERVED2)
+        RESERVED3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=194.0, core=true, t24Name=RESERVED3)
+        RESERVED4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=193.0, core=true, t24Name=RESERVED4)
+        RESERVED5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=192.0, core=true, t24Name=RESERVED5)
+        RESERVED6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=191.0, core=true, t24Name=RESERVED6)
+        RESERVED7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=212.0, core=true, t24Name=RESERVED7)
+        RESERVED8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=211.0, core=true, t24Name=RESERVED8)
+        RESERVED9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=210.0, core=true, t24Name=RESERVED9)
+        RESIDENCE : T24BusinessTypes:N
+            @i18n:Label (en=Residence)
+            @t24:i (align=L, inputBehaviour=N, maxLength=2, core=false, t24Name=RESIDENCE, genOperation="COUNTERPARTY>CUSTOMER>RESIDENCE")
+        REVALUATION_TYPE -> FX_PositionAndReval:FX_REVAL_TYPE
+            @i18n:Label (en="Revaluation Type")
+            @i18n:Tooltip (en="Revaluation method to be used on forward contracts")
+            @t24:i (align=L, inputBehaviour=F, maxLength=2, sysNumber=25.0, core=true, businessType=SSS, t24Name=REVALUATION.TYPE)
+        ROUNDING_RULE -> ST_Config:EB_ROUNDING_RULE
+            @i18n:Label (en="Rounding Rule")
+            @i18n:Tooltip (en="Indicates the rounding rule")
+            @t24:i (align=L, inputBehaviour=F, maxLength=20, sysNumber=162.0, core=true, businessType=A, t24Name=ROUNDING.RULE)
+        SELL_COUNTRY_RISK : T24BusinessTypes:N
+            @t24:i (align=L, inputBehaviour=N, maxLength=10, core=false, t24Name=SELL.COUNTRY.RISK, genOperation="CURRENCY.SOLD>CURRENCY>COUNTRY.CODE")
+        SELL_CURRENCY_RISK : T24BusinessTypes:N
+            @t24:i (align=L, inputBehaviour=N, maxLength=10, core=false, t24Name=SELL.CURRENCY.RISK, genOperation=CURRENCY.SOLD)
+        SEL_ACC_TDATE_F : T24BusinessTypes:AMT
+            @i18n:Label (en="Sell Ccy Accrual Todate")
+            @i18n:Tooltip (en="Sell Ccy Accr. Todate Foreign")
+            @t24:i (align=R, inputBehaviour=E, maxLength=19, sysNumber=85.0, core=true, t24Name=SEL.ACC.TDATE.F, typeModifiers="-9")
+        SEL_ACC_TDATE_L : T24BusinessTypes:AMT
+            @i18n:Label (en="Sell Ccy Accrual Todate")
+            @i18n:Tooltip (en="Sell Ccy Accr.Todate Local")
+            @t24:i (align=R, inputBehaviour=E, maxLength=19, sysNumber=83.0, core=true, t24Name=SEL.ACC.TDATE.L, typeModifiers="-USD")
+        SEL_DAILY_ACC_F : T24BusinessTypes:AMT
+            @i18n:Label (en="Sell Ccy Daily Accr-Foreign")
+            @i18n:Tooltip (en="Daily accrual of foreign currency")
+            @t24:i (align=R, inputBehaviour=E, maxLength=19, sysNumber=84.0, core=true, t24Name=SEL.DAILY.ACC.F, typeModifiers="-9")
+        SEL_DAILY_ACC_L : T24BusinessTypes:AMT
+            @i18n:Label (en="Sell Ccy Daily Accr-Local")
+            @i18n:Tooltip (en="Sell Ccy Daily Accrual-LC")
+            @t24:i (align=R, inputBehaviour=E, maxLength=19, sysNumber=82.0, core=true, t24Name=SEL.DAILY.ACC.L, typeModifiers="-USD")
+        SEL_LCY_EQUIV : T24BusinessTypes:AMT
+            @i18n:Label (en="Sell Local currency Equivalent")
+            @i18n:Tooltip (en="Local currency equivalent of the currency sold")
+            @t24:i (align=R, inputBehaviour=E, maxLength=19, sysNumber=77.0, core=true, t24Name=SEL.LCY.EQUIV, typeModifiers="-USD")
+        SEND_ADVICE : FX_Contract:FOREX__SEND_ADVICE
+            @i18n:Label (en="Send Advice")
+            @i18n:Tooltip (en="Transmission of the advice")
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=104.0, core=true, t24Name=SEND.ADVICE)
+        SEND_CONFIRMATION : FX_Contract:FOREX__SEND_CONFIRMATION
+            @i18n:Label (en="Send Confirmation")
+            @i18n:Tooltip (en="Send confirmation - Y/N ?")
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=102.0, core=true, t24Name=SEND.CONFIRMATION)
+        SEND_PAYMENT : FX_Contract:FOREX__SEND_PAYMENT
+            @i18n:Label (en="Send Payment ")
+            @i18n:Tooltip (en="Send payment - Y/N ?")
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=103.0, core=true, t24Name=SEND.PAYMENT)
+        SOD_MAT : FX_Contract:FOREX__SOD_MAT
+            @i18n:Label (en="Sod Mat")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=149.0, core=true, t24Name=SOD.MAT)
+        SOURCE_FILE : T24BusinessTypes:N
+            @i18n:Label (en="Source File")
+            @t24:i (align=L, inputBehaviour=N, maxLength=5, core=false, t24Name=SOURCE.FILE, genOperation="\"FOREX\"")
+        SOURCE_ID : T24BusinessTypes:N
+            @i18n:Label (en="Source Id")
+            @t24:i (align=R, inputBehaviour=N, maxLength=15, core=false, t24Name=SOURCE.ID, genOperation="@ID")
+        SPOT_DATE : T24BusinessTypes:FOREXD
+            @i18n:Label (en="Spot Date")
+            @i18n:Tooltip (en="The start date for calculation of Profit and Loss")
+            @t24:i (align=R, inputBehaviour=F, maxLength=11, sysNumber=26.0, core=true, t24Name=SPOT.DATE, mask="RDD DDD DDDD")
+        SPOT_LCY_AMOUNT : T24BusinessTypes:AMT
+            @i18n:Label (en="Spot Local Ccy Amt")
+            @i18n:Tooltip (en="Indicates the Spot Local Currency Amount")
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=28.0, core=true, t24Name=SPOT.LCY.AMOUNT, typeModifiers="-USD")
+        SPOT_RATE : T24BusinessTypes:R
+            @i18n:Label (en="Spot Rate")
+            @t24:i (align=R, inputBehaviour=F, maxLength=16, sysNumber=12.0, core=true, t24Name=SPOT.RATE)
+        STMT_NO -> byValue FX_Contract:FOREX__STMT_NO *
+            @t24:i (t24Name=STMT.NO)
+        SWAP_BASE_CCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en="Swap Base Currency")
+            @i18n:Tooltip (en="Swap Base Currency")
+            @t24:i (align=L, inputBehaviour=F, maxLength=3, sysNumber=14.0, core=true, businessType=CCY, t24Name=SWAP.BASE.CCY)
+        SWAP_PL_FWD_POS : FX_Contract:FOREX__SWAP_PL_FWD_POS
+            @i18n:Label (en="Swap PL Forward Position")
+            @i18n:Tooltip (en="Swap PL Forward Position")
+            @t24:i (align=L, inputBehaviour=F, maxLength=3, sysNumber=145.0, core=true, t24Name=SWAP.PL.FWD.POS)
+        SWAP_REF_NO -> byValue FX_Contract:FOREX__SWAP_REF_NO *
+            @t24:i (t24Name=SWAP.REF.NO)
+        SWIFT_COMMON_REF : T24BusinessTypes:A
+            @i18n:Label (en="Swift Commom Reference")
+            @i18n:Tooltip (en="Indicate the swift message reference")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=86.0, core=true, t24Name=SWIFT.COMMON.REF)
+        SYEXVAL : FX_Contract:FOREX__SYEXVAL
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=166.3, core=false, t24Name=SYEXVAL)
+        SY_DX_REFERENCE : T24BusinessTypes:A
+            @i18n:Label (en="SY DX Reference")
+            @i18n:Tooltip (en="SY DX Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=188.0, core=true, t24Name=SY.DX.REFERENCE)
+        SY_ID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=166.1, core=false, t24Name=SY.ID)
+        SY_TRANS_ID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=E, maxLength=35, sysNumber=189.0, core=true, t24Name=SY.TRANS.ID)
+        SY_UNIT : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=52, sysNumber=166.2, core=false, t24Name=SY.UNIT)
+        SY_UNIT_ID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=E, maxLength=52, sysNumber=190.0, core=true, t24Name=SY.UNIT.ID)
+        TAX_CODE -> byValue FX_Contract:FOREX__TAX_CODE *
+            @t24:i (t24Name=TAX.CODE)
+        TERMS_AND_CONDS : T24BusinessTypes:A
+            @i18n:Label (en="Terms and Conditions")
+            @i18n:Tooltip (en="Terms and Conditions,If any")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=164.0, core=true, t24Name=TERMS.AND.CONDS)
+        TOTAL_INT_BOUGHT : T24BusinessTypes:AMT
+            @i18n:Label (en="Total Interest Bought")
+            @i18n:Tooltip (en="Total Interest Bought")
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=118.0, core=true, t24Name=TOTAL.INT.BOUGHT, typeModifiers="6")
+        TOTAL_INT_SOLD : T24BusinessTypes:AMT
+            @i18n:Label (en="Total Interest Sold")
+            @i18n:Tooltip (en="Total Interest in Sell Ccy")
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=119.0, core=true, t24Name=TOTAL.INT.SOLD, typeModifiers="9")
+        TRADE_ORD_ID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=20, sysNumber=161.0, core=true, t24Name=TRADE.ORD.ID)
+        TRADE_REPOSITORY -> OC_Parameters:OC_TRADE_REPOSITORY
+            @i18n:Label (en="Trade Repository")
+            @i18n:Tooltip (en="Trade Repository")
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=185.0, core=true, businessType=A, t24Name=TRADE.REPOSITORY)
+        TRANSACTION_REF_NO -> FX_Contract:FOREX PK required
+            @i18n:Label (en="Transaction Reference")
+            @i18n:Tooltip (en="Reference Number generated for FX transaction")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=0.0, core=true, businessType=A, t24Name=TRANSACTION.REF.NO)
+        TRANSACTION_TYPE -> FX_Config:FX_TRANSACTION_TYPE
+            @i18n:Label (en="Transaction Type")
+            @i18n:Tooltip (en="Indicates the Transaction Type")
+            @t24:i (align=L, inputBehaviour=F, maxLength=4, sysNumber=126.0, core=true, businessType=A, t24Name=TRANSACTION.TYPE)
+        TREASURY_CUSTOMER : FX_Contract:FOREX__TREASURY_CUSTOMER
+            @i18n:Label (en="Treasury Customer")
+            @i18n:Tooltip (en="Indicates whether treasury customer?")
+            @t24:i (align=L, inputBehaviour=F, maxLength=2, sysNumber=88.0, core=true, t24Name=TREASURY.CUSTOMER)
+        TREASURY_RATE : T24BusinessTypes:FWDR
+            @i18n:Label (en="Treasury Rate")
+            @i18n:Tooltip (en="Exchange rate quoted by the Treasury Department")
+            @t24:i (align=L, inputBehaviour=F, maxLength=16, sysNumber=92.0, core=true, t24Name=TREASURY.RATE)
+        TT_REF_NO : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=166.4, core=false, t24Name=TT.REF.NO)
+        UNEVEN_SWAP : FX_Contract:FOREX__UNEVEN_SWAP
+            @i18n:Tooltip (en="Uneven Swap")
+            @t24:i (align=L, inputBehaviour=N, maxLength=1, sysNumber=187.0, core=true, t24Name=UNEVEN.SWAP)
+        UNIQUE_PROD_ID : T24BusinessTypes:A
+            @i18n:Label (en="Unique Prod ID")
+            @i18n:Tooltip (en="Unique Prod ID")
+            @t24:i (align=L, inputBehaviour=N, maxLength=20, sysNumber=186.0, core=true, t24Name=UNIQUE.PROD.ID)
+        UNI_TRAN_ID : T24BusinessTypes:A
+            @i18n:Label (en="Unique Transaction ID")
+            @i18n:Tooltip (en="Unique Transaction ID")
+            @t24:i (align=L, inputBehaviour=N, maxLength=52, sysNumber=174.0, core=true, t24Name=UNI.TRAN.ID)
+        VALUE_DATE_BUY : T24BusinessTypes:FOREXD
+            @i18n:Label (en="Value Date Buy")
+            @i18n:Tooltip (en="Value date applicable for currency purchased")
+            @t24:i (align=R, inputBehaviour=F, maxLength=11, sysNumber=8.0, core=true, t24Name=VALUE.DATE.BUY, mask="RDD DDD DDDD")
+        VALUE_DATE_SELL : T24BusinessTypes:FOREXD
+            @i18n:Label (en="Value Date Sell")
+            @i18n:Tooltip (en="Value date applicable for currency sold")
+            @t24:i (align=R, inputBehaviour=F, maxLength=11, sysNumber=11.0, core=true, t24Name=VALUE.DATE.SELL, mask="RDD DDD DDDD")
+    }
+    FOREX__ADDL_INFO_METAL
+    {
+        ADDL_INFO_METAL : T24BusinessTypes:A
+            @i18n:Label (en="Additional Information")
+            @i18n:Tooltip (en="Additional Information on Metal, if any")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=165.0, core=true, t24Name=ADDL.INFO.METAL)
+    }
+    FOREX__ADDL_REP_INFO
+    {
+        ADDL_REP_INFO : T24BusinessTypes:A
+            @i18n:Label (en="Addl Report Info")
+            @i18n:Tooltip (en="Addl Report Info")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=178.0, core=true, t24Name=ADDL.REP.INFO)
+    }
+    FOREX__CHARGE_CODE
+    {
+        CHARGE_AMOUNT : T24BusinessTypes:AMT
+            @i18n:Label (en="Charge Amount")
+            @i18n:Tooltip (en="Indicates charge amount")
+            @t24:i (align=R, inputBehaviour=F, maxLength=19, sysNumber=97.0, core=true, t24Name=CHARGE.AMOUNT)
+        CHARGE_CODE : T24BusinessTypes:CHG
+            @i18n:Label (en="Charge Code")
+            @i18n:Tooltip (en="Indicates the Charge code")
+            @t24:i (align=R, inputBehaviour=F, maxLength=11, sysNumber=96.0, core=true, t24Name=CHARGE.CODE, typeModifiers="CHGCOM")
+    }
+    FOREX__CHARGE_EQUIV
+    {
+        CHARGE_EQUIV : T24BusinessTypes:AMT
+            @i18n:Label (en="Charge Equivalent")
+            @i18n:Tooltip (en="Indicates the charge in local currency equivalent")
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=113.0, core=true, t24Name=CHARGE.EQUIV, typeModifiers="-USD")
+        TAX_EQUIV : T24BusinessTypes:AMT
+            @i18n:Label (en="Tax Equivalent")
+            @i18n:Tooltip (en="Local currency equivalent of tax amount")
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=114.0, core=true, t24Name=TAX.EQUIV, typeModifiers="-USD")
+    }
+    FOREX__CONSOL_IND
+    {
+        CONSOL_IND : T24BusinessTypes:A
+            @i18n:Label (en="Consolidatn Indicator")
+            @t24:i (align=L, inputBehaviour=E, maxLength=65, sysNumber=169.0, core=true, t24Name=CONSOL.IND)
+    }
+    FOREX__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=220.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    FOREX__DEALER_NOTES
+    {
+        DEALER_NOTES : T24BusinessTypes:A
+            @i18n:Label (en="Dealer\'s Comment")
+            @i18n:Tooltip (en="Dealer to record any special informatn")
+            @t24:i (align=L, inputBehaviour=F, maxLength=35, sysNumber=108.0, core=true, t24Name=DEALER.NOTES)
+    }
+    FOREX__EQV_CODE
+    {
+        EQUIV_AMT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=E, maxLength=19, sysNumber=111.0, core=true, t24Name=EQUIV.AMT)
+        EQV_CODE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=E, maxLength=3, sysNumber=110.0, core=true, t24Name=EQV.CODE)
+    }
+    FOREX__FX_BULK_ORDR_ID
+    {
+        FX_BULK_ORDR_ID : T24BusinessTypes:A
+            @i18n:Label (en="Forex Bulk Order ID")
+            @i18n:Tooltip (en="Indicates the forex bulk order id")
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=150.0, core=true, t24Name=FX.BULK.ORDR.ID)
+    }
+    FOREX__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=219.0, core=true, t24Name=INPUTTER)
+    }
+    FOREX__INT_FLD_ID
+    {
+        INT_FLD_ID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=204.0, core=true, t24Name=INT.FLD.ID)
+        INT_FLD_VAL : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=205.0, core=true, t24Name=INT.FLD.VAL)
+    }
+    FOREX__NOTES
+    {
+        NOTES : T24BusinessTypes:A
+            @i18n:Label (en="Dealer Notes")
+            @i18n:Tooltip (en="Dealer Notes,if any")
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=107.0, core=true, t24Name=NOTES)
+    }
+    FOREX__OPTION_RATEDATE
+    {
+        OPTION_RATE : T24BusinessTypes:FWDR
+            @i18n:Label (en="Option Rate")
+            @i18n:Tooltip (en="Rate to be used to reflect the forward rate")
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=37.0, core=true, t24Name=OPTION.RATE)
+        OPTION_RATEDATE : T24BusinessTypes:FOREXD
+            @i18n:Label (en="Delivery Date")
+            @i18n:Tooltip (en="Delivery Date")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=36.0, core=true, t24Name=OPTION.RATEDATE, mask="RDD DDD DDDD")
+        OPTION_RATE_ID : T24BusinessTypes:A
+            @i18n:Label (en="Option Rate Id")
+            @i18n:Tooltip (en="Option Rate Id")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=38.0, core=true, t24Name=OPTION.RATE.ID)
+    }
+    FOREX__ORG_VALBUY_DATE
+    {
+        ORG_VALBUY_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Original Value Date Buy")
+            @i18n:Tooltip (en="Original Value Date Buy")
+            @t24:i (align=R, inputBehaviour=N, maxLength=11, sysNumber=128.0, core=true, t24Name=ORG.VALBUY.DATE)
+        ORG_VALSEL_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Original Value Date Sell")
+            @i18n:Tooltip (en="Original Value Date Sell")
+            @t24:i (align=R, inputBehaviour=N, maxLength=11, sysNumber=129.0, core=true, t24Name=ORG.VALSEL.DATE)
+    }
+    FOREX__OUR_ACCOUNT_PAY
+    {
+        ACTIVITYCODE -> byValue FX_Contract:FOREX__OUR_ACCOUNT_PAY__ACTIVITYCODE *
+            @t24:i (t24Name=ACTIVITYCODE)
+        ADVICE_SENT : T24BusinessTypes:A
+            @i18n:Label (en="Advice Sent")
+            @i18n:Tooltip (en="Time and Date when the Advice details were sent")
+            @t24:i (align=L, inputBehaviour=N, maxLength=25, sysNumber=60.0, core=true, t24Name=ADVICE.SENT)
+        BENEFICIARY_NO -> ST_Customer:CUSTOMER
+            @i18n:Label (en=Beneficiary)
+            @i18n:Tooltip (en="Identifies the beneficiary")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=46.0, core=true, businessType=CUS, t24Name=BENEFICIARY.NO)
+        BENFCY_ADD -> byValue FX_Contract:FOREX__OUR_ACCOUNT_PAY__BENFCY_ADD *
+            @t24:i (t24Name=BENFCY.ADD)
+        BK_TO_BK_INF -> byValue FX_Contract:FOREX__OUR_ACCOUNT_PAY__BK_TO_BK_INF *
+            @t24:i (t24Name=BK.TO.BK.INF)
+        CONF_NARR -> byValue FX_Contract:FOREX__OUR_ACCOUNT_PAY__CONF_NARR *
+            @t24:i (t24Name=CONF.NARR)
+        CPARTY_BANK_ACC : T24BusinessTypes:A
+            @i18n:Label (en="Bank Account Number")
+            @i18n:Tooltip (en="Account number of the Counterparty bank")
+            @t24:i (align=L, inputBehaviour=I, maxLength=34, sysNumber=50.0, core=true, t24Name=CPARTY.BANK.ACC)
+        CPARTY_CORR_NO -> ST_Customer:CUSTOMER
+            @i18n:Label (en="Counterparty\'s SSI")
+            @i18n:Tooltip (en="Specifies counterparty\'s SSI")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=48.0, core=true, businessType=CUS, t24Name=CPARTY.CORR.NO)
+        CPY_CORR_ADD -> byValue FX_Contract:FOREX__OUR_ACCOUNT_PAY__CPY_CORR_ADD *
+            @t24:i (t24Name=CPY.CORR.ADD)
+        DEL_AMOUNT_BUY : T24BusinessTypes:AMT
+            @i18n:Label (en="Optn Amount Buy")
+            @i18n:Tooltip (en="Optn/take up amount in currency being purchased")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=42.0, core=true, t24Name=DEL.AMOUNT.BUY, typeModifiers="6")
+        DEL_AMOUNT_CHG : T24BusinessTypes:AMT
+            @i18n:Label (en="Delivery Amt Charge")
+            @i18n:Tooltip (en="Amount charged for associated delivery charges ")
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=66.0, core=true, t24Name=DEL.AMOUNT.CHG, typeModifiers="64.X")
+        DEL_AMOUNT_SELL : T24BusinessTypes:AMT
+            @i18n:Label (en="Optn Amount Sell")
+            @i18n:Tooltip (en="Optn/ take up amount in currency being sold")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=44.0, core=true, t24Name=DEL.AMOUNT.SELL, typeModifiers="9")
+        DEL_CHG_ACCOUNT -> AC_AccountOpening:ACCOUNT
+            @i18n:Label (en="Charge Account")
+            @i18n:Tooltip (en="Delivery Charge Account")
+            @t24:i (align=R, inputBehaviour=I, maxLength=36, sysNumber=63.0, core=true, businessType=ACC, t24Name=DEL.CHG.ACCOUNT)
+        DEL_CHG_ACC_CCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en="Charge Acct Ccy")
+            @i18n:Tooltip (en="Currency of Delivery Charge Account")
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=64.0, core=true, businessType=CCY, t24Name=DEL.CHG.ACC.CCY)
+        DEL_CHG_TYPE -> byValue FX_Contract:FOREX__OUR_ACCOUNT_PAY__DEL_CHG_TYPE *
+            @t24:i (t24Name=DEL.CHG.TYPE)
+        DEL_DATE_BUY : T24BusinessTypes:FOREXD
+            @i18n:Label (en="Option Date Buy")
+            @i18n:Tooltip (en="Date on which option amount bought was received")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=41.0, core=true, t24Name=DEL.DATE.BUY, mask="RDD DDD DDDD")
+        DEL_DATE_SELL : T24BusinessTypes:FOREXD
+            @i18n:Label (en="Option Date Sell")
+            @i18n:Tooltip (en="Date on which option amount sold was delivered")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=43.0, core=true, t24Name=DEL.DATE.SELL, mask="RDD DDD DDDD")
+        DEL_LCY_AMT : T24BusinessTypes:AMT
+            @i18n:Label (en="LCY Amount")
+            @i18n:Tooltip (en="Local Currency Amount")
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=45.0, core=true, t24Name=DEL.LCY.AMT, typeModifiers="-USD")
+        DEL_RATE : T24BusinessTypes:R
+            @i18n:Label (en="Delivery Rate")
+            @i18n:Tooltip (en="Indicates the rate used for the take-down amount")
+            @t24:i (align=R, inputBehaviour=N, maxLength=16, sysNumber=65.0, core=true, t24Name=DEL.RATE)
+        DEL_RATE_ID : T24BusinessTypes:N
+            @i18n:Label (en="Delivery Rate Id")
+            @i18n:Tooltip (en="Delivery Rate Id")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=73.0, core=true, t24Name=DEL.RATE.ID)
+        INTERMED_ADD -> byValue FX_Contract:FOREX__OUR_ACCOUNT_PAY__INTERMED_ADD *
+            @t24:i (t24Name=INTERMED.ADD)
+        INTERMED_BK_NO -> ST_Customer:CUSTOMER
+            @i18n:Label (en="Intermediary Bank")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=51.0, core=true, businessType=CUS, t24Name=INTERMED.BK.NO)
+        OUR_ACCOUNT_PAY -> AC_AccountOpening:ACCOUNT
+            @i18n:Label (en="Setlmnt A/c for Ccy Sell")
+            @i18n:Tooltip (en="Settlement A/c for Sell")
+            @t24:i (align=L, inputBehaviour=I, maxLength=36, sysNumber=39.0, core=true, businessType=DELACC, t24Name=OUR.ACCOUNT.PAY)
+        OUR_ACCOUNT_REC -> AC_AccountOpening:ACCOUNT
+            @i18n:Label (en="Setlmnt A/c for Ccy Buy")
+            @i18n:Tooltip (en="Settlement A/c for Buy")
+            @t24:i (align=L, inputBehaviour=I, maxLength=36, sysNumber=40.0, core=true, businessType=DELACC, t24Name=OUR.ACCOUNT.REC)
+        PAYMENT_SENT : T24BusinessTypes:A
+            @i18n:Label (en="Payment Sent")
+            @i18n:Tooltip (en="Time and Date when the payment details were sent")
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=59.0, core=true, t24Name=PAYMENT.SENT)
+        PAYMT_NARR -> byValue FX_Contract:FOREX__OUR_ACCOUNT_PAY__PAYMT_NARR *
+            @t24:i (t24Name=PAYMT.NARR)
+        PAY_ACC_POSTED : T24BusinessTypes:A
+            @i18n:Label (en="Pay Account Posted")
+            @i18n:Tooltip (en="Time/Date on which entry to Pay Account got posted")
+            @t24:i (align=L, inputBehaviour=N, maxLength=13, sysNumber=57.0, core=true, t24Name=PAY.ACC.POSTED)
+        REC_ACC_POSTED : T24BusinessTypes:A
+            @i18n:Label (en="Receive Account Posted")
+            @i18n:Tooltip (en="Time/Date - entry to Receive Account got posted")
+            @t24:i (align=L, inputBehaviour=N, maxLength=13, sysNumber=58.0, core=true, t24Name=REC.ACC.POSTED)
+        REC_ADV_NARR -> byValue FX_Contract:FOREX__OUR_ACCOUNT_PAY__REC_ADV_NARR *
+            @t24:i (t24Name=REC.ADV.NARR)
+        STATUS : FX_Contract:FOREX__OUR_ACCOUNT_PAY__STATUS
+            @i18n:Label (en=Status)
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=74.0, core=true, t24Name=STATUS)
+    }
+    FOREX__OUR_ACCOUNT_PAY__ACTIVITYCODE
+    {
+        ACTIVITYCODE -> FX_Delivery:FX_ACTIVITY
+            @i18n:Label (en="Activity Code")
+            @i18n:Tooltip (en="Indicates activity code")
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=61.0, core=true, businessType=A, t24Name=ACTIVITYCODE)
+        CONFIRM_SENT : T24BusinessTypes:A
+            @i18n:Label (en="Confirmation Sent")
+            @i18n:Tooltip (en="Confirmation Sent")
+            @t24:i (align=L, inputBehaviour=N, maxLength=25, sysNumber=62.0, core=true, t24Name=CONFIRM.SENT)
+    }
+    FOREX__OUR_ACCOUNT_PAY__BENFCY_ADD
+    {
+        BENFCY_ADD : T24BusinessTypes:A
+            @i18n:Label (en="Beneficiary Address")
+            @i18n:Tooltip (en="Beneficiary\'s Address")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=47.0, core=true, t24Name=BENFCY.ADD)
+    }
+    FOREX__OUR_ACCOUNT_PAY__BK_TO_BK_INF
+    {
+        BK_TO_BK_INF : T24BusinessTypes:SW
+            @i18n:Label (en="Bank to Bank info")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=56.0, core=true, t24Name=BK.TO.BK.INF)
+    }
+    FOREX__OUR_ACCOUNT_PAY__CONF_NARR
+    {
+        CONF_NARR : T24BusinessTypes:SW
+            @i18n:Label (en="Confirmation Narrative")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=53.0, core=true, t24Name=CONF.NARR)
+    }
+    FOREX__OUR_ACCOUNT_PAY__CPY_CORR_ADD
+    {
+        CPY_CORR_ADD : T24BusinessTypes:A
+            @i18n:Label (en="Free Format Address")
+            @i18n:Tooltip (en="Bank name/address where amount is to be paid")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=49.0, core=true, t24Name=CPY.CORR.ADD)
+    }
+    FOREX__OUR_ACCOUNT_PAY__DEL_CHG_TYPE
+    {
+        DEL_CHG_AMT : T24BusinessTypes:AMT
+            @i18n:Label (en="Charge Amount")
+            @i18n:Tooltip (en="Delivery Charge Amount")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=68.0, core=true, t24Name=DEL.CHG.AMT, typeModifiers="64.X")
+        DEL_CHG_LCY : T24BusinessTypes:AMT
+            @i18n:Label (en="Lcy Equivalent ")
+            @i18n:Tooltip (en="Local Currency equivalent of Charge Amount")
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=69.0, core=true, t24Name=DEL.CHG.LCY)
+        DEL_CHG_TYPE : T24BusinessTypes:CHG
+            @i18n:Label (en="Charge Type")
+            @i18n:Tooltip (en="Charge Type")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=67.0, core=true, t24Name=DEL.CHG.TYPE, typeModifiers="CHGCOM")
+        DEL_TAX_AMT : T24BusinessTypes:AMT
+            @i18n:Label (en="Delivery Tax Amt")
+            @i18n:Tooltip (en="Specifies the delivery tax amount")
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=71.0, core=true, t24Name=DEL.TAX.AMT, typeModifiers="64.X")
+        DEL_TAX_LCY : T24BusinessTypes:AMT
+            @i18n:Label (en="Tax on Charges")
+            @i18n:Tooltip (en="Tax on Charges")
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=72.0, core=true, t24Name=DEL.TAX.LCY, typeModifiers="-USD")
+        DEL_TAX_TYPE : T24BusinessTypes:TAX
+            @i18n:Label (en="Delivery Tax Type")
+            @i18n:Tooltip (en="Delivery tax type associated with delivery charge")
+            @t24:i (align=L, inputBehaviour=N, maxLength=2, sysNumber=70.0, core=true, t24Name=DEL.TAX.TYPE)
+    }
+    FOREX__OUR_ACCOUNT_PAY__INTERMED_ADD
+    {
+        INTERMED_ADD : T24BusinessTypes:A
+            @i18n:Label (en="Intermediary Address")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=52.0, core=true, t24Name=INTERMED.ADD)
+    }
+    FOREX__OUR_ACCOUNT_PAY__PAYMT_NARR
+    {
+        PAYMT_NARR : T24BusinessTypes:SW
+            @i18n:Label (en="Payment Narrative")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=54.0, core=true, t24Name=PAYMT.NARR)
+    }
+    FOREX__OUR_ACCOUNT_PAY__REC_ADV_NARR
+    {
+        REC_ADV_NARR : T24BusinessTypes:SW
+            @i18n:Label (en="Advice to Receive Narrative")
+            @i18n:Tooltip (en="Free text narrative relating to advice to receive")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=55.0, core=true, t24Name=REC.ADV.NARR)
+    }
+    FOREX__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:A
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=216.0, core=true, t24Name=OVERRIDE)
+    }
+    FOREX__STMT_NO
+    {
+        STMT_NO : T24BusinessTypes:A
+            @i18n:Label (en="Statement number")
+            @t24:i (align=L, inputBehaviour=N, maxLength=29, sysNumber=215.0, core=true, t24Name=STMT.NO)
+    }
+    FOREX__SWAP_REF_NO
+    {
+        SWAP_REF_NO : T24BusinessTypes:A
+            @i18n:Label (en="Swap Reference Number")
+            @i18n:Tooltip (en="Hold the reference number of each swap deal")
+            @t24:i (align=L, inputBehaviour=N, maxLength=12, sysNumber=29.0, core=true, t24Name=SWAP.REF.NO)
+    }
+    FOREX__TAX_CODE
+    {
+        TAX_AMOUNT : T24BusinessTypes:AMT
+            @i18n:Label (en="Tax Amount")
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=99.0, core=true, t24Name=TAX.AMOUNT, mask="- ")
+        TAX_CODE -> ST_ChargeConfig:TAX
+            @i18n:Label (en="Tax Code")
+            @t24:i (align=L, inputBehaviour=N, maxLength=2, sysNumber=98.0, core=true, businessType=A, t24Name=TAX.CODE)
+    }
+    FX_CLS_CPARTY
+        @i18n:Description (en="")
+        @t24:i (t24Name=FX.CLS.CPARTY, level=C, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=24.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=25.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=21.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=22.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+/* Indicates the name of counterparty who are members of the CLS.
+
+Standard T24 Alphanumeric field
+Should be a valid Id of customer table.
+Maximum length of 10 */
+        CPARTY_ID -> FX_Contract:FX_CLS_CPARTY PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=0.0, core=true, businessType=A, t24Name=CPARTY.ID)
+        CURRENCY -> byValue FX_Contract:FX_CLS_CPARTY__CURRENCY *
+            @t24:i (t24Name=CURRENCY)
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=18.0, core=true, t24Name=CURR.NO)
+/* Holds the value of SHORT.NAME from CUSTOMER for the corresponding CPARTY.ID.
+
+This is a NOINPUT field.
+For the corresponding CPARTY.ID entered, the value of field CUS.SHORT.NAME
+from CUSTOMER gets defaulted here.
+Maximum Length of 35 characters */
+        CUS_SHORT_NAME : T24BusinessTypes:SS
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=1.0, core=true, t24Name=CUS.SHORT.NAME)
+/* This field will contain the time on which the deal must be submitted.
+
+Validation Rules:
+
+
+Must be a valid time entry */
+        CUT_OFF_TIME : T24BusinessTypes:N
+            @i18n:Label (en="Cut off time")
+            @i18n:Tooltip (en="Cut off time")
+            @t24:i (align=R, inputBehaviour=I, maxLength=5, sysNumber=2.0, core=true, t24Name=CUT.OFF.TIME, mask="R##:##")
+        DATE_TIME -> byValue FX_Contract:FX_CLS_CPARTY__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=23.0, core=true, t24Name=DEPT.CODE)
+        INPUTTER -> byValue FX_Contract:FX_CLS_CPARTY__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=17.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=RESERVED1)
+        RESERVED10 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=7.0, core=true, t24Name=RESERVED10)
+        RESERVED11 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=6.0, core=true, t24Name=RESERVED11)
+        RESERVED2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=RESERVED2)
+        RESERVED3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=RESERVED3)
+        RESERVED4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED4)
+        RESERVED5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED5)
+        RESERVED6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=11.0, core=true, t24Name=RESERVED6)
+        RESERVED7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=RESERVED7)
+        RESERVED8 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=RESERVED8)
+        RESERVED9 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=RESERVED9)
+    }
+    FX_CLS_CPARTY__CURRENCY
+    {
+/* This field is associate multi-value field alongwith the field NOSTRO.ACC and will contain value of currency.
+
+Validation Rules:
+
+
+Must exist on the CURRENCY table
+
+Currency must be CLS enabled */
+        CURRENCY -> ST_CurrencyConfig:CURRENCY required
+            @i18n:Label (en=Ccy)
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=3.0, core=true, businessType=CCY, t24Name=CURRENCY)
+/* This field is associate multi-value field alongwith the field Currency and will contain value of NOSTRO account. It is use for payment purpose.
+
+Validation Rules:
+
+
+Must exist on the ACCOUNT table */
+        NOSTRO_ACC -> AC_AccountOpening:ACCOUNT required
+            @t24:i (align=R, inputBehaviour=I, maxLength=36, sysNumber=4.0, core=true, businessType=ACC, t24Name=NOSTRO.ACC)
+    }
+    FX_CLS_CPARTY__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=20.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    FX_CLS_CPARTY__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=19.0, core=true, t24Name=INPUTTER)
+    }
+    FX_TRANSACTION
+        @i18n:Description (en="")
+        @t24:i (t24Name=FX.TRANSACTION, level=F, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* Number of days amortised.
+Validation Rules:
+Up to 4 numeric characters. */
+        AMORT_DAYS : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=4, sysNumber=20.0, core=true, t24Name=AMORT.DAYS)
+/* Amortisation amount to date in BUY.CCY.
+Validation Rules:
+19 character T24 amount field. */
+        AMORT_FCY_AMT1 : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=21.0, core=true, t24Name=AMORT.FCY.AMT1, typeModifiers=-)
+/* Amortisation amount to date in SELL.CCY.
+Validation Rules:
+19 character standard T24 amount field. */
+        AMORT_FCY_AMT2 : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=22.0, core=true, t24Name=AMORT.FCY.AMT2, typeModifiers=-)
+/* Local equivalent of amortisation to date in BUY.CCY.
+Validation Rules:
+19 character standard T24 amount field. */
+        AMORT_LCY_AMT1 : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=23.0, core=true, t24Name=AMORT.LCY.AMT1, typeModifiers=-)
+/* Local equivalent of amortisation to date in SELL.CCY.
+Validation Rules:
+19 character standard T24 amount field. */
+        AMORT_LCY_AMT2 : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=24.0, core=true, t24Name=AMORT.LCY.AMT2, typeModifiers=-)
+/* Date from which amortisation starts.
+Validation Rules:
+Up to 11 character standard T24 date field.
+Defaults from AMORTISE.FROM.DATE on contract. */
+        AMORT_START_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=19.0, core=true, t24Name=AMORT.START.DATE)
+/* This is the amount bought in the original FOREX contract that created the FX.TRANSACTION record in the buy currency of the FOREX contract.
+This field is updated at authorisation of the FOREX contract and remains unchanged during the lifetime of the contract.
+Validation Rules:
+No input field automatically updated by the system when the FOREX transaction that gave rise to the FX.TRANSACTION record is authorised. */
+        AMOUNT_1 : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=3.0, core=true, t24Name=AMOUNT.1, typeModifiers=-)
+/* This is the amount sold in the original FOREX contract that created the FX.TRANSACTION record in the sell currency of the FOREX contract.
+This field is updated at authorisation of the FOREX contract and remains unchanged during the lifetime of the contract.
+Validation Rules:
+No input field automatically updated by the system when the FOREX transaction that gave rise to the FX.TRANSACTION record is authorised. */
+        AMOUNT_2 : T24BusinessTypes:AMT
+            @i18n:Label (en=Amount)
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=4.0, core=true, t24Name=AMOUNT.2, typeModifiers=-)
+/* The Currency Bought in the FOREX transaction.
+Validation Rules:
+No input field, automatically updated by the system when the FX.TRANSACTION record is created. */
+        CURRENCY_1 : T24BusinessTypes:CCY
+            @i18n:Label (en=Ccy)
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=9.0, core=true, t24Name=CURRENCY.1)
+/* The Currency Sold in the FOREX transaction.
+Validation Rules:
+No input field, automatically updated by the system when the FX.TRANSACTION record is created. */
+        CURRENCY_2 : T24BusinessTypes:CCY
+            @i18n:Label (en=Ccy)
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=10.0, core=true, t24Name=CURRENCY.2)
+/* Standard T24 numeric field.
+Validation Rules:
+A maximum of 002 characters may be entered. */
+        DEALER_DESK : T24BusinessTypes:N
+            @i18n:Label (en="Dealer Desk")
+            @i18n:Tooltip (en="Specifies the Dealer Desk handling the transaction")
+            @t24:i (align=R, inputBehaviour=I, maxLength=2, sysNumber=25.0, core=true, t24Name=DEALER.DESK)
+/* The value date of the FOREX transaction.
+Validation Rules:
+No input field automatically updated by the system when the FX.TRANSACTION record is created. */
+        DEAL_DATE : T24BusinessTypes:DEF
+            @i18n:Label (en="Deal Date")
+            @i18n:Tooltip (en="Indicates the Deal date")
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=11.0, core=true, t24Name=DEAL.DATE)
+/* The system date when this Forex transaction was last revalued.
+Validation Rules:
+No input field automatically updated by the system when the FOREX transaction is revalued. */
+        LAST_REVAL_DATE : T24BusinessTypes:DEF
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=12.0, core=true, t24Name=LAST.REVAL.DATE)
+/* This is the local currency equivalient of the amount bought in the original FOREX contract that gave rise to the FX.TRANSACTION record. It is the amount in the local currency at the rate applicable when the FOREX contract was entered.
+This field is updated at authorisation of the FOREX contract and remains unchanged during the lifetime of the contract.
+Validation Rules:
+No input field automatically updated by the system when the FOREX transaction that gave rise to the FX.TRANSACTION record is authorised. */
+        LCY_AMOUNT_1 : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=5.0, core=true, t24Name=LCY.AMOUNT.1, typeModifiers=-)
+/* This is the local currency equivalient of the amount sold in the original FOREX contract that gave rise to the FX.TRANSACTION record. It is the amount in the local currency at the rate applicable when the FOREX contract was entered.
+This field is updated at authorisation of the FOREX contract and remains unchanged during the lifetime of the contract.
+Validation Rules:
+No input field automatically updated by the system when the FOREX transaction that gave rise to the FX.TRANSACTION record is authorised. */
+        LCY_AMOUNT_2 : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=6.0, core=true, t24Name=LCY.AMOUNT.2, typeModifiers=-)
+        LONG_POS_SIGN : FX_Contract:FX_TRANSACTION__LONG_POS_SIGN
+            @t24:i (align=L, inputBehaviour=N, maxLength=5, core=false, t24Name=LONG.POS.SIGN)
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        NARRATIVE : T24BusinessTypes:A
+            @i18n:Label (en=Narrative)
+            @i18n:Tooltip (en="Any narrative to be input for user information")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, t24Name=NARRATIVE)
+/* Validation Rules:
+A maximum of 19 characters may be entered. */
+        OLD_AMOUNT_1 : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=13.0, core=true, t24Name=OLD.AMOUNT.1, typeModifiers=-)
+/* Validation Rules:
+A maximum of 19 characters may be entered. */
+        OLD_AMOUNT_2 : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=14.0, core=true, t24Name=OLD.AMOUNT.2, typeModifiers=-)
+/* Validation Rules:
+A maximum of 19 characters may be entered. */
+        OLD_LCY_AMOUNT_1 : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=15.0, core=true, t24Name=OLD.LCY.AMOUNT.1, typeModifiers=-)
+/* Validation Rules:
+A maximum of 19 characters may be entered. */
+        OLD_LCY_AMOUNT_2 : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=16.0, core=true, t24Name=OLD.LCY.AMOUNT.2, typeModifiers=-)
+/* Validation Rules:
+A maximum of 19 characters may be entered. */
+        OLD_RVL_AMOUNT_1 : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=17.0, core=true, t24Name=OLD.RVL.AMOUNT.1, typeModifiers=-)
+/* Validation Rules:
+A maximum of 19 characters may be entered. */
+        OLD_RVL_AMOUNT_2 : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=18.0, core=true, t24Name=OLD.RVL.AMOUNT.2, typeModifiers=-)
+/* Validation Rules:
+A maximum of 2 characters may be entered. */
+        REVAL_TYPE : T24BusinessTypes:SSS
+            @i18n:Label (en="Reval Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=2.0, core=true, t24Name=REVAL.TYPE)
+/* This is the revaluation currency equivalient of the amount bought in the original FOREX contract that gave rise to the FX.TRANSACTION record. It is the amount in the revaluation currency at the rate applicable when the FOREX contract was entered.
+This field is updated at authorisation of the FOREX contract and remains unchanged during the lifetime of the contract.
+Validation Rules:
+No input field automatically updated by the system when the FOREX transaction that gave rise to the FX.TRANSACTION record is authorised.
+This field will only be updated if the system revalues FOREX contracts against a currency other than the local currency. (i.e. The REVAL.CCY field on FX.PARAMETERS has been populated.) */
+        RVL_AMOUNT_1 : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=7.0, core=true, t24Name=RVL.AMOUNT.1, typeModifiers=-)
+/* This is the revaluation currency equivalient of the amount bought in the original FOREX contract that gave rise to the FX.TRANSACTION record. It is the amount in the revaluation currency at the rate applicable when the FOREX contract was entered.
+This field is updated at authorisation of the FOREX contract and remains unchanged during the lifetime of the contract.
+Validation Rules:
+No input field automatically updated by the system when the FOREX transaction that gave rise to the FX.TRANSACTION record is authorised.
+This field will only be updated if the system revalues FOREX contracts against a currency other than the local currency. (i.e. The REVAL.CCY field on FX.PARAMETERS has been populated.) */
+        RVL_AMOUNT_2 : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=8.0, core=true, t24Name=RVL.AMOUNT.2, typeModifiers=-)
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 15 characters may be entered. */
+        TRANSACTION_REF_NO -> FX_Contract:FX_TRANSACTION PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=0.0, core=true, businessType=A, t24Name=TRANSACTION.REF.NO)
+    }
+    ND_BALANCES
+        @i18n:Description (en="")
+        @t24:i (t24Name=ND.BALANCES, level=F, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* Identifies the account officer responsible for the relationship with the CPARTY. This information will be used by the Management Information System (MIS) for the determination of the Customer  Profitability Analysis.   This field has been provided to enable the user to override at transaction level the CPARTY default account officer defined in the CUSTOMER file.
+Validation Rules:
+
+1-4 digit numeric field. (Optional input; Default value = account officer specified on the        CPARTY's customer file.)
+The Account Officer Code must appear on the DEPT.ACCT.OFFICER table. */
+        ACCOUNT_OFFICER -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Account Officer")
+            @i18n:Tooltip (en="Indicates Account Officer responsible")
+            @t24:i (align=L, inputBehaviour=I, maxLength=7, sysNumber=8.0, core=true, businessType=A, t24Name=ACCOUNT.OFFICER)
+        AMORT_AS_OF : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=17.0, core=true, t24Name=AMORT.AS.OF)
+        AMORT_TO_EOD : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=18.0, core=true, t24Name=AMORT.TO.EOD)
+        BUY_AMOUNT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=4.0, core=true, t24Name=BUY.AMOUNT)
+        BUY_CURRENCY : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=3.0, core=true, t24Name=BUY.CURRENCY)
+        BUY_OR_SELL : T24BusinessTypes:N
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, core=false, t24Name=BUY.OR.SELL, genOperation="@ID[\'.\',2,1]")
+/* Contains the category code to which the deal will be accounted. This information will be used for MIS reporting and will identify the product being processed.   A default category code may be specified for each deal type on the ND.TYPE file.
+Validation Rules:
+
+5 numeric digits in range 20000-20999. (No input)
+The category code must be defined on the CATEGORY table. */
+        CATEGORY -> ST_Config:CATEGORY
+            @i18n:Label (en=Category)
+            @i18n:Tooltip (en="Specifies the Category")
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=7.0, core=true, businessType=A, t24Name=CATEGORY)
+        CONSOL_KEY -> byValue FX_Contract:ND_BALANCES__CONSOL_KEY *
+            @t24:i (t24Name=CONSOL.KEY)
+        CONTRACT_ID : T24BusinessTypes:N
+            @i18n:Label (en="Contract Id")
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, core=false, t24Name=CONTRACT.ID, genOperation="@ID[\'.\',1,1]")
+/* Contains the counterparty with whom the dealer has arranged the NDF transaction.
+Validation Rules:
+
+Mandatory Input.
+Must be a valid customer on the CUSTOMER table.
+Once record has been authorised this field cannot be changed. */
+        COUNTERPARTY -> ST_Customer:CUSTOMER
+            @i18n:Label (en=Counterparty)
+            @i18n:Tooltip (en="Counterparty with whom the deal is made")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=2.0, core=true, businessType=CUS, t24Name=COUNTERPARTY)
+        CUSTOMER_NO : T24BusinessTypes:N
+            @i18n:Label (en="Customer No")
+            @i18n:Tooltip (en="Identifies the Customer for the transaction.")
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, core=false, t24Name=CUSTOMER.NO, genOperation=COUNTERPARTY)
+        EOD_AS_OF : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=19.0, core=true, t24Name=EOD.AS.OF)
+        EXP_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Exposure Date")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=10.0, core=true, t24Name=EXP.DATE)
+        EXP_LCY_AMT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=9.0, core=true, t24Name=EXP.LCY.AMT)
+        FIX_AMORT_TO_DATE : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=16.0, core=true, t24Name=FIX.AMORT.TO.DATE)
+        FIX_CURRENCY : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=11.0, core=true, t24Name=FIX.CURRENCY)
+        FIX_DISC_AMOUNT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=15.0, core=true, t24Name=FIX.DISC.AMOUNT)
+        FIX_LCY_AMT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=13.0, core=true, t24Name=FIX.LCY.AMT)
+        FIX_PAY_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=14.0, core=true, t24Name=FIX.PAY.DATE)
+        FIX_PL_AMOUNT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=12.0, core=true, t24Name=FIX.PL.AMOUNT)
+        INTEREST_BASIS : T24BusinessTypes:N
+            @i18n:Label (en="Interest Basis")
+            @i18n:Tooltip (en="Indicates the interest day basis")
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, core=false, t24Name=INTEREST.BASIS, genOperation="CONTRACT.ID>ND.DEAL>SETTL.INT.BASIS")
+/* Identifies NDF type.
+Validation Rules:
+
+1-7 characters; type A (alphanumeric) */
+        NDF_TYPE -> FX_Config:ND_TYPE
+            @i18n:Label (en="NDF Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=7, sysNumber=1.0, core=true, businessType=A, t24Name=NDF.TYPE)
+        PRODCAT : T24BusinessTypes:N
+            @i18n:Label (en="Deal Type")
+            @t24:i (align=L, inputBehaviour=N, maxLength=5, core=false, t24Name=PRODCAT, genOperation="CONTRACT.ID>ND.DEAL>CATEGORY")
+        PRODCCY : T24BusinessTypes:N
+            @i18n:Label (en="Product Currency")
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, core=false, t24Name=PRODCCY, genOperation="IF BUY.OR.SELL = \'S\'  THEN SELL.CURRENCY  ELSE BUY.CURRENCY")
+        RESERVED1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=26.0, core=true, t24Name=RESERVED1)
+        RESERVED2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=25.0, core=true, t24Name=RESERVED2)
+        RESERVED3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=24.0, core=true, t24Name=RESERVED3)
+        RESERVED4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=23.0, core=true, t24Name=RESERVED4)
+        RESERVED5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=22.0, core=true, t24Name=RESERVED5)
+        RESERVED6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=21.0, core=true, t24Name=RESERVED6)
+        SELL_AMOUNT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=6.0, core=true, t24Name=SELL.AMOUNT)
+        SELL_CURRENCY : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=5.0, core=true, t24Name=SELL.CURRENCY)
+        STATUS : T24BusinessTypes:DEF
+            @i18n:Label (en=Status)
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=20.0, core=true, t24Name=STATUS, typeModifiers="OPE_FIX_MAT_REV")
+        STMT_NO -> byValue FX_Contract:ND_BALANCES__STMT_NO *
+            @t24:i (t24Name=STMT.NO)
+        TRAN_REF -> FX_Contract:ND_BALANCES PK required
+            @i18n:Label (en="Transaction Ref")
+            @t24:i (align=L, inputBehaviour=I, maxLength=32, sysNumber=0.0, core=true, businessType=A, t24Name=TRAN.REF)
+    }
+    ND_BALANCES_HIST
+        @i18n:Description (en="")
+        @t24:i (t24Name=ND.BALANCES.HIST, level=F, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        ACCOUNT_OFFICER : T24BusinessTypes:A
+            @i18n:Label (en="Account Officer")
+            @i18n:Tooltip (en="Indicates Account Officer responsible")
+            @t24:i (align=L, inputBehaviour=I, maxLength=7, sysNumber=8.0, core=true, t24Name=ACCOUNT.OFFICER)
+        AMORT_AS_OF : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=17.0, core=true, t24Name=AMORT.AS.OF)
+        AMORT_TO_EOD : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=18.0, core=true, t24Name=AMORT.TO.EOD)
+        BUY_AMOUNT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=4.0, core=true, t24Name=BUY.AMOUNT)
+        BUY_CURRENCY : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=3.0, core=true, t24Name=BUY.CURRENCY)
+        BUY_OR_SELL : T24BusinessTypes:N
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, core=false, t24Name=BUY.OR.SELL, genOperation="@ID[\'.\',2,1]")
+        CATEGORY : T24BusinessTypes:A
+            @i18n:Label (en=Category)
+            @i18n:Tooltip (en="Specifies the Category")
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=7.0, core=true, t24Name=CATEGORY)
+        CONSOL_KEY -> byValue FX_Contract:ND_BALANCES_HIST__CONSOL_KEY *
+            @t24:i (t24Name=CONSOL.KEY)
+        CONTRACT_ID : T24BusinessTypes:N
+            @i18n:Label (en="Contract Id")
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, core=false, t24Name=CONTRACT.ID, genOperation="@ID[\'.\',1,1]")
+        COUNTERPARTY -> ST_Customer:CUSTOMER
+            @i18n:Label (en=Counterparty)
+            @i18n:Tooltip (en="Counterparty with whom the deal is made")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=2.0, core=true, businessType=CUS, t24Name=COUNTERPARTY)
+        CUSTOMER_NO : T24BusinessTypes:N
+            @i18n:Label (en="Customer No")
+            @i18n:Tooltip (en="Identifies the Customer for the transaction.")
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, core=false, t24Name=CUSTOMER.NO, genOperation=COUNTERPARTY)
+        EOD_AS_OF : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=19.0, core=true, t24Name=EOD.AS.OF)
+        EXP_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Exposure Date")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=10.0, core=true, t24Name=EXP.DATE)
+        EXP_LCY_AMT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=9.0, core=true, t24Name=EXP.LCY.AMT)
+        FIX_AMORT_TO_DATE : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=16.0, core=true, t24Name=FIX.AMORT.TO.DATE)
+        FIX_CURRENCY : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=11.0, core=true, t24Name=FIX.CURRENCY)
+        FIX_DISC_AMOUNT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=15.0, core=true, t24Name=FIX.DISC.AMOUNT)
+        FIX_LCY_AMT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=13.0, core=true, t24Name=FIX.LCY.AMT)
+        FIX_PAY_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=14.0, core=true, t24Name=FIX.PAY.DATE)
+        FIX_PL_AMOUNT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=12.0, core=true, t24Name=FIX.PL.AMOUNT)
+        INTEREST_BASIS : T24BusinessTypes:N
+            @i18n:Label (en="Interest Basis")
+            @i18n:Tooltip (en="Indicates the interest day basis")
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, core=false, t24Name=INTEREST.BASIS, genOperation="CONTRACT.ID>ND.DEAL>SETTL.INT.BASIS")
+        NDF_TYPE -> FX_Config:ND_TYPE
+            @i18n:Label (en="NDF Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=7, sysNumber=1.0, core=true, businessType=A, t24Name=NDF.TYPE)
+        PRODCAT : T24BusinessTypes:N
+            @i18n:Label (en="Deal Type")
+            @t24:i (align=L, inputBehaviour=N, maxLength=5, core=false, t24Name=PRODCAT, genOperation="CONTRACT.ID>ND.DEAL>CATEGORY")
+        PRODCCY : T24BusinessTypes:N
+            @i18n:Label (en="Product Currency")
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, core=false, t24Name=PRODCCY, genOperation="IF BUY.OR.SELL = \'S\'  THEN SELL.CURRENCY  ELSE BUY.CURRENCY")
+        RESERVED1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=26.0, core=true, t24Name=RESERVED1)
+        RESERVED2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=25.0, core=true, t24Name=RESERVED2)
+        RESERVED3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=24.0, core=true, t24Name=RESERVED3)
+        RESERVED4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=23.0, core=true, t24Name=RESERVED4)
+        RESERVED5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=22.0, core=true, t24Name=RESERVED5)
+        RESERVED6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=21.0, core=true, t24Name=RESERVED6)
+        SELL_AMOUNT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=6.0, core=true, t24Name=SELL.AMOUNT)
+        SELL_CURRENCY : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=5.0, core=true, t24Name=SELL.CURRENCY)
+        STATUS : T24BusinessTypes:DEF
+            @i18n:Label (en=Status)
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=20.0, core=true, t24Name=STATUS, typeModifiers="OPE_FIX_MAT_REV")
+        STMT_NO -> byValue FX_Contract:ND_BALANCES_HIST__STMT_NO *
+            @t24:i (t24Name=STMT.NO)
+        TRAN_REF -> FX_Contract:ND_BALANCES_HIST PK required
+            @i18n:Label (en="Transaction Ref")
+            @t24:i (align=L, inputBehaviour=I, maxLength=32, sysNumber=0.0, core=true, businessType=A, t24Name=TRAN.REF)
+    }
+    ND_BALANCES_HIST__CONSOL_KEY
+    {
+        CONSOL_KEY : T24BusinessTypes:A
+            @i18n:Label (en="Consol Key")
+            @t24:i (align=L, inputBehaviour=N, maxLength=50, sysNumber=27.0, core=true, t24Name=CONSOL.KEY)
+    }
+    ND_BALANCES_HIST__STMT_NO
+    {
+        STMT_NO : T24BusinessTypes:A
+            @i18n:Label (en="Statement number")
+            @t24:i (align=L, inputBehaviour=N, maxLength=20, sysNumber=28.0, core=true, t24Name=STMT.NO)
+    }
+    ND_BALANCES__CONSOL_KEY
+    {
+        CONSOL_KEY : T24BusinessTypes:A
+            @i18n:Label (en="Consol Key")
+            @t24:i (align=L, inputBehaviour=N, maxLength=50, sysNumber=27.0, core=true, t24Name=CONSOL.KEY)
+    }
+    ND_BALANCES__STMT_NO
+    {
+        STMT_NO : T24BusinessTypes:A
+            @i18n:Label (en="Statement number")
+            @t24:i (align=L, inputBehaviour=N, maxLength=20, sysNumber=28.0, core=true, t24Name=STMT.NO)
+    }
+    /* Overview A NDF is a product where one of the currencies is unable to be settled. Because of this the deal must be fixed at a time and from a rate source arranged at the time of the original trade. When the rate is fixed on the fixing date the settlement will be a net settlement in the deliverable currency only, calculated by using the difference between the original Foreign exchange  rate and the fixing rate.  There are 2 types of NDF transactions to take into account: Vanilla  this is a standard NDF transaction type, which has a rate fixing of 2 working days before  settlement date  no exceptions. Exotic  which is based on the Vanilla NDF, with a variation that allows the fixing date to be set at any date during the life of the transaction. If a NDF is fixed early, then a discount to the profit is taken by the bank. This discount amount needs to be amortised. Settlement date remains the same and is unchanged. */
+    ND_DEAL
+        @i18n:Description (en="")
+        @t24:i (t24Name=ND.DEAL, level=F, type=H, additionalInfo="NOH OEU UNP", allowedFunctions="A C D E H I L P Q R S V", localRefAllowed=true)
+    {
+/* Identifies the account officer responsible for the relationship with the CPARTY. This information will be used by the Management Information System (MIS) for the determination of the Customer  Profitability Analysis.   This field has been provided to enable the user to override at transaction level the CPARTY default account officer defined in the CUSTOMER file.
+Validation Rules:
+
+1-4 digit numeric field. (Optional input; Default value = account officer specified on the        CPARTY's customer file.)
+The Account Officer Code must appear on the DEPT.ACCT.OFFICER table. */
+        ACCOUNT_OFFICER -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Account Officer")
+            @i18n:Tooltip (en="Indicates Account Officer responsible")
+            @t24:i (align=R, inputBehaviour=I, maxLength=7, sysNumber=46.0, core=true, t24Name=ACCOUNT.OFFICER)
+/* Part of Regulatory Reporting information to a Trade Repository.
+Under the Regulatory Reporting to a Trade Repository, it is not only the initial trade that is reported but also the life cycle events of the Trade that follow. A change in the action type is indicative of an event on the contract and requires to be reported.  Change in Action Types is allowed both manually and automatically.
+Specifies the ACTION.TYPE that is populated based on the event on trade
+Input to this field is allowed only when OC module is installed
+Validation Rules:
+Allowed optional values are N, M, E, C, Z and O
+N denotes that the ACTION.TYPE is NEW. Value of 'N' is defaulted for a new contract. User is also allowed to change the status to N if the previous status is E.
+E denotes that the ACTION.TYPE is REVERSE or Correction. In case of wrongly entered UTI values or a Temporary UTI was used previously, the old UTI should be reported with ACTION.TYPE as 'E' for error reporting first and then change the Action Type to NEW after keying in the actual UTI. This way the previous reporting with temporary UTI is replaced by the one with final UTI. Action Type ‘E’ is also used to undo the reporting of a particular transaction done which should not have been done reported at all in the first instance.
+M denotes that the ACTION.TYPE is MODIFIED. In case of change in the RATE.FIXING.DATE the ACTION.TYPE is set to 'M'
+C denotes that the ACTION.TYPE is CANCELLED.In case of any change in maturity/value date i.e. early termination of the contract should be reported with C.In NDF this MATURITY.DATE field is No change field. So ACTION.TYPE never gets populated automatically with type as C but It can be manually updated as ‘c’ and the contract can be cancelled.
+Z denotes Compression update. This means the trade being reported is generated out of a compression activity.
+O denotes OTHER types. When OTHER is used, additional information as to what OTHER mean should be mentioned separately. */
+        ACTION_TYPE : FX_Contract:ND_DEAL__ACTION_TYPE
+            @i18n:Tooltip (en="Action Type")
+            @t24:i (align=L, inputBehaviour=N, maxLength=1, sysNumber=71.0, core=true, t24Name=ACTION.TYPE)
+        ADDL_REP_INFO -> byValue FX_Contract:ND_DEAL__ADDL_REP_INFO *
+            @t24:i (t24Name=ADDL.REP.INFO)
+/* Defines the ND.DEAL contract agreement type.
+Validation Rules:
+
+Optional input.
+Must be a valid definition on the EB.AGREEMENT.TYPE file. */
+        AGREEMENT_TYPE -> FX_Config:EB_AGREEMENT_TYPE
+            @i18n:Label (en="Agreement Type")
+            @i18n:Tooltip (en="Agreement Type Eg. ISDA, FRABBA, etc.")
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=7.0, core=true, businessType=A, t24Name=AGREEMENT.TYPE)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=119.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=120.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=116.0, core=true, t24Name=AUTHORISER)
+/* Indicates the base currency, can be either DEAL.CURRENCY or SETTLEMENT.CCY. System default would be: In case of cross currency, it will hold the bigger currency. In case of against local currency, it will conform to rate  quotation in CURRENCY table. In general, this indicates multiply/divide of two exchange rate.
+Validation Rules:
+
+Must be a valid code on the CURRENCY table.
+Default value must be imposed in accordance to T24 base currency default method. */
+        BASE_CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @t24:i (align=L, inputBehaviour=F, maxLength=3, sysNumber=15.0, core=true, businessType=CCY, t24Name=BASE.CURRENCY)
+/* This field is used when the counterparty of the deal instructs us to pay funds to another party who does not have an account with us.
+Entry in this field will be accepted where the beneficiary is known to the bank (i.e. there is a customer record for the beneficiary). If the beneficiary is not known to us, the beneficiary details may be entered in the Beneficiary address field.
+Validation Rules:
+
+1-6 numeric characters Customer Number or 3-10 character customer mnemonic (uppercase alphanumeric or '.') - Type MNE. (Input in       this field is optional. Default value = counterparty.)
+Input must represent a valid customer on the Customer file.
+Input in this field is not allowed when details have been entered in the beneficiary address field. */
+        BENEFICIARY_NO -> ST_Customer:CUSTOMER
+            @i18n:Label (en=Beneficiary)
+            @i18n:Tooltip (en="Identifies the beneficiary")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=31.0, core=true, businessType=CUS, t24Name=BENEFICIARY.NO)
+        BENFICIARY_ADDR -> byValue FX_Contract:ND_DEAL__BENFICIARY_ADDR *
+            @t24:i (t24Name=BENFICIARY.ADDR)
+/* Part of Regulatory Reporting information to a Trade Repository.
+Denotes the Bilateral Reference. It contains the transaction ID of the Bilateral Trade that is cleared.
+Input to this field is allowed only when OC module is installed
+Validation Rules:
+This is a conditionally mandatory field
+This field is mandatory when the clearing status (OC.CLG.STATUS) of the contract is CLEARED
+This is a no change field */
+        BILATERAL_REF : T24BusinessTypes:A
+            @i18n:Tooltip (en="Bilateral Reference")
+            @t24:i (align=L, inputBehaviour=N, maxLength=10, sysNumber=77.0, core=true, t24Name=BILATERAL.REF)
+        BK_TO_BK -> byValue FX_Contract:ND_DEAL__BK_TO_BK *
+            @t24:i (t24Name=BK.TO.BK)
+/* Indicates a valid REGION in respect of SETTLEMENT.CCY. Default will be "00" region. i.e. US00.
+Validation Rules:
+
+2 characters; type N (Numeric)
+Must be a valid code on the REGION table. */
+        BUS_DAY_SETTLEMNT : T24BusinessTypes:A
+            @i18n:Label (en="Bus Day Settlemnt")
+            @i18n:Tooltip (en="Business Day Settlement")
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=17.0, core=true, t24Name=BUS.DAY.SETTLEMNT)
+/* Indicates a valid REGION in respect of NDF.CURRENCY. Default will be "00" region. i.e. GB00.
+
+Validation Rules:
+
+2 characters; type N (Numeric)
+Must be a valid code in the REGION table. */
+        BUS_DAY_VALUATION : T24BusinessTypes:A
+            @i18n:Label (en="Bus Day Valuation")
+            @i18n:Tooltip (en="Business Day Valuation")
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=16.0, core=true, t24Name=BUS.DAY.VALUATION)
+/* Indicates whether it is Buy or Sell Deal currency contract. Two values can be used BUY or SELL.
+Validation Rules:
+
+Mandatory input. (Valid input is BUY, SELL)
+Once the contract has be authorised the buy sell indicator cannot be amended. */
+        BUY_SELL_IND : FX_Contract:ND_DEAL__BUY_SELL_IND required
+            @i18n:Label (en="Buy Sell Indicator")
+            @i18n:Tooltip (en="Indicates if it is a Buy or Sell deal")
+            @t24:i (align=L, inputBehaviour=F, maxLength=4, sysNumber=9.0, core=true, t24Name=BUY.SELL.IND)
+/* Contains the category code to which the deal will be accounted. This information will be used for MIS reporting and will identify the product being processed.   A default category code may be specified for each deal type on the ND.TYPE file.
+Validation Rules:
+
+5 numeric digits in range 20000-20999. (No input)
+The category code must be defined on the CATEGORY table. */
+        CATEGORY -> ST_Config:CATEGORY
+            @i18n:Label (en=Category)
+            @i18n:Tooltip (en="Specifies the Category")
+            @t24:i (align=L, inputBehaviour=N, maxLength=5, sysNumber=45.0, core=true, businessType=A, t24Name=CATEGORY)
+/* Part of Regulatory Reporting information to a Trade Repository.
+Denotes the central clearing party. If it doesn’t contain any value it gets defaulted with the clearing member id (CLG.MEM.ID)
+Input to this field is allowed only when OC module is installed
+Validation Rules :
+This is a conditionally mandatory field
+This field is mandatory when the clearing status (OC.CLG.STATUS) of the contract is CLEARED
+This is a no change field */
+        CENTRAL_CLG_PARTY : T24BusinessTypes:N
+            @i18n:Tooltip (en="Central Clearing Party")
+            @t24:i (align=R, inputBehaviour=N, maxLength=10, sysNumber=81.0, core=true, t24Name=CENTRAL.CLG.PARTY)
+/* Part of Regulatory Reporting information to a Trade Repository.
+Denotes the clearing member identifier. It contains the reporting counterparty ID. If the reporting counterparty is not a clearing member, its clearing member shall be identified in this field by a unique code. In case of an individual, a client code, as assigned by the CCP, shall be used.
+Input to this field is allowed only when OC module is installed
+Validation Rules:
+This is a conditionally mandatory field
+This is mandatory when the clearing status (OC.CLG.STATUS) of the contract is CLEARED.
+This is a no change field */
+        CLG_MEMBER_ID : T24BusinessTypes:A
+            @i18n:Tooltip (en="Clearing Member ID")
+            @t24:i (align=L, inputBehaviour=N, maxLength=50, sysNumber=67.0, core=true, t24Name=CLG.MEMBER.ID)
+/* Part of Regulatory Reporting information to a Trade Repository.
+specifies whether collateralisation was performed
+Input to this field is allowed only when OC module is installed
+Validation Rules:
+This is an OPTIONAL field
+Allowed optional values are U (Uncollateralised), PC (Partially Collateralised), OC (One way collateralised), FC (Fully Collateralised) and NULL */
+        COLLATERALISATION : FX_Contract:ND_DEAL__COLLATERALISATION
+            @i18n:Tooltip (en=Collateralisation)
+            @t24:i (align=L, inputBehaviour=N, maxLength=2, sysNumber=64.0, core=true, t24Name=COLLATERALISATION)
+/* Part of Regulatory Reporting information to a Trade Repository
+An unique code given by the reporting counterparty to identify the portfolio, if collateralization is reported on a portfolio basis
+Input to this field is allowed only when OC module is installed
+Validation Rules:
+This is a conditionally mandatory field
+Mandatory if the COLLAT.PORT.IND is set to 'Y'
+Numeric field up to 10 digits */
+        COLLAT_PORT_CODE : T24BusinessTypes:N
+            @i18n:Tooltip (en="Collateral port code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=10, sysNumber=66.0, core=true, t24Name=COLLAT.PORT.CODE)
+/* Part of Regulatory Reporting information to a Trade Repository.
+Specifies if the collateralisation was performed on a portfolio basis
+Input to this field is allowed only when OC module is installed
+Validation Rules:
+This is an OPTIONAL field
+Input not allowed when COLLATERALISATION is NULL
+Allowed optional values are Y, N or NULL
+‘Y’ indicates that the collateralisation was performed on a portfolio basis
+‘N’ indicates that the collateralisation was not performed on a portfolio basis */
+        COLLAT_PORT_IND : FX_Contract:ND_DEAL__COLLAT_PORT_IND
+            @i18n:Tooltip (en="Collateral Port Indicator")
+            @t24:i (align=L, inputBehaviour=N, maxLength=1, sysNumber=65.0, core=true, t24Name=COLLAT.PORT.IND)
+        CONF_NARR -> byValue FX_Contract:ND_DEAL__CONF_NARR *
+            @t24:i (t24Name=CONF.NARR)
+        CONSOL_KEY -> byValue FX_Contract:ND_DEAL__CONSOL_KEY *
+            @t24:i (t24Name=CONSOL.KEY)
+/* 1.Allows particular groups of contracts to be identified.
+2.The conditions which determine a particular CONTRACT.GRP code are defined in the ND.DEAL record of the APPL.GEN.CONDITION application
+3.Each time the contract is changed the conditions will be re-evaluated which can result in a new CONTRACT.GRP code. If the CONTRACT.GRP value changes then this can result in a new FTT.TAX.TYPE.KEY being allocated depending on the set up of the relevant TAX.TYPE.CONDITION record.However, the conditions will not re-evaluated after authorization.
+Validation Rules :
+5 character alphanumeric */
+        CONTRACT_GRP : T24BusinessTypes:A
+            @i18n:Label (en="Contract Group")
+            @i18n:Tooltip (en="Contract group based on a set of conditions")
+            @t24:i (align=L, inputBehaviour=N, maxLength=5, sysNumber=84.0, core=true, t24Name=CONTRACT.GRP)
+/* Contains the counterparty with whom the dealer has arranged the NDF transaction.
+Validation Rules:
+
+Mandatory Input.
+Must be a valid customer on the CUSTOMER table.
+Once record has been authorised this field cannot be changed.
+When OC module is installed and NDF contracts are required to be reported to a trade repository, the Customer ID of the Counterparty must be a valid record in OC.CUSTOMER  table. */
+        COUNTERPARTY -> ST_Customer:CUSTOMER required
+            @i18n:Label (en=Counterparty)
+            @i18n:Tooltip (en="Counterparty with whom the deal is made")
+            @t24:i (align=R, inputBehaviour=F, maxLength=10, sysNumber=3.0, core=true, businessType=CUS, t24Name=COUNTERPARTY)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=117.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+/* Contains the account number of the counterparty or nominated beneficiary at their correspondent bank.
+The field will be used to provide the correspondent with the necessary details to credit the counterparty's or beneficiary's account.
+Validation Rules:
+
+35 character account number. */
+        CPARTY_BANK_ACC : T24BusinessTypes:A
+            @i18n:Label (en="Cparty Bank Acc")
+            @i18n:Tooltip (en="Account number of the Contrepartie at their bank")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=35.0, core=true, t24Name=CPARTY.BANK.ACC)
+/* Identifies the bank to which the counterparty wishes the settlement amount to be paid. This will either be the bank of the counterparty or the bank of their nominated beneficiary.   If the bank is known to us (i.e. a customer record exists), the customer number of the bank will be entered in this field. If not, the details should be entered in the CPARTY.COR.ADD field.
+Validation Rules:
+
+1-6 Numeric character Customer Number or 3-10 character customer mnemonic (uppercase alphanumeric or '.') - Type MNE Input in this       field is optional. Default = as per Agency file when settlement account = Nostro.
+Input must represent a valid customer on the Customer file.
+Input in this field is not allowed when details have been entered in the correspondent address field. */
+        CPARTY_CORR_NO -> ST_Customer:CUSTOMER
+            @i18n:Label (en="Cparty Corr No")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=33.0, core=true, businessType=CUS, t24Name=CPARTY.CORR.NO)
+        CPARTY_COR_ADD -> byValue FX_Contract:ND_DEAL__CPARTY_COR_ADD *
+            @t24:i (t24Name=CPARTY.COR.ADD)
+/* Part of Regulatory Reporting information to a Trade Repository.
+Denotes if the contract is objectively measurable as directly linked to the other counterparty’s commercial or treasury financial activity
+Input to this field is allowed only when OC module is installed
+Validation Rules:
+This is an OPTIONAL field and value is User inputted
+Allowed optional values are YES, NO or NULL
+YES denotes that the contract is directly linked to the other counterparty’s commercial or treasury financial activity
+NO denotes that the contract is not directly linked to the other counterparty’s commercial or treasury financial activity
+Input allowed only when the Other counterparty is a NON FINANCIAL COUNTERPARTY
+This is a no change field */
+        CP_TRADE_PURPOSE : FX_Contract:ND_DEAL__CP_TRADE_PURPOSE
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=79.0, core=true, t24Name=CP.TRADE.PURPOSE)
+/* Defines the market to identify the correct exchange and revaluation Rates to be applied to each currency.
+Default is 1.
+Validation Rules:
+
+No input field.
+Must be a valid entry in CURRENCY.MARKET file. */
+        CURRENCY_MARKET -> ST_CurrencyConfig:CURRENCY_MARKET
+            @i18n:Label (en=Market)
+            @t24:i (align=R, inputBehaviour=N, maxLength=2, sysNumber=5.0, core=true, t24Name=CURRENCY.MARKET)
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=113.0, core=true, t24Name=CURR.NO)
+        CUS_PORT_ID : T24BusinessTypes:N
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, core=false, t24Name=CUS.PORT.ID, genOperation="COUNTERPARTY:\'-\':PORTFOLIO.NUMBER")
+        DATE_TIME -> byValue FX_Contract:ND_DEAL__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+/* Identifies the dealer desk position which needs to be updated by the deal being created. The dealer desk code is held on the position record so that the exchange position can be displayed at  dealer desk level.   Each deal on the system will be allocated a two-digit dealer desk code. This code will be used to maintain position at the dealer desk level.
+Validation Rules:
+
+Mandatory input.
+2 alphanumeric character dealer code in the range A-Z, a-z, plus 0-9. Default = dealer desk defined on the user profile.
+The code entered must appear on the DEALER.DESK table.
+The field cannot be changed once the deal has been authorised. */
+        DEALER_DESK -> ST_Config:DEALER_DESK required
+            @i18n:Label (en="Dealer Desk")
+            @i18n:Tooltip (en="Specifies the Dealer Desk handling the transaction")
+            @t24:i (align=L, inputBehaviour=F, maxLength=2, sysNumber=4.0, core=true, businessType=A, t24Name=DEALER.DESK)
+        DEALER_NAME : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=108.2, core=false, t24Name=DEALER.NAME)
+        DEALER_NOTE -> byValue FX_Contract:ND_DEAL__DEALER_NOTE *
+            @t24:i (t24Name=DEALER.NOTE)
+/* Indicates the deal currency amount of the contract which will always be expressed in the currency defined in the previous field.   This field contains the principal amount of the contract expressed in the currency defined in the previous field. In order to facilitate the efficient entry of the amount, an input feature has  been provided which allows for the suppression of trailing zeros.  In English Language text this is accomplished by using a 'T' to indicate the thousands and an 'M' to indicate the millions. Other languages will require the provision of translation values.
+e.g. INPUT VALUE   1T 1,000.00 2M 2,000,000.00
+Validation Rules:
+
+1-19 type AMT (standard amount format) characters plus a decimal point. (Mandatory input) The amount must be greater than Zero. */
+        DEAL_AMOUNT : T24BusinessTypes:AMT
+            @i18n:Label (en="Deal Amount")
+            @i18n:Tooltip (en="Specifies the deal amount")
+            @t24:i (align=R, inputBehaviour=F, maxLength=19, sysNumber=11.0, core=true, t24Name=DEAL.AMOUNT, typeModifiers="10")
+/* Indicates the NDF currency, has to be specified in NDF.ALLOW.CCY in ND.PARAMETER table. If not a single NDF.ALLOW.CCY is specified then deal currency can be any valid currency.
+Validation Rules:
+
+Mandatory input.
+Must be a valid currency on the CURRENCY file.
+Must be listed in NDF.ALLOW.CCY in ND.PARAMETER table.
+Once the contract has be authorised the deal currency         cannot be amended. */
+        DEAL_CURRENCY -> ST_CurrencyConfig:CURRENCY required
+            @i18n:Label (en="Deal Currency")
+            @i18n:Tooltip (en="Indicate the deal currency")
+            @t24:i (align=L, inputBehaviour=F, maxLength=3, sysNumber=10.0, core=true, businessType=A, t24Name=DEAL.CURRENCY)
+/* Indicates the value date of the NDF contract. System defaults TODAY.
+Validation Rules:
+
+Once the contract has be authorised the deal date cannot be amended. */
+        DEAL_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Deal Date")
+            @i18n:Tooltip (en="Indicates the value date of the deal")
+            @t24:i (align=R, inputBehaviour=F, maxLength=11, sysNumber=8.0, core=true, t24Name=DEAL.DATE)
+        DEAL_NOTE -> byValue FX_Contract:ND_DEAL__DEAL_NOTE *
+            @t24:i (t24Name=DEAL.NOTE)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=118.0, core=true, t24Name=DEPT.CODE)
+/* Displays number of days for the fixing profit or loss will be amortised.
+In the case of an exotic NDF which allows the fixing date to be set at any date during the life of the transaction before the vanilla date. If the NDF is fixed and settled "early", the fixing profit or loss is discounted. The discount amount will be amortised from the settlement date to the value date of the NDF.
+Validation Rules:
+
+System calculated. (No input) */
+        DISCOUNT_PERIOD : T24BusinessTypes:N
+            @i18n:Label (en="Discount Period")
+            @i18n:Tooltip (en="Number of days for the fixing PL to amortise")
+            @t24:i (align=R, inputBehaviour=N, maxLength=3, sysNumber=26.0, core=true, t24Name=DISCOUNT.PERIOD)
+/* Displays discount PL for the "fixed early" NDF. It is the difference between the Settlement amount and the Settlement amount after discounted.
+
+Validation Rules:
+
+System calculated. (No input) */
+        DISCOUNT_PL : T24BusinessTypes:AMT
+            @i18n:Label (en="Discount PL")
+            @i18n:Tooltip (en="Displays discount PL for the fixed early NDF")
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=27.0, core=true, t24Name=DISCOUNT.PL, typeModifiers="-10")
+        EB_ACTIVITY -> byValue FX_Contract:ND_DEAL__EB_ACTIVITY *
+            @t24:i (t24Name=EB.ACTIVITY)
+/* Part of Regulatory Reporting information to a Trade Repository.
+Denotes the date and time of execution of the transaction and is User inputtable field.
+Input to this field is allowed only when OC module is installed
+Validation Rules :
+This is an OPTIONAL field
+The format should be "YYYYMMDDTHH:MM:SS+/-(UTC.TIME.ZONE)"  or "YYYYMMDDTHH:MM:SSZ"
+Example 20150101T10:10:10+05:30
+Example 20150101T10:10:10-05:30
+Example 20150101T10:10:10Z */
+        EXEC_TIME_STAMP : T24BusinessTypes:A
+            @i18n:Tooltip (en="Execute Time Stamp")
+            @t24:i (align=L, inputBehaviour=N, maxLength=23, sysNumber=78.0, core=true, t24Name=EXEC.TIME.STAMP)
+/* Part of Regulatory Reporting information to a Trade Repository.
+Specifies the unique code that identifies the venue of execution
+Provides a drop down list of the OC.EXCHANGE.FACILITY records
+Input to this field is allowed only when OC module is installed or ‘BR’
+Validation Rules:
+This is an OPTIONAL field
+Can contain up to 10 alphanumeric characters */
+        EXEC_VENUE -> OC_Parameters:OC_EXCHANGE_FACILITY
+            @i18n:Tooltip (en="Exec Venuw")
+            @t24:i (align=L, inputBehaviour=N, maxLength=10, sysNumber=69.0, core=true, businessType=A, t24Name=EXEC.VENUE)
+/* Display the settlement amount using fixing rate.
+Validation Rules:
+
+System calculated. (No input) */
+        FIXED_AMOUNT : T24BusinessTypes:AMT
+            @i18n:Label (en="Fixed Amount")
+            @i18n:Tooltip (en="This defines fixed charge amount to be returned")
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=21.0, core=true, t24Name=FIXED.AMOUNT, typeModifiers="13")
+/* Indicates NDF fixing date.  System default - calculate from FIXING.DAYS of the corresponding FIXING.CURRENCY from ND.PARAMETER table.  This date cannot be later than VALUE.DATE.   In case of FIXED method, override message will be given, if the date is changed to other date than the default one.
+Validation Rules:
+
+The date may be entered in the standard date format.
+Once the deal is fixed (FIXED.RATE is input), fixed date cannot be amended. */
+        FIXED_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Fixed Date")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=19.0, core=true, t24Name=FIXED.DATE)
+/* Indicates the rate to fix the NDF contract.
+Validation Rules:
+
+1-10 type R (Standard Rate Format - up to 8 integer and 6 decimal) characters plus a decimal point.
+The rate must be in an acceptable format.
+No input allowed for new contract.
+No change allowed after the input value has been authorized. */
+        FIXED_RATE : T24BusinessTypes:R
+            @i18n:Label (en="Fixed Rate")
+            @i18n:Tooltip (en="Fixed rate entered by the user")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=20.0, core=true, t24Name=FIXED.RATE)
+/* Provides the option to T24 bank to collect the Financial Transaction Tax payable by the Counterparty also. If yes, accounting entries are raised to collect counterparty’s tax wherein customer Account is debited and Tax suspense Account is credited. The values No or Null means T24 bank does not collect the FTT payable by the counterparty or in other words the counterparty himself remits the FTT. This option is provided on the premise that where the counterparty is a customer of the bank ( not an interbank counterparty) the T24 bank assumes responsibility to collect and pay the FTT payable by the customer
+Validation Rules:
+Values allowed are Yes, No or Null.
+Default value will be from ND.PARAMETER but can be overridden by the User. */
+        FTT_COLL_CPTY_TAX : FX_Contract:ND_DEAL__FTT_COLL_CPTY_TAX
+            @t24:i (align=L, inputBehaviour=F, maxLength=3, sysNumber=92.0, core=true, t24Name=FTT.COLL.CPTY.TAX)
+/* Identifies the Tax Amount calculated in Tax Base Currency.The basis for the calculation would be the value in FTT.TAX.BASE.AMT field and the Tax rate defined in the corresponding FTT tax key.
+Validation Rules :
+No input field. */
+        FTT_TAX_AMT_BASE : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=89.0, core=true, t24Name=FTT.TAX.AMT.BASE)
+/* Identifies the Tax Amount calculated in EUR, which is the Tax payable currency under EUFTT. The notional conversion between the FTT.TAX.BASE.CCY and EUR is based on mid-reval rate in currency record.
+Value populated in FTT.TAX.AMT.BASE is converted to EUR.
+Validation Rules :
+No input field. */
+        FTT_TAX_AMT_EUR : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=90.0, core=true, t24Name=FTT.TAX.AMT.EUR)
+/* Local equivalent of Financial Transaction Tax amount. Where the Tax currency and PL currency are different, using Mid-reval rate from the tax currency record, the LCY equivalent is calculated and accounting entries are based on this value.
+Validation Rules :
+No input field. */
+        FTT_TAX_AMT_LCY : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=91.0, core=true, t24Name=FTT.TAX.AMT.LCY)
+/* Identifies the Tax Base amount for Tax calculation.It will be either Notional Settlement amount/Deal amount. The amount defaults corresponding to the currency present in the field FTT.TAX.BASE.CCY. In case, the Tax Base Notional amount requires any adjustment (for example tenor adjustment) to the contract notional, a customized routine can be attached to BASE.AMT.ROUTINE field of TAX application.
+Validation Rules :
+No input field. Associated with TAX.BASE.CCY */
+        FTT_TAX_BASE_AMT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=88.0, core=true, t24Name=FTT.TAX.BASE.AMT)
+/* Identifies the Tax Base Currency in which Tax amount is calculated.
+System will default Settlement Currency if there is no user input and it can be overridden by the user during Input/INAU stage
+Validation Rules :
+Can be either Deal or Settlement Currency
+No Change field after authorization. Associated with TAX.BASE.AMT */
+        FTT_TAX_BASE_CCY -> ST_CurrencyConfig:CURRENCY
+            @t24:i (align=L, inputBehaviour=F, maxLength=3, sysNumber=87.0, core=true, businessType=CCY, t24Name=FTT.TAX.BASE.CCY)
+/* Identifies the Key from the Tax Table when the transaction is subjected for a Financial Tax. This field can be defaulted if the TAX.INTEREST.TYPE field is used.
+Validation Rules :
+No input field, system defaulted. */
+        FTT_TAX_KEY -> ST_ChargeConfig:TAX
+            @t24:i (align=R, inputBehaviour=N, maxLength=2, sysNumber=86.0, core=true, t24Name=FTT.TAX.KEY)
+/* Using this field together with the CONTRACT.GRP field it is possible to determine a particular tax code from conditions based on
+a. General tax type as defined in the TAX.TYPE.CONDITION application
+b. Type of customer as defined in the CUSTOMER.CHARGES application
+c. Type of contract as defined in the CONTRACT.GRP field.
+The value in this field must equate to a record in the TAX.TYPE.CONDITION application which contains tax codes related to customer tax group and contract group.
+Whenever tax is to be recalculated the correct tax code will be determined and the Tax related fields gets updated accordingly.
+Validation Rules :
+Optional input, must be present as a record on TAX.TYPE.CONDITION. The actual TAX.TYPE.CONDITION key value will be prefixed by the "*" character (asterisk). */
+        FTT_TAX_TYPE_KEY : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=F, maxLength=17, sysNumber=85.0, core=true, t24Name=FTT.TAX.TYPE.KEY)
+        INPUTTER -> byValue FX_Contract:ND_DEAL__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        INTERMED_ADD -> byValue FX_Contract:ND_DEAL__INTERMED_ADD *
+            @t24:i (t24Name=INTERMED.ADD)
+/* Identifies any intermediary bank involved in the transaction and will be specified by the counterparty.   If the intermediary is known to us (i.e. their is an associated customer record), the customer number of the intermediary bank will be entered in this field. If not, details should be entered  in the INTERMED.ADD field.
+Validation Rules:
+
+1-6 Numeric character Customer Number or 3-10 character customer mnemonic (uppercase alphanumeric or '.') - Type MNE Input in this       field is optional.
+Input must represent a valid customer on the Customer file.
+Input in this field is not allowed when details have been entered in the intermediary bank address field.
+Input will only be allowed if details of the correspondent have been entered. */
+        INTERMED_BNK_NO -> ST_Customer:CUSTOMER
+            @i18n:Label (en="Intermed Bank No")
+            @i18n:Tooltip (en="Intermed Bank No")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=37.0, core=true, businessType=CUS, t24Name=INTERMED.BNK.NO)
+        INT_FLD_ID -> byValue FX_Contract:ND_DEAL__INT_FLD_ID *
+            @t24:i (t24Name=INT.FLD.ID)
+/* This field is for accounting purpose. It will be updated during authorization.
+Default value is TODAY date.
+Validation Rules:
+
+No input. Updated automatically by system. */
+        LAST_UPD_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Last Update Date")
+            @i18n:Tooltip (en="Updated during authorisation")
+            @t24:i (align=R, inputBehaviour=N, maxLength=11, sysNumber=61.0, core=true, t24Name=LAST.UPD.DATE)
+/* Contains the limit reference number for the counterparty.   The reference can be entered by the operator or left blank. If left blank the system will provide the default Limit reference number for NDF deals.
+Validation Rules:
+
+Up to 10 characters identifying a valid Limit Reference. (Optional input. Default = As defined on LIMIT.PARAMETER file.) */
+        LIMIT_REFERENCE : T24BusinessTypes:N
+            @i18n:Label (en="Limit Reference")
+            @i18n:Tooltip (en="Indicates the limit that will be updated")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=44.0, core=true, t24Name=LIMIT.REFERENCE)
+/* Enables transactions to be linked together for reporting purposes.
+Validation Rules:
+
+1-16 alpha-numeric characters. (Optional input) */
+        LINK_REFERENCE : T24BusinessTypes:A
+            @i18n:Label (en="Link Reference")
+            @i18n:Tooltip (en="Transaction link reference of the contract")
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=52.0, core=true, t24Name=LINK.REFERENCE)
+/* Identifies each NDF transaction.   The Reference Number will be shown on all output generated from the transaction and will be generated automatically when specified as such in the Company table for the NDF Application. Otherwise, it will need to be entered for each transaction and subsequently checked by the System for uniqueness.   To avoid the necessity to input the complete Reference Number, the User has the facility to input only the sequence number of the transaction to access any transaction which has been input that day. The Application will automatically generate the seven first digits and append them to the front of the sequence number in order to retrieve the requested transaction.  Access to any NDF transaction from a previous day requires the input of the corresponding julian day and the year if the contract has been done in a previous year.   The reference number has the following format NDYYDDDNNNNN where:   ND = Application indicator for the NDF Application.   YY = The last two digits of the year when the transaction is processed   DDD = Julian day number within year when the NDF is processed.   NNNNN = Five digit sequential number.   The above numbering convention enables 99,999 deals to be struck on any one day.   Thus : ND8530500010 is the 10th NDF transaction of the 2nd of November 1985, i.e:   . ND = NDF Application Id. . 85 = Year 1985 . 305 = 2nd of November (305th day 1985) . 00010 = 10th transaction on that day.
+Validation Rules:
+
+10 numeric characters, prefixed by ND: NDyydddnnnnn ND followed by 10 numbers (see Details) (Mandatory input)       If the Reference Number is entered, during initial input, it will be validated for uniqueness.       When input, this field will only be allowed in the        format specified above.
+This field can never be changed. */
+        NDF_DEAL_NO -> FX_Contract:ND_DEAL PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=14, sysNumber=0.0, core=true, businessType=A, t24Name=NDF.DEAL.NO, mask="R##/#####/#####")
+/* Shows the local currency equivalent of the  DEAL.AMOUNT and NOTIONAL.SETTL.AMT. The field will be calculated by the system and no operator 
+input will be allowed. This local currency equivalent will be used when updating the currency position after successful validation.
+
+The following rules are applicable:
+a) When the contract involves local currency
+It is always the local currency amount  which is populated in this field.
+b) When the contract does not involve local currency
+The Base Currency  amount of the contract will be converted at the contract NOTIONAL.RATE to arrive at the Non-base Amount  and using the 
+forward rate of the other currency (non base currency) the local currency value is generated. */
+        NDF_LCY_EQUIV : T24BusinessTypes:AMT
+            @i18n:Label (en="NDF Local Currency Equivalent")
+            @i18n:Tooltip (en="The deal amount equivalent in local currency")
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=47.0, core=true, t24Name=NDF.LCY.EQUIV, typeModifiers="USD")
+/* Indicates Fixing Method. It is defaulted from ND.TYPE table of the corresponding ND.TYPE. Two values can be used FIXED or OPTION  FIXED meaning the NDF contracts with this NDF type will be fixed following the defined Fixing date in the NDF contract  OPTION meaning Fixing date is variation and can be any date prior to the settlement date-System defaults to FIXED
+Validation Rules:
+
+No input. */
+        NDF_METHOD : FX_Contract:ND_DEAL__NDF_METHOD
+            @i18n:Label (en="NDF Method")
+            @i18n:Tooltip (en="Indicates the fixing method")
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=2.0, core=true, t24Name=NDF.METHOD)
+/* Indicates NDF type for the contract to take into account.
+Validation Rules:
+
+1-7 characters; type A (alphanumeric)
+Mandatory input.
+Must be a valid code on the ND.TYPE table.
+Once record has been authorised this field cannot be changed. */
+        NDF_TYPE -> FX_Config:ND_TYPE required
+            @i18n:Label (en="NDF Type")
+            @i18n:Tooltip (en="Indicates the type of NDF Deal ")
+            @t24:i (align=L, inputBehaviour=F, maxLength=7, sysNumber=1.0, core=true, businessType=A, t24Name=NDF.TYPE, onchangeBehaviour=HOT.FIELD)
+/* Indicates that the contract has been elected for settlement by a netted payment.
+YES - Meaning that the contract will be included to net the settlement of the NDF contracts for the same counterparty when they settle on the same day in the same deliverable currency
+NO - Meaning that the contract will be excluded from any valid net settlement.
+Default is "NO".
+Validation Rules:
+
+Default is "NO". (No input) */
+        NETTING_STATUS : T24BusinessTypes:A
+            @i18n:Label (en="Netting Status")
+            @i18n:Tooltip (en="Indicates that the contract by a netted payment")
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=43.0, core=true, t24Name=NETTING.STATUS)
+/* Identifies the settlement PL after discounted for the "fixed early" NDF. Net settlement amount will be the same as fixing amount for the normal NDF case.
+The formula will be: NET.SETTL.AMT = SETTLEMENT.AMT - DISCOUNT.PL
+Validation Rules:
+
+System calculated. (No input) */
+        NET_SETTL_AMT : T24BusinessTypes:AMT
+            @i18n:Label (en="Net Settl Amt")
+            @i18n:Tooltip (en="Settlement PL after discounting fixed early NDF")
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=28.0, core=true, t24Name=NET.SETTL.AMT, typeModifiers="-13")
+/* Displays the net settlement amount equivalent in local currency.
+Validation Rules:
+
+System calculated. (No input) */
+        NET_SETTL_LCY : T24BusinessTypes:AMT
+            @i18n:Label (en="Net Settlement Local Currency")
+            @i18n:Tooltip (en="PL for the fixed early NDF in local currency")
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=29.0, core=true, t24Name=NET.SETTL.LCY, typeModifiers="-USD")
+/* Part of Regulatory Reporting information to a Trade Repository.
+Denotes if the contract is a standard or a non-standard contract
+Input to this field is allowed only when OC module is installed
+The significance of this field is better appreciated in the context of clearing of OTC derivatives.
+Validation Rules:
+This is an OPTIONAL field
+Allowed optional values are Y, N or NULL
+Y denotes that the contract is a non-standard contract
+N denotes that the contract is a standard contract */
+        NON_STND_FLAG : FX_Contract:ND_DEAL__NON_STND_FLAG
+            @i18n:Tooltip (en="Non Standard Flag")
+            @t24:i (align=L, inputBehaviour=N, maxLength=1, sysNumber=74.0, core=true, t24Name=NON.STND.FLAG)
+/* Indicates the notional exchange rate between the deal currency and the settlement currency. System default will be calculated from MID.REVAL.RATE of DEAL.CURRENCY and SETTLEMENT.CCY
+Validation Rules:
+
+1-10 type R (Standard Rate Format - up to 8 integer and 6 decimal)       characters plus a decimal point.
+The rate must be in an acceptable format.
+Once the contract has be authorised the deal currency cannot be amended. */
+        NOTIONAL_RATE : T24BusinessTypes:R
+            @i18n:Label (en="Notional Rate")
+            @t24:i (align=R, inputBehaviour=F, maxLength=11, sysNumber=12.0, core=true, t24Name=NOTIONAL.RATE)
+/* Indicates the deal amount equivalent in settlement currency using NOTIONAL.RATE. if left blank, will be calculated by the system by using values present in NOTIONAL.RATE and DEAL.AMOUNT. When input along with NOTIONAL.RATE system will calculate and default DEAL.AMOUNT (if blank). When input along with DEAL.AMOUNT, system will calculate the NOTIONAL.RATE (if blank)
+In order to facilitate the efficient entry of the amount, an input feature has been provided which allows for the suppression of trailing zeros. In English Language text this is accomplished by using a 'T' to indicate the thousands and an 'M' to indicate the millions. Other languages will require the provision of translation values.
+
+e.g. INPUT VALUE 1T  = 1,000.00; 2M = 2,000,000.00
+
+Validation Rules:
+1-19 type AMT (standard amount format) characters plus a decimal point. (Mandatory input) The amount must be greater than Zero. */
+        NOTIONAL_SETTL_AMT : T24BusinessTypes:AMT
+            @i18n:Label (en="Notional Settl Amt")
+            @i18n:Tooltip (en="Deal amount-settlement currency with notional rate")
+            @t24:i (align=R, inputBehaviour=F, maxLength=19, sysNumber=14.0, core=true, t24Name=NOTIONAL.SETTL.AMT, typeModifiers="13")
+/* Part of Regulatory Reporting information to a Trade Repository.
+Denotes the OC Clearing Status.
+Input to this field is allowed only when OC module is installed
+Validation Rules:
+Allowed optional values are Bilateral, Submitted, Accepted, Rejected, Cleared and Terminated.
+BILATERAL - when a fresh contract is inputted this field should be updated as BILATERAL
+SUBMITTED - when the inputted contract is submitted to Trade Repository it should get updated as SUBMITTED. 
+                              The previous clearing status of the contract should be BILATERALwhen OC.CLG.STATUS of the contract is SUBMITTED both CLG.MEM.ID and CENTRAl.CLG.PARTY fields cannot be NULL
+ACCEPTED - when the contract is accepted by the Trade Repository it should get updated as ACCEPTED. 
+         The previous status should be SUBMITTED
+REJECTED - when the contract is rejected by the Trade Repository it should get updated as REJECTED.
+         The previous status should be SUBMITTED
+CLEARED - When the status of the contract is ACCEPTED, User is expected to reverse the contract and enter a new one with Trade status as CLEARED
+           when the status is CLEARED fields like CENTRAL.CLG.PARTY, CLG.MEM.ID, BILATERAL.REF are mandatory
+Terminated - A cleared contract when cancelled/terminated by the Trade Repository should be updated as TERMINATED. 
+        The previous status should be CLEARED
+This is a no change field */
+        OC_CLG_STATUS : FX_Contract:ND_DEAL__OC_CLG_STATUS
+            @i18n:Tooltip (en="OC CLearing Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=10, sysNumber=80.0, core=true, t24Name=OC.CLG.STATUS)
+        OVERRIDE -> byValue FX_Contract:ND_DEAL__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+/* Part of Regulatory Reporting information to a Trade Repository.
+Denotes the Bank’s own book portfolio ID
+Input to this field is allowed only when OC module is installed
+Validation Rules:
+This is an OPTIONAL field
+The own book portfolio should be a valid SEC.ACC.MASTER record and also be an own book
+The logic to update the Portfolio with the trade details will be introduced in the next phase of OC module development. */
+        OWN_BOOK_PORT : T24BusinessTypes:A
+            @i18n:Tooltip (en="Own Book Portfolio no.")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=73.0, core=true, t24Name=OWN.BOOK.PORT)
+        PAYMNT_NARR -> byValue FX_Contract:ND_DEAL__PAYMNT_NARR *
+            @t24:i (t24Name=PAYMNT.NARR)
+        PORTFOLIO_NUMBER : T24BusinessTypes:A
+            @i18n:Label (en="Portfolio Number")
+            @i18n:Tooltip (en="Portfolio Number")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=62.0, core=true, t24Name=PORTFOLIO.NUMBER)
+/* Part of Regulatory Reporting information to a Trade Repository.
+Specifies if the trade is as a result of a portfolio compression event
+Input to this field is allowed only when OC module is installed
+Validation Rules:
+This is an OPTIONAL field
+Allowed optional values are Y or N or NULL
+Y denotes that the contract results from a portfolio compression event
+N denotes that the contract is not due to portfolio compression event */
+        PORT_COMPRESSION : FX_Contract:ND_DEAL__PORT_COMPRESSION
+            @i18n:Tooltip (en="Port Compression")
+            @t24:i (align=L, inputBehaviour=N, maxLength=1, sysNumber=70.0, core=true, t24Name=PORT.COMPRESSION)
+/* Identifies the position type applicable to the transaction.
+Validation Rules:
+
+2 characters. (No input; Default = TR for Trading)
+The code entered must appear on the FX.POS.TYPE table. */
+        POSITION_TYPE -> RE_Config:FX_POS_TYPE
+            @i18n:Label (en="Position Type")
+            @i18n:Tooltip (en="Position Type")
+            @t24:i (align=L, inputBehaviour=N, maxLength=2, sysNumber=6.0, core=true, businessType=A, t24Name=POSITION.TYPE)
+/* Part of Regulatory Reporting information to a Trade Repository.
+Denotes the Previous UNI.TRAN.ID value. When UNI.TRAN.ID is changed, it replaces the previous one and the previous one is moved into this field.
+Input to this field is allowed only when OC module is installed
+Validation Rules:
+This is an OPTIONAL field
+Can contain upto 52 alphanumeric characters */
+        PRE_UTI_ID_1 : T24BusinessTypes:A
+            @i18n:Tooltip (en="Pre UTI ID 1")
+            @t24:i (align=L, inputBehaviour=N, maxLength=52, sysNumber=75.0, core=true, t24Name=PRE.UTI.ID.1)
+/* Part of Regulatory Reporting information to a Trade Repository.
+Denotes the Previous PRE.UTI.ID.1 value. When UNI.TRAN.ID is changed, it replaces the previous one and the previous value in PRE.UTI.ID.1 is moved into this field.
+Input to this field is allowed only when OC module is installed
+Validation Rules:
+This is an OPTIONAL field
+Can contain upto 52 alphanumeric characters */
+        PRE_UTI_ID_2 : T24BusinessTypes:A
+            @i18n:Tooltip (en="Pre UTI ID 2")
+            @t24:i (align=L, inputBehaviour=N, maxLength=52, sysNumber=76.0, core=true, t24Name=PRE.UTI.ID.2)
+        PURPOSE_OF_TRAN : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=108.3, core=false, t24Name=PURPOSE.OF.TRAN)
+/* The Receiver Bank is the location where the funds will be made available for the Receiver.   The presence of the Receiver Bank, indicates that two payment messages should be generated:   - Payment Order.   - Cover Cable.   This field corresponds to field 58A (in cover payment) in SWIFT messages.
+Validation Rules:
+
+1-6 Numeric character Customer Number or 3-10 character customer mnemonic (uppercase alphanumeric or '.') - Type MNE Input in this       field is optional.
+Input must represent a valid customer on the Customer file. */
+        RECEIVER_BNK_NO -> ST_Customer:CUSTOMER
+            @i18n:Label (en="Receiver Bank No")
+            @i18n:Tooltip (en="Receiver Bank No")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=36.0, core=true, businessType=CUS, t24Name=RECEIVER.BNK.NO)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=112.0, core=true, t24Name=RECORD.STATUS)
+        REC_ADV_NARR -> byValue FX_Contract:ND_DEAL__REC_ADV_NARR *
+            @t24:i (t24Name=REC.ADV.NARR)
+        RESERVED1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=107.0, core=true, t24Name=RESERVED1)
+        RESERVED10 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=98.0, core=true, t24Name=RESERVED10)
+        RESERVED11 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=97.0, core=true, t24Name=RESERVED11)
+        RESERVED12 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=96.0, core=true, t24Name=RESERVED12)
+        RESERVED13 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=95.0, core=true, t24Name=RESERVED13)
+        RESERVED2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=106.0, core=true, t24Name=RESERVED2)
+        RESERVED3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=105.0, core=true, t24Name=RESERVED3)
+        RESERVED4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=104.0, core=true, t24Name=RESERVED4)
+        RESERVED5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=103.0, core=true, t24Name=RESERVED5)
+        RESERVED6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=102.0, core=true, t24Name=RESERVED6)
+        RESERVED7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=101.0, core=true, t24Name=RESERVED7)
+        RESERVED8 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=100.0, core=true, t24Name=RESERVED8)
+        RESERVED9 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=99.0, core=true, t24Name=RESERVED9)
+/* Indicates the settlement account. This is an account where the SETTLEMENT PL will be credited to/debited from. Default will be in accordance to SETTLEMENT.CCY.
+Validation Rules:
+
+Must be a valid account on the ACCOUNT file. */
+        SETTLEMENT_ACCT -> AC_AccountOpening:ACCOUNT
+            @i18n:Label (en="Settlement Account")
+            @t24:i (align=L, inputBehaviour=I, maxLength=36, sysNumber=30.0, core=true, businessType=ANT, t24Name=SETTLEMENT.ACCT, typeModifiers="Y")
+/* This field will be automatically calculated by the system with two possibilities: If buy NDF contract: SETTLEMENT.AMT = NOTIONAL.SETTL.AMT - FIXED.AMOUNT If sell NDF contract: SETTLEMENT.AMT = FIXED.AMOUNT - NOTIONAL.SETTL.AMT For optional type: It is meant to retain full amount, not pay/receive amount.
+Validation Rules:
+
+No input. */
+        SETTLEMENT_AMT : T24BusinessTypes:AMT
+            @i18n:Label (en="Settlement Amount")
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=23.0, core=true, t24Name=SETTLEMENT.AMT, typeModifiers="13")
+/* Indicates the currency that will be used for the settlement amount. Normally this field will hold the deliverable currency.
+Validation Rules:
+
+Mandatory Input.
+Once the deal has been authorised, this field cannot be amended. */
+        SETTLEMENT_CCY -> ST_CurrencyConfig:CURRENCY required
+            @i18n:Label (en="Settle Ccy")
+            @t24:i (align=L, inputBehaviour=F, maxLength=3, sysNumber=13.0, core=true, businessType=CCY, t24Name=SETTLEMENT.CCY)
+/* Indicated the settlement date of the NDF contract. Default will be the same as VALUE.DATE.
+Validation Rules:
+
+For FIXED type, no input allowed.
+For OPTION type, the input date should not be later than VALUE.DATE. */
+        SETTLEMENT_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Settlement Date")
+            @t24:i (align=R, inputBehaviour=F, maxLength=11, sysNumber=22.0, core=true, t24Name=SETTLEMENT.DATE)
+/* Identifies the settlement currency's interest basis. This will be used to discount PL if NDF is fixed early. System default from INTEREST.BASIS field of the SETTLEMENT.CCY in  CURRENCY table.
+Validation Rules:
+
+Must be a valid basis on the INTEREST.BASIS table.
+No change allowed after the deal has been authorized. */
+        SETTL_INT_BASIS -> ST_RateParameters:INTEREST_BASIS
+            @i18n:Label (en="Settl Int Basis")
+            @i18n:Tooltip (en="The settlement currency\'s interest basis")
+            @t24:i (align=L, inputBehaviour=F, maxLength=1, sysNumber=25.0, core=true, businessType=A, t24Name=SETTL.INT.BASIS)
+/* Identifies interest rate of the settlement currency. Interest rate used to discount PL if NDF is fixed early. (For option type contract.)
+Validation Rules:
+
+Mandatory input for OPTION NDF.
+Input is not allowed for FIXED NDF.
+1-10 type R (Standard Rate Format - up to 8 integer and 6 decimal) characters plus a decimal point.
+The rate must be in an acceptable format.
+No change allowed after the deal has been authorized. */
+        SETTL_INT_RATE : T24BusinessTypes:R
+            @i18n:Label (en="Settl Int Rate")
+            @i18n:Tooltip (en="Interest rate of the settlement currency")
+            @t24:i (align=R, inputBehaviour=F, maxLength=11, sysNumber=24.0, core=true, t24Name=SETTL.INT.RATE)
+/* Displays the settlement amount equivalent in local currency.
+Validation Rules:
+
+System calculated. (No input) */
+        SETTL_LCY_EQUIV : T24BusinessTypes:AMT
+            @i18n:Label (en="Settlement Local Currency Equivalent")
+            @i18n:Tooltip (en="The settlement amount equivalent in local currency")
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=48.0, core=true, t24Name=SETTL.LCY.EQUIV, typeModifiers="USD")
+/* Indicates the status of the deal. Four values can be used OPN, FIX, MAT or REV.  OPN - For new contract and has yet to be fixed. FIX - If contract has already been fixed. MAT - If contract pass the VALUE.DATE REV - If contract is canceled using reverse function.
+Validation Rules:
+
+No input. Updated automatically by system.
+Valid input is OPN, FIX, MAT, REV */
+        STATUS : FX_Contract:ND_DEAL__STATUS
+            @i18n:Label (en=Status)
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=49.0, core=true, t24Name=STATUS)
+        STMT_NO -> byValue FX_Contract:ND_DEAL__STMT_NO *
+            @t24:i (t24Name=STMT.NO)
+/* This field is automatically populated by the system on committing the NDF contract.  This common reference will be used on all messages transmitted through SWIFT.
+The common reference consists of the SWIFT confirmation address codes of the two counterparties, i.e. ourselves and the CPARTY of the transaction. These codes will appear in alphabetical order.  From the CPARTY SWIFT confirmation address specified in the Agency file, the system will automatically select the first four digits plus the seventh and eighth digit.
+The two codes are separated by four figures from the notional rate(fixed rate after deal fixing) on the contract as agreed by the two counterparties.  The notional /fixed rate itself is expressed in the following form:
+Rate               Shown as
+2.4560               2456            0.2450               0245            0.2400               0024            24.000               0024
+Thus for a NDF deal between ourselves with SWIFT confirmation address XXXXXX and a CPARTY with SWIFT address ABCAZACP at notional rate of 1.855129400
+, say,  then the Swift Common Reference should be constructed as follows:
+ABCACP1294XXXXXX
+The system will then display the above reference at this field and it would be used on all SWIFT message types relating to this contract and on all the entries generated by Accounting.
+Validation Rules:
+A six digit code followed by notional/fixed rate followed by another six digit code.  Type SS characters. */
+        SWIFT_COMMON_REF : T24BusinessTypes:A
+            @i18n:Label (en="Swift Commom Reference")
+            @i18n:Tooltip (en="Indicate the swift message reference")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=63.0, core=true, t24Name=SWIFT.COMMON.REF)
+/* Part of Regulatory Reporting information to a Trade Repository.
+Denotes the trade repository information
+Input to this field is allowed only when OC module is installed
+Validation Rules:
+This is an OPTIONAL field
+Defaulted with value from OC.PARAMETER record
+User can override with a valid value in OC.TRADE.REPOSITORY record
+This is a no change field */
+        TRADE_REPOSITORY -> OC_Parameters:OC_TRADE_REPOSITORY
+            @i18n:Tooltip (en="Trade Repository")
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=82.0, core=true, businessType=A, t24Name=TRADE.REPOSITORY)
+        TT_REF_NO : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=108.1, core=false, t24Name=TT.REF.NO)
+/* Part of Regulatory Reporting information to a Trade Repository.
+Denotes the unique product identifier. When a Unique Product Identifier (UPI) is available the same is mentioned here. When it UPI is not available there are other alternatives allowed like ISIN, AII, CFI. Hence no validations are created
+Input to this field is allowed only when OC module is installed
+Validation Rules:
+This is an OPTIONAL field */
+        UNIQUE_PROD_ID : T24BusinessTypes:A
+            @i18n:Tooltip (en="Unique Product ID")
+            @t24:i (align=L, inputBehaviour=N, maxLength=20, sysNumber=83.0, core=true, t24Name=UNIQUE.PROD.ID)
+/* Part of Regulatory Reporting information to a Trade Repository
+All Trades should have a Unique Transaction Identifier (UTI) which is generated, communicated and matched
+Determination of who generates the UTI should follow the existing industry best practices for that Asset class
+The UTI.USI.API attached in OC.PARAMETER and invoked during NDF deal capture determines who is the party responsible for UTI generation and does the following.
+•    If a value is present during deal capture the API is not invoked, on the assumption that the UTI is generated and supplied by the other Counterparty.
+•    If no value is present during the deal capture, the API is invoked to determine the party responsible for generating the UTI. If the Other counterparty is responsible, still an UTI is generated with a suffix as TEMP to show that the UTI from the other counterparty is awaited and in the meantime, the reporting is done with a Temporary ID. If T24 Bank is responsible for UTI generation, then the same is generated without TEMP. 
+•    Where a reporting has been made with UTI having TEMP as suffix and subsequently the Counterparty supplies the UTI, the following procedure has to be followed to ensure reporting with actual UTI.
+•    The field Action Type needs to be changed to ‘E’ and record to be authorized. Later, the UTI field should be modified with the actual UTI received. Set the Action Type field to ‘N’ and authorize the record. In this way, the previous reporting gets cancelled and the new reporting goes with correct UTI.
+Input to this field is allowed only when OC module is installed
+Validation Rules :
+can contain up to 52 alphanumeric characters */
+        UNI_TRAN_ID : T24BusinessTypes:A
+            @i18n:Tooltip (en="Unique Transaction ID")
+            @t24:i (align=L, inputBehaviour=N, maxLength=52, sysNumber=68.0, core=true, t24Name=UNI.TRAN.ID)
+/* Indicates the value date of NDF contract.Value date has to be greater than number of SPOT.MARKET days specified in FX.PARAMETERS.  Input can be 1D, 1M, which means 1 day after spot date and 1 month after spot date respectively.
+Validation Rules:
+
+Mandatory input.
+Once the contract has be authorised the value date cannot be amended. */
+        VALUE_DATE : T24BusinessTypes:NDDATE required
+            @i18n:Label (en="Value Date")
+            @i18n:Tooltip (en="Indicates the Value date of the Contract")
+            @t24:i (align=L, inputBehaviour=F, maxLength=11, sysNumber=18.0, core=true, t24Name=VALUE.DATE, mask="RDD DDD DDDD")
+    }
+    ND_DEAL__ADDL_REP_INFO
+    {
+/* Part of Regulatory Reporting info to a Trade Repository.
+Denotes the additional report info when the ACTION.TYPE is 'O'
+Input to this field is allowed only when OC module is installed
+Validation Rules:
+This is a conditionally mandatory field
+Value to be entered only when ACTION.TYPE is 'O' */
+        ADDL_REP_INFO : T24BusinessTypes:A
+            @i18n:Tooltip (en="Additional Rep Info")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=72.0, core=true, t24Name=ADDL.REP.INFO)
+    }
+    ND_DEAL__BENFICIARY_ADDR
+    {
+/* This field is used when the counterparty of the deal instructs us to pay funds to another party who does not have an account with us.
+If the beneficiary is known to us (i.e. there is a customer record), the beneficiary details should be entered in the BENEFICIARY.NO field. If unknown to us, details should be entered in this multi-value field.
+Validation Rules:
+
+Multi lines of 35 characters.
+Input is not allowed when a beneficiary number has been entered. */
+        BENFICIARY_ADDR : T24BusinessTypes:A
+            @i18n:Label (en="Benficiary Address")
+            @i18n:Tooltip (en="Beneficiary Address")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=32.0, core=true, t24Name=BENFICIARY.ADDR)
+    }
+    ND_DEAL__BK_TO_BK
+    {
+/* Provides instructions or additional information from the sending bank for the receiver, intermediary account with institution or beneficiary institution.   Any details input by the user will be relayed to the receiver.   Whenever this field is used in a message transmitted between countries with different languages, it is recommended that English is used.   This field corresponds to field 72 on SWIFT messages, and must never be used for information for which another field is intended, or for instructions not required in a message.
+Validation Rules:
+
+Up to 35 characters (uppercase alpha or numeric) - Type S. Multivalue field.
+If this field is used, the first multivalue must contain a code word followed by further information.
+All code words must be present on the SWIFT.CODE.WORDS files, and must be enclosed between slashes '/' at the beginning of the line.
+Further code words and information can be entered in subsequent       multivalues, but additional information continued on a new line must be preceded by double slashes '//'. */
+        BK_TO_BK : T24BusinessTypes:A
+            @i18n:Label (en="Bank to Bank")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=42.0, core=true, t24Name=BK.TO.BK)
+    }
+    ND_DEAL__CONF_NARR
+    {
+/* This field allows the user to enter free text narrative relating to the deal record.   Using SWIFT this information will appear on the Bank-to-Bank information field.
+Validation Rules:
+
+Multi lines of 35 characters. */
+        CONF_NARR : T24BusinessTypes:A
+            @i18n:Label (en="Confirmation Narrative")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=39.0, core=true, t24Name=CONF.NARR)
+    }
+    ND_DEAL__CONSOL_KEY
+    {
+/* Indicates the consolidation keys which have been generated for this contract.
+Validation Rules:
+
+System generated. The first four parameters will always contain the Application ID (i.e. ND), the Currency Market, the Position       Type and the Currency Code. The other parameters will default on the conditions defined in the file       CONSOLIDATE.COND. */
+        CONSOL_KEY : T24BusinessTypes:A
+            @i18n:Label (en="Consol Key")
+            @t24:i (align=L, inputBehaviour=N, maxLength=50, sysNumber=109.0, core=true, t24Name=CONSOL.KEY)
+    }
+    ND_DEAL__CPARTY_COR_ADD
+    {
+/* Identifies the bank to which the counterparty wishes the settlement amount to be paid. This will either be the bank of the counterparty or the bank of their nominated beneficiary.   If the bank is known to us (i.e. a customer record exists), details should be entered in the CPARTY.CORR.NO field. If not, the should be entered in this multi-valued field.
+Validation Rules:
+
+Multi lines of 35 character narrative.
+Input is not allowed when a correspondent number has been entered. */
+        CPARTY_COR_ADD : T24BusinessTypes:A
+            @i18n:Label (en="Cparty Cor Address")
+            @i18n:Tooltip (en="Counterparty Correspondent Address")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=34.0, core=true, t24Name=CPARTY.COR.ADD)
+    }
+    ND_DEAL__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=115.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    ND_DEAL__DEALER_NOTE
+    {
+/* This element allows the Dealer to record any special information or free form narrative on first level input which is referred to by the back office.   These details are for the benefit of the back office user.
+Validation Rules:
+
+Multi lines of 35 character narrative. */
+        DEALER_NOTE : T24BusinessTypes:A
+            @i18n:Label (en="Dealer Note")
+            @i18n:Tooltip (en="Allows the user to record free text information")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=51.0, core=true, t24Name=DEALER.NOTE)
+    }
+    ND_DEAL__DEAL_NOTE
+    {
+/* This element allows the user to record any special information or free form narrative. This narrative is for information only and will not be printed on the confirmation sent to the customer.   These notes are for the benefit of the back/front office department and as such will not be output on the confirmation sent to the CPARTY.
+Validation Rules:
+
+Multi lines of 35 character narrative. */
+        DEAL_NOTE : T24BusinessTypes:A
+            @i18n:Label (en="Deal Note")
+            @i18n:Tooltip (en="Allows the user to record any special information")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=50.0, core=true, t24Name=DEAL.NOTE)
+    }
+    ND_DEAL__EB_ACTIVITY
+    {
+        ADDRESSEE -> byValue FX_Contract:ND_DEAL__EB_ACTIVITY__ADDRESSEE *
+            @t24:i (t24Name=ADDRESSEE)
+/* Identifies the reference numbers allocated by Delivery for all payments, advices, messages sent by the NDF to the Delivery Application.
+Validation Rules:
+
+Content is automatically generated. */
+        DELIVERY_REF : T24BusinessTypes:A
+            @i18n:Label (en="Delivery Ref")
+            @i18n:Tooltip (en="System generated Delivery ref key")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=60.0, core=true, t24Name=DELIVERY.REF)
+/* Defines the delivery activity code.
+Validation Rules:
+
+No input. Updated automatically by system.
+Must be a valid activity code in EB.ACTIVITY table. */
+        EB_ACTIVITY -> EB_Delivery:EB_ACTIVITY
+            @i18n:Label (en="Eb Activity")
+            @i18n:Tooltip (en="Eb Activity")
+            @t24:i (align=L, inputBehaviour=N, maxLength=7, sysNumber=53.0, core=true, businessType=A, t24Name=EB.ACTIVITY)
+/* Identifies the message class. It is normally the name of a message that will be produced. (i.e. Confirmation, Advice, Payment)
+Validation Rules:
+
+No input. Updated automatically by system.
+Must be a valid message class in EB.MESSAGE.CLASS table. */
+        MESSAGE_CLASS -> EB_Delivery:EB_MESSAGE_CLASS
+            @i18n:Label (en="Message Class")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=55.0, core=true, businessType=A, t24Name=MESSAGE.CLASS)
+/* Identifies the message type, and should generally be the same as the SWIFT message number corresponding to the same type of  transaction.
+Validation Rules:
+
+No input. Updated automatically by system.
+Must be a valid message type in DE.MESSAGE table. */
+        MESSAGE_TYPE -> DE_Config:DE_MESSAGE
+            @i18n:Label (en="Message Type")
+            @i18n:Tooltip (en="Delivery message types generated for this record")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=54.0, core=true, t24Name=MESSAGE.TYPE)
+/* Specify override carrier.
+Validation Rules:
+
+No input. */
+        OVR_CARRIER : T24BusinessTypes:A
+            @i18n:Label (en="Ovr Carrier")
+            @i18n:Tooltip (en="Override Carrier")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=56.0, core=true, t24Name=OVR.CARRIER)
+        /* Specify sending date. This can be treated as schedule date for confirmation or payment to be sent out. */
+        SEND_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Send Date")
+            @i18n:Tooltip (en="Send Date")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=57.0, core=true, t24Name=SEND.DATE)
+/* Indicates a YES/NO flag to indicate whether the message should be sent.
+Validation Rules:
+
+A maximum of 3 characters may be entered.
+The following values are permitted: YES  NO */
+        SEND_MESSAGE : FX_Contract:ND_DEAL__EB_ACTIVITY__SEND_MESSAGE
+            @i18n:Label (en="Send Message?")
+            @i18n:Tooltip (en="Send Message?")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=59.0, core=true, t24Name=SEND.MESSAGE)
+    }
+    ND_DEAL__EB_ACTIVITY__ADDRESSEE
+    {
+/* Free text for addressee. If input, the message will be re-route using the addressee value instead of counterparty's address.
+Validation Rules:
+
+Rule 1
+Rule 2 */
+        ADDRESSEE : T24BusinessTypes:A
+            @i18n:Label (en=Addressee)
+            @i18n:Tooltip (en=Addressee)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=58.0, core=true, t24Name=ADDRESSEE)
+    }
+    ND_DEAL__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=114.0, core=true, t24Name=INPUTTER)
+    }
+    ND_DEAL__INTERMED_ADD
+    {
+/* Identifies any intermediary bank involved in the transaction and will be specified by the counterparty.   If the intermediary is known to us (i.e. their is an associated customer record), the customer number of the intermediary bank should be entered in the INTERMED.BK.NO field. If not, details should be entered in this field.
+Validation Rules:
+
+Multi lines of 35 characters.
+Input in this field is not allowed when details have been entered in the intermediary bank number field.
+Input will only be allowed if details of the correspondent have been entered. */
+        INTERMED_ADD : T24BusinessTypes:A
+            @i18n:Label (en="Intermed Address")
+            @i18n:Tooltip (en="Intermed Address")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=38.0, core=true, t24Name=INTERMED.ADD)
+    }
+    ND_DEAL__INT_FLD_ID
+    {
+/* A multi-value pair to capture the external reference for the equivalent record in another system Eg.TAP
+This field is used to enter the identifier field name from other Temenos products
+Validation Rules:
+Mandatory if INT.FLD.VAL is present */
+        INT_FLD_ID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=93.0, core=true, t24Name=INT.FLD.ID)
+/* A multi-value pair to capture the external reference for the equivalent record in another system Eg.TAP
+This field is used to enter the value of the field from another Temenos Products
+Validation Rules:
+INT.FLD.ID field must be present if this field is input */
+        INT_FLD_VAL : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=94.0, core=true, t24Name=INT.FLD.VAL)
+    }
+    ND_DEAL__OVERRIDE
+    {
+        /* Keep any override message raised during input or amendment. */
+        OVERRIDE : T24BusinessTypes:A
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=111.0, core=true, t24Name=OVERRIDE)
+    }
+    ND_DEAL__PAYMNT_NARR
+    {
+/* This field allows the user to enter free text narrative which is to appear on payments relating to the deal record.   It will also be part of the Bank to Bank information printed on the confirmation sent to the CPARTY except if overridden by another narrative.
+Validation Rules:
+
+Multi lines of 35 characters. */
+        PAYMNT_NARR : T24BusinessTypes:A
+            @i18n:Label (en="Payment Narrative")
+            @i18n:Tooltip (en="Payment Narrative")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=40.0, core=true, t24Name=PAYMNT.NARR)
+    }
+    ND_DEAL__REC_ADV_NARR
+    {
+/* This field allows the user to enter free text narrative which is to appear on the advice to receive relating to the deal record.   It will also be part of the Bank to Bank information printed on the confirmation sent to the CPARTY except if overridden by another narrative.
+Validation Rules:
+
+Multi lines of 35 characters. */
+        REC_ADV_NARR : T24BusinessTypes:A
+            @i18n:Label (en="Receiver Advice Narrative")
+            @i18n:Tooltip (en="Narrative to appear on the advice to receive")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=41.0, core=true, t24Name=REC.ADV.NARR)
+    }
+    ND_DEAL__STMT_NO
+    {
+        /* A number generated automatically by the system which identifies either a statement entry or a category entry in respect of a contract. */
+        STMT_NO : T24BusinessTypes:A
+            @i18n:Label (en="Statement number")
+            @t24:i (align=L, inputBehaviour=N, maxLength=20, sysNumber=110.0, core=true, t24Name=STMT.NO)
+    }
+    NEGOTIATED_DEAL
+        @i18n:Description (en="")
+        @t24:i (t24Name=NEGOTIATED.DEAL, level=F, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* Standard T24 numeric field.
+Validation Rules:
+Must be the key to a valid entry on the CURRENCY file. */
+        CURRENCY_1 -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en=Ccy)
+            @t24:i (align=R, inputBehaviour=I, maxLength=0, sysNumber=5.0, core=true, t24Name=CURRENCY.1)
+/* Standard T24 numeric field.
+Validation Rules:
+Must be the key to a valid entry on the CURRENCY file. */
+        CURRENCY_2 -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en=Ccy)
+            @t24:i (align=R, inputBehaviour=I, maxLength=0, sysNumber=6.0, core=true, t24Name=CURRENCY.2)
+        CURRENCY_AMOUNT_1 : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=0, sysNumber=12.0, core=true, t24Name=CURRENCY.AMOUNT.1)
+        CURRENCY_AMOUNT_2 : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=0, sysNumber=13.0, core=true, t24Name=CURRENCY.AMOUNT.2)
+/* Standard T24 numeric field.
+Validation Rules:
+Must be the key to a valid entry on the CURRENCY.MARKET file. */
+        CURRENCY_MARKET -> ST_CurrencyConfig:CURRENCY_MARKET
+            @i18n:Label (en=Market)
+            @t24:i (align=R, inputBehaviour=I, maxLength=0, sysNumber=1.0, core=true, t24Name=CURRENCY.MARKET)
+/* Standard T24 numeric field.
+Validation Rules:
+Must be the key to a valid entry on the DEALER.DESK file. */
+        DEALER_DESK -> ST_Config:DEALER_DESK
+            @i18n:Label (en="Dealer Desk")
+            @i18n:Tooltip (en="Specifies the Dealer Desk handling the transaction")
+            @t24:i (align=R, inputBehaviour=I, maxLength=0, sysNumber=4.0, core=true, t24Name=DEALER.DESK)
+        DEPARTMENT_CODE : T24BusinessTypes:N
+            @i18n:Label (en="Department Code")
+            @t24:i (align=R, inputBehaviour=I, maxLength=0, sysNumber=10.0, core=true, t24Name=DEPARTMENT.CODE)
+        LOCAL_AMOUNT_1 : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=0, sysNumber=14.0, core=true, t24Name=LOCAL.AMOUNT.1)
+        LOCAL_AMOUNT_2 : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=0, sysNumber=15.0, core=true, t24Name=LOCAL.AMOUNT.2)
+/* Standard T24 alphanumeric field.
+Validation Rules:
+Mandatory input.
+A maximum of 14 characters may be entered. */
+        NEGOTIATED_DEAL -> FX_Contract:NEGOTIATED_DEAL PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=14, sysNumber=0.0, core=true, businessType=A, t24Name=NEGOTIATED.DEAL)
+        NE_REFERENCE -> byValue FX_Contract:NEGOTIATED_DEAL__NE_REFERENCE *
+            @t24:i (t24Name=NE.REFERENCE)
+/* Standard T24 numeric field.
+Validation Rules:
+Must be the key to a valid entry on the FX.POS.TYPE file. */
+        POSITION_TYPE_1 -> RE_Config:FX_POS_TYPE
+            @t24:i (align=R, inputBehaviour=I, maxLength=0, sysNumber=2.0, core=true, t24Name=POSITION.TYPE.1)
+/* Standard T24 numeric field.
+Validation Rules:
+Must be the key to a valid entry on the FX.POS.TYPE file. */
+        POSITION_TYPE_2 -> RE_Config:FX_POS_TYPE
+            @t24:i (align=R, inputBehaviour=I, maxLength=0, sysNumber=3.0, core=true, t24Name=POSITION.TYPE.2)
+        RATE : T24BusinessTypes:N
+            @i18n:Label (en=Rate)
+            @i18n:Tooltip (en="Rate at which dividend/coupon is being paid")
+            @t24:i (align=R, inputBehaviour=I, maxLength=0, sysNumber=11.0, core=true, t24Name=RATE)
+        REFERENCE_NO : T24BusinessTypes:N
+            @i18n:Label (en="Reference No")
+            @i18n:Tooltip (en="Unique reference which identifies the transaction")
+            @t24:i (align=R, inputBehaviour=I, maxLength=0, sysNumber=9.0, core=true, t24Name=REFERENCE.NO)
+        TIME_DATE : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=0, sysNumber=16.0, core=true, t24Name=TIME.DATE)
+        VALUE_DATE_1 : T24BusinessTypes:D
+            @i18n:Label (en="Value Date")
+            @t24:i (align=R, inputBehaviour=I, maxLength=0, sysNumber=7.0, core=true, t24Name=VALUE.DATE.1)
+        VALUE_DATE_2 : T24BusinessTypes:D
+            @i18n:Label (en="Value Date")
+            @t24:i (align=R, inputBehaviour=I, maxLength=0, sysNumber=8.0, core=true, t24Name=VALUE.DATE.2)
+    }
+    NEGOTIATED_DEAL__NE_REFERENCE
+    {
+        NE_CCY_AMOUNT_1 : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=0, sysNumber=18.0, core=true, t24Name=NE.CCY.AMOUNT.1)
+        NE_CCY_AMOUNT_2 : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=0, sysNumber=19.0, core=true, t24Name=NE.CCY.AMOUNT.2)
+        NE_LOCAL_AMT_1 : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=0, sysNumber=20.0, core=true, t24Name=NE.LOCAL.AMT.1)
+        NE_LOCAL_AMT_2 : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=0, sysNumber=21.0, core=true, t24Name=NE.LOCAL.AMT.2)
+        NE_REFERENCE : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=0, sysNumber=17.0, core=true, t24Name=NE.REFERENCE)
+        NE_TIME_DATE : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=0, sysNumber=22.0, core=true, t24Name=NE.TIME.DATE)
+    }
+    TXN_ND_COUNTERPARTY
+        @i18n:Description (en="")
+        @t24:i (t24Name=TXN.ND.COUNTERPARTY, level=F, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        COUNTERPARTY_ID -> FX_Contract:TXN_ND_COUNTERPARTY PK required
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=0.0, core=true, businessType=CUS, t24Name=COUNTERPARTY.ID)
+        NDF_DEAL -> byValue FX_Contract:TXN_ND_COUNTERPARTY__NDF_DEAL *
+            @t24:i (t24Name=NDF.DEAL)
+    }
+    TXN_ND_COUNTERPARTY__NDF_DEAL
+    {
+        NDF_DEAL : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=1.0, core=true, t24Name=NDF.DEAL)
+    }
+}
+Enumerations {
+    FOREX__ACTION_TYPE : mml:string
+        C=C
+        E=E
+        M=M
+        N=N
+        O=O
+        Z=Z
+    FOREX__ALLOCATION : mml:string
+        ALLOC=ALLOC
+        UNALL=UNALL
+    FOREX__AMORTISE_POSITION : mml:string
+        BOTH=BOTH
+        NO=NO
+        Y=Y
+    FOREX__BULK_DEAL : mml:string
+        Y=Y
+    FOREX__CLS_DEAL : mml:string
+        NO=NO
+        YES=YES
+    FOREX__COLLATERALISATION : mml:string
+        FC=FC
+        OC=OC
+        PC=PC
+        U=U
+    FOREX__COLLAT_PORT_IND : mml:string
+        N=N
+        Y=Y
+    FOREX__CONF_BY_CPARTY : mml:string
+        ONESIDED=ONESIDED
+    FOREX__CORR_AMEND_MKR : mml:string
+        AMEND=AMEND
+        CORRECT=CORRECT
+    FOREX__CP_TRADE_PURPOSE : mml:string
+        NO=NO
+        YES=YES
+    FOREX__DEAL_SUB_TYPE : mml:string
+        BR=BR
+        IN=IN
+        NE=NE
+    FOREX__DEAL_TYPE : mml:string
+        FW=FW
+        SP=SP
+        SW=SW
+    FOREX__DELIVERY_DETAILS : mml:string
+        CFR=CFR
+        CIF=CIF
+        CIP=CIP
+        CPT=CPT
+        DAF=DAF
+        DDP=DDP
+        DDU=DDU
+        DEQ=DEQ
+        DES=DES
+        DTD=DTD
+        EXW=EXW
+        FAS=FAS
+        FCA=FCA
+        FOB=FOB
+        LOC=LOC
+        OTH=OTH
+    FOREX__FED_FUNDS : mml:string
+        C=C
+        F=F
+    FOREX__FTT_COLL_CPTY_TAX : mml:string
+        NO=NO
+        YES=YES
+    FOREX__FURTHER_INDENT : mml:string
+        DELIVERY=DELIVERY
+        TRANSFER=TRANSFER
+    FOREX__FWD_FWD_SWAP : mml:string
+        NO=NO
+        YES=YES
+    FOREX__INT_BASIS_BOUGHT : mml:string
+        A=A
+        B=B
+        C=C
+        D=D
+        E=E
+        F=F
+    FOREX__INT_BASIS_SOLD : mml:string
+        A=A
+        B=B
+        C=C
+        D=D
+        E=E
+        F=F
+    FOREX__METAL_TYPE : mml:string
+        ALUM=ALUM
+        COPP=COPP
+        GOLD=GOLD
+        IRID=IRID
+        LEAD=LEAD
+        NICK=NICK
+        OSMI=OSMI
+        OTHR=OTHR
+        PALL=PALL
+        PLAT=PLAT
+        RHOD=RHOD
+        RUTH=RUTH
+        SILV=SILV
+        STEE=STEE
+        TINA=TINA
+        TITA=TITA
+        ZINC=ZINC
+    FOREX__NETTING_STATUS : mml:string
+        N=N
+        Y=Y
+    FOREX__NON_STND_FLAG : mml:string
+        N=N
+        Y=Y
+    FOREX__OLD_INT_RATE_CALC : mml:string
+        YES=YES
+    FOREX__OUR_ACCOUNT_PAY__STATUS : mml:string
+        FWD=FWD
+        MAT=MAT
+        REV=REV
+        SPT=SPT
+    FOREX__PORT_COMPRESSION : mml:string
+        N=N
+        Y=Y
+    FOREX__PVP_SETTLEMENT : mml:string
+        N=N
+        Y=Y
+    FOREX__QUANTITY : mml:string
+        FOZ=FOZ
+        GOZ=GOZ
+        GRM=GRM
+        KLO=KLO
+        LOT=LOT
+        OTH=OTH
+        PND=PND
+        TAL=TAL
+        TOL=TOL
+        TON=TON
+        TOZ=TOZ
+        UNT=UNT
+    FOREX__REALISE_FIX_PL : mml:string
+        Y=Y
+    FOREX__SEND_ADVICE : mml:string
+        HOLD=HOLD
+        NORMAL=NORMAL
+        PRIORITY=PRIORITY
+        URGENT=URGENT
+    FOREX__SEND_CONFIRMATION : mml:string
+        HOLD=HOLD
+        NORMAL=NORMAL
+        ONESIDED=ONESIDED
+        PRIORITY=PRIORITY
+        URGENT=URGENT
+    FOREX__SEND_PAYMENT : mml:string
+        HOLD=HOLD
+        NORMAL=NORMAL
+        PRIORITY=PRIORITY
+        URGENT=URGENT
+    FOREX__SOD_MAT : mml:string
+        NO=NO
+        YES=YES
+    FOREX__SWAP_PL_FWD_POS : mml:string
+        NO=NO
+        YES=YES
+    FOREX__SYEXVAL : mml:string
+        NO=NO
+        YES=YES
+    FOREX__TREASURY_CUSTOMER : mml:string
+        NO=NO
+    FOREX__UNEVEN_SWAP : mml:string
+        N=N
+        Y=Y
+    FX_TRANSACTION__LONG_POS_SIGN : mml:string
+        MINUS=MINUS
+        PLUS=PLUS
+    ND_DEAL__ACTION_TYPE : mml:string
+        C=C
+        E=E
+        M=M
+        N=N
+        O=O
+        Z=Z
+    ND_DEAL__BUY_SELL_IND : mml:string
+        BUY=BUY
+        SELL=SELL
+    ND_DEAL__COLLATERALISATION : mml:string
+        FC=FC
+        OC=OC
+        PC=PC
+        U=U
+    ND_DEAL__COLLAT_PORT_IND : mml:string
+        N=N
+        Y=Y
+    ND_DEAL__CP_TRADE_PURPOSE : mml:string
+        NO=NO
+        YES=YES
+    ND_DEAL__EB_ACTIVITY__SEND_MESSAGE : mml:string
+        NO=NO
+        YES=YES
+    ND_DEAL__FTT_COLL_CPTY_TAX : mml:string
+        NO=NO
+        YES=YES
+    ND_DEAL__NDF_METHOD : mml:string
+        FIXED=FIXED
+        OPTION=OPTION
+    ND_DEAL__NON_STND_FLAG : mml:string
+        N=N
+        Y=Y
+    ND_DEAL__OC_CLG_STATUS : mml:string
+        ACCEPTED=ACCEPTED
+        BILATERAL=BILATERAL
+        CLEARED=CLEARED
+        REJECTED=REJECTED
+        SUBMITTED=SUBMITTED
+        TERMINATED=TERMINATED
+    ND_DEAL__PORT_COMPRESSION : mml:string
+        N=N
+        Y=Y
+    ND_DEAL__STATUS : mml:string
+        FIX=FIX
+        MAT=MAT
+        OPN=OPN
+        REV=REV
+}

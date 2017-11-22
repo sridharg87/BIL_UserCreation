@@ -1,0 +1,1574 @@
+# UTF-8
+/* Framework of Origination Architecture */
+Domain OA_Framework
+    @t24:i (module=OA)
+    @java:Package (value=com.temenos.t24.datamodel.oa.oa_framework)
+namespace "http://www.temenos.com/t24/OA_Framework"
+metamodelVersion 1.30.6
+Classes {
+    OA_APPLICATION
+        @i18n:Description (en="")
+        @t24:i (t24Name=OA.APPLICATION, level=F, type=H, allowedFunctions="A C D E H I L P Q S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=30.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=31.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=27.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=28.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=24.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue OA_Framework:OA_APPLICATION__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=29.0, core=true, t24Name=DEPT.CODE)
+        DOMAIN_CLASS -> byValue OA_Framework:OA_APPLICATION__DOMAIN_CLASS *
+            @t24:i (t24Name=DOMAIN.CLASS)
+        INPUTTER -> byValue OA_Framework:OA_APPLICATION__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        K_TYPE -> byValue OA_Framework:OA_APPLICATION__K_TYPE *
+            @t24:i (t24Name=K.TYPE)
+        OA_APPLICATION_ID -> OA_Framework:OA_APPLICATION PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=OA.APPLICATION.ID)
+        OVERRIDE -> byValue OA_Framework:OA_APPLICATION__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        PURPOSE -> byValue OA_Framework:OA_APPLICATION__PURPOSE *
+            @t24:i (t24Name=PURPOSE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=23.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=20.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=11.0, core=true, t24Name=RESERVED.10)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=19.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=17.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.9)
+    }
+    OA_APPLICATION_CATALOG
+        @i18n:Description (en="")
+        @t24:i (t24Name=OA.APPLICATION.CATALOG, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        ACTION : OA_Framework:OA_APPLICATION_CATALOG__ACTION
+            @i18n:Label (en=Action)
+            @t24:i (align=L, inputBehaviour=I, maxLength=7, sysNumber=12.0, core=true, t24Name=ACTION)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=39.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=40.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=36.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=37.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=33.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue OA_Framework:OA_APPLICATION_CATALOG__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEFINITION_VERSION : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=N, maxLength=5, sysNumber=19.0, core=true, t24Name=DEFINITION.VERSION)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=38.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue OA_Framework:OA_APPLICATION_CATALOG__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        DOMAIN_CLASS -> byValue OA_Framework:OA_APPLICATION_CATALOG__DOMAIN_CLASS *
+            @t24:i (t24Name=DOMAIN.CLASS)
+        EXPIRY_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Expiry Date")
+            @i18n:Tooltip (en="Indicates the Expiry Date of the Transaction")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=13.0, core=true, t24Name=EXPIRY.DATE)
+        FULL_DESC -> byValue OA_Framework:OA_APPLICATION_CATALOG__FULL_DESC *
+            @t24:i (t24Name=FULL.DESC)
+        INPUTTER -> byValue OA_Framework:OA_APPLICATION_CATALOG__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        OA_APP_PURPOSE -> OA_Framework:OA_APPLICATION_CATALOG PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=OA.APP.PURPOSE)
+        OVERRIDE -> byValue OA_Framework:OA_APPLICATION_CATALOG__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        PARENT_PURPOSE -> OA_Framework:OA_PURPOSE
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=3.0, core=true, businessType=ANY, t24Name=PARENT.PURPOSE)
+        PUBLISH_ERROR -> byValue OA_Framework:OA_APPLICATION_CATALOG__PUBLISH_ERROR *
+            @t24:i (t24Name=PUBLISH.ERROR)
+        PUBLISH_STATUS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=PUBLISH.STATUS)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=32.0, core=true, t24Name=RECORD.STATUS)
+        REFERENCE : T24BusinessTypes:ANY
+            @i18n:Label (en="Search by Referece")
+            @t24:i (align=L, inputBehaviour=N, maxLength=25, sysNumber=17.0, core=true, t24Name=REFERENCE)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=29.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=20.0, core=true, t24Name=RESERVED.10)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=28.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=27.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=26.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=25.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=24.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=23.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=22.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=21.0, core=true, t24Name=RESERVED.9)
+        VERSION : T24BusinessTypes:ANY
+            @i18n:Label (en=Version)
+            @t24:i (align=L, inputBehaviour=N, maxLength=5, sysNumber=18.0, core=true, t24Name=VERSION)
+    }
+    OA_APPLICATION_CATALOG__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=35.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    OA_APPLICATION_CATALOG__DESCRIPTION
+    {
+        DESCRIPTION : T24BusinessTypes:ANY required
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    OA_APPLICATION_CATALOG__DOMAIN_CLASS
+    {
+        DOMAIN_CLASS -> OA_Framework:OA_DOMAIN_CLASS
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=4.0, core=true, businessType=ANY, t24Name=DOMAIN.CLASS)
+        DOMAIN_TYPE -> byValue OA_Framework:OA_APPLICATION_CATALOG__DOMAIN_CLASS__DOMAIN_TYPE *
+            @t24:i (t24Name=DOMAIN.TYPE)
+        MAXIMUM_ROLE : T24BusinessTypes:RR
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=7.0, core=true, t24Name=MAXIMUM.ROLE)
+        MINIMUM_ROLE : T24BusinessTypes:RR
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=6.0, core=true, t24Name=MINIMUM.ROLE)
+        ROLE -> AA_Customer:AA_CUSTOMER_ROLE
+            @i18n:Label (en=Role)
+            @i18n:Tooltip (en="Roles are user defined and specified in EB.LOOKUP")
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=5.0, core=true, businessType=ANY, t24Name=ROLE)
+    }
+    OA_APPLICATION_CATALOG__DOMAIN_CLASS__DOMAIN_TYPE
+    {
+        DOMAIN_TYPE -> OA_Framework:OA_DOMAIN_TYPE
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=8.0, core=true, businessType=ANY, t24Name=DOMAIN.TYPE)
+        FORM -> OA_Framework:OA_FORM
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=11.0, core=true, businessType=ANY, t24Name=FORM)
+        MAX_DOMAIN_PART : T24BusinessTypes:RR
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=10.0, core=true, t24Name=MAX.DOMAIN.PART)
+        MIN_DOMAIN_PART : T24BusinessTypes:RR
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=9.0, core=true, t24Name=MIN.DOMAIN.PART)
+    }
+    OA_APPLICATION_CATALOG__FULL_DESC
+    {
+        FULL_DESC : T24BusinessTypes:ANY
+            @i18n:Label (en="Full Description")
+            @i18n:Tooltip (en="Detailed Description ")
+            @t24:i (align=L, inputBehaviour=I, maxLength=60, multiLanguage=true, sysNumber=2.0, core=true, t24Name=FULL.DESC)
+    }
+    OA_APPLICATION_CATALOG__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=34.0, core=true, t24Name=INPUTTER)
+    }
+    OA_APPLICATION_CATALOG__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=31.0, core=true, t24Name=OVERRIDE)
+    }
+    OA_APPLICATION_CATALOG__PUBLISH_ERROR
+    {
+        ERROR_SUGGESTION : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=ERROR.SUGGESTION)
+        PUBLISH_ERROR : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=PUBLISH.ERROR)
+    }
+/* This is the main design time table for defining an Application
+The Definition of an application is a process that indicates which DOMAIN.CLASSES applies for the PURPOSE indicated in the ID of the definition and The ROLE assumed by each applicable DOMAIN.CLASS .
+
+The Minimum  required and Maximum allowed are specified for each role ( or for each domain class because it is the domain class that assumes the role)
+For every DOMAIN.CLASS identified, the application definition gives a list of applicable DOMAIN.TYPES therein under this PURPOSE and for every DOMAIN.TYPE listed the definition also indicates the single applicable FORM to be used for it under this PURPOSE.
+The minimum required and Maximum allowed for each Domain Type are also specified for every Domain Type listed under the Domain class.
+The authorisation of the Application Definition updates the EXPIRY.DATE and the STATUS field of OA.PURPOSE. The expiry date of OA.PURPOSE.TYPE will be set to the expiry date of OA.APPLICATION.DEFINITION and the  value of the status field of OA.PURPOSE.TYPE will be DESIGN or CATALOG depending on whether OA.APPLICATION.DEFINITION is simply being authorised or authorised with ACTION field  set to PUBLISH.
+After the Application Definition is successfully published a catalog of application will be available in OA.APPLICATION.CATALOG listing cataloged forms that target the defined purpose.
+So the Application Definition process brings together the forms, domain and purpose */
+    OA_APPLICATION_DEFINITION
+        @i18n:Description (en="")
+        @t24:i (t24Name=OA.APPLICATION.DEFINITION, level=I, type=H, allowedFunctions="A C D E H I L P Q S", localRefAllowed=true)
+    {
+/* This field indicates which action will be performed after the record is authorised
+2)Optional Input
+3) Validation Rules
+a. Allowed values are Null of PUBLISH : If action is null the definition is simply being saved on file after authorization and the corresponding PURPOSE.TYPE will have the status of DESIGN and the EXPIRY.DATE as specified in the definition. If action of PUBLISH is specified , it will have the effect of updating the OA.PURPOSE.TYPE table with STATUS of CATALOG and EXPIRY.DATE as specified in the EXPIRY.DATE field and the application definition record will be copied to OA.APPLICATION.CATALOG table.
+b.T24 string Input */
+        ACTION : OA_Framework:OA_APPLICATION_DEFINITION__ACTION
+            @i18n:Label (en=Action)
+            @t24:i (align=L, inputBehaviour=I, maxLength=7, sysNumber=12.0, core=true, t24Name=ACTION)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=39.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=40.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=36.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=37.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=33.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue OA_Framework:OA_APPLICATION_DEFINITION__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEFINITION_VERSION : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=N, maxLength=5, sysNumber=19.0, core=true, t24Name=DEFINITION.VERSION)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=38.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue OA_Framework:OA_APPLICATION_DEFINITION__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        DOMAIN_CLASS -> byValue OA_Framework:OA_APPLICATION_DEFINITION__DOMAIN_CLASS *
+            @t24:i (t24Name=DOMAIN.CLASS)
+/* This is the date beyond which the PURPOSE represented by the ID of this record can no longer be used for an OA Application
+2)Optional Input
+3) Validation Rules
+a. Date provided should be in the future.
+b.T24 Date Input */
+        EXPIRY_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Expiry Date")
+            @i18n:Tooltip (en="Indicates the Expiry Date of the Transaction")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=13.0, core=true, t24Name=EXPIRY.DATE)
+        FULL_DESC -> byValue OA_Framework:OA_APPLICATION_DEFINITION__FULL_DESC *
+            @t24:i (t24Name=FULL.DESC)
+        INPUTTER -> byValue OA_Framework:OA_APPLICATION_DEFINITION__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        OA_APP_PURPOSE -> OA_Framework:OA_APPLICATION_DEFINITION PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=OA.APP.PURPOSE)
+        OVERRIDE -> byValue OA_Framework:OA_APPLICATION_DEFINITION__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+/* A key feature of the Product Builder in AA is Product inheritance.  This allows for the creation of product families where derivatives of a generic product or sub-product can be quickly created by simply defining the delta (in terms of product conditions) between the new and existing product.  The same concept has been implemented in OA.APPLICATION.DEFINITION. This means that we can have a generic purpose further refined into more specific ones. Hence definition can be inherited from the parent purpose, grandparent purpose, etc.
+
+When a purpose is a derivative of another purpose, the purpose  immediately above it in the hierarchy of purposes may be stated in this field. The resolving of hierarchy would only happen during Proofing process and the resultant published record would have the full purpose structure of both the parent and the current definition.
+
+Validation rule:
+
+Should be a valid id in OA.PURPOSE.TYPE
+The field cannot be changed for subsequent version of the record records. */
+        PARENT_PURPOSE -> OA_Framework:OA_PURPOSE
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=3.0, core=true, businessType=ANY, t24Name=PARENT.PURPOSE)
+        PUBLISH_ERROR -> byValue OA_Framework:OA_APPLICATION_DEFINITION__PUBLISH_ERROR *
+            @t24:i (t24Name=PUBLISH.ERROR)
+/* This field will contain the result of the publishing effort
+1) Validation Rules
+a. Non Input.
+b. System Maintained
+c. Allowed values are : Completed Successfully or Completed with Errors */
+        PUBLISH_STATUS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=PUBLISH.STATUS)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=32.0, core=true, t24Name=RECORD.STATUS)
+/* This field indicates the name of the Definition Manager Object. The Nature of the Object depends on the CLASS.TYPE that the object uses. For Example if the class type is PROPERTY.CLASS , the object will be a PRODUCT .If the class type is FORMLET.CLASS the object will be a FORM
+1) Validation Rules
+a. Non Input.
+b. System Maintained. Based on the ID of the Definition Manager record .The part between the first "-" character and the Second '-' character in the ID is the REFERENCE
+c. Input should be a valid AA.CLASS.TYPE record */
+        REFERENCE : T24BusinessTypes:ANY
+            @i18n:Label (en="Search by Referece")
+            @t24:i (align=L, inputBehaviour=N, maxLength=25, sysNumber=17.0, core=true, t24Name=REFERENCE)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=29.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=20.0, core=true, t24Name=RESERVED.10)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=28.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=27.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=26.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=25.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=24.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=23.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=22.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=21.0, core=true, t24Name=RESERVED.9)
+/* A Purpose is Versionned . This means that more than one version of the same exist in the system. Depending on the nature of the object, updates may be performed on existing version without the need to advance the object to its NEXT VERSION in the sequence.
+1) Validation Rules
+a. Non Input.
+b. System Maintained. Based on the ID of the Definition Manager record .The part between the second "-" character and the third '-' character in the ID is the VERSION */
+        VERSION : T24BusinessTypes:ANY
+            @i18n:Label (en=Version)
+            @t24:i (align=L, inputBehaviour=N, maxLength=5, sysNumber=18.0, core=true, t24Name=VERSION)
+    }
+    OA_APPLICATION_DEFINITION__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=35.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    OA_APPLICATION_DEFINITION__DESCRIPTION
+    {
+/* The Full Description of the class type.
+
+1)1 to 35 alphanumeric characters Multivalue field Multilanguage Mandatory Input */
+        DESCRIPTION : T24BusinessTypes:ANY required
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    OA_APPLICATION_DEFINITION__DOMAIN_CLASS
+    {
+/* This Field indicates the DOMAIN.CLASS that is deemed relevant for the current PURPOSE (current record ID) . The Domain Class is High Level grouping or Category of information that features on the FORM. Every Group or DOMAIN.CLASS assumes a ROLE indicated in the ROLE field and has one or more sub-categories (sub-groups) known as DOMAIN.TYPE
+
+1)Associated Multivalue Field beginning with DOMAIN.CLASS, including ROLE , MINIMUM.ROLE, MAXIMUM.ROLE, DOMAIN.TYPE , MIN.DOMAIN.PART , MAX.DOMAIN.PART and ending with FORM
+2)Mandatory Input
+3)Input in this field should be a valid value in the table OA.DOMAIN.CLASS */
+        DOMAIN_CLASS -> OA_Framework:OA_DOMAIN_CLASS
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=4.0, core=true, businessType=ANY, t24Name=DOMAIN.CLASS)
+        DOMAIN_TYPE -> byValue OA_Framework:OA_APPLICATION_DEFINITION__DOMAIN_CLASS__DOMAIN_TYPE *
+            @t24:i (t24Name=DOMAIN.TYPE)
+/* This field specifies the allowed maximum total of  entities that may assume the ROLE indicated in the  associated ROLE field on a loan application
+1)Associated Multivalue Field beginning with DOMAIN.CLASS, including ROLE , MINIMUM.ROLE, MAXIMUM.ROLE, DOMAIN.TYPE , MIN.DOMAIN.PART , MAX.DOMAIN.PART and ending with FORM
+2)Optional Input
+3) Validation Rules
+a.T24 Numeric Input
+b. The Value in this field should be greater or equal to the sum of values of all the MAX.DOMAIN.PART sub-values fields associated with all DOMAIN.TYPE of the associated DOMAIN.CLASS */
+        MAXIMUM_ROLE : T24BusinessTypes:RR
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=7.0, core=true, t24Name=MAXIMUM.ROLE)
+/* This field specifies the required minimum entities that should assume the ROLE specified in the associated ROLE field on an application
+1)Associated Multivalue Field beginning with DOMAIN.CLASS, including ROLE , MINIMUM.ROLE, MAXIMUM.ROLE, DOMAIN.TYPE , MIN.DOMAIN.PART , MAX.DOMAIN.PART and ending with FORM
+2)Optional Input
+3) Validation Rules
+a.T24 Numeric Input
+b. The Value in this field should be less or equal to the sum of values of all the MIN.DOMAIN.PART sub-values fields associated with all DOMAIN.TYPE of the associated DOMAIN.CLASS */
+        MINIMUM_ROLE : T24BusinessTypes:RR
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=6.0, core=true, t24Name=MINIMUM.ROLE)
+/* A loan application Purpose requires that one or more entities fills-in the application form or simply that information is recorded about one or more entities.
+All entities filling-in the form (or about whom information is recorded on the form) do not necessarily assume the same role in the application process.Some may play the more prominent role of Main Applicant while some other will be co-applicant , guarrantor etc.
+The High level group or category of information recorded on the application is referred to in OA as a Domain Class. It can also be understood as information about an entity group. The entity group assumes a distinct ROLE in the application process. The role assumed by the entity group is recorded in the ROLE field and the distinc entities part of this entity group are indicated in the DOMAIN.TYPE field.
+1)Associated Multivalue Field beginning with DOMAIN.CLASS, including ROLE , MINIMUM.ROLE, MAXIMUM.ROLE, DOMAIN.TYPE , MIN.DOMAIN.PART , MAX.DOMAIN.PART and ending with FORM
+2)Mandatory Input
+3) Validation Rules
+a. Must be a valid record ID in the table AA.CUSTOMER.ROLE */
+        ROLE -> AA_Customer:AA_CUSTOMER_ROLE
+            @i18n:Label (en=Role)
+            @i18n:Tooltip (en="Roles are user defined and specified in EB.LOOKUP")
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=5.0, core=true, businessType=ANY, t24Name=ROLE)
+    }
+    OA_APPLICATION_DEFINITION__DOMAIN_CLASS__DOMAIN_TYPE
+    {
+/* This Field indicates one or more DOMAIN.TYPE that is a Sub-Class  of the associated DOMAIN.CLASS for the current PURPOSE record (current record ID) . The Domain Type is  a Sub-Grouping of a Domain Class and represent a particular type of information included under the broad category that is the Domain Class. The FORM to be used for recording this particular type of information for the current purpose is therefore directly linked to the DOMAIN.TYPE in the associated FORM field
+
+1)Associated Multivalue Field beginning with DOMAIN.CLASS, including ROLE , MINIMUM.ROLE, MAXIMUM.ROLE, DOMAIN.TYPE , MIN.DOMAIN.PART , MAX.DOMAIN.PART and ending with FORM
+2)Non Mandatory Input
+3)Input in this field should be a valid value in the table OA.DOMAIN.TYPE */
+        DOMAIN_TYPE -> OA_Framework:OA_DOMAIN_TYPE
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=8.0, core=true, businessType=ANY, t24Name=DOMAIN.TYPE)
+        FORM -> OA_Framework:OA_FORM
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=11.0, core=true, businessType=ANY, t24Name=FORM)
+/* This field specifies the maximum allowed number of entities that should be of the type indicated in the associated DOMAIN.TYPE field
+1)Associated Multivalue Field beginning with DOMAIN.CLASS, including ROLE , MINIMUM.ROLE, MAXIMUM.ROLE, DOMAIN.TYPE , MIN.DOMAIN.PART , MAX.DOMAIN.PART and ending with FORM
+2)Optional Input
+3) Validation Rules
+a.T24 Numeric Input
+b. The total Value of all MAX.DOMAIN.PART fields should should be less or equal to the value of MAXIMUM.ROLE field and less or equal to the value of MAXIMUM.ROLE field of the associated Domain Class */
+        MAX_DOMAIN_PART : T24BusinessTypes:RR
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=10.0, core=true, t24Name=MAX.DOMAIN.PART)
+/* This field specifies the minimum required number of entities that should be of the type indicated in the associated DOMAIN.TYPE field
+1)Associated Multivalue Field beginning with DOMAIN.CLASS, including ROLE , MINIMUM.ROLE, MAXIMUM.ROLE, DOMAIN.TYPE , MIN.DOMAIN.PART , MAX.DOMAIN.PART and ending with FORM
+2)Optional Input
+3) Validation Rules
+a.T24 Numeric Input
+b. The total Value of all MIN.DOMAIN.PART fields should be greater or equal to the value of MINIMUM.ROLE field and less or equal to the value of MAXIMUM.ROLE field of the associated Domain Class */
+        MIN_DOMAIN_PART : T24BusinessTypes:RR
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=9.0, core=true, t24Name=MIN.DOMAIN.PART)
+    }
+    OA_APPLICATION_DEFINITION__FULL_DESC
+    {
+/* The Full Description of the Domain Type
+1)1 to 60 alphanumeric characters Multivalue field Multilanguage */
+        FULL_DESC : T24BusinessTypes:ANY
+            @i18n:Label (en="Full Description")
+            @i18n:Tooltip (en="Detailed Description ")
+            @t24:i (align=L, inputBehaviour=I, maxLength=60, multiLanguage=true, sysNumber=2.0, core=true, t24Name=FULL.DESC)
+    }
+    OA_APPLICATION_DEFINITION__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=34.0, core=true, t24Name=INPUTTER)
+    }
+    OA_APPLICATION_DEFINITION__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=31.0, core=true, t24Name=OVERRIDE)
+    }
+    OA_APPLICATION_DEFINITION__PUBLISH_ERROR
+    {
+/* In the event of the publishing effort resulting in the PUBLISH.ERROR field being set to "Completed with Error", this field will contain suggestions provided in order to correct errors listes in the associated PUBLISH.ERROR
+1)  Associated Multi-value : Beginning with PUBLISH.ERROR and ending with ERROR.SUGGESTION
+2) Validation Rules
+a. Non Input.
+b. System Maintained */
+        ERROR_SUGGESTION : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=ERROR.SUGGESTION)
+/* In the event of the publishing effort resulting in the PUBLISH.ERROR field being set to "Completed with Error", this field will contain error messages encountered
+1)  Associated Multi-value : Beginning with PUBLISH.ERROR and ending with ERROR.SUGGESTION
+2) Validation Rules
+a. Non Input.
+b. System Maintained */
+        PUBLISH_ERROR : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=PUBLISH.ERROR)
+    }
+    /* It is a run-time instance for each form. So, if a purpose has multiple forms to be filled for multiple roles, then each of those forms would find an entry into this table. Each form is created with combination of formlets. So, each of the OA.APPLICATION.FORM would have multiple formlets tagging onto them - which for the time being, we plan to display and input just like Property tabs. The formlet tabs in this case should belong to OA.APP.xxx application. */
+    OA_APPLICATION_FORM
+        @i18n:Description (en="")
+        @t24:i (t24Name=OA.APPLICATION.FORM, level=F, type=H, allowedFunctions="A C D E I L Q R S", localRefAllowed=true)
+    {
+        /* Reserved field. Included for future purpose. */
+        ACTIVITY : T24BusinessTypes:A
+            @i18n:Label (en=Activity)
+            @t24:i (align=L, inputBehaviour=N, maxLength=60, sysNumber=3.0, core=true, t24Name=ACTIVITY)
+        /* The length of the id is 100 Characters. */
+        APPLICATION_FORM -> OA_Framework:OA_APPLICATION_FORM PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=100, sysNumber=0.0, core=true, businessType=A, t24Name=APPLICATION.FORM)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=37.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=38.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=34.0, core=true, t24Name=AUTHORISER)
+        CLASS_INSTANCE -> byValue OA_Framework:OA_APPLICATION_FORM__CLASS_INSTANCE *
+            @t24:i (t24Name=CLASS.INSTANCE)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=35.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=31.0, core=true, t24Name=CURR.NO)
+        CUSTOMER -> byValue OA_Framework:OA_APPLICATION_FORM__CUSTOMER *
+            @t24:i (t24Name=CUSTOMER)
+        DATE_TIME -> byValue OA_Framework:OA_APPLICATION_FORM__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        /* It holds the ID of OA.FORM. It is NOINPUT field and system populated field. It populated based on the Purpose. */
+        DEFINITION -> OA_Framework:OA_FORM
+            @i18n:Label (en="Process Name")
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=1.0, core=true, businessType=A, t24Name=DEFINITION)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=36.0, core=true, t24Name=DEPT.CODE)
+        /* Effective date of the form being inputted. This gets defaulted with system date when the application form is begun and frozen. */
+        EFFECTIVE_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Effective Date")
+            @i18n:Tooltip (en="Effective date of the transaction")
+            @t24:i (align=R, inputBehaviour=I, maxLength=8, sysNumber=4.0, core=true, t24Name=EFFECTIVE.DATE)
+        /* Status of the form with respect to this purpose. Currently reserved for future use. */
+        FORM_STATUS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=21.0, core=true, t24Name=FORM.STATUS)
+        INPUTTER -> byValue OA_Framework:OA_APPLICATION_FORM__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        OVERRIDE -> byValue OA_Framework:OA_APPLICATION_FORM__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        PURPOSE -> byValue OA_Framework:OA_APPLICATION_FORM__PURPOSE *
+            @t24:i (t24Name=PURPOSE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=30.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=27.0, core=true, t24Name=RESERVED.1)
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=26.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=25.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=24.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=23.0, core=true, t24Name=RESERVED.5)
+        /* Reserved Field included for future purpose. */
+        STD_RESERVE1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=20.0, core=true, t24Name=STD.RESERVE1)
+        /* Reserved Field included for future purpose. */
+        STD_RESERVE2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=19.0, core=true, t24Name=STD.RESERVE2)
+        /* Reserved Field included for future purpose. */
+        STD_RESERVE3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=STD.RESERVE3)
+        /* Reserved Field included for future purpose. */
+        STD_RESERVE4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=17.0, core=true, t24Name=STD.RESERVE4)
+        /* Reserved Field included for future purpose. */
+        STD_RESERVE5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=STD.RESERVE5)
+        /* Reserved Field included for future purpose. */
+        STD_RESERVE6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=STD.RESERVE6)
+        /* Reserved Field included for future purpose. */
+        STD_RESERVE7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=STD.RESERVE7)
+        /* Reserved Field included for future purpose. */
+        STD_RESERVE8 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=STD.RESERVE8)
+        TO_CLASS_INSTANCE -> byValue OA_Framework:OA_APPLICATION_FORM__TO_CLASS_INSTANCE *
+            @t24:i (t24Name=TO.CLASS.INSTANCE)
+        /* Version of the form being utilized for this application. This gets defaulted when the application form is begun and frozen. */
+        VERSION : T24BusinessTypes:A
+            @i18n:Label (en=Version)
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=2.0, core=true, t24Name=VERSION)
+    }
+    OA_APPLICATION_FORM__CLASS_INSTANCE
+    {
+        /* This field will hold the list of INSTANCES or CLASSES processed as part of current application form. */
+        CLASS_INSTANCE -> OA_Framework:OA_FORMLET
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=5.0, core=true, businessType=A, t24Name=CLASS.INSTANCE)
+        /* This field would hold the list of all applications and those record keys that were processed as part of current transactions.  The format for storing is - Application: Space : Function : Space : Record Id. */
+        INSTANCE_KEY : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=60, sysNumber=6.0, core=true, t24Name=INSTANCE.KEY)
+        /* It is associative multi value field along with CLASS.INSTANCE & INSTANCE.KEY.   Status of the formlet with respect to this form. Please be noted that a formlet may be considered as completed from a perspective of one form whilst it can be considered as incomplete when looked at from a perspective of another form. Currently reserved for future use. */
+        INSTANCE_STATUS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=7.0, core=true, t24Name=INSTANCE.STATUS)
+    }
+    OA_APPLICATION_FORM__CUSTOMER
+    {
+        /* This field denotes the customer(s) of the current transaction. It is not a mandatory field to input for application form. It is associative multi value field with Customer Role. */
+        CUSTOMER -> ST_Customer:CUSTOMER
+            @i18n:Label (en=Customer)
+            @i18n:Tooltip (en="Customer Liability")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=11.0, core=true, businessType=CUS, t24Name=CUSTOMER)
+        /* Associated with CUSTOMER field. Denotes the role of the customer. */
+        CUSTOMER_ROLE -> AA_Customer:AA_CUSTOMER_ROLE
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=12.0, core=true, businessType=A, t24Name=CUSTOMER.ROLE)
+    }
+    OA_APPLICATION_FORM__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=33.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    OA_APPLICATION_FORM__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=32.0, core=true, t24Name=INPUTTER)
+    }
+    OA_APPLICATION_FORM__OVERRIDE
+    {
+        /* Standard Override field. */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=29.0, core=true, t24Name=OVERRIDE)
+    }
+    OA_APPLICATION_FORM__PURPOSE
+    {
+        /* Id of the OA.PURPOSE.TYPE and gets defaulted from OA.APPLICATION. */
+        PURPOSE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=22.0, core=true, t24Name=PURPOSE)
+    }
+    OA_APPLICATION_FORM__TO_CLASS_INSTANCE
+    {
+        /* The fields from TO.CLASS.INSTANCE, TO.FIELD & TO.VALUE are used for scripting test scenarios. The field TO.CLASS.INSTANCE will accepts the valid record id from OA.FORMLET.   The value in the TO.FIELD should be a valid field name of formlet table ,  and value to this field can be defined in TO.VALUE field. An OFS message would be formed for the given formlet with the fields and values defined. */
+        TO_CLASS_INSTANCE -> OA_Framework:OA_FORMLET
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=13.0, core=true, businessType=A, t24Name=TO.CLASS.INSTANCE)
+        TO_FIELD -> byValue OA_Framework:OA_APPLICATION_FORM__TO_CLASS_INSTANCE__TO_FIELD *
+            @t24:i (t24Name=TO.FIELD)
+    }
+    OA_APPLICATION_FORM__TO_CLASS_INSTANCE__TO_FIELD
+    {
+        /* The fields from TO.CLASS.INSTANCE, TO.FIELD & TO.VALUE are used for scripting test scenarios. The field TO.CLASS.INSTANCE will accepts the valid record id from OA.FORMLET.   The value in the TO.FIELD should be a valid field name of formlet table ,  and value to this field can be defined in TO.VALUE field. An OFS message would be formed for the given formlet with the fields and values defined. */
+        TO_FIELD : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=14.0, core=true, t24Name=TO.FIELD)
+        /* The fields from TO.CLASS.INSTANCE, TO.FIELD & TO.VALUE are used for scripting test scenarios. The field TO.CLASS.INSTANCE will accepts the valid record id from OA.FORMLET.   The value in the TO.FIELD should be a valid field name of formlet table ,  and value to this field can be defined in TO.VALUE field. An OFS message would be formed for the given formlet with the fields and values defined. */
+        TO_VALUE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=15.0, core=true, t24Name=TO.VALUE)
+    }
+    OA_APPLICATION__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=26.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    OA_APPLICATION__DOMAIN_CLASS
+    {
+        DOMAIN_CLASS -> OA_Framework:OA_DOMAIN_CLASS
+            @t24:i (align=R, inputBehaviour=I, maxLength=35, sysNumber=3.0, core=true, t24Name=DOMAIN.CLASS)
+        FORM_PURPOSE -> byValue OA_Framework:OA_APPLICATION__DOMAIN_CLASS__FORM_PURPOSE *
+            @t24:i (t24Name=FORM.PURPOSE)
+        REFERENCE : T24BusinessTypes:ANY
+            @i18n:Label (en="Search by Referece")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=7.0, core=true, t24Name=REFERENCE)
+        ROLE : T24BusinessTypes:ANY
+            @i18n:Label (en=Role)
+            @i18n:Tooltip (en="Roles are user defined and specified in EB.LOOKUP")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=4.0, core=true, t24Name=ROLE)
+        SEQUENCE : T24BusinessTypes:RR
+            @i18n:Label (en=Sequence)
+            @t24:i (align=L, inputBehaviour=N, maxLength=5, sysNumber=6.0, core=true, t24Name=SEQUENCE)
+        TYPE -> OA_Framework:OA_DOMAIN_TYPE
+            @i18n:Label (en=Type)
+            @i18n:Tooltip (en=Type)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=5.0, core=true, businessType=ANY, t24Name=TYPE)
+    }
+    OA_APPLICATION__DOMAIN_CLASS__FORM_PURPOSE
+    {
+        FORM -> OA_Framework:OA_FORM
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=9.0, core=true, businessType=ANY, t24Name=FORM)
+        FORM_PURPOSE -> OA_Framework:OA_PURPOSE
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=8.0, core=true, businessType=ANY, t24Name=FORM.PURPOSE)
+        STATUS : T24BusinessTypes:ANY
+            @i18n:Label (en=Status)
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=STATUS)
+    }
+    OA_APPLICATION__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=25.0, core=true, t24Name=INPUTTER)
+    }
+    OA_APPLICATION__K_TYPE
+    {
+        K_TYPE -> OA_Framework:OA_DOMAIN_TYPE
+            @i18n:Label (en=Type)
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=5.0, core=false, businessType=ANY, t24Name=K.TYPE)
+    }
+    OA_APPLICATION__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=22.0, core=true, t24Name=OVERRIDE)
+    }
+    OA_APPLICATION__PURPOSE
+    {
+        PURPOSE -> OA_Framework:OA_PURPOSE required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, businessType=ANY, t24Name=PURPOSE)
+        VERSION : T24BusinessTypes:RR
+            @i18n:Label (en=Version)
+            @t24:i (align=L, inputBehaviour=N, maxLength=5, sysNumber=2.0, core=true, t24Name=VERSION)
+    }
+    OA_DOMAIN_CLASS
+        @i18n:Description (en="")
+        @t24:i (t24Name=OA.DOMAIN.CLASS, level=I, type=H, allowedFunctions="A C D E H I L P Q S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=25.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=26.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=22.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=23.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=19.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue OA_Framework:OA_DOMAIN_CLASS__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=24.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue OA_Framework:OA_DOMAIN_CLASS__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        DOMAIN_CLASS -> OA_Framework:OA_DOMAIN_CLASS PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=DOMAIN.CLASS)
+        FORMLET_CLASS -> byValue OA_Framework:OA_DOMAIN_CLASS__FORMLET_CLASS *
+            @t24:i (t24Name=FORMLET.CLASS)
+        FULL_DESC -> byValue OA_Framework:OA_DOMAIN_CLASS__FULL_DESC *
+            @t24:i (t24Name=FULL.DESC)
+        INPUTTER -> byValue OA_Framework:OA_DOMAIN_CLASS__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        K_TYPE -> byValue OA_Framework:OA_DOMAIN_CLASS__K_TYPE *
+            @t24:i (t24Name=K.TYPE)
+        OVERRIDE -> byValue OA_Framework:OA_DOMAIN_CLASS__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=18.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=6.0, core=true, t24Name=RESERVED.10)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=11.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=7.0, core=true, t24Name=RESERVED.9)
+        TYPE -> byValue OA_Framework:OA_DOMAIN_CLASS__TYPE *
+            @t24:i (t24Name=TYPE)
+    }
+    OA_DOMAIN_CLASS__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=21.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    OA_DOMAIN_CLASS__DESCRIPTION
+    {
+        DESCRIPTION : T24BusinessTypes:ANY required
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    OA_DOMAIN_CLASS__FORMLET_CLASS
+    {
+        FORMLET_CLASS -> OA_Framework:OA_FORMLET_CLASS required
+            @t24:i (align=L, inputBehaviour=I, maxLength=36, sysNumber=4.0, core=true, businessType=ANY, t24Name=FORMLET.CLASS)
+        MANDATORY : OA_Framework:OA_DOMAIN_CLASS__FORMLET_CLASS__MANDATORY
+            @i18n:Label (en=Mandatory)
+            @i18n:Tooltip (en=Mandatory)
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=5.0, core=true, t24Name=MANDATORY)
+    }
+    OA_DOMAIN_CLASS__FULL_DESC
+    {
+        FULL_DESC : T24BusinessTypes:A
+            @i18n:Label (en="Full Description")
+            @i18n:Tooltip (en="Detailed Description ")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=2.0, core=true, t24Name=FULL.DESC)
+    }
+    OA_DOMAIN_CLASS__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=20.0, core=true, t24Name=INPUTTER)
+    }
+    OA_DOMAIN_CLASS__K_TYPE
+    {
+        K_TYPE : OA_Framework:OA_DOMAIN_CLASS__K_TYPE__K_TYPE
+            @i18n:Label (en=Type)
+            @t24:i (align=L, inputBehaviour=N, maxLength=8, sysNumber=3.0, core=false, t24Name=K.TYPE)
+    }
+    OA_DOMAIN_CLASS__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=17.0, core=true, t24Name=OVERRIDE)
+    }
+    OA_DOMAIN_CLASS__TYPE
+    {
+        TYPE : OA_Framework:OA_DOMAIN_CLASS__TYPE__TYPE
+            @i18n:Label (en=Type)
+            @i18n:Tooltip (en=Type)
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=3.0, core=true, t24Name=TYPE)
+    }
+    OA_DOMAIN_TYPE
+        @i18n:Description (en="")
+        @t24:i (t24Name=OA.DOMAIN.TYPE, level=I, type=H, allowedFunctions="A C D E H I L P Q S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=26.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=27.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=23.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=24.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=20.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue OA_Framework:OA_DOMAIN_TYPE__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=25.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue OA_Framework:OA_DOMAIN_TYPE__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        DOMAIN_CLASS -> OA_Framework:OA_DOMAIN_CLASS required
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=3.0, core=true, businessType=ANY, t24Name=DOMAIN.CLASS)
+        DOMAIN_TYPE -> OA_Framework:OA_DOMAIN_TYPE PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=DOMAIN.TYPE)
+        FORMLET_CLASS -> byValue OA_Framework:OA_DOMAIN_TYPE__FORMLET_CLASS *
+            @t24:i (t24Name=FORMLET.CLASS)
+        FULL_DESC -> byValue OA_Framework:OA_DOMAIN_TYPE__FULL_DESC *
+            @t24:i (t24Name=FULL.DESC)
+        INPUTTER -> byValue OA_Framework:OA_DOMAIN_TYPE__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        OVERRIDE -> byValue OA_Framework:OA_DOMAIN_TYPE__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=19.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=7.0, core=true, t24Name=RESERVED.10)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=11.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=RESERVED.9)
+    }
+    OA_DOMAIN_TYPE__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=22.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    OA_DOMAIN_TYPE__DESCRIPTION
+    {
+        DESCRIPTION : T24BusinessTypes:ANY required
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    OA_DOMAIN_TYPE__FORMLET_CLASS
+    {
+        FORMLET -> byValue OA_Framework:OA_DOMAIN_TYPE__FORMLET_CLASS__FORMLET *
+            @t24:i (t24Name=FORMLET)
+        FORMLET_CLASS -> OA_Framework:OA_FORMLET_CLASS required
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=4.0, core=true, businessType=ANY, t24Name=FORMLET.CLASS)
+    }
+    OA_DOMAIN_TYPE__FORMLET_CLASS__FORMLET
+    {
+        FORMLET -> OA_Framework:OA_FORMLET required
+            @t24:i (align=L, inputBehaviour=I, maxLength=36, sysNumber=5.0, core=true, businessType=ANY, t24Name=FORMLET)
+        MANDATORY : OA_Framework:OA_DOMAIN_TYPE__FORMLET_CLASS__FORMLET__MANDATORY
+            @i18n:Label (en=Mandatory)
+            @i18n:Tooltip (en=Mandatory)
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=6.0, core=true, t24Name=MANDATORY)
+    }
+    OA_DOMAIN_TYPE__FULL_DESC
+    {
+        FULL_DESC : T24BusinessTypes:ANY
+            @i18n:Label (en="Full Description")
+            @i18n:Tooltip (en="Detailed Description ")
+            @t24:i (align=L, inputBehaviour=I, maxLength=60, multiLanguage=true, sysNumber=2.0, core=true, t24Name=FULL.DESC)
+    }
+    OA_DOMAIN_TYPE__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=21.0, core=true, t24Name=INPUTTER)
+    }
+    OA_DOMAIN_TYPE__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=OVERRIDE)
+    }
+    OA_FORM
+        @i18n:Description (en="")
+        @t24:i (t24Name=OA.FORM, level=I, type=L, allowedFunctions="L S", localRefAllowed=false)
+    {
+        CAT_AVAILABLE_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Available Date")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=8.0, core=true, t24Name=CAT.AVAILABLE.DATE)
+        CAT_FORMLET -> byValue OA_Framework:OA_FORM__CAT_FORMLET *
+            @t24:i (t24Name=CAT.FORMLET)
+        DESCRIPTION -> byValue OA_Framework:OA_FORM__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        DOMAIN_CLASS -> OA_Framework:OA_DOMAIN_CLASS required
+            @t24:i (align=L, inputBehaviour=I, maxLength=36, sysNumber=3.0, core=true, businessType=ANY, t24Name=DOMAIN.CLASS)
+        DOMAIN_TYPE -> OA_Framework:OA_DOMAIN_TYPE required
+            @t24:i (align=L, inputBehaviour=I, maxLength=36, sysNumber=2.0, core=true, businessType=ANY, t24Name=DOMAIN.TYPE)
+        FORM -> OA_Framework:OA_FORM PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=FORM)
+        FORM_STATUS : OA_Framework:OA_FORM__FORM_STATUS
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=4.0, core=true, t24Name=FORM.STATUS)
+        LAST_PUBLISHED_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=9.0, core=true, t24Name=LAST.PUBLISHED.DATE)
+        PRF_AVAILABLE_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=6.0, core=true, t24Name=PRF.AVAILABLE.DATE)
+        PRF_FORMLET -> byValue OA_Framework:OA_FORM__PRF_FORMLET *
+            @t24:i (t24Name=PRF.FORMLET)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=19.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=RESERVED.10)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=17.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=11.0, core=true, t24Name=RESERVED.9)
+    }
+    OA_FORMLET
+        @i18n:Description (en="")
+        @t24:i (t24Name=OA.FORMLET, level=I, type=H, allowedFunctions="A C D E H I L P Q S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=23.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=24.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=20.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=21.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=17.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue OA_Framework:OA_FORMLET__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=22.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue OA_Framework:OA_FORMLET__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        FORMLET -> OA_Framework:OA_FORMLET PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=FORMLET)
+        FORMLET_CLASS -> OA_Framework:OA_FORMLET_CLASS required
+            @t24:i (align=L, inputBehaviour=I, maxLength=36, sysNumber=3.0, core=true, businessType=ANY, t24Name=FORMLET.CLASS)
+        FULL_DESC -> byValue OA_Framework:OA_FORMLET__FULL_DESC *
+            @t24:i (t24Name=FULL.DESC)
+        INPUTTER -> byValue OA_Framework:OA_FORMLET__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        OVERRIDE -> byValue OA_Framework:OA_FORMLET__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=16.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=4.0, core=true, t24Name=RESERVED.10)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=11.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=7.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=6.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=5.0, core=true, t24Name=RESERVED.9)
+    }
+    OA_FORMLET_CLASS
+        @i18n:Description (en="")
+        @t24:i (t24Name=OA.FORMLET.CLASS, level=I, type=H, allowedFunctions="A C D E H I L P Q S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=23.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=24.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=20.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=21.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=17.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue OA_Framework:OA_FORMLET_CLASS__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=22.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue OA_Framework:OA_FORMLET_CLASS__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        FORMLET_CLASS -> OA_Framework:OA_FORMLET_CLASS PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=FORMLET.CLASS)
+        FULL_DESC -> byValue OA_Framework:OA_FORMLET_CLASS__FULL_DESC *
+            @t24:i (t24Name=FULL.DESC)
+        INPUTTER -> byValue OA_Framework:OA_FORMLET_CLASS__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        K_TYPE -> byValue OA_Framework:OA_FORMLET_CLASS__K_TYPE *
+            @t24:i (t24Name=K.TYPE)
+        OVERRIDE -> byValue OA_Framework:OA_FORMLET_CLASS__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=16.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=4.0, core=true, t24Name=RESERVED.10)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=11.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=7.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=6.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=5.0, core=true, t24Name=RESERVED.9)
+        TYPE -> byValue OA_Framework:OA_FORMLET_CLASS__TYPE *
+            @t24:i (t24Name=TYPE)
+    }
+    OA_FORMLET_CLASS__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=19.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    OA_FORMLET_CLASS__DESCRIPTION
+    {
+        DESCRIPTION : T24BusinessTypes:A
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    OA_FORMLET_CLASS__FULL_DESC
+    {
+        FULL_DESC : T24BusinessTypes:A
+            @i18n:Label (en="Full Description")
+            @i18n:Tooltip (en="Detailed Description ")
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, multiLanguage=true, sysNumber=2.0, core=true, t24Name=FULL.DESC)
+    }
+    OA_FORMLET_CLASS__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=18.0, core=true, t24Name=INPUTTER)
+    }
+    OA_FORMLET_CLASS__K_TYPE
+    {
+        K_TYPE : OA_Framework:OA_FORMLET_CLASS__K_TYPE__K_TYPE
+            @i18n:Label (en=Type)
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=3.0, core=false, t24Name=K.TYPE)
+    }
+    OA_FORMLET_CLASS__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=OVERRIDE)
+    }
+    OA_FORMLET_CLASS__TYPE
+    {
+        TYPE : OA_Framework:OA_FORMLET_CLASS__TYPE__TYPE
+            @i18n:Label (en=Type)
+            @i18n:Tooltip (en=Type)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=3.0, core=true, t24Name=TYPE)
+    }
+    OA_FORMLET__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=19.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    OA_FORMLET__DESCRIPTION
+    {
+        DESCRIPTION : T24BusinessTypes:A
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    OA_FORMLET__FULL_DESC
+    {
+        FULL_DESC : T24BusinessTypes:A
+            @i18n:Label (en="Full Description")
+            @i18n:Tooltip (en="Detailed Description ")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=2.0, core=true, t24Name=FULL.DESC)
+    }
+    OA_FORMLET__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=18.0, core=true, t24Name=INPUTTER)
+    }
+    OA_FORMLET__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=OVERRIDE)
+    }
+    OA_FORM_CATALOG
+        @i18n:Description (en="")
+        @t24:i (t24Name=OA.FORM.CATALOG, level=I, type=H, allowedFunctions="L Q S", localRefAllowed=true)
+    {
+        ACTION : OA_Framework:OA_FORM_CATALOG__ACTION
+            @i18n:Label (en=Action)
+            @t24:i (align=L, inputBehaviour=I, maxLength=7, sysNumber=13.0, core=true, t24Name=ACTION)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=41.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=42.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=38.0, core=true, t24Name=AUTHORISER)
+        CLASS -> byValue OA_Framework:OA_FORM_CATALOG__CLASS *
+            @t24:i (t24Name=CLASS)
+        CLASS_TYPE -> AA_Framework:AA_CLASS_TYPE
+            @i18n:Label (en="Class Type")
+            @t24:i (align=L, inputBehaviour=N, maxLength=25, sysNumber=19.0, core=true, businessType=ANY, t24Name=CLASS.TYPE)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=39.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=35.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue OA_Framework:OA_FORM_CATALOG__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEFINITION_MANAGER -> OA_Framework:OA_FORM_CATALOG PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=60, sysNumber=0.0, core=true, businessType=A, t24Name=DEFINITION.MANAGER)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=40.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue OA_Framework:OA_FORM_CATALOG__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        DOMAIN_TYPE -> OA_Framework:OA_DOMAIN_TYPE
+            @t24:i (align=L, inputBehaviour=I, maxLength=36, sysNumber=3.0, core=true, businessType=ANY, t24Name=DOMAIN.TYPE)
+        EXPIRY_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Expiry Date")
+            @i18n:Tooltip (en="Indicates the Expiry Date of the Transaction")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=14.0, core=true, t24Name=EXPIRY.DATE)
+        FULL_DESC -> byValue OA_Framework:OA_FORM_CATALOG__FULL_DESC *
+            @t24:i (t24Name=FULL.DESC)
+        INPUTTER -> byValue OA_Framework:OA_FORM_CATALOG__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        OVERRIDE -> byValue OA_Framework:OA_FORM_CATALOG__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        PUBLISH_ERROR -> byValue OA_Framework:OA_FORM_CATALOG__PUBLISH_ERROR *
+            @t24:i (t24Name=PUBLISH.ERROR)
+        PUBLISH_STATUS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=PUBLISH.STATUS)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=34.0, core=true, t24Name=RECORD.STATUS)
+        REFERENCE : T24BusinessTypes:ANY
+            @i18n:Label (en="Search by Referece")
+            @t24:i (align=L, inputBehaviour=N, maxLength=25, sysNumber=20.0, core=true, t24Name=REFERENCE)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=32.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=23.0, core=true, t24Name=RESERVED.10)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=31.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=30.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=29.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=28.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=27.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=26.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=25.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=24.0, core=true, t24Name=RESERVED.9)
+        VERSION : T24BusinessTypes:ANY
+            @i18n:Label (en=Version)
+            @t24:i (align=L, inputBehaviour=N, maxLength=5, sysNumber=21.0, core=true, t24Name=VERSION)
+        VERSION_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=N, maxLength=11, sysNumber=22.0, core=true, t24Name=VERSION.DATE)
+    }
+    OA_FORM_CATALOG__CLASS
+    {
+        CLASS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=4.0, core=true, t24Name=CLASS)
+        CONDITION : T24BusinessTypes:ANY required
+            @i18n:Label (en=Condition)
+            @i18n:Tooltip (en="Value that the field name is to be compared with")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=11.0, core=true, t24Name=CONDITION)
+        CONDITION_VERSION : T24BusinessTypes:RR
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=12.0, core=true, t24Name=CONDITION.VERSION)
+        INSTANCE : T24BusinessTypes:A
+            @i18n:Label (en=Instance)
+            @i18n:Tooltip (en=Instance)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=5.0, core=true, t24Name=INSTANCE)
+        RESERVED_11 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=RESERVED.11)
+        RESERVED_12 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=RESERVED.12)
+        RESERVED_13 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=RESERVED.13)
+        RESERVED_14 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=7.0, core=true, t24Name=RESERVED.14)
+        RESERVED_15 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=6.0, core=true, t24Name=RESERVED.15)
+    }
+    OA_FORM_CATALOG__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=37.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    OA_FORM_CATALOG__DESCRIPTION
+    {
+        DESCRIPTION : T24BusinessTypes:ANY required
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    OA_FORM_CATALOG__DESCRIPTON
+    {
+        DESCRIPTON : T24BusinessTypes:ANY required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTON)
+    }
+    OA_FORM_CATALOG__FULL_DESC
+    {
+        FULL_DESC : T24BusinessTypes:ANY required
+            @i18n:Label (en="Full Description")
+            @i18n:Tooltip (en="Detailed Description ")
+            @t24:i (align=L, inputBehaviour=I, maxLength=60, multiLanguage=true, sysNumber=2.0, core=true, t24Name=FULL.DESC)
+    }
+    OA_FORM_CATALOG__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=36.0, core=true, t24Name=INPUTTER)
+    }
+    OA_FORM_CATALOG__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=33.0, core=true, t24Name=OVERRIDE)
+    }
+    OA_FORM_CATALOG__PUBLISH_ERROR
+    {
+        ERROR_SUGGESTION : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=17.0, core=true, t24Name=ERROR.SUGGESTION)
+        PUBLISH_ERROR : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=PUBLISH.ERROR)
+    }
+    OA_FORM__CAT_FORMLET
+    {
+        CAT_FORMLET -> OA_Framework:OA_FORMLET required
+            @t24:i (align=L, inputBehaviour=I, maxLength=36, sysNumber=7.0, core=true, businessType=ANY, t24Name=CAT.FORMLET)
+    }
+    OA_FORM__DESCRIPTION
+    {
+        DESCRIPTION : T24BusinessTypes:A
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    OA_FORM__PRF_FORMLET
+    {
+        PRF_FORMLET -> OA_Framework:OA_FORMLET required
+            @t24:i (align=L, inputBehaviour=I, maxLength=36, sysNumber=5.0, core=true, businessType=ANY, t24Name=PRF.FORMLET)
+    }
+/* This is the base table which the user defines to state the name of a purpose for which they would collate and attach the various forms.
+This purpose is cross-linked to Needs Analysis.Currently this table has only a Description and Full text box description field to record the bank’s top level purpose - this could be like BUY.HOME, PERSONAL.FINANCE etc.
+When this table is authorized, system would create an entry in a LIVE file called OA.PURPOSE.TYPE(equivalent of AA.PRODUCT)
+The ID of the OA.PURPOSE indicates the high level business reason or purpose for which the bank wants to originate a process
+Each purpose record is further defined in details in OA.APPLICATION.DEFINITION */
+    OA_PURPOSE
+        @i18n:Description (en="")
+        @t24:i (t24Name=OA.PURPOSE, level=I, type=H, allowedFunctions="A C D E H I L P Q S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=22.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=23.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=19.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=20.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=16.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue OA_Framework:OA_PURPOSE__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=21.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue OA_Framework:OA_PURPOSE__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        FULL_DESC -> byValue OA_Framework:OA_PURPOSE__FULL_DESC *
+            @t24:i (t24Name=FULL.DESC)
+        INPUTTER -> byValue OA_Framework:OA_PURPOSE__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        OA_PURPOSE_KEY -> OA_Framework:OA_PURPOSE PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=OA.PURPOSE.KEY)
+        OVERRIDE -> byValue OA_Framework:OA_PURPOSE__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=15.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=3.0, core=true, t24Name=RESERVED.10)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=11.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=7.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=6.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=5.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=4.0, core=true, t24Name=RESERVED.9)
+    }
+/* This is a LIVE table (user input is not allowed , only the system can update this table) created after authorisation of OA.PURPOSE table. Once a PURPOSE has been created in PURPOSE.TYPE all reference to PURPOSE across the system will be based on the PURPOSE.TYPE table and not on the PURPOSE table
+This purpose is cross-linked to Needs Analysis.Currently this table has only a Description and Full text box description field to record the bank’s top level purpose - this could be like BUY.HOME, PERSONAL.FINANCE etc.
+When this table is authorized, system would create an entry in a LIVE file called OA.PURPOSE.TYPE(equivalent of AA.PRODUCT)
+The ID of the OA.PURPOSE indicates the high level business reason or purpose for which the bank wants to originate a process
+Each purpose type record is further defined in details in OA.APPLICATION.DEFINITION */
+    OA_PURPOSE_TYPE
+        @i18n:Description (en="")
+        @t24:i (t24Name=OA.PURPOSE.TYPE, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        DESCRIPTION -> byValue OA_Framework:OA_PURPOSE_TYPE__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+/* The Date beyond which the Purpose Type is no longer Valid and can not be used for an Application
+1)Standard T24 Date , format is YYYYMMDD */
+        EXPIRY_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Expiry Date")
+            @i18n:Tooltip (en="Indicates the Expiry Date of the Transaction")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=3.0, core=true, t24Name=EXPIRY.DATE)
+        OA_PURPOSE_KEY -> OA_Framework:OA_PURPOSE_TYPE PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=OA.PURPOSE.KEY)
+/* The current STATUS of the PURPOSE.TYPE. Two statuses are allowed for a purpose type , once a PURPOSE record is authorised the status of this purpose in the purpose type table will be set to DESIGN. Later when the purpose is further defined in the OA.APPLICATION.DEFINIETION table and if such definition is succesfully pubished the status of the purpose type will be set to CATALOG .This mean that the purpose can be used for an application in  OA.APPLICATION
+This field will be blank when OA.PURPOSE.TYPE is created
+1)Maximum of 25 alphanumeric characters
+2)At the moment values can only be DESIGN, or CATALOG */
+        STATUS : OA_Framework:OA_PURPOSE_TYPE__STATUS
+            @i18n:Label (en=Status)
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=2.0, core=true, t24Name=STATUS)
+    }
+    OA_PURPOSE_TYPE__DESCRIPTION
+    {
+/* The Description of the Purpose.
+1)1 to 35 alphanumeric characters Multivalue field. Multilanguage Mandatory Input */
+        DESCRIPTION : T24BusinessTypes:ANY required
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    OA_PURPOSE__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=18.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    OA_PURPOSE__DESCRIPTION
+    {
+/* The Description of the Purpose.
+1)1 to 35 alphanumeric characters Multivalue field. Multilanguage Mandatory Input */
+        DESCRIPTION : T24BusinessTypes:ANY required
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    OA_PURPOSE__FULL_DESC
+    {
+/* The Full Description of the Domain Type
+1)1 to 60 alphanumeric characters Multivalue field Multilanguage */
+        FULL_DESC : T24BusinessTypes:ANY
+            @i18n:Label (en="Full Description")
+            @i18n:Tooltip (en="Detailed Description ")
+            @t24:i (align=L, inputBehaviour=I, maxLength=60, multiLanguage=true, sysNumber=2.0, core=true, t24Name=FULL.DESC)
+    }
+    OA_PURPOSE__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=17.0, core=true, t24Name=INPUTTER)
+    }
+    OA_PURPOSE__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=OVERRIDE)
+    }
+}
+Enumerations {
+    OA_APPLICATION_CATALOG__ACTION : mml:string
+        PUBLISH=PUBLISH
+    OA_APPLICATION_DEFINITION__ACTION : mml:string
+        PUBLISH=PUBLISH
+    OA_DOMAIN_CLASS__FORMLET_CLASS__MANDATORY : mml:string
+        NULL=NULL
+        YES=YES
+    OA_DOMAIN_CLASS__K_TYPE__K_TYPE : mml:string
+        MULTIPLE=MULTIPLE
+    OA_DOMAIN_CLASS__TYPE__TYPE : mml:string
+        MULTIPLE=MULTIPLE
+    OA_DOMAIN_TYPE__FORMLET_CLASS__FORMLET__MANDATORY : mml:string
+        NULL=NULL
+        YES=YES
+    OA_FORMLET_CLASS__K_TYPE__K_TYPE : mml:string
+        CCY=CCY
+        DATED=DATED
+        FORWARD_DATED=FORWARD.DATED
+        MERGE=MERGE
+        MULTIPLE=MULTIPLE
+        NON_TRACKING=NON.TRACKING
+        OPT_CCY=OPT.CCY
+        TRACKING=TRACKING
+        TRACKING_ONLY=TRACKING.ONLY
+        TRIGGER=TRIGGER
+        VARIATION=VARIATION
+        VERSION=VERSION
+    OA_FORMLET_CLASS__TYPE__TYPE : mml:string
+        CCY=CCY
+        DATED=DATED
+        FORWARD_DATED=FORWARD.DATED
+        MERGE=MERGE
+        MULTIPLE=MULTIPLE
+        NON_TRACKING=NON.TRACKING
+        OPT_CCY=OPT.CCY
+        TRACKING=TRACKING
+        TRACKING_ONLY=TRACKING.ONLY
+        TRIGGER=TRIGGER
+        VARIATION=VARIATION
+        VERSION=VERSION
+    OA_FORM_CATALOG__ACTION : mml:string
+        PUBLISH=PUBLISH
+    OA_FORM__FORM_STATUS : mml:string
+        CLOSED=CLOSED
+        PROOFED=PROOFED
+        PUBLISHED=PUBLISHED
+        WITHDRAWN=WITHDRAWN
+    OA_PURPOSE_TYPE__STATUS : mml:string
+        CATALOG=CATALOG
+        DESIGN=DESIGN
+}

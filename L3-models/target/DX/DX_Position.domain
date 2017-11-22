@@ -1,0 +1,1277 @@
+# UTF-8
+/* Position Updates for Derivatives */
+Domain DX_Position
+    @t24:i (module=DX)
+    @java:Package (value=com.temenos.t24.datamodel.dx.dx_position)
+namespace "http://www.temenos.com/t24/DX_Position"
+metamodelVersion 1.30.6
+Classes {
+/* Index of DX positions against a portfolio.
+
+For a portfolio (SEC.ACC.MASTER key), holds DX.REP.POSITION keys. */
+    DX_CUST_POS
+        @i18n:Description (en="")
+        @t24:i (t24Name=DX.CUST.POS, level=F, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        CUSTOMER : T24BusinessTypes:CUS
+            @i18n:Label (en=Customer)
+            @i18n:Tooltip (en="Customer Liability")
+            @t24:i (align=R, inputBehaviour=N, maxLength=10, core=false, t24Name=CUSTOMER, genOperation="FIELD(@ID,\'-\',1)")
+/* Key to the DX.CUST.POS file.
+
+The Portfolio number.
+
+Key to a SEC.ACC.MASTER record. */
+        DX_CUST_POS -> DX_Position:DX_CUST_POS PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=14, sysNumber=0.0, core=true, businessType=A, t24Name=DX.CUST.POS)
+/* Key to the DX.REP.POSITION record(s) for positions held against this portfolio
+
+
+Validation Rules:
+
+Valid DX.REP.POSITION key. */
+        POSITION_ID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, t24Name=POSITION.ID)
+    }
+/* This is a link file which gets updated only when multiple exotic events are found at trade level.
+As when multiple exotics are available the market price key becomes lengthy and unmanageable hence to avoid it the reference updated to XREF field in it replaces the OPTION.TYPE position of DX.MARKET.PRICE key. */
+    DX_POS_PRICE_XREF_LINK
+        @i18n:Description (en="")
+        @t24:i (t24Name=DX.POS.PRICE.XREF.LINK, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        KEY_FIELDS -> byValue DX_Position:DX_POS_PRICE_XREF_LINK__KEY_FIELDS *
+            @t24:i (t24Name=KEY.FIELDS)
+        /* Holds the maturity date which is one of the component of the key. */
+        MATURITY_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Maturity Date")
+            @i18n:Tooltip (en="Indicates the Maturity Date of the Transaction")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=5.0, core=true, t24Name=MATURITY.DATE)
+        /* ID of this file. Whose format is “ContractCode/TradeCurrency/MaturityDate/CallPut/StrikePrice/DeliveryCurrency/OptionStyle”. */
+        POS_PRICE -> DX_Position:DX_POS_PRICE_XREF_LINK PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=120, sysNumber=0.0, core=true, businessType=A, t24Name=POS.PRICE)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=6.0, core=true, t24Name=RESERVED.1)
+    }
+    DX_POS_PRICE_XREF_LINK__KEY_FIELDS
+    {
+        /* Holds the exotic details with option type and user fields. Whose format will be “ExoticType1#UsrFldVal1*UsrFldVal2/ExoticType2#UsrFldVal1*UsrFldVal2$”. */
+        KEY_FIELDS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=120, sysNumber=1.0, core=true, t24Name=KEY.FIELDS)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=4.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=3.0, core=true, t24Name=RESERVED.3)
+        /* This is the reference which replaces the OPTION.TYPE in DX.MARKET.PRICE. This is an incremental number along with contract code whose format is “ContractCode#Incremental”. */
+        XREF : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=120, sysNumber=2.0, core=true, t24Name=XREF)
+    }
+/* This application holds all of the positions held in T24 for products tradeable in the DX module.
+
+The key is complex, details of the structure of this key can be found in the Derivatives manual. */
+    DX_REP_POSITION
+        @i18n:Description (en="")
+        @t24:i (t24Name=DX.REP.POSITION, level=F, type=L, additionalInfo="DX Report Position File", allowedFunctions="L P S", localRefAllowed=true)
+    {
+        /* Weighted average of internal price for buy positions */
+        AVG_BUY_IPRICE : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=56.0, core=true, t24Name=AVG.BUY.IPRICE)
+        /* Weighted average of external price for buy positions */
+        AVG_BUY_PRICE : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=55.0, core=true, t24Name=AVG.BUY.PRICE)
+/* The average traded price for this position based on the setup for the contract.
+This is expressed in DX internal format. */
+        AVG_IPRICE : T24BusinessTypes:AMT
+            @i18n:Label (en="Average I Price")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=54.0, core=true, t24Name=AVG.IPRICE)
+/* The average traded price for this position based on the setup for the contract.
+This is expressed in external format. */
+        AVG_PRICE : T24BusinessTypes:AMT
+            @i18n:Label (en="Trade Price")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=53.0, core=true, t24Name=AVG.PRICE)
+        /* Weighted average of internal price for sell positions */
+        AVG_SELL_IPRICE : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=58.0, core=true, t24Name=AVG.SELL.IPRICE)
+        /* Weighted average of external price for sell positions */
+        AVG_SELL_PRICE : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=57.0, core=true, t24Name=AVG.SELL.PRICE)
+        /* Total number of lots bought in this contract for this position */
+        BUY_LOTS : T24BusinessTypes:N
+            @i18n:Label (en=Bought)
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=8.0, core=true, t24Name=BUY.LOTS)
+/* Type of OPTION trade.
+
+CALL or PUT */
+        CALL_PUT : T24BusinessTypes:A
+            @i18n:Label (en=Call/Put)
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=6.0, core=true, t24Name=CALL.PUT)
+        /* Key to the price record used to price this position.  This will be a valid DX.MARKET.PRICE id. */
+        COB_PRICE_ID -> DX_Pricing:DX_MARKET_PRICE
+            @t24:i (align=L, inputBehaviour=N, maxLength=120, sysNumber=74.0, core=true, businessType=A, t24Name=COB.PRICE.ID)
+        /* The contract that is being traded. This will be a valid DX.CONTRACT.MASTER id. */
+        CONTRACT -> DX_Configuration:DX_CONTRACT_MASTER
+            @i18n:Label (en=Contract)
+            @t24:i (align=L, inputBehaviour=I, maxLength=12, sysNumber=3.0, core=true, businessType=A, t24Name=CONTRACT)
+/* The contract class of the position.
+
+This will be a valid entry on the DX.CONTRACT.CLASS application. */
+        CONTRACT_CLASS -> DX_Configuration:DX_CONTRACT_CLASS
+            @i18n:Label (en="Contract Class")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=66.0, core=true, businessType=A, t24Name=CONTRACT.CLASS)
+/* The traded currency of the position.
+
+This will be a valid entry on the CURRENCY application.
+
+This information is also part of the key. */
+        CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en=Ccy)
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=64.0, core=true, businessType=CCY, t24Name=CURRENCY)
+        /* The customer holding the position */
+        CUSTOMER -> DX_Customer:DX_CUSTOMER
+            @i18n:Label (en=Customer)
+            @i18n:Tooltip (en="Customer Liability")
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=1.0, core=true, businessType=CUS, t24Name=CUSTOMER)
+/* For Foreign Exchange positions, this is the currency that this position will deliver at exercise/assignment time.
+This will be a valid entry on the CURRENCY application. */
+        DELIVERY_CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en="Delivery Ccy")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=65.0, core=true, businessType=CCY, t24Name=DELIVERY.CURRENCY)
+        /* This is the exchange on which the contract of this position would be traded. */
+        EXCHANGE_CODE -> DX_Configuration:DX_EXCHANGE_MASTER
+            @i18n:Label (en="Exchange Code")
+            @i18n:Tooltip (en="The name of the stock exchange ")
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=63.0, core=true, businessType=DXEM, t24Name=EXCHANGE.CODE)
+        /* Strike price for OPTION type position in external format. This field is populated from the DX.TRANSACTION record field STRIKE. */
+        EXT_STRIKE_PRI : T24BusinessTypes:N
+            @i18n:Label (en="Strike Price")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=7.0, core=true, t24Name=EXT.STRIKE.PRI)
+        /* This field holds the date of the furthest out of all of the premium currently paid or pending for the position from a value dated perspective. */
+        FAR_PVD_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=59.0, core=true, t24Name=FAR.PVD.DATE)
+        /* This field holds the date of the first out of all of the premium currently paid or pending for the position from a value dated perspective. */
+        FST_PVD_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=60.0, core=true, t24Name=FST.PVD.DATE)
+        FWD_TXN -> byValue DX_Position:DX_REP_POSITION__FWD_TXN *
+            @t24:i (t24Name=FWD.TXN)
+/* This is the DX customer group to which the customer belongs.
+
+This information is taken from the DX.CUSTOMER record for this customer and is a valid entry on the DX.GROUPING file.
+
+This field is used as part of the valuation engine. */
+        GROUP -> DX_Configuration:DX_GROUPING
+            @i18n:Label (en=Group)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=62.0, core=true, businessType=A, t24Name=GROUP)
+        I_CC : T24BusinessTypes:N
+            @t24:i (align=L, inputBehaviour=N, maxLength=14, core=false, t24Name=I.CC, genOperation=CONTRACT)
+        /* This field is for T24 internal use only. */
+        I_CMF : T24BusinessTypes:N
+            @t24:i (align=L, inputBehaviour=N, maxLength=18, core=false, t24Name=I.CMF, genOperation="\"DX.CONTRACT.MASTER\"")
+        I_CUS : T24BusinessTypes:N
+            @t24:i (align=L, inputBehaviour=N, maxLength=20, core=false, t24Name=I.CUS, genOperation="FIELD(PORTFOLIO,\'-\',1)")
+        I_DAC -> byValue DX_Position:DX_REP_POSITION__I_DAC *
+            @t24:i (t24Name=I.DAC)
+        I_PORT : T24BusinessTypes:N
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, core=false, t24Name=I.PORT, genOperation="FIELD(PORTFOLIO,\'-\',2)")
+        I_TRADES -> byValue DX_Position:DX_REP_POSITION__I_TRADES *
+            @t24:i (t24Name=I.TRADES)
+        I_TRDF -> byValue DX_Position:DX_REP_POSITION__I_TRDF *
+            @t24:i (t24Name=I.TRDF)
+        /* This field is for T24 internal use only. */
+        I_TXNF : T24BusinessTypes:N
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, core=false, t24Name=I.TXNF, genOperation="\"DX.TRANSACTION\"")
+        /* Maturity period of the position */
+        MATURITY_DATE : T24BusinessTypes:DXMATDT
+            @i18n:Label (en="Maturity Date")
+            @i18n:Tooltip (en="Indicates the Maturity Date of the Transaction")
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=4.0, core=true, t24Name=MATURITY.DATE)
+        /* Net lots for this position, long or short. */
+        NET_LOTS : T24BusinessTypes:N
+            @i18n:Label (en="Net Lots")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=10.0, core=true, t24Name=NET.LOTS)
+        /* This field holds the date of the next due date out of all of the premium currently paid or pending for the position from a value dated perspective. */
+        NXT_PVD_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=61.0, core=true, t24Name=NXT.PVD.DATE)
+        ONLINE_YNO : T24BusinessTypes:N
+            @i18n:Label (en="Online Values?(YorN)")
+            @t24:i (align=R, inputBehaviour=N, maxLength=3, core=false, t24Name=ONLINE.YNO)
+/* A NOINPUT field which holds the first character of option style value in DX.TRADE.
+This will hold the value either ‘A’ for American, ‘E’ for European or ‘C’ for Carribean options */
+        OPTION_STYLE : DX_Position:DX_REP_POSITION__OPTION_STYLE
+            @i18n:Label (en="Option Style")
+            @i18n:Tooltip (en="Type of option style like Americal or European")
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=77.0, core=true, t24Name=OPTION.STYLE)
+/* This field holds the own book portfolio to which this portfolio belongs.
+It identifies is this position is an own book position.
+This data is taken from the DX.TRANSACTION OWN.BOOK field, which is taken from the DEALER.DESK field on SEC.ACC.MASTER */
+        OWN_BOOK : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=68.0, core=true, t24Name=OWN.BOOK)
+        /* The T24 Portfolio holding the position */
+        PORTFOLIO -> SC_ScoPortfolioMaintenance:SEC_ACC_MASTER
+            @i18n:Label (en=Portfolio)
+            @t24:i (align=L, inputBehaviour=I, maxLength=18, sysNumber=2.0, core=true, businessType=A, t24Name=PORTFOLIO)
+/* The positon type of this position.
+
+FUTURE or OPTION */
+        POSITION_TYPE : T24BusinessTypes:A
+            @i18n:Label (en="Position Type")
+            @i18n:Tooltip (en="Position Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=67.0, core=true, t24Name=POSITION.TYPE)
+        /* This field represents the value date of this position, it could be in past, today or future. */
+        POS_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=8, sysNumber=69.0, core=true, t24Name=POS.DATE)
+        PRICE_SET : T24BusinessTypes:A
+            @i18n:Label (en=Currnt/Closng/Whatif)
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, core=false, t24Name=PRICE.SET)
+        /* The value dated buy positions */
+        PVD_BUY_LOTS : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=50.0, core=true, t24Name=PVD.BUY.LOTS)
+        /* The value dated net position. (Long or Short) */
+        PVD_NET_LOTS : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=52.0, core=true, t24Name=PVD.NET.LOTS)
+        /* The value dated sell position. */
+        PVD_SELL_LOTS : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=51.0, core=true, t24Name=PVD.SELL.LOTS)
+/* Region code which applies to this position - this will have been defined in the relevant DX.EXCHANGE.MASTER record in the REGION field.
+
+Regions exist to segregate a Region within a Country where the public holidays differ from other parts of the Country.
+
+This enables a separate HOLIDAY table to be defined for the Region, to allow delivery to be controlled within the T24 system. */
+        REGION -> ST_Config:REGION
+            @t24:i (align=R, inputBehaviour=N, maxLength=12, sysNumber=75.0, core=true, t24Name=REGION)
+        /* The key to the position. This key is complex.  Please refer to the T24 User Guides for further information. */
+        REP_POSITION_KEY -> DX_Position:DX_REP_POSITION PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=120, sysNumber=0.0, core=true, businessType=A, t24Name=REP.POSITION.KEY)
+        /* Total number of Sold Lots for this position */
+        SELL_LOTS : T24BusinessTypes:N
+            @i18n:Label (en=Sold)
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=9.0, core=true, t24Name=SELL.LOTS)
+        /* Internal strike price for OPTION type positions. This field is populated from the DX.TRANSACTION record field INT.STRIKE and holds the T24 internal strike price for the option. */
+        STRIKE_PRICE : T24BusinessTypes:N
+            @i18n:Label (en=Strike)
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=5.0, core=true, t24Name=STRIKE.PRICE)
+        TRANSACTION_IDS -> byValue DX_Position:DX_REP_POSITION__TRANSACTION_IDS *
+            @t24:i (t24Name=TRANSACTION.IDS)
+    }
+    DX_REP_POSITION__FWD_TXN
+    {
+/* Used for NON-STOP (NS) product.
+
+Indicates a BUY or a SELL of a specified number of lots (FWD.LOTS) which will be entered into system on the next working day (FWD.DATE) as a live transaction (FWD.TXN). */
+        FWD_BUY_SELL : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=71.0, core=true, t24Name=FWD.BUY.SELL)
+/* Used for NON-STOP (NS) product.
+
+Usually next working day, date at which forward transaction (FWD.TXN) for buy or sell (FWD.BUY.SELL) of a specified number of lots (FWD.LOTS) will be entered into system as live transaction (FWD.TXN). */
+        FWD_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=73.0, core=true, t24Name=FWD.DATE)
+/* Used for NON-STOP (NS) product.
+
+Number of lots bought or sold (FWD.BUY.SELL) pending entry as live transaction (FWD.TXN) on the next working day (FWD.DATE). */
+        FWD_LOTS : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=72.0, core=true, t24Name=FWD.LOTS)
+/* Used for NON-STOP (NS) product.
+
+Forward transaction reference for buy or sell (FWD.BUY.SELL) of a specified number of lots (FWD.LOTS) in this position to be entered on the next working day (FWD.DATE) onto the system as a live transaction (FWD.TXN). */
+        FWD_TXN : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=70.0, core=true, t24Name=FWD.TXN)
+    }
+    DX_REP_POSITION__I_DAC
+    {
+        /* This field is for T24 internal use only. */
+        I_DAC : T24BusinessTypes:N
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, core=false, t24Name=I.DAC, genOperation="\"DEPT.ACCT.OFFICER\"")
+    }
+    DX_REP_POSITION__I_TRADES
+    {
+        I_TRADES : T24BusinessTypes:N
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, core=false, t24Name=I.TRADES, genOperation="FIELDS(TRANSACTION.IDS,\'.\',1)")
+    }
+    DX_REP_POSITION__I_TRDF
+    {
+        /* This field is for T24 internal use only. */
+        I_TRDF : T24BusinessTypes:N
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, core=false, t24Name=I.TRDF, genOperation="\"DX.TRADE\"")
+    }
+    DX_REP_POSITION__TRANSACTION_IDS
+    {
+        /* The number of lots of this position that have been closed out. */
+        CO_LOTS : T24BusinessTypes:AMT
+            @i18n:Label (en="Expired Lots")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=37.0, core=true, t24Name=CO.LOTS)
+        /* The number of lots of this position that have been closed out based on the value date. */
+        CO_PV_LOTS : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=38.0, core=true, t24Name=CO.PV.LOTS)
+        ENTITLEMENT -> byValue DX_Position:DX_REP_POSITION__TRANSACTION_IDS__ENTITLEMENT *
+            @t24:i (t24Name=ENTITLEMENT)
+        /* This field holds the date of the furthest out of all of the closeouts currently active or pending for the position. */
+        FAR_CO_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=35.0, core=true, t24Name=FAR.CO.DATE)
+        /* This field holds the date of the furthest out of all of the closeouts currently active or pending for the position from a valuedated perspective. */
+        FAR_CO_PV_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=36.0, core=true, t24Name=FAR.CO.PV.DATE)
+/* This is the exotic option type of the transaction & contract.
+
+This is used as part of the key and is taken from the DX.TRANSACTION record.
+
+This will exist as a valid record in the DX.OPTION.TYPE application. */
+        OPTION_TYPE -> DX_Configuration:DX_OPTION_TYPE
+            @i18n:Label (en="Call or Put")
+            @i18n:Tooltip (en="Type of option to be chosen like call or put")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=45.0, core=true, businessType=A, t24Name=OPTION.TYPE)
+        /* All transaction ID's for this position */
+        TRANSACTION_IDS -> DX_Trade:DX_TRANSACTION
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=11.0, core=true, businessType=A, t24Name=TRANSACTION.IDS)
+        /* The number of lots traded prior to any closeout or corporate action taking place. */
+        TX_BASE_LOTS : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=18.0, core=true, t24Name=TX.BASE.LOTS)
+        /* The number of lots traded for this transaction. */
+        TX_BUY_LOTS : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=19.0, core=true, t24Name=TX.BUY.LOTS)
+        /* Was this transaction a BUY or a SELL transaction. */
+        TX_BUY_SELL : DX_Position:DX_REP_POSITION__TRANSACTION_IDS__TX_BUY_SELL
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=12.0, core=true, t24Name=TX.BUY.SELL)
+        TX_CO_ID -> byValue DX_Position:DX_REP_POSITION__TRANSACTION_IDS__TX_CO_ID *
+            @t24:i (t24Name=TX.CO.ID)
+        /* The DX internal price of this transaction. */
+        TX_IPRICE : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=15.0, core=true, t24Name=TX.IPRICE)
+        /* The number of lots traded on this transaction. */
+        TX_LOTS : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=16.0, core=true, t24Name=TX.LOTS)
+        /* The net cost of this transaction updated with DX.TX.NET.COST field from DX.TRANSACTION. */
+        TX_NET_COST : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=44.0, core=true, t24Name=TX.NET.COST)
+/* This specifies the open or close status of transaction . This is used in the new average price method OPENING
+
+
+
+
+Either OPEN/CLOSE allowed */
+        TX_OPEN_CLOSE : DX_Position:DX_REP_POSITION__TRANSACTION_IDS__TX_OPEN_CLOSE
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=13.0, core=true, t24Name=TX.OPEN.CLOSE)
+        /* The original number of lots of this contract traded on the transaction. */
+        TX_ORIG_LOTS : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=17.0, core=true, t24Name=TX.ORIG.LOTS)
+        /* The premium payment offset for this transaction. */
+        TX_PREM_OFFSET : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=22.0, core=true, t24Name=TX.PREM.OFFSET)
+        /* The traded price of this transaction. */
+        TX_PRICE : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=14.0, core=true, t24Name=TX.PRICE)
+        /* The value dated bought no. of lots based on if the TX.PV.DATE for this transaction has passed. */
+        TX_PVD_BUY_LT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=26.0, core=true, t24Name=TX.PVD.BUY.LT)
+        /* The value dated no. of lots based on if the TX.PV.DATE for this transaction has passed. */
+        TX_PVD_LOTS : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=24.0, core=true, t24Name=TX.PVD.LOTS)
+        /* The value dated sold no. of lots based on if the TX.PV.DATE for this transaction has passed. */
+        TX_PVD_SELL_LT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=27.0, core=true, t24Name=TX.PVD.SELL.LT)
+/* The value dated no. of lots based on if the TX.PV.DATE for this transaction has passed.
+
+A signed figure. -ve for short / +ve for long. */
+        TX_PVD_SIGN_LT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=25.0, core=true, t24Name=TX.PVD.SIGN.LT)
+        /* The value date for the premiun payment for this transaction based on the trade date (TX.TRADE.DATE + TX.PREM.OFFSET) */
+        TX_PV_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=23.0, core=true, t24Name=TX.PV.DATE)
+        /* The no. of lots of this contract sold on this transaction. */
+        TX_SELL_LOTS : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=20.0, core=true, t24Name=TX.SELL.LOTS)
+        /* The trade date for this transaction. */
+        TX_TRADE_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=21.0, core=true, t24Name=TX.TRADE.DATE)
+        UNR_PL_CCY -> byValue DX_Position:DX_REP_POSITION__TRANSACTION_IDS__UNR_PL_CCY *
+            @t24:i (t24Name=UNR.PL.CCY)
+        USR_FLD_NAME -> byValue DX_Position:DX_REP_POSITION__TRANSACTION_IDS__USR_FLD_NAME *
+            @t24:i (t24Name=USR.FLD.NAME)
+        VAR_MAR_CCY -> byValue DX_Position:DX_REP_POSITION__TRANSACTION_IDS__VAR_MAR_CCY *
+            @t24:i (t24Name=VAR.MAR.CCY)
+    }
+    DX_REP_POSITION__TRANSACTION_IDS__ENTITLEMENT
+    {
+        /* The key to any entitlements currently affecting these trades/positions. */
+        ENTITLEMENT -> DX_CorporateActions:DX_ENTITLEMENT
+            @i18n:Label (en=Entitlement)
+            @t24:i (align=L, inputBehaviour=I, maxLength=44, sysNumber=39.0, core=true, businessType=A, t24Name=ENTITLEMENT)
+    }
+    DX_REP_POSITION__TRANSACTION_IDS__TX_CO_ID
+    {
+        /* The date(s) of closeouts affecting this transaction, */
+        TX_CO_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=29.0, core=true, t24Name=TX.CO.DATE)
+        /* The id(s) of closeouts affecting this transaction. */
+        TX_CO_ID -> DX_Closeout:DX_CLOSEOUT
+            @t24:i (align=L, inputBehaviour=I, maxLength=18, sysNumber=28.0, core=true, businessType=A, t24Name=TX.CO.ID)
+        /* The number of lots of closeouts affecting this transaction, */
+        TX_CO_LOTS : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=31.0, core=true, t24Name=TX.CO.LOTS)
+        /* The value dated offset(s) of closeouts affecting this transaction. */
+        TX_CO_OFFSET : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=34.0, core=true, t24Name=TX.CO.OFFSET)
+        /* The value date of the closeouts affecting this transaction based on the TRADE.DATE + TX.CO.OFFSET */
+        TX_CO_PV_DT : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=30.0, core=true, t24Name=TX.CO.PV.DT)
+        /* The no.of lots of the closeouts affecting this transaction based on if the TRADE.DATE + TX.CO.OFFSET has passed. */
+        TX_CO_PV_LT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=32.0, core=true, t24Name=TX.CO.PV.LT)
+        /* Type of closeout affecting this transaction, e.g. ASSIGNMENT, EXERCISE, EXTERNAL, EXPIRY, FIXING, MATURITY or SETTLEMENT. */
+        TX_CO_TYPE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=33.0, core=true, t24Name=TX.CO.TYPE)
+    }
+    DX_REP_POSITION__TRANSACTION_IDS__UNR_PL_CCY
+    {
+/* Unrealised P&L currently on this position.
+
+Updated after a DX valuation has taken place. */
+        UNR_PL_AMT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=43.0, core=true, t24Name=UNR.PL.AMT)
+/* Unrealised P&L currency on this position.
+
+Updated after a DX valuation has taken place. */
+        UNR_PL_CCY -> ST_CurrencyConfig:CURRENCY
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=42.0, core=true, businessType=CCY, t24Name=UNR.PL.CCY)
+    }
+    DX_REP_POSITION__TRANSACTION_IDS__USR_FLD_NAME
+    {
+/* Used for Exotic Options processing.
+
+The field holds a list of user defined fields/parameter that define the uniqueness of the exotic position. */
+        USR_FLD_NAME -> DX_Exotics:DX_USR_FLD_OPT
+            @i18n:Label (en="XO Field")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=46.0, core=true, businessType=A, t24Name=USR.FLD.NAME)
+/* Used for Exotic Options processing.
+
+The field holds a list of user defined name of fields/parameter that define the uniqueness of the exotic position. */
+        USR_FLD_TEXT : T24BusinessTypes:A
+            @i18n:Label (en="Exotic Value")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=48.0, core=true, t24Name=USR.FLD.TEXT)
+/* Used for Exotic Options processing.
+
+The field holds a list of user defined fields/parameter values that define the uniqueness of the exotic position. */
+        USR_FLD_VAL : T24BusinessTypes:A
+            @i18n:Label (en="XO Value")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=47.0, core=true, t24Name=USR.FLD.VAL)
+/* Used for Exotic Options processing.
+
+As part of the  list of user defined fields/parameter that define the uniqueness of the exotic position this defines which of these fields are part of the position & price keys. */
+        USR_PRICE : T24BusinessTypes:A
+            @i18n:Label (en="Key?")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=49.0, core=true, t24Name=USR.PRICE)
+    }
+    DX_REP_POSITION__TRANSACTION_IDS__VAR_MAR_CCY
+    {
+        /* The variation margin payable. */
+        VAR_MARGIN : T24BusinessTypes:AMT
+            @i18n:Label (en="Var Margin")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=41.0, core=true, t24Name=VAR.MARGIN)
+        /* The currency of the variation margin payable. */
+        VAR_MAR_CCY -> ST_CurrencyConfig:CURRENCY
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=40.0, core=true, businessType=CCY, t24Name=VAR.MAR.CCY)
+    }
+    /* This file is a repository of event based information and links to the application records driving the events. This  holds information related to a DX. REP. POSITION record. However, it will hold the information based on the activity that takes place for the position based on DX.EVENT.TYPEs. */
+    DX_REP_POS_ACTIVITY
+        @i18n:Description (en="")
+        @t24:i (t24Name=DX.REP.POS.ACTIVITY, level=F, type=L, additionalInfo="DX Report Position Activity File", allowedFunctions="L P S", localRefAllowed=false)
+    {
+        /* Used for options trades only - denotes whether this is a CALL or PUT option. */
+        CALL_PUT : T24BusinessTypes:A
+            @i18n:Label (en=Call/Put)
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=9.0, core=true, t24Name=CALL.PUT)
+        /* Key to the DX.CONTRACT.MASTER record which holds definition of the contract being traded. */
+        CONTRACT_CODE -> DX_Configuration:DX_CONTRACT_MASTER
+            @i18n:Label (en=Contract)
+            @i18n:Tooltip (en="Identifies the contract code of the transaction")
+            @t24:i (align=L, inputBehaviour=I, maxLength=12, sysNumber=6.0, core=true, businessType=A, t24Name=CONTRACT.CODE)
+        /* The customer holding the position or involved in this side of the deal. */
+        CUSTOMER -> DX_Customer:DX_CUSTOMER
+            @i18n:Label (en=Customer)
+            @i18n:Tooltip (en="Customer Liability")
+            @t24:i (align=L, inputBehaviour=I, maxLength=12, sysNumber=3.0, core=true, businessType=A, t24Name=CUSTOMER)
+        /* This provides a link to the last maintained copy of the position with value obtained from ID of relevant DX. REP.POS. LAST record */
+        DX_REP_POS_ID -> DX_Position:DX_REP_POSITION
+            @t24:i (align=L, inputBehaviour=I, maxLength=68, sysNumber=1.0, core=true, businessType=A, t24Name=DX.REP.POS.ID)
+        EVENT -> byValue DX_Position:DX_REP_POS_ACTIVITY__EVENT *
+            @t24:i (t24Name=EVENT)
+        /* Internal strike price for OPTION type positions. This field is populated from the DX.TRANSACTION record field INT.STRIKE and holds the T24 internal strike price for the option. */
+        INT_STRIKE : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=8.0, core=true, t24Name=INT.STRIKE)
+        /* Maturity date for the contract transacted.  Held in yyyymm format for monthly maturity types or yyyymmdd for daily maturity types. */
+        MATURITY_DATE : T24BusinessTypes:DXMATDT
+            @i18n:Label (en="Maturity Date")
+            @i18n:Tooltip (en="Indicates the Maturity Date of the Transaction")
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=7.0, core=true, t24Name=MATURITY.DATE)
+        /* The Portfolio holding the position or the portfolio against which this side of the contract is being traded. */
+        PORTFOLIO -> SC_ScoPortfolioMaintenance:SEC_ACC_MASTER
+            @i18n:Label (en=Portfolio)
+            @t24:i (align=L, inputBehaviour=I, maxLength=18, sysNumber=4.0, core=true, businessType=A, t24Name=PORTFOLIO)
+/* This is the Portfolio ID of the Customer and is linked to the Customer Activity file DX.TXN.ACT.CUST
+Validation Rules:
+
+No input field */
+        PORT_CUST_ID -> DX_Reports:DX_TXN_ACT_CUST
+            @i18n:Label (en=Customer/Portfolio)
+            @t24:i (align=R, inputBehaviour=I, maxLength=20, sysNumber=5.0, core=true, t24Name=PORT.CUST.ID)
+        RESERVED : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=12, sysNumber=2.0, core=true, t24Name=RESERVED)
+        RESERVED01 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=2, sysNumber=44.0, core=true, t24Name=RESERVED01)
+        RESERVED02 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=2, sysNumber=43.0, core=true, t24Name=RESERVED02)
+        RESERVED03 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=2, sysNumber=42.0, core=true, t24Name=RESERVED03)
+        RESERVED04 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=2, sysNumber=41.0, core=true, t24Name=RESERVED04)
+        /* This is the key to this DX.REP.POS.ACTIVITY record. */
+        RPA_ACTIVITY_KEY -> DX_Position:DX_REP_POS_ACTIVITY PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=68, sysNumber=0.0, core=true, businessType=A, t24Name=RPA.ACTIVITY.KEY)
+        /* Options contracts only - strike price, held in external format. This field is populated from the DX.TRANSACTION record field STRIKE and holds the T24 strike price for the option. */
+        STRIKE : T24BusinessTypes:N
+            @i18n:Label (en=Strike)
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=10.0, core=true, t24Name=STRIKE)
+    }
+    DX_REP_POS_ACTIVITY__EVENT
+    {
+/* This is the date on which the relevant DX. EVENT.TYPE  is authorised
+Validation Rules:
+
+No input field */
+        BOOKING_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Booking Date")
+            @i18n:Tooltip (en="Booking Date")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=16.0, core=true, t24Name=BOOKING.DATE)
+        /* For closed out or partially closed out deals - key for the DX.CLOSEOUT record which has closed out lots against this side of the deal. */
+        CLOSEOUT -> DX_Closeout:DX_CLOSEOUT
+            @i18n:Label (en=Closeout)
+            @t24:i (align=R, inputBehaviour=I, maxLength=30, sysNumber=25.0, core=true, t24Name=CLOSEOUT)
+        /* For closed out or partially closed out deals - key for the DX.TRANSACTION record which has closed out lots against this side of the deal. */
+        CO_TXN -> DX_Trade:DX_TRANSACTION
+            @i18n:Label (en="Co Txn")
+            @t24:i (align=R, inputBehaviour=I, maxLength=30, sysNumber=26.0, core=true, t24Name=CO.TXN)
+        /* This is the link to the diary event that has affected this position */
+        DIARY -> DX_CorporateActions:DX_DIARY
+            @i18n:Label (en=Diary)
+            @t24:i (align=R, inputBehaviour=I, maxLength=30, sysNumber=29.0, core=true, t24Name=DIARY)
+        /* This is linked to DX. TXN. ACTIVITY record that relates to this entry. This is populated only when REPORTING is set to YES */
+        DX_TX_ACT -> DX_Reports:DX_TXN_ACTIVITY
+            @t24:i (align=L, inputBehaviour=I, maxLength=98, sysNumber=32.0, core=true, businessType=A, t24Name=DX.TX.ACT)
+        /* This is the link to the End of Exchange processing which calculated margin for this position */
+        END_OF_EXCH -> DX_Configuration:DX_EXCHANGE_MASTER
+            @i18n:Label (en="End Of Exch")
+            @t24:i (align=R, inputBehaviour=I, maxLength=30, sysNumber=27.0, core=true, t24Name=END.OF.EXCH)
+        /* This is the link to the DX. ENTITLEMENT record which holds details of the effect of diary event on this position */
+        ENTITLEMENT -> DX_CorporateActions:DX_ENTITLEMENT
+            @i18n:Label (en=Entitlement)
+            @t24:i (align=R, inputBehaviour=I, maxLength=30, sysNumber=30.0, core=true, t24Name=ENTITLEMENT)
+        /* This is the link to the DX.TRANSACTION record generated at the end of exchange processing which calculated margin for this position */
+        EOE_TXN -> DX_Trade:DX_TRANSACTION
+            @i18n:Label (en="Eoe Txn")
+            @t24:i (align=R, inputBehaviour=I, maxLength=30, sysNumber=28.0, core=true, t24Name=EOE.TXN)
+/* This denotes the transactional event that has occurred
+Validation Rules:
+
+There should be a valid DX. EVENT. TYPE record for this event */
+        EVENT -> DX_Configuration:DX_EVENT_TYPE
+            @i18n:Label (en=Event)
+            @t24:i (align=R, inputBehaviour=I, maxLength=5, sysNumber=11.0, core=true, t24Name=EVENT)
+        /* INACTIVE - This field is here as a placeholder - if the DX.SOD.RPA.TIDY job is active, the contents of this field will be changed to 'YES' in the corresponding DX.REP.POS.ACT.HIST record. */
+        INACTIVE : DX_Position:DX_REP_POS_ACTIVITY__EVENT__INACTIVE
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=14.0, core=true, t24Name=INACTIVE)
+/* This is the exotic option type of the transaction & contract.
+This is used as part of the key and is taken from the DX.TRANSACTION record.
+This will exist as a valid record in the DX.OPTION.TYPE application. */
+        OPTION_TYPE -> DX_Configuration:DX_OPTION_TYPE
+            @i18n:Label (en="Call or Put")
+            @i18n:Tooltip (en="Type of option to be chosen like call or put")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=33.0, core=true, t24Name=OPTION.TYPE)
+        /* This is linked to the Order which caused an Order based event */
+        ORDER_ID -> DX_Order:DX_ORDER
+            @i18n:Label (en="Order ID")
+            @t24:i (align=R, inputBehaviour=I, maxLength=30, sysNumber=23.0, core=true, t24Name=ORDER.ID)
+        /* This is linked to the constituent DX. TRANSACTION record for the relevant DX. ORDER, which was caused by the order based event */
+        ORD_TXN -> DX_Trade:DX_TRANSACTION
+            @i18n:Label (en="Ord Txn")
+            @t24:i (align=R, inputBehaviour=I, maxLength=30, sysNumber=24.0, core=true, t24Name=ORD.TXN)
+/* This is the date on which option premium becomes payable and is linked to the field PREM.VAL.DATE in DX.TRANSACTION
+Validation Rules:
+
+No input field */
+        PREM_VAL_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Prem Val Date")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=18.0, core=true, t24Name=PREM.VAL.DATE)
+/* This denotes whether this transaction is required for reporting purposes
+Validation Rules:
+
+Can be YES or NO */
+        REPORTING_FLAG : DX_Position:DX_REP_POS_ACTIVITY__EVENT__REPORTING_FLAG
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=15.0, core=true, t24Name=REPORTING.FLAG)
+/* The date on which the event has occurred
+Validation Rules:
+
+Taken from System date */
+        REP_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=12.0, core=true, t24Name=REP.DATE)
+/* The time at which the event occurred
+Validation Rules:
+
+Taken from System time */
+        REP_TIME : T24BusinessTypes:TIME
+            @i18n:Label (en="Rep Time")
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=13.0, core=true, t24Name=REP.TIME)
+        RESERVED05 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=2, sysNumber=40.0, core=true, t24Name=RESERVED05)
+        RESERVED06 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=2, sysNumber=35.0, core=true, t24Name=RESERVED06)
+        RESERVED07 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=2, sysNumber=34.0, core=true, t24Name=RESERVED07)
+        RESERVED09 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=2, sysNumber=20.0, core=true, t24Name=RESERVED09)
+        RESERVED10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=2, sysNumber=19.0, core=true, t24Name=RESERVED10)
+        /* This is the link to the DX. TRADE which caused the trade based event */
+        TRADE -> DX_Trade:DX_TRADE
+            @i18n:Label (en=Trade)
+            @t24:i (align=R, inputBehaviour=I, maxLength=30, sysNumber=21.0, core=true, t24Name=TRADE)
+/* This is obtained from the field Trade. date from the relevant DX. TRADE or DX. ORDER record. In case of Closeout, it displays the date on which the Closeout record is authorised
+Validation Rules:
+
+No input field */
+        TRADE_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Trade Date")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=17.0, core=true, t24Name=TRADE.DATE)
+        /* This is the link to the constituent transaction which was caused by trade based event */
+        TRANSACTION -> DX_Trade:DX_TRANSACTION
+            @i18n:Label (en=Transaction)
+            @i18n:Tooltip (en="The reference number of the Transaction")
+            @t24:i (align=R, inputBehaviour=I, maxLength=30, sysNumber=22.0, core=true, t24Name=TRANSACTION)
+        /* This is a unique key used to differentiate transaction events and prevent duplication of entries */
+        UNQ_ENTRY : T24BusinessTypes:A
+            @i18n:Label (en="Unq Entry")
+            @t24:i (align=L, inputBehaviour=I, maxLength=68, sysNumber=31.0, core=true, t24Name=UNQ.ENTRY)
+        USR_FLD_NAME -> byValue DX_Position:DX_REP_POS_ACTIVITY__EVENT__USR_FLD_NAME *
+            @t24:i (t24Name=USR.FLD.NAME)
+    }
+    DX_REP_POS_ACTIVITY__EVENT__USR_FLD_NAME
+    {
+/* Used for Exotic Options processing.
+The field holds a list of user defined fields/parameter that define the uniqueness of the exotic position. */
+        USR_FLD_NAME -> DX_Exotics:DX_USR_FLD_OPT
+            @i18n:Label (en="XO Field")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=36.0, core=true, businessType=A, t24Name=USR.FLD.NAME)
+/* Used for Exotic Options processing.
+As part of the  list of user defined fields/parameter that define the uniqueness of the exotic position this defines which of these fields are part of the position & price keys. */
+        USR_FLD_PRICE : T24BusinessTypes:A
+            @i18n:Label (en="Exotic Criteria?")
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=39.0, core=true, t24Name=USR.FLD.PRICE, typeModifiers=YES)
+/* Used for Exotic Options processing.
+The field holds a list of user defined name of fields/parameter that define the uniqueness of the exotic position. */
+        USR_FLD_TEXT : T24BusinessTypes:A
+            @i18n:Label (en="Exotic Value")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=38.0, core=true, t24Name=USR.FLD.TEXT)
+/* Used for Exotic Options processing.
+The field holds a list of user defined fields/parameter values that define the uniqueness of the exotic position. */
+        USR_FLD_VAL : T24BusinessTypes:A
+            @i18n:Label (en="XO Value")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=37.0, core=true, t24Name=USR.FLD.VAL)
+    }
+    /* This is the historical version of DX. REP. POS. ACTIVITY file with the same lay out to make historical reporting possible */
+    DX_REP_POS_ACT_HIST
+        @i18n:Description (en="")
+        @t24:i (t24Name=DX.REP.POS.ACT.HIST, level=F, type=L, additionalInfo="DX Report Position Activity Hist File", allowedFunctions="L P S", localRefAllowed=false)
+    {
+        /* Used for options trades only - denotes whether this is a CALL or PUT option. */
+        CALL_PUT : T24BusinessTypes:A
+            @i18n:Label (en=Call/Put)
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=9.0, core=true, t24Name=CALL.PUT)
+/* The contract that is being traded.
+This will be a valid DX.CONTRACT.MASTER id. */
+        CONTRACT_CODE -> DX_Configuration:DX_CONTRACT_MASTER
+            @i18n:Label (en=Contract)
+            @i18n:Tooltip (en="Identifies the contract code of the transaction")
+            @t24:i (align=L, inputBehaviour=I, maxLength=12, sysNumber=6.0, core=true, businessType=A, t24Name=CONTRACT.CODE)
+/* The customer holding the position.
+This will be a valid CUSTOMER id. */
+        CUSTOMER -> DX_Customer:DX_CUSTOMER
+            @i18n:Label (en=Customer)
+            @i18n:Tooltip (en="Customer Liability")
+            @t24:i (align=L, inputBehaviour=I, maxLength=12, sysNumber=3.0, core=true, businessType=A, t24Name=CUSTOMER)
+/* This provides a link to the last maintained copy of the position with value obtained from ID of relevant DX.REP.POS. LAST record
+This key is complex. Please refer to the T24 User Guides for further information. */
+        DX_REP_POS_ID -> DX_Position:DX_REP_POSITION
+            @t24:i (align=L, inputBehaviour=I, maxLength=68, sysNumber=1.0, core=true, businessType=A, t24Name=DX.REP.POS.ID)
+        EVENT -> byValue DX_Position:DX_REP_POS_ACT_HIST__EVENT *
+            @t24:i (t24Name=EVENT)
+/* Internal strike price for OPTION type positions.
+This field is populated from the DX.TRANSACTION record field INT.STRIKE and holds the T24 internal strike price for the option. */
+        INT_STRIKE : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=8.0, core=true, t24Name=INT.STRIKE)
+        /* Maturity period of the position. */
+        MATURITY_DATE : T24BusinessTypes:DXMATDT
+            @i18n:Label (en="Maturity Date")
+            @i18n:Tooltip (en="Indicates the Maturity Date of the Transaction")
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=7.0, core=true, t24Name=MATURITY.DATE)
+/* The T24 Portfolio holding the position.
+This will be a valid SEC.ACC.MASTER id. */
+        PORTFOLIO -> SC_ScoPortfolioMaintenance:SEC_ACC_MASTER
+            @i18n:Label (en=Portfolio)
+            @t24:i (align=L, inputBehaviour=I, maxLength=18, sysNumber=4.0, core=true, businessType=A, t24Name=PORTFOLIO)
+        /* This is the Portfolio ID of the Customer and is linked to the Customer Activity file DX.TXN.ACT.CUST */
+        PORT_CUST_ID -> DX_Reports:DX_TXN_ACT_CUST
+            @i18n:Label (en=Customer/Portfolio)
+            @t24:i (align=R, inputBehaviour=I, maxLength=20, sysNumber=5.0, core=true, t24Name=PORT.CUST.ID)
+        RESERVED : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=12, sysNumber=2.0, core=true, t24Name=RESERVED)
+        RESERVED01 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=2, sysNumber=44.0, core=true, t24Name=RESERVED01)
+        RESERVED02 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=2, sysNumber=43.0, core=true, t24Name=RESERVED02)
+        RESERVED03 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=2, sysNumber=42.0, core=true, t24Name=RESERVED03)
+        RESERVED04 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=2, sysNumber=41.0, core=true, t24Name=RESERVED04)
+        /* The key to this DX.REP.POS.ACT.HIST record. */
+        RPAH_ACTIVITY_KEY -> DX_Position:DX_REP_POS_ACT_HIST PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=68, sysNumber=0.0, core=true, businessType=A, t24Name=RPAH.ACTIVITY.KEY)
+/* Options contracts only - strike price, held in external format.
+This field is populated from the DX.TRANSACTION record field STRIKE and holds the T24 strike price for the option. */
+        STRIKE : T24BusinessTypes:N
+            @i18n:Label (en=Strike)
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=10.0, core=true, t24Name=STRIKE)
+    }
+    DX_REP_POS_ACT_HIST__EVENT
+    {
+        /* This is the date on which the relevant DX. EVENT.TYPE is authorised */
+        BOOKING_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Booking Date")
+            @i18n:Tooltip (en="Booking Date")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=16.0, core=true, t24Name=BOOKING.DATE)
+        /* For closed out or partially closed out deals - key for the DX.CLOSEOUT record which has closed out lots against this side of the deal. */
+        CLOSEOUT -> DX_Closeout:DX_CLOSEOUT
+            @i18n:Label (en=Closeout)
+            @t24:i (align=R, inputBehaviour=I, maxLength=30, sysNumber=25.0, core=true, t24Name=CLOSEOUT)
+        /* For closed out or partially closed out deals - key for the DX.TRANSACTION record which has closed out lots against this side of the deal. */
+        CO_TXN -> DX_Trade:DX_TRANSACTION
+            @i18n:Label (en="Co Txn")
+            @t24:i (align=R, inputBehaviour=I, maxLength=30, sysNumber=26.0, core=true, t24Name=CO.TXN)
+        /* This is the link to the diary event that has affected this position */
+        DIARY -> DX_CorporateActions:DX_DIARY
+            @i18n:Label (en=Diary)
+            @t24:i (align=R, inputBehaviour=I, maxLength=30, sysNumber=29.0, core=true, t24Name=DIARY)
+        /* This is linked to DX. TXN. ACTIVITY record that relates to this entry. This is populated only when REPORTING is set to YES */
+        DX_TX_ACT -> DX_Reports:DX_TXN_ACTIVITY
+            @t24:i (align=L, inputBehaviour=I, maxLength=98, sysNumber=32.0, core=true, businessType=A, t24Name=DX.TX.ACT)
+        /* This is the link to the End of Exchange processing which calculated margin for this position */
+        END_OF_EXCH -> DX_Configuration:DX_EXCHANGE_MASTER
+            @i18n:Label (en="End Of Exch")
+            @t24:i (align=R, inputBehaviour=I, maxLength=30, sysNumber=27.0, core=true, t24Name=END.OF.EXCH)
+        /* This is the link to the DX. ENTITLEMENT record which holds details of the effect of diary event on this position */
+        ENTITLEMENT -> DX_CorporateActions:DX_ENTITLEMENT
+            @i18n:Label (en=Entitlement)
+            @t24:i (align=R, inputBehaviour=I, maxLength=30, sysNumber=30.0, core=true, t24Name=ENTITLEMENT)
+        /* This is the link to the DX.TRANSACTION record generated at the end of exchange processing which calculated margin for this position */
+        EOE_TXN -> DX_Trade:DX_TRANSACTION
+            @i18n:Label (en="Eoe Txn")
+            @t24:i (align=R, inputBehaviour=I, maxLength=30, sysNumber=28.0, core=true, t24Name=EOE.TXN)
+/* This denotes the transactional event that has occurred
+There should be a valid DX. EVENT. TYPE record for this event */
+        EVENT -> DX_Configuration:DX_EVENT_TYPE
+            @i18n:Label (en=Event)
+            @t24:i (align=R, inputBehaviour=I, maxLength=5, sysNumber=11.0, core=true, t24Name=EVENT)
+/* INACTIVE - This field is here as a placeholder - if the DX.SOD.RPA.TIDY job is active, the contents of this field will be changed to 'YES' in the
+corresponding DX.REP.POS.ACT.HIST record. */
+        INACTIVE : DX_Position:DX_REP_POS_ACT_HIST__EVENT__INACTIVE
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=14.0, core=true, t24Name=INACTIVE)
+/* This is the exotic option type of the transaction & contract.
+This is used as part of the key and is taken from the DX.TRANSACTION record.
+This will exist as a valid record in the DX.OPTION.TYPE application. */
+        OPTION_TYPE -> DX_Configuration:DX_OPTION_TYPE
+            @i18n:Label (en="Call or Put")
+            @i18n:Tooltip (en="Type of option to be chosen like call or put")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=33.0, core=true, t24Name=OPTION.TYPE)
+        /* This is linked to the Order which caused an Order based event */
+        ORDER_ID -> DX_Order:DX_ORDER
+            @i18n:Label (en="Order ID")
+            @t24:i (align=R, inputBehaviour=I, maxLength=30, sysNumber=23.0, core=true, t24Name=ORDER.ID)
+        /* This is linked to the constituent DX.TRANSACTION record for the relevant DX.ORDER, which was caused by the order based event */
+        ORD_TXN -> DX_Trade:DX_TRANSACTION
+            @i18n:Label (en="Ord Txn")
+            @t24:i (align=R, inputBehaviour=I, maxLength=30, sysNumber=24.0, core=true, t24Name=ORD.TXN)
+        /* This is the date on which option premium becomes payable and is linked to the field PREM.VAL.DATE in DX.TRANSACTION */
+        PREM_VAL_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Prem Val Date")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=18.0, core=true, t24Name=PREM.VAL.DATE)
+/* The date on which the event has occurred
+Taken from System date */
+        REPORTING_FLAG : DX_Position:DX_REP_POS_ACT_HIST__EVENT__REPORTING_FLAG
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=15.0, core=true, t24Name=REPORTING.FLAG)
+/* The date on which the event has occurred
+Taken from System date */
+        REP_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=12.0, core=true, t24Name=REP.DATE)
+/* The time at which the event occurred
+Taken from System time */
+        REP_TIME : T24BusinessTypes:TIME
+            @i18n:Label (en="Rep Time")
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=13.0, core=true, t24Name=REP.TIME)
+        RESERVED05 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=2, sysNumber=40.0, core=true, t24Name=RESERVED05)
+        RESERVED06 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=2, sysNumber=35.0, core=true, t24Name=RESERVED06)
+        RESERVED07 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=2, sysNumber=34.0, core=true, t24Name=RESERVED07)
+        RESERVED09 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=2, sysNumber=20.0, core=true, t24Name=RESERVED09)
+        RESERVED10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=2, sysNumber=19.0, core=true, t24Name=RESERVED10)
+        /* This is the link to the DX. TRADE which caused the trade based event */
+        TRADE -> DX_Trade:DX_TRADE
+            @i18n:Label (en=Trade)
+            @t24:i (align=R, inputBehaviour=I, maxLength=30, sysNumber=21.0, core=true, t24Name=TRADE)
+/* This is obtained from the field Trade. date from the relevant DX.TRADE or DX.ORDER record.
+In case of Closeout, it displays the date on which the Closeout record is authorised */
+        TRADE_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Trade Date")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=17.0, core=true, t24Name=TRADE.DATE)
+        /* This is the link to the constituent transaction which was caused by trade based event */
+        TRANSACTION -> DX_Trade:DX_TRANSACTION
+            @i18n:Label (en=Transaction)
+            @i18n:Tooltip (en="The reference number of the Transaction")
+            @t24:i (align=R, inputBehaviour=I, maxLength=30, sysNumber=22.0, core=true, t24Name=TRANSACTION)
+        /* This is a unique key used to differentiate transaction events and prevent duplication of entries */
+        UNQ_ENTRY : T24BusinessTypes:A
+            @i18n:Label (en="Unq Entry")
+            @t24:i (align=L, inputBehaviour=I, maxLength=68, sysNumber=31.0, core=true, t24Name=UNQ.ENTRY)
+        USR_FLD_NAME -> byValue DX_Position:DX_REP_POS_ACT_HIST__EVENT__USR_FLD_NAME *
+            @t24:i (t24Name=USR.FLD.NAME)
+    }
+    DX_REP_POS_ACT_HIST__EVENT__USR_FLD_NAME
+    {
+/* Used for Exotic Options processing.
+The field holds a list of user defined fields/parameter that define the uniqueness of the exotic position. */
+        USR_FLD_NAME -> DX_Exotics:DX_USR_FLD_OPT
+            @i18n:Label (en="XO Field")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=36.0, core=true, businessType=A, t24Name=USR.FLD.NAME)
+/* Used for Exotic Options processing.
+As part of the list of user defined fields/parameter that define the uniqueness of the exotic position this defines which of these fields are part of the
+
+position & price keys. */
+        USR_FLD_PRICE : T24BusinessTypes:A
+            @i18n:Label (en="Exotic Criteria?")
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=39.0, core=true, t24Name=USR.FLD.PRICE, typeModifiers=YES)
+/* Used for Exotic Options processing.
+The field holds a list of user defined name of fields/parameter that define the uniqueness of the exotic position. */
+        USR_FLD_TEXT : T24BusinessTypes:A
+            @i18n:Label (en="Exotic Value")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=38.0, core=true, t24Name=USR.FLD.TEXT)
+/* Used for Exotic Options processing.
+The field holds a list of user defined fields/parameter values that define the uniqueness of the exotic position. */
+        USR_FLD_VAL : T24BusinessTypes:A
+            @i18n:Label (en="XO Value")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=37.0, core=true, t24Name=USR.FLD.VAL)
+    }
+/* This application holds all of the positions held in T24 for products tradeable in the DX module.
+
+The key is complex, details of the structure of this key can be found in the Derivatives manual. */
+    DX_REP_POS_HIST
+        @i18n:Description (en="")
+        @t24:i (t24Name=DX.REP.POS.HIST, level=F, type=L, additionalInfo="DX Report Position File Hist", allowedFunctions="L P S", localRefAllowed=true)
+    {
+        /* Weighted average of internal price for buy positions */
+        AVG_BUY_IPRICE : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=56.0, core=true, t24Name=AVG.BUY.IPRICE)
+        /* Weighted average of external price for buy positions */
+        AVG_BUY_PRICE : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=55.0, core=true, t24Name=AVG.BUY.PRICE)
+/* The average traded price for this position based on the setup for the contract.
+This is expressed in DX internal format. */
+        AVG_IPRICE : T24BusinessTypes:AMT
+            @i18n:Label (en="Average I Price")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=54.0, core=true, t24Name=AVG.IPRICE)
+/* The average traded price for this position based on the setup for the contract.
+This is expressed in external format. */
+        AVG_PRICE : T24BusinessTypes:AMT
+            @i18n:Label (en="Trade Price")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=53.0, core=true, t24Name=AVG.PRICE)
+        /* Weighted average of internal price for sell positions */
+        AVG_SELL_IPRICE : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=58.0, core=true, t24Name=AVG.SELL.IPRICE)
+        /* Weighted average of external price for sell positions */
+        AVG_SELL_PRICE : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=57.0, core=true, t24Name=AVG.SELL.PRICE)
+        /* Total number of lots bought in this contract for this position */
+        BUY_LOTS : T24BusinessTypes:N
+            @i18n:Label (en=Bought)
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=8.0, core=true, t24Name=BUY.LOTS)
+/* Type of OPTION trade.
+
+CALL or PUT */
+        CALL_PUT : T24BusinessTypes:A
+            @i18n:Label (en=Call/Put)
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=6.0, core=true, t24Name=CALL.PUT)
+        /* Key to the price record used to price this position.  This will be a valid DX.MARKET.PRICE id. */
+        COB_PRICE_ID -> DX_Pricing:DX_MARKET_PRICE
+            @t24:i (align=L, inputBehaviour=N, maxLength=120, sysNumber=74.0, core=true, businessType=A, t24Name=COB.PRICE.ID)
+        /* The contract that is being traded. This will be a valid DX.CONTRACT.MASTER id. */
+        CONTRACT -> DX_Configuration:DX_CONTRACT_MASTER
+            @i18n:Label (en=Contract)
+            @t24:i (align=L, inputBehaviour=I, maxLength=12, sysNumber=3.0, core=true, businessType=A, t24Name=CONTRACT)
+/* The contract class of the position.
+
+This will be a valid entry on the DX.CONTRACT.CLASS application. */
+        CONTRACT_CLASS -> DX_Configuration:DX_CONTRACT_CLASS
+            @i18n:Label (en="Contract Class")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=66.0, core=true, businessType=A, t24Name=CONTRACT.CLASS)
+/* The traded currency of the position.
+
+This will be a valid entry on the CURRENCY application.
+
+This information is also part of the key. */
+        CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en=Ccy)
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=64.0, core=true, businessType=CCY, t24Name=CURRENCY)
+        /* The customer holding the position */
+        CUSTOMER -> DX_Customer:DX_CUSTOMER
+            @i18n:Label (en=Customer)
+            @i18n:Tooltip (en="Customer Liability")
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=1.0, core=true, businessType=CUS, t24Name=CUSTOMER)
+/* For Foreign Exchange positions, this is the currency that this position will deliver at exercise/assignment time.
+This will be a valid entry on the CURRENCY application. */
+        DELIVERY_CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en="Delivery Ccy")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=65.0, core=true, businessType=CCY, t24Name=DELIVERY.CURRENCY)
+        /* This is the exchange on which the contract of this position would be traded. */
+        EXCHANGE_CODE -> DX_Configuration:DX_EXCHANGE_MASTER
+            @i18n:Label (en="Exchange Code")
+            @i18n:Tooltip (en="The name of the stock exchange ")
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=63.0, core=true, businessType=DXEM, t24Name=EXCHANGE.CODE)
+        /* Strike price for OPTION type position in external format. This field is populated from the DX.TRANSACTION record field STRIKE. */
+        EXT_STRIKE_PRI : T24BusinessTypes:N
+            @i18n:Label (en="Strike Price")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=7.0, core=true, t24Name=EXT.STRIKE.PRI)
+        /* This field holds the date of the furthest out of all of the premium currently paid or pending for the position from a value dated perspective. */
+        FAR_PVD_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=59.0, core=true, t24Name=FAR.PVD.DATE)
+        /* This field holds the date of the first out of all of the premium currently paid or pending for the position from a value dated perspective. */
+        FST_PVD_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=60.0, core=true, t24Name=FST.PVD.DATE)
+        FWD_TXN -> byValue DX_Position:DX_REP_POS_HIST__FWD_TXN *
+            @t24:i (t24Name=FWD.TXN)
+/* This is the DX customer group to which the customer belongs.
+
+This information is taken from the DX.CUSTOMER record for this customer and is a valid entry on the DX.GROUPING file.
+
+This field is used as part of the valuation engine. */
+        GROUP -> DX_Configuration:DX_GROUPING
+            @i18n:Label (en=Group)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=62.0, core=true, businessType=A, t24Name=GROUP)
+        /* Maturity period of the position */
+        MATURITY_DATE : T24BusinessTypes:DXMATDT
+            @i18n:Label (en="Maturity Date")
+            @i18n:Tooltip (en="Indicates the Maturity Date of the Transaction")
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=4.0, core=true, t24Name=MATURITY.DATE)
+        /* Net lots for this position, long or short. */
+        NET_LOTS : T24BusinessTypes:N
+            @i18n:Label (en="Net Lots")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=10.0, core=true, t24Name=NET.LOTS)
+        /* This field holds the date of the next due date out of all of the premium currently paid or pending for the position from a value dated perspective. */
+        NXT_PVD_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=61.0, core=true, t24Name=NXT.PVD.DATE)
+        OPTION_STYLE : DX_Position:DX_REP_POS_HIST__OPTION_STYLE
+            @i18n:Label (en="Option Style")
+            @i18n:Tooltip (en="Type of option style like Americal or European")
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=77.0, core=true, t24Name=OPTION.STYLE)
+/* This field holds the own book portfolio to which this portfolio belongs.
+It identifies is this position is an own book position.
+This data is taken from the DX.TRANSACTION OWN.BOOK field, which is taken from the DEALER.DESK field on SEC.ACC.MASTER */
+        OWN_BOOK : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=68.0, core=true, t24Name=OWN.BOOK)
+        /* The T24 Portfolio holding the position */
+        PORTFOLIO -> SC_ScoPortfolioMaintenance:SEC_ACC_MASTER
+            @i18n:Label (en=Portfolio)
+            @t24:i (align=L, inputBehaviour=I, maxLength=18, sysNumber=2.0, core=true, businessType=A, t24Name=PORTFOLIO)
+/* The positon type of this position.
+
+FUTURE or OPTION */
+        POSITION_TYPE : T24BusinessTypes:A
+            @i18n:Label (en="Position Type")
+            @i18n:Tooltip (en="Position Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=67.0, core=true, t24Name=POSITION.TYPE)
+        /* This field represents the value date of this position, it could be in past, today or future. */
+        POS_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=8, sysNumber=69.0, core=true, t24Name=POS.DATE)
+        /* The value dated buy positions */
+        PVD_BUY_LOTS : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=50.0, core=true, t24Name=PVD.BUY.LOTS)
+        /* The value dated net position. (Long or Short) */
+        PVD_NET_LOTS : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=52.0, core=true, t24Name=PVD.NET.LOTS)
+        /* The value dated sell position. */
+        PVD_SELL_LOTS : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=51.0, core=true, t24Name=PVD.SELL.LOTS)
+/* Region code which applies to this position - this will have been defined in the relevant DX.EXCHANGE.MASTER record in the REGION field.
+
+Regions exist to segregate a Region within a Country where the public holidays differ from other parts of the Country.
+
+This enables a separate HOLIDAY table to be defined for the Region, to allow delivery to be controlled within the T24 system. */
+        REGION -> ST_Config:REGION
+            @t24:i (align=R, inputBehaviour=N, maxLength=12, sysNumber=75.0, core=true, t24Name=REGION)
+        /* The key to the position. This key is complex.  Please refer to the T24 User Guides for further information. */
+        REP_POSITION_KEY -> DX_Position:DX_REP_POS_HIST PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=120, sysNumber=0.0, core=true, businessType=A, t24Name=REP.POSITION.KEY)
+        /* Total number of Sold Lots for this position */
+        SELL_LOTS : T24BusinessTypes:N
+            @i18n:Label (en=Sold)
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=9.0, core=true, t24Name=SELL.LOTS)
+        /* Internal strike price for OPTION type positions. This field is populated from the DX.TRANSACTION record field INT.STRIKE and holds the T24 internal strike price for the option. */
+        STRIKE_PRICE : T24BusinessTypes:N
+            @i18n:Label (en=Strike)
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=5.0, core=true, t24Name=STRIKE.PRICE)
+        TRANSACTION_IDS -> byValue DX_Position:DX_REP_POS_HIST__TRANSACTION_IDS *
+            @t24:i (t24Name=TRANSACTION.IDS)
+    }
+    DX_REP_POS_HIST__FWD_TXN
+    {
+/* Used for NON-STOP (NS) product.
+
+Indicates a BUY or a SELL of a specified number of lots (FWD.LOTS) which will be entered into system on the next working day (FWD.DATE) as a live transaction (FWD.TXN). */
+        FWD_BUY_SELL : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=71.0, core=true, t24Name=FWD.BUY.SELL)
+/* Used for NON-STOP (NS) product.
+
+Usually next working day, date at which forward transaction (FWD.TXN) for buy or sell (FWD.BUY.SELL) of a specified number of lots (FWD.LOTS) will be entered into system as live transaction (FWD.TXN). */
+        FWD_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=73.0, core=true, t24Name=FWD.DATE)
+/* Used for NON-STOP (NS) product.
+
+Number of lots bought or sold (FWD.BUY.SELL) pending entry as live transaction (FWD.TXN) on the next working day (FWD.DATE). */
+        FWD_LOTS : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=72.0, core=true, t24Name=FWD.LOTS)
+/* Used for NON-STOP (NS) product.
+
+Forward transaction reference for buy or sell (FWD.BUY.SELL) of a specified number of lots (FWD.LOTS) in this position to be entered on the next working day (FWD.DATE) onto the system as a live transaction (FWD.TXN). */
+        FWD_TXN : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=70.0, core=true, t24Name=FWD.TXN)
+    }
+    DX_REP_POS_HIST__TRANSACTION_IDS
+    {
+        /* The number of lots of this position that have been closed out. */
+        CO_LOTS : T24BusinessTypes:AMT
+            @i18n:Label (en="Expired Lots")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=37.0, core=true, t24Name=CO.LOTS)
+        /* The number of lots of this position that have been closed out based on the value date. */
+        CO_PV_LOTS : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=38.0, core=true, t24Name=CO.PV.LOTS)
+        ENTITLEMENT -> byValue DX_Position:DX_REP_POS_HIST__TRANSACTION_IDS__ENTITLEMENT *
+            @t24:i (t24Name=ENTITLEMENT)
+        /* This field holds the date of the furthest out of all of the closeouts currently active or pending for the position. */
+        FAR_CO_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=35.0, core=true, t24Name=FAR.CO.DATE)
+        /* This field holds the date of the furthest out of all of the closeouts currently active or pending for the position from a valuedated perspective. */
+        FAR_CO_PV_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=36.0, core=true, t24Name=FAR.CO.PV.DATE)
+/* This is the exotic option type of the transaction & contract.
+
+This is used as part of the key and is taken from the DX.TRANSACTION record.
+
+This will exist as a valid record in the DX.OPTION.TYPE application. */
+        OPTION_TYPE -> DX_Configuration:DX_OPTION_TYPE
+            @i18n:Label (en="Call or Put")
+            @i18n:Tooltip (en="Type of option to be chosen like call or put")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=45.0, core=true, businessType=A, t24Name=OPTION.TYPE)
+        /* All transaction ID's for this position */
+        TRANSACTION_IDS -> DX_Trade:DX_TRANSACTION
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=11.0, core=true, businessType=A, t24Name=TRANSACTION.IDS)
+        /* The number of lots traded prior to any closeout or corporate action taking place. */
+        TX_BASE_LOTS : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=18.0, core=true, t24Name=TX.BASE.LOTS)
+        /* The number of lots traded for this transaction. */
+        TX_BUY_LOTS : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=19.0, core=true, t24Name=TX.BUY.LOTS)
+        /* Was this transaction a BUY or a SELL transaction. */
+        TX_BUY_SELL : DX_Position:DX_REP_POS_HIST__TRANSACTION_IDS__TX_BUY_SELL
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=12.0, core=true, t24Name=TX.BUY.SELL)
+        TX_CO_ID -> byValue DX_Position:DX_REP_POS_HIST__TRANSACTION_IDS__TX_CO_ID *
+            @t24:i (t24Name=TX.CO.ID)
+        /* The DX internal price of this transaction. */
+        TX_IPRICE : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=15.0, core=true, t24Name=TX.IPRICE)
+        /* The number of lots traded on this transaction. */
+        TX_LOTS : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=16.0, core=true, t24Name=TX.LOTS)
+        /* The net cost of this transaction updated with DX.TX.NET.COST field from DX.TRANSACTION. */
+        TX_NET_COST : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=44.0, core=true, t24Name=TX.NET.COST)
+/* This specifies the open or close status of transaction . This is used in the new average price method OPENING
+
+
+
+
+Either OPEN/CLOSE allowed */
+        TX_OPEN_CLOSE : DX_Position:DX_REP_POS_HIST__TRANSACTION_IDS__TX_OPEN_CLOSE
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=13.0, core=true, t24Name=TX.OPEN.CLOSE)
+        /* The original number of lots of this contract traded on the transaction. */
+        TX_ORIG_LOTS : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=17.0, core=true, t24Name=TX.ORIG.LOTS)
+        /* The premium payment offset for this transaction. */
+        TX_PREM_OFFSET : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=22.0, core=true, t24Name=TX.PREM.OFFSET)
+        /* The traded price of this transaction. */
+        TX_PRICE : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=14.0, core=true, t24Name=TX.PRICE)
+        /* The value dated bought no. of lots based on if the TX.PV.DATE for this transaction has passed. */
+        TX_PVD_BUY_LT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=26.0, core=true, t24Name=TX.PVD.BUY.LT)
+        /* The value dated no. of lots based on if the TX.PV.DATE for this transaction has passed. */
+        TX_PVD_LOTS : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=24.0, core=true, t24Name=TX.PVD.LOTS)
+        /* The value dated sold no. of lots based on if the TX.PV.DATE for this transaction has passed. */
+        TX_PVD_SELL_LT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=27.0, core=true, t24Name=TX.PVD.SELL.LT)
+/* The value dated no. of lots based on if the TX.PV.DATE for this transaction has passed.
+
+A signed figure. -ve for short / +ve for long. */
+        TX_PVD_SIGN_LT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=25.0, core=true, t24Name=TX.PVD.SIGN.LT)
+        /* The value date for the premiun payment for this transaction based on the trade date (TX.TRADE.DATE + TX.PREM.OFFSET) */
+        TX_PV_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=23.0, core=true, t24Name=TX.PV.DATE)
+        /* The no. of lots of this contract sold on this transaction. */
+        TX_SELL_LOTS : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=20.0, core=true, t24Name=TX.SELL.LOTS)
+        /* The trade date for this transaction. */
+        TX_TRADE_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=21.0, core=true, t24Name=TX.TRADE.DATE)
+        UNR_PL_CCY -> byValue DX_Position:DX_REP_POS_HIST__TRANSACTION_IDS__UNR_PL_CCY *
+            @t24:i (t24Name=UNR.PL.CCY)
+        USR_FLD_NAME -> byValue DX_Position:DX_REP_POS_HIST__TRANSACTION_IDS__USR_FLD_NAME *
+            @t24:i (t24Name=USR.FLD.NAME)
+        VAR_MAR_CCY -> byValue DX_Position:DX_REP_POS_HIST__TRANSACTION_IDS__VAR_MAR_CCY *
+            @t24:i (t24Name=VAR.MAR.CCY)
+    }
+    DX_REP_POS_HIST__TRANSACTION_IDS__ENTITLEMENT
+    {
+        /* The key to any entitlements currently affecting these trades/positions. */
+        ENTITLEMENT -> DX_CorporateActions:DX_ENTITLEMENT
+            @i18n:Label (en=Entitlement)
+            @t24:i (align=L, inputBehaviour=I, maxLength=44, sysNumber=39.0, core=true, businessType=A, t24Name=ENTITLEMENT)
+    }
+    DX_REP_POS_HIST__TRANSACTION_IDS__TX_CO_ID
+    {
+        /* The date(s) of closeouts affecting this transaction, */
+        TX_CO_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=29.0, core=true, t24Name=TX.CO.DATE)
+        /* The id(s) of closeouts affecting this transaction. */
+        TX_CO_ID -> DX_Closeout:DX_CLOSEOUT
+            @t24:i (align=L, inputBehaviour=I, maxLength=18, sysNumber=28.0, core=true, businessType=A, t24Name=TX.CO.ID)
+        /* The number of lots of closeouts affecting this transaction, */
+        TX_CO_LOTS : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=31.0, core=true, t24Name=TX.CO.LOTS)
+        /* The value dated offset(s) of closeouts affecting this transaction. */
+        TX_CO_OFFSET : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=34.0, core=true, t24Name=TX.CO.OFFSET)
+        /* The value date of the closeouts affecting this transaction based on the TRADE.DATE + TX.CO.OFFSET */
+        TX_CO_PV_DT : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=30.0, core=true, t24Name=TX.CO.PV.DT)
+        /* The no.of lots of the closeouts affecting this transaction based on if the TRADE.DATE + TX.CO.OFFSET has passed. */
+        TX_CO_PV_LT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=32.0, core=true, t24Name=TX.CO.PV.LT)
+        /* Type of closeout affecting this transaction, e.g. ASSIGNMENT, EXERCISE, EXTERNAL, EXPIRY, FIXING, MATURITY or SETTLEMENT. */
+        TX_CO_TYPE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=33.0, core=true, t24Name=TX.CO.TYPE)
+    }
+    DX_REP_POS_HIST__TRANSACTION_IDS__UNR_PL_CCY
+    {
+/* Unrealised P&L currently on this position.
+
+Updated after a DX valuation has taken place. */
+        UNR_PL_AMT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=43.0, core=true, t24Name=UNR.PL.AMT)
+/* Unrealised P&L currency on this position.
+
+Updated after a DX valuation has taken place. */
+        UNR_PL_CCY -> ST_CurrencyConfig:CURRENCY
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=42.0, core=true, businessType=CCY, t24Name=UNR.PL.CCY)
+    }
+    DX_REP_POS_HIST__TRANSACTION_IDS__USR_FLD_NAME
+    {
+/* Used for Exotic Options processing.
+
+The field holds a list of user defined fields/parameter that define the uniqueness of the exotic position. */
+        USR_FLD_NAME -> DX_Exotics:DX_USR_FLD_OPT
+            @i18n:Label (en="XO Field")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=46.0, core=true, businessType=A, t24Name=USR.FLD.NAME)
+/* Used for Exotic Options processing.
+
+The field holds a list of user defined name of fields/parameter that define the uniqueness of the exotic position. */
+        USR_FLD_TEXT : T24BusinessTypes:A
+            @i18n:Label (en="Exotic Value")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=48.0, core=true, t24Name=USR.FLD.TEXT)
+/* Used for Exotic Options processing.
+
+The field holds a list of user defined fields/parameter values that define the uniqueness of the exotic position. */
+        USR_FLD_VAL : T24BusinessTypes:A
+            @i18n:Label (en="XO Value")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=47.0, core=true, t24Name=USR.FLD.VAL)
+/* Used for Exotic Options processing.
+
+As part of the  list of user defined fields/parameter that define the uniqueness of the exotic position this defines which of these fields are part of the position & price keys. */
+        USR_PRICE : T24BusinessTypes:A
+            @i18n:Label (en="Key?")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=49.0, core=true, t24Name=USR.PRICE)
+    }
+    DX_REP_POS_HIST__TRANSACTION_IDS__VAR_MAR_CCY
+    {
+        /* The variation margin payable. */
+        VAR_MARGIN : T24BusinessTypes:AMT
+            @i18n:Label (en="Var Margin")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=41.0, core=true, t24Name=VAR.MARGIN)
+        /* The currency of the variation margin payable. */
+        VAR_MAR_CCY -> ST_CurrencyConfig:CURRENCY
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=40.0, core=true, businessType=CCY, t24Name=VAR.MAR.CCY)
+    }
+    /* Concat file.  Holds cross-reference from the DX.REP.POSITION key to the DX.REP.POS.HIST record id (most recent history of the DX.REP.POSITION record which shares this key). */
+    DX_REP_POS_LAST
+        @i18n:Description (en="")
+        @t24:i (t24Name=DX.REP.POS.LAST, level=F, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        /* DX.REP.POSITION record id */
+        DX_REP_POSITION_ID -> DX_Position:DX_REP_POS_LAST PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=120, sysNumber=0.0, core=true, businessType=A, t24Name=DX.REP.POSITION.ID)
+        /* DX.REP.POS.HIST record id */
+        DX_REP_POS_HIST_ID -> DX_Position:DX_REP_POS_HIST
+            @t24:i (align=L, inputBehaviour=I, maxLength=120, sysNumber=1.0, core=true, businessType=A, t24Name=DX.REP.POS.HIST.ID)
+    }
+}
+Enumerations {
+    DX_REP_POSITION__OPTION_STYLE : mml:string
+        A=A
+        C=C
+        E=E
+    DX_REP_POSITION__TRANSACTION_IDS__TX_BUY_SELL : mml:string
+        BUY=BUY
+        SELL=SELL
+    DX_REP_POSITION__TRANSACTION_IDS__TX_OPEN_CLOSE : mml:string
+        CLOSE=CLOSE
+        OPEN=OPEN
+    DX_REP_POS_ACTIVITY__EVENT__INACTIVE : mml:string
+        NO=NO
+        YES=YES
+    DX_REP_POS_ACTIVITY__EVENT__REPORTING_FLAG : mml:string
+        NO=NO
+        YES=YES
+    DX_REP_POS_ACT_HIST__EVENT__INACTIVE : mml:string
+        NO=NO
+        YES=YES
+    DX_REP_POS_ACT_HIST__EVENT__REPORTING_FLAG : mml:string
+        NO=NO
+        YES=YES
+    DX_REP_POS_HIST__OPTION_STYLE : mml:string
+        A=A
+        C=C
+        E=E
+    DX_REP_POS_HIST__TRANSACTION_IDS__TX_BUY_SELL : mml:string
+        BUY=BUY
+        SELL=SELL
+    DX_REP_POS_HIST__TRANSACTION_IDS__TX_OPEN_CLOSE : mml:string
+        CLOSE=CLOSE
+        OPEN=OPEN
+}

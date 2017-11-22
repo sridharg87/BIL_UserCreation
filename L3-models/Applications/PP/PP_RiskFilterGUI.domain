@@ -1,0 +1,893 @@
+# UTF-8
+/* Risk Filter GUI */
+Domain PP_RiskFilterGUI
+    @t24:i (module=PP)
+    @java:Package (value=com.temenos.t24.datamodel.pp.pp_riskfiltergui)
+namespace "http://www.temenos.com/t24/PP_RiskFilterGUI"
+metamodelVersion 1.30.6
+Classes {
+    NOFILE_PP_PPT_RFO_LIST
+        @i18n:Description (en="")
+        @t24:i (t24Name=NOFILE.PP.PPT.RFO.LIST, level=I, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        ARR -> byValue PP_RiskFilterGUI:NOFILE_PP_PPT_RFO_LIST__ARR *
+            @t24:i (t24Name=ARR)
+        COMPANY_ID : T24BusinessTypes:N
+            @i18n:Label (en=Company)
+            @t24:i (align=R, inputBehaviour=N, maxLength=100, core=false, t24Name=COMPANY.ID)
+        CR_DATE : T24BusinessTypes:N
+            @i18n:Label (en="Credit date")
+            @t24:i (align=R, inputBehaviour=N, maxLength=1, core=false, t24Name=CR.DATE)
+        DR_DATE : T24BusinessTypes:N
+            @i18n:Label (en="Debit date")
+            @t24:i (align=R, inputBehaviour=N, maxLength=100, core=false, t24Name=DR.DATE)
+        FT_NUMBER : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=100, core=false, t24Name=FT.NUMBER)
+        ID : T24BusinessTypes:N
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=R, inputBehaviour=N, maxLength=100, core=false, t24Name="@ID")
+        TRANS_AMT : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=100, core=false, t24Name=TRANS.AMT)
+        TRANS_CCY : T24BusinessTypes:N
+            @i18n:Label (en="Trans Ccy")
+            @t24:i (align=R, inputBehaviour=N, maxLength=100, core=false, t24Name=TRANS.CCY)
+    }
+    NOFILE_PP_PPT_RFO_LIST__ARR
+    {
+        ARR : T24BusinessTypes:N
+            @t24:i (align=L, inputBehaviour=N, maxLength=100, core=false, t24Name=ARR, genOperation=PP.PPT.RFO.LIST)
+    }
+/* This table is used to define the accumulator details for Risk Filter.
+Inside accumulator table there shall not be any amount netting based on debit or credit.
+Periods can be daily, weekly and monthly. */
+    PPT_ACCUMULATOR
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPT.ACCUMULATOR, nonStop=true, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* Indicates the company ID for which the record is created.
+Example : BNK,GB1
+Validation Rules:
+3 alphanumeric characters.
+The value links to the field ‘CompanyID’ in PPT.COMPANY */
+        CompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=2.0, core=true, t24Name=CompanyID)
+/* Latest exhausted limit for the day (cumulative payment amount for current day which has been processed for this condition).
+17 alphanumeric characters. */
+        DailyExhaustedAmountLimit : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=17, sysNumber=3.0, core=true, t24Name=DailyExhaustedAmountLimit, typeModifiers="3")
+/* Latest exhausted payment count limit for the day for this condition.
+6 alphanumeric characters. */
+        DailyExhaustedCountLimit : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=6, sysNumber=6.0, core=true, t24Name=DailyExhaustedCountLimit)
+        ID -> PP_RiskFilterGUI:PPT_ACCUMULATOR PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+/* Latest exhausted limit for the month (cumulative payment amount for current month which has been processed for this condition).
+17 alphanumeric characters. */
+        MonthlyExhaustedAmountLimit : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=17, sysNumber=5.0, core=true, t24Name=MonthlyExhaustedAmountLimit, typeModifiers="3")
+/* Latest exhausted payment count limit for the month for this condition.
+6 alphanumeric characters. */
+        MonthlyExhaustedCountLimit : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=6, sysNumber=8.0, core=true, t24Name=MonthlyExhaustedCountLimit)
+/* Unique ID to identify the filter and also used to store the condition accumulator.
+This field can hold upto 65 alphanumeric characters and the value is not editable by the user. */
+        RiskFilterConditionID : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, t24Name=RiskFilterConditionID)
+/* Latest exhausted limit for the week (cumulative payment amount for current week which has been processed for this condition).
+17 alphanumeric characters. */
+        WeeklyExhaustedAmountLimit : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=17, sysNumber=4.0, core=true, t24Name=WeeklyExhaustedAmountLimit, typeModifiers="3")
+/* Latest exhausted payment count limit for the week for this condition.
+6 alphanumeric characters. */
+        WeeklyExhaustedCountLimit : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=6, sysNumber=7.0, core=true, t24Name=WeeklyExhaustedCountLimit)
+    }
+/* This table is used define the Risk filtering conditions for correspondent banks, country and currency wise.
+The condition are based on the incoming message type, transaction currency and type of transaction - Credit Transfer or Bank Transfer
+The conditions can be defined Credit or Debit or both sides of the transaction
+The limits or conditions can be either Amount or Number of transactions
+Allowed exposure by counterparty, country and currency can be deinfed by daily, weekly and monthly
+Maximum transaction amount for a payment can also be defined here
+Any payments that cross the limits will be moved to Risk Filter Queue with a status 624. */
+    PPT_RISKFILTERCONDITIONS
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPT.RISKFILTERCONDITIONS, nonStop=true, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        ApprovedDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=23.0, core=true, t24Name=ApprovedDateTime, mask="RDDDD DD  DD ##:##:##.###")
+        ApproverUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=22.0, core=true, t24Name=ApproverUserID)
+/* Specifies the Bank Identification Code.It can be defined at different levels (BIC 11 , 8 , 6, 4 , 2 )
+Country wise limit are set by defining 2 characters company code in this field
+Default Value : '*' */
+        BICCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=7.0, core=true, t24Name=BICCode)
+/* Specifies whether the condition is applicable for Customer Transfer or Bank Taransfer or for Both.
+Possible Values:
+C - Customer
+B - Bank
+Default Value : '*'
+Validation Rules :
+1. 1 Character. */
+        CTRBTRIndicator : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=6.0, core=true, t24Name=CTRBTRIndicator)
+/* Indicates the company ID for which the record is created.
+Example : BNK,GB1
+Validation Rules:
+3 alphanumeric characters.
+The value links to the field ‘CompanyID’ in PPT.COMPANY */
+        CompanyID : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=2.0, core=true, t24Name=CompanyID)
+/* Specifies the Transaction Currency Code for which the condition is applicable.
+Default Value : '*'
+Validation Rules :
+1. Valid record from PPT.CURRENCY Table.
+2. 3 Characters.
+2. Mandatory when the TransactionAmount is not NULL. */
+        CurrencyCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=4.0, core=true, t24Name=CurrencyCode)
+/* Specifies the daily amount limit if there is any.
+Validation Rules:
+1. 1-15 numeric characters. */
+        DailyAmountLimit : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=12.0, core=true, t24Name=DailyAmountLimit)
+/* Indicates the Debit or Credit indicator.
+Possible Values:
+D - Debit
+C - Credit
+B - Both
+Default Value : '*'
+Validation Rules:
+1. 1 Character. */
+        DebitCreditIndicator : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=3.0, core=true, t24Name=DebitCreditIndicator)
+        /* Specifies the date until which the record is to be considered as active for payments processing.Post this date, the record will be set as Inactive by the payments hub. */
+        EndDateRiskFilterConditions : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=9.0, core=true, t24Name=EndDateRiskFilterConditions)
+        EntryDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=21.0, core=true, t24Name=EntryDateTime, mask="RDDDD DD  DD ##:##:##.###")
+        EntryUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=20.0, core=true, t24Name=EntryUserID)
+        ID -> PP_RiskFilterGUI:PPT_RISKFILTERCONDITIONS PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+/* Specifies the Message Type for which the condition is applied.
+Default Value : '*'
+Validation Rules :
+1. Valid record PPT.MSGPAYMENTTYPE table or the defaule value "*"
+2. 1-8 AlphaNumeric characters. */
+        IncomingMessageType : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=5.0, core=true, t24Name=IncomingMessageType)
+/* Specifies the Currency Code in which amount based limits are defined.
+Validation Rules :
+1. Valid record in the table PPT.CURRENCY.
+2. 3 Characters. */
+        LimitCurrencyCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=10.0, core=true, t24Name=LimitCurrencyCode)
+/* Specifies the cumulative monthly amount limit.
+Validation Rules:
+1. 1-15 Numeric characters. */
+        MonthlyAmountLimit : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=14.0, core=true, t24Name=MonthlyAmountLimit)
+/* Specifies the Maximum number of payments allowed for a day.
+Validation Rules:
+1. 1-6 Numeric characters. */
+        NumberOfPaymentsPerDay : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=6, sysNumber=15.0, core=true, t24Name=NumberOfPaymentsPerDay)
+/* Specifies the Maximum number of payments allowed for a month.
+Validation Rules:
+1. 1-6 Numeric characters. */
+        NumberOfPaymentsPerMonth : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=6, sysNumber=17.0, core=true, t24Name=NumberOfPaymentsPerMonth)
+/* Specifies the Maximum number of payments allowed for a week.
+Validation Rules:
+1. 1-6 Numeric characters. */
+        NumberOfPaymentsPerWeek : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=6, sysNumber=16.0, core=true, t24Name=NumberOfPaymentsPerWeek)
+/* Record Activation Code generated for the record by the payment's hub.
+Possible values:
+N - Not active
+A - Active
+H-YYYYMMDDHHMMSSsss - History. Where: YYYY - year, MM - month, DD - day, HH - hour, MM - minutes, SS - seconds and sss - miliseconds
+F - Future
+C - Not active future
+Validation Rules:
+19 alphanumeric characters. */
+        RACRiskFilterConditions : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=18.0, core=true, t24Name=RACRiskFilterConditions)
+/* Record Status Code generated for the record by the payments hub.
+Possible values:
+L - Live
+U - Unapproved
+R - Reversed
+MF - Modified future
+Validation Rules:
+1 alphanumeric character. */
+        RSCRiskFilterConditions : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=19.0, core=true, t24Name=RSCRiskFilterConditions)
+        /* Specifies the unique ID generated by the Payments Hub. */
+        RiskFilterConditionID : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, t24Name=RiskFilterConditionID)
+/* Specifies the date from which the record is to be considered as active for payments processing.
+Validation Rules:
+1. Should not be lesser than the Current Business date in the PPT.COMPANY table. */
+        StartDateRiskFilterConditions : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=8.0, core=true, t24Name=StartDateRiskFilterConditions)
+/* Spcifies the transaction amount limit per transaction.
+Validation Rules:
+1. 1-15 Numeric characters. */
+        TransactionAmountLimit : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=11.0, core=true, t24Name=TransactionAmountLimit)
+/* Specifies the cumulative weekly amount limit.
+Validation Rules:
+1. 1-15 Numeric characters. */
+        WeeklyAmountLimit : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=13.0, core=true, t24Name=WeeklyAmountLimit)
+    }
+/* The table is used to handle the payments that are moved to Risk filter queue with status 625 and to do breaching the risk filter conditions.
+Payment form Risk Filter queue can be approved and allow to proceed further or Reject and moved to Repair status */
+    PPT_RISKFILTEROUTPUT
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPT.RISKFILTEROUTPUT, nonStop=true, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* Indicates the company ID of the limit breached payment.
+Example : BNK,GB1
+Validation Rules:
+3 alphanumeric characters.
+The value links to the field ‘CompanyID’ in PPT.COMPANY */
+        CompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+/* This field is a no input filed. System will populate the daily amount limit defined in the respective risk filter condition while moving the payment to Risk filter queue.
+
+Validation Rules:
+1. 1-15 numeric characters. */
+        DailyAmountLimit : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=6.0, core=true, t24Name=DailyAmountLimit)
+/* This field is a no input filed. System will populate the amount by which the DailyAmountLimit is breached while moving the payment to Risk filter queue.
+
+Validation Rules:
+1. 1-15 numeric characters. */
+        DailyLimitBreach : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=7.0, core=true, t24Name=DailyLimitBreach)
+/* Specifies the unique ID of the breached payment.
+Validation Rules:
+16 alphanumeric characters. */
+        FTNumber : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=2.0, core=true, t24Name=FTNumber)
+        /* Specifies unique ID of the Risk filter condition for which with the payment breached the condition . */
+        FilterID : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=3.0, core=true, t24Name=FilterID)
+        ID -> PP_RiskFilterGUI:PPT_RISKFILTEROUTPUT PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+/* This field is a no input filed. System will populate the cumulative monthly amount limitdefined in the respective risk filter condition while moving the payment to Risk filter queue.
+
+Validation Rules:
+1. 1-15 Numeric characters. */
+        MonthlyAmountLimit : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=10.0, core=true, t24Name=MonthlyAmountLimit)
+/* This field is a no input filed. System will populate the amount by which the MonthlyAmountLimit is breached while moving the payment to Risk filter queue.
+
+Validation Rules:
+1. 1-15 numeric characters. */
+        MonthlyLimitBreach : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=11.0, core=true, t24Name=MonthlyLimitBreach)
+/* This field is a no input filed. System will populate the number by which the PaymentsPerDay is breached while moving the payment to Risk filter queue.
+
+Validation Rules:
+1. 1-6 Numeric characters. */
+        PPDLimitBreach : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=13.0, core=true, t24Name=PPDLimitBreach)
+/* This field is a no input filed. System will populate the number by which the PaymentsPerMonth  is breached while moving the payment to Risk filter queue.
+
+Validation Rules:
+1. 1-6 Numeric characters. */
+        PPMLimitBreach : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=17.0, core=true, t24Name=PPMLimitBreach)
+/* This field is a no input filed. System will populate the number by which the PaymentsPerWeek is breached while moving the payment to Risk filter queue.
+
+Validation Rules:
+1. 1-6 Numeric characters. */
+        PPWLimitBreach : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=15.0, core=true, t24Name=PPWLimitBreach)
+/* This field is a no input filed. System will populate the Maximum number of payments allowed for a day defined in the respective risk filter condition while moving the payment to Risk filter queue..
+
+Validation Rules:
+1. 1-6 Numeric characters. */
+        PaymentsPerDay : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=12.0, core=true, t24Name=PaymentsPerDay)
+/* This field is a no input filed. System will populate the Maximum number of payments allowed for a month defined in the respective risk filter condition while moving the payment to Risk filter queue.
+
+Validation Rules:
+1. 1-6 Numeric characters. */
+        PaymentsPerMonth : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=16.0, core=true, t24Name=PaymentsPerMonth)
+/* This field is a no input filed. System will populate the Maximum number of payments allowed for a week defined in the respective risk filter condition while moving the payment to Risk filter queue.
+
+Validation Rules:
+1. 1-6 Numeric characters. */
+        PaymentsPerWeek : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=14.0, core=true, t24Name=PaymentsPerWeek)
+/* This field is a no input filed. System will populate the amount by which the TransactionAmount is breached while moving the payment to Risk filter queue.
+
+Validation Rules:
+1. 1-15 Numeric characters. */
+        TRNLimitBreach : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=5.0, core=true, t24Name=TRNLimitBreach)
+/* This field is a no input filed. System will populate the transaction amount limit per transaction defined in the respective risk filter condition while moving the payment to Risk filter queue.
+
+Validation Rules:
+1. 1-15 Numeric characters. */
+        TransactionAmountLimit : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=4.0, core=true, t24Name=TransactionAmountLimit)
+/* This field is a no input filed. System will populate the cumulative weekly amount limit defined in the respective risk filter condition while moving the payment to Risk filter queue.
+
+Validation Rules:
+1. 1-15 Numeric characters. */
+        WeeklyAmountLimit : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=8.0, core=true, t24Name=WeeklyAmountLimit)
+/* This field is a no input filed. System will populate the amount by which the WeeklyAmountLimit is breached while moving the payment to Risk filter queue.
+
+Validation Rules:
+1. 1-15 numeric characters. */
+        WeeklyLimitBreach : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=9.0, core=true, t24Name=WeeklyLimitBreach)
+    }
+/* This screen is used define the Risk filtering conditions for correspondent banks, country and currency wise.
+The condition are based on the incoming message type, transaction currency and type of transaction - Credit Transfer or Bank Transfer
+The conditions can be defined Credit or Debit or both sides of the transaction
+The limits or conditions can be either Amount or Number of transactions
+Allowed exposure by counterparty, country and currency can be deinfed by daily, weekly and monthly
+Maximum transaction amount for a payment can also be defined here
+Any payments that cross the limits will be moved to Risk Filter Queue with a status 624.
+After Authorisation .CONCAT, .PDS, .DUPCHK and .CACHE will be created
+.CONCAT will be created with the concatenation of below primary Keys.
+DebitCreditIndicator:CurrencyCode:IncomingMessageType:CTRBTRIndicator:BICCode
+Records will be Inserted into .PDS files with the CONCATID-DATE.
+Records will be Inserted into .DUPCHK files with the CONCATID. */
+    PP_RISK_FILTER_CONDITIONS
+        @i18n:Description (en="")
+        @t24:i (additionalInfo=HLD, t24Name=PP.RISK.FILTER.CONDITIONS, nonStop=true, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=33.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=34.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=30.0, core=true, t24Name=AUTHORISER)
+/* Specifies the Bank Identification Code.It can be defined at different levels (BIC 11 , 8 , 6, 4 , 2 )
+Country wise limit are set by defining 2 characters company code in this field
+Default Value : '*' */
+        BICCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=6.0, core=true, t24Name=BICCode)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=31.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+/* Specifies whether the condition is applicable for Customer Transfer or Bank Taransfer or for Both.
+Possible Values:
+C - Customer
+B - Bank
+Default Value : '*'
+Validation Rules :
+1. 1 Character. */
+        CTRBTRIndicator : PP_RiskFilterGUI:PP_RISK_FILTER_CONDITIONS__CTRBTRIndicator required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=5.0, core=true, t24Name=CTRBTRIndicator)
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=27.0, core=true, t24Name=CURR.NO)
+/* This is a No-Input field which gets Auto-Populated on Clicking Validate button
+Example : BNK,GB1 */
+        CompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=1.0, core=true, t24Name=CompanyID)
+/* Specifies the Transaction Currency Code for which the condition is applicable.
+Default Value : '*'
+Validation Rules :
+1. Valid record from PPT.CURRENCY Table.
+2. 3 Characters.
+2. Mandatory when the TransactionAmount is not NULL. */
+        CurrencyCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=3.0, core=true, t24Name=CurrencyCode)
+        DATE_TIME -> byValue PP_RiskFilterGUI:PP_RISK_FILTER_CONDITIONS__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=32.0, core=true, t24Name=DEPT.CODE)
+/* Specifies the daily amount limit if there is any.
+Validation Rules:
+1. 1-15 numeric characters. */
+        DailyAmountLimit : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=11.0, core=true, t24Name=DailyAmountLimit)
+/* Indicates the Debit or Credit indicator.
+Possible Values:
+D - Debit
+C - Credit
+B - Both
+Default Value : '*'
+Validation Rules:
+1. 1 Character. */
+        DebitCreditIndicator : PP_RiskFilterGUI:PP_RISK_FILTER_CONDITIONS__DebitCreditIndicator required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=2.0, core=true, t24Name=DebitCreditIndicator)
+        /* Specifies the date until which the record is to be considered as active for payments processing.Post this date, the record will be set as Inactive by the payments hub. */
+        EndDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=8.0, core=true, t24Name=EndDate)
+/* Specifies the unique ID entered by the User.
+Start date will be concatenated with the start date if user doesn't enter any date
+ID format will be "UserEnteredValue-DATE" */
+        ID -> PP_RiskFilterGUI:PP_RISK_FILTER_CONDITIONS PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=75, sysNumber=0.0, core=true, businessType=ANY, t24Name=ID)
+        INPUTTER -> byValue PP_RiskFilterGUI:PP_RISK_FILTER_CONDITIONS__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* Specifies the Message Type for which the condition is applied.
+Default Value : '*'
+Validation Rules :
+1. Valid record PPT.MSGPAYMENTTYPE table or the defaule value "*"
+2. 1-8 AlphaNumeric characters. */
+        IncomingMessageType : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=4.0, core=true, t24Name=IncomingMessageType)
+/* Specifies the Currency Code in which amount based limits are defined.
+Validation Rules :
+1. Valid record in the table PPT.CURRENCY.
+2. 3 Characters. */
+        LimitCurrencyCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=9.0, core=true, t24Name=LimitCurrencyCode)
+/* Its a No-Input field
+Value is populated by concatenating all the Primary Keys */
+        LinkID : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=N, maxLength=255, sysNumber=25.0, core=true, t24Name=LinkID)
+/* Specifies the cumulative monthly amount limit.
+Validation Rules:
+1. 1-15 Numeric characters. */
+        MonthlyAmountLimit : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=13.0, core=true, t24Name=MonthlyAmountLimit)
+/* Specifies the Maximum number of payments allowed for a day.
+Validation Rules:
+1. 1-6 Numeric characters. */
+        NumberOfPaymentsPerDay : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=6, sysNumber=14.0, core=true, t24Name=NumberOfPaymentsPerDay)
+/* Specifies the Maximum number of payments allowed for a month.
+Validation Rules:
+1. 1-6 Numeric characters. */
+        NumberOfPaymentsPerMonth : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=6, sysNumber=16.0, core=true, t24Name=NumberOfPaymentsPerMonth)
+/* Specifies the Maximum number of payments allowed for a week.
+Validation Rules:
+1. 1-6 Numeric characters. */
+        NumberOfPaymentsPerWeek : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=6, sysNumber=15.0, core=true, t24Name=NumberOfPaymentsPerWeek)
+        OVERRIDE -> byValue PP_RiskFilterGUI:PP_RISK_FILTER_CONDITIONS__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=26.0, core=true, t24Name=RECORD.STATUS)
+        /* Standard T24 field. Reserved for future use */
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=22.0, core=true, t24Name=RESERVED.1)
+        /* Standard T24 field. Reserved for future use */
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=21.0, core=true, t24Name=RESERVED.2)
+        /* Standard T24 field. Reserved for future use */
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=20.0, core=true, t24Name=RESERVED.3)
+        /* Standard T24 field. Reserved for future use */
+        RESERVED_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=19.0, core=true, t24Name=RESERVED.4)
+        /* Standard T24 field. Reserved for future use */
+        RESERVED_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=RESERVED.5)
+/* Specifies whether the Accumulator needs to be reset  or Not.Used for the Technical purpose
+Possible Values :
+Y - YES.
+N - NO.
+Validation Rules:
+1. 1 Character. */
+        Reset_Accumulator : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=1, sysNumber=17.0, core=true, t24Name=Reset.Accumulator)
+/* Specifies the date from which the record is to be considered as active for payments processing.
+Autopopulated from the ID upon clicking Validate Button */
+        StartDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=N, maxLength=11, sysNumber=7.0, core=true, t24Name=StartDate)
+/* Spcifies the transaction amount limit per transaction.
+Validation Rules:
+1. 1-15 Numeric characters. */
+        TransactionAmountLimit : T24BusinessTypes:AMT required
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=10.0, core=true, t24Name=TransactionAmountLimit)
+/* Specifies the cumulative weekly amount limit.
+Validation Rules:
+1. 1-15 Numeric characters. */
+        WeeklyAmountLimit : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=12.0, core=true, t24Name=WeeklyAmountLimit)
+    }
+    PP_RISK_FILTER_CONDITIONS_PDS
+        @i18n:Description (en="")
+        @t24:i (t24Name=PP.RISK.FILTER.CONDITIONS.PDS, nonStop=true, level=I, type=L, allowedFunctions="L P S", localRefAllowed=true)
+    {
+        BICCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=6.0, core=true, t24Name=BICCode)
+        CTRBTRIndicator : PP_RiskFilterGUI:PP_RISK_FILTER_CONDITIONS_PDS__CTRBTRIndicator required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=5.0, core=true, t24Name=CTRBTRIndicator)
+        CompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=1.0, core=true, t24Name=CompanyID)
+        CurrencyCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=3.0, core=true, t24Name=CurrencyCode)
+        DailyAmountLimit : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=11.0, core=true, t24Name=DailyAmountLimit)
+        DebitCreditIndicator : PP_RiskFilterGUI:PP_RISK_FILTER_CONDITIONS_PDS__DebitCreditIndicator required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=2.0, core=true, t24Name=DebitCreditIndicator)
+        EndDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=8.0, core=true, t24Name=EndDate)
+        ID -> PP_RiskFilterGUI:PP_RISK_FILTER_CONDITIONS_PDS PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=75, sysNumber=0.0, core=true, businessType=ANY, t24Name=ID)
+        IncomingMessageType : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=4.0, core=true, t24Name=IncomingMessageType)
+        LimitCurrencyCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=9.0, core=true, t24Name=LimitCurrencyCode)
+        LinkID : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=N, maxLength=255, sysNumber=25.0, core=true, t24Name=LinkID)
+        MonthlyAmountLimit : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=13.0, core=true, t24Name=MonthlyAmountLimit)
+        NumberOfPaymentsPerDay : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=6, sysNumber=14.0, core=true, t24Name=NumberOfPaymentsPerDay)
+        NumberOfPaymentsPerMonth : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=6, sysNumber=16.0, core=true, t24Name=NumberOfPaymentsPerMonth)
+        NumberOfPaymentsPerWeek : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=6, sysNumber=15.0, core=true, t24Name=NumberOfPaymentsPerWeek)
+        OVERRIDE -> byValue PP_RiskFilterGUI:PP_RISK_FILTER_CONDITIONS_PDS__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=22.0, core=true, t24Name=RESERVED.1)
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=21.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=20.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=19.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=RESERVED.5)
+        Reset_Accumulator : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=1, sysNumber=17.0, core=true, t24Name=Reset.Accumulator)
+        StartDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=N, maxLength=11, sysNumber=7.0, core=true, t24Name=StartDate)
+        TransactionAmountLimit : T24BusinessTypes:AMT required
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=10.0, core=true, t24Name=TransactionAmountLimit)
+        WeeklyAmountLimit : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=12.0, core=true, t24Name=WeeklyAmountLimit)
+    }
+    PP_RISK_FILTER_CONDITIONS_PDS__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=24.0, core=true, t24Name=OVERRIDE)
+    }
+    PP_RISK_FILTER_CONDITIONS__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=29.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    PP_RISK_FILTER_CONDITIONS__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=28.0, core=true, t24Name=INPUTTER)
+    }
+    PP_RISK_FILTER_CONDITIONS__OVERRIDE
+    {
+        /* Contains all the override messages which the user agreed to during Input. During the validation of a transaction, the system may provide the user with a series of screen override messages to indicate an anomaly. */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=24.0, core=true, t24Name=OVERRIDE)
+    }
+/* The screen is used to handle the payments that are moved to Risk filter queue with status 625 and to do breaching the risk filter conditions.
+Payment form Risk Filter queue can be approved and allow to proceed further or Reject and moved to Repair status */
+    PP_RISK_FILTER_OUTPUT
+        @i18n:Description (en="")
+        @t24:i (t24Name=PP.RISK.FILTER.OUTPUT, nonStop=true, level=I, type=U, allowedFunctions="A C D E I L P Q S", localRefAllowed=false)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=46.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=47.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=43.0, core=true, t24Name=AUTHORISER)
+        /* Contains all the override messages which the user agreed to during Input. During the validation of a transaction, the system may provide the user with a series of screen override messages to indicate an anomaly. */
+        Action : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=36.0, core=true, t24Name=Action)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=44.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=40.0, core=true, t24Name=CURR.NO)
+/* Indicates the company ID of the limit breached payment.
+Example : BNK,GB1
+Validation Rules:
+3 alphanumeric characters.
+The value links to the field ‘CompanyID’ in PPT.COMPANY */
+        CompanyID : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+        /* Specifies the CreditValueDate from the breached payment order. */
+        CreditValueDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=6.0, core=true, t24Name=CreditValueDate)
+        DATE_TIME -> byValue PP_RiskFilterGUI:PP_RISK_FILTER_OUTPUT__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=45.0, core=true, t24Name=DEPT.CODE)
+        /* This field is a no input filed. System will populate  the DebitValueDate from the payment order. */
+        DebitValueDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=5.0, core=true, t24Name=DebitValueDate)
+/* Specifies the unique ID of the breached payment.
+Validation Rules:
+16 alphanumeric characters. */
+        FTNumber : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=2.0, core=true, t24Name=FTNumber)
+        FilterID -> byValue PP_RiskFilterGUI:PP_RISK_FILTER_OUTPUT__FilterID *
+            @t24:i (t24Name=FilterID)
+        /* Specifies the Unique ID generated by the Payments Hub. */
+        ID -> PP_RiskFilterGUI:PP_RISK_FILTER_OUTPUT PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+        INPUTTER -> byValue PP_RiskFilterGUI:PP_RISK_FILTER_OUTPUT__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        OVERRIDE -> byValue PP_RiskFilterGUI:PP_RISK_FILTER_OUTPUT__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+/* Used for internal purpose. Holds the ID of the previous live record of store table.
+This field can hold upto 65 alphanumeric characters and the value is not editable by the user. */
+        OldID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=65, sysNumber=37.0, core=true, t24Name=OldID)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=39.0, core=true, t24Name=RECORD.STATUS)
+/* Spcifies the transaction amount of hte breached payment.
+
+Validation Rules:
+1. 1-15 Numeric characters. */
+        TransactionAmount : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=3.0, core=true, t24Name=TransactionAmount)
+/* Specifies the payment Currency Code of the breached payment.
+
+Validation Rules :
+1. 3 Characters. */
+        TransactionCurrency : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=4.0, core=true, t24Name=TransactionCurrency)
+    }
+    PP_RISK_FILTER_OUTPUT__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=42.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    PP_RISK_FILTER_OUTPUT__FilterID
+    {
+/* This field is a no input filed. System will populate the current daily amount limit specified in the respective Risk Filter condition
+
+Validation Rules:
+1. 1-15 numeric characters. */
+        CUR_DailyAmountLimit : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=24.0, core=true, t24Name=CUR.DailyAmountLimit)
+/* This field is a no input filed. System will calculate the current number of payments by which the DailyLimitBreach is breached.
+
+Validation Rules:
+1. 1-15 numeric characters. */
+        CUR_DailyLimitBreach : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=25.0, core=true, t24Name=CUR.DailyLimitBreach)
+/* This field is a no input filed. System will populate the current cumulative Monthly amount limit specified in the respective Risk Filter condition
+Validation Rules:
+1. 1-15 Numeric characters. */
+        CUR_MonthlyAmountLimit : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=28.0, core=true, t24Name=CUR.MonthlyAmountLimit)
+/* This field is a no input filed. System will calculate the current amount by which the MonthlyAmountLimit is breached.
+
+1. 1-15 numeric characters. */
+        CUR_MonthlyLimitBreach : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=29.0, core=true, t24Name=CUR.MonthlyLimitBreach)
+/* This field is a no input filed. System will calculate the current number of payments by which the PaymentsPerDay is breached.
+Validation Rules:
+1. 1-6 Numeric characters. */
+        CUR_PPDLimitBreach : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=31.0, core=true, t24Name=CUR.PPDLimitBreach)
+/* This field is a no input filed. System will calculate the current number of payments by which the PaymentsPerMonth is breached.
+Validation Rules:
+1. 1-6 Numeric characters. */
+        CUR_PPMLimitBreach : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=35.0, core=true, t24Name=CUR.PPMLimitBreach)
+/* This field is a no input filed. System will calculate the current number of payments by which the PaymentsPerWeek is breached.
+
+Validation Rules:
+1. 1-6 Numeric characters. */
+        CUR_PPWLimitBreach : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=33.0, core=true, t24Name=CUR.PPWLimitBreach)
+/* This field is a no input filed. System will populate the current Maximum number of payments allowed for a day  specified in the respective Risk Filter condition
+
+Validation Rules:
+1. 1-6 Numeric characters. */
+        CUR_PaymentsPerDay : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=30.0, core=true, t24Name=CUR.PaymentsPerDay)
+/* This field is a no input filed. System will populate the current Maximum number of payments allowed for a month specified in the respective Risk Filter condition.
+
+Validation Rules:
+1. 1-6 Numeric characters. */
+        CUR_PaymentsPerMonth : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=34.0, core=true, t24Name=CUR.PaymentsPerMonth)
+/* This field is a no input filed. System will populate the current value the Maximum number of payments allowed for a week specified in the respective Risk Filter confition.
+
+Validation Rules:
+1. 1-6 Numeric characters. */
+        CUR_PaymentsPerWeek : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=32.0, core=true, t24Name=CUR.PaymentsPerWeek)
+/* This field is a no input filed. System will calculate the current transaction amount by which the TransactionAmount is breached.
+Validation Rules:
+1. 1-15 Numeric characters. */
+        CUR_TRNLimitBreach : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=23.0, core=true, t24Name=CUR.TRNLimitBreach)
+/* This field is a no input filed. System will populate the current value transaction amount limit per transaction defined in the respective risk filter condition.
+
+Validation Rules:
+1. 1-15 Numeric characters. */
+        CUR_TransactionAmountLimit : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=22.0, core=true, t24Name=CUR.TransactionAmountLimit)
+/* This field is a no input filed. System will populate the current cumulative Weekly amount limit defined in the respective risk filter condition.
+
+Validation Rules:
+1. 1-15 Numeric characters. */
+        CUR_WeeklyAmountLimit : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=26.0, core=true, t24Name=CUR.WeeklyAmountLimit)
+/* This field is a no input filed. System will calculate the curren transaction amount by which the WeeklyAmountLimit is breached.
+
+Validation Rules:
+1. 1-15 Numeric characters. */
+        CUR_WeeklyLimitBreach : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=27.0, core=true, t24Name=CUR.WeeklyLimitBreach)
+/* This field is a no input filed. System will populate the daily amount limit defined in the respective risk filter condition while moving the payment to Risk filter queue.
+
+Validation Rules:
+1. 1-15 numeric characters. */
+        DailyAmountLimit : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=10.0, core=true, t24Name=DailyAmountLimit)
+/* This field is a no input filed. System will populate the amount by which the DailyAmountLimit is breached while moving the payment to Risk filter queue.
+
+Validation Rules:
+1. 1-15 numeric characters. */
+        DailyLimitBreach : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=11.0, core=true, t24Name=DailyLimitBreach)
+        /* Specifies unique ID of the Risk filter condition for which with the payment breached the condition . */
+        FilterID : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=7.0, core=true, t24Name=FilterID)
+/* This field is a no input filed. System will populate the cumulative monthly amount limitdefined in the respective risk filter condition while moving the payment to Risk filter queue.
+
+Validation Rules:
+1. 1-15 Numeric characters. */
+        MonthlyAmountLimit : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=14.0, core=true, t24Name=MonthlyAmountLimit)
+/* This field is a no input filed. System will populate the amount by which the MonthlyAmountLimit is breached while moving the payment to Risk filter queue.
+
+Validation Rules:
+1. 1-15 numeric characters. */
+        MonthlyLimitBreach : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=15.0, core=true, t24Name=MonthlyLimitBreach)
+/* This field is a no input filed. System will populate the number by which the PaymentsPerDay is breached while moving the payment to Risk filter queue.
+
+Validation Rules:
+1. 1-6 Numeric characters. */
+        PPDLimitBreach : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=17.0, core=true, t24Name=PPDLimitBreach)
+/* This field is a no input filed. System will populate the number by which the PaymentsPerMonth  is breached while moving the payment to Risk filter queue.
+
+Validation Rules:
+1. 1-6 Numeric characters. */
+        PPMLimitBreach : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=21.0, core=true, t24Name=PPMLimitBreach)
+/* This field is a no input filed. System will populate the number by which the PaymentsPerWeek is breached while moving the payment to Risk filter queue.
+
+Validation Rules:
+1. 1-6 Numeric characters. */
+        PPWLimitBreach : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=19.0, core=true, t24Name=PPWLimitBreach)
+/* This field is a no input filed. System will populate the Maximum number of payments allowed for a day defined in the respective risk filter condition while moving the payment to Risk filter queue..
+
+Validation Rules:
+1. 1-6 Numeric characters. */
+        PaymentsPerDay : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=16.0, core=true, t24Name=PaymentsPerDay)
+/* This field is a no input filed. System will populate the Maximum number of payments allowed for a month defined in the respective risk filter condition while moving the payment to Risk filter queue.
+
+Validation Rules:
+1. 1-6 Numeric characters. */
+        PaymentsPerMonth : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=20.0, core=true, t24Name=PaymentsPerMonth)
+/* This field is a no input filed. System will populate the Maximum number of payments allowed for a week defined in the respective risk filter condition while moving the payment to Risk filter queue.
+
+Validation Rules:
+1. 1-6 Numeric characters. */
+        PaymentsPerWeek : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=18.0, core=true, t24Name=PaymentsPerWeek)
+/* This field is a no input filed. System will populate the amount by which the TransactionAmount is breached while moving the payment to Risk filter queue.
+
+Validation Rules:
+1. 1-15 Numeric characters. */
+        TRNLimitBreach : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=9.0, core=true, t24Name=TRNLimitBreach)
+/* This field is a no input filed. System will populate the transaction amount limit per transaction defined in the respective risk filter condition while moving the payment to Risk filter queue.
+
+Validation Rules:
+1. 1-15 Numeric characters. */
+        TransactionAmountLimit : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=8.0, core=true, t24Name=TransactionAmountLimit)
+/* This field is a no input filed. System will populate the cumulative weekly amount limit defined in the respective risk filter condition while moving the payment to Risk filter queue.
+
+Validation Rules:
+1. 1-15 Numeric characters. */
+        WeeklyAmountLimit : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=12.0, core=true, t24Name=WeeklyAmountLimit)
+/* This field is a no input filed. System will populate the amount by which the WeeklyAmountLimit is breached while moving the payment to Risk filter queue.
+
+Validation Rules:
+1. 1-15 numeric characters. */
+        WeeklyLimitBreach : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=13.0, core=true, t24Name=WeeklyLimitBreach)
+    }
+    PP_RISK_FILTER_OUTPUT__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=41.0, core=true, t24Name=INPUTTER)
+    }
+    PP_RISK_FILTER_OUTPUT__OVERRIDE
+    {
+        /* Contains all the override messages which the user agreed to during Input. During the validation of a transaction, the system may provide the user with a series of screen override messages to indicate an anomaly. */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=38.0, core=true, t24Name=OVERRIDE)
+    }
+}
+Enumerations {
+    PP_RISK_FILTER_CONDITIONS_PDS__CTRBTRIndicator : mml:string
+        B=B
+        C=C
+        NULL=NULL
+        STAR="*"
+    PP_RISK_FILTER_CONDITIONS_PDS__DebitCreditIndicator : mml:string
+        B=B
+        C=C
+        D=D
+        NULL=NULL
+    PP_RISK_FILTER_CONDITIONS__CTRBTRIndicator : mml:string
+        B=B
+        C=C
+        NULL=NULL
+        STAR="*"
+    PP_RISK_FILTER_CONDITIONS__DebitCreditIndicator : mml:string
+        B=B
+        C=C
+        D=D
+        NULL=NULL
+}

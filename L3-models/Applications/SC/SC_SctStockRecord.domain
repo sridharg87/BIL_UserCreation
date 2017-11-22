@@ -1,0 +1,296 @@
+# UTF-8
+/* Stock Record */
+Domain SC_SctStockRecord
+    @t24:i (module=SC)
+    @java:Package (value=com.temenos.t24.datamodel.sc.sc_sctstockrecord)
+namespace "http://www.temenos.com/t24/SC_SctStockRecord"
+metamodelVersion 1.30.6
+Classes {
+    /* The SC.STOCK.ENTRY application is a centralised reporting file for Securities and Derivatives transactions.This application records the movements of Stock/CCY including any corporate events. */
+    SC_STOCK_ENTRY
+        @i18n:Description (en="")
+        @t24:i (t24Name=SC.STOCK.ENTRY, level=F, type=L, allowedFunctions="L P S", localRefAllowed=true)
+    {
+        /* Identifies whether the Stock Entry is raised from a 'DX' or a 'SC' application. */
+        APPLICATION -> EB_SystemTables:EB_SYSTEM_ID
+            @i18n:Label (en=Application)
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=21.0, core=true, businessType=A, t24Name=APPLICATION)
+        AUTHORISER -> byValue SC_SctStockRecord:SC_STOCK_ENTRY__AUTHORISER *
+            @t24:i (t24Name=AUTHORISER)
+        /* Contains the run date on which the Entry was generated. Standard Date format. */
+        BOOKING_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Booking Date")
+            @i18n:Tooltip (en="Booking Date")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=17.0, core=true, t24Name=BOOKING.DATE)
+/* Company code in which the entry is raised.
+Valid COMPANY Id. */
+        COMPANY_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=2.0, core=true, businessType=A, t24Name=COMPANY.CODE, mask="R##-###-####")
+        /* The curr.no of the transaction. */
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=1, sysNumber=37.0, core=true, t24Name=CURR.NO)
+/* Identifies the customer of the transaction.
+For Broker/Depo positions,it is the Broker/Depo key which gets updated. */
+        CUSTOMER : T24BusinessTypes:CUS
+            @i18n:Label (en=Customer)
+            @i18n:Tooltip (en="Customer Liability")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=19.0, core=true, t24Name=CUSTOMER)
+        DATE_TIME -> byValue SC_SctStockRecord:SC_STOCK_ENTRY__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+/* Identifies the Department where the original transaction was input.
+Valid DEPT.ACCT.OFFICER code. */
+        DEPARTMENT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Department Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=16.0, core=true, t24Name=DEPARTMENT.CODE)
+/* Identifies the type of DX Customer [Customer/Broker/Exchange etc]
+
+Taken from DX.TRANSACTION field CUST.TYPE where it is defaulted from
+DX.CUSTOMER field CUSTOMER.TYPE. */
+        DX_CUS_TYPE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=20.0, core=true, t24Name=DX.CUS.TYPE)
+        /* Holds the reference to the DX.ENTITLEMENT record. */
+        DX_ENTITLEMENT : T24BusinessTypes:S
+            @t24:i (align=L, inputBehaviour=I, maxLength=44, sysNumber=22.0, core=true, t24Name=DX.ENTITLEMENT)
+        INPUTTER -> byValue SC_SctStockRecord:SC_STOCK_ENTRY__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        NARRATIVE -> byValue SC_SctStockRecord:SC_STOCK_ENTRY__NARRATIVE *
+            @t24:i (t24Name=NARRATIVE)
+        /* Holds the nominal for customer / broker / depo positions. */
+        NOMINAL : T24BusinessTypes:N
+            @i18n:Label (en=Nominal)
+            @i18n:Tooltip (en="No of Units or Amount")
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=7.0, core=true, t24Name=NOMINAL)
+/* Identifies the transaction reference.
+Valid SEC.TRADE / SECURITY.TRANSFER / POSITION.TRANSFER / ENTITLEMENT key. */
+        OUR_REFERENCE : T24BusinessTypes:S
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Our Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=11.0, core=true, t24Name=OUR.REFERENCE)
+        OVERRIDE -> byValue SC_SctStockRecord:SC_STOCK_ENTRY__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+/* Portfolio for which stock entry is created.
+Customer portfolios would be defined on SEC.ACC.MASTER file.
+Broker and Depository positions would be suffixed with '-777' and '-999' along
+with the Broker and Depo keys. */
+        PORTFOLIO_NO -> SC_ScoPortfolioMaintenance:SEC_ACC_MASTER
+            @i18n:Label (en="Portfoio No")
+            @i18n:Tooltip (en="Indicates the Portfolio Account of the customer")
+            @t24:i (align=L, inputBehaviour=I, maxLength=14, sysNumber=1.0, core=true, businessType=S, t24Name=PORTFOLIO.NO)
+/* Flag to indicate that the Stock entry has been processed by SC.EOD.UPD.STOCK.POS batch job.
+Hence SC.STOCK.POSITION file gets updated. */
+        PROCESSED_BY_EOD : SC_SctStockRecord:SC_STOCK_ENTRY__PROCESSED_BY_EOD
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=18.0, core=true, t24Name=PROCESSED.BY.EOD)
+        RESERVED1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=35.0, core=true, t24Name=RESERVED1)
+        RESERVED10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=26.0, core=true, t24Name=RESERVED10)
+        RESERVED11 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=25.0, core=true, t24Name=RESERVED11)
+        RESERVED12 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=24.0, core=true, t24Name=RESERVED12)
+        RESERVED13 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=23.0, core=true, t24Name=RESERVED13)
+        RESERVED2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=34.0, core=true, t24Name=RESERVED2)
+        RESERVED3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=33.0, core=true, t24Name=RESERVED3)
+        RESERVED4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=32.0, core=true, t24Name=RESERVED4)
+        RESERVED5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=31.0, core=true, t24Name=RESERVED5)
+        RESERVED6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=30.0, core=true, t24Name=RESERVED6)
+        RESERVED7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=29.0, core=true, t24Name=RESERVED7)
+        RESERVED8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=28.0, core=true, t24Name=RESERVED8)
+        RESERVED9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=27.0, core=true, t24Name=RESERVED9)
+        /* Identifies that the Stock entry is a reversal of a previous entry. Would be 'R' or null. */
+        REVERSAL_MARKER : SC_SctStockRecord:SC_STOCK_ENTRY__REVERSAL_MARKER
+            @i18n:Label (en="Rev Marker")
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=13.0, core=true, t24Name=REVERSAL.MARKER)
+        /* Identifies the Security Number. Valid SECURITY.MASTER Id. */
+        SECURITY_NUMBER -> SC_ScoSecurityMasterMaintenance:SECURITY_MASTER
+            @i18n:Label (en="Security No")
+            @i18n:Tooltip (en="Indicates the security number")
+            @t24:i (align=L, inputBehaviour=I, maxLength=12, sysNumber=3.0, core=true, businessType=SEC, t24Name=SECURITY.NUMBER)
+        /* Identifies that the Stock entry raised is a Settlement entry. Would be 'Y' or null. */
+        SETTLEMENT_MARKER : SC_SctStockRecord:SC_STOCK_ENTRY__SETTLEMENT_MARKER
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=14.0, core=true, t24Name=SETTLEMENT.MARKER)
+        /* Holds the reference to the SECURITY.POSITION / SC.STOCK.POSITION key. */
+        STOCK_ACTIVITY_REF : T24BusinessTypes:S
+            @t24:i (align=L, inputBehaviour=I, maxLength=90, sysNumber=4.0, core=true, t24Name=STOCK.ACTIVITY.REF)
+/* A unique key by which the Entry may be identified. It is
+generated by the system, based on the date, system user number and time
+(in hundredths of a second) at which the transaction is
+input and a sequence number.
+
+The key is made up as follows:
+(a)        5 digit date expressed as the number of days since 31st
+December 1967.
+
+(b)        5 digit user number, the system user number of the inputter.
+First introduced in release G8.1.00
+
+(c)        Time in seconds since midnight, consisting of 5 integers
+and (usually) 2 decimals.  If the time is an exact number
+of seconds since midnight, the decimals are omitted.
+
+(d)        Sequence number.
+If a transaction generates several Entries, all the Entries
+have parts (a) (b) and (c) the same and are distinguished
+from each other by their Sequence numbers.
+
+-----------------------------------------------------------------------
+Normally 22 characters consisting of numeric characters with
+a decimal point after the 15th, or 19 numeric characters. */
+        STOCK_ENTRY_ID -> SC_SctStockRecord:SC_STOCK_ENTRY PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=0.0, core=true, businessType=A, t24Name=STOCK.ENTRY.ID)
+        /* Field not used and not updated by the system. */
+        THEIR_REFERENCE : T24BusinessTypes:S
+            @i18n:Label (en="Their Ref")
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=9.0, core=true, t24Name=THEIR.REFERENCE)
+        /* Identifies the transaction code. Valid SC.TRANS.NAME id. */
+        TRANSACTION_CODE -> SC_Config:SC_TRANS_NAME
+            @i18n:Label (en="Transaction Code")
+            @i18n:Tooltip (en="Indicates the Transaction Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=8.0, core=true, businessType=S, t24Name=TRANSACTION.CODE)
+        /* Holds the Unsettled Nominal of a purchase transaction for a customer position. */
+        UNSETT_NOM_CR : T24BusinessTypes:N
+            @i18n:Label (en="Cr nom o/s")
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=5.0, core=true, t24Name=UNSETT.NOM.CR)
+        /* Holds the Unsettled Nominal of a sale transaction for a customer position. */
+        UNSETT_NOM_DR : T24BusinessTypes:N
+            @i18n:Label (en="Dr nom o/s")
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=6.0, core=true, t24Name=UNSETT.NOM.DR)
+        /* Value date of the transaction.Standard Date format. */
+        VALUE_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Value Date")
+            @i18n:Tooltip (en="Indicates the Value date of the Contract")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=12.0, core=true, t24Name=VALUE.DATE)
+    }
+    SC_STOCK_ENTRY__AUTHORISER
+    {
+        /* Contains the authoriser of the transaction. */
+        AUTHORISER : T24BusinessTypes:N
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=40.0, core=true, t24Name=AUTHORISER)
+    }
+    SC_STOCK_ENTRY__DATE_TIME
+    {
+        /* Date and Time stamp when the entry gets generated. */
+        DATE_TIME : T24BusinessTypes:N
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=R, inputBehaviour=N, maxLength=10, sysNumber=39.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    SC_STOCK_ENTRY__INPUTTER
+    {
+        /* Contains the inputter of the transaction. */
+        INPUTTER : T24BusinessTypes:N
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=38.0, core=true, t24Name=INPUTTER)
+    }
+    SC_STOCK_ENTRY__NARRATIVE
+    {
+        /* Free format text. */
+        NARRATIVE : T24BusinessTypes:S
+            @i18n:Label (en=Narrative)
+            @i18n:Tooltip (en="Any narrative to be input for user information")
+            @t24:i (align=L, inputBehaviour=I, maxLength=34, sysNumber=10.0, core=true, t24Name=NARRATIVE)
+    }
+    SC_STOCK_ENTRY__OVERRIDE
+    {
+        /* Contains details of any overrides. */
+        OVERRIDE : T24BusinessTypes:A required
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=36.0, core=true, t24Name=OVERRIDE)
+    }
+    SC_STOCK_POSITION
+        @i18n:Description (en="")
+        @t24:i (t24Name=SC.STOCK.POSITION, level=F, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        /* This field contains the trade dated number of securities held. */
+        CLOSING_BAL_NO_NOM : T24BusinessTypes:NOMAMT
+            @i18n:Label (en="Closing Bal Nominal")
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=10.0, core=true, t24Name=CLOSING.BAL.NO.NOM)
+/* This field contains the Trade Date of the last transaction to update this Position.
+
+Note; this field will contain the latest date for a trade date that updated this record. Thus if the record has been updated by two transactions; One with a trade date of 30th May 1996 and the other 5th June 1996 then this field will contain 05/06/1996 even if the transaction with this trade date had been entered into the system before the transaction with the trade date of 30/05/1996. */
+        DATE_LAST_TRADED : T24BusinessTypes:D
+            @i18n:Label (en=Active)
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=8.0, core=true, t24Name=DATE.LAST.TRADED)
+        /* This field contains the Depository where the Position is held. */
+        DEPOSITORY -> ST_Customer:CUSTOMER
+            @i18n:Label (en=Depository)
+            @i18n:Tooltip (en="Depository the Security to be delivered from/to")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=3.0, core=true, businessType=CUS, t24Name=DEPOSITORY)
+        /* If the security identified in the SECURITY.NUMBER is a Kassenobligationen security then this will be the interest rate for the security at the time the record was created. */
+        INTEREST_RATE : T24BusinessTypes:R
+            @i18n:Label (en="Interest Rate")
+            @i18n:Tooltip (en="Indicates interest rate")
+            @t24:i (align=R, inputBehaviour=I, maxLength=16, sysNumber=6.0, core=true, t24Name=INTEREST.RATE)
+        /* The date on which the last settlement occured for this position. */
+        LAST_SETT_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=13.0, core=true, t24Name=LAST.SETT.DATE)
+        /* If the security identified in the SECURITY.NUMBER field is a Kassenobligationen security then this will be the maturity date for the security at the time the record was created. */
+        MATURITY_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Maturity Date")
+            @i18n:Tooltip (en="Indicates the Maturity Date of the Transaction")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=5.0, core=true, t24Name=MATURITY.DATE)
+        /* The date on which the next settlement is due for this position. */
+        NEXT_SETT_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=14.0, core=true, t24Name=NEXT.SETT.DATE)
+        /* If this security position is held by Nominee then this field will contain the ID of the Nominee. If this position is not held by nominee then this field will be blank. */
+        NOMINEE_CODE -> SC_Config:NOMINEE_CODE
+            @i18n:Label (en="Nominee Code")
+            @i18n:Tooltip (en="Identifies the Nominee Company ")
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=4.0, core=true, businessType=S, t24Name=NOMINEE.CODE)
+        /* The key to the position record. */
+        REFERENCE_NUMBER -> SC_SctStockRecord:SC_STOCK_POSITION PK required
+            @i18n:Label (en=Reference)
+            @t24:i (align=L, inputBehaviour=I, maxLength=80, sysNumber=0.0, core=true, businessType=S, t24Name=REFERENCE.NUMBER)
+        /* The broker or depository number for which the position is held. */
+        SECURITY_ACCOUNT : T24BusinessTypes:S
+            @i18n:Label (en=Portfolio)
+            @t24:i (align=L, inputBehaviour=I, maxLength=14, sysNumber=1.0, core=true, t24Name=SECURITY.ACCOUNT)
+        /* This field contains the Security Number the Position is for. */
+        SECURITY_NUMBER -> SC_ScoSecurityMasterMaintenance:SECURITY_MASTER
+            @i18n:Label (en="Security No")
+            @i18n:Tooltip (en="Indicates the security number")
+            @t24:i (align=L, inputBehaviour=I, maxLength=12, sysNumber=2.0, core=true, businessType=SEC, t24Name=SECURITY.NUMBER)
+        /* This field contains the sub-account that the position is held in. */
+        SUB_ACCOUNT : T24BusinessTypes:N
+            @i18n:Label (en="Sub Account")
+            @t24:i (align=R, inputBehaviour=I, maxLength=16, sysNumber=7.0, core=true, t24Name=SUB.ACCOUNT)
+        /* The trade dated opening balance (for today). */
+        TRADE_DT_OPEN_BAL : T24BusinessTypes:NOMAMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=9.0, core=true, t24Name=TRADE.DT.OPEN.BAL)
+        /* The value dated long position. */
+        VALUE_DT_LONG_POS : T24BusinessTypes:NOMAMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=11.0, core=true, t24Name=VALUE.DT.LONG.POS)
+        /* The value dated opending balance (for today). */
+        VALUE_DT_OPEN_BAL : T24BusinessTypes:NOMAMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=15.0, core=true, t24Name=VALUE.DT.OPEN.BAL)
+        /* The value dated short position. */
+        VALUE_DT_SHORT_POS : T24BusinessTypes:NOMAMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=12.0, core=true, t24Name=VALUE.DT.SHORT.POS)
+    }
+}
+Enumerations {
+    SC_STOCK_ENTRY__PROCESSED_BY_EOD : mml:string
+        NULL=NULL
+        Y=Y
+    SC_STOCK_ENTRY__REVERSAL_MARKER : mml:string
+        NULL=NULL
+        R=R
+    SC_STOCK_ENTRY__SETTLEMENT_MARKER : mml:string
+        NULL=NULL
+        Y=Y
+}

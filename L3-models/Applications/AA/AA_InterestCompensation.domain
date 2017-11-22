@@ -1,0 +1,2210 @@
+# UTF-8
+/* Interest Compensation related processing for Arrangement Architecture */
+Domain AA_InterestCompensation
+    @t24:i (module=AA)
+    @java:Package (value=com.temenos.t24.datamodel.aa.aa_interestcompensation)
+namespace "http://www.temenos.com/t24/AA_InterestCompensation"
+metamodelVersion 1.30.6
+Classes {
+    /* Property allows definition of source and target properties in a bundle - describing which properties contribute their balances, which product/properties act as recipients, how should accruals be handled on donor products etc. Typically, this property together with PRODUCT.BUNDLE describe the definition of a bundle and its working. */
+    AA_ARR_INTEREST_COMPENSATION
+        @i18n:Description (en="")
+        @t24:i (t24Name=AA.ARR.INTEREST.COMPENSATION, nonStop=true, level=F, type=H, allowedFunctions="A C D E I L Q R S", localRefAllowed=true)
+    {
+        ACTION -> byValue AA_InterestCompensation:AA_ARR_INTEREST_COMPENSATION__ACTION *
+            @t24:i (t24Name=ACTION)
+        ACTIVITY : T24BusinessTypes:A required
+            @i18n:Label (en=Activity)
+            @i18n:Tooltip (en=Activity)
+            @t24:i (align=L, inputBehaviour=I, maxLength=80, sysNumber=1.0, core=true, t24Name=ACTIVITY)
+        ARRANGEMENT_KEY -> AA_InterestCompensation:AA_ARR_INTEREST_COMPENSATION PK required
+            @i18n:Label (en=Arrangement)
+            @i18n:Tooltip (en=Arrangement)
+            @t24:i (align=L, inputBehaviour=I, maxLength=80, sysNumber=0.0, core=true, businessType=ANY, t24Name=ARRANGEMENT.KEY)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=67.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=68.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=64.0, core=true, t24Name=AUTHORISER)
+        CHANGED_FIELDS -> byValue AA_InterestCompensation:AA_ARR_INTEREST_COMPENSATION__CHANGED_FIELDS *
+            @t24:i (t24Name=CHANGED.FIELDS)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=65.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=61.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue AA_InterestCompensation:AA_ARR_INTEREST_COMPENSATION__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+/* Optional field - Allowed Values are RESETTING and NON-RESETTING.
+RESETTING - During any Renewal Activities (for ex : CHANGE.PRODUCT) the property conditions will be reset from the product.
+NON-RESETTING - During any Renewal Activities property conditions will be maintained from the Arrangement level.
+
+The overall definition may be stated as RESETTING and certain individual attributes may be set to NON-RESETTING as well. This could be done using the NR.ATTRIBUTE fields.
+Leaving the field blank sets NON-RESETTING as the default option.
+
+Not used in Arrangement/Sim level. */
+        DEFAULT_ATTR_OPTION : AA_InterestCompensation:AA_ARR_INTEREST_COMPENSATION__DEFAULT_ATTR_OPTION
+            @i18n:Label (en="Default Attribute")
+            @i18n:Tooltip (en="Default Attribute")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=38.0, core=true, t24Name=DEFAULT.ATTR.OPTION)
+/* Defines whether all attributes (fields) can be negotiable or not. The overall definition may be stated as NON-NEGOTIABLE and certain individual attributes may be set to NEGOTIABLE as well. This could be done using the NR.ATTRIBUTE fields.
+
+This field is Mandatory
+Valid options are YES and NO */
+        DEFAULT_NEGOTIABLE : AA_InterestCompensation:AA_ARR_INTEREST_COMPENSATION__DEFAULT_NEGOTIABLE
+            @i18n:Label (en="Default Negotiable")
+            @i18n:Tooltip (en="Default Negotiable")
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=39.0, core=true, t24Name=DEFAULT.NEGOTIABLE)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=66.0, core=true, t24Name=DEPT.CODE)
+        DONOR_PRODUCT -> byValue AA_InterestCompensation:AA_ARR_INTEREST_COMPENSATION__DONOR_PRODUCT *
+            @t24:i (t24Name=DONOR.PRODUCT)
+/* Contains the arrangement number, extracted from the first component of the id
+Not applicable at product level
+System updated field no input allowed */
+        ID_COMP_1 : T24BusinessTypes:A
+            @i18n:Label (en="Arrangement Id")
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=50.0, core=true, t24Name=ID.COMP.1)
+/* The action that was triggered on the arrangement property
+The action is taken from ACTIVITY.CLASS record of the underlying AA.ARRANGEMENT.ACTIVITY request that caused the record to be modified */
+        ID_COMP_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=51.0, core=true, t24Name=ID.COMP.2)
+/* Contains the effective date of the property condition
+Not applicable at product level
+System updated field no input allowed */
+        ID_COMP_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=30, sysNumber=52.0, core=true, t24Name=ID.COMP.3)
+/* Reserved for future use
+Not applicable at product level
+System field no input allowed */
+        ID_COMP_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=53.0, core=true, t24Name=ID.COMP.4)
+/* Reserved for future use
+Not applicable at product level
+System field no input allowed */
+        ID_COMP_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=54.0, core=true, t24Name=ID.COMP.5)
+/* Reserved for future use
+Not applicable at product level
+System field no input allowed */
+        ID_COMP_6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=55.0, core=true, t24Name=ID.COMP.6)
+        INPUTTER -> byValue AA_InterestCompensation:AA_ARR_INTEREST_COMPENSATION__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        NEGOTIATED_FLDS -> byValue AA_InterestCompensation:AA_ARR_INTEREST_COMPENSATION__NEGOTIATED_FLDS *
+            @t24:i (t24Name=NEGOTIATED.FLDS)
+        NR_ATTRIBUTE -> byValue AA_InterestCompensation:AA_ARR_INTEREST_COMPENSATION__NR_ATTRIBUTE *
+            @t24:i (t24Name=NR.ATTRIBUTE)
+        OVERRIDE -> byValue AA_InterestCompensation:AA_ARR_INTEREST_COMPENSATION__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        OWNING_COMPANY -> byValue AA_InterestCompensation:AA_ARR_INTEREST_COMPENSATION__OWNING_COMPANY *
+            @t24:i (t24Name=OWNING.COMPANY)
+        PR_ATTRIBUTE -> byValue AA_InterestCompensation:AA_ARR_INTEREST_COMPENSATION__PR_ATTRIBUTE *
+            @t24:i (t24Name=PR.ATTRIBUTE)
+/* Defines the product group which would act as a beneficiary for the bundle product. A beneficiary(or recipient) is the one which would enjoy the benefits of all pooled balances from various donors and their properties. Mandatory field since there has to be a beneficiary in a bundle setup.
+Validation Rules
+1. Should be a valid entry in AA.PRODUCT.GROUP
+2. Mandatory field */
+        RECIPIENT_PRODUCT -> AA_ProductFramework:AA_PRODUCT_GROUP required
+            @i18n:Label (en="Recipent Product")
+            @i18n:Tooltip (en="Recipent Product")
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=3.0, core=true, businessType=A, t24Name=RECIPIENT.PRODUCT)
+        RECIPIENT_PROPERTY -> byValue AA_InterestCompensation:AA_ARR_INTEREST_COMPENSATION__RECIPIENT_PROPERTY *
+            @t24:i (t24Name=RECIPIENT.PROPERTY)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=60.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED2_ID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=56.0, core=true, t24Name=RESERVED2.ID)
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=19.0, core=true, t24Name=RESERVED.1)
+        RESERVED_11 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=6.0, core=true, t24Name=RESERVED.11)
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=18.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=17.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=16.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=15.0, core=true, t24Name=RESERVED.5)
+        STMT_NOS -> byValue AA_InterestCompensation:AA_ARR_INTEREST_COMPENSATION__STMT_NOS *
+            @t24:i (t24Name=STMT.NOS)
+        /* System field - reserved for future use */
+        SYS_RESERVE1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=37.0, core=true, t24Name=SYS.RESERVE1)
+        /* System field - reserved for future use */
+        SYS_RESERVE2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=36.0, core=true, t24Name=SYS.RESERVE2)
+        /* System field - reserved for future use */
+        SYS_RESERVE3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=35.0, core=true, t24Name=SYS.RESERVE3)
+        /* System field - reserved for future use */
+        SYS_RESERVE4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=34.0, core=true, t24Name=SYS.RESERVE4)
+        /* System field - reserved for future use */
+        SYS_RESERVE6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=32.0, core=true, t24Name=SYS.RESERVE6, mvSvExpansionAccess=NOEXPAND)
+        /* System field - reserved for future use */
+        SYS_RESERVE7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=31.0, core=true, t24Name=SYS.RESERVE7, mvSvExpansionAccess=NOEXPAND)
+/* This field denotes the target classic product of the given property class
+The already existing T24 products are mapped using AA infrastructure
+These are called classic products
+These products are mapped to different property clases */
+        TARGET_PRODUCT : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=57.0, core=true, t24Name=TARGET.PRODUCT)
+    }
+    AA_ARR_INTEREST_COMPENSATION__ACTION
+    {
+        ACTION : T24BusinessTypes:A required
+            @i18n:Label (en=Action)
+            @i18n:Tooltip (en=Action)
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=2.0, core=true, t24Name=ACTION)
+    }
+    AA_ARR_INTEREST_COMPENSATION__CHANGED_FIELDS
+    {
+        /* No input and multi value field - lists all fields that have been negotiated for each dated version of the property. This is system maintained and is crucial for Reverse and Replay functionality. This field indicates which attributes have undergone a change in this instance. The difference between this field in NEGOTIATED.FLDS is that the latter would hold ALL the negotiations that have happened till this moment and CHANGED.FIELDS would only hold the negotiated fields for that activity. */
+        CHANGED_FIELDS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=19, sysNumber=48.0, core=true, t24Name=CHANGED.FIELDS)
+    }
+    AA_ARR_INTEREST_COMPENSATION__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=63.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    AA_ARR_INTEREST_COMPENSATION__DONOR_PRODUCT
+    {
+        DONOR_BALANCE_TYPE -> byValue AA_InterestCompensation:AA_ARR_INTEREST_COMPENSATION__DONOR_PRODUCT__DONOR_BALANCE_TYPE *
+            @t24:i (t24Name=DONOR.BALANCE.TYPE)
+/* Defines the product group which would act as a contributor or donor for the bundle product. A donor product would contribute its balances to recipient property and would generally not accrue on its own balance(so that there is no double accrual). Mandatory field since there has to be a beneficiary in a bundle setup.
+
+Validation Rules
+
+Should be a valid entry in AA.PRODUCT */
+        DONOR_PRODUCT -> AA_ProductFramework:AA_PRODUCT_GROUP required
+            @i18n:Label (en="Donor Product")
+            @i18n:Tooltip (en="Donor Product")
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=7.0, core=true, businessType=A, t24Name=DONOR.PRODUCT)
+        DONOR_PROPERTY -> byValue AA_InterestCompensation:AA_ARR_INTEREST_COMPENSATION__DONOR_PRODUCT__DONOR_PROPERTY *
+            @t24:i (t24Name=DONOR.PROPERTY)
+    }
+    AA_ARR_INTEREST_COMPENSATION__DONOR_PRODUCT__DONOR_BALANCE_TYPE
+    {
+/* The Credit/Debit specification at the bundle contradicts with the Source Calc type of the Interest property
+Sub Value field associated with Donor Balance Type
+Input is allowed only if Donor Balance Type is input
+Because the Donor Balance type can have Credit or Debit balances on a given day, there would be a flag to specify which balances of the balance type should be used for Offset */
+        DONATE_TYPE -> AA_Framework:AA_SOURCE_CALC_TYPE
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=14.0, core=true, businessType=A, t24Name=DONATE.TYPE)
+        DONOR_BALANCE_TYPE -> AC_SoftAccounting:AC_BALANCE_TYPE
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=13.0, core=true, businessType=A, t24Name=DONOR.BALANCE.TYPE)
+    }
+    AA_ARR_INTEREST_COMPENSATION__DONOR_PRODUCT__DONOR_PROPERTY
+    {
+/* After the donor property has contributed its balance to a pool which recipient would accrue on, generally the bank might want to stop accruals on the donor side (If accruals happen on both donor and recipient for the same balance, it moght result in inflated PL). This field indicates whether the financical institution would want to stop accruals on donor and accruals happen only on recipient arrangement. When the field is flagged as "SUPPRESS" then system would flag the SUPPRESS.ACCRUAL field on the interest condition of this property as YES which indicates accruals would no longer happen on those conditions
+Validation Rules
+1. Mandatory field
+2. SUPPRESS - indicates accruals would be stopped at the donor level since balances accrue at the recipient level.
+3. CALCULATE - indicates accruals would continue to happen on Donor arrangement properties as well even though balances are contributed to recipient level as well. This may be required when the recipient accrual is only on a margin rate and not on actual interest rate. */
+        DONOR_ACCRUAL : AA_InterestCompensation:AA_ARR_INTEREST_COMPENSATION__DONOR_PRODUCT__DONOR_PROPERTY__DONOR_ACCRUAL required
+            @i18n:Label (en="Donor Accrual")
+            @i18n:Tooltip (en="Donor Accrual")
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=12.0, core=true, t24Name=DONOR.ACCRUAL)
+/* Indicates which property(ies) in the group above would act as contributor in a bundle. One or more than one properties could contribute to a bundle. Currently only allows a valid interest property and the property should belong to the group stated above. For example, a CREDITINTEREST property could be stated as a valid donor property. The actual balance that this property would contribute is still derived from the base balance on which this property calculates on this product. There would be no actual ""transfer"" of balances to recipient arrangements - the balances of donors would be considered during run-time when the recipient property accrues.
+Validation Rules
+1. Should be a valid AA.PROPERTY belonging to INTEREST class
+2. Should be a property belonging to the DONOR.PRODUCT group.
+3. Mandatory field */
+        DONOR_PROPERTY -> AA_ProductFramework:AA_PROPERTY
+            @i18n:Label (en="Donor Property")
+            @i18n:Tooltip (en="Donor Property")
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=8.0, core=true, businessType=A, t24Name=DONOR.PROPERTY)
+        RESERVED_10 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=9.0, core=true, t24Name=RESERVED.10)
+        RESERVED_8 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=11.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=10.0, core=true, t24Name=RESERVED.9)
+    }
+    AA_ARR_INTEREST_COMPENSATION__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=62.0, core=true, t24Name=INPUTTER)
+    }
+    AA_ARR_INTEREST_COMPENSATION__NEGOTIATED_FLDS
+    {
+        /* No input and multi value field that lists the attributes on the arrangement property record that have been fixed and/or negotiated. These are stored when the arrangement level record is committed. Once an attribute has been fixed or negotiated it will remain in negotiated field list on all subsequent dated versions of the property. */
+        NEGOTIATED_FLDS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=19, sysNumber=49.0, core=true, t24Name=NEGOTIATED.FLDS)
+    }
+    AA_ARR_INTEREST_COMPENSATION__NR_ATTRIBUTE
+    {
+/* Defines which individual attribute (field) has the negotiation rules defined in fields "Nr.Negotiable" through to "Nr.Message"
+
+Must be a valid field name within this property
+This field is part of a multi value set */
+        NR_ATTRIBUTE : T24BusinessTypes:A
+            @i18n:Label (en="Negotiable Attribute")
+            @i18n:Tooltip (en="Negotiable Attribute")
+            @t24:i (align=L, inputBehaviour=N, maxLength=25, sysNumber=40.0, core=true, t24Name=NR.ATTRIBUTE)
+        NR_OPTIONS -> byValue AA_InterestCompensation:AA_ARR_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_OPTIONS *
+            @t24:i (t24Name=NR.OPTIONS)
+        /* System Field - Reserved for future use */
+        NR_RESERVED1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=43.0, core=true, t24Name=NR.RESERVED1)
+        /* System Field - Reserved for future use */
+        NR_RESERVED2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=42.0, core=true, t24Name=NR.RESERVED2)
+/* Negotiation rules may be defined as a standard types in EB.STANDARD.COMPARISON. And those types may be used in this field.
+
+
+Input must be a valid record from EB.STANDARD.COMPARISON */
+        NR_STD_COMP -> AA_Rules:EB_STANDARD_COMPARISON
+            @i18n:Label (en="Negotiable Standard Comp")
+            @i18n:Tooltip (en="Negotiable Standard Comp")
+            @t24:i (align=L, inputBehaviour=N, maxLength=25, sysNumber=44.0, core=true, businessType=A, t24Name=NR.STD.COMP)
+        NR_TYPE -> byValue AA_InterestCompensation:AA_ARR_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_TYPE *
+            @t24:i (t24Name=NR.TYPE)
+    }
+    AA_ARR_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_OPTIONS
+    {
+/* Defines named values to indicate if an option applies to the associated NR.ATTRIBUTE. More than one option can be associated with the NR.ATTRIBUTE, with certain restrictions.
+
+Valid Inputs are NEGOTIABLE, NON-NEGOTIABLE, OVERRIDE, FIX-VALUE, MANDATORY as described below: -
+NEGOTIABLE
+The value of NEGOTIABLE will indicate that the associated NR.ATTRIBUTE can be negotiated at the arrangement level.
+NON-NEGOTIABLE
+The value of NON-NEGOTIABLE will indicate that the associated NR.ATTRIBUTE cannot be negotiated at the arrangement level. Both NEGOTIABLE and NON-NEGOTIABLE cannot be defined together
+OVERRIDE
+Specifies if a default override message should be generated if the default attribute is amended at the arrangement level. If OVERRIDE is not specified, no override will be generated.
+FIX-VALUE
+Specified if the field value is to be fixed at the arrangement level. If FIX-VALUE is not specified the field value will vary with the changes to the underlying product condition.
+MANDATORY
+Specifies if the attribute is mandatory for this product condition. Can only be specified where the attribute is not defined as mandatory in the property class. */
+        NR_OPTIONS : AA_InterestCompensation:AA_ARR_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_OPTIONS__NR_OPTIONS
+            @i18n:Label (en="Negotiable Options")
+            @i18n:Tooltip (en="Negotiable Options")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=41.0, core=true, t24Name=NR.OPTIONS)
+    }
+    AA_ARR_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_TYPE
+    {
+/* This field indicates whether to raise error or override message when rule is broken
+Allows only two values ERROR or OVERRIDE
+ERROR error message is raised
+OVERRIDE Override message is generated */
+        NR_MESSAGE : AA_InterestCompensation:AA_ARR_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_TYPE__NR_MESSAGE
+            @i18n:Label (en="Negotiable Message")
+            @i18n:Tooltip (en="Negotiable Message")
+            @t24:i (align=L, inputBehaviour=N, maxLength=10, sysNumber=47.0, core=true, t24Name=NR.MESSAGE)
+/* Defines the negotiation rule that is linked to the field defined in "Nr.Attribute". If an attribute has a negotiation rule linked to it (in associated fields NR.TYPE, NR.VALUE and NR.MESSAGE) the attribute must be defined as negotiable.
+It is possible to define more than one negotiation rule for an attribute
+
+Input must be a valid record from EB.COMPARISON.TYPE
+This is a multi value set of fields */
+        NR_TYPE -> AA_Rules:EB_COMPARISON_TYPE
+            @i18n:Label (en="Negotiable Type")
+            @i18n:Tooltip (en="Negotiable Type")
+            @t24:i (align=L, inputBehaviour=N, maxLength=25, sysNumber=45.0, core=true, businessType=A, t24Name=NR.TYPE)
+        /* Defines the value that links to the rule in field "Nr.Type". For example, if the rule is not to allow a value to go below 10, then the Value of 10 has to be stated in this field and together with NR.TYPE would evaluate the rule. */
+        NR_VALUE : T24BusinessTypes:ANY
+            @i18n:Label (en="Negotiable Value")
+            @i18n:Tooltip (en="Negotiable Value")
+            @t24:i (align=L, inputBehaviour=N, maxLength=60, sysNumber=46.0, core=true, t24Name=NR.VALUE)
+    }
+    AA_ARR_INTEREST_COMPENSATION__OVERRIDE
+    {
+        /* Standard Override field containing override messages generated by amendments to this property */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=59.0, core=true, t24Name=OVERRIDE)
+    }
+    AA_ARR_INTEREST_COMPENSATION__OWNING_COMPANY
+    {
+        OWNING_COMPANY -> ST_CompanyCreation:COMPANY
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=33.0, core=true, businessType=AAPRODUCT, t24Name=OWNING.COMPANY, typeModifiers=COMPANY, mvSvExpansionAccess=NOEXPAND)
+    }
+    AA_ARR_INTEREST_COMPENSATION__PR_ATTRIBUTE
+    {
+        /* This will hold two values either DUE, CAPITALISE or DEFER. This Field denote which application method(DUE or CAPITALISE)should be taken while applying periodic rule charges. DEFER would not make anything DUE immediately. An option may be stated to define how long to defer. */
+        PR_APP_METHOD : AA_InterestCompensation:AA_ARR_INTEREST_COMPENSATION__PR_ATTRIBUTE__PR_APP_METHOD
+            @i18n:Label (en="Periodic Application Method")
+            @i18n:Tooltip (en="Periodic Application Method")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=29.0, core=true, t24Name=PR.APP.METHOD, mvSvExpansionAccess=NOEXPAND)
+        /* This will have to accept a valid T24 period.The field indicates the period which is used for Evaluation of a rule. For example: If a field should not be allowed to increase more than 10000 with in a period of 1M, the field would actually hold the "1M" value. */
+        PR_APP_PERIOD : T24BusinessTypes:PERIOD
+            @i18n:Label (en="Periodic Application Period")
+            @i18n:Tooltip (en="Periodic Application Period")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=30.0, core=true, t24Name=PR.APP.PERIOD, mvSvExpansionAccess=NOEXPAND)
+/* These are set of Attributes which define the names of the rule, which will be applied on certain attributes of property classes over a period of time.
+
+Input must be a valid record from AA.PERIODIC.ATTRIBUTE */
+        PR_ATTRIBUTE -> AA_Rules:AA_PERIODIC_ATTRIBUTE
+            @i18n:Label (en="Periodic Attribute")
+            @i18n:Tooltip (en="Periodic Attribute")
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=21.0, core=true, businessType=A, t24Name=PR.ATTRIBUTE, mvSvExpansionAccess=NOEXPAND)
+/* Charge can be collected when the periodic rule is broken.
+This field denotes the charge property. The property and its condition is defined the product designer and validated during publishing.
+
+Valid charge property */
+        PR_BRK_CHARGE -> AA_ProductFramework:AA_PROPERTY
+            @i18n:Label (en="Periodic Break Charge")
+            @i18n:Tooltip (en="Periodic Break Charge")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=25.0, core=true, businessType=A, t24Name=PR.BRK.CHARGE, mvSvExpansionAccess=NOEXPAND)
+/* Based on the PR.BRK.RES option selected, this will hold either an OVERRIDE or EB.ERROR id. By default the ids will be picked from the associated EB.COMPARISON.TYPE record. If CAP or FLOOR values are given, then the underlying AA.PERIODIC.ATTRIBUTE.CLASS should have this type defined in it.
+
+Input must be a valid OVERRIDE ID or EB.ERROR ID. */
+        PR_BRK_MSG : T24BusinessTypes:ANY
+            @i18n:Label (en="Periodic Break Message")
+            @i18n:Tooltip (en="Periodic Break Message")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=24.0, core=true, t24Name=PR.BRK.MSG, mvSvExpansionAccess=NOEXPAND)
+/* When a rule is broken what action needs to be taken is defined here. Currently, the various options available are
+Error  - Blocks further processing
+Override - Gives an override
+Information - Records details only
+CAP the rule value is to be used as a CAP if the rule is broken(basically for Interest processing during COB)
+FLOOR the rule value is to be used as a FLOOR if the rule is broken.
+
+(basically for Interest processing during COB)
+Should be one of the above valid options */
+        PR_BRK_RES : AA_InterestCompensation:AA_ARR_INTEREST_COMPENSATION__PR_ATTRIBUTE__PR_BRK_RES
+            @i18n:Label (en="Periodic Break Restrcition")
+            @i18n:Tooltip (en="Periodic Break Restrcition")
+            @t24:i (align=L, inputBehaviour=N, maxLength=13, sysNumber=23.0, core=true, t24Name=PR.BRK.RES, mvSvExpansionAccess=NOEXPAND)
+        /* System field - reserved for future use */
+        PR_RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=28.0, core=true, t24Name=PR.RESERVED.1, mvSvExpansionAccess=NOEXPAND)
+        /* System field - reserved for future use */
+        PR_RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=27.0, core=true, t24Name=PR.RESERVED.2, mvSvExpansionAccess=NOEXPAND)
+        /* System field - reserved for future use */
+        PR_RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=26.0, core=true, t24Name=PR.RESERVED.3, mvSvExpansionAccess=NOEXPAND)
+/* This is the actual rule value, which will be applied on certain attributes of the property classes over a period of time.
+
+Input must be a valid data type defined in the corresponding
+AA.PERIODIC.ATTRIBUTE.CLASS record. */
+        PR_VALUE : T24BusinessTypes:A
+            @i18n:Label (en="Periodic Value")
+            @i18n:Tooltip (en="Periodic Value")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=22.0, core=true, t24Name=PR.VALUE, mvSvExpansionAccess=NOEXPAND)
+    }
+    AA_ARR_INTEREST_COMPENSATION__RECIPIENT_PROPERTY
+    {
+/* The maximum % of the recipient balance that can be offset by the Donation.
+For ex, in an Offset mortgage, if the Principal is -85,000 and if the Donor balances amount to credit +100,000 then specifying Max Offset as 100% would mean only 85,000 of the credit balances are offset against the Recipient’s debit balance.
+There is no additional benefit for the surplus 15,000 in the Donor Balances
+80% in Max Offset would mean only 68,000 (80% of 85,000) of the credit balance can be offset against the recipient’s debit balance
+In the case of Interest Compensation, this will be set to “” to indicate that there is no “Offset’ percentage but only a consolidation of Donor and Recipient balances to calculate interest on */
+        MAX_OFFSET : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=5.0, core=true, t24Name=MAX.OFFSET)
+/* Indicates which property in the group above would act as a beneficiary in a bundle. Only one property could act as a recipient. Currently only allows a valid interest property and the property should belong to the group stated above. For example, a LOANINTEREST property could be stated as a valid beneficiary property and the balances from Current and Savings account could be pooled towards calculation of LOANINTEREST
+Validation Rules
+1. Should be a valid AA.PROPERTY belonging to INTEREST class
+2. Should be a property belonging to the RECIPIENT.PRODUCT group.
+3. Mandatory field */
+        RECIPIENT_PROPERTY -> AA_ProductFramework:AA_PROPERTY required
+            @i18n:Label (en="Recipient Property")
+            @i18n:Tooltip (en="Recipient Property")
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=4.0, core=true, businessType=A, t24Name=RECIPIENT.PROPERTY)
+    }
+    AA_ARR_INTEREST_COMPENSATION__STMT_NOS
+    {
+        /* System field - not used for property conditions */
+        STMT_NOS : T24BusinessTypes:N
+            @i18n:Label (en="Stmt Nos")
+            @i18n:Tooltip (en="Stmt Nos")
+            @t24:i (align=R, inputBehaviour=N, maxLength=20, sysNumber=58.0, core=true, t24Name=STMT.NOS)
+    }
+    /* Property allows definition of source and target properties in a bundle - describing which properties contribute their balances, which product/properties act as recipients, how should accruals be handled on donor products etc. Typically, this property together with PRODUCT.BUNDLE describe the definition of a bundle and its working. */
+    AA_PRD_CAT_INTEREST_COMPENSATION
+        @i18n:Description (en="")
+        @t24:i (t24Name=AA.PRD.CAT.INTEREST.COMPENSATION, nonStop=true, level=I, type=W, allowedFunctions="L Q S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=67.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=68.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=64.0, core=true, t24Name=AUTHORISER)
+        CHANGED_FIELDS -> byValue AA_InterestCompensation:AA_PRD_CAT_INTEREST_COMPENSATION__CHANGED_FIELDS *
+            @t24:i (t24Name=CHANGED.FIELDS)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=65.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=61.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue AA_InterestCompensation:AA_PRD_CAT_INTEREST_COMPENSATION__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+/* Optional field - Allowed Values are RESETTING and NON-RESETTING.
+RESETTING - During any Renewal Activities (for ex : CHANGE.PRODUCT) the property conditions will be reset from the product.
+NON-RESETTING - During any Renewal Activities property conditions will be maintained from the Arrangement level.
+
+The overall definition may be stated as RESETTING and certain individual attributes may be set to NON-RESETTING as well. This could be done using the NR.ATTRIBUTE fields.
+Leaving the field blank sets NON-RESETTING as the default option. */
+        DEFAULT_ATTR_OPTION : AA_InterestCompensation:AA_PRD_CAT_INTEREST_COMPENSATION__DEFAULT_ATTR_OPTION
+            @i18n:Label (en="Default Attribute")
+            @i18n:Tooltip (en="Default Attribute")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=38.0, core=true, t24Name=DEFAULT.ATTR.OPTION)
+/* Defines whether all attributes (fields) can be negotiable or not. The overall definition may be stated as NON-NEGOTIABLE and certain individual attributes may be set to NEGOTIABLE as well. This could be done using the NR.ATTRIBUTE fields.
+
+This field is Mandatory
+Valid options are YES and NO */
+        DEFAULT_NEGOTIABLE : AA_InterestCompensation:AA_PRD_CAT_INTEREST_COMPENSATION__DEFAULT_NEGOTIABLE required
+            @i18n:Label (en="Default Negotiable")
+            @i18n:Tooltip (en="Default Negotiable")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=39.0, core=true, t24Name=DEFAULT.NEGOTIABLE)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=66.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue AA_InterestCompensation:AA_PRD_CAT_INTEREST_COMPENSATION__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        DONOR_PRODUCT -> byValue AA_InterestCompensation:AA_PRD_CAT_INTEREST_COMPENSATION__DONOR_PRODUCT *
+            @t24:i (t24Name=DONOR.PRODUCT)
+        FULL_DESCRIPTION : T24BusinessTypes:TEXT
+            @t24:i (align=L, inputBehaviour=I, maxLength=100, sysNumber=2.0, core=true, t24Name=FULL.DESCRIPTION)
+/* Contains the arrangement number, extracted from the first component of the id
+Not applicable at product level
+System updated field no input allowed */
+        ID_COMP_1 : T24BusinessTypes:A
+            @i18n:Label (en="Arrangement Id")
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=50.0, core=true, t24Name=ID.COMP.1)
+/* The action that was triggered on the arrangement property
+The action is taken from ACTIVITY.CLASS record of the underlying AA.ARRANGEMENT.ACTIVITY request that caused the record to be modified */
+        ID_COMP_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=51.0, core=true, t24Name=ID.COMP.2)
+/* Contains the effective date of the property condition
+Not applicable at product level
+System updated field no input allowed */
+        ID_COMP_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=30, sysNumber=52.0, core=true, t24Name=ID.COMP.3)
+/* Reserved for future use
+Not applicable at product level
+System field no input allowed */
+        ID_COMP_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=53.0, core=true, t24Name=ID.COMP.4)
+/* Reserved for future use
+Not applicable at product level
+System field no input allowed */
+        ID_COMP_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=54.0, core=true, t24Name=ID.COMP.5)
+/* Reserved for future use
+Not applicable at product level
+System field no input allowed */
+        ID_COMP_6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=55.0, core=true, t24Name=ID.COMP.6)
+        INPUTTER -> byValue AA_InterestCompensation:AA_PRD_CAT_INTEREST_COMPENSATION__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        NEGOTIATED_FLDS -> byValue AA_InterestCompensation:AA_PRD_CAT_INTEREST_COMPENSATION__NEGOTIATED_FLDS *
+            @t24:i (t24Name=NEGOTIATED.FLDS)
+        NR_ATTRIBUTE -> byValue AA_InterestCompensation:AA_PRD_CAT_INTEREST_COMPENSATION__NR_ATTRIBUTE *
+            @t24:i (t24Name=NR.ATTRIBUTE)
+        OVERRIDE -> byValue AA_InterestCompensation:AA_PRD_CAT_INTEREST_COMPENSATION__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        OWNING_COMPANY -> byValue AA_InterestCompensation:AA_PRD_CAT_INTEREST_COMPENSATION__OWNING_COMPANY *
+            @t24:i (t24Name=OWNING.COMPANY)
+/* This field represents the key to the product level conditions of a property class
+This field basically has three components seperated by a hyphen
+Condition id
+Currency - if the property class is currency based. By default takes up local currency
+Effective date - if the property class is dated */
+        PRODUCT_KEY -> AA_InterestCompensation:AA_PRD_CAT_INTEREST_COMPENSATION PK required
+            @i18n:Label (en="Product Key")
+            @i18n:Tooltip (en="Product Key")
+            @t24:i (align=L, inputBehaviour=I, maxLength=80, sysNumber=0.0, core=true, businessType=ANY, t24Name=PRODUCT.KEY)
+        PR_ATTRIBUTE -> byValue AA_InterestCompensation:AA_PRD_CAT_INTEREST_COMPENSATION__PR_ATTRIBUTE *
+            @t24:i (t24Name=PR.ATTRIBUTE)
+/* Defines the product group which would act as a beneficiary for the bundle product. A beneficiary(or recipient) is the one which would enjoy the benefits of all pooled balances from various donors and their properties. Mandatory field since there has to be a beneficiary in a bundle setup.
+Validation Rules
+1. Should be a valid entry in AA.PRODUCT.GROUP
+2. Mandatory field */
+        RECIPIENT_PRODUCT -> AA_ProductFramework:AA_PRODUCT_GROUP
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=3.0, core=true, businessType=A, t24Name=RECIPIENT.PRODUCT)
+        RECIPIENT_PROPERTY -> byValue AA_InterestCompensation:AA_PRD_CAT_INTEREST_COMPENSATION__RECIPIENT_PROPERTY *
+            @t24:i (t24Name=RECIPIENT.PROPERTY)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=60.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED2_ID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=56.0, core=true, t24Name=RESERVED2.ID)
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=19.0, core=true, t24Name=RESERVED.1)
+        RESERVED_11 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=6.0, core=true, t24Name=RESERVED.11)
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=18.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=17.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=16.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=15.0, core=true, t24Name=RESERVED.5)
+        STMT_NOS -> byValue AA_InterestCompensation:AA_PRD_CAT_INTEREST_COMPENSATION__STMT_NOS *
+            @t24:i (t24Name=STMT.NOS)
+        /* System field - reserved for future use */
+        SYS_RESERVE1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=37.0, core=true, t24Name=SYS.RESERVE1)
+        /* System field - reserved for future use */
+        SYS_RESERVE2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=36.0, core=true, t24Name=SYS.RESERVE2)
+        /* System field - reserved for future use */
+        SYS_RESERVE3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=35.0, core=true, t24Name=SYS.RESERVE3)
+        /* System field - reserved for future use */
+        SYS_RESERVE4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=34.0, core=true, t24Name=SYS.RESERVE4)
+        /* System field - reserved for future use */
+        SYS_RESERVE6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=32.0, core=true, t24Name=SYS.RESERVE6)
+        /* System field - reserved for future use */
+        SYS_RESERVE7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=31.0, core=true, t24Name=SYS.RESERVE7)
+/* This field denotes the target classic product of the given property class
+The already existing T24 products are mapped using AA infrastructure
+These are called classic products
+These products are mapped to different property clases */
+        TARGET_PRODUCT : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=57.0, core=true, t24Name=TARGET.PRODUCT)
+    }
+    AA_PRD_CAT_INTEREST_COMPENSATION__CHANGED_FIELDS
+    {
+        /* No input and multi value field - lists all fields that have been negotiated for each dated version of the property. This is system maintained and is crucial for Reverse and Replay functionality. This field indicates which attributes have undergone a change in this instance. The difference between this field in NEGOTIATED.FLDS is that the latter would hold ALL the negotiations that have happened till this moment and CHANGED.FIELDS would only hold the negotiated fields for that activity. */
+        CHANGED_FIELDS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=19, sysNumber=48.0, core=true, t24Name=CHANGED.FIELDS)
+    }
+    AA_PRD_CAT_INTEREST_COMPENSATION__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=63.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    AA_PRD_CAT_INTEREST_COMPENSATION__DESCRIPTION
+    {
+        /* Used to define the Description of a product condition. Language specific field and multiple language descriptions are supported */
+        DESCRIPTION : T24BusinessTypes:ANY required
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    AA_PRD_CAT_INTEREST_COMPENSATION__DONOR_PRODUCT
+    {
+        DONOR_BALANCE_TYPE -> byValue AA_InterestCompensation:AA_PRD_CAT_INTEREST_COMPENSATION__DONOR_PRODUCT__DONOR_BALANCE_TYPE *
+            @t24:i (t24Name=DONOR.BALANCE.TYPE)
+/* Defines the product group which would act as a contributor or donor for the bundle product. A donor product would contribute its balances to recipient property and would generally not accrue on its own balance(so that there is no double accrual). Mandatory field since there has to be a beneficiary in a bundle setup.
+
+Validation Rules
+
+Should be a valid entry in AA.PRODUCT */
+        DONOR_PRODUCT -> AA_ProductFramework:AA_PRODUCT_GROUP
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=7.0, core=true, businessType=A, t24Name=DONOR.PRODUCT)
+        DONOR_PROPERTY -> byValue AA_InterestCompensation:AA_PRD_CAT_INTEREST_COMPENSATION__DONOR_PRODUCT__DONOR_PROPERTY *
+            @t24:i (t24Name=DONOR.PROPERTY)
+    }
+    AA_PRD_CAT_INTEREST_COMPENSATION__DONOR_PRODUCT__DONOR_BALANCE_TYPE
+    {
+/* The Credit/Debit specification at the bundle contradicts with the Source Calc type of the Interest property
+Sub Value field associated with Donor Balance Type
+Input is allowed only if Donor Balance Type is input
+Because the Donor Balance type can have Credit or Debit balances on a given day, there would be a flag to specify which balances of the balance type should be used for Offset */
+        DONATE_TYPE -> AA_Framework:AA_SOURCE_CALC_TYPE
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=14.0, core=true, businessType=A, t24Name=DONATE.TYPE)
+        DONOR_BALANCE_TYPE -> AC_SoftAccounting:AC_BALANCE_TYPE
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=13.0, core=true, businessType=A, t24Name=DONOR.BALANCE.TYPE)
+    }
+    AA_PRD_CAT_INTEREST_COMPENSATION__DONOR_PRODUCT__DONOR_PROPERTY
+    {
+/* After the donor property has contributed its balance to a pool which recipient would accrue on, generally the bank might want to stop accruals on the donor side (If accruals happen on both donor and recipient for the same balance, it moght result in inflated PL). This field indicates whether the financical institution would want to stop accruals on donor and accruals happen only on recipient arrangement. When the field is flagged as "SUPPRESS" then system would flag the SUPPRESS.ACCRUAL field on the interest condition of this property as YES which indicates accruals would no longer happen on those conditions
+Validation Rules
+1. Mandatory field
+2. SUPPRESS - indicates accruals would be stopped at the donor level since balances accrue at the recipient level.
+3. CALCULATE - indicates accruals would continue to happen on Donor arrangement properties as well even though balances are contributed to recipient level as well. This may be required when the recipient accrual is only on a margin rate and not on actual interest rate. */
+        DONOR_ACCRUAL : AA_InterestCompensation:AA_PRD_CAT_INTEREST_COMPENSATION__DONOR_PRODUCT__DONOR_PROPERTY__DONOR_ACCRUAL
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=12.0, core=true, t24Name=DONOR.ACCRUAL)
+/* Indicates which property(ies) in the group above would act as contributor in a bundle. One or more than one properties could contribute to a bundle. Currently only allows a valid interest property and the property should belong to the group stated above. For example, a CREDITINTEREST property could be stated as a valid donor property. The actual balance that this property would contribute is still derived from the base balance on which this property calculates on this product. There would be no actual ""transfer"" of balances to recipient arrangements - the balances of donors would be considered during run-time when the recipient property accrues.
+Validation Rules
+1. Should be a valid AA.PROPERTY belonging to INTEREST class
+2. Should be a property belonging to the DONOR.PRODUCT group
+3. Mandatory field */
+        DONOR_PROPERTY -> AA_ProductFramework:AA_PROPERTY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=8.0, core=true, businessType=A, t24Name=DONOR.PROPERTY)
+        RESERVED_10 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=9.0, core=true, t24Name=RESERVED.10)
+        RESERVED_8 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=11.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=10.0, core=true, t24Name=RESERVED.9)
+    }
+    AA_PRD_CAT_INTEREST_COMPENSATION__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=62.0, core=true, t24Name=INPUTTER)
+    }
+    AA_PRD_CAT_INTEREST_COMPENSATION__NEGOTIATED_FLDS
+    {
+        /* No input and multi value field that lists the attributes on the arrangement property record that have been fixed and/or negotiated. These are stored when the arrangement level record is committed. Once an attribute has been fixed or negotiated it will remain in negotiated field list on all subsequent dated versions of the property. */
+        NEGOTIATED_FLDS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=19, sysNumber=49.0, core=true, t24Name=NEGOTIATED.FLDS)
+    }
+    AA_PRD_CAT_INTEREST_COMPENSATION__NR_ATTRIBUTE
+    {
+/* Defines which individual attribute (field) has the negotiation rules defined in fields "Nr.Negotiable" through to "Nr.Message"
+
+Must be a valid field name within this property
+This field is part of a multi value set */
+        NR_ATTRIBUTE : T24BusinessTypes:A
+            @i18n:Label (en="Negotiable Attribute")
+            @i18n:Tooltip (en="Negotiable Attribute")
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=40.0, core=true, t24Name=NR.ATTRIBUTE)
+        NR_OPTIONS -> byValue AA_InterestCompensation:AA_PRD_CAT_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_OPTIONS *
+            @t24:i (t24Name=NR.OPTIONS)
+        /* System Field - Reserved for future use */
+        NR_RESERVED1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=43.0, core=true, t24Name=NR.RESERVED1)
+        /* System Field - Reserved for future use */
+        NR_RESERVED2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=42.0, core=true, t24Name=NR.RESERVED2)
+/* Negotiation rules may be defined as a standard types in EB.STANDARD.COMPARISON. And those types may be used in this field.
+
+
+Input must be a valid record from EB.STANDARD.COMPARISON */
+        NR_STD_COMP -> AA_Rules:EB_STANDARD_COMPARISON
+            @i18n:Label (en="Negotiable Standard Comp")
+            @i18n:Tooltip (en="Negotiable Standard Comp")
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=44.0, core=true, businessType=A, t24Name=NR.STD.COMP)
+        NR_TYPE -> byValue AA_InterestCompensation:AA_PRD_CAT_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_TYPE *
+            @t24:i (t24Name=NR.TYPE)
+    }
+    AA_PRD_CAT_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_OPTIONS
+    {
+/* Defines named values to indicate if an option applies to the associated NR.ATTRIBUTE. More than one option can be associated with the NR.ATTRIBUTE, with certain restrictions.
+
+Valid Inputs are NEGOTIABLE, NON-NEGOTIABLE, OVERRIDE, FIX-VALUE, MANDATORY as described below: -
+NEGOTIABLE
+The value of NEGOTIABLE will indicate that the associated NR.ATTRIBUTE can be negotiated at the arrangement level.
+NON-NEGOTIABLE
+The value of NON-NEGOTIABLE will indicate that the associated NR.ATTRIBUTE cannot be negotiated at the arrangement level. Both NEGOTIABLE and NON-NEGOTIABLE cannot be defined together
+OVERRIDE
+Specifies if a default override message should be generated if the default attribute is amended at the arrangement level. If OVERRIDE is not specified, no override will be generated.
+FIX-VALUE
+Specified if the field value is to be fixed at the arrangement level. If FIX-VALUE is not specified the field value will vary with the changes to the underlying product condition.
+MANDATORY
+Specifies if the attribute is mandatory for this product condition. Can only be specified where the attribute is not defined as mandatory in the property class. */
+        NR_OPTIONS : AA_InterestCompensation:AA_PRD_CAT_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_OPTIONS__NR_OPTIONS
+            @i18n:Label (en="Negotiable Options")
+            @i18n:Tooltip (en="Negotiable Options")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=41.0, core=true, t24Name=NR.OPTIONS)
+    }
+    AA_PRD_CAT_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_TYPE
+    {
+/* This field indicates whether to raise error or override message when rule is broken
+Allows only two values ERROR or OVERRIDE
+ERROR error message is raised
+OVERRIDE Override message is generated */
+        NR_MESSAGE : AA_InterestCompensation:AA_PRD_CAT_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_TYPE__NR_MESSAGE
+            @i18n:Label (en="Negotiable Message")
+            @i18n:Tooltip (en="Negotiable Message")
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=47.0, core=true, t24Name=NR.MESSAGE)
+/* Defines the negotiation rule that is linked to the field defined in "Nr.Attribute". If an attribute has a negotiation rule linked to it (in associated fields NR.TYPE, NR.VALUE and NR.MESSAGE) the attribute must be defined as negotiable.
+It is possible to define more than one negotiation rule for an attribute
+
+Input must be a valid record from EB.COMPARISON.TYPE
+This is a multi value set of fields */
+        NR_TYPE -> AA_Rules:EB_COMPARISON_TYPE
+            @i18n:Label (en="Negotiable Type")
+            @i18n:Tooltip (en="Negotiable Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=45.0, core=true, businessType=A, t24Name=NR.TYPE)
+        /* Defines the value that links to the rule in field "Nr.Type". For example, if the rule is not to allow a value to go below 10, then the Value of 10 has to be stated in this field and together with NR.TYPE would evaluate the rule. */
+        NR_VALUE : T24BusinessTypes:ANY
+            @i18n:Label (en="Negotiable Value")
+            @i18n:Tooltip (en="Negotiable Value")
+            @t24:i (align=L, inputBehaviour=I, maxLength=60, sysNumber=46.0, core=true, t24Name=NR.VALUE)
+    }
+    AA_PRD_CAT_INTEREST_COMPENSATION__OVERRIDE
+    {
+        /* Standard Override field containing override messages generated by amendments to this property */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=59.0, core=true, t24Name=OVERRIDE)
+    }
+    AA_PRD_CAT_INTEREST_COMPENSATION__OWNING_COMPANY
+    {
+        OWNING_COMPANY -> ST_CompanyCreation:COMPANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=33.0, core=true, businessType=AAPRODUCT, t24Name=OWNING.COMPANY, typeModifiers=COMPANY)
+    }
+    AA_PRD_CAT_INTEREST_COMPENSATION__PR_ATTRIBUTE
+    {
+        /* This will hold two values either DUE, CAPITALISE or DEFER. This Field denote which application method(DUE or CAPITALISE)should be taken while applying periodic rule charges. DEFER would not make anything DUE immediately. An option may be stated to define how long to defer. */
+        PR_APP_METHOD : AA_InterestCompensation:AA_PRD_CAT_INTEREST_COMPENSATION__PR_ATTRIBUTE__PR_APP_METHOD
+            @i18n:Label (en="Periodic Application Method")
+            @i18n:Tooltip (en="Periodic Application Method")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=29.0, core=true, t24Name=PR.APP.METHOD)
+        /* This will have to accept a valid T24 period.The field indicates the period which is used for Evaluation of a rule. For example: If a field should not be allowed to increase more than 10000 with in a period of 1M, the field would actually hold the "1M" value. */
+        PR_APP_PERIOD : T24BusinessTypes:PERIOD
+            @i18n:Label (en="Periodic Application Period")
+            @i18n:Tooltip (en="Periodic Application Period")
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=30.0, core=true, t24Name=PR.APP.PERIOD)
+/* These are set of Attributes which define the names of the rule, which will be applied on certain attributes of property classes over a period of time.
+
+Input must be a valid record from AA.PERIODIC.ATTRIBUTE */
+        PR_ATTRIBUTE -> AA_Rules:AA_PERIODIC_ATTRIBUTE
+            @i18n:Label (en="Periodic Attribute")
+            @i18n:Tooltip (en="Periodic Attribute")
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=21.0, core=true, businessType=A, t24Name=PR.ATTRIBUTE)
+/* Charge can be collected when the periodic rule is broken.
+This field denotes the charge property. The property and its condition is defined the product designer and validated during publishing.
+
+Valid charge property */
+        PR_BRK_CHARGE -> AA_ProductFramework:AA_PROPERTY
+            @i18n:Label (en="Periodic Break Charge")
+            @i18n:Tooltip (en="Periodic Break Charge")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=25.0, core=true, businessType=A, t24Name=PR.BRK.CHARGE)
+/* Based on the PR.BRK.RES option selected, this will hold either an OVERRIDE or EB.ERROR id. By default the ids will be picked from the associated EB.COMPARISON.TYPE record. If CAP or FLOOR values are given, then the underlying AA.PERIODIC.ATTRIBUTE.CLASS should have this type defined in it.
+
+Input must be a valid OVERRIDE ID or EB.ERROR ID. */
+        PR_BRK_MSG : T24BusinessTypes:ANY
+            @i18n:Label (en="Periodic Break Message")
+            @i18n:Tooltip (en="Periodic Break Message")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=24.0, core=true, t24Name=PR.BRK.MSG)
+/* When a rule is broken what action needs to be taken is defined here. Currently, the various options available are
+Error  - Blocks further processing
+Override - Gives an override
+Information - Records details only
+CAP the rule value is to be used as a CAP if the rule is broken(basically for Interest processing during COB)
+FLOOR the rule value is to be used as a FLOOR if the rule is broken.
+
+(basically for Interest processing during COB)
+Should be one of the above valid options */
+        PR_BRK_RES : AA_InterestCompensation:AA_PRD_CAT_INTEREST_COMPENSATION__PR_ATTRIBUTE__PR_BRK_RES
+            @i18n:Label (en="Periodic Break Restrcition")
+            @i18n:Tooltip (en="Periodic Break Restrcition")
+            @t24:i (align=L, inputBehaviour=I, maxLength=13, sysNumber=23.0, core=true, t24Name=PR.BRK.RES)
+        /* System field - reserved for future use */
+        PR_RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=28.0, core=true, t24Name=PR.RESERVED.1)
+        /* System field - reserved for future use */
+        PR_RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=27.0, core=true, t24Name=PR.RESERVED.2)
+        /* System field - reserved for future use */
+        PR_RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=26.0, core=true, t24Name=PR.RESERVED.3)
+/* This is the actual rule value, which will be applied on certain attributes of the property classes over a period of time.
+
+Input must be a valid data type defined in the corresponding
+AA.PERIODIC.ATTRIBUTE.CLASS record. */
+        PR_VALUE : T24BusinessTypes:A
+            @i18n:Label (en="Periodic Value")
+            @i18n:Tooltip (en="Periodic Value")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=22.0, core=true, t24Name=PR.VALUE)
+    }
+    AA_PRD_CAT_INTEREST_COMPENSATION__RECIPIENT_PROPERTY
+    {
+/* The maximum % of the recipient balance that can be offset by the Donation.
+For ex, in an Offset mortgage, if the Principal is -85,000 and if the Donor balances amount to credit +100,000 then specifying Max Offset as 100% would mean only 85,000 of the credit balances are offset against the Recipient’s debit balance.
+There is no additional benefit for the surplus 15,000 in the Donor Balances
+80% in Max Offset would mean only 68,000 (80% of 85,000) of the credit balance can be offset against the recipient’s debit balance
+In the case of Interest Compensation, this will be set to “” to indicate that there is no “Offset’ percentage but only a consolidation of Donor and Recipient balances to calculate interest on */
+        MAX_OFFSET : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=5.0, core=true, t24Name=MAX.OFFSET)
+/* Indicates which property in the group above would act as a beneficiary in a bundle. Only one property could act as a recipient. Currently only allows a valid interest property and the property should belong to the group stated above. For example, a LOANINTEREST property could be stated as a valid beneficiary property and the balances from Current and Savings account could be pooled towards calculation of LOANINTEREST.
+Validation Rules
+1. Should be a valid AA.PROPERTY belonging to INTEREST class
+2. Should be a property belonging to the RECIPIENT.PRODUCT group.
+3. Mandatory field */
+        RECIPIENT_PROPERTY -> AA_ProductFramework:AA_PROPERTY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=4.0, core=true, businessType=A, t24Name=RECIPIENT.PROPERTY)
+    }
+    AA_PRD_CAT_INTEREST_COMPENSATION__STMT_NOS
+    {
+        /* System field - not used for property conditions */
+        STMT_NOS : T24BusinessTypes:N
+            @i18n:Label (en="Stmt Nos")
+            @i18n:Tooltip (en="Stmt Nos")
+            @t24:i (align=R, inputBehaviour=N, maxLength=20, sysNumber=58.0, core=true, t24Name=STMT.NOS)
+    }
+    /* Property allows definition of source and target properties in a bundle - describing which properties contribute their balances, which product/properties act as recipients, how should accruals be handled on donor products etc. Typically, this property together with PRODUCT.BUNDLE describe the definition of a bundle and its working. */
+    AA_PRD_DES_INTEREST_COMPENSATION
+        @i18n:Description (en="")
+        @t24:i (t24Name=AA.PRD.DES.INTEREST.COMPENSATION, nonStop=true, level=I, type=H, allowedFunctions="A C D E I L Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=67.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=68.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=64.0, core=true, t24Name=AUTHORISER)
+        CHANGED_FIELDS -> byValue AA_InterestCompensation:AA_PRD_DES_INTEREST_COMPENSATION__CHANGED_FIELDS *
+            @t24:i (t24Name=CHANGED.FIELDS)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=65.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=61.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue AA_InterestCompensation:AA_PRD_DES_INTEREST_COMPENSATION__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+/* Optional field - Allowed Values are RESETTING and NON-RESETTING.
+RESETTING - During any Renewal Activities (for ex : CHANGE.PRODUCT) the property conditions will be reset from the product.
+NON-RESETTING - During any Renewal Activities property conditions will be maintained from the Arrangement level.
+
+Leaving the field blank sets NON-RESETTING as the default option.
+
+The overall definition may be stated as RESETTING and certain individual attributes may be set to NON-RESETTING as well. This could be done using the NR.ATTRIBUTE fields. */
+        DEFAULT_ATTR_OPTION : AA_InterestCompensation:AA_PRD_DES_INTEREST_COMPENSATION__DEFAULT_ATTR_OPTION
+            @i18n:Label (en="Default Attribute Option")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=38.0, core=true, t24Name=DEFAULT.ATTR.OPTION)
+/* Defines whether all attributes (fields) can be negotiable or not. The overall definition may be stated as NON-NEGOTIABLE and certain individual attributes may be set to NEGOTIABLE as well. This could be done using the NR.ATTRIBUTE fields.
+
+This field is Mandatory
+Valid options are YES and NO */
+        DEFAULT_NEGOTIABLE : AA_InterestCompensation:AA_PRD_DES_INTEREST_COMPENSATION__DEFAULT_NEGOTIABLE required
+            @i18n:Label (en="Default Negotiable")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=39.0, core=true, t24Name=DEFAULT.NEGOTIABLE)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=66.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue AA_InterestCompensation:AA_PRD_DES_INTEREST_COMPENSATION__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        DONOR_PRODUCT -> byValue AA_InterestCompensation:AA_PRD_DES_INTEREST_COMPENSATION__DONOR_PRODUCT *
+            @t24:i (t24Name=DONOR.PRODUCT)
+        FULL_DESCRIPTION : T24BusinessTypes:TEXT
+            @t24:i (align=L, inputBehaviour=I, maxLength=100, sysNumber=2.0, core=true, t24Name=FULL.DESCRIPTION)
+/* Contains the arrangement number, extracted from the first component of the id
+Not applicable at product level
+System updated field no input allowed */
+        ID_COMP_1 : T24BusinessTypes:A
+            @i18n:Label (en="Arrangement Id")
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=50.0, core=true, t24Name=ID.COMP.1)
+/* The action that was triggered on the arrangement property
+The action is taken from ACTIVITY.CLASS record of the underlying AA.ARRANGEMENT.ACTIVITY request that caused the record to be modified */
+        ID_COMP_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=51.0, core=true, t24Name=ID.COMP.2)
+/* Contains the effective date of the property condition
+Not applicable at product level
+System updated field no input allowed */
+        ID_COMP_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=30, sysNumber=52.0, core=true, t24Name=ID.COMP.3)
+/* Reserved for future use
+Not applicable at product level
+System field no input allowed */
+        ID_COMP_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=53.0, core=true, t24Name=ID.COMP.4)
+/* Reserved for future use
+Not applicable at product level
+System field no input allowed */
+        ID_COMP_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=54.0, core=true, t24Name=ID.COMP.5)
+/* Reserved for future use
+Not applicable at product level
+System field no input allowed */
+        ID_COMP_6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=55.0, core=true, t24Name=ID.COMP.6)
+        INPUTTER -> byValue AA_InterestCompensation:AA_PRD_DES_INTEREST_COMPENSATION__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        NEGOTIATED_FLDS -> byValue AA_InterestCompensation:AA_PRD_DES_INTEREST_COMPENSATION__NEGOTIATED_FLDS *
+            @t24:i (t24Name=NEGOTIATED.FLDS)
+        NR_ATTRIBUTE -> byValue AA_InterestCompensation:AA_PRD_DES_INTEREST_COMPENSATION__NR_ATTRIBUTE *
+            @t24:i (t24Name=NR.ATTRIBUTE)
+        OVERRIDE -> byValue AA_InterestCompensation:AA_PRD_DES_INTEREST_COMPENSATION__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        OWNING_COMPANY -> byValue AA_InterestCompensation:AA_PRD_DES_INTEREST_COMPENSATION__OWNING_COMPANY *
+            @t24:i (t24Name=OWNING.COMPANY)
+/* This field represents the key to the product level conditions of a property class
+This field basically has three components seperated by a hyphen
+Condition id
+Currency - if the property class is currency based. By default takes up local currency
+Effective date - if the property class is dated */
+        PRODUCT_KEY -> AA_InterestCompensation:AA_PRD_DES_INTEREST_COMPENSATION PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=80, sysNumber=0.0, core=true, businessType=ANY, t24Name=PRODUCT.KEY)
+        PR_ATTRIBUTE -> byValue AA_InterestCompensation:AA_PRD_DES_INTEREST_COMPENSATION__PR_ATTRIBUTE *
+            @t24:i (t24Name=PR.ATTRIBUTE)
+/* Defines the product group which would act as a beneficiary for the bundle product. A beneficiary(or recipient) is the one which would enjoy the benefits of all pooled balances from various donors and their properties. Mandatory field since there has to be a beneficiary in a bundle setup.
+Validation Rules
+1. Should be a valid entry in AA.PRODUCT.GROUP
+2. Mandatory field */
+        RECIPIENT_PRODUCT -> AA_ProductFramework:AA_PRODUCT_GROUP
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=3.0, core=true, businessType=A, t24Name=RECIPIENT.PRODUCT)
+        RECIPIENT_PROPERTY -> byValue AA_InterestCompensation:AA_PRD_DES_INTEREST_COMPENSATION__RECIPIENT_PROPERTY *
+            @t24:i (t24Name=RECIPIENT.PROPERTY)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=60.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED2_ID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=56.0, core=true, t24Name=RESERVED2.ID)
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=19.0, core=true, t24Name=RESERVED.1)
+        RESERVED_11 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=6.0, core=true, t24Name=RESERVED.11)
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=18.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=17.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=16.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=15.0, core=true, t24Name=RESERVED.5)
+        STMT_NOS -> byValue AA_InterestCompensation:AA_PRD_DES_INTEREST_COMPENSATION__STMT_NOS *
+            @t24:i (t24Name=STMT.NOS)
+        /* System field - reserved for future use */
+        SYS_RESERVE1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=37.0, core=true, t24Name=SYS.RESERVE1)
+        /* System field - reserved for future use */
+        SYS_RESERVE2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=36.0, core=true, t24Name=SYS.RESERVE2)
+        /* System field - reserved for future use */
+        SYS_RESERVE3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=35.0, core=true, t24Name=SYS.RESERVE3)
+        /* System field - reserved for future use */
+        SYS_RESERVE4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=34.0, core=true, t24Name=SYS.RESERVE4)
+        /* System field - reserved for future use */
+        SYS_RESERVE6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=32.0, core=true, t24Name=SYS.RESERVE6)
+        /* System field - reserved for future use */
+        SYS_RESERVE7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=31.0, core=true, t24Name=SYS.RESERVE7)
+/* This field denotes the target classic product of the given property class
+The already existing T24 products are mapped using AA infrastructure
+These are called classic products
+These products are mapped to different property clases */
+        TARGET_PRODUCT : T24BusinessTypes:A
+            @i18n:Label (en="Target Classic Product")
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=57.0, core=true, t24Name=TARGET.PRODUCT)
+    }
+    AA_PRD_DES_INTEREST_COMPENSATION__CHANGED_FIELDS
+    {
+        /* No input and multi value field - lists all fields that have been negotiated for each dated version of the property. This is system maintained and is crucial for Reverse and Replay functionality. This field indicates which attributes have undergone a change in this instance. The difference between this field in NEGOTIATED.FLDS is that the latter would hold ALL the negotiations that have happened till this moment and CHANGED.FIELDS would only hold the negotiated fields for that activity. */
+        CHANGED_FIELDS : T24BusinessTypes:A
+            @i18n:Label (en="Fields That Have Been Negotiated For The Property")
+            @t24:i (align=L, inputBehaviour=N, maxLength=19, sysNumber=48.0, core=true, t24Name=CHANGED.FIELDS)
+    }
+    AA_PRD_DES_INTEREST_COMPENSATION__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=63.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    AA_PRD_DES_INTEREST_COMPENSATION__DESCRIPTION
+    {
+        /* Used to define the Description of a product condition. Language specific field and multiple language descriptions are supported */
+        DESCRIPTION : T24BusinessTypes:ANY required
+            @i18n:Label (en="Describes This Condition Record And Is Used For Enrichment")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    AA_PRD_DES_INTEREST_COMPENSATION__DONOR_PRODUCT
+    {
+        DONOR_BALANCE_TYPE -> byValue AA_InterestCompensation:AA_PRD_DES_INTEREST_COMPENSATION__DONOR_PRODUCT__DONOR_BALANCE_TYPE *
+            @t24:i (t24Name=DONOR.BALANCE.TYPE)
+/* Defines the product group which would act as a contributor or donor for the bundle product. A donor product would contribute its balances to recipient property and would generally not accrue on its own balance(so the accrual is not duplicated). Mandatory field since there has to be a beneficiary in a bundle setup.
+
+Validation Rules
+
+Should be a valid entry in AA.PRODUCT */
+        DONOR_PRODUCT -> AA_ProductFramework:AA_PRODUCT_GROUP
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=7.0, core=true, businessType=A, t24Name=DONOR.PRODUCT)
+        DONOR_PROPERTY -> byValue AA_InterestCompensation:AA_PRD_DES_INTEREST_COMPENSATION__DONOR_PRODUCT__DONOR_PROPERTY *
+            @t24:i (t24Name=DONOR.PROPERTY)
+    }
+    AA_PRD_DES_INTEREST_COMPENSATION__DONOR_PRODUCT__DONOR_BALANCE_TYPE
+    {
+/* The Credit/Debit specification at the bundle contradicts with the Source Calc type of the Interest property
+Sub Value field associated with Donor Balance Type
+Input is allowed only if Donor Balance Type is input
+Because the Donor Balance type can have Credit or Debit balances on a given day, there would be a flag to specify which balances of the balance type should be used for Offset */
+        DONATE_TYPE -> AA_Framework:AA_SOURCE_CALC_TYPE
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=14.0, core=true, businessType=A, t24Name=DONATE.TYPE)
+        DONOR_BALANCE_TYPE -> AC_SoftAccounting:AC_BALANCE_TYPE
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=13.0, core=true, businessType=A, t24Name=DONOR.BALANCE.TYPE)
+    }
+    AA_PRD_DES_INTEREST_COMPENSATION__DONOR_PRODUCT__DONOR_PROPERTY
+    {
+/* After the donor property has contributed its balance to a pool which recipient would accrue on, generally the bank might want to stop accruals on the donor side (If accruals happen on both donor and recipient for the same balance, it moght result in inflated PL). This field indicates whether the financical institution would want to stop accruals on donor and accruals happen only on recipient arrangement. When the field is flagged as "SUPPRESS" then system would flag the SUPPRESS.ACCRUAL field on the interest condition of this property as YES which indicates accruals would no longer happen on those conditions
+Validation Rules
+1. Mandatory field
+2. SUPPRESS - indicates accruals would be stopped at the donor level since balances accrue at the recipient level.
+3. CALCULATE - indicates accruals would continue to happen on Donor arrangement properties as well even though balances are contributed to recipient level as well. This may be required when the recipient accrual is only on a margin rate and not on actual interest rate. */
+        DONOR_ACCRUAL : AA_InterestCompensation:AA_PRD_DES_INTEREST_COMPENSATION__DONOR_PRODUCT__DONOR_PROPERTY__DONOR_ACCRUAL
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=12.0, core=true, t24Name=DONOR.ACCRUAL)
+/* Indicates which property(ies) in the group above would act as contributor in a bundle. One or more than one properties could contribute to a bundle. Currently only allows a valid interest property and the property should belong to the group stated above. For example, a CREDITINTEREST property could be stated as a valid donor property. The actual balance that this property would contribute is still derived from the base balance on which this property calculates on this product. There would be no actual ""transfer"" of balances to recipient arrangements - the balances of donors would be considered during run-time when the recipient property accrues.
+Validation Rules:
+1. Should be a valid AA.PROPERTY belonging to INTEREST class
+2. Should be a property belonging to the DONOR.PRODUCT group.
+3. Mandatory field */
+        DONOR_PROPERTY -> AA_ProductFramework:AA_PROPERTY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=8.0, core=true, businessType=A, t24Name=DONOR.PROPERTY)
+        RESERVED_10 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=9.0, core=true, t24Name=RESERVED.10)
+        RESERVED_8 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=11.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=10.0, core=true, t24Name=RESERVED.9)
+    }
+    AA_PRD_DES_INTEREST_COMPENSATION__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=62.0, core=true, t24Name=INPUTTER)
+    }
+    AA_PRD_DES_INTEREST_COMPENSATION__NEGOTIATED_FLDS
+    {
+        /* No input and multi value field that lists the attributes on the arrangement property record that have been fixed and/or negotiated. These are stored when the arrangement level record is committed. Once an attribute has been fixed or negotiated it will remain in negotiated field list on all subsequent dated versions of the property. */
+        NEGOTIATED_FLDS : T24BusinessTypes:A
+            @i18n:Label (en="Negotiated Attributes On Property")
+            @t24:i (align=L, inputBehaviour=N, maxLength=19, sysNumber=49.0, core=true, t24Name=NEGOTIATED.FLDS)
+    }
+    AA_PRD_DES_INTEREST_COMPENSATION__NR_ATTRIBUTE
+    {
+/* Defines which individual attribute (field) has the negotiation rules defined in fields "Nr.Negotiable" through to "Nr.Message"
+
+Must be a valid field name within this property
+This field is part of a multi value set */
+        NR_ATTRIBUTE : T24BusinessTypes:A
+            @i18n:Label (en="Negotiable Attribute")
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=40.0, core=true, t24Name=NR.ATTRIBUTE)
+        NR_OPTIONS -> byValue AA_InterestCompensation:AA_PRD_DES_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_OPTIONS *
+            @t24:i (t24Name=NR.OPTIONS)
+        /* System Field - Reserved for future use */
+        NR_RESERVED1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=43.0, core=true, t24Name=NR.RESERVED1)
+        /* System Field - Reserved for future use */
+        NR_RESERVED2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=42.0, core=true, t24Name=NR.RESERVED2)
+/* Negotiation rules may be defined as a standard types in EB.STANDARD.COMPARISON. And those types may be used in this field.
+
+
+Input must be a valid record from EB.STANDARD.COMPARISON */
+        NR_STD_COMP -> AA_Rules:EB_STANDARD_COMPARISON
+            @i18n:Label (en="Negotiable Standard Comparison")
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=44.0, core=true, businessType=A, t24Name=NR.STD.COMP)
+        NR_TYPE -> byValue AA_InterestCompensation:AA_PRD_DES_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_TYPE *
+            @t24:i (t24Name=NR.TYPE)
+    }
+    AA_PRD_DES_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_OPTIONS
+    {
+/* Defines named values to indicate if an option applies to the associated NR.ATTRIBUTE. More than one option can be associated with the NR.ATTRIBUTE, with certain restrictions.
+
+Valid Inputs are NEGOTIABLE, NON-NEGOTIABLE, OVERRIDE, FIX-VALUE, MANDATORY as described below: -
+NEGOTIABLE
+The value of NEGOTIABLE will indicate that the associated NR.ATTRIBUTE can be negotiated at the arrangement level.
+NON-NEGOTIABLE
+The value of NON-NEGOTIABLE will indicate that the associated NR.ATTRIBUTE cannot be negotiated at the arrangement level. Both NEGOTIABLE and NON-NEGOTIABLE cannot be defined together
+OVERRIDE
+Specifies if a default override message should be generated if the default attribute is amended at the arrangement level. If OVERRIDE is not specified, no override will be generated.
+FIX-VALUE
+Specified if the field value is to be fixed at the arrangement level. If FIX-VALUE is not specified the field value will vary with the changes to the underlying product condition.
+MANDATORY
+Specifies if the attribute is mandatory for this product condition. Can only be specified where the attribute is not defined as mandatory in the property class. */
+        NR_OPTIONS : AA_InterestCompensation:AA_PRD_DES_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_OPTIONS__NR_OPTIONS
+            @i18n:Label (en="Negotiable Options")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=41.0, core=true, t24Name=NR.OPTIONS)
+    }
+    AA_PRD_DES_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_TYPE
+    {
+/* This field indicates whether to raise error or override message when rule is broken
+Allows only two values ERROR or OVERRIDE
+ERROR error message is raised
+OVERRIDE Override message is generated */
+        NR_MESSAGE : AA_InterestCompensation:AA_PRD_DES_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_TYPE__NR_MESSAGE
+            @i18n:Label (en="Negotiable Message")
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=47.0, core=true, t24Name=NR.MESSAGE)
+/* Defines the negotiation rule that is linked to the field defined in "Nr.Attribute". If an attribute has a negotiation rule linked to it (in associated fields NR.TYPE, NR.VALUE and NR.MESSAGE) the attribute must be defined as negotiable.
+It is possible to define more than one negotiation rule for an attribute
+
+Input must be a valid record from EB.COMPARISON.TYPE
+This is a multi value set of fields */
+        NR_TYPE -> AA_Rules:EB_COMPARISON_TYPE
+            @i18n:Label (en="Negotiable Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=45.0, core=true, businessType=A, t24Name=NR.TYPE)
+        /* Defines the value that links to the rule in field "Nr.Type". For example, if the rule is not to allow a value to go below 10, then the Value of 10 has to be stated in this field and together with NR.TYPE would evaluate the rule. */
+        NR_VALUE : T24BusinessTypes:ANY
+            @i18n:Label (en="Negotiable Value")
+            @t24:i (align=L, inputBehaviour=I, maxLength=60, sysNumber=46.0, core=true, t24Name=NR.VALUE)
+    }
+    AA_PRD_DES_INTEREST_COMPENSATION__OVERRIDE
+    {
+        /* Standard Override field containing override messages generated by amendments to this property */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=59.0, core=true, t24Name=OVERRIDE)
+    }
+    AA_PRD_DES_INTEREST_COMPENSATION__OWNING_COMPANY
+    {
+        OWNING_COMPANY -> ST_CompanyCreation:COMPANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=33.0, core=true, businessType=AAPRODUCT, t24Name=OWNING.COMPANY, typeModifiers=COMPANY)
+    }
+    AA_PRD_DES_INTEREST_COMPENSATION__PR_ATTRIBUTE
+    {
+        /* This will hold two values either DUE, CAPITALISE or DEFER. This Field denote which application method(DUE or CAPITALISE)should be taken while applying periodic rule charges. DEFER would not make anything DUE immediately. An option may be stated to define how long to defer. */
+        PR_APP_METHOD : AA_InterestCompensation:AA_PRD_DES_INTEREST_COMPENSATION__PR_ATTRIBUTE__PR_APP_METHOD
+            @i18n:Label (en="Periodic Attribute Method")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=29.0, core=true, t24Name=PR.APP.METHOD)
+        /* This will have to accept a valid T24 period.The field indicates the period which is used for Evaluation of a rule. For example: If a field should not be allowed to increase more than 10000 with in a period of 1M, the field would actually hold the "1M" value. */
+        PR_APP_PERIOD : T24BusinessTypes:PERIOD
+            @i18n:Label (en="Periodic Attribute Period")
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=30.0, core=true, t24Name=PR.APP.PERIOD)
+/* These are set of Attributes which define the names of the rule, which will be applied on certain attributes of property classes over a period of time.
+
+Input must be a valid record from AA.PERIODIC.ATTRIBUTE */
+        PR_ATTRIBUTE -> AA_Rules:AA_PERIODIC_ATTRIBUTE
+            @i18n:Label (en="Periodic Attribute")
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=21.0, core=true, businessType=A, t24Name=PR.ATTRIBUTE)
+/* Charge can be collected when the periodic rule is broken.
+This field denotes the charge property. The property and its condition is defined the product designer and validated during publishing.
+
+Valid charge property */
+        PR_BRK_CHARGE -> AA_ProductFramework:AA_PROPERTY
+            @i18n:Label (en="Attribute Break Charge")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=25.0, core=true, businessType=A, t24Name=PR.BRK.CHARGE)
+/* Based on the PR.BRK.RES option selected, this will hold either an OVERRIDE or EB.ERROR id. By default the ids will be picked from the associated EB.COMPARISON.TYPE record. If CAP or FLOOR values are given, then the underlying AA.PERIODIC.ATTRIBUTE.CLASS should have this type defined in it.
+
+Input must be a valid OVERRIDE ID or EB.ERROR ID. */
+        PR_BRK_MSG : T24BusinessTypes:ANY
+            @i18n:Label (en="Attribute Break Message")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=24.0, core=true, t24Name=PR.BRK.MSG)
+/* When a rule is broken what action needs to be taken is defined here. Currently, the various options available are
+Error  - Blocks further processing
+Override - Gives an override
+Information - Records details only
+CAP the rule value is to be used as a CAP if the rule is broken(basically for Interest processing during COB)
+FLOOR the rule value is to be used as a FLOOR if the rule is broken.
+
+(basically for Interest processing during COB)
+Should be one of the above valid options */
+        PR_BRK_RES : AA_InterestCompensation:AA_PRD_DES_INTEREST_COMPENSATION__PR_ATTRIBUTE__PR_BRK_RES
+            @i18n:Label (en="Action On Rule Break")
+            @t24:i (align=L, inputBehaviour=I, maxLength=13, sysNumber=23.0, core=true, t24Name=PR.BRK.RES)
+        /* System field - reserved for future use */
+        PR_RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=28.0, core=true, t24Name=PR.RESERVED.1)
+        /* System field - reserved for future use */
+        PR_RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=27.0, core=true, t24Name=PR.RESERVED.2)
+        /* System field - reserved for future use */
+        PR_RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=26.0, core=true, t24Name=PR.RESERVED.3)
+/* This is the actual rule value, which will be applied on certain attributes of the property classes over a period of time.
+
+Input must be a valid data type defined in the corresponding
+AA.PERIODIC.ATTRIBUTE.CLASS record. */
+        PR_VALUE : T24BusinessTypes:A
+            @i18n:Label (en="Attribute Value")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=22.0, core=true, t24Name=PR.VALUE)
+    }
+    AA_PRD_DES_INTEREST_COMPENSATION__RECIPIENT_PROPERTY
+    {
+/* The maximum % of the recipient balance that can be offset by the Donation.
+For ex, in an Offset mortgage, if the Principal is -85,000 and if the Donor balances amount to credit +100,000 then specifying Max Offset as 100% would mean only 85,000 of the credit balances are offset against the Recipient’s debit balance.
+There is no additional benefit for the surplus 15,000 in the Donor Balances
+80% in Max Offset would mean only 68,000 (80% of 85,000) of the credit balance can be offset against the recipient’s debit balance
+In the case of Interest Compensation, this will be set to “” to indicate that there is no “Offset" percentage but only a consolidation of Donor and Recipient balances to calculate interest. */
+        MAX_OFFSET : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=5.0, core=true, t24Name=MAX.OFFSET)
+/* Indicates which property in the group above would act as a beneficiary in a bundle. Only one property could act as a recipient. Currently only allows a valid interest property and the property should belong to the group stated above. For example, a LOANINTEREST property could be stated as a valid beneficiary property and the balances from Current and Savings account could be pooled towards calculation of LOANINTEREST
+Validation Rules
+1. Should be a valid AA.PROPERTY belonging to INTEREST class
+2. Should be a property belonging to the RECIPIENT.PRODUCT group
+3. Mandatory field */
+        RECIPIENT_PROPERTY -> AA_ProductFramework:AA_PROPERTY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=4.0, core=true, businessType=A, t24Name=RECIPIENT.PROPERTY)
+    }
+    AA_PRD_DES_INTEREST_COMPENSATION__STMT_NOS
+    {
+        /* System field - not used for property conditions */
+        STMT_NOS : T24BusinessTypes:N
+            @i18n:Label (en="Stmt Nos")
+            @i18n:Tooltip (en="Stmt Nos")
+            @t24:i (align=R, inputBehaviour=N, maxLength=20, sysNumber=58.0, core=true, t24Name=STMT.NOS)
+    }
+    /* Property allows definition of source and target properties in a bundle - describing which properties contribute their balances, which product/properties act as recipients, how should accruals be handled on donor products etc. Typically, this property together with PRODUCT.BUNDLE describe the definition of a bundle and its working. */
+    AA_PRD_PRF_INTEREST_COMPENSATION
+        @i18n:Description (en="")
+        @t24:i (t24Name=AA.PRD.PRF.INTEREST.COMPENSATION, nonStop=true, level=I, type=H, allowedFunctions="L Q S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=67.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=68.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=64.0, core=true, t24Name=AUTHORISER)
+        CHANGED_FIELDS -> byValue AA_InterestCompensation:AA_PRD_PRF_INTEREST_COMPENSATION__CHANGED_FIELDS *
+            @t24:i (t24Name=CHANGED.FIELDS)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=65.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=61.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue AA_InterestCompensation:AA_PRD_PRF_INTEREST_COMPENSATION__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+/* Optional field - Allowed Values are RESETTING and NON-RESETTING.
+RESETTING - During any Renewal Activities (for ex : CHANGE.PRODUCT) the property conditions will be reset from the product.
+NON-RESETTING - During any Renewal Activities property conditions will be maintained from the Arrangement level.
+
+The overall definition may be stated as RESETTING and certain individual attributes may be set to NON-RESETTING as well. This could be done using the NR.ATTRIBUTE fields.
+Leaving the field blank sets NON-RESETTING as the default option. */
+        DEFAULT_ATTR_OPTION : AA_InterestCompensation:AA_PRD_PRF_INTEREST_COMPENSATION__DEFAULT_ATTR_OPTION
+            @i18n:Label (en="Default Attribute Option")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=38.0, core=true, t24Name=DEFAULT.ATTR.OPTION)
+/* Defines whether all attributes (fields) can be negotiable or not. The overall definition may be stated as NON-NEGOTIABLE and certain individual attributes may be set to NEGOTIABLE as well. This could be done using the NR.ATTRIBUTE fields.
+
+This field is Mandatory
+Valid options are YES and NO */
+        DEFAULT_NEGOTIABLE : AA_InterestCompensation:AA_PRD_PRF_INTEREST_COMPENSATION__DEFAULT_NEGOTIABLE required
+            @i18n:Label (en="Default Negotiable")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=39.0, core=true, t24Name=DEFAULT.NEGOTIABLE)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=66.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue AA_InterestCompensation:AA_PRD_PRF_INTEREST_COMPENSATION__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        DONOR_PRODUCT -> byValue AA_InterestCompensation:AA_PRD_PRF_INTEREST_COMPENSATION__DONOR_PRODUCT *
+            @t24:i (t24Name=DONOR.PRODUCT)
+        FULL_DESCRIPTION : T24BusinessTypes:TEXT
+            @t24:i (align=L, inputBehaviour=I, maxLength=100, sysNumber=2.0, core=true, t24Name=FULL.DESCRIPTION)
+/* Contains the arrangement number, extracted from the first component of the id
+Not applicable at product level
+System updated field no input allowed */
+        ID_COMP_1 : T24BusinessTypes:A
+            @i18n:Label (en="Arrangement Id")
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=50.0, core=true, t24Name=ID.COMP.1)
+/* The action that was triggered on the arrangement property
+The action is taken from ACTIVITY.CLASS record of the underlying AA.ARRANGEMENT.ACTIVITY request that caused the record to be modified */
+        ID_COMP_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=51.0, core=true, t24Name=ID.COMP.2)
+/* Contains the effective date of the property condition
+Not applicable at product level
+System updated field no input allowed */
+        ID_COMP_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=30, sysNumber=52.0, core=true, t24Name=ID.COMP.3)
+/* Reserved for future use
+Not applicable at product level
+System field no input allowed */
+        ID_COMP_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=53.0, core=true, t24Name=ID.COMP.4)
+/* Reserved for future use
+Not applicable at product level
+System field no input allowed */
+        ID_COMP_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=54.0, core=true, t24Name=ID.COMP.5)
+/* Reserved for future use
+Not applicable at product level
+System field no input allowed */
+        ID_COMP_6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=55.0, core=true, t24Name=ID.COMP.6)
+        INPUTTER -> byValue AA_InterestCompensation:AA_PRD_PRF_INTEREST_COMPENSATION__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        NEGOTIATED_FLDS -> byValue AA_InterestCompensation:AA_PRD_PRF_INTEREST_COMPENSATION__NEGOTIATED_FLDS *
+            @t24:i (t24Name=NEGOTIATED.FLDS)
+        NR_ATTRIBUTE -> byValue AA_InterestCompensation:AA_PRD_PRF_INTEREST_COMPENSATION__NR_ATTRIBUTE *
+            @t24:i (t24Name=NR.ATTRIBUTE)
+        OVERRIDE -> byValue AA_InterestCompensation:AA_PRD_PRF_INTEREST_COMPENSATION__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        OWNING_COMPANY -> byValue AA_InterestCompensation:AA_PRD_PRF_INTEREST_COMPENSATION__OWNING_COMPANY *
+            @t24:i (t24Name=OWNING.COMPANY)
+/* This field represents the key to the product level conditions of a property class
+This field basically has three components seperated by a hyphen
+Condition id
+Currency - if the property class is currency based. By default takes up local currency
+Effective date - if the property class is dated */
+        PRODUCT_KEY -> AA_InterestCompensation:AA_PRD_PRF_INTEREST_COMPENSATION PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=80, sysNumber=0.0, core=true, businessType=ANY, t24Name=PRODUCT.KEY)
+        PR_ATTRIBUTE -> byValue AA_InterestCompensation:AA_PRD_PRF_INTEREST_COMPENSATION__PR_ATTRIBUTE *
+            @t24:i (t24Name=PR.ATTRIBUTE)
+/* Defines the product group which would act as a beneficiary for the bundle product. A beneficiary(or recipient) is the one which would enjoy the benefits of all pooled balances from various donors and their properties. Mandatory field since there has to be a beneficiary in a bundle setup.
+Validation Rules:
+1. Should be a valid entry in AA.PRODUCT.GROUP
+2. Mandatory field */
+        RECIPIENT_PRODUCT -> AA_ProductFramework:AA_PRODUCT_GROUP
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=3.0, core=true, businessType=A, t24Name=RECIPIENT.PRODUCT)
+        RECIPIENT_PROPERTY -> byValue AA_InterestCompensation:AA_PRD_PRF_INTEREST_COMPENSATION__RECIPIENT_PROPERTY *
+            @t24:i (t24Name=RECIPIENT.PROPERTY)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=60.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED2_ID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=56.0, core=true, t24Name=RESERVED2.ID)
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=19.0, core=true, t24Name=RESERVED.1)
+        RESERVED_11 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=6.0, core=true, t24Name=RESERVED.11)
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=18.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=17.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=16.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=15.0, core=true, t24Name=RESERVED.5)
+        STMT_NOS -> byValue AA_InterestCompensation:AA_PRD_PRF_INTEREST_COMPENSATION__STMT_NOS *
+            @t24:i (t24Name=STMT.NOS)
+        /* System field - reserved for future use */
+        SYS_RESERVE1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=37.0, core=true, t24Name=SYS.RESERVE1)
+        /* System field - reserved for future use */
+        SYS_RESERVE2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=36.0, core=true, t24Name=SYS.RESERVE2)
+        /* System field - reserved for future use */
+        SYS_RESERVE3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=35.0, core=true, t24Name=SYS.RESERVE3)
+        /* System field - reserved for future use */
+        SYS_RESERVE4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=34.0, core=true, t24Name=SYS.RESERVE4)
+        /* System field - reserved for future use */
+        SYS_RESERVE6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=32.0, core=true, t24Name=SYS.RESERVE6)
+        /* System field - reserved for future use */
+        SYS_RESERVE7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=31.0, core=true, t24Name=SYS.RESERVE7)
+/* This field denotes the target classic product of the given property class
+The already existing T24 products are mapped using AA infrastructure
+These are called classic products
+These products are mapped to different property clases */
+        TARGET_PRODUCT : T24BusinessTypes:A
+            @i18n:Label (en="Target Classic Product")
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=57.0, core=true, t24Name=TARGET.PRODUCT)
+    }
+    AA_PRD_PRF_INTEREST_COMPENSATION__CHANGED_FIELDS
+    {
+        /* No input and multi value field - lists all fields that have been negotiated for each dated version of the property. This is system maintained and is crucial for Reverse and Replay functionality. This field indicates which attributes have undergone a change in this instance. The difference between this field in NEGOTIATED.FLDS is that the latter would hold ALL the negotiations that have happened till this moment and CHANGED.FIELDS would only hold the negotiated fields for that activity. */
+        CHANGED_FIELDS : T24BusinessTypes:A
+            @i18n:Label (en="Fields That Have Been Negotiated For The Property")
+            @t24:i (align=L, inputBehaviour=N, maxLength=19, sysNumber=48.0, core=true, t24Name=CHANGED.FIELDS)
+    }
+    AA_PRD_PRF_INTEREST_COMPENSATION__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=63.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    AA_PRD_PRF_INTEREST_COMPENSATION__DESCRIPTION
+    {
+        /* Used to define the Description of a product condition. Language specific field and multiple language descriptions are supported */
+        DESCRIPTION : T24BusinessTypes:ANY required
+            @i18n:Label (en="Describes This Condition Record And Is Used For Enrichment")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    AA_PRD_PRF_INTEREST_COMPENSATION__DONOR_PRODUCT
+    {
+        DONOR_BALANCE_TYPE -> byValue AA_InterestCompensation:AA_PRD_PRF_INTEREST_COMPENSATION__DONOR_PRODUCT__DONOR_BALANCE_TYPE *
+            @t24:i (t24Name=DONOR.BALANCE.TYPE)
+/* Defines the product group which would act as a contributor or donor for the bundle product. A donor product would contribute its balances to recipient property and would generally not accrue on its own balance(so that there is no double accrual). Mandatory field since there has to be a beneficiary in a bundle setup.
+
+Validation:
+
+Should be a valid entry in AA.PRODUCT */
+        DONOR_PRODUCT -> AA_ProductFramework:AA_PRODUCT_GROUP
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=7.0, core=true, businessType=A, t24Name=DONOR.PRODUCT)
+        DONOR_PROPERTY -> byValue AA_InterestCompensation:AA_PRD_PRF_INTEREST_COMPENSATION__DONOR_PRODUCT__DONOR_PROPERTY *
+            @t24:i (t24Name=DONOR.PROPERTY)
+    }
+    AA_PRD_PRF_INTEREST_COMPENSATION__DONOR_PRODUCT__DONOR_BALANCE_TYPE
+    {
+/* The Credit/Debit specification at the bundle contradicts with the Source Calc type of the Interest property
+Sub Value field associated with Donor Balance Type
+Input is allowed only if Donor Balance Type is input
+Because the Donor Balance type can have Credit or Debit balances on a given day, there would be a flag to specify which balances of the balance type should be used for Offset */
+        DONATE_TYPE -> AA_Framework:AA_SOURCE_CALC_TYPE
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=14.0, core=true, businessType=A, t24Name=DONATE.TYPE)
+        DONOR_BALANCE_TYPE -> AC_SoftAccounting:AC_BALANCE_TYPE
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=13.0, core=true, businessType=A, t24Name=DONOR.BALANCE.TYPE)
+    }
+    AA_PRD_PRF_INTEREST_COMPENSATION__DONOR_PRODUCT__DONOR_PROPERTY
+    {
+/* After the donor property has contributed its balance to a pool which recipient would accrue on, generally the bank might want to stop accruals on the donor side (If accruals happen on both donor and recipient for the same balance, it moght result in inflated PL). This field indicates whether the financical institution would want to stop accruals on donor and accruals happen only on recipient arrangement. When the field is flagged as "SUPPRESS" then system would flag the SUPPRESS.ACCRUAL field on the interest condition of this property as YES which indicates accruals would no longer happen on those conditions
+Validation Rules
+1. Mandatory field
+2. SUPPRESS - indicates accruals would be stopped at the donor level since balances accrue at the recipient level.
+3. CALCULATE - indicates accruals would continue to happen on Donor arrangement properties as well even though balances are contributed to recipient level as well. This may be required when the recipient accrual is only on a margin rate and not on actual interest rate. */
+        DONOR_ACCRUAL : AA_InterestCompensation:AA_PRD_PRF_INTEREST_COMPENSATION__DONOR_PRODUCT__DONOR_PROPERTY__DONOR_ACCRUAL
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=12.0, core=true, t24Name=DONOR.ACCRUAL)
+/* Indicates which property(ies) in the group above would act as contributor in a bundle. One or more than one properties could contribute to a bundle. Currently only allows a valid interest property and the property should belong to the group stated above. For example, a CREDITINTEREST property could be stated as a valid donor property. The actual balance that this property would contribute is still derived from the base balance on which this property calculates on this product. There would be no actual ""transfer"" of balances to recipient arrangements - the balances of donors would be considered during run-time when the recipient property accrues.
+Validation Rules:
+1. Should be a valid AA.PROPERTY belonging to INTEREST class
+2. Should be a property belonging to the DONOR.PRODUCT group
+3. Mandatory field */
+        DONOR_PROPERTY -> AA_ProductFramework:AA_PROPERTY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=8.0, core=true, businessType=A, t24Name=DONOR.PROPERTY)
+        RESERVED_10 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=9.0, core=true, t24Name=RESERVED.10)
+        RESERVED_8 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=11.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=10.0, core=true, t24Name=RESERVED.9)
+    }
+    AA_PRD_PRF_INTEREST_COMPENSATION__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=62.0, core=true, t24Name=INPUTTER)
+    }
+    AA_PRD_PRF_INTEREST_COMPENSATION__NEGOTIATED_FLDS
+    {
+        /* No input and multi value field that lists the attributes on the arrangement property record that have been fixed and/or negotiated. These are stored when the arrangement level record is committed. Once an attribute has been fixed or negotiated it will remain in negotiated field list on all subsequent dated versions of the property. */
+        NEGOTIATED_FLDS : T24BusinessTypes:A
+            @i18n:Label (en="Negotiated Attributes On Property")
+            @t24:i (align=L, inputBehaviour=N, maxLength=19, sysNumber=49.0, core=true, t24Name=NEGOTIATED.FLDS)
+    }
+    AA_PRD_PRF_INTEREST_COMPENSATION__NR_ATTRIBUTE
+    {
+/* Defines which individual attribute (field) has the negotiation rules defined in fields "Nr.Negotiable" through to "Nr.Message"
+
+Must be a valid field name within this property
+This field is part of a multi value set */
+        NR_ATTRIBUTE : T24BusinessTypes:A
+            @i18n:Label (en="Negotiable Attribute")
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=40.0, core=true, t24Name=NR.ATTRIBUTE)
+        NR_OPTIONS -> byValue AA_InterestCompensation:AA_PRD_PRF_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_OPTIONS *
+            @t24:i (t24Name=NR.OPTIONS)
+        /* System Field - Reserved for future use */
+        NR_RESERVED1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=43.0, core=true, t24Name=NR.RESERVED1)
+        /* System Field - Reserved for future use */
+        NR_RESERVED2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=42.0, core=true, t24Name=NR.RESERVED2)
+/* Negotiation rules may be defined as a standard types in EB.STANDARD.COMPARISON. And those types may be used in this field.
+
+
+Input must be a valid record from EB.STANDARD.COMPARISON */
+        NR_STD_COMP -> AA_Rules:EB_STANDARD_COMPARISON
+            @i18n:Label (en="Negotiable Standard Comparison")
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=44.0, core=true, businessType=A, t24Name=NR.STD.COMP)
+        NR_TYPE -> byValue AA_InterestCompensation:AA_PRD_PRF_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_TYPE *
+            @t24:i (t24Name=NR.TYPE)
+    }
+    AA_PRD_PRF_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_OPTIONS
+    {
+/* Defines named values to indicate if an option applies to the associated NR.ATTRIBUTE. More than one option can be associated with the NR.ATTRIBUTE, with certain restrictions.
+
+Valid Inputs are NEGOTIABLE, NON-NEGOTIABLE, OVERRIDE, FIX-VALUE, MANDATORY as described below: -
+NEGOTIABLE
+The value of NEGOTIABLE will indicate that the associated NR.ATTRIBUTE can be negotiated at the arrangement level.
+NON-NEGOTIABLE
+The value of NON-NEGOTIABLE will indicate that the associated NR.ATTRIBUTE cannot be negotiated at the arrangement level. Both NEGOTIABLE and NON-NEGOTIABLE cannot be defined together
+OVERRIDE
+Specifies if a default override message should be generated if the default attribute is amended at the arrangement level. If OVERRIDE is not specified, no override will be generated.
+FIX-VALUE
+Specified if the field value is to be fixed at the arrangement level. If FIX-VALUE is not specified the field value will vary with the changes to the underlying product condition.
+MANDATORY
+Specifies if the attribute is mandatory for this product condition. Can only be specified where the attribute is not defined as mandatory in the property class. */
+        NR_OPTIONS : AA_InterestCompensation:AA_PRD_PRF_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_OPTIONS__NR_OPTIONS
+            @i18n:Label (en="Negotiable Options")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=41.0, core=true, t24Name=NR.OPTIONS)
+    }
+    AA_PRD_PRF_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_TYPE
+    {
+/* This field indicates whether to raise error or override message when rule is broken
+Allows only two values ERROR or OVERRIDE
+ERROR error message is raised
+OVERRIDE Override message is generated */
+        NR_MESSAGE : AA_InterestCompensation:AA_PRD_PRF_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_TYPE__NR_MESSAGE
+            @i18n:Label (en="Negotiable Message")
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=47.0, core=true, t24Name=NR.MESSAGE)
+/* Defines the negotiation rule that is linked to the field defined in "Nr.Attribute". If an attribute has a negotiation rule linked to it (in associated fields NR.TYPE, NR.VALUE and NR.MESSAGE) the attribute must be defined as negotiable.
+It is possible to define more than one negotiation rule for an attribute
+
+Input must be a valid record from EB.COMPARISON.TYPE
+This is a multi value set of fields */
+        NR_TYPE -> AA_Rules:EB_COMPARISON_TYPE
+            @i18n:Label (en="Negotiable Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=45.0, core=true, businessType=A, t24Name=NR.TYPE)
+        /* Defines the value that links to the rule in field "Nr.Type". For example, if the rule is not to allow a value to go below 10, then the Value of 10 has to be stated in this field and together with NR.TYPE would evaluate the rule. */
+        NR_VALUE : T24BusinessTypes:ANY
+            @i18n:Label (en="Negotiable Value")
+            @t24:i (align=L, inputBehaviour=I, maxLength=60, sysNumber=46.0, core=true, t24Name=NR.VALUE)
+    }
+    AA_PRD_PRF_INTEREST_COMPENSATION__OVERRIDE
+    {
+        /* Standard Override field containing override messages generated by amendments to this property */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=59.0, core=true, t24Name=OVERRIDE)
+    }
+    AA_PRD_PRF_INTEREST_COMPENSATION__OWNING_COMPANY
+    {
+        OWNING_COMPANY -> ST_CompanyCreation:COMPANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=33.0, core=true, businessType=AAPRODUCT, t24Name=OWNING.COMPANY, typeModifiers=COMPANY)
+    }
+    AA_PRD_PRF_INTEREST_COMPENSATION__PR_ATTRIBUTE
+    {
+        /* This will hold two values either DUE, CAPITALISE or DEFER. This Field denote which application method(DUE or CAPITALISE)should be taken while applying periodic rule charges. DEFER would not make anything DUE immediately. An option may be stated to define how long to defer. */
+        PR_APP_METHOD : AA_InterestCompensation:AA_PRD_PRF_INTEREST_COMPENSATION__PR_ATTRIBUTE__PR_APP_METHOD
+            @i18n:Label (en="Periodic Attribute Method")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=29.0, core=true, t24Name=PR.APP.METHOD)
+        /* This will have to accept a valid T24 period.The field indicates the period which is used for Evaluation of a rule. For example: If a field should not be allowed to increase more than 10000 with in a period of 1M, the field would actually hold the "1M" value. */
+        PR_APP_PERIOD : T24BusinessTypes:PERIOD
+            @i18n:Label (en="Periodic Attribute Period")
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=30.0, core=true, t24Name=PR.APP.PERIOD)
+/* These are set of Attributes which define the names of the rule, which will be applied on certain attributes of property classes over a period of time.
+
+Input must be a valid record from AA.PERIODIC.ATTRIBUTE */
+        PR_ATTRIBUTE -> AA_Rules:AA_PERIODIC_ATTRIBUTE
+            @i18n:Label (en="Periodic Attribute")
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=21.0, core=true, businessType=A, t24Name=PR.ATTRIBUTE)
+/* Charge can be collected when the periodic rule is broken.
+This field denotes the charge property. The property and its condition is defined the product designer and validated during publishing.
+
+Valid charge property */
+        PR_BRK_CHARGE -> AA_ProductFramework:AA_PROPERTY
+            @i18n:Label (en="Attribute Break Charge")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=25.0, core=true, businessType=A, t24Name=PR.BRK.CHARGE)
+/* Based on the PR.BRK.RES option selected, this will hold either an OVERRIDE or EB.ERROR id. By default the ids will be picked from the associated EB.COMPARISON.TYPE record. If CAP or FLOOR values are given, then the underlying AA.PERIODIC.ATTRIBUTE.CLASS should have this type defined in it.
+
+Input must be a valid OVERRIDE ID or EB.ERROR ID. */
+        PR_BRK_MSG : T24BusinessTypes:ANY
+            @i18n:Label (en="Attribute Break Message")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=24.0, core=true, t24Name=PR.BRK.MSG)
+/* When a rule is broken what action needs to be taken is defined here. Currently, the various options available are
+Error  - Blocks further processing
+Override - Gives an override
+Information - Records details only
+CAP the rule value is to be used as a CAP if the rule is broken(basically for Interest processing during COB)
+FLOOR the rule value is to be used as a FLOOR if the rule is broken.
+
+(basically for Interest processing during COB)
+Should be one of the above valid options */
+        PR_BRK_RES : AA_InterestCompensation:AA_PRD_PRF_INTEREST_COMPENSATION__PR_ATTRIBUTE__PR_BRK_RES
+            @i18n:Label (en="Action On Rule Break")
+            @t24:i (align=L, inputBehaviour=I, maxLength=13, sysNumber=23.0, core=true, t24Name=PR.BRK.RES)
+        /* System field - reserved for future use */
+        PR_RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=28.0, core=true, t24Name=PR.RESERVED.1)
+        /* System field - reserved for future use */
+        PR_RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=27.0, core=true, t24Name=PR.RESERVED.2)
+        /* System field - reserved for future use */
+        PR_RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=26.0, core=true, t24Name=PR.RESERVED.3)
+/* This is the actual rule value, which will be applied on certain attributes of the property classes over a period of time.
+
+Input must be a valid data type defined in the corresponding
+AA.PERIODIC.ATTRIBUTE.CLASS record. */
+        PR_VALUE : T24BusinessTypes:A
+            @i18n:Label (en="Attribute Value")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=22.0, core=true, t24Name=PR.VALUE)
+    }
+    AA_PRD_PRF_INTEREST_COMPENSATION__RECIPIENT_PROPERTY
+    {
+/* The maximum % of the recipient balance that can be offset by the Donation.
+For ex, in an Offset mortgage, if the Principal is -85,000 and if the Donor balances amount to credit +100,000 then specifying Max Offset as 100% would mean only 85,000 of the credit balances are offset against the Recipient’s debit balance.
+There is no additional benefit for the surplus 15,000 in the Donor Balances
+80% in Max Offset would mean only 68,000 (80% of 85,000) of the credit balance can be offset against the recipient’s debit balance
+In the case of Interest Compensation, this will be set to “” to indicate that there is no “Offset’ percentage but only a consolidation of Donor and Recipient balances to calculate interest on */
+        MAX_OFFSET : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=5.0, core=true, t24Name=MAX.OFFSET)
+/* Indicates which property in the group above would act as a beneficiary in a bundle. Only one property could act as a recipient. Currently only allows a valid interest property and the property should belong to the group stated above. For example, a LOANINTEREST property could be stated as a valid beneficiary property and the balances from Current and Savings account could be pooled towards calculation of LOANINTEREST
+Validation Rules:
+1. Should be a valid AA.PROPERTY belonging to INTEREST class
+2. Should be a property belonging to the RECIPIENT.PRODUCT group.
+3. Mandatory field */
+        RECIPIENT_PROPERTY -> AA_ProductFramework:AA_PROPERTY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=4.0, core=true, businessType=A, t24Name=RECIPIENT.PROPERTY)
+    }
+    AA_PRD_PRF_INTEREST_COMPENSATION__STMT_NOS
+    {
+        /* System field - not used for property conditions */
+        STMT_NOS : T24BusinessTypes:N
+            @i18n:Label (en="Stmt Nos")
+            @i18n:Tooltip (en="Stmt Nos")
+            @t24:i (align=R, inputBehaviour=N, maxLength=20, sysNumber=58.0, core=true, t24Name=STMT.NOS)
+    }
+    /* Property allows definition of source and target properties in a bundle - describing which properties contribute their balances, which product/properties act as recipients, how should accruals be handled on donor products etc. Typically, this property together with PRODUCT.BUNDLE describe the definition of a bundle and its working. */
+    AA_SIM_INTEREST_COMPENSATION
+        @i18n:Description (en="")
+        @t24:i (t24Name=AA.SIM.INTEREST.COMPENSATION, nonStop=true, level=F, type=H, allowedFunctions="A C D E I L Q R S", localRefAllowed=true)
+    {
+        ACTION -> byValue AA_InterestCompensation:AA_SIM_INTEREST_COMPENSATION__ACTION *
+            @t24:i (t24Name=ACTION)
+        ACTIVITY : T24BusinessTypes:A required
+            @i18n:Label (en=Activity)
+            @t24:i (align=L, inputBehaviour=I, maxLength=80, sysNumber=1.0, core=true, t24Name=ACTIVITY)
+        ARRANGEMENT_KEY -> AA_InterestCompensation:AA_SIM_INTEREST_COMPENSATION PK required
+            @i18n:Label (en="Arrangement Key")
+            @t24:i (align=L, inputBehaviour=I, maxLength=80, sysNumber=0.0, core=true, businessType=ANY, t24Name=ARRANGEMENT.KEY)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=67.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=68.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=64.0, core=true, t24Name=AUTHORISER)
+        CHANGED_FIELDS -> byValue AA_InterestCompensation:AA_SIM_INTEREST_COMPENSATION__CHANGED_FIELDS *
+            @t24:i (t24Name=CHANGED.FIELDS)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=65.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=61.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue AA_InterestCompensation:AA_SIM_INTEREST_COMPENSATION__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+/* Optional field - Allowed Values are RESETTING and NON-RESETTING.
+RESETTING - During any Renewal Activities (for ex : CHANGE.PRODUCT) the property conditions will be reset from the product.
+NON-RESETTING - During any Renewal Activities property conditions will be maintained from the Arrangement level.
+
+The overall definition may be stated as RESETTING and certain individual attributes may be set to NON-RESETTING as well. This could be done using the NR.ATTRIBUTE fields.
+Leaving the field blank sets NON-RESETTING as the default option. */
+        DEFAULT_ATTR_OPTION : AA_InterestCompensation:AA_SIM_INTEREST_COMPENSATION__DEFAULT_ATTR_OPTION
+            @i18n:Label (en="Default Attribute Options")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=38.0, core=true, t24Name=DEFAULT.ATTR.OPTION)
+/* Defines whether all attributes (fields) can be negotiable or not. The overall definition may be stated as NON-NEGOTIABLE and certain individual attributes may be set to NEGOTIABLE as well. This could be done using the NR.ATTRIBUTE fields.
+
+This field is Mandatory
+Valid options are YES and NO */
+        DEFAULT_NEGOTIABLE : AA_InterestCompensation:AA_SIM_INTEREST_COMPENSATION__DEFAULT_NEGOTIABLE
+            @i18n:Label (en="Default Negotiable")
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=39.0, core=true, t24Name=DEFAULT.NEGOTIABLE)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Department Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=66.0, core=true, t24Name=DEPT.CODE)
+        DONOR_PRODUCT -> byValue AA_InterestCompensation:AA_SIM_INTEREST_COMPENSATION__DONOR_PRODUCT *
+            @t24:i (t24Name=DONOR.PRODUCT)
+/* Contains the arrangement number, extracted from the first component of the id
+Not applicable at product level
+System updated field no input allowed */
+        ID_COMP_1 : T24BusinessTypes:A
+            @i18n:Label (en="Arrangement Id")
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=50.0, core=true, t24Name=ID.COMP.1)
+/* The action that was triggered on the arrangement property
+The action is taken from ACTIVITY.CLASS record of the underlying AA.ARRANGEMENT.ACTIVITY request that caused the record to be modified */
+        ID_COMP_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=51.0, core=true, t24Name=ID.COMP.2)
+/* Contains the effective date of the property condition
+Not applicable at product level
+System updated field no input allowed */
+        ID_COMP_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=30, sysNumber=52.0, core=true, t24Name=ID.COMP.3)
+/* Reserved for future use
+Not applicable at product level
+System field no input allowed */
+        ID_COMP_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=53.0, core=true, t24Name=ID.COMP.4)
+/* Reserved for future use
+Not applicable at product level
+System field no input allowed */
+        ID_COMP_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=54.0, core=true, t24Name=ID.COMP.5)
+/* Reserved for future use
+Not applicable at product level
+System field no input allowed */
+        ID_COMP_6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=55.0, core=true, t24Name=ID.COMP.6)
+        INPUTTER -> byValue AA_InterestCompensation:AA_SIM_INTEREST_COMPENSATION__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        NEGOTIATED_FLDS -> byValue AA_InterestCompensation:AA_SIM_INTEREST_COMPENSATION__NEGOTIATED_FLDS *
+            @t24:i (t24Name=NEGOTIATED.FLDS)
+        NR_ATTRIBUTE -> byValue AA_InterestCompensation:AA_SIM_INTEREST_COMPENSATION__NR_ATTRIBUTE *
+            @t24:i (t24Name=NR.ATTRIBUTE)
+        OVERRIDE -> byValue AA_InterestCompensation:AA_SIM_INTEREST_COMPENSATION__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        OWNING_COMPANY -> byValue AA_InterestCompensation:AA_SIM_INTEREST_COMPENSATION__OWNING_COMPANY *
+            @t24:i (t24Name=OWNING.COMPANY)
+        PR_ATTRIBUTE -> byValue AA_InterestCompensation:AA_SIM_INTEREST_COMPENSATION__PR_ATTRIBUTE *
+            @t24:i (t24Name=PR.ATTRIBUTE)
+/* Defines the product group which would act as a beneficiary for the bundle product. A beneficiary(or recipient) is the one which would enjoy the benefits of all pooled balances from various donors and their properties. Mandatory field since there has to be a beneficiary in a bundle setup.
+Validation Rules:
+1. Should be a valid entry in AA.PRODUCT.GROUP
+2. Mandatory field */
+        RECIPIENT_PRODUCT -> AA_ProductFramework:AA_PRODUCT_GROUP required
+            @i18n:Label (en="Recipient Product")
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=3.0, core=true, businessType=A, t24Name=RECIPIENT.PRODUCT)
+        RECIPIENT_PROPERTY -> byValue AA_InterestCompensation:AA_SIM_INTEREST_COMPENSATION__RECIPIENT_PROPERTY *
+            @t24:i (t24Name=RECIPIENT.PROPERTY)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=60.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED2_ID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=56.0, core=true, t24Name=RESERVED2.ID)
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=19.0, core=true, t24Name=RESERVED.1)
+        RESERVED_11 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=6.0, core=true, t24Name=RESERVED.11)
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=18.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=17.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=16.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=15.0, core=true, t24Name=RESERVED.5)
+        STMT_NOS -> byValue AA_InterestCompensation:AA_SIM_INTEREST_COMPENSATION__STMT_NOS *
+            @t24:i (t24Name=STMT.NOS)
+        /* System field - reserved for future use */
+        SYS_RESERVE1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=37.0, core=true, t24Name=SYS.RESERVE1)
+        /* System field - reserved for future use */
+        SYS_RESERVE2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=36.0, core=true, t24Name=SYS.RESERVE2)
+        /* System field - reserved for future use */
+        SYS_RESERVE3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=35.0, core=true, t24Name=SYS.RESERVE3)
+        /* System field - reserved for future use */
+        SYS_RESERVE4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=34.0, core=true, t24Name=SYS.RESERVE4)
+        /* System field - reserved for future use */
+        SYS_RESERVE6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=32.0, core=true, t24Name=SYS.RESERVE6, mvSvExpansionAccess=NOEXPAND)
+        /* System field - reserved for future use */
+        SYS_RESERVE7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=31.0, core=true, t24Name=SYS.RESERVE7, mvSvExpansionAccess=NOEXPAND)
+/* This field denotes the target classic product of the given property class
+The already existing T24 products are mapped using AA infrastructure
+These are called classic products
+These products are mapped to different property clases */
+        TARGET_PRODUCT : T24BusinessTypes:A
+            @i18n:Label (en="Target Product")
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=57.0, core=true, t24Name=TARGET.PRODUCT)
+    }
+    AA_SIM_INTEREST_COMPENSATION__ACTION
+    {
+        ACTION : T24BusinessTypes:A required
+            @i18n:Label (en=Action)
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=2.0, core=true, t24Name=ACTION)
+    }
+    AA_SIM_INTEREST_COMPENSATION__CHANGED_FIELDS
+    {
+        /* No input and multi value field - lists all fields that have been negotiated for each dated version of the property. This is system maintained and is crucial for Reverse and Replay functionality. This field indicates which attributes have undergone a change in this instance. The difference between this field in NEGOTIATED.FLDS is that the latter would hold ALL the negotiations that have happened till this moment and CHANGED.FIELDS would only hold the negotiated fields for that activity. */
+        CHANGED_FIELDS : T24BusinessTypes:A
+            @i18n:Label (en="Negotiated Fields")
+            @t24:i (align=L, inputBehaviour=N, maxLength=19, sysNumber=48.0, core=true, t24Name=CHANGED.FIELDS)
+    }
+    AA_SIM_INTEREST_COMPENSATION__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=63.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    AA_SIM_INTEREST_COMPENSATION__DONOR_PRODUCT
+    {
+        DONOR_BALANCE_TYPE -> byValue AA_InterestCompensation:AA_SIM_INTEREST_COMPENSATION__DONOR_PRODUCT__DONOR_BALANCE_TYPE *
+            @t24:i (t24Name=DONOR.BALANCE.TYPE)
+/* Defines the product group which would act as a contributor or donor for the bundle product. A donor product would contribute its balances to recipient property and would generally not accrue on its own balance(so that there is no double accrual). Mandatory field since there has to be a beneficiary in a bundle setup.
+
+Validation Rules:
+
+Should be a valid entry in AA.PRODUCT */
+        DONOR_PRODUCT -> AA_ProductFramework:AA_PRODUCT_GROUP required
+            @i18n:Label (en="Donor Product")
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=7.0, core=true, businessType=A, t24Name=DONOR.PRODUCT)
+        DONOR_PROPERTY -> byValue AA_InterestCompensation:AA_SIM_INTEREST_COMPENSATION__DONOR_PRODUCT__DONOR_PROPERTY *
+            @t24:i (t24Name=DONOR.PROPERTY)
+    }
+    AA_SIM_INTEREST_COMPENSATION__DONOR_PRODUCT__DONOR_BALANCE_TYPE
+    {
+/* The Credit/Debit specification at the bundle contradicts with the Source Calc type of the Interest property
+Sub Value field associated with Donor Balance Type
+Input is allowed only if Donor Balance Type is input
+Because the Donor Balance type can have Credit or Debit balances on a given day, there would be a flag to specify which balances of the balance type should be used for Offset */
+        DONATE_TYPE -> AA_Framework:AA_SOURCE_CALC_TYPE
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=14.0, core=true, businessType=A, t24Name=DONATE.TYPE)
+        DONOR_BALANCE_TYPE -> AC_SoftAccounting:AC_BALANCE_TYPE
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=13.0, core=true, businessType=A, t24Name=DONOR.BALANCE.TYPE)
+    }
+    AA_SIM_INTEREST_COMPENSATION__DONOR_PRODUCT__DONOR_PROPERTY
+    {
+/* After the donor property has contributed its balance to a pool which recipient would accrue on, generally the bank might want to stop accruals on the donor side (If accruals happen on both donor and recipient for the same balance, it moght result in inflated PL). This field indicates whether the financical institution would want to stop accruals on donor and accruals happen only on recipient arrangement. When the field is flagged as "SUPPRESS" then system would flag the SUPPRESS.ACCRUAL field on the interest condition of this property as YES which indicates accruals would no longer happen on those conditions
+Validation Rules
+1. Mandatory field
+2. SUPPRESS - indicates accruals would be stopped at the donor level since balances accrue at the recipient level.
+3. CALCULATE - indicates accruals would continue to happen on Donor arrangement properties as well even though balances are contributed to recipient level as well. This may be required when the recipient accrual is only on a margin rate and not on actual interest rate. */
+        DONOR_ACCRUAL : AA_InterestCompensation:AA_SIM_INTEREST_COMPENSATION__DONOR_PRODUCT__DONOR_PROPERTY__DONOR_ACCRUAL required
+            @i18n:Label (en="Donor Accrual")
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=12.0, core=true, t24Name=DONOR.ACCRUAL)
+/* Indicates which property(ies) in the group above would act as contributor in a bundle. One or more than one properties could contribute to a bundle. Currently only allows a valid interest property and the property should belong to the group stated above. For example, a CREDITINTEREST property could be stated as a valid donor property. The actual balance that this property would contribute is still derived from the base balance on which this property calculates on this product. There would be no actual ""transfer"" of balances to recipient arrangements - the balances of donors would be considered during run-time when the recipient property accrues.
+Validation Rules:
+1. Should be a valid AA.PROPERTY belonging to INTEREST class
+2. Should be a property belonging to the DONOR.PRODUCT group
+3. Mandatory field */
+        DONOR_PROPERTY -> AA_ProductFramework:AA_PROPERTY
+            @i18n:Label (en="Donor Property")
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=8.0, core=true, businessType=A, t24Name=DONOR.PROPERTY)
+        RESERVED_10 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=9.0, core=true, t24Name=RESERVED.10)
+        RESERVED_8 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=11.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=10.0, core=true, t24Name=RESERVED.9)
+    }
+    AA_SIM_INTEREST_COMPENSATION__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=62.0, core=true, t24Name=INPUTTER)
+    }
+    AA_SIM_INTEREST_COMPENSATION__NEGOTIATED_FLDS
+    {
+        /* No input and multi value field that lists the attributes on the arrangement property record that have been fixed and/or negotiated. These are stored when the arrangement level record is committed. Once an attribute has been fixed or negotiated it will remain in negotiated field list on all subsequent dated versions of the property. */
+        NEGOTIATED_FLDS : T24BusinessTypes:A
+            @i18n:Label (en="Negotiated Fields")
+            @t24:i (align=L, inputBehaviour=N, maxLength=19, sysNumber=49.0, core=true, t24Name=NEGOTIATED.FLDS)
+    }
+    AA_SIM_INTEREST_COMPENSATION__NR_ATTRIBUTE
+    {
+/* Defines which individual attribute (field) has the negotiation rules defined in fields "Nr.Negotiable" through to "Nr.Message"
+
+Must be a valid field name within this property
+This field is part of a multi value set */
+        NR_ATTRIBUTE : T24BusinessTypes:A
+            @i18n:Label (en=Attribute)
+            @t24:i (align=L, inputBehaviour=N, maxLength=25, sysNumber=40.0, core=true, t24Name=NR.ATTRIBUTE)
+        NR_OPTIONS -> byValue AA_InterestCompensation:AA_SIM_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_OPTIONS *
+            @t24:i (t24Name=NR.OPTIONS)
+        /* System Field - Reserved for future use */
+        NR_RESERVED1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=43.0, core=true, t24Name=NR.RESERVED1)
+        /* System Field - Reserved for future use */
+        NR_RESERVED2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=42.0, core=true, t24Name=NR.RESERVED2)
+/* Negotiation rules may be defined as a standard types in EB.STANDARD.COMPARISON. And those types may be used in this field.
+
+
+Input must be a valid record from EB.STANDARD.COMPARISON */
+        NR_STD_COMP -> AA_Rules:EB_STANDARD_COMPARISON
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=25, sysNumber=44.0, core=true, businessType=A, t24Name=NR.STD.COMP)
+        NR_TYPE -> byValue AA_InterestCompensation:AA_SIM_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_TYPE *
+            @t24:i (t24Name=NR.TYPE)
+    }
+    AA_SIM_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_OPTIONS
+    {
+/* Defines named values to indicate if an option applies to the associated NR.ATTRIBUTE. More than one option can be associated with the NR.ATTRIBUTE, with certain restrictions.
+
+Valid Inputs are NEGOTIABLE, NON-NEGOTIABLE, OVERRIDE, FIX-VALUE, MANDATORY as described below: -
+NEGOTIABLE
+The value of NEGOTIABLE will indicate that the associated NR.ATTRIBUTE can be negotiated at the arrangement level.
+NON-NEGOTIABLE
+The value of NON-NEGOTIABLE will indicate that the associated NR.ATTRIBUTE cannot be negotiated at the arrangement level. Both NEGOTIABLE and NON-NEGOTIABLE cannot be defined together
+OVERRIDE
+Specifies if a default override message should be generated if the default attribute is amended at the arrangement level. If OVERRIDE is not specified, no override will be generated.
+FIX-VALUE
+Specified if the field value is to be fixed at the arrangement level. If FIX-VALUE is not specified the field value will vary with the changes to the underlying product condition.
+MANDATORY
+Specifies if the attribute is mandatory for this product condition. Can only be specified where the attribute is not defined as mandatory in the property class. */
+        NR_OPTIONS : AA_InterestCompensation:AA_SIM_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_OPTIONS__NR_OPTIONS
+            @i18n:Label (en=Options)
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=41.0, core=true, t24Name=NR.OPTIONS)
+    }
+    AA_SIM_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_TYPE
+    {
+/* This field indicates whether to raise error or override message when rule is broken
+Allows only two values ERROR or OVERRIDE
+ERROR error message is raised
+OVERRIDE Override message is generated */
+        NR_MESSAGE : AA_InterestCompensation:AA_SIM_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_TYPE__NR_MESSAGE
+            @i18n:Label (en=Message)
+            @t24:i (align=L, inputBehaviour=N, maxLength=10, sysNumber=47.0, core=true, t24Name=NR.MESSAGE)
+/* Defines the negotiation rule that is linked to the field defined in "Nr.Attribute". If an attribute has a negotiation rule linked to it (in associated fields NR.TYPE, NR.VALUE and NR.MESSAGE) the attribute must be defined as negotiable.
+It is possible to define more than one negotiation rule for an attribute
+
+Input must be a valid record from EB.COMPARISON.TYPE
+This is a multi value set of fields */
+        NR_TYPE -> AA_Rules:EB_COMPARISON_TYPE
+            @i18n:Label (en=Type)
+            @t24:i (align=L, inputBehaviour=N, maxLength=25, sysNumber=45.0, core=true, businessType=A, t24Name=NR.TYPE)
+        /* Defines the value that links to the rule in field "Nr.Type". For example, if the rule is not to allow a value to go below 10, then the Value of 10 has to be stated in this field and together with NR.TYPE would evaluate the rule. */
+        NR_VALUE : T24BusinessTypes:ANY
+            @i18n:Label (en=Value)
+            @t24:i (align=L, inputBehaviour=N, maxLength=60, sysNumber=46.0, core=true, t24Name=NR.VALUE)
+    }
+    AA_SIM_INTEREST_COMPENSATION__OVERRIDE
+    {
+        /* Standard Override field containing override messages generated by amendments to this property */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=59.0, core=true, t24Name=OVERRIDE)
+    }
+    AA_SIM_INTEREST_COMPENSATION__OWNING_COMPANY
+    {
+        OWNING_COMPANY -> ST_CompanyCreation:COMPANY
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=33.0, core=true, businessType=AAPRODUCT, t24Name=OWNING.COMPANY, typeModifiers=COMPANY, mvSvExpansionAccess=NOEXPAND)
+    }
+    AA_SIM_INTEREST_COMPENSATION__PR_ATTRIBUTE
+    {
+        /* This will hold two values either DUE, CAPITALISE or DEFER. This Field denote which application method(DUE or CAPITALISE)should be taken while applying periodic rule charges. DEFER would not make anything DUE immediately. An option may be stated to define how long to defer. */
+        PR_APP_METHOD : AA_InterestCompensation:AA_SIM_INTEREST_COMPENSATION__PR_ATTRIBUTE__PR_APP_METHOD
+            @i18n:Label (en="Application Method")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=29.0, core=true, t24Name=PR.APP.METHOD, mvSvExpansionAccess=NOEXPAND)
+        /* This will have to accept a valid T24 period.The field indicates the period which is used for Evaluation of a rule. For example: If a field should not be allowed to increase more than 10000 with in a period of 1M, the field would actually hold the "1M" value. */
+        PR_APP_PERIOD : T24BusinessTypes:PERIOD
+            @i18n:Label (en=Period)
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=30.0, core=true, t24Name=PR.APP.PERIOD, mvSvExpansionAccess=NOEXPAND)
+/* These are set of Attributes which define the names of the rule, which will be applied on certain attributes of property classes over a period of time.
+
+Input must be a valid record from AA.PERIODIC.ATTRIBUTE */
+        PR_ATTRIBUTE -> AA_Rules:AA_PERIODIC_ATTRIBUTE
+            @i18n:Label (en=Attribute)
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=21.0, core=true, businessType=A, t24Name=PR.ATTRIBUTE, mvSvExpansionAccess=NOEXPAND)
+/* Charge can be collected when the periodic rule is broken.
+This field denotes the charge property. The property and its condition is defined the product designer and validated during publishing.
+
+Valid charge property */
+        PR_BRK_CHARGE -> AA_ProductFramework:AA_PROPERTY
+            @i18n:Label (en=Charge)
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=25.0, core=true, businessType=A, t24Name=PR.BRK.CHARGE, mvSvExpansionAccess=NOEXPAND)
+/* Based on the PR.BRK.RES option selected, this will hold either an OVERRIDE or EB.ERROR id. By default the ids will be picked from the associated EB.COMPARISON.TYPE record. If CAP or FLOOR values are given, then the underlying AA.PERIODIC.ATTRIBUTE.CLASS should have this type defined in it.
+
+Input must be a valid OVERRIDE ID or EB.ERROR ID. */
+        PR_BRK_MSG : T24BusinessTypes:ANY
+            @i18n:Label (en=Message)
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=24.0, core=true, t24Name=PR.BRK.MSG, mvSvExpansionAccess=NOEXPAND)
+/* When a rule is broken what action needs to be taken is defined here. Currently, the various options available are
+Error  - Blocks further processing
+Override - Gives an override
+Information - Records details only
+CAP the rule value is to be used as a CAP if the rule is broken(basically for Interest processing during COB)
+FLOOR the rule value is to be used as a FLOOR if the rule is broken.
+
+(basically for Interest processing during COB)
+Should be one of the above valid options */
+        PR_BRK_RES : AA_InterestCompensation:AA_SIM_INTEREST_COMPENSATION__PR_ATTRIBUTE__PR_BRK_RES
+            @i18n:Label (en=Action)
+            @t24:i (align=L, inputBehaviour=N, maxLength=13, sysNumber=23.0, core=true, t24Name=PR.BRK.RES, mvSvExpansionAccess=NOEXPAND)
+        /* System field - reserved for future use */
+        PR_RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=28.0, core=true, t24Name=PR.RESERVED.1, mvSvExpansionAccess=NOEXPAND)
+        /* System field - reserved for future use */
+        PR_RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=27.0, core=true, t24Name=PR.RESERVED.2, mvSvExpansionAccess=NOEXPAND)
+        /* System field - reserved for future use */
+        PR_RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=26.0, core=true, t24Name=PR.RESERVED.3, mvSvExpansionAccess=NOEXPAND)
+/* This is the actual rule value, which will be applied on certain attributes of the property classes over a period of time.
+
+Input must be a valid data type defined in the corresponding
+AA.PERIODIC.ATTRIBUTE.CLASS record. */
+        PR_VALUE : T24BusinessTypes:A
+            @i18n:Label (en=Value)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=22.0, core=true, t24Name=PR.VALUE, mvSvExpansionAccess=NOEXPAND)
+    }
+    AA_SIM_INTEREST_COMPENSATION__RECIPIENT_PROPERTY
+    {
+/* The maximum % of the recipient balance that can be offset by the Donation.
+For ex, in an Offset mortgage, if the Principal is -85,000 and if the Donor balances amount to credit +100,000 then specifying Max Offset as 100% would mean only 85,000 of the credit balances are offset against the Recipient’s debit balance.
+There is no additional benefit for the surplus 15,000 in the Donor Balances
+80% in Max Offset would mean only 68,000 (80% of 85,000) of the credit balance can be offset against the recipient’s debit balance
+In the case of Interest Compensation, this will be set to “” to indicate that there is no “Offset’ percentage but only a consolidation of Donor and Recipient balances to calculate interest on */
+        MAX_OFFSET : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=5.0, core=true, t24Name=MAX.OFFSET)
+/* Indicates which property in the group above would act as a beneficiary in a bundle. Only one property could act as a recipient. Currently only allows a valid interest property and the property should belong to the group stated above. For example, a LOANINTEREST property could be stated as a valid beneficiary property and the balances from Current and Savings account could be pooled towards calculation of LOANINTEREST
+Validation Rules:
+1. Should be a valid AA.PROPERTY belonging to INTEREST class
+2. Should be a property belonging to the RECIPIENT.PRODUCT group.
+3. Mandatory field */
+        RECIPIENT_PROPERTY -> AA_ProductFramework:AA_PROPERTY required
+            @i18n:Label (en="Recipient Property")
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=4.0, core=true, businessType=A, t24Name=RECIPIENT.PROPERTY)
+    }
+    AA_SIM_INTEREST_COMPENSATION__STMT_NOS
+    {
+        /* System field - not used for property conditions */
+        STMT_NOS : T24BusinessTypes:N
+            @i18n:Label (en="Statement Number")
+            @t24:i (align=R, inputBehaviour=N, maxLength=20, sysNumber=58.0, core=true, t24Name=STMT.NOS)
+    }
+}
+Enumerations {
+    AA_ARR_INTEREST_COMPENSATION__DEFAULT_ATTR_OPTION : mml:string
+        NON__RESETTING=NON-RESETTING
+        RESETTING=RESETTING
+    AA_ARR_INTEREST_COMPENSATION__DEFAULT_NEGOTIABLE : mml:string
+        NO=NO
+        YES=YES
+    AA_ARR_INTEREST_COMPENSATION__DONOR_PRODUCT__DONOR_PROPERTY__DONOR_ACCRUAL : mml:string
+        CALCULATE=CALCULATE
+        INFO_ONLY=INFO.ONLY
+        SUPPRESS=SUPPRESS
+    AA_ARR_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_OPTIONS__NR_OPTIONS : mml:string
+        FIX__VALUE=FIX-VALUE
+        MANDATORY=MANDATORY
+        NEGOTIABLE=NEGOTIABLE
+        NON__NEGOTIABLE=NON-NEGOTIABLE
+        NON__RESETTING=NON-RESETTING
+        OVERRIDE=OVERRIDE
+        RESETTING=RESETTING
+    AA_ARR_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_TYPE__NR_MESSAGE : mml:string
+        ERROR=ERROR
+        OVERRIDE=OVERRIDE
+    AA_ARR_INTEREST_COMPENSATION__PR_ATTRIBUTE__PR_APP_METHOD : mml:string
+        CAPITALISE=CAPITALISE
+        DEFER=DEFER
+        DUE=DUE
+    AA_ARR_INTEREST_COMPENSATION__PR_ATTRIBUTE__PR_BRK_RES : mml:string
+        CAP=CAP
+        ERROR=ERROR
+        FLOOR=FLOOR
+        INFORMATION=INFORMATION
+        OVERRIDE=OVERRIDE
+    AA_PRD_CAT_INTEREST_COMPENSATION__DEFAULT_ATTR_OPTION : mml:string
+        NON__RESETTING=NON-RESETTING
+        RESETTING=RESETTING
+    AA_PRD_CAT_INTEREST_COMPENSATION__DEFAULT_NEGOTIABLE : mml:string
+        NO=NO
+        YES=YES
+    AA_PRD_CAT_INTEREST_COMPENSATION__DONOR_PRODUCT__DONOR_PROPERTY__DONOR_ACCRUAL : mml:string
+        CALCULATE=CALCULATE
+        INFO_ONLY=INFO.ONLY
+        SUPPRESS=SUPPRESS
+    AA_PRD_CAT_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_OPTIONS__NR_OPTIONS : mml:string
+        FIX__VALUE=FIX-VALUE
+        MANDATORY=MANDATORY
+        NEGOTIABLE=NEGOTIABLE
+        NON__NEGOTIABLE=NON-NEGOTIABLE
+        NON__RESETTING=NON-RESETTING
+        OVERRIDE=OVERRIDE
+        RESETTING=RESETTING
+    AA_PRD_CAT_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_TYPE__NR_MESSAGE : mml:string
+        ERROR=ERROR
+        OVERRIDE=OVERRIDE
+    AA_PRD_CAT_INTEREST_COMPENSATION__PR_ATTRIBUTE__PR_APP_METHOD : mml:string
+        CAPITALISE=CAPITALISE
+        DEFER=DEFER
+        DUE=DUE
+    AA_PRD_CAT_INTEREST_COMPENSATION__PR_ATTRIBUTE__PR_BRK_RES : mml:string
+        CAP=CAP
+        ERROR=ERROR
+        FLOOR=FLOOR
+        INFORMATION=INFORMATION
+        OVERRIDE=OVERRIDE
+    AA_PRD_DES_INTEREST_COMPENSATION__DEFAULT_ATTR_OPTION : mml:string
+        NON__RESETTING=NON-RESETTING
+        RESETTING=RESETTING
+    AA_PRD_DES_INTEREST_COMPENSATION__DEFAULT_NEGOTIABLE : mml:string
+        NO=NO
+        YES=YES
+    AA_PRD_DES_INTEREST_COMPENSATION__DONOR_PRODUCT__DONOR_PROPERTY__DONOR_ACCRUAL : mml:string
+        CALCULATE=CALCULATE
+        INFO_ONLY=INFO.ONLY
+        SUPPRESS=SUPPRESS
+    AA_PRD_DES_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_OPTIONS__NR_OPTIONS : mml:string
+        FIX__VALUE=FIX-VALUE
+        MANDATORY=MANDATORY
+        NEGOTIABLE=NEGOTIABLE
+        NON__NEGOTIABLE=NON-NEGOTIABLE
+        NON__RESETTING=NON-RESETTING
+        OVERRIDE=OVERRIDE
+        RESETTING=RESETTING
+    AA_PRD_DES_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_TYPE__NR_MESSAGE : mml:string
+        ERROR=ERROR
+        OVERRIDE=OVERRIDE
+    AA_PRD_DES_INTEREST_COMPENSATION__PR_ATTRIBUTE__PR_APP_METHOD : mml:string
+        CAPITALISE=CAPITALISE
+        DEFER=DEFER
+        DUE=DUE
+    AA_PRD_DES_INTEREST_COMPENSATION__PR_ATTRIBUTE__PR_BRK_RES : mml:string
+        CAP=CAP
+        ERROR=ERROR
+        FLOOR=FLOOR
+        INFORMATION=INFORMATION
+        OVERRIDE=OVERRIDE
+    AA_PRD_PRF_INTEREST_COMPENSATION__DEFAULT_ATTR_OPTION : mml:string
+        NON__RESETTING=NON-RESETTING
+        RESETTING=RESETTING
+    AA_PRD_PRF_INTEREST_COMPENSATION__DEFAULT_NEGOTIABLE : mml:string
+        NO=NO
+        YES=YES
+    AA_PRD_PRF_INTEREST_COMPENSATION__DONOR_PRODUCT__DONOR_PROPERTY__DONOR_ACCRUAL : mml:string
+        CALCULATE=CALCULATE
+        INFO_ONLY=INFO.ONLY
+        SUPPRESS=SUPPRESS
+    AA_PRD_PRF_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_OPTIONS__NR_OPTIONS : mml:string
+        FIX__VALUE=FIX-VALUE
+        MANDATORY=MANDATORY
+        NEGOTIABLE=NEGOTIABLE
+        NON__NEGOTIABLE=NON-NEGOTIABLE
+        NON__RESETTING=NON-RESETTING
+        OVERRIDE=OVERRIDE
+        RESETTING=RESETTING
+    AA_PRD_PRF_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_TYPE__NR_MESSAGE : mml:string
+        ERROR=ERROR
+        OVERRIDE=OVERRIDE
+    AA_PRD_PRF_INTEREST_COMPENSATION__PR_ATTRIBUTE__PR_APP_METHOD : mml:string
+        CAPITALISE=CAPITALISE
+        DEFER=DEFER
+        DUE=DUE
+    AA_PRD_PRF_INTEREST_COMPENSATION__PR_ATTRIBUTE__PR_BRK_RES : mml:string
+        CAP=CAP
+        ERROR=ERROR
+        FLOOR=FLOOR
+        INFORMATION=INFORMATION
+        OVERRIDE=OVERRIDE
+    AA_SIM_INTEREST_COMPENSATION__DEFAULT_ATTR_OPTION : mml:string
+        NON__RESETTING=NON-RESETTING
+        RESETTING=RESETTING
+    AA_SIM_INTEREST_COMPENSATION__DEFAULT_NEGOTIABLE : mml:string
+        NO=NO
+        YES=YES
+    AA_SIM_INTEREST_COMPENSATION__DONOR_PRODUCT__DONOR_PROPERTY__DONOR_ACCRUAL : mml:string
+        CALCULATE=CALCULATE
+        INFO_ONLY=INFO.ONLY
+        SUPPRESS=SUPPRESS
+    AA_SIM_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_OPTIONS__NR_OPTIONS : mml:string
+        FIX__VALUE=FIX-VALUE
+        MANDATORY=MANDATORY
+        NEGOTIABLE=NEGOTIABLE
+        NON__NEGOTIABLE=NON-NEGOTIABLE
+        NON__RESETTING=NON-RESETTING
+        OVERRIDE=OVERRIDE
+        RESETTING=RESETTING
+    AA_SIM_INTEREST_COMPENSATION__NR_ATTRIBUTE__NR_TYPE__NR_MESSAGE : mml:string
+        ERROR=ERROR
+        OVERRIDE=OVERRIDE
+    AA_SIM_INTEREST_COMPENSATION__PR_ATTRIBUTE__PR_APP_METHOD : mml:string
+        CAPITALISE=CAPITALISE
+        DEFER=DEFER
+        DUE=DUE
+    AA_SIM_INTEREST_COMPENSATION__PR_ATTRIBUTE__PR_BRK_RES : mml:string
+        CAP=CAP
+        ERROR=ERROR
+        FLOOR=FLOOR
+        INFORMATION=INFORMATION
+        OVERRIDE=OVERRIDE
+}

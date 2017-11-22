@@ -1,0 +1,118 @@
+# UTF-8
+/* Filtering */
+Domain PP_FeeDeterminationService
+    @t24:i (module=PP)
+    @java:Package (value=com.temenos.t24.datamodel.pp.pp_feedeterminationservice)
+namespace "http://www.temenos.com/t24/PP_FeeDeterminationService"
+metamodelVersion 1.30.6
+Classes {
+    /* This is a system updated table, that holds the charges applied for a transaction. If multiple charges are applicable for a transaction, then multiple records will be present for the transaction in this table. */
+    POR_APPLIEDFEE
+        @i18n:Description (en="")
+        @t24:i (t24Name=POR.APPLIEDFEE, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        /* If the billing flag is set for either debit or credit party, then Fee component would update this field (BankChargesID) so that billing can use this ID to retrieve the fee information. */
+        BankChargesID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=20.0, core=true, t24Name=BankChargesID)
+        /* Holds the charge amount equivalent in charge account currency */
+        ChargeAmount : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=8.0, core=true, t24Name=ChargeAmount, typeModifiers="9PP1")
+        /* Holds the currency code of the charge account from where the fee is deducted */
+        ChargeAmountCurrency : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=9.0, core=true, t24Name=ChargeAmountCurrency)
+        /* Holds the charge amount equivalent in fee currency */
+        ChargeAmountFeeCurrency : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=12.0, core=true, t24Name=ChargeAmountFeeCurrency, typeModifiers="13PP1")
+        /* Holds the charge amount equivalent in local currency of the company */
+        ChargeAmountLocalCurrency : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=10.0, core=true, t24Name=ChargeAmountLocalCurrency, typeModifiers="11PP1")
+        ChargePartyIndicator : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=3.0, core=true, t24Name=ChargePartyIndicator)
+        ChargeSign : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=5.0, core=true, t24Name=ChargeSign)
+        /* If the billing flag is set for either debit or credit party, then Fee component would update this field so that billing can use this ID to retrieve the fee information. */
+        ClientChargesID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=19.0, core=true, t24Name=ClientChargesID)
+/* Indicates the company ID for which the record is created.
+Example : BNK,GB1 */
+        CompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+        /* Unique reference for a transaction within a company */
+        FTNumber : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=2.0, core=true, t24Name=FTNumber)
+        /* Holds the currency code in which the fee will be charged. */
+        FeeCurrencyCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=13.0, core=true, t24Name=FeeCurrencyCode)
+        /* Describes the Fee type */
+        FeeDescription : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=7.0, core=true, t24Name=FeeDescription)
+        /* Indicates the Fee type applied from the PPT.FEETYPE table */
+        FeeType : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=4.0, core=true, t24Name=FeeType)
+        /* Unique identifier for the record for internal purposes */
+        ID -> PP_FeeDeterminationService:POR_APPLIEDFEE PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+        /* Holds the local currency code of the company */
+        LocalCurrencyCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=11.0, core=true, t24Name=LocalCurrencyCode)
+/* This indicates if the applied fee record is for charges which we need
+to take from the debit party and are due towards the receiving bank
+(when Include71GIndicator is Y).
+Posting scheme uses this indicator to identify that this charge amount shall not be credited to the P&L account when the value is Y.
+It can have Y or N values. */
+        OutgoingOurChargeIndicator : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=18.0, core=true, t24Name=OutgoingOurChargeIndicator)
+        /* Company Id of the PL account defined for the Fee. */
+        PLAccountCompany : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=14.0, core=true, t24Name=PLAccountCompany)
+        /* Currency Code of the PL account defined for the Fee. */
+        PLAccountCurrency : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=16.0, core=true, t24Name=PLAccountCurrency)
+        /* PL account defined for the Fee */
+        PLAccountNumber : T24BusinessTypes:ACCA
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=15.0, core=true, t24Name=PLAccountNumber)
+        /* This field has two values- ‘P’ and ‘C’ to distinguish fee calculated for a parent and child transaction. */
+        ParentChildIndicator : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=17.0, core=true, t24Name=ParentChildIndicator)
+/* Identifies the type of fee calculated. Possible Values:
+R - Real Charge - Debited from Charge Account during payment processing
+B - Beneficiary Charge - Debited from Beneficiary during payment processing
+I - Informational - Not Debited during payment processing, will be consolidated and debited during the billing process */
+        TypeOfCharge : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=6.0, core=true, t24Name=TypeOfCharge)
+    }
+    /* This table is used to store the fee details of child transactions and the records in this table will gets deleted when the parent transaction is processed. */
+    POR_BATCHINFO
+        @i18n:Description (en="")
+        @t24:i (t24Name=POR.BATCHINFO, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        /* Holds the reference id which relates the parent and child payment */
+        BatchReference : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=14, sysNumber=7.0, core=true, t24Name=BatchReference)
+        /* Unique ID that is used to identify the child transactions */
+        ChildFTNumber : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=3.0, core=true, t24Name=ChildFTNumber)
+/* Indicates the company ID for which the record is created.
+Example : BNK,GB1 */
+        CompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+        /* Indicates the Fee amount calculated for the child payment */
+        FeeAmount : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=5.0, core=true, t24Name=FeeAmount)
+        /* Indicates the currency based on which the fee is calculated for the child payment */
+        FeeCurrency : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=6.0, core=true, t24Name=FeeCurrency)
+        /* Indicates the Fee type applied for the respective child payment. */
+        FeeType : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=4.0, core=true, t24Name=FeeType)
+        ID -> PP_FeeDeterminationService:POR_BATCHINFO PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+        /* Unique ID that is used to identify the parent transactions */
+        ParentFTNumber : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=2.0, core=true, t24Name=ParentFTNumber)
+    }
+}

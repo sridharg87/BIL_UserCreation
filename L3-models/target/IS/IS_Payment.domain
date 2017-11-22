@@ -1,0 +1,1143 @@
+# UTF-8
+/* Payment Processing */
+Domain IS_Payment
+    @t24:i (module=IS)
+    @java:Package (value=com.temenos.t24.datamodel.is.is_payment)
+namespace "http://www.temenos.com/t24/IS_Payment"
+metamodelVersion 1.30.6
+Classes {
+    /* IS.AUTO.PAY.SCHEDULES is a table to capture the scheduled payments. These act more like a select file for the job IS.SOD.PAYMENT.SCHEDULE */
+    IS_AUTO_PAY_SCHEDULES
+        @i18n:Description (en="")
+        @t24:i (t24Name=IS.AUTO.PAY.SCHEDULES, level=F, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        /* The schedule date on which the vendor or cost payment has to be processed. */
+        BILL_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Bill Date")
+            @i18n:Tooltip (en="It represents the bill creation date")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=2.0, core=true, t24Name=BILL.DATE)
+/* The ID of the table IS.AUTO.PAY.SCHEDULES is of 2 formats:
+1. <ASSET.ID>-<VENDOR.ID>-<DATE> - for a Vendor payment of an Asset.
+2. <PURCHASE.ID>-<COST.ID>-<DATE> - for a cost payment of a Purchase contract. */
+        IS_AUTO_PAY_SCHEDULES_ID -> IS_Payment:IS_AUTO_PAY_SCHEDULES PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=IS.AUTO.PAY.SCHEDULES.ID)
+        /* The vendor or cost amount to be paid on the scheduled date */
+        PAYMENT_AMT : T24BusinessTypes:AMT
+            @i18n:Label (en="Payment Amount")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=3.0, core=true, t24Name=PAYMENT.AMT)
+        /* The payment reference for which the payment has to be processed. (ID of the file IS.PAYMENT) */
+        PAYMENT_REFERENCE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, t24Name=PAYMENT.REFERENCE)
+        /* The retention amount to be retained on the scheduled date. */
+        RETENTION_AMT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=4.0, core=true, t24Name=RETENTION.AMT)
+    }
+    /* IS.AUTO.PAY.SCHEDULES.HIST is a table to store the processed payments those are scheduled. This table gets updated after the job IS.SOD.PAYMENT.SCHEDULE processes the scheduled payment. This job deletes the copy in the file IS.AUTO.PAY.SCHEDULES after copying to this file. */
+    IS_AUTO_PAY_SCHEDULES_HIST
+        @i18n:Description (en="")
+        @t24:i (t24Name=IS.AUTO.PAY.SCHEDULES.HIST, level=F, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        /* The schedule date on which the vendor or cost payment has to be processed. */
+        BILL_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Bill Date")
+            @i18n:Tooltip (en="It represents the bill creation date")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=2.0, core=true, t24Name=BILL.DATE)
+/* The ID of the table IS.AUTO.PAY.SCHEDULES is of 2 formats:
+1. <ASSET.ID>-<VENDOR.ID>-<DATE> - for a Vendor payment of an Asset.
+2. <PURCHASE.ID>-<COST.ID>-<DATE> - for a cost payment of a Purchase contract. */
+        IS_AUTO_PAY_SCHEDULES_HIST_ID -> IS_Payment:IS_AUTO_PAY_SCHEDULES_HIST PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=IS.AUTO.PAY.SCHEDULES.HIST.ID)
+        /* The vendor or cost amount to be paid on the scheduled date. */
+        PAYMENT_AMT : T24BusinessTypes:AMT
+            @i18n:Label (en="Payment Amount")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=3.0, core=true, t24Name=PAYMENT.AMT)
+        /* The payment reference for which the payment has to be processed. (ID of the file IS.PAYMENT) */
+        PAYMENT_REFERENCE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, t24Name=PAYMENT.REFERENCE)
+        /* The retention amount to be retained on the scheduled date. */
+        RETENTION_AMT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=4.0, core=true, t24Name=RETENTION.AMT)
+    }
+/* IS.DISBURSEMENT is the application to define and execute Disbursement of AA contracts.
+
+The AA contracts which are initiated as finance for an Islamic Contract might require a disbursement accompanying Customer contribution during each of the Payments made to the Vendor. To achieve this, the application IS.DISBURSEMENT receives the contribution details and the respective action is performed on the AA contract as Disbursement, Repayment or Commitment Decrease. */
+    IS_DISBURSEMENT
+        @i18n:Description (en="")
+        @t24:i (t24Name=IS.DISBURSEMENT, level=F, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+/* The Asset requested by the Customer for which a Disbursement has to be performed.
+
+Validation Rules:
+1. The Asset being requested in the Islamic Contract.
+2. Must be a valid record in the Asset table defined in the Commodity record. */
+        ASSET_REF : T24BusinessTypes:A
+            @i18n:Label (en="Asset Reference")
+            @i18n:Tooltip (en="Asset Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=4.0, core=true, t24Name=ASSET.REF)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=46.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=47.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=43.0, core=true, t24Name=AUTHORISER)
+/* The Bank contribution for the Disbursement bill defined. This value could even be Zero.
+
+Validation Rules:
+1. Field No-input. */
+        BANK_CONTRIB : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=N, maxLength=20, sysNumber=21.0, core=true, t24Name=BANK.CONTRIB)
+/* The Bill Amount of the Disbursement. The Amount to be disbursed for the finance contract should be specified here.
+
+Validation Rules:
+1. The amount should not exceed the purchase price of the asset/commodity. */
+        BILL_AMOUNT : T24BusinessTypes:AMT required
+            @i18n:Label (en="Bill Amount")
+            @i18n:Tooltip (en="Bill Amount")
+            @t24:i (align=R, inputBehaviour=I, maxLength=20, sysNumber=8.0, core=true, t24Name=BILL.AMOUNT)
+/* The Bill date of the disbursement. The Disbursement on the Arrangement will be effective on this date.
+
+Validation Rules:
+1. Standard T24 Date Field. */
+        BILL_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Bill Date")
+            @i18n:Tooltip (en="Bill Date")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=7.0, core=true, t24Name=BILL.DATE)
+/* The Customer contribution in terms of Cash paid to the Bank. The sum of amounts defined with CONTRIB.TYPE as "CASH" and CONTRIB.PAYTO as "BANK".
+
+Validation Rules:
+1. Field No-input. */
+        CASH_CONTRIB : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=N, maxLength=20, sysNumber=22.0, core=true, t24Name=CASH.CONTRIB)
+/* The Commitment Decrease Amount that is to be decreased from the Finance contract. This value is the difference of the values in the fields CUST.CONTRIB and CASH.CONTRIB.
+
+Validation Rules:
+1. Field No-input. */
+        COMMIT_DECR_AMT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=N, maxLength=20, sysNumber=24.0, core=true, t24Name=COMMIT.DECR.AMT)
+/* Commodity of the Asset Requested in the Islamic Contract.
+
+Validation Rules:
+1. Must be a valid record from the table IS.COMMODITY.
+2. Allowed only for a Quantified asset. */
+        COMMODITY -> IS_Config:IS_COMMODITY
+            @i18n:Label (en=Commodity)
+            @i18n:Tooltip (en=Commodity)
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=3.0, core=true, t24Name=COMMODITY)
+        CONTRIB_TYPE -> byValue IS_Payment:IS_DISBURSEMENT__CONTRIB_TYPE *
+            @t24:i (t24Name=CONTRIB.TYPE)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=44.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+/* The Currency of the Contract. This is defaulted from the IS.CONTRACT record.
+
+Validation Rules:
+1. Field No-input. */
+        CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en=Currency)
+            @i18n:Tooltip (en=Currency)
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=6.0, core=true, businessType=CCY, t24Name=CURRENCY)
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=40.0, core=true, t24Name=CURR.NO)
+/* The Customer of the Contract. The finance contract of this customer will undergo disbursement.
+
+Validation Rules:
+1. Field No-Change. */
+        CUSTOMER -> ST_Customer:CUSTOMER required
+            @i18n:Label (en=Customer)
+            @i18n:Tooltip (en=Customer)
+            @t24:i (align=R, inputBehaviour=F, maxLength=10, sysNumber=1.0, core=true, businessType=CUS, t24Name=CUSTOMER)
+/* Sum of all the customer contribution amounts.
+
+Validation Rules:
+1. Field No-input. */
+        CUST_CONTRIB : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=N, maxLength=20, sysNumber=20.0, core=true, t24Name=CUST.CONTRIB)
+        DATE_TIME -> byValue IS_Payment:IS_DISBURSEMENT__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=45.0, core=true, t24Name=DEPT.CODE)
+/* The Disburse Amount to be disbursed from the finance contract.
+
+Validation Rules:
+1. Field No-input. */
+        DISBURSE_AMT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=N, maxLength=20, sysNumber=23.0, core=true, t24Name=DISBURSE.AMT)
+        INPUTTER -> byValue IS_Payment:IS_DISBURSEMENT__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        /* The ID of the application IS.DISBURSEMENT is a system-generated ID with the prefix 'ID'. */
+        IS_DISBURSEMENT_ID -> IS_Payment:IS_DISBURSEMENT PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=IS.DISBURSEMENT.ID)
+        OVERRIDE -> byValue IS_Payment:IS_DISBURSEMENT__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+/* The Purchase Price of the Asset / Commodity as defined in the Islamic Contract.
+
+Validation Rules:
+1. Field No-input.
+2. The field is defaulted with the value defined in the PURCHASE.PRICE field of the respective Asset/Commodity defined in the application IS.CONTRACT. */
+        PURCHASE_PRICE : T24BusinessTypes:AMT
+            @i18n:Label (en="Purchase Price")
+            @i18n:Tooltip (en="Purchase Price")
+            @t24:i (align=R, inputBehaviour=N, maxLength=20, sysNumber=5.0, core=true, t24Name=PURCHASE.PRICE)
+        /* The Islamic contract for which the finance is disbursed. The contract specified in this field is the Islamic contract in the application IS.CONTRACT through which the customer requests the asset. */
+        PURCHASE_REF -> IS_Purchase:IS_CONTRACT
+            @i18n:Label (en="Purchase Reference")
+            @i18n:Tooltip (en="Purchase Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=2.0, core=true, businessType=A, t24Name=PURCHASE.REF)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=39.0, core=true, t24Name=RECORD.STATUS)
+/* The Repayment Amount is the Advance Payment amount of the finance contract. The value in this field is the Customer Contribution in terms of CONTRIB.TYPE as "CASH" and CONTRIB.PAYTO as "BANK".
+
+Validation Rules:
+1. Field No-input. */
+        REPAYMENT_AMT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=N, maxLength=20, sysNumber=25.0, core=true, t24Name=REPAYMENT.AMT)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=35.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=26.0, core=true, t24Name=RESERVED.10)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=34.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=33.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=32.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=31.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=30.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=29.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=28.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=27.0, core=true, t24Name=RESERVED.9)
+        STMT_NOS -> byValue IS_Payment:IS_DISBURSEMENT__STMT_NOS *
+            @t24:i (t24Name=STMT.NOS)
+    }
+    IS_DISBURSEMENT__CONTRIB_TYPE
+    {
+/* Option to specify if the Customer Contribution can be defined in Percentage or Amount.
+
+Validation Rules:
+1. Valid Values are 'Amount' and 'Percentage' */
+        AMOUNT_TYPE : IS_Payment:IS_DISBURSEMENT__CONTRIB_TYPE__AMOUNT_TYPE
+            @i18n:Label (en="Amount Type")
+            @i18n:Tooltip (en="Amount Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=11.0, core=true, t24Name=AMOUNT.TYPE)
+/* The Contribution Amount for the individual asset or a commodity iin terms of Amount. Defaulted based on the AMOUNT.TYPE field.
+
+Validation Rules:
+1. Field No-input. */
+        CONTRIB_AMT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=N, maxLength=20, sysNumber=14.0, core=true, t24Name=CONTRIB.AMT)
+/* The Customer Contribution to be paid to Bank or Supplier is specified in this field.
+
+Validation Rules:
+1. Valid values are Bank and Supplier. */
+        CONTRIB_PAYTO : IS_Payment:IS_DISBURSEMENT__CONTRIB_TYPE__CONTRIB_PAYTO
+            @i18n:Label (en="Contribution Recipient")
+            @i18n:Tooltip (en="Contribution Recipient")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=10.0, core=true, t24Name=CONTRIB.PAYTO)
+/* The Contribution Percentage for the individual asset or a commodity in terms of percentage. Defaulted based on the AMOUNT.TYPE field.
+
+Validation Rules:
+1. Valid percentage (less than 100). */
+        CONTRIB_PERC : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=N, maxLength=3, sysNumber=13.0, core=true, t24Name=CONTRIB.PERC)
+/* The Type of Contribution made by the Customer. The Customer will be able to contribute to the finance in terms of Cash or Asset.
+
+Validation Rules:
+1. Valid values are Cash and Asset */
+        CONTRIB_TYPE : IS_Payment:IS_DISBURSEMENT__CONTRIB_TYPE__CONTRIB_TYPE
+            @i18n:Label (en="Contribution Type")
+            @i18n:Tooltip (en="Contribution Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=9.0, core=true, t24Name=CONTRIB.TYPE)
+/* The Contribution Amount for the individual asset or a commodity.
+The value is considered as Percentage in case AMOUNT.TYPE is Percentage and the given value is considered as Amount in case the value in the field AMOUNT.TYPE is Amount.
+
+Validation Rules:
+1. A valid Percentage or amount is given based on the value in the field AMOUNT.TYPE. */
+        CONTRIB_VALUE : T24BusinessTypes:AMT
+            @i18n:Label (en="Contribution Value")
+            @i18n:Tooltip (en="Contribution Value")
+            @t24:i (align=R, inputBehaviour=I, maxLength=20, sysNumber=12.0, core=true, t24Name=CONTRIB.VALUE)
+        RESERVED_11 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=19.0, core=true, t24Name=RESERVED.11)
+        RESERVED_12 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=RESERVED.12)
+        RESERVED_13 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=17.0, core=true, t24Name=RESERVED.13)
+        RESERVED_14 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=RESERVED.14)
+        RESERVED_15 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=RESERVED.15)
+    }
+    IS_DISBURSEMENT__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=42.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    IS_DISBURSEMENT__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=41.0, core=true, t24Name=INPUTTER)
+    }
+    IS_DISBURSEMENT__OVERRIDE
+    {
+/* Contains all the override messages which the user has confirmed during input.
+
+During Commit, the system may generate a series of screen override messages waiting for User Approval. If the record is subsequently displayed or printed, all override messages are shown in this field. */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=38.0, core=true, t24Name=OVERRIDE)
+    }
+    IS_DISBURSEMENT__STMT_NOS
+    {
+/* List of Statement Entries generated as the result of Accounting.
+
+Validation Rules:
+1. Field No-input. */
+        STMT_NOS : T24BusinessTypes:N
+            @i18n:Label (en="Stmt Nos")
+            @i18n:Tooltip (en="Stmt Nos")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=37.0, core=true, t24Name=STMT.NOS)
+    }
+/* The Payment to the vendor for an Islamic Contract that is financed without undergoing Purchase processing(Accounting) will be controlled by the disbursements of the finance contract.
+
+As and when a disbursement happens, Vendor Payment can be done only for the disbursed amount. */
+    IS_DISB_BALANCES
+        @i18n:Description (en="")
+        @t24:i (t24Name=IS.DISB.BALANCES, level=F, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        DISBURSE_REF -> byValue IS_Payment:IS_DISB_BALANCES__DISBURSE_REF *
+            @t24:i (t24Name=DISBURSE.REF)
+/* ID of the table IS.DISB.BALANCES.
+
+Id format:
+1. <ASSET.ID> - <VENDOR.ID> - for a Vendor payment of an Asset
+2. <PURCHASE.ID> - <COMMODITY.ID> - for a Vendor payment of a Commodity
+4. <PURCHASE.ID> - for Vendor Payment without Purchase Accounting and controlled by the AA Finance Contract. */
+        IS_DISB_BALANCES_ID -> IS_Payment:IS_DISB_BALANCES PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=0.0, core=true, businessType=A, t24Name=IS.DISB.BALANCES.ID)
+        /* The Total Bill Amount which is the sum of all the bill amount of IS.DISBURSEMENT performed for an asset/commodity. */
+        TOT_BILL_AMOUNT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=19.0, core=true, t24Name=TOT.BILL.AMOUNT)
+        /* The Total Amount disbursed from the AA finance contract. */
+        TOT_DISBURSE_AMT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=18.0, core=true, t24Name=TOT.DISBURSE.AMT)
+    }
+    IS_DISB_BALANCES__DISBURSE_REF
+    {
+        /* The Bill Amount of the Disbursement as captured in IS.DISBURSEMENT */
+        BILL_AMOUNT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=11.0, core=true, t24Name=BILL.AMOUNT)
+        /* The Bill date of the disbursement as captured in IS.DISBURSEMENT */
+        BILL_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Bill Date")
+            @i18n:Tooltip (en="It represents the bill creation date")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=10.0, core=true, t24Name=BILL.DATE)
+/* The Commitment Decrease Amount that is to be decreased from the Finance contract. This value is the difference of the values in the fields CUST.CONTRIB and CASH.CONTRIB.
+
+This is updated as captured in IS.DISBURSEMENT */
+        COMMIT_DECR_AMT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=5.0, core=true, t24Name=COMMIT.DECR.AMT)
+        /* The AAA reference from which a Commitment Decrease is performed through IS.DISBURSEMENT. */
+        COMMIT_DECR_REF : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=4.0, core=true, t24Name=COMMIT.DECR.REF)
+        /* The Customer contributions are updated in the AA finance contracts as Repayments to the finance through the application IS.DISBURSEMENT. The respective AAA reference is updated in this field. */
+        CUST_CONTRB_REF : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=6.0, core=true, t24Name=CUST.CONTRB.REF)
+        /* Sum of all the customer contribution amounts as captured in IS.DISBURSEMENT */
+        CUST_CONTRIB_AMT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=7.0, core=true, t24Name=CUST.CONTRIB.AMT)
+/* The Disburse Amount to be disbursed from the finance contract as captured in IS.DISBURSEMENT
+
+In case of contracts without purchase accounting and disbursement being controlled by the AA finance contract, this field is updated as and when a disbursement happens in the AA contract with the amount disbursed. */
+        DISBURSE_AMT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=2.0, core=true, t24Name=DISBURSE.AMT)
+/* The Disbursement FT reference generated for the finance contract while performing a disbursement through IS.DISBURSEMENT
+
+In case of contracts without purchase accounting and disbursement being controlled by the AA finance contract, this field is updated as and when a disbursement happens in the AA contract with the Disbursement AAA reference. */
+        DISBURSE_REF : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, t24Name=DISBURSE.REF)
+/* The Disburse FT reference generated for the finance contract while performing a disbursement through IS.DISBURSEMENT
+
+In case of contracts without purchase accounting and disbursement being controlled by the AA finance contract, this field is updated as and when a disbursement happens in the AA contract with the Disbursement AAA reference. */
+        DISBURSE_STATUS : IS_Payment:IS_DISB_BALANCES__DISBURSE_REF__DISBURSE_STATUS
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=3.0, core=true, t24Name=DISBURSE.STATUS)
+/* The reference of the Disbursement activity from AA finance contract at each instance is captured in this field when a disbursement is performed through IS.DISBURSEMENT application.
+
+In case of contracts without purchase accounting and disbursement being controlled by the AA finance contract, this field is updated as and when a disbursement happens in the AA contract with the disbursement reference. */
+        DISB_PAY_REF : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=12.0, core=true, t24Name=DISB.PAY.REF)
+        /* The Disbursement reference through which Disbursement details are captured. This is a valid record from the table IS.DISBURSEMENT */
+        IS_DISBURSE_REF : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=8.0, core=true, t24Name=IS.DISBURSE.REF)
+        /* The Status of the disbursement in the application IS.DISBURSEMENT. The possible values are "PENDING", "PROCESSED", "PAID" and "REVERSED" */
+        IS_DISBURSE_STATUS : IS_Payment:IS_DISB_BALANCES__DISBURSE_REF__IS_DISBURSE_STATUS
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=9.0, core=true, t24Name=IS.DISBURSE.STATUS)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=17.0, core=true, t24Name=RESERVED.1)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED.5)
+    }
+/* IS.PAYMENT is the application to capture the payments of an asset or a cost to the Payee.
+
+Payments could be of following nature:
+1. Asset Payment to the Vendor
+2. Commodity Payment to the Vendor
+3. Cost Payment to the Cost Counterparty
+4. Down Payment from the Customer
+5. Review Payment to the Reviewer
+6. Commodity Payment to the Broker
+7. Retention Payment to the Vendor */
+    IS_PAYMENT
+        @i18n:Description (en="")
+        @t24:i (t24Name=IS.PAYMENT, level=F, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=62.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=63.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=59.0, core=true, t24Name=AUTHORISER)
+/* The Beneficiary Reference defaulted from the IS.VENDOR table w.r.t to the Company and Currency.
+
+Validation Rules:
+1. Must be a valid record in the table BENEFICIARY.
+2. Either Vendor Account or Beneficiary should be specified. */
+        BENEFICIARY -> ST_Payments:BENEFICIARY
+            @i18n:Label (en=Beneficiary)
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=11.0, core=true, businessType=A, t24Name=BENEFICIARY)
+/* The Beneficiary Customer of the payment being made. The Customer who is the actual payee of the transaction.
+
+Validation Rules:
+1. Value can be either free text value or valid customer id.
+2. Maximum value of size 35 will be allowed. */
+        BEN_CUST : T24BusinessTypes:A
+            @i18n:Label (en=Beneficiary)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=12.0, core=true, t24Name=BEN.CUST)
+/* The broker to whom the broker payment has to be made. This is the broker defined as BUY.BROKER in the IS.CONTRACT specified.
+
+Validation Rules:
+1. Must be a valid record in the table IS.BROKER.
+2. Field mandatory if the PAYMENT.TYPE is 'BROKER' */
+        BROKER -> IS_Config:IS_BROKER
+            @i18n:Label (en=Broker)
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=8.0, core=true, businessType=CUS, t24Name=BROKER)
+/* The Broker account to which the broker payment of the contract is credited.
+This is defaulted from the IS.BROKER table w.r.t to the Company and Currency. If no account configured for the company and specified payment currency, no value is defaulted.
+
+Validation Rules:
+1. Must be a valid record in the table ACCOUNT.
+2. Either Broker Account or Beneficiary should be specified. */
+        BROKER_ACCT -> AC_AccountOpening:ACCOUNT
+            @t24:i (align=L, inputBehaviour=I, maxLength=36, sysNumber=9.0, core=true, businessType=ANT, t24Name=BROKER.ACCT)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=60.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=56.0, core=true, t24Name=CURR.NO)
+/* The account of the Customer who pays down payment. This is usually defaulted from the Down Payment screen. The down payment is debited from this account.
+
+Validation Rules:
+1. Must be a valid record from the table ACCOUNT. */
+        CUSTOMER_ACCT -> AC_AccountOpening:ACCOUNT
+            @t24:i (align=L, inputBehaviour=I, maxLength=36, sysNumber=10.0, core=true, businessType=ANT, t24Name=CUSTOMER.ACCT)
+        DATE_TIME -> byValue IS_Payment:IS_PAYMENT__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=61.0, core=true, t24Name=DEPT.CODE)
+        INPUTTER -> byValue IS_Payment:IS_PAYMENT__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        /* The ID of the application IS.PAYMENT is a system-generated ID with the prefix "IP". */
+        IS_PAYMENT_ID -> IS_Payment:IS_PAYMENT PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=IS.PAYMENT.ID)
+/* The required Operation to be performed. A record in IS.PAYMENT can be created to execute a New Payment or to reverse an existing payment.
+
+The value "New" will create a new Payment and the option "Reverse" will reverse an existing payment.
+
+Validation Rules:
+1. Valid values are "New" and "Reverse".
+2. Field Mandatory */
+        OPERATION : IS_Payment:IS_PAYMENT__OPERATION required
+            @i18n:Label (en=Operation)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=2.0, core=true, t24Name=OPERATION)
+/* The Ordering Customer of the payment. This is defined in order to facilitate external FT payments.
+
+Validation Rules:
+1. Field Mandatory for NOSTRO payments using BENEFICIARY. */
+        ORDERING_CUST : T24BusinessTypes:A
+            @i18n:Label (en="Ordering Customer")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=13.0, core=true, t24Name=ORDERING.CUST, typeModifiers=SW)
+        OVERRIDE -> byValue IS_Payment:IS_PAYMENT__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+/* The Currency in which the Payment has to be performed. The Accounts chosen for payment and the payment FT transaction will be created in this currency whereas the amount related fields are specified in terms of the currency defined in IS.CONTRACT.
+
+Validation Rules:
+1. Valid Record from the table CURRENCY.
+2. Field Mandatory. */
+        PAYMENT_CURRENCY -> ST_CurrencyConfig:CURRENCY required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=3.0, core=true, businessType=CCY, t24Name=PAYMENT.CURRENCY)
+/* The Payment Method to be executed for the payment. The following are the options:
+1. ADHOC - FT Payment raised on authorization of the IS.PAYMENT record.
+2. DD - Teller Payment done will be raised and the same transaction is recorded in IS.PAYMENT.
+3. CASH - FT Payment done will be raised from the FT application and the same transaction is recorded in IS.PAYMENT.
+4. SCHEDULE - FT Payment is recorded in the field IS.AUTO.PAY.SCHEDULES as defined in the schedule.
+5. EXTERNAL - FT Payment will be raised from the FT application for broker payment and the same transaction is recorded in IS.PAYMENT.
+6. DISBURSEMENT - For Payment of a contract which does not undergo purchase processing and the payment amount is controlled by the amount disbursed in the AA finance contract.
+Validation Rules:
+1. Mandatory Input.
+2. Valid Values are ADHOC, DD, CASH and SCHEDULE */
+        PAYMENT_METHOD : IS_Payment:IS_PAYMENT__PAYMENT_METHOD required
+            @i18n:Label (en="Payment Method")
+            @i18n:Tooltip (en="Specify if the amount will be Due or Capitalised")
+            @t24:i (align=L, inputBehaviour=F, maxLength=35, sysNumber=15.0, core=true, t24Name=PAYMENT.METHOD)
+/* The type of payment  to be performed. Following are the list of payments supported
+1. The option "Vendor" is chosen for Asset Payments
+2. The option "Cost" is chosen for Cost Payments.
+3. The option "Broker" is chosen for Broker Payments.
+4. The option "Review" is chosen for Review Payments.
+5. The option "DownPayment" is chosen for Down Payment.
+6. The option "Retention" is chosen for Retention payments.
+
+Validation Rules:
+1. Valid values are Vendor, Cost, Broker, Review, DownPayment, Retention
+2. Field Mandatory.
+
+Validation Rules:
+1. Mandatory Input
+2. Valid values are Vendor and Cost */
+        PAYMENT_TYPE : IS_Payment:IS_PAYMENT__PAYMENT_TYPE required
+            @i18n:Label (en="Payment Type")
+            @i18n:Tooltip (en="Type of Payment (Annuity or Linear)")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, t24Name=PAYMENT.TYPE)
+        PURCHASE_REF -> byValue IS_Payment:IS_PAYMENT__PURCHASE_REF *
+            @t24:i (t24Name=PURCHASE.REF)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=55.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=51.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=42.0, core=true, t24Name=RESERVED.10)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=50.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=49.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=48.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=47.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=46.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=45.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=44.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=43.0, core=true, t24Name=RESERVED.9)
+/* The reviewer who reviewed the Asset or Commodity in the application IS.ASSET.REVIEW. This would represents the Appraiser or Surveyor who reviews the asset.
+
+Validation Rules:
+1. Valid record in the table IS.REVIEWER.
+2. Field Mandatory for the PAYMENT.TYPE "REVIEW". */
+        REVIEWER -> IS_Config:IS_REVIEWER
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=6.0, core=true, businessType=CUS, t24Name=REVIEWER)
+/* Account of the Reviewer in the logged-in Company and Contract Currency. This account number is defaulted from the parameterization of IS.REVIEWER record.
+
+User can specify any other account overriding the IS.REVIEWER parameter setting.
+
+Validation Rules:
+1. Must be a valid record in the table ACCOUNT.
+2. Field Mandatory for the PAYMENT.TYPE "REVIEW". */
+        REVIEWER_ACCT -> AC_AccountOpening:ACCOUNT
+            @t24:i (align=L, inputBehaviour=I, maxLength=36, sysNumber=7.0, core=true, businessType=ANT, t24Name=REVIEWER.ACCT)
+        STMT_NOS -> byValue IS_Payment:IS_PAYMENT__STMT_NOS *
+            @t24:i (t24Name=STMT.NOS)
+/* The Value date of the payment. If no date is given, system defaults the date to TODAY.
+
+Validation Rules:
+1. Standard T24 Date field */
+        VALUE_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Value Date")
+            @i18n:Tooltip (en="Indicates the Value date of the Contract")
+            @t24:i (align=R, inputBehaviour=F, maxLength=11, sysNumber=14.0, core=true, t24Name=VALUE.DATE)
+/* The Vendor of the Purchase contract. The Payment is made to the vendor through this application
+
+Validation Rules:
+1. Must be a valid record from the table IS.VENDOR.
+2. Mandatory Input */
+        VENDOR -> IS_Config:IS_VENDOR
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=4.0, core=true, businessType=A, t24Name=VENDOR)
+/* The Vendor account to which the vendor payment of the contract is credited.
+This is defaulted from the IS.VENDOR table w.r.t to the Company and Currency. If no account configured for the company and specified payment currency, no value is defaulted.
+
+Validation Rules:
+1. Must be a valid record in the table ACCOUNT.
+2. Either Vendor Account or Beneficiary should be specified. */
+        VENDOR_ACCT -> AC_AccountOpening:ACCOUNT
+            @t24:i (align=L, inputBehaviour=I, maxLength=36, sysNumber=5.0, core=true, businessType=ANT, t24Name=VENDOR.ACCT)
+    }
+    /* IS.PAYMENT.BALANCES is the table used to capture the payment made and maintain the balance of the contract. This table is updated on authorising the Payment contract with vendor, retention and cost payment details such as outstanding amount, paid amount and due amount, etc. */
+    IS_PAYMENT_BALANCES
+        @i18n:Description (en="")
+        @t24:i (t24Name=IS.PAYMENT.BALANCES, level=F, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        DP_AMOUNT -> byValue IS_Payment:IS_PAYMENT_BALANCES__DP_AMOUNT *
+            @t24:i (t24Name=DP.AMOUNT)
+        /* The down payment amount declared by the customer in the contract in terms of Cash to the Bank. These are defined in the multi-value set of fields DP.COMMODITY-TOTAL.DP.CASH in the application IS.CONTRACT */
+        DP_DECLARED : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=33.0, core=true, t24Name=DP.DECLARED)
+/* ID of the table IS.PAYMENT.BALANCES.
+Id format:
+1. <ASSET.ID> - <VENDOR.ID> - for a Vendor payment of an Asset
+2. <PURCHASE.ID> - <COMMODITY.ID> - for a Vendor payment of a Commodity
+3. <PURCHASE.ID> - <COST.ID> - for a cost payment of a Purchase contract
+4. <PURCHASE.ID> - for Vendor Payment without Purchase Accounting controlled by the AA Finance Contract. */
+        IS_PAYMENT_BALANCES_ID -> IS_Payment:IS_PAYMENT_BALANCES PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=IS.PAYMENT.BALANCES.ID)
+        IS_PAYMENT_REF -> byValue IS_Payment:IS_PAYMENT_BALANCES__IS_PAYMENT_REF *
+            @t24:i (t24Name=IS.PAYMENT.REF)
+/* The purchase or cost amount exclusive of the down payment(in case of Asset/commodity) declared in the Islamic contract.
+
+For Islamic contracts that are financed without purchase processing, this field will get updated as and when a disbursement happens. At any point of time, only the disbursed amount can be paid to the vendor in this case. */
+        ORIG_PAYMENT_DUE : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=1.0, core=true, t24Name=ORIG.PAYMENT.DUE)
+        /* The Asset or Cost amount due to be paid/scheduled for the Vendor or Cost Payment of the Purchase contract. */
+        PAYMENT_OUTSTANDING : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=2.0, core=true, t24Name=PAYMENT.OUTSTANDING)
+        /* The Purchase reference for which the Payment is made. */
+        PURCHASE_REF : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=24.0, core=true, t24Name=PURCHASE.REF)
+        /* The total Retention Amount retained from the Vendor Payments. */
+        RETENTION_AMT_PAID : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=4.0, core=true, t24Name=RETENTION.AMT.PAID)
+        /* The Retention Amount due to be paid to the Vendor exclusive of the retention payments to the Vendor. */
+        RET_VENDOR_DUE : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=5.0, core=true, t24Name=RET.VENDOR.DUE)
+        /* The amount paid to the Vendor from the Retention bucket. The portion retained from the vendor is stored in the field RET.VENDOR.DUE. As and when the retained portion is paid to the vendor, the amount in this field will go down by that amount. */
+        RET_VENDOR_PAID : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=6.0, core=true, t24Name=RET.VENDOR.PAID)
+        RET_VENDOR_REF -> byValue IS_Payment:IS_PAYMENT_BALANCES__RET_VENDOR_REF *
+            @t24:i (t24Name=RET.VENDOR.REF)
+        REVIEW_TYPE -> byValue IS_Payment:IS_PAYMENT_BALANCES__REVIEW_TYPE *
+            @t24:i (t24Name=REVIEW.TYPE)
+        /* The Total Down Payment Paid for the Asset or Commodity */
+        TOT_DOWN_PAYMENT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=44.0, core=true, t24Name=TOT.DOWN.PAYMENT)
+        /* The Total amount paid to the vendor on account of an asset, a commodity or an additional cost of a purchase contract. */
+        TOT_PAID_AMT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=3.0, core=true, t24Name=TOT.PAID.AMT)
+    }
+    IS_PAYMENT_BALANCES__DP_AMOUNT
+    {
+        /* The Commodity Sale reference for which a payment(down payment) is done. */
+        DECLARATION_REF : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=35.0, core=true, t24Name=DECLARATION.REF)
+        /* The down payment amount paid by the Customer in the contract currency(IS.CONTRACT). */
+        DP_AMOUNT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=34.0, core=true, t24Name=DP.AMOUNT)
+        /* The FT reference through which the down payment is received from the customer */
+        DP_FT_REF : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=36.0, core=true, t24Name=DP.FT.REF)
+        /* The Payment(IS.PAYMENT) reference created while performing the down payment from the FUNDS.TRANSFER application. */
+        DP_PAY_REF : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=38.0, core=true, t24Name=DP.PAY.REF)
+        /* Status of the Down Payment Paid. */
+        DP_STATUS : IS_Payment:IS_PAYMENT_BALANCES__DP_AMOUNT__DP_STATUS
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=37.0, core=true, t24Name=DP.STATUS)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=39.0, core=true, t24Name=RESERVED.10)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=43.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=42.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=41.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=40.0, core=true, t24Name=RESERVED.9)
+    }
+    IS_PAYMENT_BALANCES__IS_PAYMENT_REF
+    {
+        BILL_DATE -> byValue IS_Payment:IS_PAYMENT_BALANCES__IS_PAYMENT_REF__BILL_DATE *
+            @t24:i (t24Name=BILL.DATE)
+        /* Payment Reference of the vendor payment or cost payment. */
+        IS_PAYMENT_REF : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=7.0, core=true, t24Name=IS.PAYMENT.REF)
+        RESERVED_16 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=23.0, core=true, t24Name=RESERVED.16)
+        RESERVED_17 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=22.0, core=true, t24Name=RESERVED.17)
+        RESERVED_18 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=21.0, core=true, t24Name=RESERVED.18)
+        RESERVED_19 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=20.0, core=true, t24Name=RESERVED.19)
+        RESERVED_20 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=19.0, core=true, t24Name=RESERVED.20)
+    }
+    IS_PAYMENT_BALANCES__IS_PAYMENT_REF__BILL_DATE
+    {
+        /* Date on which the payment is executed. */
+        BILL_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Bill Date")
+            @i18n:Tooltip (en="It represents the bill creation date")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=8.0, core=true, t24Name=BILL.DATE)
+        /* The Payment amounts paid to the vendor as defined in the IS.PAYMENT transaction */
+        PAYMENT_AMT : T24BusinessTypes:AMT
+            @i18n:Label (en="Payment Amount")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=9.0, core=true, t24Name=PAYMENT.AMT)
+        /* The Transaction reference of the Vendor or Cost FT Payment. */
+        PAY_REF : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=10.0, core=true, t24Name=PAY.REF)
+        RESERVED_21 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=RESERVED.21)
+        RESERVED_22 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=17.0, core=true, t24Name=RESERVED.22)
+        RESERVED_23 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=RESERVED.23)
+        RESERVED_24 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=RESERVED.24)
+        RESERVED_25 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=RESERVED.25)
+        /* The retention amount to be withheld for each of the Schedule Amount. */
+        RETENTION_AMT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=11.0, core=true, t24Name=RETENTION.AMT)
+        /* The Transaction reference of the Retention FT Payment */
+        RET_PAY_REF : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=12.0, core=true, t24Name=RET.PAY.REF)
+        /* The Status of the Payment. The possible values updated in this field are "PROCESSED", "PAID" and "REVERSED" */
+        STATUS : IS_Payment:IS_PAYMENT_BALANCES__IS_PAYMENT_REF__BILL_DATE__STATUS
+            @i18n:Label (en=Status)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=13.0, core=true, t24Name=STATUS)
+    }
+    IS_PAYMENT_BALANCES__RET_VENDOR_REF
+    {
+        RESERVED_11 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=32.0, core=true, t24Name=RESERVED.11)
+        RESERVED_12 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=31.0, core=true, t24Name=RESERVED.12)
+        RESERVED_13 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=30.0, core=true, t24Name=RESERVED.13)
+        RESERVED_14 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=29.0, core=true, t24Name=RESERVED.14)
+        RESERVED_15 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=28.0, core=true, t24Name=RESERVED.15)
+        /* The retention amount paid to the vendor using the Payment Type "Retention". */
+        RET_VENDOR_AMT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=26.0, core=true, t24Name=RET.VENDOR.AMT)
+        /* The FT reference through which the retention payments are made to the vendor using the PAYMENT.TYPE "VENDOR". */
+        RET_VENDOR_REF : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=25.0, core=true, t24Name=RET.VENDOR.REF)
+        /* The Status of the Retention Payment. The possible values are "PROCESSED", "PAID" and "REVERSED". */
+        RET_VENDOR_STATUS : IS_Payment:IS_PAYMENT_BALANCES__RET_VENDOR_REF__RET_VENDOR_STATUS
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=27.0, core=true, t24Name=RET.VENDOR.STATUS)
+    }
+    IS_PAYMENT_BALANCES__REVIEW_TYPE
+    {
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=58.0, core=true, t24Name=RESERVED.1)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=57.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=56.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=55.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=54.0, core=true, t24Name=RESERVED.5)
+        REVIEW_ID -> byValue IS_Payment:IS_PAYMENT_BALANCES__REVIEW_TYPE__REVIEW_ID *
+            @t24:i (t24Name=REVIEW.ID)
+        /* Type of Review performed. The Review Type is captured in the table IS.REVIEWER on what type of review the reviewer would perform. */
+        REVIEW_TYPE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=45.0, core=true, t24Name=REVIEW.TYPE)
+    }
+    IS_PAYMENT_BALANCES__REVIEW_TYPE__REVIEW_ID
+    {
+        /* The Progress percentage of the Asset as recorded in the application IS.ASSET.REVIEW during an asset review. */
+        PROGRESS_PERCENT : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=48.0, core=true, t24Name=PROGRESS.PERCENT)
+        /* The FT reference generated while collecting cash from Contract Customer's account if there is a customer contribution for the review fees. This is captured in the application IS.ASSET.REVIEW */
+        REVIEW_CUST_FT : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=53.0, core=true, t24Name=REVIEW.CUST.FT)
+        /* The date on which the review was performed. This is captured in the application IS.ASSET.REVIEW */
+        REVIEW_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=47.0, core=true, t24Name=REVIEW.DATE)
+        /* The Fees charged by the reviewer for the review performed. This is captured in the application IS.ASSET.REVIEW */
+        REVIEW_FEES : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=49.0, core=true, t24Name=REVIEW.FEES)
+        /* The FT reference generated while a reviewer payment is made in IS.PAYMENT application. */
+        REVIEW_FT_REF : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=51.0, core=true, t24Name=REVIEW.FT.REF)
+        /* The Asset Review Reference captured during the creation of Asset Review record in the application IS.ASSET.REVIEW */
+        REVIEW_ID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=46.0, core=true, t24Name=REVIEW.ID)
+        /* The Payment reference through which the payment is made from the Reviewer Wash Account to the Reviewer using the application IS.PAYMENT. */
+        REVIEW_PAY_REF : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=52.0, core=true, t24Name=REVIEW.PAY.REF)
+        /* The Status of the Review Payment. The possible values are "PENDING", "PROCESSED", "PAID" and "REVERSED" */
+        REVIEW_STATUS : IS_Payment:IS_PAYMENT_BALANCES__REVIEW_TYPE__REVIEW_ID__REVIEW_STATUS
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=50.0, core=true, t24Name=REVIEW.STATUS)
+    }
+    /* IS.PAYMENT.REFERENCES is the table to stack the list of FT references generated during Payment Processing through the application IS.PAYMENT */
+    IS_PAYMENT_REFERENCES
+        @i18n:Description (en="")
+        @t24:i (t24Name=IS.PAYMENT.REFERENCES, level=F, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        /* The ID of the file IS.PAYMENT.REFERENCES is same as that of IS.PAYMENT */
+        IS_PAYMENT_REFERENCES_ID -> IS_Payment:IS_PAYMENT_REFERENCES PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=0.0, core=true, businessType=A, t24Name=IS.PAYMENT.REFERENCES.ID)
+        PAYMENT_REF -> byValue IS_Payment:IS_PAYMENT_REFERENCES__PAYMENT_REF *
+            @t24:i (t24Name=PAYMENT.REF)
+    }
+    IS_PAYMENT_REFERENCES__PAYMENT_REF
+    {
+        /* The list of FT references generated by the system for each payment definition in IS.PAYMENT */
+        PAYMENT_REF : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, t24Name=PAYMENT.REF)
+        /* The list of FT references generated by the system for Retention of each payment definition in IS.PAYMENT */
+        RETENTION_REF : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=2.0, core=true, t24Name=RETENTION.REF)
+/* The list of IS.PAYMENT references generated by the system for reversal of a payment definition in IS.PAYMENT
+This field is updated only if the payment is reversed using "REVERSE" operation. */
+        REV_PAYMENT_REF : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=3.0, core=true, t24Name=REV.PAYMENT.REF)
+    }
+    /* IS.PAYMENT.REFERENCES is the table to stack the list of FT references generated during Payment Processing through the application IS.PAYMENT */
+    IS_PAYMENT_SCHEDULES
+        @i18n:Description (en="")
+        @t24:i (t24Name=IS.PAYMENT.SCHEDULES, level=F, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        /* Date on which the payment is executed. */
+        DATE : T24BusinessTypes:D
+            @i18n:Label (en=Date)
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=5.0, core=true, t24Name=DATE)
+/* The ID of the table IS.PAYMENT.SCHEDULES is of the following pattern:
+
+For asset : <IS.PAYMENT.ID>-A-<ASSET.ID>-<PAYMENT.METHOD>-<DATE>
+For commodity : <IS.PAYMENT.ID>--<COMMODITY.ID>-<PAYMENT.METHOD>-<DATE>
+For Cost : <IS.PAYMENT.ID>-C-<COST.ID>-<PAYMENT.METHOD>-<DATE>
+For Review : <IS.PAYMENT.ID>-R-<ASSET.ID/COMMODITY.ID>-<PAYMENT.METHOD>-<DATE> */
+        IS_PAYMENT_SCHEDULES_ID -> IS_Payment:IS_PAYMENT_SCHEDULES PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=0.0, core=true, businessType=A, t24Name=IS.PAYMENT.SCHEDULES.ID)
+        /* The Payment amount to be paid to the Payee as defined in the IS.PAYMENT transaction */
+        PAYMENT_AMT : T24BusinessTypes:AMT
+            @i18n:Label (en="Payment Amount")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=6.0, core=true, t24Name=PAYMENT.AMT)
+/* The Payment Method in which the payment is executed.
+
+Valid Values are ADHOC, DD, CASH and SCHEDULE */
+        PAYMENT_METHOD : IS_Payment:IS_PAYMENT_SCHEDULES__PAYMENT_METHOD required
+            @i18n:Label (en="Payment Method")
+            @i18n:Tooltip (en="Specify if the amount will be Due or Capitalised")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=8.0, core=true, t24Name=PAYMENT.METHOD)
+        /* The Payment reference that initiated the payment schedule and through which the payment is executed. */
+        PAYMENT_REF -> IS_Payment:IS_PAYMENT
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, businessType=A, t24Name=PAYMENT.REF)
+        /* The Purchase reference for which the Payment is made */
+        PURCHASE_REF -> IS_Purchase:IS_CONTRACT
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=4.0, core=true, businessType=A, t24Name=PURCHASE.REF)
+        /* The retention amount to be withheld for each of the Schedule Amount. */
+        RETENTION_AMT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=7.0, core=true, t24Name=RETENTION.AMT)
+/* The Transaction reference involved in the payment like Asset Reference, cost Reference, etc. based on the TRANSACTION.TYPE as shown below
+TRANSACTION.TYPE VENDOR - Asset/Commodity Reference
+TRANSACTION.TYPE BROKER - Commodity Reference
+TRANSACTION.TYPE COST- Cost Reference
+TRANSACTION.TYPE DOWNPAYMENT- Asset/Commodity Reference
+TRANSACTION.TYPE RETENTION - Asset/Commodity Reference
+TRANSACTION.TYPE REVIEW - Asset/Commodity Reference */
+        TRANSACTION_REF : T24BusinessTypes:A
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=3.0, core=true, t24Name=TRANSACTION.REF)
+/* The type of payment being performed. The following are the possible values:
+COST, VENDOR, DOWNPAYMENT, RETENTION, BROKER or REVIEW */
+        TRANSACTION_TYPE : IS_Payment:IS_PAYMENT_SCHEDULES__TRANSACTION_TYPE
+            @i18n:Label (en="Transaction Type")
+            @i18n:Tooltip (en="Indicates the Transaction Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=2.0, core=true, t24Name=TRANSACTION.TYPE)
+    }
+    IS_PAYMENT__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=58.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    IS_PAYMENT__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=57.0, core=true, t24Name=INPUTTER)
+    }
+    IS_PAYMENT__OVERRIDE
+    {
+/* Contains all the override messages which the user has confirmed during input.
+During Commit, the system may generate a series of screen override messages waiting for User Approval. If the record is subsequently displayed or printed, all override messages are shown in this field.
+
+Validation Rules:
+System generated. Multi-value field. */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=54.0, core=true, t24Name=OVERRIDE)
+    }
+    IS_PAYMENT__PURCHASE_REF
+    {
+/* Asset is a valid asset that has been captured in the Purchase contract as requested by the Customer.
+
+Validation Rules:
+1. Field Mandatory for Vendor payment
+2. Not allowed for Cost payment */
+        ASSET_REF : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=F, maxLength=15, sysNumber=18.0, core=true, t24Name=ASSET.REF)
+        BILL_DATE -> byValue IS_Payment:IS_PAYMENT__PURCHASE_REF__BILL_DATE *
+            @t24:i (t24Name=BILL.DATE)
+/* Commodity is a valid commodity that has been captured in the Purchase contract as requested by the Customer. This type of payment is for Quantified Assets.
+
+Validation Rules:
+1. Valid record from the table IS.COMMODITY.
+2. No-input field currently. Will be opened for user-input in future. */
+        COMMODITY -> IS_Config:IS_COMMODITY
+            @t24:i (align=R, inputBehaviour=F, maxLength=3, sysNumber=17.0, core=true, t24Name=COMMODITY)
+/* The Cost type for which the Payment is done. The Additional cost captured in the Purchase contract and flagged for Vendor Payment can be paid through this application.
+
+Validation Rules:
+1. Mandatory Input for Cost payment.
+2. Not allowed for Vendor payment.
+3. Valid record from the table IS.COST.TYPE */
+        COST_REF -> IS_Config:IS_COST_TYPE
+            @t24:i (align=R, inputBehaviour=F, maxLength=15, sysNumber=19.0, core=true, t24Name=COST.REF)
+/* The Commodity Sale reference for which the down payment is paid. If the contract is opted for differential pricing, down payment should be paid for the Commodity Sale contract.
+
+Validation Rules:
+1. Must be a valid record from the table IS.COMMODITY.SALE */
+        DECLARATION_REF : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=23.0, core=true, t24Name=DECLARATION.REF)
+/* The payment transactions initiated from external applications like FT, TT are configured to create a record in IS.PAYMENT. The references of the external applications are captured here.
+
+Validations Rules:
+1. Field Mandatory for the PAYMENT.TYPE - DOWNPAYMENT.
+2. Field Mandatory for the PAYMENT.METHOD - DD, CASH, EXTERNAL */
+        PARENT_REF : T24BusinessTypes:A
+            @i18n:Label (en="Parent Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=22.0, core=true, t24Name=PARENT.REF)
+/* The Payment reference which has to be reversed. This field is allowed in case of Reverse operation to specify the payment reference from the table IS.PAYMENT.
+
+Validation Rules:
+1. Valid record from the table IS.PAYMENT.
+2. Field Mandatory for the OPERATION 'Reverse'. */
+        PAYMENT_REF -> IS_Payment:IS_PAYMENT
+            @t24:i (align=L, inputBehaviour=F, maxLength=15, sysNumber=21.0, core=true, businessType=A, t24Name=PAYMENT.REF)
+/* The Purchase contract for which the Vendor payment is made.
+
+Validation Rules:
+1. Mandatory Input
+2. Must be a valid record from the table IS.CONTRACT */
+        PURCHASE_REF -> IS_Purchase:IS_CONTRACT required
+            @t24:i (align=L, inputBehaviour=F, maxLength=15, sysNumber=16.0, core=true, businessType=A, t24Name=PURCHASE.REF)
+        RESERVED_11 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=41.0, core=true, t24Name=RESERVED.11)
+        RESERVED_12 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=40.0, core=true, t24Name=RESERVED.12)
+        RESERVED_13 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=39.0, core=true, t24Name=RESERVED.13)
+        RESERVED_14 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=38.0, core=true, t24Name=RESERVED.14)
+        RESERVED_15 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=37.0, core=true, t24Name=RESERVED.15)
+/* The retention amount will be withheld in this account. This is formed from the category defined in RETENTION.CAT field of the IS.PARAMETER for the Purchase Currency.
+
+Validation Rules:
+1. Field No-Input. */
+        RETENTION_ACCT -> AC_AccountOpening:ACCOUNT
+            @t24:i (align=L, inputBehaviour=N, maxLength=36, sysNumber=36.0, core=true, businessType=ANT, t24Name=RETENTION.ACCT)
+/* The Review reference which is captured in the application IS.ASSET.REVIEW.
+The Payments to Reviewer are made with the PAYMENT.TYPE "REVIEW". The review for which the payment is performed is specified in this field.
+
+Validation Rules:
+1. Valid record in the table IS.ASSET.REVIEW.
+2. Field Mandatory for the PAYMENT.TYPE "REVIEW". */
+        REVIEW_REF -> IS_Purchase:IS_ASSET_REVIEW
+            @t24:i (align=L, inputBehaviour=F, maxLength=15, sysNumber=20.0, core=true, businessType=A, t24Name=REVIEW.REF)
+/* Sum of the Bill Amounts defined for an individual Payment Method multi-value set.
+
+Validation Rules:
+1. Field No-Input.
+2. Should not exceed the Amount Due from Payment Balances. */
+        TOTAL_BILL_AMT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=35.0, core=true, t24Name=TOTAL.BILL.AMT)
+    }
+    IS_PAYMENT__PURCHASE_REF__BILL_DATE
+    {
+/* Amount that has to be billed for the given BILL.DATE. This amount can entirely be paid to the vendor or a part of it can be retained.
+
+Associated Sub-value set from BILL.DATE-RETENTION.AMT.For the payment method "SCHEDULE", this field can be sub-valued.
+
+Validation Rules:
+1. Mandatory Input
+2. Value given should be equal to the sum of Payment amount and Retention amount. */
+        BILL_AMT : T24BusinessTypes:AMT required
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=25.0, core=true, t24Name=BILL.AMT)
+/* Date on which the payments will be made to the vendor for the corresponding purchase contract.
+Associated Sub-value set from BILL.DATE-RETENTION.AMT.
+
+Validation Rules:
+1. Mandatory Input.
+2. Standard T24 Date field. */
+        BILL_DATE : T24BusinessTypes:D required
+            @i18n:Label (en="Bill Date")
+            @i18n:Tooltip (en="It represents the bill creation date")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=24.0, core=true, t24Name=BILL.DATE)
+/* The Amount that is actually paid to the Vendor from the specified BILL.AMT as on the date given in the field BILL.DATE.
+
+Associated Sub-value set from BILL.DATE-RETENTION.AMT.
+
+Validation Rules:
+1. In case user overwrites the defaulted Retention amount, this field could be nullified. Then, the system defaults the Payment amount so that the sum of Payment amount and Retention amount matches the Bill Amount. */
+        PAYMENT_AMT : T24BusinessTypes:AMT
+            @i18n:Label (en="Payment Amount")
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, sysNumber=28.0, core=true, t24Name=PAYMENT.AMT)
+        RESERVED_16 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=34.0, core=true, t24Name=RESERVED.16)
+        RESERVED_17 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=33.0, core=true, t24Name=RESERVED.17)
+        RESERVED_18 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=32.0, core=true, t24Name=RESERVED.18)
+        RESERVED_19 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=31.0, core=true, t24Name=RESERVED.19)
+        RESERVED_20 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=30.0, core=true, t24Name=RESERVED.20)
+/* The Amount that has to be withheld from payment to the Vendor. This is accumulated in the Retention Account and should be later paid through FT application.
+
+Associated Sub-value set from BILL.DATE-RETENTION.AMT.
+
+Validation Rules:
+1. Calculated based on the Retention percentage and the Bill Amount.
+2. User can overwrite the defaulted value but care should be taken that Bill Amount is equal to the sum of Payment amount and Retention amount. */
+        RETENTION_AMT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=29.0, core=true, t24Name=RETENTION.AMT)
+/* The percentage of the Vendor payment to be retained from paying.
+Associated Sub-value set from BILL.DATE-RETENTION.AMT.
+
+Validation Rules:
+1. Valid percentage (less than 100). */
+        RETENTION_PCT : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=6, sysNumber=27.0, core=true, t24Name=RETENTION.PCT)
+/* The Status of the payment. The values updated are "PROCESSED" and "REVERSED"
+When the payment transaction is authorized, the status is updated as "PROCESSED"
+When the payment transaction is reversed, the status is updated as "REVERSED" */
+        STATUS : IS_Payment:IS_PAYMENT__PURCHASE_REF__BILL_DATE__STATUS
+            @i18n:Label (en=Status)
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=26.0, core=true, t24Name=STATUS)
+    }
+    IS_PAYMENT__STMT_NOS
+    {
+        /* List of Statement Entries generated as the result of Accounting. */
+        STMT_NOS : T24BusinessTypes:N
+            @i18n:Label (en="Stmt Nos")
+            @i18n:Tooltip (en="Stmt Nos")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=53.0, core=true, t24Name=STMT.NOS)
+    }
+}
+Enumerations {
+    IS_DISBURSEMENT__CONTRIB_TYPE__AMOUNT_TYPE : mml:string
+        AMOUNT=AMOUNT
+        PERCENTAGE=PERCENTAGE
+    IS_DISBURSEMENT__CONTRIB_TYPE__CONTRIB_PAYTO : mml:string
+        BANK=BANK
+        SUPPLIER=SUPPLIER
+    IS_DISBURSEMENT__CONTRIB_TYPE__CONTRIB_TYPE : mml:string
+        ASSET=ASSET
+        CASH=CASH
+    IS_DISB_BALANCES__DISBURSE_REF__DISBURSE_STATUS : mml:string
+        PAID=PAID
+        PENDING=PENDING
+        PROCESSED=PROCESSED
+        REVERSED=REVERSED
+    IS_DISB_BALANCES__DISBURSE_REF__IS_DISBURSE_STATUS : mml:string
+        PAID=PAID
+        PENDING=PENDING
+        PROCESSED=PROCESSED
+        REVERSED=REVERSED
+    IS_PAYMENT_BALANCES__DP_AMOUNT__DP_STATUS : mml:string
+        PAID=PAID
+        PROCESSED=PROCESSED
+        REVERSED=REVERSED
+    IS_PAYMENT_BALANCES__IS_PAYMENT_REF__BILL_DATE__STATUS : mml:string
+        PAID=PAID
+        PROCESSED=PROCESSED
+        REVERSED=REVERSED
+    IS_PAYMENT_BALANCES__RET_VENDOR_REF__RET_VENDOR_STATUS : mml:string
+        PAID=PAID
+        PROCESSED=PROCESSED
+        REVERSED=REVERSED
+    IS_PAYMENT_BALANCES__REVIEW_TYPE__REVIEW_ID__REVIEW_STATUS : mml:string
+        PAID=PAID
+        PENDING=PENDING
+        PROCESSED=PROCESSED
+        REVERSED=REVERSED
+    IS_PAYMENT_SCHEDULES__PAYMENT_METHOD : mml:string
+        ADHOC=ADHOC
+        CASH=CASH
+        DD=DD
+        DISBURSEMENT=DISBURSEMENT
+        EXTERNAL=EXTERNAL
+        SCHEDULE=SCHEDULE
+    IS_PAYMENT_SCHEDULES__TRANSACTION_TYPE : mml:string
+        BROKER=BROKER
+        COST=COST
+        DOWNPAYMENT=DOWNPAYMENT
+        RETENTION=RETENTION
+        REVIEW=REVIEW
+        VENDOR=VENDOR
+    IS_PAYMENT__OPERATION : mml:string
+        NEW=NEW
+        REVERSE=REVERSE
+    IS_PAYMENT__PAYMENT_METHOD : mml:string
+        ADHOC=ADHOC
+        CASH=CASH
+        DD=DD
+        DISBURSEMENT=DISBURSEMENT
+        EXTERNAL=EXTERNAL
+        SCHEDULE=SCHEDULE
+    IS_PAYMENT__PAYMENT_TYPE : mml:string
+        BROKER=BROKER
+        COST=COST
+        DOWNPAYMENT=DOWNPAYMENT
+        RETENTION=RETENTION
+        REVIEW=REVIEW
+        VENDOR=VENDOR
+    IS_PAYMENT__PURCHASE_REF__BILL_DATE__STATUS : mml:string
+        PROCESSED=PROCESSED
+        REVERSED=REVERSED
+}

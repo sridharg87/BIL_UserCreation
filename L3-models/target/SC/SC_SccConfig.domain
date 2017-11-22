@@ -1,0 +1,1036 @@
+# UTF-8
+/* Parameter Definitions for Securities Corporate Actions Securi */
+Domain SC_SccConfig
+    @t24:i (module=SC)
+    @java:Package (value=com.temenos.t24.datamodel.sc.sc_sccconfig)
+namespace "http://www.temenos.com/t24/SC_SccConfig"
+metamodelVersion 1.30.6
+Classes {
+    SC_CA_ERROR_LOG
+        @i18n:Description (en="")
+        @t24:i (t24Name=SC.CA.ERROR.LOG, level=F, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=48.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=49.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=45.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=46.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=42.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue SC_SccConfig:SC_CA_ERROR_LOG__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        /* Depository is updated from Diary. */
+        DEPOSITORY : T24BusinessTypes:N
+            @i18n:Label (en=Depository)
+            @i18n:Tooltip (en="Depository the Security to be delivered from/to")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=4.0, core=true, t24Name=DEPOSITORY)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=47.0, core=true, t24Name=DEPT.CODE)
+/* Holds the corporate action event being processed.
+This field is a single value field. */
+        EVENT_TYPE : T24BusinessTypes:A
+            @i18n:Label (en="Event type")
+            @i18n:Tooltip (en="Type of event - Dividend Payment/Bonus etc.")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=1.0, core=true, t24Name=EVENT.TYPE)
+        INPUTTER -> byValue SC_SccConfig:SC_CA_ERROR_LOG__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* This field is only for manual intervention purpose.
+System does not perform any action on this field. */
+        LINK_DIARY : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=27.0, core=true, t24Name=LINK.DIARY)
+/* This field will be set to YES if the corporate action event is being processed by Straight Through Processing for the Lent portion of the security
+This field is a single value field. */
+        LOAN : T24BusinessTypes:A
+            @i18n:Label (en=Loan)
+            @i18n:Tooltip (en="Is this Diary caters to lent position?")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=3.0, core=true, t24Name=LOAN)
+        NARRATIVE -> byValue SC_SccConfig:SC_CA_ERROR_LOG__NARRATIVE *
+            @t24:i (t24Name=NARRATIVE)
+        OVERRIDE -> byValue SC_SccConfig:SC_CA_ERROR_LOG__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=41.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=38.0, core=true, t24Name=RESERVED.1)
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=37.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=36.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=35.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=34.0, core=true, t24Name=RESERVED.5)
+        SC_CA_ERROR_LOG_ID -> SC_SccConfig:SC_CA_ERROR_LOG PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=0.0, core=true, businessType=A, t24Name=SC.CA.ERROR.LOG.ID)
+        SECURITY_NO -> byValue SC_SccConfig:SC_CA_ERROR_LOG__SECURITY_NO *
+            @t24:i (t24Name=SECURITY.NO)
+/* This field will be set to YES if the corporate action event is being processed by Full Straight Through Processing.
+This field is a single value field. */
+        STP : T24BusinessTypes:A
+            @i18n:Label (en=STP)
+            @i18n:Tooltip (en="Is this Diary caters to full STP?")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=2.0, core=true, t24Name=STP)
+        TOTAL_CASH -> byValue SC_SccConfig:SC_CA_ERROR_LOG__TOTAL_CASH *
+            @t24:i (t24Name=TOTAL.CASH)
+        TOT_SECURITY -> byValue SC_SccConfig:SC_CA_ERROR_LOG__TOT_SECURITY *
+            @t24:i (t24Name=TOT.SECURITY)
+    }
+    SC_CA_ERROR_LOG__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=44.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    SC_CA_ERROR_LOG__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=43.0, core=true, t24Name=INPUTTER)
+    }
+    SC_CA_ERROR_LOG__NARRATIVE
+    {
+        /* User defined field. It is a multi value field. */
+        NARRATIVE : T24BusinessTypes:A
+            @i18n:Label (en=Narrative)
+            @i18n:Tooltip (en="Any narrative to be input for user information")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=28.0, core=true, t24Name=NARRATIVE)
+    }
+    SC_CA_ERROR_LOG__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=40.0, core=true, t24Name=OVERRIDE)
+    }
+    SC_CA_ERROR_LOG__SECURITY_NO
+    {
+        /* The corporate action reference as mentioned in the message in qualifier CORP in MT564 and MT566. */
+        CORP_REF : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=12.0, core=true, t24Name=CORP.REF)
+        /* Delivery reference of the incoming message. */
+        DELIV_REF : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=8.0, core=true, t24Name=DELIV.REF)
+        ERRORS -> byValue SC_SccConfig:SC_CA_ERROR_LOG__SECURITY_NO__ERRORS *
+            @t24:i (t24Name=ERRORS)
+        /* Ex date of the event from the message. */
+        EX_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Ex Date")
+            @i18n:Tooltip (en="Holds Ex Dividend date of the Diary.")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=7.0, core=true, t24Name=EX.DATE)
+        /* Gross Amount obtained from the  Qualifier GRSS of tag 92A. */
+        GROSS_CASH : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=21.0, core=true, t24Name=GROSS.CASH)
+        /* The type of the message received. */
+        MESSAGE_TYPE : T24BusinessTypes:N
+            @i18n:Label (en="Message Type")
+            @i18n:Tooltip (en="Delivery message types generated for this record")
+            @t24:i (align=R, inputBehaviour=I, maxLength=4, sysNumber=10.0, core=true, t24Name=MESSAGE.TYPE)
+        /* Net amount obtained from the  Qualifier NETT of TAG 92A. */
+        NET_CASH : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=20.0, core=true, t24Name=NET.CASH)
+        NEW_SECURITY -> byValue SC_SccConfig:SC_CA_ERROR_LOG__SECURITY_NO__NEW_SECURITY *
+            @t24:i (t24Name=NEW.SECURITY)
+        /* Payment date of the event from the message. */
+        PAY_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Pay Date")
+            @i18n:Tooltip (en="Holds the date the Event is Paid or Issued")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=6.0, core=true, t24Name=PAY.DATE)
+        /* Amount obtained from the  Qualifier PSTA tag in tag 19B of MT566. */
+        PSTA_CASH : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=22.0, core=true, t24Name=PSTA.CASH)
+        /* Eligible quantity obtained from the tag 93B. */
+        QUANTITY : T24BusinessTypes:A
+            @i18n:Label (en=Qty)
+            @t24:i (align=L, inputBehaviour=I, maxLength=18, sysNumber=17.0, core=true, t24Name=QUANTITY)
+        /* Date of receipt of the message. */
+        RECEIVING_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=9.0, core=true, t24Name=RECEIVING.DATE)
+        RESERVED_11 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=26.0, core=true, t24Name=RESERVED.11)
+        RESERVED_12 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=25.0, core=true, t24Name=RESERVED.12)
+        RESERVED_13 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=24.0, core=true, t24Name=RESERVED.13)
+        RESERVED_14 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=23.0, core=true, t24Name=RESERVED.14)
+/* The Security to which the event relates to.
+Fields from SECURITY.NO to PSTA.CASH are associative multi value set. */
+        SECURITY_NO : T24BusinessTypes:SEC
+            @i18n:Label (en="Security No")
+            @i18n:Tooltip (en="Indicates the security code/number")
+            @t24:i (align=L, inputBehaviour=I, maxLength=12, sysNumber=5.0, core=true, t24Name=SECURITY.NO)
+        /* The sender message reference from qualifier SEME in MT564 and MT566. */
+        SEME_REF : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=11.0, core=true, t24Name=SEME.REF)
+/* For MT564 message it will be the processing code under tag 25D. For MT566 it will be updated as 566.
+When Updated from transaction, it will hold the variaous stages of transaction being processed. */
+        STAGE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=16.0, core=true, t24Name=STAGE)
+/* If error is encountered in processing the Message then status will be updated as ERR and for warning as WARN
+if there is no error or warning then OK and on authorising all the Entitlements as MAT.
+On receiving a cancellation message the status will be updated as CANC. */
+        STATUS : T24BusinessTypes:A
+            @i18n:Label (en=Status)
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=15.0, core=true, t24Name=STATUS)
+        WARNINGS -> byValue SC_SccConfig:SC_CA_ERROR_LOG__SECURITY_NO__WARNINGS *
+            @t24:i (t24Name=WARNINGS)
+    }
+    SC_CA_ERROR_LOG__SECURITY_NO__ERRORS
+    {
+/* The error details if any, are captured during every stage of the STP process.
+Sub value field. */
+        ERRORS : T24BusinessTypes:A
+            @i18n:Label (en=Errors)
+            @t24:i (align=L, inputBehaviour=I, maxLength=90, sysNumber=13.0, core=true, t24Name=ERRORS)
+    }
+    SC_CA_ERROR_LOG__SECURITY_NO__NEW_SECURITY
+    {
+/* The value to this field is derived based on the ISIN number in tag 35B of SECMOVE block. In case of multiple securities under ISIN, 
+            this field will hold the ISIN number. */
+        NEW_SECURITY : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=18, sysNumber=18.0, core=true, t24Name=NEW.SECURITY)
+        /* Quantity obtained from the Qualifier PSTA tag of MT566. */
+        PSTA_QTY : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=18, sysNumber=19.0, core=true, t24Name=PSTA.QTY)
+    }
+    SC_CA_ERROR_LOG__SECURITY_NO__WARNINGS
+    {
+/* The warining details if any,are captured during every stage of the STP process.
+Sub value field. */
+        WARNINGS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=90, sysNumber=14.0, core=true, t24Name=WARNINGS)
+    }
+    SC_CA_ERROR_LOG__TOTAL_CASH
+    {
+        /* This is an amount type field that will be updated with the value from Qualifier PSTA tag 19B in CASH MOVE block of MT566 */
+        TOTAL_CASH : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=32.0, core=true, t24Name=TOTAL.CASH, typeModifiers=-)
+        /* This field holds the currency in which total cash is maintained from CASHMOVE block of MT566. */
+        TOTAL_CASH_CCY -> ST_CurrencyConfig:CURRENCY
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=33.0, core=true, businessType=CCY, t24Name=TOTAL.CASH.CCY)
+    }
+    SC_CA_ERROR_LOG__TOT_SECURITY
+    {
+        TOTAL_CREDIT : T24BusinessTypes:NOMAMT
+            @i18n:Label (en="Total Credit")
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=31.0, core=true, t24Name=TOTAL.CREDIT)
+        TOTAL_DEBIT : T24BusinessTypes:NOMAMT
+            @i18n:Label (en="Total Debit")
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=30.0, core=true, t24Name=TOTAL.DEBIT, typeModifiers=-)
+        /* This field will be updated with security details from SECMOVE block of MT566. */
+        TOT_SECURITY -> SC_ScoSecurityMasterMaintenance:SECURITY_MASTER
+            @t24:i (align=L, inputBehaviour=I, maxLength=12, sysNumber=29.0, core=true, businessType=SEC, t24Name=TOT.SECURITY)
+    }
+    SC_CA_PARAMETER
+        @i18n:Description (en="")
+        @t24:i (t24Name=SC.CA.PARAMETER, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        /* Must be a valid record from the STANDARD.SELECTION application. */
+        APPLICATION -> SC_SccConfig:SC_CA_PARAMETER PK required
+            @i18n:Label (en=Application)
+            @t24:i (align=L, inputBehaviour=I, maxLength=32, sysNumber=0.0, core=true, businessType=S, t24Name=APPLICATION)
+/* Accepts value YES.
+This will be specified for record with ID as DIARY.
+This is used to determine whether default option is to be applied when there are no standing instructions defined.
+If this field is specified then, DEF.INS.OPTION in DIARY can be defaulted with option multivalue number where DEFAULT.OPTION is set as Y */
+        APPLY_DEFAULT : SC_SccConfig:SC_CA_PARAMETER__APPLY_DEFAULT
+            @i18n:Label (en="Apply Default")
+            @i18n:Tooltip (en="Apply Default")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=14.0, core=true, t24Name=APPLY.DEFAULT)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=28.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=29.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=25.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=26.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=22.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue SC_SccConfig:SC_CA_PARAMETER__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        /* This field will be used to create or reverse Entitlements using the user of DIARY record. */
+        DEFAULT_USER : SC_SccConfig:SC_CA_PARAMETER__DEFAULT_USER
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=5.0, core=true, t24Name=DEFAULT.USER)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=27.0, core=true, t24Name=DEPT.CODE)
+/* Currently only one SWIFT indicator can be mapped to a EVENT.TYPE.
+If the user wishes to use the same indicator for multiple Events then it can be done locally by attaching the routine here. */
+        EVENT_TYPE_RTN : T24BusinessTypes:A
+            @i18n:Label (en="Event Type Routine")
+            @t24:i (align=L, inputBehaviour=I, maxLength=27, sysNumber=6.0, core=true, t24Name=EVENT.TYPE.RTN)
+        INPUTTER -> byValue SC_SccConfig:SC_CA_PARAMETER__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* Accepts value YES.
+This field will be defined in ENTITLEMENT as ID and is used to generate MT565 for each options */
+        MT565_PER_OPTION : SC_SccConfig:SC_CA_PARAMETER__MT565_PER_OPTION
+            @i18n:Label (en="MT565 Per Option")
+            @i18n:Tooltip (en="MT565 Per Option")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=13.0, core=true, t24Name=MT565.PER.OPTION)
+        MT565_UNAUTH : SC_SccConfig:SC_CA_PARAMETER__MT565_UNAUTH
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=12.0, core=true, t24Name=MT565.UNAUTH)
+/* Indicate if the overrides encountred in the corporate action process
+should be automatically validated by the system or not.
+"NO" will cause record written in HOLD when overrides occurs
+Validation Rules:
+
+
+Only "YES" or "NO" allowed */
+        OFS_OVERR_ACCEPT : SC_SccConfig:SC_CA_PARAMETER__OFS_OVERR_ACCEPT required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=4.0, core=true, t24Name=OFS.OVERR.ACCEPT)
+/* OFS.SOURCE record that will be used in the corporate actions process.
+It will be invoked for on-line processing.
+OFS.SOURCE for background process will be indicated in the
+OFS.SRC.PHANTOM field, used by EB.PHANTOM.
+
+
+Validation Rules:
+
+
+Must be a valid OFS.SOURCE record
+SOURCE.TYPE of the OFS.SOURCE must be "GLOBUS" */
+        OFS_SOURCE -> EB_Interface:OFS_SOURCE
+            @i18n:Label (en="OFS Source")
+            @i18n:Tooltip (en="The OFS Source record ID")
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=1.0, core=true, businessType=A, t24Name=OFS.SOURCE)
+/* OFS.SOURCE to be used in the corporate actions process when
+it goes through EB.PHANTOM.
+Validation Rules:
+
+
+Must be a valid OFS.SOURCE record
+SOURCE.TYPE of the OFS.SOURCE record must be "BATCH" */
+        OFS_SRC_PHANTOM -> EB_Interface:OFS_SOURCE
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=3.0, core=true, businessType=A, t24Name=OFS.SRC.PHANTOM)
+/* Version to be used in the corporate actions process.
+It will overwite the version name indicated in the OFS.SOURCE record.
+Validation Rules:
+Must be a valid VERSION record */
+        OFS_VERSION -> EB_Versions:VERSION
+            @i18n:Label (en="Default Version")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=2.0, core=true, businessType=ANY, t24Name=OFS.VERSION)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=21.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=1, sysNumber=19.0, core=true, t24Name=RESERVED1)
+        RESERVED2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=1, sysNumber=18.0, core=true, t24Name=RESERVED2)
+        RESERVED3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=1, sysNumber=17.0, core=true, t24Name=RESERVED3)
+        RESERVED4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=1, sysNumber=16.0, core=true, t24Name=RESERVED4)
+        RESERVED5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=1, sysNumber=15.0, core=true, t24Name=RESERVED5)
+/* Accepts value YES.
+The message 564 will either commit or authorise SC.PRE.DIARY based on the process code and the log will be updated. */
+        STP : SC_SccConfig:SC_CA_PARAMETER__STP
+            @i18n:Label (en=STP)
+            @i18n:Tooltip (en="Is this Diary caters to full STP?")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=11.0, core=true, t24Name=STP)
+/* Tolerance category should be in the range of 10000-19999.
+Validation Rules:
+If either tolerance percentage or currency or amount is input and if this field is left blank then error INPUT MISSING will be thrown. */
+        TOLERANCE_CATEG -> ST_Config:CATEGORY
+            @i18n:Label (en="Tolerance Category")
+            @i18n:Tooltip (en="Tolerance Category")
+            @t24:i (align=R, inputBehaviour=I, maxLength=5, sysNumber=7.0, core=true, t24Name=TOLERANCE.CATEG)
+        TOLERANCE_CCY -> byValue SC_SccConfig:SC_CA_PARAMETER__TOLERANCE_CCY *
+            @t24:i (t24Name=TOLERANCE.CCY)
+/* Tolerance allowed for corporate action events is defined in terms of Percentage.
+If this field is defined then input to the field tolerance currency and amount should not be allowed and vice versa. */
+        TOLERANCE_PCT : T24BusinessTypes:R
+            @i18n:Label (en="Tolerance Percentage")
+            @i18n:Tooltip (en="Percentage of tolerance allowed for corporate action events")
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=8.0, core=true, t24Name=TOLERANCE.PCT)
+    }
+    SC_CA_PARAMETER__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=24.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    SC_CA_PARAMETER__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=23.0, core=true, t24Name=INPUTTER)
+    }
+    SC_CA_PARAMETER__TOLERANCE_CCY
+    {
+        /* Amount of Tolerance for corporate action events allowed is defined here. */
+        TOLERANCE_AMT : T24BusinessTypes:AMT
+            @i18n:Label (en="Tolerance amount")
+            @i18n:Tooltip (en="Amount of tolerance allowed for corporate action events")
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=10.0, core=true, t24Name=TOLERANCE.AMT)
+/* Fields Tolerance.Ccy and Tolerance.Amt are associative multi value set.
+If the field is blank and tolerance amount is specified then it will be defaulted with local currency.
+Validation Rules:
+Must be a valid CURRENCY record */
+        TOLERANCE_CCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en="Tolerance Currency")
+            @i18n:Tooltip (en="Tolerance Currency")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=9.0, core=true, businessType=CCY, t24Name=TOLERANCE.CCY)
+    }
+    SC_ENT_INSTR
+        @i18n:Description (en="")
+        @t24:i (t24Name=SC.ENT.INSTR, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=30.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=31.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=27.0, core=true, t24Name=AUTHORISER)
+        CASH_DIV_CCY -> byValue SC_SccConfig:SC_ENT_INSTR__CASH_DIV_CCY *
+            @t24:i (t24Name=CASH.DIV.CCY)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=28.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=24.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue SC_SccConfig:SC_ENT_INSTR__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=29.0, core=true, t24Name=DEPT.CODE)
+        /* Must be a valid CUSTOMER Id, SEC.ACC.MASTER Id or "DEFAULT" */
+        ID -> SC_SccConfig:SC_ENT_INSTR PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=12, sysNumber=0.0, core=true, businessType=S, t24Name=ID)
+        INPUTTER -> byValue SC_SccConfig:SC_ENT_INSTR__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=23.0, core=true, t24Name=RECORD.STATUS)
+        REINVEST_TYPE -> byValue SC_SccConfig:SC_ENT_INSTR__REINVEST_TYPE *
+            @t24:i (t24Name=REINVEST.TYPE)
+/* No input field reserved for future use.
+Validation Rules:
+
+
+Rule 1
+Rule 2 */
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=0, sysNumber=21.0, core=true, t24Name=RESERVED.1)
+/* No input field reserved for future use.
+Validation Rules:
+
+
+Rule 1
+Rule 2 */
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=0, sysNumber=20.0, core=true, t24Name=RESERVED.2)
+/* No input field reserved for future use.
+Validation Rules:
+
+
+Rule 1
+Rule 2 */
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=0, sysNumber=19.0, core=true, t24Name=RESERVED.3)
+        RIGHTS_TYPE -> byValue SC_SccConfig:SC_ENT_INSTR__RIGHTS_TYPE *
+            @t24:i (t24Name=RIGHTS.TYPE)
+        SELL_LOTS_TYPE -> byValue SC_SccConfig:SC_ENT_INSTR__SELL_LOTS_TYPE *
+            @t24:i (t24Name=SELL.LOTS.TYPE)
+        STOCK_CASH_TYPE -> byValue SC_SccConfig:SC_ENT_INSTR__STOCK_CASH_TYPE *
+            @t24:i (t24Name=STOCK.CASH.TYPE)
+    }
+    SC_ENT_INSTR__CASH_DIV_CCY
+    {
+/* Multivalued field which will hold the event currency that will be used to find the default currency. Associated with the field CASH.DIV.DFLT.CCY
+Validation Rules:
+
+
+No duplicates allowed
+Optional input of 3 alphabetic (Currency Code) characters.
+Must exist in CURRENCY file. */
+        CASH_DIV_CCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en="Cash Div Ccy")
+            @i18n:Tooltip (en="Cash Dividend Ccy")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=17.0, core=true, businessType=CCY, t24Name=CASH.DIV.CCY)
+/* Multivalued field. This field will hold the default currency option that will be applied during standing instruction process provided currency defined here is one of the options in Entitlement. This will be applied by considering the event currency defined in CASH.DIV.CCY field. Associated with the field CASH.DIV.CCY
+Validation Rules:
+
+
+Optional input of 3 alphabetic (Currency Code) characters.
+Must exist in CURRENCY file. */
+        CASH_DIV_DFLT_CCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en="Cash Div Dflt Ccy")
+            @i18n:Tooltip (en="Cash Dividend Default Ccy")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=18.0, core=true, businessType=CCY, t24Name=CASH.DIV.DFLT.CCY)
+    }
+    SC_ENT_INSTR__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=26.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    SC_ENT_INSTR__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=25.0, core=true, t24Name=INPUTTER)
+    }
+    SC_ENT_INSTR__REINVEST_TYPE
+    {
+/* Multi-valued optional field containing the security currency if the reinvestment decision is set-up at a currency level. Any input this field must exist on the CURRENCY file. Associated with the fields REINVEST.TYPE, REINVEST.INCOME and REINVEST.DOM.
+Validation Rules:
+
+
+Optional input of 2 alphabetic (Currency Code) characters.
+Must exist in CURRENCY file. */
+        REINVEST_CCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en="Reinvest Currency")
+            @i18n:Tooltip (en="Reinvest Currency")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=11.0, core=true, businessType=CCY, t24Name=REINVEST.CCY)
+/* Multi-valued optional field containing the security domicile if the reinvestment decision is set-up at a security domicile level. Any input this field must exist on the COUNTRY file. Associated with the fields REINVEST.TYPE, REINVEST.INCOME and REINVEST.DOM.
+Validation Rules:
+
+
+Optional input of 2 alphabetic (Country Code) characters.
+Must exist in COUNTRY file. */
+        REINVEST_DOM -> ST_Config:COUNTRY
+            @i18n:Label (en="Reinvest Domicile")
+            @i18n:Tooltip (en="Reinvest Domicile")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=10.0, core=true, businessType=SSS, t24Name=REINVEST.DOM)
+/* Multi-valued optional field. Input only allowed in this field if the associated REINVEST.TYPE field is not null, in which case input is mandatory. Only input of 'YES' or 'NO' allowed. Will be used to indicate whether income amount should be reinvested or not. Associated with the fields REINVEST.TYPE, REINVEST.CASH and REINVEST.DOM.
+Validation Rules:
+
+
+Only input of 'YES' or 'NO' allowed.
+Input only allowed in this field if the associated REINVEST.TYPE field is not null, in which case input is mandatory. */
+        REINVEST_INCOME : SC_SccConfig:SC_ENT_INSTR__REINVEST_TYPE__REINVEST_INCOME
+            @i18n:Label (en="Reinvest Income")
+            @i18n:Tooltip (en="Reinvest Income")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=12.0, core=true, t24Name=REINVEST.INCOME)
+/* Multi-valued field associated with all the fields to REINVEST.INCOME. It will accept input of ALL, 'A-' followed by a valid ASSET.TYPE, 'S-' followed by a SUB.ASSET.TYPE, 'L-' followed by a product type or a valid security number.
+Validation Rules:
+
+
+accept input of 'ALL',
+or 'A-' followed by a valid ASSET.TYPE,
+or 'S-' followed by a valid SUB.ASSET.TYPE,
+or 'L-' followed by a product type
+or Valid security number must exist in SECURITY.MASTER file. */
+        REINVEST_TYPE : T24BusinessTypes:A
+            @i18n:Label (en="Reinvest Type")
+            @i18n:Tooltip (en="Hold Reinvestment Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=12, sysNumber=9.0, core=true, t24Name=REINVEST.TYPE)
+    }
+    SC_ENT_INSTR__RIGHTS_TYPE
+    {
+/* Multi-valued optional field. Input only allowed in this field if the associated RIGHTS.TYPE field is not null, in which case input is mandatory. only input of TAKE-UP, SELL or BUY.MORE will be allowed. It will indicate the default action to be taken when a Rights Issue is being processed.  Associated with the fields RIGHTS.TYPE, RIGHTS.CCY and RIGHTS.DOMICILE.
+Validation Rules:
+
+
+only input of TAKE-UP, SELL or BUY.MORE will be allowed.
+Input only allowed in this field if the associated RIGHTS.TYPE field is not null, in which case input is mandatory. */
+        RIGHTS : SC_SccConfig:SC_ENT_INSTR__RIGHTS_TYPE__RIGHTS
+            @i18n:Label (en=Rights)
+            @i18n:Tooltip (en=Rights)
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=4.0, core=true, t24Name=RIGHTS)
+/* Multi-valued optional field containing the currency of the security if rights processing rules are set-up at a currency level. Any input into this field must exist on the CURRENCY file. Associated with the fields RIGHTS.TYPE, RIGHTS.CCY and RIGHTS.
+Validation Rules:
+
+
+Optional input of 3 alphabetic (Currency Code) characters.
+Must exist in CURRENCY file. */
+        RIGHTS_CCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en="Rights Currency")
+            @i18n:Tooltip (en="Rights Currency")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=3.0, core=true, businessType=CCY, t24Name=RIGHTS.CCY)
+/* Multi-valued optional field containing the country where the rights security is domiciled if rights processing instructions are set-up at a country level. Any input into this field must exist on the COUNTRY file. Associated with the fields RIGHTS.TYPE, RIGHTS.CCY and RIGHTS.
+Validation Rules:
+
+
+Optional input of 2 alphabetic (Country Code) characters.
+Must exist in COUNTRY file. */
+        RIGHTS_DOMICILE -> ST_Config:COUNTRY
+            @i18n:Label (en="Rights Domicile")
+            @i18n:Tooltip (en="Rights Domicile")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=2.0, core=true, businessType=SSS, t24Name=RIGHTS.DOMICILE)
+/* Multi-valued field associated with all the fields to RIGHTS. It will accept input of ALL, 'A-' followed by a valid ASSET.TYPE, 'S-' followed by a valid SUB.ASSET.TYPE, 'L-' followed by a product type or a valid security number.
+Validation Rules:
+
+
+accept input of 'ALL',
+or 'A-' followed by a valid ASSET.TYPE,
+or 'S-' followed by a valid SUB.ASSET.TYPE,
+or 'L-' followed by a product type
+or Valid security number must exist in SECURITY.MASTER file. */
+        RIGHTS_TYPE : T24BusinessTypes:A
+            @i18n:Label (en="Rights Type")
+            @i18n:Tooltip (en="Specify Right Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=12, sysNumber=1.0, core=true, t24Name=RIGHTS.TYPE)
+    }
+    SC_ENT_INSTR__SELL_LOTS_TYPE
+    {
+/* Multi-valued field containing the security currency of the security that generated the odd lots. Any input into this field must exist on the CURRENCY file. Associated with the fields SELL.LOTS.TYPE, SELL.LOTS.CCY and SELL.ODD.LOTS.
+Validation Rules:
+
+
+Optional input of 3 alphabetic (Currency Code) characters.
+Must exist in CURRENCY file. */
+        SELL_LOTS_CCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en="Sell Lots Currency")
+            @i18n:Tooltip (en="Sell Lots Currency")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=15.0, core=true, businessType=CCY, t24Name=SELL.LOTS.CCY)
+/* Multi-valued field containing the country where the redenominated security is domiciled if rights processing instructions are set-up at a country level. Any input into this field must exist on the COUNTRY file. Associated with the fields SELL.LOTS.TYPE, SELL.LOTS.CCY and SELL.ODD.LOTS.
+Validation Rules:
+
+
+Optional input of 2 alphabetic (Country Code) characters.
+Must exist in COUNTRY file. */
+        SELL_LOTS_DOM -> ST_Config:COUNTRY
+            @i18n:Label (en="Sell Lots Domicile")
+            @i18n:Tooltip (en="Sell Lots Domicile")
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=14.0, core=true, businessType=SSS, t24Name=SELL.LOTS.DOM)
+/* Multi-valued field associated with all the fields to SELL.ODD.LOTS. This field will accept input of 'All', 'A-' followed by a valid Asset Type, 'S-' followed by a sub asset type, 'L-' followed by a valid product type or a valid security number.
+Validation Rules:
+
+
+accept input of 'ALL',
+or 'A-' followed by a valid ASSET.TYPE,
+or 'S-' followed by a valid SUB.ASSET.TYPE,
+or 'L-' followed by a product type
+or Valid security number must exist in SECURITY.MASTER file. */
+        SELL_LOTS_TYPE : T24BusinessTypes:A
+            @i18n:Label (en="Sell Lots Type")
+            @i18n:Tooltip (en="Sell Lots type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=12, sysNumber=13.0, core=true, t24Name=SELL.LOTS.TYPE)
+/* Multi-valued optional field. Input only allowed if the associated SELL.LOTS.TYPE field if not null, in which case this field is mandatory. This field will contain the standing instruction to be used when deciding whether to automatically sell any odd lots received. This field will allow input of 'YES' or 'NO' only.
+Validation Rules:
+
+
+Only input of 'YES' or 'NO' allowed.
+Input only allowed if the associated SELL.LOTS.TYPE field if not null,       in which case this field is mandatory. */
+        SELL_ODD_LOTS : SC_SccConfig:SC_ENT_INSTR__SELL_LOTS_TYPE__SELL_ODD_LOTS
+            @i18n:Label (en="Sell Odd Lots")
+            @i18n:Tooltip (en="Sell Odd Lots")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=16.0, core=true, t24Name=SELL.ODD.LOTS)
+    }
+    SC_ENT_INSTR__STOCK_CASH_TYPE
+    {
+/* Multi-valued optional field, Input only allowed in this field if the associated STOCK.CASH.TYPE field is not null, in which case input is mandatory. Only input of RECOMMEND, STOCK or CASH will be allowed. Will be used to indicate the default option when a choice of stock or cash is given. Associated with the fields STOCK.CASH.TYPE, STOCK.CASH.DOM and STOCK.CASH.CCY
+Validation Rules:
+
+
+Only input of 'CASH', 'RECOMMEND' or 'STOCK' allowed.
+Input only allowed in this field if the associated STOCK.CASH.TYPE field     is not null, in which case input is mandatory. */
+        STOCK_CASH : SC_SccConfig:SC_ENT_INSTR__STOCK_CASH_TYPE__STOCK_CASH
+            @i18n:Label (en="Stock Cash ")
+            @i18n:Tooltip (en="Stock Cash ")
+            @t24:i (align=L, inputBehaviour=I, maxLength=12, sysNumber=8.0, core=true, t24Name=STOCK.CASH)
+/* Multi-valued optional field containing the security currency if the stock or cash decision is set-up at a currency level. Any input into this field must exist on the CURRENCY file. Associated with the fields STOCK.CASH.TYPE, STOCK.CASH and STOCK.CASH.CCY.
+Validation Rules:
+
+
+Optional input of 3 alphabetic (Currency Code) characters.
+Must exist in CURRENCY file. */
+        STOCK_CASH_CCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en="Stock Cash Currency")
+            @i18n:Tooltip (en="Stock Cash Currency")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=7.0, core=true, businessType=CCY, t24Name=STOCK.CASH.CCY)
+/* Multi-valued optional field containing the country where the security is domiciled if the stock or cash decision is set-up at a country level. Any input into this field must exist on the COUNTRY file. Associated with the fields STOCK.CASH.TYPE, STOCK.CASH and STOCK.CASH.CCY.
+Validation Rules:
+
+
+Optional input of 2 alphabetic (Country Code) characters.
+Must exist in COUNTRY file. */
+        STOCK_CASH_DOM -> ST_Config:COUNTRY
+            @i18n:Label (en="Stock Cash Domicile")
+            @i18n:Tooltip (en="Stock Cash Domicile")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=6.0, core=true, businessType=SSS, t24Name=STOCK.CASH.DOM)
+/* Multi-valued field associated with all the field to STOCK.CASH. It will accept input of ALL, 'A-' followed by a valid ASSET.TYPE, 'S-' followed by a valid SUB.ASSET.TYPE, 'L-' followed by a product type or a valid security number.
+Validation Rules:
+
+
+accept input of 'ALL',
+or 'A-' followed by a valid ASSET.TYPE,
+or 'S-' followed by a valid SUB.ASSET.TYPE,
+or 'L-' followed by a product type
+or Valid security number must exist in SECURITY.MASTER file. */
+        STOCK_CASH_TYPE : T24BusinessTypes:A
+            @i18n:Label (en="Stock Cash Type")
+            @i18n:Tooltip (en="Stock Cash Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=12, sysNumber=5.0, core=true, t24Name=STOCK.CASH.TYPE)
+    }
+    SC_PARTIAL_STP
+        @i18n:Description (en="")
+        @t24:i (t24Name=SC.PARTIAL.STP, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=16.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=17.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=13.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=14.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=10.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue SC_SccConfig:SC_PARTIAL_STP__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=15.0, core=true, t24Name=DEPT.CODE)
+        INPUTTER -> byValue SC_SccConfig:SC_PARTIAL_STP__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        K_TYPE -> byValue SC_SccConfig:SC_PARTIAL_STP__K_TYPE *
+            @t24:i (t24Name=K.TYPE)
+        OVERRIDE -> byValue SC_SccConfig:SC_PARTIAL_STP__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=9.0, core=true, t24Name=RECORD.STATUS)
+        REFERENCE_NO -> SC_SccConfig:SC_PARTIAL_STP PK required
+            @i18n:Label (en="Reference No")
+            @i18n:Tooltip (en="Unique reference which identifies the transaction")
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=0.0, core=true, businessType=A, t24Name=REFERENCE.NO)
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=6.0, core=true, t24Name=RESERVED.1)
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=5.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=4.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=3.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=2.0, core=true, t24Name=RESERVED.5)
+        TYPE -> byValue SC_SccConfig:SC_PARTIAL_STP__TYPE *
+            @t24:i (t24Name=TYPE)
+    }
+    SC_PARTIAL_STP__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=12.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    SC_PARTIAL_STP__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=11.0, core=true, t24Name=INPUTTER)
+    }
+    SC_PARTIAL_STP__K_TYPE
+    {
+        K_TYPE : T24BusinessTypes:A
+            @i18n:Label (en=Type)
+            @t24:i (align=L, inputBehaviour=N, maxLength=20, sysNumber=1.0, core=false, t24Name=K.TYPE)
+    }
+    SC_PARTIAL_STP__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=OVERRIDE)
+    }
+    SC_PARTIAL_STP__TYPE
+    {
+        /* Value can be any valid Security.Master id or Sub asset type. */
+        TYPE : T24BusinessTypes:A
+            @i18n:Label (en=Type)
+            @i18n:Tooltip (en=Type)
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=1.0, core=true, t24Name=TYPE)
+    }
+    SC_REINVEST_PARAM
+        @i18n:Description (en="")
+        @t24:i (t24Name=SC.REINVEST.PARAM, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=21.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=22.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=18.0, core=true, t24Name=AUTHORISER)
+/* Broker's delivery instruction code to be used in the SEC.TRADE or SEC.OPEN.ORDER generated for dividend reinvestment
+Validation Rules:
+
+Must be a valid id of SC.DEL.INSTR file */
+        BR_DELIV_INSTR -> SC_Config:SC_DEL_INSTR required
+            @i18n:Label (en="Br Deliv Instr")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=5.0, core=true, businessType=S, t24Name=BR.DELIV.INSTR)
+/* Transaction code to be used in the SEC.TRADE or SEC.OPEN.ORDER generated for dividend reinvestment
+for the broker's side of the trade.
+Validation Rules:
+
+Must be a valid id of SC.TRANS.NAME file */
+        BR_TRANS_CODE -> SC_Config:SC_TRANS_NAME required
+            @i18n:Label (en="Br Trans Code")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=4.0, core=true, businessType=S, t24Name=BR.TRANS.CODE)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=19.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=15.0, core=true, t24Name=CURR.NO)
+/* Transaction code to be used in the SEC.TRADE or SEC.OPEN.ORDER generated for dividend reinvestment
+for the customer's side of the trade.
+Validation Rules:
+
+Must be a valid id of SC.TRANS.NAME file */
+        CU_TRANS_CODE -> SC_Config:SC_TRANS_NAME required
+            @i18n:Label (en="Cu Trans Code")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=3.0, core=true, businessType=S, t24Name=CU.TRANS.CODE)
+        DATE_TIME -> byValue SC_SccConfig:SC_REINVEST_PARAM__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=20.0, core=true, t24Name=DEPT.CODE)
+        INPUTTER -> byValue SC_SccConfig:SC_REINVEST_PARAM__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* Description field for REINVEST.PARAM record.
+Validation Rules:
+
+Free text up to 35 alphanumeric characters */
+        NARRATIVE : T24BusinessTypes:A required
+            @i18n:Label (en=Narrative)
+            @t24:i (align=L, inputBehaviour=I, maxLength=40, sysNumber=1.0, core=true, t24Name=NARRATIVE)
+/* Indicate if SEC.TRADE or SEC.OPEN.ORDER generated for dividend reinvestment
+will be a NET trade or not.
+Validation Rules:
+
+Only input of YES or NO allowed */
+        NET_TRADE : SC_SccConfig:SC_REINVEST_PARAM__NET_TRADE required
+            @i18n:Label (en="Net Trade")
+            @t24:i (align=L, inputBehaviour=I, maxLength=7, sysNumber=6.0, core=true, t24Name=NET.TRADE)
+/* OFS.SOURCE record that will be used to generate a SEC.TRADE for dividend reinvestment.
+Validation Rules:
+
+Must be a valid id of OFS.SOURCE file */
+        OFS_SOURCE -> EB_Interface:OFS_SOURCE required
+            @i18n:Label (en="OFS Source")
+            @i18n:Tooltip (en="The OFS Source record ID")
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=7.0, core=true, businessType=A, t24Name=OFS.SOURCE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=14.0, core=true, t24Name=RECORD.STATUS)
+/* Id of SC.REINVEST.PARAM file.
+This file is designed to set the parameters to be used in the SEC.TRADE or SEC.OPEN.ORDER generated for
+dividend reinvestment.
+Validation Rules:
+
+5 to 12 alphanumeric characters. */
+        REINVEST_NO -> SC_SccConfig:SC_REINVEST_PARAM PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=12, sysNumber=0.0, core=true, businessType=S, t24Name=REINVEST.NO)
+        RESERVED1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=12.0, core=true, t24Name=RESERVED1)
+        RESERVED2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=11.0, core=true, t24Name=RESERVED2)
+        RESERVED3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=10.0, core=true, t24Name=RESERVED3)
+        RESERVED4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=9.0, core=true, t24Name=RESERVED4)
+        RESERVED5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=8.0, core=true, t24Name=RESERVED5)
+/* Stock exchange to be used in the SEC.TRADE or SEC.OPEN.ORDER generated for dividend reinvestment.
+Validation Rules:
+
+Must be a valid id of the STOCK.EXCHANGE file */
+        STOCK_EXCHANGE -> SC_Config:STOCK_EXCHANGE
+            @i18n:Label (en="Stock Exchange")
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=2.0, core=true, businessType=S, t24Name=STOCK.EXCHANGE)
+    }
+    SC_REINVEST_PARAM__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=17.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    SC_REINVEST_PARAM__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=16.0, core=true, t24Name=INPUTTER)
+    }
+    /* A new table to record the list of restricted currencies.A separate list will be maintained for each company.If a currency exists here, it will be considered as a restricted currency and settlement currency or exchange rate needs to be input for events involving these currencies. */
+    SC_RESTRICTED_CURRENCY
+        @i18n:Description (en="")
+        @t24:i (t24Name=SC.RESTRICTED.CURRENCY, level=I, type=H, allowedFunctions="A C D E H I L P Q S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=18.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=19.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=15.0, core=true, t24Name=AUTHORISER)
+        COMPANY_CODE -> SC_SccConfig:SC_RESTRICTED_CURRENCY PK required
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=0.0, core=true, businessType=COM, t24Name=COMPANY.CODE, mask="##-###-####")
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=16.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=12.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue SC_SccConfig:SC_RESTRICTED_CURRENCY__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+/* If this field is set to 'YES',the exchange rate will default from CURRENCY table of T24. Else, the rate will have to be manually input
+Validation Rules
+
+1.Allowed Option are YES or NO or blank. */
+        DEFAULT_RATE : SC_SccConfig:SC_RESTRICTED_CURRENCY__DEFAULT_RATE
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=3.0, core=true, t24Name=DEFAULT.RATE)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=17.0, core=true, t24Name=DEPT.CODE)
+        INPUTTER -> byValue SC_SccConfig:SC_RESTRICTED_CURRENCY__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        OVERRIDE -> byValue SC_SccConfig:SC_RESTRICTED_CURRENCY__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=11.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=RESERVED1)
+        RESERVED2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=7.0, core=true, t24Name=RESERVED2)
+        RESERVED3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=6.0, core=true, t24Name=RESERVED3)
+        RESERVED4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=5.0, core=true, t24Name=RESERVED4)
+        RESERVED5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=4.0, core=true, t24Name=RESERVED5)
+        RESTRICTED_CCY -> byValue SC_SccConfig:SC_RESTRICTED_CURRENCY__RESTRICTED_CCY *
+            @t24:i (t24Name=RESTRICTED.CCY)
+    }
+    SC_RESTRICTED_CURRENCY__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=14.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    SC_RESTRICTED_CURRENCY__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=13.0, core=true, t24Name=INPUTTER)
+    }
+    SC_RESTRICTED_CURRENCY__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=OVERRIDE)
+    }
+    SC_RESTRICTED_CURRENCY__RESTRICTED_CCY
+    {
+/* This field holds the restricted currency ID
+Validation Rules
+
+1.This field should be a valid currency ID */
+        RESTRICTED_CCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en="Restricted Currency")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, businessType=CCY, t24Name=RESTRICTED.CCY)
+/* This field holds the settlement currency for the associated restricted currency.If there is an associated settlement currency with the restricted currency, the same will be defaulted in the event.Otherwise,the settlement currency will have to be manually input.
+Validation Rules
+
+1. This field should be a valid currency ID.
+2. RESTRICTED.CURRENCY and SETTLEMENT.CURRENCY will be associated multi value fields. */
+        SETTLEMENT_CCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en="Settle Ccy")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=2.0, core=true, businessType=CCY, t24Name=SETTLEMENT.CCY)
+    }
+}
+Enumerations {
+    SC_CA_PARAMETER__APPLY_DEFAULT : mml:string
+        NULL=NULL
+        YES=YES
+    SC_CA_PARAMETER__DEFAULT_USER : mml:string
+        YES=YES
+    SC_CA_PARAMETER__MT565_PER_OPTION : mml:string
+        NULL=NULL
+        YES=YES
+    SC_CA_PARAMETER__MT565_UNAUTH : mml:string
+        NULL=NULL
+        YES=YES
+    SC_CA_PARAMETER__OFS_OVERR_ACCEPT : mml:string
+        NO=NO
+        YES=YES
+    SC_CA_PARAMETER__STP : mml:string
+        YES=YES
+    SC_ENT_INSTR__REINVEST_TYPE__REINVEST_INCOME : mml:string
+        NO=NO
+        YES=YES
+    SC_ENT_INSTR__RIGHTS_TYPE__RIGHTS : mml:string
+        BUY_MORE=BUY.MORE
+        SELL=SELL
+        TAKE__UP=TAKE-UP
+    SC_ENT_INSTR__SELL_LOTS_TYPE__SELL_ODD_LOTS : mml:string
+        NO=NO
+        YES=YES
+    SC_ENT_INSTR__STOCK_CASH_TYPE__STOCK_CASH : mml:string
+        CASH=CASH
+        RECOMMEND=RECOMMEND
+        STOCK=STOCK
+    SC_REINVEST_PARAM__NET_TRADE : mml:string
+        NO=NO
+        PRORATA=PRORATA
+        YES=YES
+    SC_RESTRICTED_CURRENCY__DEFAULT_RATE : mml:string
+        NO=NO
+        YES=YES
+}

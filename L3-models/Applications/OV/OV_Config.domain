@@ -1,0 +1,374 @@
+# UTF-8
+/* Parameter Definition for Online Valuation */
+Domain OV_Config
+    @t24:i (module=OV)
+    @java:Package (value=com.temenos.t24.datamodel.ov.ov_config)
+namespace "http://www.temenos.com/t24/OV_Config"
+metamodelVersion 1.30.6
+Classes {
+    /* This table is used to define the parameter level setup at company level for activating online valuation. */
+    OV_PARAMETER
+        @i18n:Description (en="")
+        @t24:i (t24Name=OV.PARAMETER, level=I, type=H, allowedFunctions="A C D E H I L P Q S", localRefAllowed=true)
+    {
+/* Margin percentage used to calculate ADDNL.MARGIN.AMT field in SEC.ACC.MASTER
+Can be set only if INITIAL.MARGIN and MAINT.MARGIN is set
+Validation Rules:
+A maximum of 9 numeric characters may be entered. */
+        ADDNL_MARGIN : T24BusinessTypes:R
+            @i18n:Label (en="Additional Margin")
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=12.0, core=true, t24Name=ADDNL.MARGIN)
+/* Number of days before which customer should respond for additional margin call
+Validation Rules:
+Numbers of 3 characters may be entered */
+        ADDNL_MGN_DAYS : T24BusinessTypes:N
+            @i18n:Label (en="Additional Margin Days")
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=19.0, core=true, t24Name=ADDNL.MGN.DAYS)
+/* Mandatory if, MARGIN.LENDING is set as "YES".
+If NO, SEC.ACC.MASTER field SHORT.POS.MGN.AMT will hold the total margin value pertaining to short positions provided INITIAL.MARGIN is set
+Validation Rules:
+Possible value can be either YES or NO */
+        ADJ_SHORT_POS : OV_Config:OV_PARAMETER__ADJ_SHORT_POS
+            @i18n:Label (en="Adj Short Pos")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=13.0, core=true, t24Name=ADJ.SHORT.POS)
+        APPROVED_ISSUER -> byValue OV_Config:OV_PARAMETER__APPROVED_ISSUER *
+            @t24:i (t24Name=APPROVED.ISSUER)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=51.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=52.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=48.0, core=true, t24Name=AUTHORISER)
+/* Takes "MARKET" as value
+Accepts 6 alphanumeric characters */
+        BASIS : OV_Config:OV_PARAMETER__BASIS
+            @i18n:Label (en=Basis)
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=15.0, core=true, t24Name=BASIS)
+/* Percentage by which margin value of portfolio will be increased before checking for margin call
+Validation Rules:
+Mandatory input.
+A maximum of 9 numeric characters may be entered. */
+        BUFFER : T24BusinessTypes:R
+            @i18n:Label (en=Buffer)
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=14.0, core=true, t24Name=BUFFER)
+/* This field is used to enable buying power
+Validation Rules:
+Will accept a value YES */
+        BUYING_POWER : OV_Config:OV_PARAMETER__BUYING_POWER
+            @i18n:Label (en="Buying Power")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=7.0, core=true, t24Name=BUYING.POWER)
+        /* User routine to modify the buying power amount of the porfolio.Routine should exist in PGM.FILE. */
+        BUYING_PWR_RTN : OV_Config:OV_PARAMETER__BUYING_PWR_RTN
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=27.0, core=true, t24Name=BUYING.PWR.RTN)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=49.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=45.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue OV_Config:OV_PARAMETER__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=50.0, core=true, t24Name=DEPT.CODE)
+        /* User routine to  modify the diversification margin amount of the porfolio. Routine should exist in PGM.FILE. */
+        DIVERSIF_RTN : OV_Config:OV_PARAMETER__DIVERSIF_RTN
+            @i18n:Label (en="Diversif Routine")
+            @i18n:Tooltip (en="Diversification Routine")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=26.0, core=true, t24Name=DIVERSIF.RTN)
+        EXCEPT_ASSET -> byValue OV_Config:OV_PARAMETER__EXCEPT_ASSET *
+            @t24:i (t24Name=EXCEPT.ASSET)
+        EXCEPT_SUB_ASSET -> byValue OV_Config:OV_PARAMETER__EXCEPT_SUB_ASSET *
+            @t24:i (t24Name=EXCEPT.SUB.ASSET)
+        EXC_EVENTS -> byValue OV_Config:OV_PARAMETER__EXC_EVENTS *
+            @t24:i (t24Name=EXC.EVENTS)
+/* Maximum facility that bank will provide to increase buying power
+Validation Rules:
+A maximum of 9 numeric characters may be entered. */
+        FACILITY : T24BusinessTypes:R
+            @i18n:Label (en=Facility)
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=9.0, core=true, t24Name=FACILITY)
+        /* To specify the global limit (i.e. In format 10000.xxx). Enquiry for limit utilization will pick the right limit reference by prefixing customer of portfolio based on the query run (group, individual portfolio, etc.). This will be considered if limit is not setup at subsequent levels */
+        GLOBAL_LIMIT : T24BusinessTypes:A
+            @i18n:Label (en="Global Limit")
+            @i18n:Tooltip (en="Global Limit")
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=38.0, core=true, t24Name=GLOBAL.LIMIT)
+/* Allowed values are PORTFOLIO,POSITION,EXCESS.
+a.PORTFOLIO –  when one position breaches the holding cap,Entire portfolio will be treated as a standard portfolio and will apply standard LVRs on all the holdings.
+b.POSITION – When the holding cap is breached, Entire holding in the stock as standard and will apply standard LVR on that particular holding.
+c.EXCESS -  Will treat the excess holding (in excess of the percentage specified) as standard and apply standard LVR on the excess and diversified LVR on the rest. */
+        HOLDING_ACTION : OV_Config:OV_PARAMETER__HOLDING_ACTION
+            @i18n:Label (en="Holding Action")
+            @i18n:Tooltip (en="Holding Action")
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=25.0, core=true, t24Name=HOLDING.ACTION)
+        /* This field holds the holding cap percentage for an individual stock. */
+        HOLDING_PERCENT : T24BusinessTypes:N
+            @i18n:Label (en="Holding %")
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=24.0, core=true, t24Name=HOLDING.PERCENT)
+/* Margin rate used in calculation of buying power
+Only FACILITY or INITIAL.MARGIN can be set
+Validation Rules:
+A maximum of 9 numeric characters may be entered. */
+        INITIAL_MARGIN : T24BusinessTypes:R
+            @i18n:Label (en="Initial Margin")
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=10.0, core=true, t24Name=INITIAL.MARGIN)
+        INPUTTER -> byValue OV_Config:OV_PARAMETER__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        /* To determine whether issuer diversification should be performed based on margin value check, Net equity check OR both. Allowed values are MARGIN,EQUITY,BOTH. Cannot be set if existing field DIVERSIFICATION is setup. */
+        ISSUER_DIVERFN : OV_Config:OV_PARAMETER__ISSUER_DIVERFN
+            @i18n:Label (en="Issuer Diversification")
+            @i18n:Tooltip (en="Issuer Diversification")
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=28.0, core=true, t24Name=ISSUER.DIVERFN)
+        /* Local routine for performing issuer diversification to be specified.This will be invoked  if number of issuer for a portfolio is less than the number specified in NO.OF.ISSUER field and ISSUER.DIVERSIFICATION is not set as net equity check. Should have the valid record in PGM.FILE application */
+        ISSUER_DIVERFN_RTN : OV_Config:OV_PARAMETER__ISSUER_DIVERFN_RTN
+            @i18n:Label (en="Issuer Diversification Routine")
+            @i18n:Tooltip (en="Local routine for performing issuer diversification")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=33.0, core=true, t24Name=ISSUER.DIVERFN.RTN)
+        /* Maximum allowed percentage for issuers (above which diversification will apply say, 25 percent) */
+        ISSUER_PERCENTAGE : T24BusinessTypes:R
+            @i18n:Label (en="Issuer Percentage")
+            @i18n:Tooltip (en="Maximum allowed percentage for issuers")
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=29.0, core=true, t24Name=ISSUER.PERCENTAGE)
+/* Margin percentage used to calculate MAINT.MARGIN.AMT field in SEC.ACC.MASTER
+Can be set only if INITIAL.MARGIN is set
+Validation Rules:
+A maximum of 9 numeric characters may be entered. */
+        MAINT_MARGIN : T24BusinessTypes:R
+            @i18n:Label (en="Maint Margin")
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=11.0, core=true, t24Name=MAINT.MARGIN)
+/* Number of days before which customer should respond for maintenenace margin call
+Validation Rules:
+Numbers of 3 characters may be entered */
+        MAINT_MGN_DAYS : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=18.0, core=true, t24Name=MAINT.MGN.DAYS)
+/* Enable buying power calculation based on facility OR Margin
+Can be input only if BUYING.POWER is set "YES"
+Validation Rules:
+Will accept a value YES */
+        MARGIN_LENDING : OV_Config:OV_PARAMETER__MARGIN_LENDING
+            @i18n:Label (en="Margin Lending")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=8.0, core=true, t24Name=MARGIN.LENDING)
+/* Number of days before which customer should respond for margin call
+Validation Rules:
+Numbers of 3 characters may be entered */
+        MGN_CALL_EFF_DAYS : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=5, sysNumber=21.0, core=true, t24Name=MGN.CALL.EFF.DAYS)
+        /* This field is applicable only if field ISSUER.DIVERSIFICATION is set as MARGIN or BOTH. Margin value check will be performed as a part of core valuation if number of issuer for a portfolio exceeds the setup here. However, If number of issuer is lesser than the setup done here, Core valuation will call the local API defined in ISSUER.DIVERFN.RTN to perform diversification checks. */
+        NO_OF_ISSUER : T24BusinessTypes:N
+            @i18n:Label (en="No of Issuer")
+            @i18n:Tooltip (en="No of issuer")
+            @t24:i (align=R, inputBehaviour=I, maxLength=4, sysNumber=32.0, core=true, t24Name=NO.OF.ISSUER)
+/* Field to indicate whether automatic online valuation need to be activated for the current company or not.
+Validation Rules:
+Mandatory input.
+Possible value can be either YES or NO. */
+        ONLINE_VAL : OV_Config:OV_PARAMETER__ONLINE_VAL required
+            @i18n:Label (en="Online Valuation")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=ONLINE.VAL)
+/* Reference to this parameter file is the Company ID for which the valuation is setup is defined.
+Validation Rules:
+A maximum of 12 characters may be entered. */
+        OV_PARAM_KEY -> OV_Config:OV_PARAMETER PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=12, sysNumber=0.0, core=true, businessType=COM, t24Name=OV.PARAM.KEY)
+        PLEDGE_BY_PCT : OV_Config:OV_PARAMETER__PLEDGE_BY_PCT
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=39.0, core=true, t24Name=PLEDGE.BY.PCT)
+/* Field to indicate whether online valuation is activated for all the portfolio's or not
+Validation Rules:
+Single value field and the value ‘ALL’ denotes that the online valuation is activated for all the portfolios. */
+        PORTFOLIO : OV_Config:OV_PARAMETER__PORTFOLIO
+            @i18n:Label (en=Portfolio)
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=6.0, core=true, t24Name=PORTFOLIO)
+/* Field to indicate the tolerance amount for price changes, above which valuation need to be triggered.
+Validation Rules:
+Accepts Numeric value */
+        PRC_TOL : T24BusinessTypes:R
+            @i18n:Label (en="Price Tolerance")
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=5.0, core=true, t24Name=PRC.TOL)
+/* Field to indicate the currency in which the tolerance amount is specified
+Validation Rules:
+Single value field
+Accepts valid currency. */
+        PRC_TOL_CCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en="Price Tolerance Ccy")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=4.0, core=true, businessType=CCY, t24Name=PRC.TOL.CCY)
+/* Field to indicate the tolerance / base level for price movements to impact the valuation
+Validation Rules:
+Single value field
+Possible value can be either AMOUNT or PERCENTAGE */
+        PRC_TOL_TYPE : OV_Config:OV_PARAMETER__PRC_TOL_TYPE
+            @i18n:Label (en="Price Tol Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=3.0, core=true, t24Name=PRC.TOL.TYPE)
+        /* To hold cut of day of calculating pricing date. Margin rate will applied as zero in calculation of final margin value if backward date calculated using pricing days is greater than the DATE.LAST.PRICE field of SECURITY.MASTER. */
+        PRICING_DAYS : T24BusinessTypes:N
+            @i18n:Label (en="Pricing Days")
+            @i18n:Tooltip (en="Pricing Days")
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=36.0, core=true, t24Name=PRICING.DAYS)
+/* The routine defined in the field would be called before writing the trigger event data into OV.ONLINE.VAL.BULK.LIST or OV.ONLINE.VAL.FINAL.LIST table.
+The routine defined in the field will return 1 or 0 for Queue Prioritization. If the routine returns 1, OV.ONLINE.VAL.BULK.LIST would be updated with the trigger event, else OV.ONLINE.VAL.FINAL.LIST will be updated.
+The routine consists of 4 arguments listed below :
+ 1st argument will be final list ID(incoming)
+2nd argument will return either null or 1.
+ 3rd and 4th arguments were reserved for future use. */
+        PRIORITY_API : T24BusinessTypes:HOOK
+            @i18n:Label (en="Priority API")
+            @i18n:Tooltip (en="Priority API")
+            @t24:i (align=L, inputBehaviour=I, maxLength=40, sysNumber=40.0, core=true, t24Name=PRIORITY.API)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=44.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=42.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=41.0, core=true, t24Name=RESERVED.3)
+/* Number of days before which customer should respond for sell-out margin call
+Validation Rules:
+Numbers of 3 characters may be entered */
+        SELL_OUT_MGN_DAYS : T24BusinessTypes:N
+            @i18n:Label (en="Sell Out Margin Days")
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=17.0, core=true, t24Name=SELL.OUT.MGN.DAYS)
+        /* Margin rate for sell out that will be compared with security margin ratio in SEC.ACC.MASTER to determine margin call */
+        SELL_OUT_MGN_RATE : T24BusinessTypes:R
+            @i18n:Label (en="Margin Rate for Sell Out")
+            @i18n:Tooltip (en="Margin Rate for Sell Out")
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=35.0, core=true, t24Name=SELL.OUT.MGN.RATE)
+/* This field allows options ALL,ELIGIBLE,RESTRICTED.
+a)‘ALL’- All the holdings (equities, bonds and managed funds) will be considered.
+b)‘ELIGIBLE’ – All eligible stocks (SECURITY.MASTER field MARGINABLE not equal to NO) will be considered.
+c)RESTRICTED – when the field RESTRICTED is set to YES in SECURITY.MASTER. */
+        STOCK_COUNT_BASIS : OV_Config:OV_PARAMETER__STOCK_COUNT_BASIS
+            @i18n:Label (en="Stock Count")
+            @i18n:Tooltip (en="Stock Count Basis")
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=23.0, core=true, t24Name=STOCK.COUNT.BASIS)
+        /* This field indicates the number of stocks that a portfolio should hold for it to be considered a diversified portfolio. */
+        STOCK_HELD : T24BusinessTypes:N
+            @i18n:Label (en="Stock Held")
+            @i18n:Tooltip (en="Stock Held")
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=22.0, core=true, t24Name=STOCK.HELD)
+/* Number of days before which customer should respond for top-up margin call
+Validation Rules:
+Numbers of 3 characters may be entered. */
+        TOP_UP_MGN_DAYS : T24BusinessTypes:N
+            @i18n:Label (en="Top Up Margin Days")
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=16.0, core=true, t24Name=TOP.UP.MGN.DAYS)
+        /* Margin rate for top up that will be compared with security margin ratio in SEC.ACC.MASTER to determine margin call */
+        TOP_UP_MGN_RATE : T24BusinessTypes:R
+            @i18n:Label (en="Margin Rate for Top Up")
+            @i18n:Tooltip (en="Margin Rate for Top Up")
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=34.0, core=true, t24Name=TOP.UP.MGN.RATE)
+        /* User routine that will be triggered to arrive at margin rate locally. */
+        USER_ROUTINE : OV_Config:OV_PARAMETER__USER_ROUTINE
+            @i18n:Label (en="User Routine")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=20.0, core=true, t24Name=USER.ROUTINE)
+    }
+    OV_PARAMETER__APPROVED_ISSUER
+    {
+        /* List of Approved issuers. Input to be prefixed with I- for entering issuer from SC.ISSUER. Input to be prefixed with C- for entering T24 customer */
+        APPROVED_ISSUER : T24BusinessTypes:A
+            @i18n:Label (en="Approved Issuer")
+            @i18n:Tooltip (en="List of approved issuers")
+            @t24:i (align=L, inputBehaviour=I, maxLength=18, sysNumber=30.0, core=true, t24Name=APPROVED.ISSUER)
+    }
+    OV_PARAMETER__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=47.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    OV_PARAMETER__EXCEPT_ASSET
+    {
+        EXCEPT_ASSET -> ST_Valuation:ASSET_TYPE
+            @i18n:Label (en="Except Asset")
+            @i18n:Tooltip (en="List of excepted Asset types")
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=37.0, core=true, businessType=A, t24Name=EXCEPT.ASSET)
+    }
+    OV_PARAMETER__EXCEPT_SUB_ASSET
+    {
+        /* List of sub asset types that are to be excluded for issuer diversification */
+        EXCEPT_SUB_ASSET -> ST_Valuation:SUB_ASSET_TYPE
+            @i18n:Label (en="Except Sub Asset")
+            @i18n:Tooltip (en="List of excepted Sub Asset types")
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=31.0, core=true, businessType=A, t24Name=EXCEPT.SUB.ASSET)
+    }
+    OV_PARAMETER__EXC_EVENTS
+    {
+/* Field to indicate the events which can be excluded during the online valuation process.
+Validation Rules:
+Multivalue field
+Possible values are SEC.PRICE,SEC.TXN,CCY.RATE,CASH.TXN,NON.SC.TXN,ORDER.EXEC,DX.PRICE,LTV.CHG and CUS.RATE. */
+        EXC_EVENTS : OV_Config:OV_PARAMETER__EXC_EVENTS__EXC_EVENTS
+            @i18n:Label (en="Exclude Events")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=2.0, core=true, t24Name=EXC.EVENTS)
+    }
+    OV_PARAMETER__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=46.0, core=true, t24Name=INPUTTER)
+    }
+}
+Enumerations {
+    OV_PARAMETER__ADJ_SHORT_POS : mml:string
+        NO=NO
+        YES=YES
+    OV_PARAMETER__BASIS : mml:string
+        MARKET=MARKET
+    OV_PARAMETER__BUYING_POWER : mml:string
+        NULL=NULL
+        YES=YES
+    OV_PARAMETER__BUYING_PWR_RTN : mml:string
+        B=B
+        S=S
+    OV_PARAMETER__DIVERSIF_RTN : mml:string
+        B=B
+        S=S
+    OV_PARAMETER__EXC_EVENTS__EXC_EVENTS : mml:string
+        CASH_TXN=CASH.TXN
+        CCY_RATE=CCY.RATE
+        CUS_RATE=CUS.RATE
+        DX_PRICE=DX.PRICE
+        LTV_CHG=LTV.CHG
+        NON_SC_TXN=NON.SC.TXN
+        ORDER_EXEC=ORDER.EXEC
+        SEC_PRICE=SEC.PRICE
+        SEC_TXN=SEC.TXN
+    OV_PARAMETER__HOLDING_ACTION : mml:string
+        EXCESS=EXCESS
+        PORTFOLIO=PORTFOLIO
+        POSITION=POSITION
+    OV_PARAMETER__ISSUER_DIVERFN : mml:string
+        BOTH=BOTH
+        EQUITY=EQUITY
+        MARGIN=MARGIN
+    OV_PARAMETER__ISSUER_DIVERFN_RTN : mml:string
+        B=B
+        S=S
+    OV_PARAMETER__MARGIN_LENDING : mml:string
+        NULL=NULL
+        YES=YES
+    OV_PARAMETER__ONLINE_VAL : mml:string
+        NO=NO
+        YES=YES
+    OV_PARAMETER__PLEDGE_BY_PCT : mml:string
+        YES=YES
+    OV_PARAMETER__PORTFOLIO : mml:string
+        ALL=ALL
+        NULL=NULL
+    OV_PARAMETER__PRC_TOL_TYPE : mml:string
+        AMOUNT=AMOUNT
+        PERCENTAGE=PERCENTAGE
+    OV_PARAMETER__STOCK_COUNT_BASIS : mml:string
+        ALL=ALL
+        ELIGIBLE=ELIGIBLE
+        RESTRICTED=RESTRICTED
+    OV_PARAMETER__USER_ROUTINE : mml:string
+        B=B
+        S=S
+}

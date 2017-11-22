@@ -1,0 +1,165 @@
+# UTF-8
+/* Reverse Posting */
+Domain PP_RPSSCLService
+    @t24:i (module=PP)
+    @java:Package (value=com.temenos.t24.datamodel.pp.pp_rpssclservice)
+namespace "http://www.temenos.com/t24/PP_RPSSCLService"
+metamodelVersion 1.30.6
+Classes {
+    /* This table contains all selected transactions to be sent to a clearing, along with their bulk print and selected values needed for the settlement transaction. */
+    POR_SENDINGPAYMENTS_RPSSCL
+        @i18n:Description (en="")
+        @t24:i (t24Name=POR.SENDINGPAYMENTS.RPSSCL, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        /* Amount of the transaction (to be sent in the clearing currency) from POR.TRANSACTION. */
+        Amount : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=17, sysNumber=2.0, core=true, t24Name=Amount, typeModifiers="3")
+/* Contains the bulk print fields, separated by '*'. Example of fields from a bulk print: currency code, clearing nature code, bulk format, clearing transaction type and credit value date.
+
+Example: EUR*SCT*pacs.008*CT*20160106. */
+        BulkPrint : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=1.0, core=true, t24Name=BulkPrint)
+        /* This is the ID of the corresponding payment in POR.TRANSACTION table. */
+        ID -> PP_RPSSCLService:POR_SENDINGPAYMENTS_RPSSCL PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+    }
+    /* This table contains all file formats to be sent to a clearing along with the total number of bulks belonging to each file. */
+    PPT_BULKCOUNTER_RPSSCL
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPT.BULKCOUNTER.RPSSCL, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        /* Counter of all bulks pertaining to the current clearing file. */
+        BulkIndex : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=4, sysNumber=1.0, core=true, t24Name=BulkIndex)
+        /* Latest assigned system-generated file reference. */
+        FileReference : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=2.0, core=true, t24Name=FileReference)
+/* This is the message format of the clearing file.
+
+Example: for SEPA clearers, 'ICF' or 'IDF'. */
+        ID -> PP_RPSSCLService:PPT_BULKCOUNTER_RPSSCL PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+    }
+    /* This table is used to count all the files generated within the clearing cycle. */
+    PPT_FILECOUNTER_RPSSCL
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPT.FILECOUNTER.RPSSCL, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        /* Counter of all files pertaining to the current clearing cycle. */
+        FileIndex : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=4, sysNumber=1.0, core=true, t24Name=FileIndex)
+        /* Defaulted to the value 'CYCLE'. It represents the current cycle of files sent to the clearing. */
+        ID -> PP_RPSSCLService:PPT_FILECOUNTER_RPSSCL PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+    }
+    /* This table contains all bulk references belonging to a certain file reference, along with the type of the file to be sent to the clearing. */
+    PPT_FILESTOGENERATE_RPSSCL
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPT.FILESTOGENERATE.RPSSCL, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        BulkReferences -> byValue PP_RPSSCLService:PPT_FILESTOGENERATE_RPSSCL__BulkReferences *
+            @t24:i (t24Name=BulkReferences)
+/* Currency of the transactions sent in a clearing file.
+In the case of a clearing working with multiple currencies, this field contains the value 'NOT_UNIQUE'. */
+        CurrencyCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CurrencyCode)
+/* This is an unique concatenated ID with fields separated by '*'.
+This field consists of: message format (format of the file as expected by the clearing) and system generated file reference. */
+        ID -> PP_RPSSCLService:PPT_FILESTOGENERATE_RPSSCL PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+    }
+    PPT_FILESTOGENERATE_RPSSCL__BulkReferences
+    {
+/* All system generated bulk references belonging the current file reference.
+It is a multi-value field. */
+        BulkReferences : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=2.0, core=true, t24Name=BulkReferences)
+    }
+    /* This table contains all transactions belonging to a certain bulk print, together with the parent references (bulk and file). */
+    PPT_GROUPEDSENDINGPAYMENTS_RPSSCL
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPT.GROUPEDSENDINGPAYMENTS.RPSSCL, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* This is an unique concatenated ID, that will contain the grouped transactions to be settled, along with the system generated file reference and bulk reference, separated by '*'.
+
+Example: file format * file reference * bulk reference * total settlement amount (of the sub-valued transactions) * currency of the settlement * occurrence of the current bulk. */
+        ID -> PP_RPSSCLService:PPT_GROUPEDSENDINGPAYMENTS_RPSSCL PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+/* Indicates the status in which the record is during entire Outward Mapping Framework process.
+
+Possible values:
+'' - record created;
+'PENDING' - record ready for next step;
+'DELETE' - record ready to be deleted. */
+        Status : T24BusinessTypes:A
+            @i18n:Label (en=Status)
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=1.0, core=true, t24Name=Status)
+        Transactions -> byValue PP_RPSSCLService:PPT_GROUPEDSENDINGPAYMENTS_RPSSCL__Transactions *
+            @t24:i (t24Name=Transactions)
+    }
+    PPT_GROUPEDSENDINGPAYMENTS_RPSSCL__Transactions
+    {
+/* This field contains transactions belonging to the same bulk.
+It is a multi-value field. Each sub-value field contains maximum 50 IDs of POR.TRANSACTION.
+
+Validation Rules:
+Maximum 4 multi-values allowed.
+Maximum 50 transactions per multi-value field allowed. */
+        Transactions : T24BusinessTypes:ANY
+            @i18n:Label (en=Transactions)
+            @t24:i (align=L, inputBehaviour=I, maxLength=55, sysNumber=2.0, core=true, t24Name=Transactions)
+    }
+    /* This table contains all bulk prints and clearing file formats for transactions pending to be sent to a clearing. */
+    PPT_SENDINGCRITERIA_RPSSCL
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPT.SENDINGCRITERIA.RPSSCL, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* This is an unique concatenated ID, that will contain the bulk print fields, separated by '*'.
+
+Example: currency code * clearing nature code * bulk format * clearing transaction type * credit value date. */
+        ID -> PP_RPSSCLService:PPT_SENDINGCRITERIA_RPSSCL PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+/* The type of the file to be sent to the clearing.
+
+Example: for SEPA clearers, 'ICF' or 'IDF'. */
+        MessageFormat : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=1.0, core=true, t24Name=MessageFormat)
+    }
+    /* This table contains all transaction references (ID of POR.TRANSACTION and ID in the generic table corresponding to the type of the payment) belonging to a certain bulk reference. */
+    PPT_TRXINFILESTOGENERATE_RPSSCL
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPT.TRXINFILESTOGENERATE.RPSSCL, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* This is an unique concatenated ID with fields separated by '*': system generated bulk reference and occurrence of every 200 transactions.
+
+Example: B111*1 */
+        ID -> PP_RPSSCLService:PPT_TRXINFILESTOGENERATE_RPSSCL PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+        Transactions -> byValue PP_RPSSCLService:PPT_TRXINFILESTOGENERATE_RPSSCL__Transactions *
+            @t24:i (t24Name=Transactions)
+    }
+    PPT_TRXINFILESTOGENERATE_RPSSCL__Transactions
+    {
+/* Multi-value fields, each containing maximum 50 IDs of POR.TRANSACTION along with the ID of the corresponding record in the generic table.
+This field contains transactions belonging to the same bulk.
+
+Example: GCT1*FT1!GCT2*FT2!GCT3*FT3 */
+        Transactions : T24BusinessTypes:ANY
+            @i18n:Label (en=Transactions)
+            @t24:i (align=L, inputBehaviour=I, maxLength=55, sysNumber=1.0, core=true, t24Name=Transactions)
+    }
+}

@@ -1,0 +1,3400 @@
+# UTF-8
+/* Preferential Pricing for Customers */
+Domain AA_PreferentialPricing
+    @t24:i (module=AA)
+    @java:Package (value=com.temenos.t24.datamodel.aa.aa_preferentialpricing)
+namespace "http://www.temenos.com/t24/AA_PreferentialPricing"
+metamodelVersion 1.30.6
+Classes {
+    /* The table would allow for the configuration of the “preferential” pricing adjustments that should be made to financial arrangement for customers who have a certain relationship with the bank. */
+    AA_ARR_PREFERENTIAL_PRICING
+        @i18n:Description (en="")
+        @t24:i (t24Name=AA.ARR.PREFERENTIAL.PRICING, nonStop=true, level=F, type=H, allowedFunctions="A C D E I L Q R S", localRefAllowed=true)
+    {
+        ACTION -> byValue AA_PreferentialPricing:AA_ARR_PREFERENTIAL_PRICING__ACTION *
+            @t24:i (t24Name=ACTION)
+/* The activity that caused this arrangement property to be updated.
+
+
+The activity is taken from the underlying AA.ARRANGEMENT.ACTIVITY request that caused the record to be modified */
+        ACTIVITY : T24BusinessTypes:A required
+            @i18n:Label (en=Activity)
+            @t24:i (align=L, inputBehaviour=I, maxLength=80, sysNumber=1.0, core=true, t24Name=ACTIVITY)
+/* The key to the arrangement property condition.
+
+
+The key is comprised of the following components (delimited by a -)
+
+
+Arrangement Id
+
+
+Property name
+
+
+Effective Date */
+        ARRANGEMENT_KEY -> AA_PreferentialPricing:AA_ARR_PREFERENTIAL_PRICING PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=80, sysNumber=0.0, core=true, businessType=ANY, t24Name=ARRANGEMENT.KEY)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=92.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=93.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=89.0, core=true, t24Name=AUTHORISER)
+        BONUS_PROD_LINE -> byValue AA_PreferentialPricing:AA_ARR_PREFERENTIAL_PRICING__BONUS_PROD_LINE *
+            @t24:i (t24Name=BONUS.PROD.LINE)
+        CHANGED_FIELDS -> byValue AA_PreferentialPricing:AA_ARR_PREFERENTIAL_PRICING__CHANGED_FIELDS *
+            @t24:i (t24Name=CHANGED.FIELDS)
+        CHARGE_PROD_LINE -> byValue AA_PreferentialPricing:AA_ARR_PREFERENTIAL_PRICING__CHARGE_PROD_LINE *
+            @t24:i (t24Name=CHARGE.PROD.LINE)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=90.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=86.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue AA_PreferentialPricing:AA_ARR_PREFERENTIAL_PRICING__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+/* Optional field - Allowed Values are RESETTING and NON-RESETTING.
+
+
+
+
+RESETTING - During any Renewal Activities (for eg : change.product, rollover or reset) the property conditions will be reset from the product.
+
+
+
+
+NON-RESETTING - During any Renewal Activities property conditions will be maintained from the Arrangement level.
+
+
+
+
+Leaving the field blank sets NON-RESETTING as the default option. */
+        DEFAULT_ATTR_OPTION : AA_PreferentialPricing:AA_ARR_PREFERENTIAL_PRICING__DEFAULT_ATTR_OPTION
+            @i18n:Label (en="Default Attribute Option")
+            @i18n:Tooltip (en="Allowed Values are RESETTING and NON-RESETTING")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=63.0, core=true, t24Name=DEFAULT.ATTR.OPTION)
+        /* Defines whether all attributes (fields) can be negotiable or not. */
+        DEFAULT_NEGOTIABLE : AA_PreferentialPricing:AA_ARR_PREFERENTIAL_PRICING__DEFAULT_NEGOTIABLE
+            @i18n:Label (en="Default Negotiable")
+            @i18n:Tooltip (en="IF all attributes can be negotiable or not")
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=64.0, core=true, t24Name=DEFAULT.NEGOTIABLE)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=91.0, core=true, t24Name=DEPT.CODE)
+/* Contains the arrangement number, extracted from the first component of the id
+
+
+Not applicable at product level
+
+
+System updated field no input allowed */
+        ID_COMP_1 : T24BusinessTypes:A
+            @i18n:Label (en="Arrangement Id")
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=75.0, core=true, t24Name=ID.COMP.1)
+/* The action that was triggered on the arrangement property
+
+
+The action is taken from ACTIVITY.CLASS record of the underlying AA.ARRANGEMENT.ACTIVITY request that caused the record to be modified. */
+        ID_COMP_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=76.0, core=true, t24Name=ID.COMP.2)
+/* Contains the effective date of the property condition
+
+
+Not applicable at product level
+
+
+System updated field no input allowed */
+        ID_COMP_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=30, sysNumber=77.0, core=true, t24Name=ID.COMP.3)
+/* Reserved for future use
+
+
+Not applicable at product level
+
+
+System field no input allowed */
+        ID_COMP_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=78.0, core=true, t24Name=ID.COMP.4)
+/* Reserved for future use
+
+
+Not applicable at product level
+
+
+System field no input allowed */
+        ID_COMP_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=79.0, core=true, t24Name=ID.COMP.5)
+/* Reserved for future use
+
+
+Not applicable at product level
+
+
+System field no input allowed */
+        ID_COMP_6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=80.0, core=true, t24Name=ID.COMP.6)
+        INPUTTER -> byValue AA_PreferentialPricing:AA_ARR_PREFERENTIAL_PRICING__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        INT_PROD_LINE -> byValue AA_PreferentialPricing:AA_ARR_PREFERENTIAL_PRICING__INT_PROD_LINE *
+            @t24:i (t24Name=INT.PROD.LINE)
+        NEGOTIATED_FLDS -> byValue AA_PreferentialPricing:AA_ARR_PREFERENTIAL_PRICING__NEGOTIATED_FLDS *
+            @t24:i (t24Name=NEGOTIATED.FLDS)
+        NR_ATTRIBUTE -> byValue AA_PreferentialPricing:AA_ARR_PREFERENTIAL_PRICING__NR_ATTRIBUTE *
+            @t24:i (t24Name=NR.ATTRIBUTE)
+        OVERRIDE -> byValue AA_PreferentialPricing:AA_ARR_PREFERENTIAL_PRICING__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        OWNING_COMPANY -> byValue AA_PreferentialPricing:AA_ARR_PREFERENTIAL_PRICING__OWNING_COMPANY *
+            @t24:i (t24Name=OWNING.COMPANY)
+        PR_ATTRIBUTE -> byValue AA_PreferentialPricing:AA_ARR_PREFERENTIAL_PRICING__PR_ATTRIBUTE *
+            @t24:i (t24Name=PR.ATTRIBUTE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=85.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=44.0, core=true, t24Name=RESERVED1)
+        RESERVED12 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=15.0, core=true, t24Name=RESERVED12)
+        RESERVED13 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=14.0, core=true, t24Name=RESERVED13)
+        RESERVED2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=43.0, core=true, t24Name=RESERVED2)
+        RESERVED2_ID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=81.0, core=true, t24Name=RESERVED2.ID)
+        RESERVED3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=42.0, core=true, t24Name=RESERVED3)
+        RESERVED4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=41.0, core=true, t24Name=RESERVED4)
+        RESERVED5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=40.0, core=true, t24Name=RESERVED5)
+        RESERVED8 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=28.0, core=true, t24Name=RESERVED8)
+        RESERVED9 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=27.0, core=true, t24Name=RESERVED9)
+        STMT_NOS -> byValue AA_PreferentialPricing:AA_ARR_PREFERENTIAL_PRICING__STMT_NOS *
+            @t24:i (t24Name=STMT.NOS)
+        /* System field - reserved for future use */
+        SYS_RESERVE1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=62.0, core=true, t24Name=SYS.RESERVE1)
+        /* System field - reserved for future use */
+        SYS_RESERVE2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=61.0, core=true, t24Name=SYS.RESERVE2)
+        /* System field - reserved for future use */
+        SYS_RESERVE3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=60.0, core=true, t24Name=SYS.RESERVE3)
+        /* System field - reserved for future use */
+        SYS_RESERVE4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=59.0, core=true, t24Name=SYS.RESERVE4)
+        /* System field - reserved for future use */
+        SYS_RESERVE6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=57.0, core=true, t24Name=SYS.RESERVE6, mvSvExpansionAccess=NOEXPAND)
+        /* System field - reserved for future use */
+        SYS_RESERVE7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=56.0, core=true, t24Name=SYS.RESERVE7, mvSvExpansionAccess=NOEXPAND)
+/* This field denotes the target classic product of the given property class
+
+
+
+
+The already existing T24 products are mapped using AA infrastructure
+
+
+These are called classic products
+
+
+These products are mapped to different property classes */
+        TARGET_PRODUCT : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=82.0, core=true, t24Name=TARGET.PRODUCT)
+    }
+    AA_ARR_PREFERENTIAL_PRICING__ACTION
+    {
+/* The activity that caused this arrangement property to be updated.
+
+
+The activity is taken from the underlying AA.ARRANGEMENT.ACTIVITY request that caused the record to be modified */
+        ACTION : T24BusinessTypes:A required
+            @i18n:Label (en=Action)
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=2.0, core=true, t24Name=ACTION)
+    }
+    AA_ARR_PREFERENTIAL_PRICING__BONUS_PROD_LINE
+    {
+        /* Specific Product for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL producs. */
+        BONUS_PRODUCT -> AA_ProductManagement:AA_PRODUCT
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=18.0, core=true, businessType=A, t24Name=BONUS.PRODUCT)
+        /* Product Group for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL product groups. */
+        BONUS_PROD_GROUP -> AA_ProductFramework:AA_PRODUCT_GROUP
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=17.0, core=true, businessType=A, t24Name=BONUS.PROD.GROUP)
+        /* Product line for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL product lines for this relationship customer. */
+        BONUS_PROD_LINE -> AA_ProductFramework:AA_PRODUCT_LINE
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=16.0, core=true, businessType=A, t24Name=BONUS.PROD.LINE)
+/* Product Variation for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL variations for this product.
+Should be a valid record in EB.LOOKUP of AA.PRODUCT.VARIATION type. */
+        BONUS_PROD_VAR : AA_PreferentialPricing:AA_ARR_PREFERENTIAL_PRICING__BONUS_PROD_LINE__BONUS_PROD_VAR
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=19.0, core=true, t24Name=BONUS.PROD.VAR)
+        BONUS_PROPERTY -> byValue AA_PreferentialPricing:AA_ARR_PREFERENTIAL_PRICING__BONUS_PROD_LINE__BONUS_PROPERTY *
+            @t24:i (t24Name=BONUS.PROPERTY)
+        RESERVED10 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=21.0, core=true, t24Name=RESERVED10)
+        RESERVED11 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=20.0, core=true, t24Name=RESERVED11)
+    }
+    AA_ARR_PREFERENTIAL_PRICING__BONUS_PROD_LINE__BONUS_PROPERTY
+    {
+/* Actual Bonus Amount  - if an amount is specified it will replace the amount calculated/specified on the arrangement (mutually exclusive with BONUS.UPLIFT)
+An amount specified here must still adhere to the “Minimum Charge” and “Charge Waive” fields and any Periodic Attributes of the Charge Property Class. */
+        BONUS_AMOUNT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=25.0, core=true, t24Name=BONUS.AMOUNT)
+/* Currency of the arrangement and amount if specified. (mandatory if BON.AMOUNT is populated)
+Should be a valid record in CURRENCY application */
+        BONUS_CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=23.0, core=true, businessType=CCY, t24Name=BONUS.CURRENCY)
+        /* Allows a user to mark a Property/Currency combination to be excluded from Preferential Pricing.  This can be used in the case where there is a “generic” setting for preferential pricing (e.g. 50% uplift for all bonuses) and the user wants to exclude a specific bonus (e.g. New Arrangement Rebate) or currency from the preferential pricing. */
+        BONUS_EXCLUDE : AA_PreferentialPricing:AA_ARR_PREFERENTIAL_PRICING__BONUS_PROD_LINE__BONUS_PROPERTY__BONUS_EXCLUDE
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=26.0, core=true, t24Name=BONUS.EXCLUDE)
+        /* Credit Charge Property. Could be left blank to indicate the definition is applicable for ALL charge properties of this product/line. */
+        BONUS_PROPERTY -> AA_ProductFramework:AA_PROPERTY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=22.0, core=true, businessType=A, t24Name=BONUS.PROPERTY)
+/* Percentage Uplift – if specified as 50 the calculated bonus will be increased by 50%.  (mutually exclusive with BONUS.AMOUNT)
+Rate field to indicate the percentage value. If stated, cannot exceed 100 and cannot be less than 0. */
+        BONUS_UPLIFT : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=24.0, core=true, t24Name=BONUS.UPLIFT)
+    }
+    AA_ARR_PREFERENTIAL_PRICING__CHANGED_FIELDS
+    {
+        /* No input and multi value field - lists all fields that have been negotiated for each dated version of the property. For a subsequently dated property, the attributes listed in this field will appear in "Negotiated.Fields" and only newly negotiated fields will appear on "Changed.Fields" */
+        CHANGED_FIELDS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=19, sysNumber=73.0, core=true, t24Name=CHANGED.FIELDS)
+    }
+    AA_ARR_PREFERENTIAL_PRICING__CHARGE_PROD_LINE
+    {
+        /* Specific Product for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL products. */
+        CHARGE_PRODUCT -> AA_ProductManagement:AA_PRODUCT
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=5.0, core=true, businessType=A, t24Name=CHARGE.PRODUCT)
+        /* Product Group for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL product groups. */
+        CHARGE_PROD_GROUP -> AA_ProductFramework:AA_PRODUCT_GROUP
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=4.0, core=true, businessType=A, t24Name=CHARGE.PROD.GROUP)
+        /* Product line for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL product lines for this relationship customer. */
+        CHARGE_PROD_LINE -> AA_ProductFramework:AA_PRODUCT_LINE
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=3.0, core=true, businessType=A, t24Name=CHARGE.PROD.LINE)
+        /* Product Variation for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL variations for this product. */
+        CHARGE_PROD_VAR : AA_PreferentialPricing:AA_ARR_PREFERENTIAL_PRICING__CHARGE_PROD_LINE__CHARGE_PROD_VAR
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=6.0, core=true, t24Name=CHARGE.PROD.VAR)
+        CHARGE_PROPERTY -> byValue AA_PreferentialPricing:AA_ARR_PREFERENTIAL_PRICING__CHARGE_PROD_LINE__CHARGE_PROPERTY *
+            @t24:i (t24Name=CHARGE.PROPERTY)
+        RESERVED14 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=8.0, core=true, t24Name=RESERVED14)
+        RESERVED15 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=7.0, core=true, t24Name=RESERVED15)
+    }
+    AA_ARR_PREFERENTIAL_PRICING__CHARGE_PROD_LINE__CHARGE_PROPERTY
+    {
+/* Actual Charge Amount - if an amount is specified it will replace the amount calculated/specified on the arrangement (mutually exclusive with CHG.DISCOUNT).
+
+
+An amount specified hear must still adhere to the “Minimum Charge” and “Charge Waive” fields and any Periodic Attributes of the Charge Property Class. */
+        CHARGE_AMOUNT : T24BusinessTypes:AMT
+            @i18n:Label (en="Charge Amount")
+            @i18n:Tooltip (en="Indicates charge amount")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=12.0, core=true, t24Name=CHARGE.AMOUNT)
+        /* Currency of the arrangement and amount if specified. (mandatory if CHG.AMOUNT is populated) */
+        CHARGE_CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en="Charge Currency")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=10.0, core=true, businessType=CCY, t24Name=CHARGE.CURRENCY)
+/* Discount Percentage - if specified as 20 the calculated charge will be reduced by 20% (mutually exclusive with CHG.AMOUNT).
+
+
+Rate field to indicate the percentage value. If stated, cannot exceed 100 and cannot be less than 0. */
+        CHARGE_DISCOUNT : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=11.0, core=true, t24Name=CHARGE.DISCOUNT)
+        /* Allows a user to mark a Property/Currency combination to be excluded from Preferential Pricing. This can be used in the case where there is a “generic” setting for preferential pricing (e.g. 20% off all charges) and the user wants to exclude a specific charge (e.g. ATM fee) or currency from the preferential pricing. */
+        CHARGE_EXCLUDE : AA_PreferentialPricing:AA_ARR_PREFERENTIAL_PRICING__CHARGE_PROD_LINE__CHARGE_PROPERTY__CHARGE_EXCLUDE
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=13.0, core=true, t24Name=CHARGE.EXCLUDE)
+        /* Debit Charge Property. Could be left blank to indicate the definition is applicable for ALL charge properties of this product/line. */
+        CHARGE_PROPERTY -> AA_ProductFramework:AA_PROPERTY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=9.0, core=true, businessType=A, t24Name=CHARGE.PROPERTY)
+    }
+    AA_ARR_PREFERENTIAL_PRICING__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=88.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    AA_ARR_PREFERENTIAL_PRICING__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=87.0, core=true, t24Name=INPUTTER)
+    }
+    AA_ARR_PREFERENTIAL_PRICING__INT_PROD_LINE
+    {
+        /* Specific Product for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL products. */
+        INT_PRODUCT -> AA_ProductManagement:AA_PRODUCT
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=31.0, core=true, businessType=A, t24Name=INT.PRODUCT)
+        /* Product Group for which this interest pricing is valid. Could be left blank to indicate the definition is applicable for ALL product groups. */
+        INT_PROD_GROUP -> AA_ProductFramework:AA_PRODUCT_GROUP
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=30.0, core=true, businessType=A, t24Name=INT.PROD.GROUP)
+        /* Product line for which this Interest pricing is valid. Could be left blank to indicate the definition is applicable for ALL product lines for this relationship customer. */
+        INT_PROD_LINE -> AA_ProductFramework:AA_PRODUCT_LINE
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=29.0, core=true, businessType=A, t24Name=INT.PROD.LINE)
+        /* Product Variation for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL variations for this product. */
+        INT_PROD_VAR : AA_PreferentialPricing:AA_ARR_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROD_VAR
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=32.0, core=true, t24Name=INT.PROD.VAR)
+        INT_PROPERTY -> byValue AA_PreferentialPricing:AA_ARR_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROPERTY *
+            @t24:i (t24Name=INT.PROPERTY)
+        RESERVED6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=34.0, core=true, t24Name=RESERVED6)
+        RESERVED7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=33.0, core=true, t24Name=RESERVED7)
+    }
+    AA_ARR_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROPERTY
+    {
+        /* Arrangement Currency (mandatory in all cases except when “exclude” is checked) */
+        INT_CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=36.0, core=true, businessType=CCY, t24Name=INT.CURRENCY)
+        /* Allows a user to mark a Property/Currency combination to be excluded from Preferential Pricing.  This can be used in the case where there is a “generic” setting for preferential pricing (e.g. Subtract 0.2 from all debit interest) and the user wants to exclude a specific product/property (e.g. debit interest on the special mortgage product) from the preferential pricing. */
+        INT_EXCLUDE : AA_PreferentialPricing:AA_ARR_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROPERTY__INT_EXCLUDE
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=39.0, core=true, t24Name=INT.EXCLUDE)
+/* Preferential Margin
+The final rate including the preferential margin would still respect all Periodic Attributes that have been defined. */
+        INT_MARGIN : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=38.0, core=true, t24Name=INT.MARGIN)
+        /* Operand to 'Add to', 'Subtract from', or 'Multiply' the standard rate with the preferential margin. */
+        INT_OPERAND : AA_PreferentialPricing:AA_ARR_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROPERTY__INT_OPERAND
+            @t24:i (align=L, inputBehaviour=I, maxLength=9, sysNumber=37.0, core=true, t24Name=INT.OPERAND)
+        /* Interest Property. Could be left blank to indicate the definition is applicable for ALL interest properties of this product/line. */
+        INT_PROPERTY -> AA_ProductFramework:AA_PROPERTY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=35.0, core=true, businessType=A, t24Name=INT.PROPERTY)
+    }
+    AA_ARR_PREFERENTIAL_PRICING__NEGOTIATED_FLDS
+    {
+/* No input and multi value field that lists the attributes on the arrangement property record that have been fixed and/or negotiated. These are stored when the arrangement level record is committed. When the arrangement level record is next used all items in the NEGOTIATED.FIELDS list will be maintained.
+
+
+Once an attribute has been fixed or negotiated it will remain in negotiated field list on all subsequent dated versions of the property. */
+        NEGOTIATED_FLDS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=19, sysNumber=74.0, core=true, t24Name=NEGOTIATED.FLDS)
+    }
+    AA_ARR_PREFERENTIAL_PRICING__NR_ATTRIBUTE
+    {
+/* Defines which individual attribute (field) has the negotiation rules defined in fields "Nr.Negotiable" through to "Nr.Message"
+Must be a valid field name within this property
+
+
+This field is part of a multi value set */
+        NR_ATTRIBUTE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=25, sysNumber=65.0, core=true, t24Name=NR.ATTRIBUTE)
+        NR_OPTIONS -> byValue AA_PreferentialPricing:AA_ARR_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_OPTIONS *
+            @t24:i (t24Name=NR.OPTIONS)
+        /* System Field - Reserved for future use */
+        NR_RESERVED1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=68.0, core=true, t24Name=NR.RESERVED1)
+        /* System Field - Reserved for future use */
+        NR_RESERVED2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=67.0, core=true, t24Name=NR.RESERVED2)
+/* It is possible to define negotiation rules in EB.COMPARISON.TYPE.
+Input must be a valid record from EB.STANDARD.COMPARISON */
+        NR_STD_COMP -> AA_Rules:EB_STANDARD_COMPARISON
+            @t24:i (align=L, inputBehaviour=N, maxLength=25, sysNumber=69.0, core=true, businessType=A, t24Name=NR.STD.COMP)
+        NR_TYPE -> byValue AA_PreferentialPricing:AA_ARR_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_TYPE *
+            @t24:i (t24Name=NR.TYPE)
+    }
+    AA_ARR_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_OPTIONS
+    {
+/* Defines named values to indicate if an option applies to the associated NR.ATTRIBUTE. More than one option can be associated with the NR.ATTRIBUTE, with certain restrictions.
+
+
+
+
+
+
+Valid Inputs are NEGOTIABLE, NON-NEGOTIABLE, OVERRIDE, FIX-VALUE, MANDATORY as described below: -
+
+
+
+
+NEGOTIABLE
+
+
+The value of NEGOTIABLE will indicate that the associated NR.ATTRIBUTE can be negotiated at the arrangement level.
+
+
+
+
+NON-NEGOTIABLE
+
+
+The value of NON-NEGOTIABLE will indicate that the associated NR.ATTRIBUTE cannot be negotiated at the arrangement level. Both NEGOTIABLE and NON-NEGOTIABLE cannot be defined together
+
+
+
+
+OVERRIDE
+
+
+Specifies if a default override message should be generated if the default attribute is amended at the arrangement level. If OVERRIDE is not specified, no override will be generated.
+
+
+
+
+FIX-VALUE
+
+
+Specified if the field value is to be fixed at the arrangement level. If FIX-VALUE is not specified the field value will vary with the changes to the underlying product condition.
+
+
+
+
+MANDATORY
+
+
+Specifies if the attribute is mandatory for this product condition. Can only be specified where the attribute is not defined as mandatory in the property class. */
+        NR_OPTIONS : AA_PreferentialPricing:AA_ARR_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_OPTIONS__NR_OPTIONS
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=66.0, core=true, t24Name=NR.OPTIONS)
+    }
+    AA_ARR_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_TYPE
+    {
+/* This field indicates whether to raise error or override message when rule is broken
+
+
+Allows only two values ERROR or OVERRIDE
+
+
+ERROR error message is raised
+
+
+OVERRIDE Override message is generated */
+        NR_MESSAGE : AA_PreferentialPricing:AA_ARR_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_TYPE__NR_MESSAGE
+            @t24:i (align=L, inputBehaviour=N, maxLength=10, sysNumber=72.0, core=true, t24Name=NR.MESSAGE)
+/* Defines the negotiation rule that is linked to the field defined in "Nr.Attribute". If an attribute has a negotiation rule linked to it (in associated fields NR.TYPE, NR.VALUE and NR.MESSAGE) the attribute must be defined as negotiable.
+
+
+It is possible to define more than one negotiation rule for an attribute
+
+
+
+
+
+
+Input must be a valid record from EB.COMPARISON.TYPE
+
+
+This is a multi value set of fields */
+        NR_TYPE -> AA_Rules:EB_COMPARISON_TYPE
+            @t24:i (align=L, inputBehaviour=N, maxLength=25, sysNumber=70.0, core=true, businessType=A, t24Name=NR.TYPE)
+        /* Defines the value that links to the rule in field "Nr.Type" */
+        NR_VALUE : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=N, maxLength=60, sysNumber=71.0, core=true, t24Name=NR.VALUE)
+    }
+    AA_ARR_PREFERENTIAL_PRICING__OVERRIDE
+    {
+        /* Standard Override field containing override messages generated by amendments to this property */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=84.0, core=true, t24Name=OVERRIDE)
+    }
+    AA_ARR_PREFERENTIAL_PRICING__OWNING_COMPANY
+    {
+/* This field is used to capture the T24 Company(ies) that own the Product Condition record. There is no functionality attached to this field and can be used only for access control through SMS verification.
+
+The input in this field must be a valid record in company table and should belong to current financial group.
+
+This is a multi value field. Input in this field is optional. */
+        OWNING_COMPANY -> ST_CompanyCreation:COMPANY
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=58.0, core=true, businessType=AAPRODUCT, t24Name=OWNING.COMPANY, typeModifiers=COMPANY, mvSvExpansionAccess=NOEXPAND)
+    }
+    AA_ARR_PREFERENTIAL_PRICING__PR_ATTRIBUTE
+    {
+        /* This will hold two values either DUE or CAPITALISE. This Field denote which application method(DUE or CAPITALISE)should be taken while applying periodic rule charges. */
+        PR_APP_METHOD : AA_PreferentialPricing:AA_ARR_PREFERENTIAL_PRICING__PR_ATTRIBUTE__PR_APP_METHOD
+            @i18n:Label (en="Application Method")
+            @i18n:Tooltip (en="This will hold two values either DUE or CAPITALISE")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=54.0, core=true, t24Name=PR.APP.METHOD, mvSvExpansionAccess=NOEXPAND)
+        /* This will have to accept a valid T24 period. This Field will denote the application period for current application method. */
+        PR_APP_PERIOD : T24BusinessTypes:PERIOD
+            @i18n:Label (en="Application Period")
+            @i18n:Tooltip (en="Denote the period for current aplication method")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=55.0, core=true, t24Name=PR.APP.PERIOD, mvSvExpansionAccess=NOEXPAND)
+/* These are set of Attributes which define the names of the rule, which will be applied on certain attributes of property classes over a period of time.
+Input must be a valid record from AA.PERIODIC.ATTRIBUTE */
+        PR_ATTRIBUTE -> AA_Rules:AA_PERIODIC_ATTRIBUTE
+            @i18n:Label (en=Attribute)
+            @i18n:Tooltip (en="Attributes defining the names of the rule applied")
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=46.0, core=true, businessType=A, t24Name=PR.ATTRIBUTE, mvSvExpansionAccess=NOEXPAND)
+/* Charge can be collected when the periodic rule is broken
+
+
+This field denotes the charge property. The property and its condition is
+
+
+defined the product designer and validated during publishing
+
+
+
+
+
+
+Valid charge property */
+        PR_BRK_CHARGE -> AA_ProductFramework:AA_PROPERTY
+            @i18n:Label (en=Charge)
+            @i18n:Tooltip (en="Charge collected when the periodic rule is broken")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=50.0, core=true, businessType=A, t24Name=PR.BRK.CHARGE, mvSvExpansionAccess=NOEXPAND)
+/* Based on the PR.BRK.RES option selected, this will hold either an OVERRIDE or EB.ERROR id. By default the ids will be picked from the associated EB.COMPARISON.TYPE record. If CAP or FLOOR values are given, then the underlying AA.PERIODIC.ATTRIBUTE.CLASS should have this type defined in it.
+Input must be a valid OVERRIDE ID or EB.ERROR ID. */
+        PR_BRK_MSG : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=49.0, core=true, t24Name=PR.BRK.MSG, mvSvExpansionAccess=NOEXPAND)
+/* When a rule is broken what action needs to be taken is defined here. Currently, the various options available are
+
+
+
+
+Error block further processing
+
+
+Override Give an override
+
+
+Information Record details only
+
+
+CAP the rule value is to be used as a CAP if the rule is broken
+
+
+FLOOR the rule value is to be used as a FLOOR if the rule is broken
+
+
+
+
+Validation rules
+
+
+Should be one of the above valid options */
+        PR_BRK_RES : AA_PreferentialPricing:AA_ARR_PREFERENTIAL_PRICING__PR_ATTRIBUTE__PR_BRK_RES
+            @i18n:Label (en=Rule)
+            @i18n:Tooltip (en="Action to be taken when rule is broken")
+            @t24:i (align=L, inputBehaviour=N, maxLength=13, sysNumber=48.0, core=true, t24Name=PR.BRK.RES, mvSvExpansionAccess=NOEXPAND)
+        /* System field - reserved for future use */
+        PR_RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=53.0, core=true, t24Name=PR.RESERVED.1, mvSvExpansionAccess=NOEXPAND)
+        /* System field - reserved for future use */
+        PR_RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=52.0, core=true, t24Name=PR.RESERVED.2, mvSvExpansionAccess=NOEXPAND)
+        /* System field - reserved for future use */
+        PR_RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=51.0, core=true, t24Name=PR.RESERVED.3, mvSvExpansionAccess=NOEXPAND)
+/* This is the actual rule value, which will be applied on certain attributes of the property classes over a period of time.
+Input must be a valid data type defined in the corresponding
+
+
+AA.PERIODIC.ATTRIBUTE.CLASS record. */
+        PR_VALUE : T24BusinessTypes:A
+            @i18n:Label (en="Value ")
+            @i18n:Tooltip (en="Value of rule applied on certain attributes")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=47.0, core=true, t24Name=PR.VALUE, mvSvExpansionAccess=NOEXPAND)
+    }
+    AA_ARR_PREFERENTIAL_PRICING__STMT_NOS
+    {
+        /* System field - not used for property conditions */
+        STMT_NOS : T24BusinessTypes:N
+            @i18n:Label (en="Stmt Nos")
+            @i18n:Tooltip (en="Stmt Nos")
+            @t24:i (align=R, inputBehaviour=N, maxLength=20, sysNumber=83.0, core=true, t24Name=STMT.NOS)
+    }
+    /* The table would allow for the configuration of the “preferential” pricing adjustments that should be made to financial arrangement for customers who have a certain relationship with the bank. */
+    AA_PRD_CAT_PREFERENTIAL_PRICING
+        @i18n:Description (en="")
+        @t24:i (t24Name=AA.PRD.CAT.PREFERENTIAL.PRICING, nonStop=true, level=I, type=W, allowedFunctions="L Q S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=92.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=93.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=89.0, core=true, t24Name=AUTHORISER)
+        BONUS_PROD_LINE -> byValue AA_PreferentialPricing:AA_PRD_CAT_PREFERENTIAL_PRICING__BONUS_PROD_LINE *
+            @t24:i (t24Name=BONUS.PROD.LINE)
+        CHANGED_FIELDS -> byValue AA_PreferentialPricing:AA_PRD_CAT_PREFERENTIAL_PRICING__CHANGED_FIELDS *
+            @t24:i (t24Name=CHANGED.FIELDS)
+        CHARGE_PROD_LINE -> byValue AA_PreferentialPricing:AA_PRD_CAT_PREFERENTIAL_PRICING__CHARGE_PROD_LINE *
+            @t24:i (t24Name=CHARGE.PROD.LINE)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=90.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=86.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue AA_PreferentialPricing:AA_PRD_CAT_PREFERENTIAL_PRICING__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+/* Optional field - Allowed Values are RESETTING and NON-RESETTING.
+
+
+
+
+RESETTING - During any Renewal Activities (for eg : change.product, rollover or reset) the property conditions will be reset from the product.
+
+
+
+
+NON-RESETTING - During any Renewal Activities property conditions will be maintained from the Arrangement level.
+
+
+
+
+Leaving the field blank sets NON-RESETTING as the default option. */
+        DEFAULT_ATTR_OPTION : AA_PreferentialPricing:AA_PRD_CAT_PREFERENTIAL_PRICING__DEFAULT_ATTR_OPTION
+            @i18n:Label (en="Default Attribute Option")
+            @i18n:Tooltip (en="Allowed Values are RESETTING and NON-RESETTING")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=63.0, core=true, t24Name=DEFAULT.ATTR.OPTION)
+        /* Defines whether all attributes (fields) can be negotiable or not. */
+        DEFAULT_NEGOTIABLE : AA_PreferentialPricing:AA_PRD_CAT_PREFERENTIAL_PRICING__DEFAULT_NEGOTIABLE required
+            @i18n:Label (en="Default Negotiable")
+            @i18n:Tooltip (en="IF all attributes can be negotiable or not")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=64.0, core=true, t24Name=DEFAULT.NEGOTIABLE)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=91.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue AA_PreferentialPricing:AA_PRD_CAT_PREFERENTIAL_PRICING__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        /* This field holds the Full description for the condition. It */
+        FULL_DESCRIPTION : T24BusinessTypes:TEXT
+            @t24:i (align=L, inputBehaviour=I, maxLength=100, sysNumber=2.0, core=true, t24Name=FULL.DESCRIPTION)
+/* Contains the arrangement number, extracted from the first component of the id
+
+
+Not applicable at product level
+
+
+System updated field no input allowed */
+        ID_COMP_1 : T24BusinessTypes:A
+            @i18n:Label (en="Arrangement Id")
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=75.0, core=true, t24Name=ID.COMP.1)
+/* The action that was triggered on the arrangement property
+
+
+The action is taken from ACTIVITY.CLASS record of the underlying AA.ARRANGEMENT.ACTIVITY request that caused the record to be modified. */
+        ID_COMP_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=76.0, core=true, t24Name=ID.COMP.2)
+/* Contains the effective date of the property condition
+
+
+Not applicable at product level
+
+
+System updated field no input allowed */
+        ID_COMP_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=30, sysNumber=77.0, core=true, t24Name=ID.COMP.3)
+/* Reserved for future use
+
+
+Not applicable at product level
+
+
+System field no input allowed */
+        ID_COMP_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=78.0, core=true, t24Name=ID.COMP.4)
+/* Reserved for future use
+
+
+Not applicable at product level
+
+
+System field no input allowed */
+        ID_COMP_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=79.0, core=true, t24Name=ID.COMP.5)
+/* Reserved for future use
+
+
+Not applicable at product level
+
+
+System field no input allowed */
+        ID_COMP_6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=80.0, core=true, t24Name=ID.COMP.6)
+        INPUTTER -> byValue AA_PreferentialPricing:AA_PRD_CAT_PREFERENTIAL_PRICING__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        INT_PROD_LINE -> byValue AA_PreferentialPricing:AA_PRD_CAT_PREFERENTIAL_PRICING__INT_PROD_LINE *
+            @t24:i (t24Name=INT.PROD.LINE)
+        NEGOTIATED_FLDS -> byValue AA_PreferentialPricing:AA_PRD_CAT_PREFERENTIAL_PRICING__NEGOTIATED_FLDS *
+            @t24:i (t24Name=NEGOTIATED.FLDS)
+        NR_ATTRIBUTE -> byValue AA_PreferentialPricing:AA_PRD_CAT_PREFERENTIAL_PRICING__NR_ATTRIBUTE *
+            @t24:i (t24Name=NR.ATTRIBUTE)
+        OVERRIDE -> byValue AA_PreferentialPricing:AA_PRD_CAT_PREFERENTIAL_PRICING__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        OWNING_COMPANY -> byValue AA_PreferentialPricing:AA_PRD_CAT_PREFERENTIAL_PRICING__OWNING_COMPANY *
+            @t24:i (t24Name=OWNING.COMPANY)
+/* This field represents the key to the product level conditions of a property class
+
+
+This field basically has three components seperated by a hyphen
+
+
+Condition id
+
+
+Currency - if the property class is currency based. By default takes up local currency
+
+
+Effective date - if the property class is dated */
+        PRODUCT_KEY -> AA_PreferentialPricing:AA_PRD_CAT_PREFERENTIAL_PRICING PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=80, sysNumber=0.0, core=true, businessType=ANY, t24Name=PRODUCT.KEY)
+        PR_ATTRIBUTE -> byValue AA_PreferentialPricing:AA_PRD_CAT_PREFERENTIAL_PRICING__PR_ATTRIBUTE *
+            @t24:i (t24Name=PR.ATTRIBUTE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=85.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=44.0, core=true, t24Name=RESERVED1)
+        RESERVED12 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=15.0, core=true, t24Name=RESERVED12)
+        RESERVED13 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=14.0, core=true, t24Name=RESERVED13)
+        RESERVED2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=43.0, core=true, t24Name=RESERVED2)
+        RESERVED2_ID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=81.0, core=true, t24Name=RESERVED2.ID)
+        RESERVED3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=42.0, core=true, t24Name=RESERVED3)
+        RESERVED4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=41.0, core=true, t24Name=RESERVED4)
+        RESERVED5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=40.0, core=true, t24Name=RESERVED5)
+        RESERVED8 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=28.0, core=true, t24Name=RESERVED8)
+        RESERVED9 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=27.0, core=true, t24Name=RESERVED9)
+        STMT_NOS -> byValue AA_PreferentialPricing:AA_PRD_CAT_PREFERENTIAL_PRICING__STMT_NOS *
+            @t24:i (t24Name=STMT.NOS)
+        /* System field - reserved for future use */
+        SYS_RESERVE1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=62.0, core=true, t24Name=SYS.RESERVE1)
+        /* System field - reserved for future use */
+        SYS_RESERVE2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=61.0, core=true, t24Name=SYS.RESERVE2)
+        /* System field - reserved for future use */
+        SYS_RESERVE3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=60.0, core=true, t24Name=SYS.RESERVE3)
+        /* System field - reserved for future use */
+        SYS_RESERVE4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=59.0, core=true, t24Name=SYS.RESERVE4)
+        /* System field - reserved for future use */
+        SYS_RESERVE6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=57.0, core=true, t24Name=SYS.RESERVE6)
+        /* System field - reserved for future use */
+        SYS_RESERVE7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=56.0, core=true, t24Name=SYS.RESERVE7)
+/* This field denotes the target classic product of the given property class
+
+
+
+
+The already existing T24 products are mapped using AA infrastructure
+
+
+These are called classic products
+
+
+These products are mapped to different property classes */
+        TARGET_PRODUCT : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=82.0, core=true, t24Name=TARGET.PRODUCT)
+    }
+    AA_PRD_CAT_PREFERENTIAL_PRICING__BONUS_PROD_LINE
+    {
+        /* Specific Product for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL producs. */
+        BONUS_PRODUCT -> AA_ProductManagement:AA_PRODUCT
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=18.0, core=true, businessType=A, t24Name=BONUS.PRODUCT)
+        /* Product Group for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL product groups. */
+        BONUS_PROD_GROUP -> AA_ProductFramework:AA_PRODUCT_GROUP
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=17.0, core=true, businessType=A, t24Name=BONUS.PROD.GROUP)
+        /* Product line for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL product lines for this relationship customer. */
+        BONUS_PROD_LINE -> AA_ProductFramework:AA_PRODUCT_LINE
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=16.0, core=true, businessType=A, t24Name=BONUS.PROD.LINE)
+/* Product Variation for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL variations for this product.
+Should be a valid record in EB.LOOKUP of AA.PRODUCT.VARIATION type. */
+        BONUS_PROD_VAR : AA_PreferentialPricing:AA_PRD_CAT_PREFERENTIAL_PRICING__BONUS_PROD_LINE__BONUS_PROD_VAR
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=19.0, core=true, t24Name=BONUS.PROD.VAR)
+        BONUS_PROPERTY -> byValue AA_PreferentialPricing:AA_PRD_CAT_PREFERENTIAL_PRICING__BONUS_PROD_LINE__BONUS_PROPERTY *
+            @t24:i (t24Name=BONUS.PROPERTY)
+        RESERVED10 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=21.0, core=true, t24Name=RESERVED10)
+        RESERVED11 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=20.0, core=true, t24Name=RESERVED11)
+    }
+    AA_PRD_CAT_PREFERENTIAL_PRICING__BONUS_PROD_LINE__BONUS_PROPERTY
+    {
+/* Actual Bonus Amount  - if an amount is specified it will replace the amount calculated/specified on the arrangement (mutually exclusive with BONUS.UPLIFT)
+An amount specified here must still adhere to the “Minimum Charge” and “Charge Waive” fields and any Periodic Attributes of the Charge Property Class. */
+        BONUS_AMOUNT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=25.0, core=true, t24Name=BONUS.AMOUNT)
+/* Currency of the arrangement and amount if specified. (mandatory if BON.AMOUNT is populated)
+Should be a valid record in CURRENCY application */
+        BONUS_CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=23.0, core=true, businessType=CCY, t24Name=BONUS.CURRENCY)
+        /* Allows a user to mark a Property/Currency combination to be excluded from Preferential Pricing.  This can be used in the case where there is a “generic” setting for preferential pricing (e.g. 50% uplift for all bonuses) and the user wants to exclude a specific bonus (e.g. New Arrangement Rebate) or currency from the preferential pricing. */
+        BONUS_EXCLUDE : AA_PreferentialPricing:AA_PRD_CAT_PREFERENTIAL_PRICING__BONUS_PROD_LINE__BONUS_PROPERTY__BONUS_EXCLUDE
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=26.0, core=true, t24Name=BONUS.EXCLUDE)
+        /* Credit Charge Property. Could be left blank to indicate the definition is applicable for ALL charge properties of this product/line. */
+        BONUS_PROPERTY -> AA_ProductFramework:AA_PROPERTY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=22.0, core=true, businessType=A, t24Name=BONUS.PROPERTY)
+/* Percentage Uplift – if specified as 50 the calculated bonus will be increased by 50%.  (mutually exclusive with BONUS.AMOUNT)
+Rate field to indicate the percentage value. If stated, cannot exceed 100 and cannot be less than 0. */
+        BONUS_UPLIFT : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=24.0, core=true, t24Name=BONUS.UPLIFT)
+    }
+    AA_PRD_CAT_PREFERENTIAL_PRICING__CHANGED_FIELDS
+    {
+        /* No input and multi value field - lists all fields that have been negotiated for each dated version of the property. For a subsequently dated property, the attributes listed in this field will appear in "Negotiated.Fields" and only newly negotiated fields will appear on "Changed.Fields" */
+        CHANGED_FIELDS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=19, sysNumber=73.0, core=true, t24Name=CHANGED.FIELDS)
+    }
+    AA_PRD_CAT_PREFERENTIAL_PRICING__CHARGE_PROD_LINE
+    {
+        /* Specific Product for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL products. */
+        CHARGE_PRODUCT -> AA_ProductManagement:AA_PRODUCT
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=5.0, core=true, businessType=A, t24Name=CHARGE.PRODUCT)
+        /* Product Group for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL product groups. */
+        CHARGE_PROD_GROUP -> AA_ProductFramework:AA_PRODUCT_GROUP
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=4.0, core=true, businessType=A, t24Name=CHARGE.PROD.GROUP)
+        /* Product line for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL product lines for this relationship customer. */
+        CHARGE_PROD_LINE -> AA_ProductFramework:AA_PRODUCT_LINE
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=3.0, core=true, businessType=A, t24Name=CHARGE.PROD.LINE)
+        /* Product Variation for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL variations for this product. */
+        CHARGE_PROD_VAR : AA_PreferentialPricing:AA_PRD_CAT_PREFERENTIAL_PRICING__CHARGE_PROD_LINE__CHARGE_PROD_VAR
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=6.0, core=true, t24Name=CHARGE.PROD.VAR)
+        CHARGE_PROPERTY -> byValue AA_PreferentialPricing:AA_PRD_CAT_PREFERENTIAL_PRICING__CHARGE_PROD_LINE__CHARGE_PROPERTY *
+            @t24:i (t24Name=CHARGE.PROPERTY)
+        RESERVED14 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=8.0, core=true, t24Name=RESERVED14)
+        RESERVED15 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=7.0, core=true, t24Name=RESERVED15)
+    }
+    AA_PRD_CAT_PREFERENTIAL_PRICING__CHARGE_PROD_LINE__CHARGE_PROPERTY
+    {
+/* Actual Charge Amount - if an amount is specified it will replace the amount calculated/specified on the arrangement (mutually exclusive with CHG.DISCOUNT).
+
+
+An amount specified hear must still adhere to the “Minimum Charge” and “Charge Waive” fields and any Periodic Attributes of the Charge Property Class. */
+        CHARGE_AMOUNT : T24BusinessTypes:AMT
+            @i18n:Label (en="Charge Amount")
+            @i18n:Tooltip (en="Indicates charge amount")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=12.0, core=true, t24Name=CHARGE.AMOUNT)
+        /* Currency of the arrangement and amount if specified. (mandatory if CHG.AMOUNT is populated) */
+        CHARGE_CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en="Charge Currency")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=10.0, core=true, businessType=CCY, t24Name=CHARGE.CURRENCY)
+/* Discount Percentage - if specified as 20 the calculated charge will be reduced by 20% (mutually exclusive with CHG.AMOUNT).
+
+
+Rate field to indicate the percentage value. If stated, cannot exceed 100 and cannot be less than 0. */
+        CHARGE_DISCOUNT : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=11.0, core=true, t24Name=CHARGE.DISCOUNT)
+        /* Allows a user to mark a Property/Currency combination to be excluded from Preferential Pricing. This can be used in the case where there is a “generic” setting for preferential pricing (e.g. 20% off all charges) and the user wants to exclude a specific charge (e.g. ATM fee) or currency from the preferential pricing. */
+        CHARGE_EXCLUDE : AA_PreferentialPricing:AA_PRD_CAT_PREFERENTIAL_PRICING__CHARGE_PROD_LINE__CHARGE_PROPERTY__CHARGE_EXCLUDE
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=13.0, core=true, t24Name=CHARGE.EXCLUDE)
+        /* Debit Charge Property. Could be left blank to indicate the definition is applicable for ALL charge properties of this product/line. */
+        CHARGE_PROPERTY -> AA_ProductFramework:AA_PROPERTY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=9.0, core=true, businessType=A, t24Name=CHARGE.PROPERTY)
+    }
+    AA_PRD_CAT_PREFERENTIAL_PRICING__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=88.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    AA_PRD_CAT_PREFERENTIAL_PRICING__DESCRIPTION
+    {
+        /* This field holds the language specific short description for the condition. */
+        DESCRIPTION : T24BusinessTypes:ANY required
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    AA_PRD_CAT_PREFERENTIAL_PRICING__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=87.0, core=true, t24Name=INPUTTER)
+    }
+    AA_PRD_CAT_PREFERENTIAL_PRICING__INT_PROD_LINE
+    {
+        /* Specific Product for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL products. */
+        INT_PRODUCT -> AA_ProductManagement:AA_PRODUCT
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=31.0, core=true, businessType=A, t24Name=INT.PRODUCT)
+        /* Product Group for which this interest pricing is valid. Could be left blank to indicate the definition is applicable for ALL product groups. */
+        INT_PROD_GROUP -> AA_ProductFramework:AA_PRODUCT_GROUP
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=30.0, core=true, businessType=A, t24Name=INT.PROD.GROUP)
+        /* Product line for which this Interest pricing is valid. Could be left blank to indicate the definition is applicable for ALL product lines for this relationship customer. */
+        INT_PROD_LINE -> AA_ProductFramework:AA_PRODUCT_LINE
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=29.0, core=true, businessType=A, t24Name=INT.PROD.LINE)
+        /* Product Variation for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL variations for this product. */
+        INT_PROD_VAR : AA_PreferentialPricing:AA_PRD_CAT_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROD_VAR
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=32.0, core=true, t24Name=INT.PROD.VAR)
+        INT_PROPERTY -> byValue AA_PreferentialPricing:AA_PRD_CAT_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROPERTY *
+            @t24:i (t24Name=INT.PROPERTY)
+        RESERVED6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=34.0, core=true, t24Name=RESERVED6)
+        RESERVED7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=33.0, core=true, t24Name=RESERVED7)
+    }
+    AA_PRD_CAT_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROPERTY
+    {
+        /* Arrangement Currency (mandatory in all cases except when “exclude” is checked) */
+        INT_CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=36.0, core=true, businessType=CCY, t24Name=INT.CURRENCY)
+        /* Allows a user to mark a Property/Currency combination to be excluded from Preferential Pricing.  This can be used in the case where there is a “generic” setting for preferential pricing (e.g. Subtract 0.2 from all debit interest) and the user wants to exclude a specific product/property (e.g. debit interest on the special mortgage product) from the preferential pricing. */
+        INT_EXCLUDE : AA_PreferentialPricing:AA_PRD_CAT_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROPERTY__INT_EXCLUDE
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=39.0, core=true, t24Name=INT.EXCLUDE)
+/* Preferential Margin
+The final rate including the preferential margin would still respect all Periodic Attributes that have been defined. */
+        INT_MARGIN : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=38.0, core=true, t24Name=INT.MARGIN)
+        /* Operand to 'Add to', 'Subtract from', or 'Multiply' the standard rate with the preferential margin. */
+        INT_OPERAND : AA_PreferentialPricing:AA_PRD_CAT_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROPERTY__INT_OPERAND
+            @t24:i (align=L, inputBehaviour=I, maxLength=9, sysNumber=37.0, core=true, t24Name=INT.OPERAND)
+        /* Interest Property. Could be left blank to indicate the definition is applicable for ALL interest properties of this product/line. */
+        INT_PROPERTY -> AA_ProductFramework:AA_PROPERTY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=35.0, core=true, businessType=A, t24Name=INT.PROPERTY)
+    }
+    AA_PRD_CAT_PREFERENTIAL_PRICING__NEGOTIATED_FLDS
+    {
+/* No input and multi value field that lists the attributes on the arrangement property record that have been fixed and/or negotiated. These are stored when the arrangement level record is committed. When the arrangement level record is next used all items in the NEGOTIATED.FIELDS list will be maintained.
+
+
+Once an attribute has been fixed or negotiated it will remain in negotiated field list on all subsequent dated versions of the property. */
+        NEGOTIATED_FLDS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=19, sysNumber=74.0, core=true, t24Name=NEGOTIATED.FLDS)
+    }
+    AA_PRD_CAT_PREFERENTIAL_PRICING__NR_ATTRIBUTE
+    {
+/* Defines which individual attribute (field) has the negotiation rules defined in fields "Nr.Negotiable" through to "Nr.Message"
+Must be a valid field name within this property
+
+
+This field is part of a multi value set */
+        NR_ATTRIBUTE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=65.0, core=true, t24Name=NR.ATTRIBUTE)
+        NR_OPTIONS -> byValue AA_PreferentialPricing:AA_PRD_CAT_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_OPTIONS *
+            @t24:i (t24Name=NR.OPTIONS)
+        /* System Field - Reserved for future use */
+        NR_RESERVED1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=68.0, core=true, t24Name=NR.RESERVED1)
+        /* System Field - Reserved for future use */
+        NR_RESERVED2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=67.0, core=true, t24Name=NR.RESERVED2)
+/* It is possible to define negotiation rules in EB.COMPARISON.TYPE.
+Input must be a valid record from EB.STANDARD.COMPARISON */
+        NR_STD_COMP -> AA_Rules:EB_STANDARD_COMPARISON
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=69.0, core=true, businessType=A, t24Name=NR.STD.COMP)
+        NR_TYPE -> byValue AA_PreferentialPricing:AA_PRD_CAT_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_TYPE *
+            @t24:i (t24Name=NR.TYPE)
+    }
+    AA_PRD_CAT_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_OPTIONS
+    {
+/* Defines named values to indicate if an option applies to the associated NR.ATTRIBUTE. More than one option can be associated with the NR.ATTRIBUTE, with certain restrictions.
+
+
+
+
+
+
+Valid Inputs are NEGOTIABLE, NON-NEGOTIABLE, OVERRIDE, FIX-VALUE, MANDATORY as described below: -
+
+
+
+
+NEGOTIABLE
+
+
+The value of NEGOTIABLE will indicate that the associated NR.ATTRIBUTE can be negotiated at the arrangement level.
+
+
+
+
+NON-NEGOTIABLE
+
+
+The value of NON-NEGOTIABLE will indicate that the associated NR.ATTRIBUTE cannot be negotiated at the arrangement level. Both NEGOTIABLE and NON-NEGOTIABLE cannot be defined together
+
+
+
+
+OVERRIDE
+
+
+Specifies if a default override message should be generated if the default attribute is amended at the arrangement level. If OVERRIDE is not specified, no override will be generated.
+
+
+
+
+FIX-VALUE
+
+
+Specified if the field value is to be fixed at the arrangement level. If FIX-VALUE is not specified the field value will vary with the changes to the underlying product condition.
+
+
+
+
+MANDATORY
+
+
+Specifies if the attribute is mandatory for this product condition. Can only be specified where the attribute is not defined as mandatory in the property class. */
+        NR_OPTIONS : AA_PreferentialPricing:AA_PRD_CAT_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_OPTIONS__NR_OPTIONS
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=66.0, core=true, t24Name=NR.OPTIONS)
+    }
+    AA_PRD_CAT_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_TYPE
+    {
+/* This field indicates whether to raise error or override message when rule is broken
+
+
+Allows only two values ERROR or OVERRIDE
+
+
+ERROR error message is raised
+
+
+OVERRIDE Override message is generated */
+        NR_MESSAGE : AA_PreferentialPricing:AA_PRD_CAT_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_TYPE__NR_MESSAGE
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=72.0, core=true, t24Name=NR.MESSAGE)
+/* Defines the negotiation rule that is linked to the field defined in "Nr.Attribute". If an attribute has a negotiation rule linked to it (in associated fields NR.TYPE, NR.VALUE and NR.MESSAGE) the attribute must be defined as negotiable.
+
+
+It is possible to define more than one negotiation rule for an attribute
+
+
+
+
+
+
+Input must be a valid record from EB.COMPARISON.TYPE
+
+
+This is a multi value set of fields */
+        NR_TYPE -> AA_Rules:EB_COMPARISON_TYPE
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=70.0, core=true, businessType=A, t24Name=NR.TYPE)
+        /* Defines the value that links to the rule in field "Nr.Type" */
+        NR_VALUE : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=60, sysNumber=71.0, core=true, t24Name=NR.VALUE)
+    }
+    AA_PRD_CAT_PREFERENTIAL_PRICING__OVERRIDE
+    {
+        /* Standard Override field containing override messages generated by amendments to this property */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=84.0, core=true, t24Name=OVERRIDE)
+    }
+    AA_PRD_CAT_PREFERENTIAL_PRICING__OWNING_COMPANY
+    {
+/* This field is used to capture the T24 Company(ies) that own the Product Condition record. There is no functionality attached to this field and can be used only for access control through SMS verification.
+
+The input in this field must be a valid record in company table and should belong to current financial group.
+
+This is a multi value field. Input in this field is optional. */
+        OWNING_COMPANY -> ST_CompanyCreation:COMPANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=58.0, core=true, businessType=AAPRODUCT, t24Name=OWNING.COMPANY, typeModifiers=COMPANY)
+    }
+    AA_PRD_CAT_PREFERENTIAL_PRICING__PR_ATTRIBUTE
+    {
+        /* This will hold two values either DUE or CAPITALISE. This Field denote which application method(DUE or CAPITALISE)should be taken while applying periodic rule charges. */
+        PR_APP_METHOD : AA_PreferentialPricing:AA_PRD_CAT_PREFERENTIAL_PRICING__PR_ATTRIBUTE__PR_APP_METHOD
+            @i18n:Label (en="Application Method")
+            @i18n:Tooltip (en="This will hold two values either DUE or CAPITALISE")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=54.0, core=true, t24Name=PR.APP.METHOD)
+        /* This will have to accept a valid T24 period. This Field will denote the application period for current application method. */
+        PR_APP_PERIOD : T24BusinessTypes:PERIOD
+            @i18n:Label (en="Application Period")
+            @i18n:Tooltip (en="Denote the period for current aplication method")
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=55.0, core=true, t24Name=PR.APP.PERIOD)
+/* These are set of Attributes which define the names of the rule, which will be applied on certain attributes of property classes over a period of time.
+Input must be a valid record from AA.PERIODIC.ATTRIBUTE */
+        PR_ATTRIBUTE -> AA_Rules:AA_PERIODIC_ATTRIBUTE
+            @i18n:Label (en=Attribute)
+            @i18n:Tooltip (en="Attributes defining the names of the rule applied")
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=46.0, core=true, businessType=A, t24Name=PR.ATTRIBUTE)
+/* Charge can be collected when the periodic rule is broken
+
+
+This field denotes the charge property. The property and its condition is
+
+
+defined the product designer and validated during publishing
+
+
+
+
+
+
+Valid charge property */
+        PR_BRK_CHARGE -> AA_ProductFramework:AA_PROPERTY
+            @i18n:Label (en=Charge)
+            @i18n:Tooltip (en="Charge collected when the periodic rule is broken")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=50.0, core=true, businessType=A, t24Name=PR.BRK.CHARGE)
+/* Based on the PR.BRK.RES option selected, this will hold either an OVERRIDE or EB.ERROR id. By default the ids will be picked from the associated EB.COMPARISON.TYPE record. If CAP or FLOOR values are given, then the underlying AA.PERIODIC.ATTRIBUTE.CLASS should have this type defined in it.
+Input must be a valid OVERRIDE ID or EB.ERROR ID. */
+        PR_BRK_MSG : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=49.0, core=true, t24Name=PR.BRK.MSG)
+/* When a rule is broken what action needs to be taken is defined here. Currently, the various options available are
+
+
+
+
+Error block further processing
+
+
+Override Give an override
+
+
+Information Record details only
+
+
+CAP the rule value is to be used as a CAP if the rule is broken
+
+
+FLOOR the rule value is to be used as a FLOOR if the rule is broken
+
+
+
+
+Validation rules
+
+
+Should be one of the above valid options */
+        PR_BRK_RES : AA_PreferentialPricing:AA_PRD_CAT_PREFERENTIAL_PRICING__PR_ATTRIBUTE__PR_BRK_RES
+            @i18n:Label (en=Rule)
+            @i18n:Tooltip (en="Action to be taken when rule is broken")
+            @t24:i (align=L, inputBehaviour=I, maxLength=13, sysNumber=48.0, core=true, t24Name=PR.BRK.RES)
+        /* System field - reserved for future use */
+        PR_RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=53.0, core=true, t24Name=PR.RESERVED.1)
+        /* System field - reserved for future use */
+        PR_RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=52.0, core=true, t24Name=PR.RESERVED.2)
+        /* System field - reserved for future use */
+        PR_RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=51.0, core=true, t24Name=PR.RESERVED.3)
+/* This is the actual rule value, which will be applied on certain attributes of the property classes over a period of time.
+Input must be a valid data type defined in the corresponding
+
+
+AA.PERIODIC.ATTRIBUTE.CLASS record. */
+        PR_VALUE : T24BusinessTypes:A
+            @i18n:Label (en="Value ")
+            @i18n:Tooltip (en="Value of rule applied on certain attributes")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=47.0, core=true, t24Name=PR.VALUE)
+    }
+    AA_PRD_CAT_PREFERENTIAL_PRICING__STMT_NOS
+    {
+        /* System field - not used for property conditions */
+        STMT_NOS : T24BusinessTypes:N
+            @i18n:Label (en="Stmt Nos")
+            @i18n:Tooltip (en="Stmt Nos")
+            @t24:i (align=R, inputBehaviour=N, maxLength=20, sysNumber=83.0, core=true, t24Name=STMT.NOS)
+    }
+    /* The table would allow for the configuration of the “preferential” pricing adjustments that should be made to financial arrangement for customers who have a certain relationship with the bank. */
+    AA_PRD_DES_PREFERENTIAL_PRICING
+        @i18n:Description (en="")
+        @t24:i (t24Name=AA.PRD.DES.PREFERENTIAL.PRICING, nonStop=true, level=I, type=H, allowedFunctions="A C D E I L Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=92.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=93.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=89.0, core=true, t24Name=AUTHORISER)
+        BONUS_PROD_LINE -> byValue AA_PreferentialPricing:AA_PRD_DES_PREFERENTIAL_PRICING__BONUS_PROD_LINE *
+            @t24:i (t24Name=BONUS.PROD.LINE)
+        CHANGED_FIELDS -> byValue AA_PreferentialPricing:AA_PRD_DES_PREFERENTIAL_PRICING__CHANGED_FIELDS *
+            @t24:i (t24Name=CHANGED.FIELDS)
+        CHARGE_PROD_LINE -> byValue AA_PreferentialPricing:AA_PRD_DES_PREFERENTIAL_PRICING__CHARGE_PROD_LINE *
+            @t24:i (t24Name=CHARGE.PROD.LINE)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=90.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=86.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue AA_PreferentialPricing:AA_PRD_DES_PREFERENTIAL_PRICING__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+/* Optional field - Allowed Values are RESETTING and NON-RESETTING.
+
+
+
+
+RESETTING - During any Renewal Activities (for eg : change.product, rollover or reset) the property conditions will be reset from the product.
+
+
+
+
+NON-RESETTING - During any Renewal Activities property conditions will be maintained from the Arrangement level.
+
+
+
+
+Leaving the field blank sets NON-RESETTING as the default option. */
+        DEFAULT_ATTR_OPTION : AA_PreferentialPricing:AA_PRD_DES_PREFERENTIAL_PRICING__DEFAULT_ATTR_OPTION
+            @i18n:Label (en="Default Attribute Option")
+            @i18n:Tooltip (en="Allowed Values are RESETTING and NON-RESETTING")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=63.0, core=true, t24Name=DEFAULT.ATTR.OPTION)
+        /* Defines whether all attributes (fields) can be negotiable or not. */
+        DEFAULT_NEGOTIABLE : AA_PreferentialPricing:AA_PRD_DES_PREFERENTIAL_PRICING__DEFAULT_NEGOTIABLE required
+            @i18n:Label (en="Default Negotiable")
+            @i18n:Tooltip (en="IF all attributes can be negotiable or not")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=64.0, core=true, t24Name=DEFAULT.NEGOTIABLE)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=91.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue AA_PreferentialPricing:AA_PRD_DES_PREFERENTIAL_PRICING__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        /* This field holds the Full description for the condition. It */
+        FULL_DESCRIPTION : T24BusinessTypes:TEXT
+            @t24:i (align=L, inputBehaviour=I, maxLength=100, sysNumber=2.0, core=true, t24Name=FULL.DESCRIPTION)
+/* Contains the arrangement number, extracted from the first component of the id
+
+
+Not applicable at product level
+
+
+System updated field no input allowed */
+        ID_COMP_1 : T24BusinessTypes:A
+            @i18n:Label (en="Arrangement Id")
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=75.0, core=true, t24Name=ID.COMP.1)
+/* The action that was triggered on the arrangement property
+
+
+The action is taken from ACTIVITY.CLASS record of the underlying AA.ARRANGEMENT.ACTIVITY request that caused the record to be modified. */
+        ID_COMP_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=76.0, core=true, t24Name=ID.COMP.2)
+/* Contains the effective date of the property condition
+
+
+Not applicable at product level
+
+
+System updated field no input allowed */
+        ID_COMP_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=30, sysNumber=77.0, core=true, t24Name=ID.COMP.3)
+/* Reserved for future use
+
+
+Not applicable at product level
+
+
+System field no input allowed */
+        ID_COMP_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=78.0, core=true, t24Name=ID.COMP.4)
+/* Reserved for future use
+
+
+Not applicable at product level
+
+
+System field no input allowed */
+        ID_COMP_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=79.0, core=true, t24Name=ID.COMP.5)
+/* Reserved for future use
+
+
+Not applicable at product level
+
+
+System field no input allowed */
+        ID_COMP_6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=80.0, core=true, t24Name=ID.COMP.6)
+        INPUTTER -> byValue AA_PreferentialPricing:AA_PRD_DES_PREFERENTIAL_PRICING__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        INT_PROD_LINE -> byValue AA_PreferentialPricing:AA_PRD_DES_PREFERENTIAL_PRICING__INT_PROD_LINE *
+            @t24:i (t24Name=INT.PROD.LINE)
+        NEGOTIATED_FLDS -> byValue AA_PreferentialPricing:AA_PRD_DES_PREFERENTIAL_PRICING__NEGOTIATED_FLDS *
+            @t24:i (t24Name=NEGOTIATED.FLDS)
+        NR_ATTRIBUTE -> byValue AA_PreferentialPricing:AA_PRD_DES_PREFERENTIAL_PRICING__NR_ATTRIBUTE *
+            @t24:i (t24Name=NR.ATTRIBUTE)
+        OVERRIDE -> byValue AA_PreferentialPricing:AA_PRD_DES_PREFERENTIAL_PRICING__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        OWNING_COMPANY -> byValue AA_PreferentialPricing:AA_PRD_DES_PREFERENTIAL_PRICING__OWNING_COMPANY *
+            @t24:i (t24Name=OWNING.COMPANY)
+/* This field represents the key to the product level conditions of a property class
+
+
+This field basically has three components seperated by a hyphen
+
+
+Condition id
+
+
+Currency - if the property class is currency based. By default takes up local currency
+
+
+Effective date - if the property class is dated */
+        PRODUCT_KEY -> AA_PreferentialPricing:AA_PRD_DES_PREFERENTIAL_PRICING PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=80, sysNumber=0.0, core=true, businessType=ANY, t24Name=PRODUCT.KEY)
+        PR_ATTRIBUTE -> byValue AA_PreferentialPricing:AA_PRD_DES_PREFERENTIAL_PRICING__PR_ATTRIBUTE *
+            @t24:i (t24Name=PR.ATTRIBUTE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=85.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=44.0, core=true, t24Name=RESERVED1)
+        RESERVED12 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=15.0, core=true, t24Name=RESERVED12)
+        RESERVED13 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=14.0, core=true, t24Name=RESERVED13)
+        RESERVED2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=43.0, core=true, t24Name=RESERVED2)
+        RESERVED2_ID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=81.0, core=true, t24Name=RESERVED2.ID)
+        RESERVED3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=42.0, core=true, t24Name=RESERVED3)
+        RESERVED4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=41.0, core=true, t24Name=RESERVED4)
+        RESERVED5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=40.0, core=true, t24Name=RESERVED5)
+        RESERVED8 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=28.0, core=true, t24Name=RESERVED8)
+        RESERVED9 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=27.0, core=true, t24Name=RESERVED9)
+        STMT_NOS -> byValue AA_PreferentialPricing:AA_PRD_DES_PREFERENTIAL_PRICING__STMT_NOS *
+            @t24:i (t24Name=STMT.NOS)
+        /* System field - reserved for future use */
+        SYS_RESERVE1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=62.0, core=true, t24Name=SYS.RESERVE1)
+        /* System field - reserved for future use */
+        SYS_RESERVE2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=61.0, core=true, t24Name=SYS.RESERVE2)
+        /* System field - reserved for future use */
+        SYS_RESERVE3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=60.0, core=true, t24Name=SYS.RESERVE3)
+        /* System field - reserved for future use */
+        SYS_RESERVE4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=59.0, core=true, t24Name=SYS.RESERVE4)
+        /* System field - reserved for future use */
+        SYS_RESERVE6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=57.0, core=true, t24Name=SYS.RESERVE6)
+        /* System field - reserved for future use */
+        SYS_RESERVE7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=56.0, core=true, t24Name=SYS.RESERVE7)
+/* This field denotes the target classic product of the given property class
+
+
+
+
+The already existing T24 products are mapped using AA infrastructure
+
+
+These are called classic products
+
+
+These products are mapped to different property classes */
+        TARGET_PRODUCT : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=82.0, core=true, t24Name=TARGET.PRODUCT)
+    }
+    AA_PRD_DES_PREFERENTIAL_PRICING__BONUS_PROD_LINE
+    {
+        /* Specific Product for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL producs. */
+        BONUS_PRODUCT -> AA_ProductManagement:AA_PRODUCT
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=18.0, core=true, businessType=A, t24Name=BONUS.PRODUCT)
+        /* Product Group for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL product groups. */
+        BONUS_PROD_GROUP -> AA_ProductFramework:AA_PRODUCT_GROUP
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=17.0, core=true, businessType=A, t24Name=BONUS.PROD.GROUP)
+        /* Product line for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL product lines for this relationship customer. */
+        BONUS_PROD_LINE -> AA_ProductFramework:AA_PRODUCT_LINE
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=16.0, core=true, businessType=A, t24Name=BONUS.PROD.LINE)
+/* Product Variation for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL variations for this product.
+Should be a valid record in EB.LOOKUP of AA.PRODUCT.VARIATION type. */
+        BONUS_PROD_VAR : AA_PreferentialPricing:AA_PRD_DES_PREFERENTIAL_PRICING__BONUS_PROD_LINE__BONUS_PROD_VAR
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=19.0, core=true, t24Name=BONUS.PROD.VAR)
+        BONUS_PROPERTY -> byValue AA_PreferentialPricing:AA_PRD_DES_PREFERENTIAL_PRICING__BONUS_PROD_LINE__BONUS_PROPERTY *
+            @t24:i (t24Name=BONUS.PROPERTY)
+        RESERVED10 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=21.0, core=true, t24Name=RESERVED10)
+        RESERVED11 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=20.0, core=true, t24Name=RESERVED11)
+    }
+    AA_PRD_DES_PREFERENTIAL_PRICING__BONUS_PROD_LINE__BONUS_PROPERTY
+    {
+/* Actual Bonus Amount  - if an amount is specified it will replace the amount calculated/specified on the arrangement (mutually exclusive with BONUS.UPLIFT)
+An amount specified here must still adhere to the “Minimum Charge” and “Charge Waive” fields and any Periodic Attributes of the Charge Property Class. */
+        BONUS_AMOUNT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=25.0, core=true, t24Name=BONUS.AMOUNT)
+/* Currency of the arrangement and amount if specified. (mandatory if BON.AMOUNT is populated)
+Should be a valid record in CURRENCY application */
+        BONUS_CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=23.0, core=true, businessType=CCY, t24Name=BONUS.CURRENCY)
+        /* Allows a user to mark a Property/Currency combination to be excluded from Preferential Pricing.  This can be used in the case where there is a “generic” setting for preferential pricing (e.g. 50% uplift for all bonuses) and the user wants to exclude a specific bonus (e.g. New Arrangement Rebate) or currency from the preferential pricing. */
+        BONUS_EXCLUDE : AA_PreferentialPricing:AA_PRD_DES_PREFERENTIAL_PRICING__BONUS_PROD_LINE__BONUS_PROPERTY__BONUS_EXCLUDE
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=26.0, core=true, t24Name=BONUS.EXCLUDE)
+        /* Credit Charge Property. Could be left blank to indicate the definition is applicable for ALL charge properties of this product/line. */
+        BONUS_PROPERTY -> AA_ProductFramework:AA_PROPERTY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=22.0, core=true, businessType=A, t24Name=BONUS.PROPERTY)
+/* Percentage Uplift – if specified as 50 the calculated bonus will be increased by 50%.  (mutually exclusive with BONUS.AMOUNT)
+Rate field to indicate the percentage value. If stated, cannot exceed 100 and cannot be less than 0. */
+        BONUS_UPLIFT : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=24.0, core=true, t24Name=BONUS.UPLIFT)
+    }
+    AA_PRD_DES_PREFERENTIAL_PRICING__CHANGED_FIELDS
+    {
+        /* No input and multi value field - lists all fields that have been negotiated for each dated version of the property. For a subsequently dated property, the attributes listed in this field will appear in "Negotiated.Fields" and only newly negotiated fields will appear on "Changed.Fields" */
+        CHANGED_FIELDS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=19, sysNumber=73.0, core=true, t24Name=CHANGED.FIELDS)
+    }
+    AA_PRD_DES_PREFERENTIAL_PRICING__CHARGE_PROD_LINE
+    {
+        /* Specific Product for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL products. */
+        CHARGE_PRODUCT -> AA_ProductManagement:AA_PRODUCT
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=5.0, core=true, businessType=A, t24Name=CHARGE.PRODUCT)
+        /* Product Group for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL product groups. */
+        CHARGE_PROD_GROUP -> AA_ProductFramework:AA_PRODUCT_GROUP
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=4.0, core=true, businessType=A, t24Name=CHARGE.PROD.GROUP)
+        /* Product line for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL product lines for this relationship customer. */
+        CHARGE_PROD_LINE -> AA_ProductFramework:AA_PRODUCT_LINE
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=3.0, core=true, businessType=A, t24Name=CHARGE.PROD.LINE)
+        /* Product Variation for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL variations for this product. */
+        CHARGE_PROD_VAR : AA_PreferentialPricing:AA_PRD_DES_PREFERENTIAL_PRICING__CHARGE_PROD_LINE__CHARGE_PROD_VAR
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=6.0, core=true, t24Name=CHARGE.PROD.VAR)
+        CHARGE_PROPERTY -> byValue AA_PreferentialPricing:AA_PRD_DES_PREFERENTIAL_PRICING__CHARGE_PROD_LINE__CHARGE_PROPERTY *
+            @t24:i (t24Name=CHARGE.PROPERTY)
+        RESERVED14 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=8.0, core=true, t24Name=RESERVED14)
+        RESERVED15 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=7.0, core=true, t24Name=RESERVED15)
+    }
+    AA_PRD_DES_PREFERENTIAL_PRICING__CHARGE_PROD_LINE__CHARGE_PROPERTY
+    {
+/* Actual Charge Amount - if an amount is specified it will replace the amount calculated/specified on the arrangement (mutually exclusive with CHG.DISCOUNT).
+
+
+An amount specified hear must still adhere to the “Minimum Charge” and “Charge Waive” fields and any Periodic Attributes of the Charge Property Class. */
+        CHARGE_AMOUNT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=12.0, core=true, t24Name=CHARGE.AMOUNT)
+        /* Currency of the arrangement and amount if specified. (mandatory if CHG.AMOUNT is populated) */
+        CHARGE_CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=10.0, core=true, businessType=CCY, t24Name=CHARGE.CURRENCY)
+/* Discount Percentage - if specified as 20 the calculated charge will be reduced by 20% (mutually exclusive with CHG.AMOUNT).
+
+
+Rate field to indicate the percentage value. If stated, cannot exceed 100 and cannot be less than 0. */
+        CHARGE_DISCOUNT : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=11.0, core=true, t24Name=CHARGE.DISCOUNT)
+        /* Allows a user to mark a Property/Currency combination to be excluded from Preferential Pricing. This can be used in the case where there is a “generic” setting for preferential pricing (e.g. 20% off all charges) and the user wants to exclude a specific charge (e.g. ATM fee) or currency from the preferential pricing. */
+        CHARGE_EXCLUDE : AA_PreferentialPricing:AA_PRD_DES_PREFERENTIAL_PRICING__CHARGE_PROD_LINE__CHARGE_PROPERTY__CHARGE_EXCLUDE
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=13.0, core=true, t24Name=CHARGE.EXCLUDE)
+        /* Debit Charge Property. Could be left blank to indicate the definition is applicable for ALL charge properties of this product/line. */
+        CHARGE_PROPERTY -> AA_ProductFramework:AA_PROPERTY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=9.0, core=true, businessType=A, t24Name=CHARGE.PROPERTY)
+    }
+    AA_PRD_DES_PREFERENTIAL_PRICING__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=88.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    AA_PRD_DES_PREFERENTIAL_PRICING__DESCRIPTION
+    {
+        /* This field holds the language specific short description for the condition. */
+        DESCRIPTION : T24BusinessTypes:ANY required
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    AA_PRD_DES_PREFERENTIAL_PRICING__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=87.0, core=true, t24Name=INPUTTER)
+    }
+    AA_PRD_DES_PREFERENTIAL_PRICING__INT_PROD_LINE
+    {
+        /* Specific Product for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL products. */
+        INT_PRODUCT -> AA_ProductManagement:AA_PRODUCT
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=31.0, core=true, businessType=A, t24Name=INT.PRODUCT)
+        /* Product Group for which this interest pricing is valid. Could be left blank to indicate the definition is applicable for ALL product groups. */
+        INT_PROD_GROUP -> AA_ProductFramework:AA_PRODUCT_GROUP
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=30.0, core=true, businessType=A, t24Name=INT.PROD.GROUP)
+        /* Product line for which this Interest pricing is valid. Could be left blank to indicate the definition is applicable for ALL product lines for this relationship customer. */
+        INT_PROD_LINE -> AA_ProductFramework:AA_PRODUCT_LINE
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=29.0, core=true, businessType=A, t24Name=INT.PROD.LINE)
+        /* Product Variation for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL variations for this product. */
+        INT_PROD_VAR : AA_PreferentialPricing:AA_PRD_DES_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROD_VAR
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=32.0, core=true, t24Name=INT.PROD.VAR)
+        INT_PROPERTY -> byValue AA_PreferentialPricing:AA_PRD_DES_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROPERTY *
+            @t24:i (t24Name=INT.PROPERTY)
+        RESERVED6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=34.0, core=true, t24Name=RESERVED6)
+        RESERVED7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=33.0, core=true, t24Name=RESERVED7)
+    }
+    AA_PRD_DES_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROPERTY
+    {
+        /* Arrangement Currency (mandatory in all cases except when “exclude” is checked) */
+        INT_CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=36.0, core=true, businessType=CCY, t24Name=INT.CURRENCY)
+        /* Allows a user to mark a Property/Currency combination to be excluded from Preferential Pricing.  This can be used in the case where there is a “generic” setting for preferential pricing (e.g. Subtract 0.2 from all debit interest) and the user wants to exclude a specific product/property (e.g. debit interest on the special mortgage product) from the preferential pricing. */
+        INT_EXCLUDE : AA_PreferentialPricing:AA_PRD_DES_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROPERTY__INT_EXCLUDE
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=39.0, core=true, t24Name=INT.EXCLUDE)
+/* Preferential Margin
+The final rate including the preferential margin would still respect all Periodic Attributes that have been defined. */
+        INT_MARGIN : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=38.0, core=true, t24Name=INT.MARGIN)
+        /* Operand to 'Add to', 'Subtract from', or 'Multiply' the standard rate with the preferential margin. */
+        INT_OPERAND : AA_PreferentialPricing:AA_PRD_DES_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROPERTY__INT_OPERAND
+            @t24:i (align=L, inputBehaviour=I, maxLength=9, sysNumber=37.0, core=true, t24Name=INT.OPERAND)
+        /* Interest Property. Could be left blank to indicate the definition is applicable for ALL interest properties of this product/line. */
+        INT_PROPERTY -> AA_ProductFramework:AA_PROPERTY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=35.0, core=true, businessType=A, t24Name=INT.PROPERTY)
+    }
+    AA_PRD_DES_PREFERENTIAL_PRICING__NEGOTIATED_FLDS
+    {
+/* No input and multi value field that lists the attributes on the arrangement property record that have been fixed and/or negotiated. These are stored when the arrangement level record is committed. When the arrangement level record is next used all items in the NEGOTIATED.FIELDS list will be maintained.
+
+
+Once an attribute has been fixed or negotiated it will remain in negotiated field list on all subsequent dated versions of the property. */
+        NEGOTIATED_FLDS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=19, sysNumber=74.0, core=true, t24Name=NEGOTIATED.FLDS)
+    }
+    AA_PRD_DES_PREFERENTIAL_PRICING__NR_ATTRIBUTE
+    {
+/* Defines which individual attribute (field) has the negotiation rules defined in fields "Nr.Negotiable" through to "Nr.Message"
+Must be a valid field name within this property
+
+
+This field is part of a multi value set */
+        NR_ATTRIBUTE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=65.0, core=true, t24Name=NR.ATTRIBUTE)
+        NR_OPTIONS -> byValue AA_PreferentialPricing:AA_PRD_DES_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_OPTIONS *
+            @t24:i (t24Name=NR.OPTIONS)
+        /* System Field - Reserved for future use */
+        NR_RESERVED1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=68.0, core=true, t24Name=NR.RESERVED1)
+        /* System Field - Reserved for future use */
+        NR_RESERVED2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=67.0, core=true, t24Name=NR.RESERVED2)
+/* It is possible to define negotiation rules in EB.COMPARISON.TYPE.
+Input must be a valid record from EB.STANDARD.COMPARISON */
+        NR_STD_COMP -> AA_Rules:EB_STANDARD_COMPARISON
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=69.0, core=true, businessType=A, t24Name=NR.STD.COMP)
+        NR_TYPE -> byValue AA_PreferentialPricing:AA_PRD_DES_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_TYPE *
+            @t24:i (t24Name=NR.TYPE)
+    }
+    AA_PRD_DES_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_OPTIONS
+    {
+/* Defines named values to indicate if an option applies to the associated NR.ATTRIBUTE. More than one option can be associated with the NR.ATTRIBUTE, with certain restrictions.
+
+
+
+
+
+
+Valid Inputs are NEGOTIABLE, NON-NEGOTIABLE, OVERRIDE, FIX-VALUE, MANDATORY as described below: -
+
+
+
+
+NEGOTIABLE
+
+
+The value of NEGOTIABLE will indicate that the associated NR.ATTRIBUTE can be negotiated at the arrangement level.
+
+
+
+
+NON-NEGOTIABLE
+
+
+The value of NON-NEGOTIABLE will indicate that the associated NR.ATTRIBUTE cannot be negotiated at the arrangement level. Both NEGOTIABLE and NON-NEGOTIABLE cannot be defined together
+
+
+
+
+OVERRIDE
+
+
+Specifies if a default override message should be generated if the default attribute is amended at the arrangement level. If OVERRIDE is not specified, no override will be generated.
+
+
+
+
+FIX-VALUE
+
+
+Specified if the field value is to be fixed at the arrangement level. If FIX-VALUE is not specified the field value will vary with the changes to the underlying product condition.
+
+
+
+
+MANDATORY
+
+
+Specifies if the attribute is mandatory for this product condition. Can only be specified where the attribute is not defined as mandatory in the property class. */
+        NR_OPTIONS : AA_PreferentialPricing:AA_PRD_DES_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_OPTIONS__NR_OPTIONS
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=66.0, core=true, t24Name=NR.OPTIONS)
+    }
+    AA_PRD_DES_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_TYPE
+    {
+/* This field indicates whether to raise error or override message when rule is broken
+
+
+Allows only two values ERROR or OVERRIDE
+
+
+ERROR error message is raised
+
+
+OVERRIDE Override message is generated */
+        NR_MESSAGE : AA_PreferentialPricing:AA_PRD_DES_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_TYPE__NR_MESSAGE
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=72.0, core=true, t24Name=NR.MESSAGE)
+/* Defines the negotiation rule that is linked to the field defined in "Nr.Attribute". If an attribute has a negotiation rule linked to it (in associated fields NR.TYPE, NR.VALUE and NR.MESSAGE) the attribute must be defined as negotiable.
+
+
+It is possible to define more than one negotiation rule for an attribute
+
+
+
+
+
+
+Input must be a valid record from EB.COMPARISON.TYPE
+
+
+This is a multi value set of fields */
+        NR_TYPE -> AA_Rules:EB_COMPARISON_TYPE
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=70.0, core=true, businessType=A, t24Name=NR.TYPE)
+        /* Defines the value that links to the rule in field "Nr.Type" */
+        NR_VALUE : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=60, sysNumber=71.0, core=true, t24Name=NR.VALUE)
+    }
+    AA_PRD_DES_PREFERENTIAL_PRICING__OVERRIDE
+    {
+        /* Standard Override field containing override messages generated by amendments to this property */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=84.0, core=true, t24Name=OVERRIDE)
+    }
+    AA_PRD_DES_PREFERENTIAL_PRICING__OWNING_COMPANY
+    {
+/* This field is used to capture the T24 Company(ies) that own the Product Condition record. There is no functionality attached to this field and can be used only for access control through SMS verification.
+
+The input in this field must be a valid record in company table and should belong to current financial group.
+
+This is a multi value field. Input in this field is optional. */
+        OWNING_COMPANY -> ST_CompanyCreation:COMPANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=58.0, core=true, businessType=AAPRODUCT, t24Name=OWNING.COMPANY, typeModifiers=COMPANY)
+    }
+    AA_PRD_DES_PREFERENTIAL_PRICING__PR_ATTRIBUTE
+    {
+        /* This will hold two values either DUE or CAPITALISE. This Field denote which application method(DUE or CAPITALISE)should be taken while applying periodic rule charges. */
+        PR_APP_METHOD : AA_PreferentialPricing:AA_PRD_DES_PREFERENTIAL_PRICING__PR_ATTRIBUTE__PR_APP_METHOD
+            @i18n:Label (en="Application Method")
+            @i18n:Tooltip (en="This will hold two values either DUE or CAPITALISE")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=54.0, core=true, t24Name=PR.APP.METHOD)
+        /* This will have to accept a valid T24 period. This Field will denote the application period for current application method. */
+        PR_APP_PERIOD : T24BusinessTypes:PERIOD
+            @i18n:Label (en="Application Period")
+            @i18n:Tooltip (en="Denote the period for current aplication method")
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=55.0, core=true, t24Name=PR.APP.PERIOD)
+/* These are set of Attributes which define the names of the rule, which will be applied on certain attributes of property classes over a period of time.
+Input must be a valid record from AA.PERIODIC.ATTRIBUTE */
+        PR_ATTRIBUTE -> AA_Rules:AA_PERIODIC_ATTRIBUTE
+            @i18n:Label (en=Attribute)
+            @i18n:Tooltip (en="Attributes defining the names of the rule applied")
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=46.0, core=true, businessType=A, t24Name=PR.ATTRIBUTE)
+/* Charge can be collected when the periodic rule is broken
+
+
+This field denotes the charge property. The property and its condition is
+
+
+defined the product designer and validated during publishing
+
+
+
+
+
+
+Valid charge property */
+        PR_BRK_CHARGE -> AA_ProductFramework:AA_PROPERTY
+            @i18n:Label (en=Charge)
+            @i18n:Tooltip (en="Charge collected when the periodic rule is broken")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=50.0, core=true, businessType=A, t24Name=PR.BRK.CHARGE)
+/* Based on the PR.BRK.RES option selected, this will hold either an OVERRIDE or EB.ERROR id. By default the ids will be picked from the associated EB.COMPARISON.TYPE record. If CAP or FLOOR values are given, then the underlying AA.PERIODIC.ATTRIBUTE.CLASS should have this type defined in it.
+Input must be a valid OVERRIDE ID or EB.ERROR ID. */
+        PR_BRK_MSG : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=49.0, core=true, t24Name=PR.BRK.MSG)
+/* When a rule is broken what action needs to be taken is defined here. Currently, the various options available are
+
+
+
+
+Error block further processing
+
+
+Override Give an override
+
+
+Information Record details only
+
+
+CAP the rule value is to be used as a CAP if the rule is broken
+
+
+FLOOR the rule value is to be used as a FLOOR if the rule is broken
+
+
+
+
+Validation rules
+
+
+Should be one of the above valid options */
+        PR_BRK_RES : AA_PreferentialPricing:AA_PRD_DES_PREFERENTIAL_PRICING__PR_ATTRIBUTE__PR_BRK_RES
+            @i18n:Label (en=Rule)
+            @i18n:Tooltip (en="Action to be taken when rule is broken")
+            @t24:i (align=L, inputBehaviour=I, maxLength=13, sysNumber=48.0, core=true, t24Name=PR.BRK.RES)
+        /* System field - reserved for future use */
+        PR_RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=53.0, core=true, t24Name=PR.RESERVED.1)
+        /* System field - reserved for future use */
+        PR_RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=52.0, core=true, t24Name=PR.RESERVED.2)
+        /* System field - reserved for future use */
+        PR_RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=51.0, core=true, t24Name=PR.RESERVED.3)
+/* This is the actual rule value, which will be applied on certain attributes of the property classes over a period of time.
+Input must be a valid data type defined in the corresponding
+
+
+AA.PERIODIC.ATTRIBUTE.CLASS record. */
+        PR_VALUE : T24BusinessTypes:A
+            @i18n:Label (en="Value ")
+            @i18n:Tooltip (en="Value of rule applied on certain attributes")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=47.0, core=true, t24Name=PR.VALUE)
+    }
+    AA_PRD_DES_PREFERENTIAL_PRICING__STMT_NOS
+    {
+        /* System field - not used for property conditions */
+        STMT_NOS : T24BusinessTypes:N
+            @i18n:Label (en="Stmt Nos")
+            @i18n:Tooltip (en="Stmt Nos")
+            @t24:i (align=R, inputBehaviour=N, maxLength=20, sysNumber=83.0, core=true, t24Name=STMT.NOS)
+    }
+    /* The table would allow for the configuration of the “preferential” pricing adjustments that should be made to financial arrangement for customers who have a certain relationship with the bank. */
+    AA_PRD_PRF_PREFERENTIAL_PRICING
+        @i18n:Description (en="")
+        @t24:i (t24Name=AA.PRD.PRF.PREFERENTIAL.PRICING, nonStop=true, level=I, type=W, allowedFunctions="L Q S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=92.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=93.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=89.0, core=true, t24Name=AUTHORISER)
+        BONUS_PROD_LINE -> byValue AA_PreferentialPricing:AA_PRD_PRF_PREFERENTIAL_PRICING__BONUS_PROD_LINE *
+            @t24:i (t24Name=BONUS.PROD.LINE)
+        CHANGED_FIELDS -> byValue AA_PreferentialPricing:AA_PRD_PRF_PREFERENTIAL_PRICING__CHANGED_FIELDS *
+            @t24:i (t24Name=CHANGED.FIELDS)
+        CHARGE_PROD_LINE -> byValue AA_PreferentialPricing:AA_PRD_PRF_PREFERENTIAL_PRICING__CHARGE_PROD_LINE *
+            @t24:i (t24Name=CHARGE.PROD.LINE)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=90.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=86.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue AA_PreferentialPricing:AA_PRD_PRF_PREFERENTIAL_PRICING__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+/* Optional field - Allowed Values are RESETTING and NON-RESETTING.
+
+
+
+
+RESETTING - During any Renewal Activities (for eg : change.product, rollover or reset) the property conditions will be reset from the product.
+
+
+
+
+NON-RESETTING - During any Renewal Activities property conditions will be maintained from the Arrangement level.
+
+
+
+
+Leaving the field blank sets NON-RESETTING as the default option. */
+        DEFAULT_ATTR_OPTION : AA_PreferentialPricing:AA_PRD_PRF_PREFERENTIAL_PRICING__DEFAULT_ATTR_OPTION
+            @i18n:Label (en="Default Attribute Option")
+            @i18n:Tooltip (en="Allowed Values are RESETTING and NON-RESETTING")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=63.0, core=true, t24Name=DEFAULT.ATTR.OPTION)
+        /* Defines whether all attributes (fields) can be negotiable or not. */
+        DEFAULT_NEGOTIABLE : AA_PreferentialPricing:AA_PRD_PRF_PREFERENTIAL_PRICING__DEFAULT_NEGOTIABLE required
+            @i18n:Label (en="Default Negotiable")
+            @i18n:Tooltip (en="IF all attributes can be negotiable or not")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=64.0, core=true, t24Name=DEFAULT.NEGOTIABLE)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=91.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue AA_PreferentialPricing:AA_PRD_PRF_PREFERENTIAL_PRICING__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        /* This field holds the Full description for the condition. It */
+        FULL_DESCRIPTION : T24BusinessTypes:TEXT
+            @t24:i (align=L, inputBehaviour=I, maxLength=100, sysNumber=2.0, core=true, t24Name=FULL.DESCRIPTION)
+/* Contains the arrangement number, extracted from the first component of the id
+
+
+Not applicable at product level
+
+
+System updated field no input allowed */
+        ID_COMP_1 : T24BusinessTypes:A
+            @i18n:Label (en="Arrangement Id")
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=75.0, core=true, t24Name=ID.COMP.1)
+/* The action that was triggered on the arrangement property
+
+
+The action is taken from ACTIVITY.CLASS record of the underlying AA.ARRANGEMENT.ACTIVITY request that caused the record to be modified. */
+        ID_COMP_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=76.0, core=true, t24Name=ID.COMP.2)
+/* Contains the effective date of the property condition
+
+
+Not applicable at product level
+
+
+System updated field no input allowed */
+        ID_COMP_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=30, sysNumber=77.0, core=true, t24Name=ID.COMP.3)
+/* Reserved for future use
+
+
+Not applicable at product level
+
+
+System field no input allowed */
+        ID_COMP_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=78.0, core=true, t24Name=ID.COMP.4)
+/* Reserved for future use
+
+
+Not applicable at product level
+
+
+System field no input allowed */
+        ID_COMP_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=79.0, core=true, t24Name=ID.COMP.5)
+/* Reserved for future use
+
+
+Not applicable at product level
+
+
+System field no input allowed */
+        ID_COMP_6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=80.0, core=true, t24Name=ID.COMP.6)
+        INPUTTER -> byValue AA_PreferentialPricing:AA_PRD_PRF_PREFERENTIAL_PRICING__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        INT_PROD_LINE -> byValue AA_PreferentialPricing:AA_PRD_PRF_PREFERENTIAL_PRICING__INT_PROD_LINE *
+            @t24:i (t24Name=INT.PROD.LINE)
+        NEGOTIATED_FLDS -> byValue AA_PreferentialPricing:AA_PRD_PRF_PREFERENTIAL_PRICING__NEGOTIATED_FLDS *
+            @t24:i (t24Name=NEGOTIATED.FLDS)
+        NR_ATTRIBUTE -> byValue AA_PreferentialPricing:AA_PRD_PRF_PREFERENTIAL_PRICING__NR_ATTRIBUTE *
+            @t24:i (t24Name=NR.ATTRIBUTE)
+        OVERRIDE -> byValue AA_PreferentialPricing:AA_PRD_PRF_PREFERENTIAL_PRICING__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        OWNING_COMPANY -> byValue AA_PreferentialPricing:AA_PRD_PRF_PREFERENTIAL_PRICING__OWNING_COMPANY *
+            @t24:i (t24Name=OWNING.COMPANY)
+/* This field represents the key to the product level conditions of a property class
+
+
+This field basically has three components seperated by a hyphen
+
+
+Condition id
+
+
+Currency - if the property class is currency based. By default takes up local currency
+
+
+Effective date - if the property class is dated */
+        PRODUCT_KEY -> AA_PreferentialPricing:AA_PRD_PRF_PREFERENTIAL_PRICING PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=80, sysNumber=0.0, core=true, businessType=ANY, t24Name=PRODUCT.KEY)
+        PR_ATTRIBUTE -> byValue AA_PreferentialPricing:AA_PRD_PRF_PREFERENTIAL_PRICING__PR_ATTRIBUTE *
+            @t24:i (t24Name=PR.ATTRIBUTE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=85.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=44.0, core=true, t24Name=RESERVED1)
+        RESERVED12 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=15.0, core=true, t24Name=RESERVED12)
+        RESERVED13 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=14.0, core=true, t24Name=RESERVED13)
+        RESERVED2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=43.0, core=true, t24Name=RESERVED2)
+        RESERVED2_ID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=81.0, core=true, t24Name=RESERVED2.ID)
+        RESERVED3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=42.0, core=true, t24Name=RESERVED3)
+        RESERVED4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=41.0, core=true, t24Name=RESERVED4)
+        RESERVED5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=40.0, core=true, t24Name=RESERVED5)
+        RESERVED8 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=28.0, core=true, t24Name=RESERVED8)
+        RESERVED9 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=27.0, core=true, t24Name=RESERVED9)
+        STMT_NOS -> byValue AA_PreferentialPricing:AA_PRD_PRF_PREFERENTIAL_PRICING__STMT_NOS *
+            @t24:i (t24Name=STMT.NOS)
+        /* System field - reserved for future use */
+        SYS_RESERVE1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=62.0, core=true, t24Name=SYS.RESERVE1)
+        /* System field - reserved for future use */
+        SYS_RESERVE2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=61.0, core=true, t24Name=SYS.RESERVE2)
+        /* System field - reserved for future use */
+        SYS_RESERVE3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=60.0, core=true, t24Name=SYS.RESERVE3)
+        /* System field - reserved for future use */
+        SYS_RESERVE4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=59.0, core=true, t24Name=SYS.RESERVE4)
+        /* System field - reserved for future use */
+        SYS_RESERVE6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=57.0, core=true, t24Name=SYS.RESERVE6)
+        /* System field - reserved for future use */
+        SYS_RESERVE7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=56.0, core=true, t24Name=SYS.RESERVE7)
+/* This field denotes the target classic product of the given property class
+
+
+
+
+The already existing T24 products are mapped using AA infrastructure
+
+
+These are called classic products
+
+
+These products are mapped to different property classes */
+        TARGET_PRODUCT : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=82.0, core=true, t24Name=TARGET.PRODUCT)
+    }
+    AA_PRD_PRF_PREFERENTIAL_PRICING__BONUS_PROD_LINE
+    {
+        /* Specific Product for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL producs. */
+        BONUS_PRODUCT -> AA_ProductManagement:AA_PRODUCT
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=18.0, core=true, businessType=A, t24Name=BONUS.PRODUCT)
+        /* Product Group for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL product groups. */
+        BONUS_PROD_GROUP -> AA_ProductFramework:AA_PRODUCT_GROUP
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=17.0, core=true, businessType=A, t24Name=BONUS.PROD.GROUP)
+        /* Product line for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL product lines for this relationship customer. */
+        BONUS_PROD_LINE -> AA_ProductFramework:AA_PRODUCT_LINE
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=16.0, core=true, businessType=A, t24Name=BONUS.PROD.LINE)
+/* Product Variation for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL variations for this product.
+Should be a valid record in EB.LOOKUP of AA.PRODUCT.VARIATION type. */
+        BONUS_PROD_VAR : AA_PreferentialPricing:AA_PRD_PRF_PREFERENTIAL_PRICING__BONUS_PROD_LINE__BONUS_PROD_VAR
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=19.0, core=true, t24Name=BONUS.PROD.VAR)
+        BONUS_PROPERTY -> byValue AA_PreferentialPricing:AA_PRD_PRF_PREFERENTIAL_PRICING__BONUS_PROD_LINE__BONUS_PROPERTY *
+            @t24:i (t24Name=BONUS.PROPERTY)
+        RESERVED10 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=21.0, core=true, t24Name=RESERVED10)
+        RESERVED11 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=20.0, core=true, t24Name=RESERVED11)
+    }
+    AA_PRD_PRF_PREFERENTIAL_PRICING__BONUS_PROD_LINE__BONUS_PROPERTY
+    {
+/* Actual Bonus Amount  - if an amount is specified it will replace the amount calculated/specified on the arrangement (mutually exclusive with BONUS.UPLIFT)
+An amount specified here must still adhere to the “Minimum Charge” and “Charge Waive” fields and any Periodic Attributes of the Charge Property Class. */
+        BONUS_AMOUNT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=25.0, core=true, t24Name=BONUS.AMOUNT)
+/* Currency of the arrangement and amount if specified. (mandatory if BON.AMOUNT is populated)
+Should be a valid record in CURRENCY application */
+        BONUS_CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=23.0, core=true, businessType=CCY, t24Name=BONUS.CURRENCY)
+        /* Allows a user to mark a Property/Currency combination to be excluded from Preferential Pricing.  This can be used in the case where there is a “generic” setting for preferential pricing (e.g. 50% uplift for all bonuses) and the user wants to exclude a specific bonus (e.g. New Arrangement Rebate) or currency from the preferential pricing. */
+        BONUS_EXCLUDE : AA_PreferentialPricing:AA_PRD_PRF_PREFERENTIAL_PRICING__BONUS_PROD_LINE__BONUS_PROPERTY__BONUS_EXCLUDE
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=26.0, core=true, t24Name=BONUS.EXCLUDE)
+        /* Credit Charge Property. Could be left blank to indicate the definition is applicable for ALL charge properties of this product/line. */
+        BONUS_PROPERTY -> AA_ProductFramework:AA_PROPERTY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=22.0, core=true, businessType=A, t24Name=BONUS.PROPERTY)
+/* Percentage Uplift – if specified as 50 the calculated bonus will be increased by 50%.  (mutually exclusive with BONUS.AMOUNT)
+Rate field to indicate the percentage value. If stated, cannot exceed 100 and cannot be less than 0. */
+        BONUS_UPLIFT : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=24.0, core=true, t24Name=BONUS.UPLIFT)
+    }
+    AA_PRD_PRF_PREFERENTIAL_PRICING__CHANGED_FIELDS
+    {
+        /* No input and multi value field - lists all fields that have been negotiated for each dated version of the property. For a subsequently dated property, the attributes listed in this field will appear in "Negotiated.Fields" and only newly negotiated fields will appear on "Changed.Fields" */
+        CHANGED_FIELDS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=19, sysNumber=73.0, core=true, t24Name=CHANGED.FIELDS)
+    }
+    AA_PRD_PRF_PREFERENTIAL_PRICING__CHARGE_PROD_LINE
+    {
+        /* Specific Product for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL products. */
+        CHARGE_PRODUCT -> AA_ProductManagement:AA_PRODUCT
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=5.0, core=true, businessType=A, t24Name=CHARGE.PRODUCT)
+        /* Product Group for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL product groups. */
+        CHARGE_PROD_GROUP -> AA_ProductFramework:AA_PRODUCT_GROUP
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=4.0, core=true, businessType=A, t24Name=CHARGE.PROD.GROUP)
+        /* Product line for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL product lines for this relationship customer. */
+        CHARGE_PROD_LINE -> AA_ProductFramework:AA_PRODUCT_LINE
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=3.0, core=true, businessType=A, t24Name=CHARGE.PROD.LINE)
+        /* Product Variation for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL variations for this product. */
+        CHARGE_PROD_VAR : AA_PreferentialPricing:AA_PRD_PRF_PREFERENTIAL_PRICING__CHARGE_PROD_LINE__CHARGE_PROD_VAR
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=6.0, core=true, t24Name=CHARGE.PROD.VAR)
+        CHARGE_PROPERTY -> byValue AA_PreferentialPricing:AA_PRD_PRF_PREFERENTIAL_PRICING__CHARGE_PROD_LINE__CHARGE_PROPERTY *
+            @t24:i (t24Name=CHARGE.PROPERTY)
+        RESERVED14 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=8.0, core=true, t24Name=RESERVED14)
+        RESERVED15 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=7.0, core=true, t24Name=RESERVED15)
+    }
+    AA_PRD_PRF_PREFERENTIAL_PRICING__CHARGE_PROD_LINE__CHARGE_PROPERTY
+    {
+/* Actual Charge Amount - if an amount is specified it will replace the amount calculated/specified on the arrangement (mutually exclusive with CHG.DISCOUNT).
+
+
+An amount specified hear must still adhere to the “Minimum Charge” and “Charge Waive” fields and any Periodic Attributes of the Charge Property Class. */
+        CHARGE_AMOUNT : T24BusinessTypes:AMT
+            @i18n:Label (en="Charge Amount")
+            @i18n:Tooltip (en="Indicates charge amount")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=12.0, core=true, t24Name=CHARGE.AMOUNT)
+        /* Currency of the arrangement and amount if specified. (mandatory if CHG.AMOUNT is populated) */
+        CHARGE_CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en="Charge Currency")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=10.0, core=true, businessType=CCY, t24Name=CHARGE.CURRENCY)
+/* Discount Percentage - if specified as 20 the calculated charge will be reduced by 20% (mutually exclusive with CHG.AMOUNT).
+
+
+Rate field to indicate the percentage value. If stated, cannot exceed 100 and cannot be less than 0. */
+        CHARGE_DISCOUNT : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=11.0, core=true, t24Name=CHARGE.DISCOUNT)
+        /* Allows a user to mark a Property/Currency combination to be excluded from Preferential Pricing. This can be used in the case where there is a “generic” setting for preferential pricing (e.g. 20% off all charges) and the user wants to exclude a specific charge (e.g. ATM fee) or currency from the preferential pricing. */
+        CHARGE_EXCLUDE : AA_PreferentialPricing:AA_PRD_PRF_PREFERENTIAL_PRICING__CHARGE_PROD_LINE__CHARGE_PROPERTY__CHARGE_EXCLUDE
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=13.0, core=true, t24Name=CHARGE.EXCLUDE)
+        /* Debit Charge Property. Could be left blank to indicate the definition is applicable for ALL charge properties of this product/line. */
+        CHARGE_PROPERTY -> AA_ProductFramework:AA_PROPERTY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=9.0, core=true, businessType=A, t24Name=CHARGE.PROPERTY)
+    }
+    AA_PRD_PRF_PREFERENTIAL_PRICING__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=88.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    AA_PRD_PRF_PREFERENTIAL_PRICING__DESCRIPTION
+    {
+        /* This field holds the language specific short description for the condition. */
+        DESCRIPTION : T24BusinessTypes:ANY required
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    AA_PRD_PRF_PREFERENTIAL_PRICING__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=87.0, core=true, t24Name=INPUTTER)
+    }
+    AA_PRD_PRF_PREFERENTIAL_PRICING__INT_PROD_LINE
+    {
+        /* Specific Product for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL products. */
+        INT_PRODUCT -> AA_ProductManagement:AA_PRODUCT
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=31.0, core=true, businessType=A, t24Name=INT.PRODUCT)
+        /* Product Group for which this interest pricing is valid. Could be left blank to indicate the definition is applicable for ALL product groups. */
+        INT_PROD_GROUP -> AA_ProductFramework:AA_PRODUCT_GROUP
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=30.0, core=true, businessType=A, t24Name=INT.PROD.GROUP)
+        /* Product line for which this Interest pricing is valid. Could be left blank to indicate the definition is applicable for ALL product lines for this relationship customer. */
+        INT_PROD_LINE -> AA_ProductFramework:AA_PRODUCT_LINE
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=29.0, core=true, businessType=A, t24Name=INT.PROD.LINE)
+        /* Product Variation for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL variations for this product. */
+        INT_PROD_VAR : AA_PreferentialPricing:AA_PRD_PRF_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROD_VAR
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=32.0, core=true, t24Name=INT.PROD.VAR)
+        INT_PROPERTY -> byValue AA_PreferentialPricing:AA_PRD_PRF_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROPERTY *
+            @t24:i (t24Name=INT.PROPERTY)
+        RESERVED6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=34.0, core=true, t24Name=RESERVED6)
+        RESERVED7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=33.0, core=true, t24Name=RESERVED7)
+    }
+    AA_PRD_PRF_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROPERTY
+    {
+        /* Arrangement Currency (mandatory in all cases except when “exclude” is checked) */
+        INT_CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=36.0, core=true, businessType=CCY, t24Name=INT.CURRENCY)
+        /* Allows a user to mark a Property/Currency combination to be excluded from Preferential Pricing.  This can be used in the case where there is a “generic” setting for preferential pricing (e.g. Subtract 0.2 from all debit interest) and the user wants to exclude a specific product/property (e.g. debit interest on the special mortgage product) from the preferential pricing. */
+        INT_EXCLUDE : AA_PreferentialPricing:AA_PRD_PRF_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROPERTY__INT_EXCLUDE
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=39.0, core=true, t24Name=INT.EXCLUDE)
+/* Preferential Margin
+The final rate including the preferential margin would still respect all Periodic Attributes that have been defined. */
+        INT_MARGIN : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=38.0, core=true, t24Name=INT.MARGIN)
+        /* Operand to 'Add to', 'Subtract from', or 'Multiply' the standard rate with the preferential margin. */
+        INT_OPERAND : AA_PreferentialPricing:AA_PRD_PRF_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROPERTY__INT_OPERAND
+            @t24:i (align=L, inputBehaviour=I, maxLength=9, sysNumber=37.0, core=true, t24Name=INT.OPERAND)
+        /* Interest Property. Could be left blank to indicate the definition is applicable for ALL interest properties of this product/line. */
+        INT_PROPERTY -> AA_ProductFramework:AA_PROPERTY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=35.0, core=true, businessType=A, t24Name=INT.PROPERTY)
+    }
+    AA_PRD_PRF_PREFERENTIAL_PRICING__NEGOTIATED_FLDS
+    {
+/* No input and multi value field that lists the attributes on the arrangement property record that have been fixed and/or negotiated. These are stored when the arrangement level record is committed. When the arrangement level record is next used all items in the NEGOTIATED.FIELDS list will be maintained.
+
+
+Once an attribute has been fixed or negotiated it will remain in negotiated field list on all subsequent dated versions of the property. */
+        NEGOTIATED_FLDS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=19, sysNumber=74.0, core=true, t24Name=NEGOTIATED.FLDS)
+    }
+    AA_PRD_PRF_PREFERENTIAL_PRICING__NR_ATTRIBUTE
+    {
+/* Defines which individual attribute (field) has the negotiation rules defined in fields "Nr.Negotiable" through to "Nr.Message"
+Must be a valid field name within this property
+
+
+This field is part of a multi value set */
+        NR_ATTRIBUTE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=65.0, core=true, t24Name=NR.ATTRIBUTE)
+        NR_OPTIONS -> byValue AA_PreferentialPricing:AA_PRD_PRF_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_OPTIONS *
+            @t24:i (t24Name=NR.OPTIONS)
+        /* System Field - Reserved for future use */
+        NR_RESERVED1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=68.0, core=true, t24Name=NR.RESERVED1)
+        /* System Field - Reserved for future use */
+        NR_RESERVED2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=67.0, core=true, t24Name=NR.RESERVED2)
+/* It is possible to define negotiation rules in EB.COMPARISON.TYPE.
+Input must be a valid record from EB.STANDARD.COMPARISON */
+        NR_STD_COMP -> AA_Rules:EB_STANDARD_COMPARISON
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=69.0, core=true, businessType=A, t24Name=NR.STD.COMP)
+        NR_TYPE -> byValue AA_PreferentialPricing:AA_PRD_PRF_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_TYPE *
+            @t24:i (t24Name=NR.TYPE)
+    }
+    AA_PRD_PRF_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_OPTIONS
+    {
+/* Defines named values to indicate if an option applies to the associated NR.ATTRIBUTE. More than one option can be associated with the NR.ATTRIBUTE, with certain restrictions.
+
+
+
+
+
+
+Valid Inputs are NEGOTIABLE, NON-NEGOTIABLE, OVERRIDE, FIX-VALUE, MANDATORY as described below: -
+
+
+
+
+NEGOTIABLE
+
+
+The value of NEGOTIABLE will indicate that the associated NR.ATTRIBUTE can be negotiated at the arrangement level.
+
+
+
+
+NON-NEGOTIABLE
+
+
+The value of NON-NEGOTIABLE will indicate that the associated NR.ATTRIBUTE cannot be negotiated at the arrangement level. Both NEGOTIABLE and NON-NEGOTIABLE cannot be defined together
+
+
+
+
+OVERRIDE
+
+
+Specifies if a default override message should be generated if the default attribute is amended at the arrangement level. If OVERRIDE is not specified, no override will be generated.
+
+
+
+
+FIX-VALUE
+
+
+Specified if the field value is to be fixed at the arrangement level. If FIX-VALUE is not specified the field value will vary with the changes to the underlying product condition.
+
+
+
+
+MANDATORY
+
+
+Specifies if the attribute is mandatory for this product condition. Can only be specified where the attribute is not defined as mandatory in the property class. */
+        NR_OPTIONS : AA_PreferentialPricing:AA_PRD_PRF_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_OPTIONS__NR_OPTIONS
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=66.0, core=true, t24Name=NR.OPTIONS)
+    }
+    AA_PRD_PRF_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_TYPE
+    {
+/* This field indicates whether to raise error or override message when rule is broken
+
+
+Allows only two values ERROR or OVERRIDE
+
+
+ERROR error message is raised
+
+
+OVERRIDE Override message is generated */
+        NR_MESSAGE : AA_PreferentialPricing:AA_PRD_PRF_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_TYPE__NR_MESSAGE
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=72.0, core=true, t24Name=NR.MESSAGE)
+/* Defines the negotiation rule that is linked to the field defined in "Nr.Attribute". If an attribute has a negotiation rule linked to it (in associated fields NR.TYPE, NR.VALUE and NR.MESSAGE) the attribute must be defined as negotiable.
+
+
+It is possible to define more than one negotiation rule for an attribute
+
+
+
+
+
+
+Input must be a valid record from EB.COMPARISON.TYPE
+
+
+This is a multi value set of fields */
+        NR_TYPE -> AA_Rules:EB_COMPARISON_TYPE
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=70.0, core=true, businessType=A, t24Name=NR.TYPE)
+        /* Defines the value that links to the rule in field "Nr.Type" */
+        NR_VALUE : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=60, sysNumber=71.0, core=true, t24Name=NR.VALUE)
+    }
+    AA_PRD_PRF_PREFERENTIAL_PRICING__OVERRIDE
+    {
+        /* Standard Override field containing override messages generated by amendments to this property */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=84.0, core=true, t24Name=OVERRIDE)
+    }
+    AA_PRD_PRF_PREFERENTIAL_PRICING__OWNING_COMPANY
+    {
+/* This field is used to capture the T24 Company(ies) that own the Product Condition record. There is no functionality attached to this field and can be used only for access control through SMS verification.
+
+The input in this field must be a valid record in company table and should belong to current financial group.
+
+This is a multi value field. Input in this field is optional. */
+        OWNING_COMPANY -> ST_CompanyCreation:COMPANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=58.0, core=true, businessType=AAPRODUCT, t24Name=OWNING.COMPANY, typeModifiers=COMPANY)
+    }
+    AA_PRD_PRF_PREFERENTIAL_PRICING__PR_ATTRIBUTE
+    {
+        /* This will hold two values either DUE or CAPITALISE. This Field denote which application method(DUE or CAPITALISE)should be taken while applying periodic rule charges. */
+        PR_APP_METHOD : AA_PreferentialPricing:AA_PRD_PRF_PREFERENTIAL_PRICING__PR_ATTRIBUTE__PR_APP_METHOD
+            @i18n:Label (en="Application Method")
+            @i18n:Tooltip (en="This will hold two values either DUE or CAPITALISE")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=54.0, core=true, t24Name=PR.APP.METHOD)
+        /* This will have to accept a valid T24 period. This Field will denote the application period for current application method. */
+        PR_APP_PERIOD : T24BusinessTypes:PERIOD
+            @i18n:Label (en="Application Period")
+            @i18n:Tooltip (en="Denote the period for current aplication method")
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=55.0, core=true, t24Name=PR.APP.PERIOD)
+/* These are set of Attributes which define the names of the rule, which will be applied on certain attributes of property classes over a period of time.
+Input must be a valid record from AA.PERIODIC.ATTRIBUTE */
+        PR_ATTRIBUTE -> AA_Rules:AA_PERIODIC_ATTRIBUTE
+            @i18n:Label (en=Attribute)
+            @i18n:Tooltip (en="Attributes defining the names of the rule applied")
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=46.0, core=true, businessType=A, t24Name=PR.ATTRIBUTE)
+/* Charge can be collected when the periodic rule is broken
+
+
+This field denotes the charge property. The property and its condition is
+
+
+defined the product designer and validated during publishing
+
+
+
+
+
+
+Valid charge property */
+        PR_BRK_CHARGE -> AA_ProductFramework:AA_PROPERTY
+            @i18n:Label (en=Charge)
+            @i18n:Tooltip (en="Charge collected when the periodic rule is broken")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=50.0, core=true, businessType=A, t24Name=PR.BRK.CHARGE)
+/* Based on the PR.BRK.RES option selected, this will hold either an OVERRIDE or EB.ERROR id. By default the ids will be picked from the associated EB.COMPARISON.TYPE record. If CAP or FLOOR values are given, then the underlying AA.PERIODIC.ATTRIBUTE.CLASS should have this type defined in it.
+Input must be a valid OVERRIDE ID or EB.ERROR ID. */
+        PR_BRK_MSG : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=49.0, core=true, t24Name=PR.BRK.MSG)
+/* When a rule is broken what action needs to be taken is defined here. Currently, the various options available are
+
+
+
+
+Error block further processing
+
+
+Override Give an override
+
+
+Information Record details only
+
+
+CAP the rule value is to be used as a CAP if the rule is broken
+
+
+FLOOR the rule value is to be used as a FLOOR if the rule is broken
+
+
+
+
+Validation rules
+
+
+Should be one of the above valid options */
+        PR_BRK_RES : AA_PreferentialPricing:AA_PRD_PRF_PREFERENTIAL_PRICING__PR_ATTRIBUTE__PR_BRK_RES
+            @i18n:Label (en=Rule)
+            @i18n:Tooltip (en="Action to be taken when rule is broken")
+            @t24:i (align=L, inputBehaviour=I, maxLength=13, sysNumber=48.0, core=true, t24Name=PR.BRK.RES)
+        /* System field - reserved for future use */
+        PR_RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=53.0, core=true, t24Name=PR.RESERVED.1)
+        /* System field - reserved for future use */
+        PR_RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=52.0, core=true, t24Name=PR.RESERVED.2)
+        /* System field - reserved for future use */
+        PR_RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=51.0, core=true, t24Name=PR.RESERVED.3)
+/* This is the actual rule value, which will be applied on certain attributes of the property classes over a period of time.
+Input must be a valid data type defined in the corresponding
+
+
+AA.PERIODIC.ATTRIBUTE.CLASS record. */
+        PR_VALUE : T24BusinessTypes:A
+            @i18n:Label (en="Value ")
+            @i18n:Tooltip (en="Value of rule applied on certain attributes")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=47.0, core=true, t24Name=PR.VALUE)
+    }
+    AA_PRD_PRF_PREFERENTIAL_PRICING__STMT_NOS
+    {
+        /* System field - not used for property conditions */
+        STMT_NOS : T24BusinessTypes:N
+            @i18n:Label (en="Stmt Nos")
+            @i18n:Tooltip (en="Stmt Nos")
+            @t24:i (align=R, inputBehaviour=N, maxLength=20, sysNumber=83.0, core=true, t24Name=STMT.NOS)
+    }
+    /* The table would allow for the configuration of the “preferential” pricing adjustments that should be made to financial arrangement for customers who have a certain relationship with the bank. */
+    AA_SIM_PREFERENTIAL_PRICING
+        @i18n:Description (en="")
+        @t24:i (t24Name=AA.SIM.PREFERENTIAL.PRICING, nonStop=true, level=F, type=H, allowedFunctions="A C D E I L Q R S", localRefAllowed=true)
+    {
+        ACTION -> byValue AA_PreferentialPricing:AA_SIM_PREFERENTIAL_PRICING__ACTION *
+            @t24:i (t24Name=ACTION)
+/* The activity that caused this arrangement property to be updated.
+
+
+The activity is taken from the underlying AA.ARRANGEMENT.ACTIVITY request that caused the record to be modified */
+        ACTIVITY : T24BusinessTypes:A required
+            @i18n:Label (en=Activity)
+            @t24:i (align=L, inputBehaviour=I, maxLength=80, sysNumber=1.0, core=true, t24Name=ACTIVITY)
+/* The key to the arrangement property condition.
+
+
+The key is comprised of the following components (delimited by a -)
+
+
+Arrangement Id
+
+
+Property name
+
+
+Effective Date */
+        ARRANGEMENT_KEY -> AA_PreferentialPricing:AA_SIM_PREFERENTIAL_PRICING PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=80, sysNumber=0.0, core=true, businessType=ANY, t24Name=ARRANGEMENT.KEY)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=92.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=93.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=89.0, core=true, t24Name=AUTHORISER)
+        BONUS_PROD_LINE -> byValue AA_PreferentialPricing:AA_SIM_PREFERENTIAL_PRICING__BONUS_PROD_LINE *
+            @t24:i (t24Name=BONUS.PROD.LINE)
+        CHANGED_FIELDS -> byValue AA_PreferentialPricing:AA_SIM_PREFERENTIAL_PRICING__CHANGED_FIELDS *
+            @t24:i (t24Name=CHANGED.FIELDS)
+        CHARGE_PROD_LINE -> byValue AA_PreferentialPricing:AA_SIM_PREFERENTIAL_PRICING__CHARGE_PROD_LINE *
+            @t24:i (t24Name=CHARGE.PROD.LINE)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=90.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=86.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue AA_PreferentialPricing:AA_SIM_PREFERENTIAL_PRICING__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+/* Optional field - Allowed Values are RESETTING and NON-RESETTING.
+
+
+
+
+RESETTING - During any Renewal Activities (for eg : change.product, rollover or reset) the property conditions will be reset from the product.
+
+
+
+
+NON-RESETTING - During any Renewal Activities property conditions will be maintained from the Arrangement level.
+
+
+
+
+Leaving the field blank sets NON-RESETTING as the default option. */
+        DEFAULT_ATTR_OPTION : AA_PreferentialPricing:AA_SIM_PREFERENTIAL_PRICING__DEFAULT_ATTR_OPTION
+            @i18n:Label (en="Default Attribute Option")
+            @i18n:Tooltip (en="Allowed Values are RESETTING and NON-RESETTING")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=63.0, core=true, t24Name=DEFAULT.ATTR.OPTION)
+        /* Defines whether all attributes (fields) can be negotiable or not. */
+        DEFAULT_NEGOTIABLE : AA_PreferentialPricing:AA_SIM_PREFERENTIAL_PRICING__DEFAULT_NEGOTIABLE
+            @i18n:Label (en="Default Negotiable")
+            @i18n:Tooltip (en="IF all attributes can be negotiable or not")
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=64.0, core=true, t24Name=DEFAULT.NEGOTIABLE)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=91.0, core=true, t24Name=DEPT.CODE)
+/* Contains the arrangement number, extracted from the first component of the id
+
+
+Not applicable at product level
+
+
+System updated field no input allowed */
+        ID_COMP_1 : T24BusinessTypes:A
+            @i18n:Label (en="Arrangement Id")
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=75.0, core=true, t24Name=ID.COMP.1)
+/* The action that was triggered on the arrangement property
+
+
+The action is taken from ACTIVITY.CLASS record of the underlying AA.ARRANGEMENT.ACTIVITY request that caused the record to be modified. */
+        ID_COMP_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=76.0, core=true, t24Name=ID.COMP.2)
+/* Contains the effective date of the property condition
+
+
+Not applicable at product level
+
+
+System updated field no input allowed */
+        ID_COMP_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=30, sysNumber=77.0, core=true, t24Name=ID.COMP.3)
+/* Reserved for future use
+
+
+Not applicable at product level
+
+
+System field no input allowed */
+        ID_COMP_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=78.0, core=true, t24Name=ID.COMP.4)
+/* Reserved for future use
+
+
+Not applicable at product level
+
+
+System field no input allowed */
+        ID_COMP_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=79.0, core=true, t24Name=ID.COMP.5)
+/* Reserved for future use
+
+
+Not applicable at product level
+
+
+System field no input allowed */
+        ID_COMP_6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=80.0, core=true, t24Name=ID.COMP.6)
+        INPUTTER -> byValue AA_PreferentialPricing:AA_SIM_PREFERENTIAL_PRICING__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        INT_PROD_LINE -> byValue AA_PreferentialPricing:AA_SIM_PREFERENTIAL_PRICING__INT_PROD_LINE *
+            @t24:i (t24Name=INT.PROD.LINE)
+        NEGOTIATED_FLDS -> byValue AA_PreferentialPricing:AA_SIM_PREFERENTIAL_PRICING__NEGOTIATED_FLDS *
+            @t24:i (t24Name=NEGOTIATED.FLDS)
+        NR_ATTRIBUTE -> byValue AA_PreferentialPricing:AA_SIM_PREFERENTIAL_PRICING__NR_ATTRIBUTE *
+            @t24:i (t24Name=NR.ATTRIBUTE)
+        OVERRIDE -> byValue AA_PreferentialPricing:AA_SIM_PREFERENTIAL_PRICING__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        OWNING_COMPANY -> byValue AA_PreferentialPricing:AA_SIM_PREFERENTIAL_PRICING__OWNING_COMPANY *
+            @t24:i (t24Name=OWNING.COMPANY)
+        PR_ATTRIBUTE -> byValue AA_PreferentialPricing:AA_SIM_PREFERENTIAL_PRICING__PR_ATTRIBUTE *
+            @t24:i (t24Name=PR.ATTRIBUTE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=85.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=44.0, core=true, t24Name=RESERVED1)
+        RESERVED12 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=15.0, core=true, t24Name=RESERVED12)
+        RESERVED13 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=14.0, core=true, t24Name=RESERVED13)
+        RESERVED2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=43.0, core=true, t24Name=RESERVED2)
+        RESERVED2_ID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=81.0, core=true, t24Name=RESERVED2.ID)
+        RESERVED3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=42.0, core=true, t24Name=RESERVED3)
+        RESERVED4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=41.0, core=true, t24Name=RESERVED4)
+        RESERVED5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=40.0, core=true, t24Name=RESERVED5)
+        RESERVED8 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=28.0, core=true, t24Name=RESERVED8)
+        RESERVED9 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=27.0, core=true, t24Name=RESERVED9)
+        STMT_NOS -> byValue AA_PreferentialPricing:AA_SIM_PREFERENTIAL_PRICING__STMT_NOS *
+            @t24:i (t24Name=STMT.NOS)
+        /* System field - reserved for future use */
+        SYS_RESERVE1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=62.0, core=true, t24Name=SYS.RESERVE1)
+        /* System field - reserved for future use */
+        SYS_RESERVE2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=61.0, core=true, t24Name=SYS.RESERVE2)
+        /* System field - reserved for future use */
+        SYS_RESERVE3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=60.0, core=true, t24Name=SYS.RESERVE3)
+        /* System field - reserved for future use */
+        SYS_RESERVE4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=59.0, core=true, t24Name=SYS.RESERVE4)
+        /* System field - reserved for future use */
+        SYS_RESERVE6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=57.0, core=true, t24Name=SYS.RESERVE6, mvSvExpansionAccess=NOEXPAND)
+        /* System field - reserved for future use */
+        SYS_RESERVE7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=56.0, core=true, t24Name=SYS.RESERVE7, mvSvExpansionAccess=NOEXPAND)
+/* This field denotes the target classic product of the given property class
+
+
+
+
+The already existing T24 products are mapped using AA infrastructure
+
+
+These are called classic products
+
+
+These products are mapped to different property classes */
+        TARGET_PRODUCT : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=82.0, core=true, t24Name=TARGET.PRODUCT)
+    }
+    AA_SIM_PREFERENTIAL_PRICING__ACTION
+    {
+/* The activity that caused this arrangement property to be updated.
+
+
+The activity is taken from the underlying AA.ARRANGEMENT.ACTIVITY request that caused the record to be modified */
+        ACTION : T24BusinessTypes:A required
+            @i18n:Label (en=Action)
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=2.0, core=true, t24Name=ACTION)
+    }
+    AA_SIM_PREFERENTIAL_PRICING__BONUS_PROD_LINE
+    {
+        /* Specific Product for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL producs. */
+        BONUS_PRODUCT -> AA_ProductManagement:AA_PRODUCT
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=18.0, core=true, businessType=A, t24Name=BONUS.PRODUCT)
+        /* Product Group for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL product groups. */
+        BONUS_PROD_GROUP -> AA_ProductFramework:AA_PRODUCT_GROUP
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=17.0, core=true, businessType=A, t24Name=BONUS.PROD.GROUP)
+        /* Product line for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL product lines for this relationship customer. */
+        BONUS_PROD_LINE -> AA_ProductFramework:AA_PRODUCT_LINE
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=16.0, core=true, businessType=A, t24Name=BONUS.PROD.LINE)
+/* Product Variation for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL variations for this product.
+Should be a valid record in EB.LOOKUP of AA.PRODUCT.VARIATION type. */
+        BONUS_PROD_VAR : AA_PreferentialPricing:AA_SIM_PREFERENTIAL_PRICING__BONUS_PROD_LINE__BONUS_PROD_VAR
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=19.0, core=true, t24Name=BONUS.PROD.VAR)
+        BONUS_PROPERTY -> byValue AA_PreferentialPricing:AA_SIM_PREFERENTIAL_PRICING__BONUS_PROD_LINE__BONUS_PROPERTY *
+            @t24:i (t24Name=BONUS.PROPERTY)
+        RESERVED10 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=21.0, core=true, t24Name=RESERVED10)
+        RESERVED11 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=20.0, core=true, t24Name=RESERVED11)
+    }
+    AA_SIM_PREFERENTIAL_PRICING__BONUS_PROD_LINE__BONUS_PROPERTY
+    {
+/* Actual Bonus Amount  - if an amount is specified it will replace the amount calculated/specified on the arrangement (mutually exclusive with BONUS.UPLIFT)
+An amount specified here must still adhere to the “Minimum Charge” and “Charge Waive” fields and any Periodic Attributes of the Charge Property Class. */
+        BONUS_AMOUNT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=25.0, core=true, t24Name=BONUS.AMOUNT)
+/* Currency of the arrangement and amount if specified. (mandatory if BON.AMOUNT is populated)
+Should be a valid record in CURRENCY application */
+        BONUS_CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=23.0, core=true, businessType=CCY, t24Name=BONUS.CURRENCY)
+        /* Allows a user to mark a Property/Currency combination to be excluded from Preferential Pricing.  This can be used in the case where there is a “generic” setting for preferential pricing (e.g. 50% uplift for all bonuses) and the user wants to exclude a specific bonus (e.g. New Arrangement Rebate) or currency from the preferential pricing. */
+        BONUS_EXCLUDE : AA_PreferentialPricing:AA_SIM_PREFERENTIAL_PRICING__BONUS_PROD_LINE__BONUS_PROPERTY__BONUS_EXCLUDE
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=26.0, core=true, t24Name=BONUS.EXCLUDE)
+        /* Credit Charge Property. Could be left blank to indicate the definition is applicable for ALL charge properties of this product/line. */
+        BONUS_PROPERTY -> AA_ProductFramework:AA_PROPERTY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=22.0, core=true, businessType=A, t24Name=BONUS.PROPERTY)
+/* Percentage Uplift – if specified as 50 the calculated bonus will be increased by 50%.  (mutually exclusive with BONUS.AMOUNT)
+Rate field to indicate the percentage value. If stated, cannot exceed 100 and cannot be less than 0. */
+        BONUS_UPLIFT : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=24.0, core=true, t24Name=BONUS.UPLIFT)
+    }
+    AA_SIM_PREFERENTIAL_PRICING__CHANGED_FIELDS
+    {
+        /* No input and multi value field - lists all fields that have been negotiated for each dated version of the property. For a subsequently dated property, the attributes listed in this field will appear in "Negotiated.Fields" and only newly negotiated fields will appear on "Changed.Fields" */
+        CHANGED_FIELDS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=19, sysNumber=73.0, core=true, t24Name=CHANGED.FIELDS)
+    }
+    AA_SIM_PREFERENTIAL_PRICING__CHARGE_PROD_LINE
+    {
+        /* Specific Product for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL products. */
+        CHARGE_PRODUCT -> AA_ProductManagement:AA_PRODUCT
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=5.0, core=true, businessType=A, t24Name=CHARGE.PRODUCT)
+        /* Product Group for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL product groups. */
+        CHARGE_PROD_GROUP -> AA_ProductFramework:AA_PRODUCT_GROUP
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=4.0, core=true, businessType=A, t24Name=CHARGE.PROD.GROUP)
+        /* Product line for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL product lines for this relationship customer. */
+        CHARGE_PROD_LINE -> AA_ProductFramework:AA_PRODUCT_LINE
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=3.0, core=true, businessType=A, t24Name=CHARGE.PROD.LINE)
+        /* Product Variation for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL variations for this product. */
+        CHARGE_PROD_VAR : AA_PreferentialPricing:AA_SIM_PREFERENTIAL_PRICING__CHARGE_PROD_LINE__CHARGE_PROD_VAR
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=6.0, core=true, t24Name=CHARGE.PROD.VAR)
+        CHARGE_PROPERTY -> byValue AA_PreferentialPricing:AA_SIM_PREFERENTIAL_PRICING__CHARGE_PROD_LINE__CHARGE_PROPERTY *
+            @t24:i (t24Name=CHARGE.PROPERTY)
+        RESERVED14 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=8.0, core=true, t24Name=RESERVED14)
+        RESERVED15 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=7.0, core=true, t24Name=RESERVED15)
+    }
+    AA_SIM_PREFERENTIAL_PRICING__CHARGE_PROD_LINE__CHARGE_PROPERTY
+    {
+/* Actual Charge Amount - if an amount is specified it will replace the amount calculated/specified on the arrangement (mutually exclusive with CHG.DISCOUNT).
+
+
+An amount specified hear must still adhere to the “Minimum Charge” and “Charge Waive” fields and any Periodic Attributes of the Charge Property Class. */
+        CHARGE_AMOUNT : T24BusinessTypes:AMT
+            @i18n:Label (en="Charge Amount")
+            @i18n:Tooltip (en="Indicates charge amount")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=12.0, core=true, t24Name=CHARGE.AMOUNT)
+        /* Currency of the arrangement and amount if specified. (mandatory if CHG.AMOUNT is populated) */
+        CHARGE_CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en="Charge Currency")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=10.0, core=true, businessType=CCY, t24Name=CHARGE.CURRENCY)
+/* Discount Percentage - if specified as 20 the calculated charge will be reduced by 20% (mutually exclusive with CHG.AMOUNT).
+
+
+Rate field to indicate the percentage value. If stated, cannot exceed 100 and cannot be less than 0. */
+        CHARGE_DISCOUNT : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=11.0, core=true, t24Name=CHARGE.DISCOUNT)
+        /* Allows a user to mark a Property/Currency combination to be excluded from Preferential Pricing. This can be used in the case where there is a “generic” setting for preferential pricing (e.g. 20% off all charges) and the user wants to exclude a specific charge (e.g. ATM fee) or currency from the preferential pricing. */
+        CHARGE_EXCLUDE : AA_PreferentialPricing:AA_SIM_PREFERENTIAL_PRICING__CHARGE_PROD_LINE__CHARGE_PROPERTY__CHARGE_EXCLUDE
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=13.0, core=true, t24Name=CHARGE.EXCLUDE)
+        /* Debit Charge Property. Could be left blank to indicate the definition is applicable for ALL charge properties of this product/line. */
+        CHARGE_PROPERTY -> AA_ProductFramework:AA_PROPERTY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=9.0, core=true, businessType=A, t24Name=CHARGE.PROPERTY)
+    }
+    AA_SIM_PREFERENTIAL_PRICING__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=88.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    AA_SIM_PREFERENTIAL_PRICING__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=87.0, core=true, t24Name=INPUTTER)
+    }
+    AA_SIM_PREFERENTIAL_PRICING__INT_PROD_LINE
+    {
+        /* Specific Product for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL products. */
+        INT_PRODUCT -> AA_ProductManagement:AA_PRODUCT
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=31.0, core=true, businessType=A, t24Name=INT.PRODUCT)
+        /* Product Group for which this interest pricing is valid. Could be left blank to indicate the definition is applicable for ALL product groups. */
+        INT_PROD_GROUP -> AA_ProductFramework:AA_PRODUCT_GROUP
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=30.0, core=true, businessType=A, t24Name=INT.PROD.GROUP)
+        /* Product line for which this Interest pricing is valid. Could be left blank to indicate the definition is applicable for ALL product lines for this relationship customer. */
+        INT_PROD_LINE -> AA_ProductFramework:AA_PRODUCT_LINE
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=29.0, core=true, businessType=A, t24Name=INT.PROD.LINE)
+        /* Product Variation for which this charge pricing is valid. Could be left blank to indicate the definition is applicable for ALL variations for this product. */
+        INT_PROD_VAR : AA_PreferentialPricing:AA_SIM_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROD_VAR
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=32.0, core=true, t24Name=INT.PROD.VAR)
+        INT_PROPERTY -> byValue AA_PreferentialPricing:AA_SIM_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROPERTY *
+            @t24:i (t24Name=INT.PROPERTY)
+        RESERVED6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=34.0, core=true, t24Name=RESERVED6)
+        RESERVED7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=33.0, core=true, t24Name=RESERVED7)
+    }
+    AA_SIM_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROPERTY
+    {
+        /* Arrangement Currency (mandatory in all cases except when “exclude” is checked) */
+        INT_CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=36.0, core=true, businessType=CCY, t24Name=INT.CURRENCY)
+        /* Allows a user to mark a Property/Currency combination to be excluded from Preferential Pricing.  This can be used in the case where there is a “generic” setting for preferential pricing (e.g. Subtract 0.2 from all debit interest) and the user wants to exclude a specific product/property (e.g. debit interest on the special mortgage product) from the preferential pricing. */
+        INT_EXCLUDE : AA_PreferentialPricing:AA_SIM_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROPERTY__INT_EXCLUDE
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=39.0, core=true, t24Name=INT.EXCLUDE)
+/* Preferential Margin
+The final rate including the preferential margin would still respect all Periodic Attributes that have been defined. */
+        INT_MARGIN : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=38.0, core=true, t24Name=INT.MARGIN)
+        /* Operand to 'Add to', 'Subtract from', or 'Multiply' the standard rate with the preferential margin. */
+        INT_OPERAND : AA_PreferentialPricing:AA_SIM_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROPERTY__INT_OPERAND
+            @t24:i (align=L, inputBehaviour=I, maxLength=9, sysNumber=37.0, core=true, t24Name=INT.OPERAND)
+        /* Interest Property. Could be left blank to indicate the definition is applicable for ALL interest properties of this product/line. */
+        INT_PROPERTY -> AA_ProductFramework:AA_PROPERTY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=35.0, core=true, businessType=A, t24Name=INT.PROPERTY)
+    }
+    AA_SIM_PREFERENTIAL_PRICING__NEGOTIATED_FLDS
+    {
+/* No input and multi value field that lists the attributes on the arrangement property record that have been fixed and/or negotiated. These are stored when the arrangement level record is committed. When the arrangement level record is next used all items in the NEGOTIATED.FIELDS list will be maintained.
+
+
+Once an attribute has been fixed or negotiated it will remain in negotiated field list on all subsequent dated versions of the property. */
+        NEGOTIATED_FLDS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=19, sysNumber=74.0, core=true, t24Name=NEGOTIATED.FLDS)
+    }
+    AA_SIM_PREFERENTIAL_PRICING__NR_ATTRIBUTE
+    {
+/* Defines which individual attribute (field) has the negotiation rules defined in fields "Nr.Negotiable" through to "Nr.Message"
+Must be a valid field name within this property
+
+
+This field is part of a multi value set */
+        NR_ATTRIBUTE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=25, sysNumber=65.0, core=true, t24Name=NR.ATTRIBUTE)
+        NR_OPTIONS -> byValue AA_PreferentialPricing:AA_SIM_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_OPTIONS *
+            @t24:i (t24Name=NR.OPTIONS)
+        /* System Field - Reserved for future use */
+        NR_RESERVED1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=68.0, core=true, t24Name=NR.RESERVED1)
+        /* System Field - Reserved for future use */
+        NR_RESERVED2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=67.0, core=true, t24Name=NR.RESERVED2)
+/* It is possible to define negotiation rules in EB.COMPARISON.TYPE.
+Input must be a valid record from EB.STANDARD.COMPARISON */
+        NR_STD_COMP -> AA_Rules:EB_STANDARD_COMPARISON
+            @t24:i (align=L, inputBehaviour=N, maxLength=25, sysNumber=69.0, core=true, businessType=A, t24Name=NR.STD.COMP)
+        NR_TYPE -> byValue AA_PreferentialPricing:AA_SIM_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_TYPE *
+            @t24:i (t24Name=NR.TYPE)
+    }
+    AA_SIM_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_OPTIONS
+    {
+/* Defines named values to indicate if an option applies to the associated NR.ATTRIBUTE. More than one option can be associated with the NR.ATTRIBUTE, with certain restrictions.
+
+
+
+
+
+
+Valid Inputs are NEGOTIABLE, NON-NEGOTIABLE, OVERRIDE, FIX-VALUE, MANDATORY as described below: -
+
+
+
+
+NEGOTIABLE
+
+
+The value of NEGOTIABLE will indicate that the associated NR.ATTRIBUTE can be negotiated at the arrangement level.
+
+
+
+
+NON-NEGOTIABLE
+
+
+The value of NON-NEGOTIABLE will indicate that the associated NR.ATTRIBUTE cannot be negotiated at the arrangement level. Both NEGOTIABLE and NON-NEGOTIABLE cannot be defined together
+
+
+
+
+OVERRIDE
+
+
+Specifies if a default override message should be generated if the default attribute is amended at the arrangement level. If OVERRIDE is not specified, no override will be generated.
+
+
+
+
+FIX-VALUE
+
+
+Specified if the field value is to be fixed at the arrangement level. If FIX-VALUE is not specified the field value will vary with the changes to the underlying product condition.
+
+
+
+
+MANDATORY
+
+
+Specifies if the attribute is mandatory for this product condition. Can only be specified where the attribute is not defined as mandatory in the property class. */
+        NR_OPTIONS : AA_PreferentialPricing:AA_SIM_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_OPTIONS__NR_OPTIONS
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=66.0, core=true, t24Name=NR.OPTIONS)
+    }
+    AA_SIM_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_TYPE
+    {
+/* This field indicates whether to raise error or override message when rule is broken
+
+
+Allows only two values ERROR or OVERRIDE
+
+
+ERROR error message is raised
+
+
+OVERRIDE Override message is generated */
+        NR_MESSAGE : AA_PreferentialPricing:AA_SIM_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_TYPE__NR_MESSAGE
+            @t24:i (align=L, inputBehaviour=N, maxLength=10, sysNumber=72.0, core=true, t24Name=NR.MESSAGE)
+/* Defines the negotiation rule that is linked to the field defined in "Nr.Attribute". If an attribute has a negotiation rule linked to it (in associated fields NR.TYPE, NR.VALUE and NR.MESSAGE) the attribute must be defined as negotiable.
+
+
+It is possible to define more than one negotiation rule for an attribute
+
+
+
+
+
+
+Input must be a valid record from EB.COMPARISON.TYPE
+
+
+This is a multi value set of fields */
+        NR_TYPE -> AA_Rules:EB_COMPARISON_TYPE
+            @t24:i (align=L, inputBehaviour=N, maxLength=25, sysNumber=70.0, core=true, businessType=A, t24Name=NR.TYPE)
+        /* Defines the value that links to the rule in field "Nr.Type" */
+        NR_VALUE : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=N, maxLength=60, sysNumber=71.0, core=true, t24Name=NR.VALUE)
+    }
+    AA_SIM_PREFERENTIAL_PRICING__OVERRIDE
+    {
+        /* Standard Override field containing override messages generated by amendments to this property */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=84.0, core=true, t24Name=OVERRIDE)
+    }
+    AA_SIM_PREFERENTIAL_PRICING__OWNING_COMPANY
+    {
+/* This field is used to capture the T24 Company(ies) that own the Product Condition record. There is no functionality attached to this field and can be used only for access control through SMS verification.
+
+The input in this field must be a valid record in company table and should belong to current financial group.
+
+This is a multi value field. Input in this field is optional. */
+        OWNING_COMPANY -> ST_CompanyCreation:COMPANY
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=58.0, core=true, businessType=AAPRODUCT, t24Name=OWNING.COMPANY, typeModifiers=COMPANY, mvSvExpansionAccess=NOEXPAND)
+    }
+    AA_SIM_PREFERENTIAL_PRICING__PR_ATTRIBUTE
+    {
+        /* This will hold two values either DUE or CAPITALISE. This Field denote which application method(DUE or CAPITALISE)should be taken while applying periodic rule charges. */
+        PR_APP_METHOD : AA_PreferentialPricing:AA_SIM_PREFERENTIAL_PRICING__PR_ATTRIBUTE__PR_APP_METHOD
+            @i18n:Label (en="Application Method")
+            @i18n:Tooltip (en="This will hold two values either DUE or CAPITALISE")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=54.0, core=true, t24Name=PR.APP.METHOD, mvSvExpansionAccess=NOEXPAND)
+        /* This will have to accept a valid T24 period. This Field will denote the application period for current application method. */
+        PR_APP_PERIOD : T24BusinessTypes:PERIOD
+            @i18n:Label (en="Application Period")
+            @i18n:Tooltip (en="Denote the period for current aplication method")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=55.0, core=true, t24Name=PR.APP.PERIOD, mvSvExpansionAccess=NOEXPAND)
+/* These are set of Attributes which define the names of the rule, which will be applied on certain attributes of property classes over a period of time.
+Input must be a valid record from AA.PERIODIC.ATTRIBUTE */
+        PR_ATTRIBUTE -> AA_Rules:AA_PERIODIC_ATTRIBUTE
+            @i18n:Label (en=Attribute)
+            @i18n:Tooltip (en="Attributes defining the names of the rule applied")
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=46.0, core=true, businessType=A, t24Name=PR.ATTRIBUTE, mvSvExpansionAccess=NOEXPAND)
+/* Charge can be collected when the periodic rule is broken
+
+
+This field denotes the charge property. The property and its condition is
+
+
+defined the product designer and validated during publishing
+
+
+
+
+
+
+Valid charge property */
+        PR_BRK_CHARGE -> AA_ProductFramework:AA_PROPERTY
+            @i18n:Label (en=Charge)
+            @i18n:Tooltip (en="Charge collected when the periodic rule is broken")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=50.0, core=true, businessType=A, t24Name=PR.BRK.CHARGE, mvSvExpansionAccess=NOEXPAND)
+/* Based on the PR.BRK.RES option selected, this will hold either an OVERRIDE or EB.ERROR id. By default the ids will be picked from the associated EB.COMPARISON.TYPE record. If CAP or FLOOR values are given, then the underlying AA.PERIODIC.ATTRIBUTE.CLASS should have this type defined in it.
+Input must be a valid OVERRIDE ID or EB.ERROR ID. */
+        PR_BRK_MSG : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=49.0, core=true, t24Name=PR.BRK.MSG, mvSvExpansionAccess=NOEXPAND)
+/* When a rule is broken what action needs to be taken is defined here. Currently, the various options available are
+
+
+
+
+Error block further processing
+
+
+Override Give an override
+
+
+Information Record details only
+
+
+CAP the rule value is to be used as a CAP if the rule is broken
+
+
+FLOOR the rule value is to be used as a FLOOR if the rule is broken
+
+
+
+
+Validation rules
+
+
+Should be one of the above valid options */
+        PR_BRK_RES : AA_PreferentialPricing:AA_SIM_PREFERENTIAL_PRICING__PR_ATTRIBUTE__PR_BRK_RES
+            @i18n:Label (en=Rule)
+            @i18n:Tooltip (en="Action to be taken when rule is broken")
+            @t24:i (align=L, inputBehaviour=N, maxLength=13, sysNumber=48.0, core=true, t24Name=PR.BRK.RES, mvSvExpansionAccess=NOEXPAND)
+        /* System field - reserved for future use */
+        PR_RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=53.0, core=true, t24Name=PR.RESERVED.1, mvSvExpansionAccess=NOEXPAND)
+        /* System field - reserved for future use */
+        PR_RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=52.0, core=true, t24Name=PR.RESERVED.2, mvSvExpansionAccess=NOEXPAND)
+        /* System field - reserved for future use */
+        PR_RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=51.0, core=true, t24Name=PR.RESERVED.3, mvSvExpansionAccess=NOEXPAND)
+/* This is the actual rule value, which will be applied on certain attributes of the property classes over a period of time.
+Input must be a valid data type defined in the corresponding
+
+
+AA.PERIODIC.ATTRIBUTE.CLASS record. */
+        PR_VALUE : T24BusinessTypes:A
+            @i18n:Label (en="Value ")
+            @i18n:Tooltip (en="Value of rule applied on certain attributes")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=47.0, core=true, t24Name=PR.VALUE, mvSvExpansionAccess=NOEXPAND)
+    }
+    AA_SIM_PREFERENTIAL_PRICING__STMT_NOS
+    {
+        /* System field - not used for property conditions */
+        STMT_NOS : T24BusinessTypes:N
+            @i18n:Label (en="Stmt Nos")
+            @i18n:Tooltip (en="Stmt Nos")
+            @t24:i (align=R, inputBehaviour=N, maxLength=20, sysNumber=83.0, core=true, t24Name=STMT.NOS)
+    }
+}
+Enumerations {
+    AA_ARR_PREFERENTIAL_PRICING__BONUS_PROD_LINE__BONUS_PROD_VAR : mml:string
+        A=A
+        AA=AA
+        AAA=AAA
+        B=B
+        BRANCH=BRANCH
+        BRONZE=BRONZE
+        C=C
+        GOLD=GOLD
+        INTERNET=INTERNET
+        MOBILE=MOBILE
+        PLATINUM=PLATINUM
+        SILVER=SILVER
+    AA_ARR_PREFERENTIAL_PRICING__BONUS_PROD_LINE__BONUS_PROPERTY__BONUS_EXCLUDE : mml:string
+        NULL=NULL
+        YES=YES
+    AA_ARR_PREFERENTIAL_PRICING__CHARGE_PROD_LINE__CHARGE_PROD_VAR : mml:string
+        A=A
+        AA=AA
+        AAA=AAA
+        B=B
+        BRANCH=BRANCH
+        BRONZE=BRONZE
+        C=C
+        GOLD=GOLD
+        INTERNET=INTERNET
+        MOBILE=MOBILE
+        PLATINUM=PLATINUM
+        SILVER=SILVER
+    AA_ARR_PREFERENTIAL_PRICING__CHARGE_PROD_LINE__CHARGE_PROPERTY__CHARGE_EXCLUDE : mml:string
+        NULL=NULL
+        YES=YES
+    AA_ARR_PREFERENTIAL_PRICING__DEFAULT_ATTR_OPTION : mml:string
+        NON__RESETTING=NON-RESETTING
+        RESETTING=RESETTING
+    AA_ARR_PREFERENTIAL_PRICING__DEFAULT_NEGOTIABLE : mml:string
+        NO=NO
+        YES=YES
+    AA_ARR_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROD_VAR : mml:string
+        A=A
+        AA=AA
+        AAA=AAA
+        B=B
+        BRANCH=BRANCH
+        BRONZE=BRONZE
+        C=C
+        GOLD=GOLD
+        INTERNET=INTERNET
+        MOBILE=MOBILE
+        PLATINUM=PLATINUM
+        SILVER=SILVER
+    AA_ARR_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROPERTY__INT_EXCLUDE : mml:string
+        NULL=NULL
+        YES=YES
+    AA_ARR_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROPERTY__INT_OPERAND : mml:string
+        ADD=ADD
+        MULTIPLY=MULTIPLY
+        SUBTRACT=SUBTRACT
+    AA_ARR_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_OPTIONS__NR_OPTIONS : mml:string
+        FIX__VALUE=FIX-VALUE
+        MANDATORY=MANDATORY
+        NEGOTIABLE=NEGOTIABLE
+        NON__NEGOTIABLE=NON-NEGOTIABLE
+        NON__RESETTING=NON-RESETTING
+        OVERRIDE=OVERRIDE
+        RESETTING=RESETTING
+    AA_ARR_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_TYPE__NR_MESSAGE : mml:string
+        ERROR=ERROR
+        OVERRIDE=OVERRIDE
+    AA_ARR_PREFERENTIAL_PRICING__PR_ATTRIBUTE__PR_APP_METHOD : mml:string
+        CAPITALISE=CAPITALISE
+        DEFER=DEFER
+        DUE=DUE
+    AA_ARR_PREFERENTIAL_PRICING__PR_ATTRIBUTE__PR_BRK_RES : mml:string
+        CAP=CAP
+        ERROR=ERROR
+        FLOOR=FLOOR
+        INFORMATION=INFORMATION
+        OVERRIDE=OVERRIDE
+    AA_PRD_CAT_PREFERENTIAL_PRICING__BONUS_PROD_LINE__BONUS_PROD_VAR : mml:string
+        A=A
+        AA=AA
+        AAA=AAA
+        B=B
+        BRANCH=BRANCH
+        BRONZE=BRONZE
+        C=C
+        GOLD=GOLD
+        INTERNET=INTERNET
+        MOBILE=MOBILE
+        PLATINUM=PLATINUM
+        SILVER=SILVER
+    AA_PRD_CAT_PREFERENTIAL_PRICING__BONUS_PROD_LINE__BONUS_PROPERTY__BONUS_EXCLUDE : mml:string
+        NULL=NULL
+        YES=YES
+    AA_PRD_CAT_PREFERENTIAL_PRICING__CHARGE_PROD_LINE__CHARGE_PROD_VAR : mml:string
+        A=A
+        AA=AA
+        AAA=AAA
+        B=B
+        BRANCH=BRANCH
+        BRONZE=BRONZE
+        C=C
+        GOLD=GOLD
+        INTERNET=INTERNET
+        MOBILE=MOBILE
+        PLATINUM=PLATINUM
+        SILVER=SILVER
+    AA_PRD_CAT_PREFERENTIAL_PRICING__CHARGE_PROD_LINE__CHARGE_PROPERTY__CHARGE_EXCLUDE : mml:string
+        NULL=NULL
+        YES=YES
+    AA_PRD_CAT_PREFERENTIAL_PRICING__DEFAULT_ATTR_OPTION : mml:string
+        NON__RESETTING=NON-RESETTING
+        RESETTING=RESETTING
+    AA_PRD_CAT_PREFERENTIAL_PRICING__DEFAULT_NEGOTIABLE : mml:string
+        NO=NO
+        YES=YES
+    AA_PRD_CAT_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROD_VAR : mml:string
+        A=A
+        AA=AA
+        AAA=AAA
+        B=B
+        BRANCH=BRANCH
+        BRONZE=BRONZE
+        C=C
+        GOLD=GOLD
+        INTERNET=INTERNET
+        MOBILE=MOBILE
+        PLATINUM=PLATINUM
+        SILVER=SILVER
+    AA_PRD_CAT_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROPERTY__INT_EXCLUDE : mml:string
+        NULL=NULL
+        YES=YES
+    AA_PRD_CAT_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROPERTY__INT_OPERAND : mml:string
+        ADD=ADD
+        MULTIPLY=MULTIPLY
+        SUBTRACT=SUBTRACT
+    AA_PRD_CAT_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_OPTIONS__NR_OPTIONS : mml:string
+        FIX__VALUE=FIX-VALUE
+        MANDATORY=MANDATORY
+        NEGOTIABLE=NEGOTIABLE
+        NON__NEGOTIABLE=NON-NEGOTIABLE
+        NON__RESETTING=NON-RESETTING
+        OVERRIDE=OVERRIDE
+        RESETTING=RESETTING
+    AA_PRD_CAT_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_TYPE__NR_MESSAGE : mml:string
+        ERROR=ERROR
+        OVERRIDE=OVERRIDE
+    AA_PRD_CAT_PREFERENTIAL_PRICING__PR_ATTRIBUTE__PR_APP_METHOD : mml:string
+        CAPITALISE=CAPITALISE
+        DEFER=DEFER
+        DUE=DUE
+    AA_PRD_CAT_PREFERENTIAL_PRICING__PR_ATTRIBUTE__PR_BRK_RES : mml:string
+        CAP=CAP
+        ERROR=ERROR
+        FLOOR=FLOOR
+        INFORMATION=INFORMATION
+        OVERRIDE=OVERRIDE
+    AA_PRD_DES_PREFERENTIAL_PRICING__BONUS_PROD_LINE__BONUS_PROD_VAR : mml:string
+        A=A
+        AA=AA
+        AAA=AAA
+        B=B
+        BRANCH=BRANCH
+        BRONZE=BRONZE
+        C=C
+        GOLD=GOLD
+        INTERNET=INTERNET
+        MOBILE=MOBILE
+        PLATINUM=PLATINUM
+        SILVER=SILVER
+    AA_PRD_DES_PREFERENTIAL_PRICING__BONUS_PROD_LINE__BONUS_PROPERTY__BONUS_EXCLUDE : mml:string
+        NULL=NULL
+        YES=YES
+    AA_PRD_DES_PREFERENTIAL_PRICING__CHARGE_PROD_LINE__CHARGE_PROD_VAR : mml:string
+        A=A
+        AA=AA
+        AAA=AAA
+        B=B
+        BRANCH=BRANCH
+        BRONZE=BRONZE
+        C=C
+        GOLD=GOLD
+        INTERNET=INTERNET
+        MOBILE=MOBILE
+        PLATINUM=PLATINUM
+        SILVER=SILVER
+    AA_PRD_DES_PREFERENTIAL_PRICING__CHARGE_PROD_LINE__CHARGE_PROPERTY__CHARGE_EXCLUDE : mml:string
+        NULL=NULL
+        YES=YES
+    AA_PRD_DES_PREFERENTIAL_PRICING__DEFAULT_ATTR_OPTION : mml:string
+        NON__RESETTING=NON-RESETTING
+        RESETTING=RESETTING
+    AA_PRD_DES_PREFERENTIAL_PRICING__DEFAULT_NEGOTIABLE : mml:string
+        NO=NO
+        YES=YES
+    AA_PRD_DES_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROD_VAR : mml:string
+        A=A
+        AA=AA
+        AAA=AAA
+        B=B
+        BRANCH=BRANCH
+        BRONZE=BRONZE
+        C=C
+        GOLD=GOLD
+        INTERNET=INTERNET
+        MOBILE=MOBILE
+        PLATINUM=PLATINUM
+        SILVER=SILVER
+    AA_PRD_DES_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROPERTY__INT_EXCLUDE : mml:string
+        NULL=NULL
+        YES=YES
+    AA_PRD_DES_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROPERTY__INT_OPERAND : mml:string
+        ADD=ADD
+        MULTIPLY=MULTIPLY
+        SUBTRACT=SUBTRACT
+    AA_PRD_DES_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_OPTIONS__NR_OPTIONS : mml:string
+        FIX__VALUE=FIX-VALUE
+        MANDATORY=MANDATORY
+        NEGOTIABLE=NEGOTIABLE
+        NON__NEGOTIABLE=NON-NEGOTIABLE
+        NON__RESETTING=NON-RESETTING
+        OVERRIDE=OVERRIDE
+        RESETTING=RESETTING
+    AA_PRD_DES_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_TYPE__NR_MESSAGE : mml:string
+        ERROR=ERROR
+        OVERRIDE=OVERRIDE
+    AA_PRD_DES_PREFERENTIAL_PRICING__PR_ATTRIBUTE__PR_APP_METHOD : mml:string
+        CAPITALISE=CAPITALISE
+        DEFER=DEFER
+        DUE=DUE
+    AA_PRD_DES_PREFERENTIAL_PRICING__PR_ATTRIBUTE__PR_BRK_RES : mml:string
+        CAP=CAP
+        ERROR=ERROR
+        FLOOR=FLOOR
+        INFORMATION=INFORMATION
+        OVERRIDE=OVERRIDE
+    AA_PRD_PRF_PREFERENTIAL_PRICING__BONUS_PROD_LINE__BONUS_PROD_VAR : mml:string
+        A=A
+        AA=AA
+        AAA=AAA
+        B=B
+        BRANCH=BRANCH
+        BRONZE=BRONZE
+        C=C
+        GOLD=GOLD
+        INTERNET=INTERNET
+        MOBILE=MOBILE
+        PLATINUM=PLATINUM
+        SILVER=SILVER
+    AA_PRD_PRF_PREFERENTIAL_PRICING__BONUS_PROD_LINE__BONUS_PROPERTY__BONUS_EXCLUDE : mml:string
+        NULL=NULL
+        YES=YES
+    AA_PRD_PRF_PREFERENTIAL_PRICING__CHARGE_PROD_LINE__CHARGE_PROD_VAR : mml:string
+        A=A
+        AA=AA
+        AAA=AAA
+        B=B
+        BRANCH=BRANCH
+        BRONZE=BRONZE
+        C=C
+        GOLD=GOLD
+        INTERNET=INTERNET
+        MOBILE=MOBILE
+        PLATINUM=PLATINUM
+        SILVER=SILVER
+    AA_PRD_PRF_PREFERENTIAL_PRICING__CHARGE_PROD_LINE__CHARGE_PROPERTY__CHARGE_EXCLUDE : mml:string
+        NULL=NULL
+        YES=YES
+    AA_PRD_PRF_PREFERENTIAL_PRICING__DEFAULT_ATTR_OPTION : mml:string
+        NON__RESETTING=NON-RESETTING
+        RESETTING=RESETTING
+    AA_PRD_PRF_PREFERENTIAL_PRICING__DEFAULT_NEGOTIABLE : mml:string
+        NO=NO
+        YES=YES
+    AA_PRD_PRF_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROD_VAR : mml:string
+        A=A
+        AA=AA
+        AAA=AAA
+        B=B
+        BRANCH=BRANCH
+        BRONZE=BRONZE
+        C=C
+        GOLD=GOLD
+        INTERNET=INTERNET
+        MOBILE=MOBILE
+        PLATINUM=PLATINUM
+        SILVER=SILVER
+    AA_PRD_PRF_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROPERTY__INT_EXCLUDE : mml:string
+        NULL=NULL
+        YES=YES
+    AA_PRD_PRF_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROPERTY__INT_OPERAND : mml:string
+        ADD=ADD
+        MULTIPLY=MULTIPLY
+        SUBTRACT=SUBTRACT
+    AA_PRD_PRF_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_OPTIONS__NR_OPTIONS : mml:string
+        FIX__VALUE=FIX-VALUE
+        MANDATORY=MANDATORY
+        NEGOTIABLE=NEGOTIABLE
+        NON__NEGOTIABLE=NON-NEGOTIABLE
+        NON__RESETTING=NON-RESETTING
+        OVERRIDE=OVERRIDE
+        RESETTING=RESETTING
+    AA_PRD_PRF_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_TYPE__NR_MESSAGE : mml:string
+        ERROR=ERROR
+        OVERRIDE=OVERRIDE
+    AA_PRD_PRF_PREFERENTIAL_PRICING__PR_ATTRIBUTE__PR_APP_METHOD : mml:string
+        CAPITALISE=CAPITALISE
+        DEFER=DEFER
+        DUE=DUE
+    AA_PRD_PRF_PREFERENTIAL_PRICING__PR_ATTRIBUTE__PR_BRK_RES : mml:string
+        CAP=CAP
+        ERROR=ERROR
+        FLOOR=FLOOR
+        INFORMATION=INFORMATION
+        OVERRIDE=OVERRIDE
+    AA_SIM_PREFERENTIAL_PRICING__BONUS_PROD_LINE__BONUS_PROD_VAR : mml:string
+        A=A
+        AA=AA
+        AAA=AAA
+        B=B
+        BRANCH=BRANCH
+        BRONZE=BRONZE
+        C=C
+        GOLD=GOLD
+        INTERNET=INTERNET
+        MOBILE=MOBILE
+        PLATINUM=PLATINUM
+        SILVER=SILVER
+    AA_SIM_PREFERENTIAL_PRICING__BONUS_PROD_LINE__BONUS_PROPERTY__BONUS_EXCLUDE : mml:string
+        NULL=NULL
+        YES=YES
+    AA_SIM_PREFERENTIAL_PRICING__CHARGE_PROD_LINE__CHARGE_PROD_VAR : mml:string
+        A=A
+        AA=AA
+        AAA=AAA
+        B=B
+        BRANCH=BRANCH
+        BRONZE=BRONZE
+        C=C
+        GOLD=GOLD
+        INTERNET=INTERNET
+        MOBILE=MOBILE
+        PLATINUM=PLATINUM
+        SILVER=SILVER
+    AA_SIM_PREFERENTIAL_PRICING__CHARGE_PROD_LINE__CHARGE_PROPERTY__CHARGE_EXCLUDE : mml:string
+        NULL=NULL
+        YES=YES
+    AA_SIM_PREFERENTIAL_PRICING__DEFAULT_ATTR_OPTION : mml:string
+        NON__RESETTING=NON-RESETTING
+        RESETTING=RESETTING
+    AA_SIM_PREFERENTIAL_PRICING__DEFAULT_NEGOTIABLE : mml:string
+        NO=NO
+        YES=YES
+    AA_SIM_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROD_VAR : mml:string
+        A=A
+        AA=AA
+        AAA=AAA
+        B=B
+        BRANCH=BRANCH
+        BRONZE=BRONZE
+        C=C
+        GOLD=GOLD
+        INTERNET=INTERNET
+        MOBILE=MOBILE
+        PLATINUM=PLATINUM
+        SILVER=SILVER
+    AA_SIM_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROPERTY__INT_EXCLUDE : mml:string
+        NULL=NULL
+        YES=YES
+    AA_SIM_PREFERENTIAL_PRICING__INT_PROD_LINE__INT_PROPERTY__INT_OPERAND : mml:string
+        ADD=ADD
+        MULTIPLY=MULTIPLY
+        SUBTRACT=SUBTRACT
+    AA_SIM_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_OPTIONS__NR_OPTIONS : mml:string
+        FIX__VALUE=FIX-VALUE
+        MANDATORY=MANDATORY
+        NEGOTIABLE=NEGOTIABLE
+        NON__NEGOTIABLE=NON-NEGOTIABLE
+        NON__RESETTING=NON-RESETTING
+        OVERRIDE=OVERRIDE
+        RESETTING=RESETTING
+    AA_SIM_PREFERENTIAL_PRICING__NR_ATTRIBUTE__NR_TYPE__NR_MESSAGE : mml:string
+        ERROR=ERROR
+        OVERRIDE=OVERRIDE
+    AA_SIM_PREFERENTIAL_PRICING__PR_ATTRIBUTE__PR_APP_METHOD : mml:string
+        CAPITALISE=CAPITALISE
+        DEFER=DEFER
+        DUE=DUE
+    AA_SIM_PREFERENTIAL_PRICING__PR_ATTRIBUTE__PR_BRK_RES : mml:string
+        CAP=CAP
+        ERROR=ERROR
+        FLOOR=FLOOR
+        INFORMATION=INFORMATION
+        OVERRIDE=OVERRIDE
+}

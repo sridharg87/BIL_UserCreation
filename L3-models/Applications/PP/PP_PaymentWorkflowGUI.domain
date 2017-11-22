@@ -1,0 +1,29 @@
+# UTF-8
+/* Payment Workflow GUI */
+Domain PP_PaymentWorkflowGUI
+    @t24:i (module=PP)
+    @java:Package (value=com.temenos.t24.datamodel.pp.pp_paymentworkflowgui)
+namespace "http://www.temenos.com/t24/PP_PaymentWorkflowGUI"
+metamodelVersion 1.30.6
+Classes {
+    NOFILE_PP_COMP_SERVICES
+        @i18n:Description (en="")
+        @t24:i (t24Name=NOFILE.PP.COMP.SERVICES, level=I, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        CompanyID : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=3, core=false, t24Name=CompanyID)
+        OUT_REC : T24BusinessTypes:N
+            @t24:i (align=L, inputBehaviour=N, maxLength=100, core=false, t24Name=OUT.REC, genOperation=E.NOFILE.PP.COMP.SERVICES)
+        ServiceName : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=50, core=false, t24Name=ServiceName)
+    }
+    NOFILE_PP_NONCOMP_SERVICES
+        @i18n:Description (en="")
+        @t24:i (t24Name=NOFILE.PP.NONCOMP.SERVICES, level=I, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        OUT_REC : T24BusinessTypes:N
+            @t24:i (align=L, inputBehaviour=N, maxLength=100, core=false, t24Name=OUT.REC, genOperation=E.NOFILE.PP.NONCOMP.SERVICES)
+        ServiceName : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=50, core=false, t24Name=ServiceName)
+    }
+}

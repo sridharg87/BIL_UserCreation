@@ -1,0 +1,934 @@
+# UTF-8
+/* Valuation of Collateral based on ST */
+Domain ST_Valuation
+    @t24:i (module=ST)
+    @java:Package (value=com.temenos.t24.datamodel.st.st_valuation)
+namespace "http://www.temenos.com/t24/ST_Valuation"
+metamodelVersion 1.30.6
+Classes {
+    /* This table contains a cross-reference between the sub-asset types and the product category codes used by other applications, e.g. Foreign Exchange, Money Market, etc. */
+    ASSET_BY_CATEG
+        @i18n:Description (en="")
+        @t24:i (t24Name=ASSET.BY.CATEG, level=I, type=H, additionalInfo="UNP OEU", allowedFunctions="A C D E H I L P Q R S", localRefAllowed=false)
+    {
+        /* This field is used to specify the Adjusted margin rate for calculating ADJ.MARGIN.AMT in SC.POS.ASSET. */
+        ADJ_MARGIN : T24BusinessTypes:R
+            @i18n:Label (en="Adjusted Margin")
+            @i18n:Tooltip (en="Adjusted Margin")
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=9.0, core=true, t24Name=ADJ.MARGIN)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=22.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=23.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=19.0, core=true, t24Name=AUTHORISER)
+/* Specifies the category code to be cross-referenced to a sub-asset type.
+Validation Rules:
+4-6 numeric characters. (Mandatory input)
+Must exist on the CATEGORY table. */
+        CATEGORY_CODE -> ST_Valuation:ASSET_BY_CATEG PK required
+            @i18n:Label (en="Category Code")
+            @t24:i (align=R, inputBehaviour=I, maxLength=6, sysNumber=0.0, core=true, t24Name=CATEGORY.CODE, mask="R##-###")
+        CONCENTRATION_CAP : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=10.0, core=true, t24Name=CONCENTRATION.CAP)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=20.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURRENCY -> byValue ST_Valuation:ASSET_BY_CATEG__CURRENCY *
+            @t24:i (t24Name=CURRENCY)
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=16.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue ST_Valuation:ASSET_BY_CATEG__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=21.0, core=true, t24Name=DEPT.CODE)
+        INPUTTER -> byValue ST_Valuation:ASSET_BY_CATEG__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* Specifies the percentage of the asset/liability as defined by the category code to be used in portfolio valuations.
+This is the first level of checking when Securities programs value Accounts, Deposits or Forex deals.
+Depending upon whether a valuation should include/exclude liabilities, either this field or MARGIN.RATE will be used to calculate the margin value. The method of calculation is defined in the field MARGIN.VALUE in SC.PARAMETER
+If a value is not found on the ASSET.BY.CATEG file then the SUB.ASSET.TYPE and ASSET.TYPE files are examined to locate either a  MARGIN.RATE or LOSS.MARGIN.RATE
+If no value is found on either file then a margin rate of 0% is assumed.
+Validation Rules:
+0 to 10 numeric characters (Optional input) */
+        LOSS_MARGIN_RATE : T24BusinessTypes:R
+            @i18n:Label (en="Loss Margin Rate")
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=3.0, core=true, t24Name=LOSS.MARGIN.RATE)
+/* Specifies the percentage of the asset/liability as defined by the category code to be used in portfolio valuations.
+This is the first level of checking when Securities programs value Accounts, Deposits or Forex deals.
+Depending upon whether a valuation should include/exclude liabilities, either this field or LOSS.MARGIN.RATE will be used to calculate the margin value. The method of calculation is defined in the field MARGIN.VALUE in SC.PARAMETER
+If a value is not found on the ASSET.BY.CATEG file then the SUB.ASSET.TYPE and ASSET.TYPE files are examined to locate either a  MARGIN.RATE or LOSS.MARGIN.RATE
+If no value is found on either file then a margin rate of 0% is assumed.
+Validation Rules:
+0 to 10 numeric characters (Optional input) */
+        MARGIN_RATE : T24BusinessTypes:R
+            @i18n:Label (en="Margin Rate")
+            @i18n:Tooltip (en="Percentage of margin rate used to value portfolio")
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=2.0, core=true, t24Name=MARGIN.RATE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=15.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=14.0, core=true, t24Name=RESERVED.1)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=13.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=12.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=11.0, core=true, t24Name=RESERVED.4)
+/* Margin rate for calculating sell-out margin amount
+Validation Rules:
+Maximum of 9 numeric characters is allowed */
+        SELL_OUT_MARGIN : T24BusinessTypes:R
+            @i18n:Label (en="Sell Out Margin")
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=5.0, core=true, t24Name=SELL.OUT.MARGIN)
+/* Specifies the sub-asset type relating to the product category specified in the ID of this record.
+Example:  Assuming that category code 1000 is for current accounts, 2000           is deposits/savings accounts, 21050 is for loans etc, the data           may be set up as:
+Record 1           ID = 1000           Sub asset type = 310 (financial accounts)
+Record 2           ID = 2000           Sub asset type = 310 (financial accounts)
+Record 3           ID = 21050           Sub asset type = 320 (commercial loans)
+Validation Rules:
+1-10 alpha characters. (Mandatory input)
+Must exist on the SUB.ASSET.TYPE file. */
+        SUB_ASSET_TYPE -> ST_Valuation:SUB_ASSET_TYPE required
+            @i18n:Label (en="Sub Asset Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=1.0, core=true, businessType=A, t24Name=SUB.ASSET.TYPE)
+/* Margin rate for calculating top-up margin amount
+Validation Rules:
+Maximum of 9 numeric characters is allowed */
+        TOP_UP_MARGIN : T24BusinessTypes:R
+            @i18n:Label (en="Top Up Margin")
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=4.0, core=true, t24Name=TOP.UP.MARGIN)
+    }
+    ASSET_BY_CATEG__CURRENCY
+    {
+        /* Loss margin rate of the currency . This is of numeric type. */
+        CCY_LOSS_MGN_RATE : T24BusinessTypes:R
+            @i18n:Label (en="Ccy Loss Margin Rate")
+            @i18n:Tooltip (en="Loss Margin rate for assets in this Ccy")
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=8.0, core=true, t24Name=CCY.LOSS.MGN.RATE)
+        /* Asset margin rate of the currency. This is of numeric type. */
+        CCY_SEC_MGN_RATE : T24BusinessTypes:R
+            @i18n:Label (en="Ccy Margin Rate")
+            @i18n:Tooltip (en="Margin for Assets in this Ccy")
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=7.0, core=true, t24Name=CCY.SEC.MGN.RATE)
+        /* Currency for which margin rate is to be specified. Will hold the valid CURRENCY record. */
+        CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en=Ccy)
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=6.0, core=true, businessType=CCY, t24Name=CURRENCY)
+    }
+    ASSET_BY_CATEG__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=18.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    ASSET_BY_CATEG__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=17.0, core=true, t24Name=INPUTTER)
+    }
+/* Simple table type file used to define and categorise an individual security or product within a recognised group for reporting and information purposes. It need not be restricted to a security as is used to describe foreign exchange transactions, money market transactions etc. which need to be picked up and displayed along with a clients portfolio instruments such as equities, precious metals, etc.
+A separate ID is attributed to each individual group of investment articles. For example all Ordinary share capital type issues traded on the open market could be called Asset type 1 and given a heading of "Equities".
+This table is user defined and maintained. Records can be altered as the need may arise. */
+    ASSET_TYPE
+        @i18n:Description (en="")
+        @t24:i (t24Name=ASSET.TYPE, level=I, type=H, additionalInfo="UNP OEU", allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        /* This field is used to specify the Adjusted margin rate for calculating ADJ.MARGIN.AMT in SC.POS.ASSET. */
+        ADJ_MARGIN : T24BusinessTypes:R
+            @i18n:Label (en="Adjusted Margin")
+            @i18n:Tooltip (en="Adjusted Margin")
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=20.0, core=true, t24Name=ADJ.MARGIN)
+        /* This field accepts two numeric values. When the percentage of price change, for the security is greater than ALERT.PRICE.PERC, then an alert will be sent to the portfolio owner, if the portfolio has subscribed for price movement alert. A check will be made to this field, only when ALERT.PRICE.PERC is not defined in SECURITY.MASTER and SUB.ASSET.TYPE. */
+        ALERT_PRICE_PERC : T24BusinessTypes:R
+            @i18n:Label (en="Alert Price %")
+            @i18n:Tooltip (en="%age price change that would trigger Alert msg")
+            @t24:i (align=R, inputBehaviour=I, maxLength=2, sysNumber=19.0, core=true, t24Name=ALERT.PRICE.PERC)
+        ASSET_DESC -> byValue ST_Valuation:ASSET_TYPE__ASSET_DESC *
+            @t24:i (t24Name=ASSET.DESC)
+/* Unique reference which identifies the ASSET.TYPE.
+User defined description of a group of similar investment instruments for reporting and information extraction purposes.  All similar securities under this particular asset type would be totalled under one heading on a clients' valuation.
+Examples: All issued share capital could be given an ID of 123 with a           formal description of, say, EQUITIES.
+Validation Rules:
+3 numeric characters. (Mandatory input) */
+        ASSET_TYPE_KEY -> ST_Valuation:ASSET_TYPE PK required
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=0.0, core=true, t24Name=ASSET.TYPE.KEY)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=35.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=36.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=32.0, core=true, t24Name=AUTHORISER)
+/* This field signifies the percentage of the CGT Base amount that will be included in the tax calculation.
+Validation Rules:
+
+
+Optional Input
+Must be a percentage */
+        CGT_BASE_PERC : T24BusinessTypes:N
+            @i18n:Label (en="CGT Percentage")
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=12.0, core=true, t24Name=CGT.BASE.PERC)
+/* This field may have a value of 'YES' to indicate that the accrued interest will be included into the calculation of the CG P&L
+Or a value of 'NO' to indicate that the accrued interest will not be included into the CG P&L calculation.
+Validation Rules:
+
+
+Valid values 'YES' or 'NO'
+Nulls treated like 'NO'
+Optional input */
+        CG_INCL_ACCR_INT : ST_Valuation:ASSET_TYPE__CG_INCL_ACCR_INT
+            @i18n:Label (en="CG Include Accr Int")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=8.0, core=true, t24Name=CG.INCL.ACCR.INT)
+/* This field may have a value of 'YES' to indicate that the expenses will be included into the calculation of the CG P&L
+Or a value of 'NO' to indicate that the expenses will not be included into the CG P&L calculation.
+Validation Rules:
+
+
+Valid values 'YES' or 'NO'
+Nulls treated like 'NO'
+Optional input */
+        CG_INCL_EXPENSE : ST_Valuation:ASSET_TYPE__CG_INCL_EXPENSE
+            @i18n:Label (en="CG Include Expense")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=9.0, core=true, t24Name=CG.INCL.EXPENSE)
+        CONCENTRATION_CAP : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=21.0, core=true, t24Name=CONCENTRATION.CAP)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=33.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURRENCY -> byValue ST_Valuation:ASSET_TYPE__CURRENCY *
+            @t24:i (t24Name=CURRENCY)
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=29.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue ST_Valuation:ASSET_TYPE__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=34.0, core=true, t24Name=DEPT.CODE)
+        INPUTTER -> byValue ST_Valuation:ASSET_TYPE__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* Specifies and is used to link with the other T24 modules for valuation purposes.
+This is a indicator which is used to inform the system to look for and pick up any foreign exchange,money market transactions for any requested report or valuation.
+Note: It is VERY IMPORTANT that an ASSET.TYPE for Foreign Exchange,       Accounting, Money Market, etc. be set up at this stage.  Failure to       do so will mean that the system will not be able to interface with       those modules to extract and display the information at "Enquiry       Level" where a clients' whole financial position is amalgamated.
+Validation Rules:
+
+3 alpha character "Module Code".  Input must be one of the following:      AC,  FD,  FI,  FR,  FU,  FX,  LD,  LQ,  MD,  ME,  MM,     LCE (Export) or LCI (Import) Letters of Credit,     RP (Repo), RS (Reverse Repo),   SW(Swap).  (Optional input) */
+        INTERFACE_TO : ST_Valuation:ASSET_TYPE__INTERFACE_TO
+            @i18n:Label (en="Interface To")
+            @i18n:Tooltip (en="Indicates the interface link to other modules")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=3.0, core=true, t24Name=INTERFACE.TO)
+/* Specifies the percentage of the asset/liability as defined by the ASSET.TYPE to be used in portfolio valuations.
+This is the third level of checking when Securities programs value other (non securities) assets.  If a value is not found on the ASSET.BY.CATEG or SUB.ASSET.TYPE file then this percentage rate is applied to the value of the asset involved.
+Depending upon whether a valuation should include/exclude liabilities, either this field or MARGIN.RATE will be used to calculate the margin value. The method of calculation is defined in the field MARGIN.VALUE in SC.PARAMETER
+If no value is found on either file then a margin rate of 0% is assumed.
+Validation Rules:
+0 - 9 numeric characters. (Optional input where there is a value in the INTERFACE field, otherwise no input allowed.) */
+        LOSS_MARGIN_RATE : T24BusinessTypes:R
+            @i18n:Label (en="Loss Margin Rate")
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=7.0, core=true, t24Name=LOSS.MARGIN.RATE)
+/* Specifies the percentage of the asset/liability as defined by the ASSET.TYPE to be used in portfolio valuations.
+This is the third level of checking when Securities programs value other (non securities) assets.  If a value is not found on the ASSET.BY.CATEG or SUB.ASSET.TYPE file then this percentage rate is applied to the value of the asset involved.
+Depending upon whether a valuation should include/exclude liabilities, either this field or LOSS.MARGIN.RATE will be used to calculate the margin value. The method of calculation is defined in the field MARGIN.VALUE in SC.PARAMETER
+If no value is found on either file then a margin rate of 0% is assumed.
+Validation Rules:
+0 - 9 numeric characters. (Optional input where there is a value in the INTERFACE field, otherwise no input allowed.) */
+        MARGIN_RATE : T24BusinessTypes:R
+            @i18n:Label (en="Margin Rate")
+            @i18n:Tooltip (en="Percentage of margin rate used to value portfolio")
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=5.0, core=true, t24Name=MARGIN.RATE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=28.0, core=true, t24Name=RECORD.STATUS)
+/* Specifies which valuation category under which you wish this particular ASSET.TYPE to be located.
+This facility therefore enables you to group together one or more asset types of a similar nature so that they are combined within a single reporting section.
+You should use this field to point the particular ASSET.TYPE to a report format field as should be contained within the SC.VAL.FORMAT file.
+For example, you might have a report format category called "BONDS" and several various asset types all of which could be reported under bonds. If you require these reported collectively in this way, you should ensure that the asset types all point to a common report format.
+Asset types for which this field is NULL will NOT be included in the valuation reports.
+Validation Rules:
+2 Alpha and/or numeric characters. (Optional input)
+Must already exist on the SC.VAL.FORMAT file. */
+        REPORT_FORMAT -> SC_ScvConfig:SC_VAL_FORMAT
+            @t24:i (align=R, inputBehaviour=I, maxLength=2, sysNumber=6.0, core=true, t24Name=REPORT.FORMAT)
+/* Specifies the sub total group for use in valuation reports.
+Links groups of ASSET.TYPE together to allow more meaningful presentation in valuation reports.
+No estimation for ACCOUNT balances will be shown on valuation reports if this field is left blank.
+Validation Rules:
+2 numeric characters. (Optional input)
+No default value.
+Must exist on the SC.VAL.REP.SUB.TOTAL file. */
+        REPORT_SUB_TOTAL -> SC_ScvReports:SC_VAL_REP_SUB_TOTAL
+            @i18n:Label (en="Report Sub Total")
+            @i18n:Tooltip (en="Report sub total")
+            @t24:i (align=R, inputBehaviour=I, maxLength=2, sysNumber=4.0, core=true, t24Name=REPORT.SUB.TOTAL)
+        RESERVED1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=26.0, core=true, t24Name=RESERVED1)
+        RESERVED2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=25.0, core=true, t24Name=RESERVED2)
+        RESERVED3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=24.0, core=true, t24Name=RESERVED3)
+        RESERVED4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=23.0, core=true, t24Name=RESERVED4)
+        RESERVED5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=22.0, core=true, t24Name=RESERVED5)
+        /* Single Value field that stores the risk level of the particular combination of Managed Account and Investment Strategy . Must validate against the EB.LOOKUP options for 'RISK.LEVEL'. */
+        RISK_LEVEL : T24BusinessTypes:A
+            @i18n:Label (en="Risk Level")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=13.0, core=true, t24Name=RISK.LEVEL)
+/* Margin rate for calculating sell-out margin amount
+Validation Rules:
+Maximum of 9 numeric characters is allowed */
+        SELL_OUT_MARGIN : T24BusinessTypes:R
+            @i18n:Label (en="Sell Out Margin")
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=15.0, core=true, t24Name=SELL.OUT.MARGIN)
+        SHORT_DESC -> byValue ST_Valuation:ASSET_TYPE__SHORT_DESC *
+            @t24:i (t24Name=SHORT.DESC)
+/* Margin rate for calculating top-up margin amount
+Validation Rules:
+Maximum of 9 numeric characters is allowed */
+        TOP_UP_MARGIN : T24BusinessTypes:R
+            @i18n:Label (en="Top Up Margin")
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=14.0, core=true, t24Name=TOP.UP.MARGIN)
+/* This field may have a value of 'YES' to indicate that the accrued interest will be included into the calculation of the CG P&L withheld tax
+Or a value of 'NO' to indicate that the accrued interest will not be included into the CG P&L withheld tax calculation.
+Validation Rules:
+
+
+Valid values 'YES' or 'NO'
+Nulls treated like 'NO'
+Optional input */
+        WCG_INCL_ACCR_INT : ST_Valuation:ASSET_TYPE__WCG_INCL_ACCR_INT
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=10.0, core=true, t24Name=WCG.INCL.ACCR.INT)
+/* This field may have a value of 'YES' to indicate that the expenses will be included into the calculation of the CG P&L withheld tax
+Or a value of 'NO' to indicate that the expenses will not be included into the CG P&L withheld tax calculation.
+Validation Rules:
+
+
+Valid values 'YES' or 'NO'
+Nulls treated like 'NO'
+Optional input */
+        WCG_INCL_EXPENSE : ST_Valuation:ASSET_TYPE__WCG_INCL_EXPENSE
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=11.0, core=true, t24Name=WCG.INCL.EXPENSE)
+    }
+    ASSET_TYPE__ASSET_DESC
+    {
+/* Describes the ASSET.TYPE.
+This field may be expanded to allow the user to enter the description of the ASSET.TYPE in various languages. Each expansion of the field will correspond to a new language as defined in the LANGUAGE table and will indicate to the user the language in which the description is to be entered.
+Validation Rules:
+1 to 35 type AA (alphanumeric, first character alpha) characters. Multi-language field. (Mandatory Input) */
+        ASSET_DESC : T24BusinessTypes:AA required
+            @i18n:Label (en="Asset Description")
+            @i18n:Tooltip (en="Describes the asset type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=1.0, core=true, t24Name=ASSET.DESC)
+    }
+    ASSET_TYPE__CURRENCY
+    {
+        /* Loss margin rate of the currency . This is of numeric type. */
+        CCY_LOSS_MGN_RATE : T24BusinessTypes:R
+            @i18n:Label (en="Ccy Loss Margin Rate")
+            @i18n:Tooltip (en="Loss Margin rate for assets in this Ccy")
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=18.0, core=true, t24Name=CCY.LOSS.MGN.RATE)
+        /* Asset margin rate of the currency. This is of numeric type. */
+        CCY_SEC_MGN_RATE : T24BusinessTypes:R
+            @i18n:Label (en="Ccy Margin Rate")
+            @i18n:Tooltip (en="Margin for Assets in this Ccy")
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=17.0, core=true, t24Name=CCY.SEC.MGN.RATE)
+        /* Currency for which margin rate is to be specified. Will hold the valid CURRENCY record. */
+        CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en=Ccy)
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=16.0, core=true, businessType=CCY, t24Name=CURRENCY)
+    }
+    ASSET_TYPE__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=31.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    ASSET_TYPE__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=30.0, core=true, t24Name=INPUTTER)
+    }
+    ASSET_TYPE__SHORT_DESC
+    {
+/* Abbreviated description of the ASSET.TYPE.
+This field may be expanded to allow the user to enter the description of the ASSET.TYPE in various languages. Each expansion of the field will correspond to a new language as defined in the LANGUAGE table and will indicate to the user the language in which the description is to be entered.
+Validation Rules:
+1 - 15 type SS (uppercase alpha or numeric, first character must be alpha) characters. Multi-language field. (Mandatory input) */
+        SHORT_DESC : T24BusinessTypes:SS required
+            @i18n:Label (en="Short Description")
+            @i18n:Tooltip (en="Short Description of the record")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, multiLanguage=true, sysNumber=2.0, core=true, t24Name=SHORT.DESC)
+    }
+    /* This file will be used to specify at customer level the margin rate used when calculating the margin value of assets/liabilities on the SC.POS.ASSET file. The values specified here is the first level of checking for calculation of margin value for the various assets/liabilities held by the portfolio. If margin is specified for a specified security, sub asset type, asset type or for all securities (by specifying ALL in ASSET.CODE), this would be used in the order mentioned above for computation of margin. Depending upon whether a valuation should include/exclude liabilities, either the field LOSS.MARGIN.RATE or MARGIN.RATE will be used to calculate the margin value. The method of calculation is defined in the field MARGIN.VALUE in SC.PARAMETER */
+    SC_CUSTOMER_MARGIN
+        @i18n:Description (en="")
+        @t24:i (t24Name=SC.CUSTOMER.MARGIN, level=C, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        ASSET_CODE -> byValue ST_Valuation:SC_CUSTOMER_MARGIN__ASSET_CODE *
+            @t24:i (t24Name=ASSET.CODE)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=24.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=25.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=21.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=22.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=18.0, core=true, t24Name=CURR.NO)
+/* A unique customer number which must exist as a valid key on the customer security file
+
+Validation Rules:
+Must exist as a valid customer in CUSTOMER.SECURITY */
+        CUSTOMER -> ST_Valuation:SC_CUSTOMER_MARGIN PK required
+            @i18n:Label (en=Customer)
+            @i18n:Tooltip (en="Customer Liability")
+            @t24:i (align=L, inputBehaviour=I, maxLength=18, sysNumber=0.0, core=true, businessType=A, t24Name=CUSTOMER)
+        CUSTOMER_CCY -> ST_CurrencyConfig:CURRENCY
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=11.0, core=true, businessType=CCY, t24Name=CUSTOMER.CCY)
+        DATE_TIME -> byValue ST_Valuation:SC_CUSTOMER_MARGIN__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=23.0, core=true, t24Name=DEPT.CODE)
+        INPUTTER -> byValue ST_Valuation:SC_CUSTOMER_MARGIN__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=17.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=0, sysNumber=15.0, core=true, t24Name=RESERVED1)
+        RESERVED2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=0, sysNumber=14.0, core=true, t24Name=RESERVED2)
+        RESERVED3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=0, sysNumber=13.0, core=true, t24Name=RESERVED3)
+        RESERVED4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=0, sysNumber=12.0, core=true, t24Name=RESERVED4)
+    }
+    SC_CUSTOMER_MARGIN__ASSET_CODE
+    {
+        /* This field is used to specify the Adjusted margin rate for calculating ADJ.MARGIN.AMT in SC.POS.ASSET. */
+        ADJ_MARGIN : T24BusinessTypes:R
+            @i18n:Label (en="Adjusted Margin")
+            @i18n:Tooltip (en="Adjusted Margin")
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=6.0, core=true, t24Name=ADJ.MARGIN)
+/* This will either be a valid security code, an asset type prefixed with a "A-", a sub asset type prefixed with a "S-" or "ALL"
+for all other security types. The fields ASSET.CODE through to LOSS.MARGIN.RATE will form a multi-value set. Duplication of any of the values in the ASSET.CODE field will not be allowed.
+
+Validation Rules:
+(1) 1. Security Number
+or 2. Sub-Asset type prefixed with "S-".
+or 3. Asset Type prefixed with "A-".
+or 4. "ALL" - all others
+Input is Mandatory */
+        ASSET_CODE : T24BusinessTypes:A required
+            @i18n:Label (en="Asset Code")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, t24Name=ASSET.CODE)
+        CONCENTRATION_CAP : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=10.0, core=true, t24Name=CONCENTRATION.CAP)
+        HOLDING_LEVEL -> byValue ST_Valuation:SC_CUSTOMER_MARGIN__ASSET_CODE__HOLDING_LEVEL *
+            @t24:i (t24Name=HOLDING.LEVEL)
+/* Specifies the percentage of the asset/liability as defined for the
+customer to be used in portfolio valuations.
+This is the first level of checking for calculation of margin value for the various assets/liabilities held by the portfolio. If margin is specified for a specified security, sub asset type, asset type or for all securities (by specifying ALL in ASSET.CODE), this would be used in the order mentioned above for computation of margin.
+Depending upon whether a valuation should include/exclude liabilities,
+either this field or MARGIN.RATE will be used to calculate the margin
+value. The method of calculation is defined in the field MARGIN.VALUE in
+SC.PARAMETER
+
+Validation Rules:
+
+1-5 characters Standard Rate format. */
+        LOSS_MARGIN_RAT : T24BusinessTypes:R
+            @i18n:Label (en="Loss Margin Rate")
+            @i18n:Tooltip (en="Percentage of loss margin rate")
+            @t24:i (align=R, inputBehaviour=I, maxLength=6, sysNumber=3.0, core=true, t24Name=LOSS.MARGIN.RAT)
+/* Specifies the percentage of the asset/liability as defined for the
+customer to be used in portfolio valuations.
+This is the first level of checking for calculation of margin value for the various assets/liabilities held by the portfolio. If margin is specified for a specified security, sub asset type, asset type or for all securities (by specifying ALL in ASSET.CODE), this would be used in the order mentioned above for computation of margin.
+Depending upon whether a valuation should include/exclude liabilities,
+either this field or LOSS.MARGIN.RATE will be used to calculate the margin
+value. The method of calculation is defined in the field MARGIN.VALUE in
+SC.PARAMETER
+
+Validation Rules:
+
+(1) 1-5 characters Standard Rate format. */
+        MARGIN_RATE : T24BusinessTypes:R required
+            @i18n:Label (en="Margin Rate")
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=2.0, core=true, t24Name=MARGIN.RATE)
+/* Margin rate for calculating sell-out margin amount
+Validation Rules:
+Maximum of 9 numeric characters is allowed */
+        SELL_OUT_MARGIN : T24BusinessTypes:R
+            @i18n:Label (en="Sell Out Margin")
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=5.0, core=true, t24Name=SELL.OUT.MARGIN)
+/* Margin rate for calculating top-up margin amount
+Validation Rules:
+Maximum of 9 numeric characters is allowed */
+        TOP_UP_MARGIN : T24BusinessTypes:R
+            @i18n:Label (en="Top Up Margin")
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=4.0, core=true, t24Name=TOP.UP.MARGIN)
+    }
+    SC_CUSTOMER_MARGIN__ASSET_CODE__HOLDING_LEVEL
+    {
+        HOLDING_LEVEL : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=35, sysNumber=7.0, core=true, t24Name=HOLDING.LEVEL)
+        TIER_ADJ_MARGIN_RATE : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=9.0, core=true, t24Name=TIER.ADJ.MARGIN.RATE)
+        TIER_MARGIN_RATE : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=8.0, core=true, t24Name=TIER.MARGIN.RATE)
+    }
+    SC_CUSTOMER_MARGIN__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=20.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    SC_CUSTOMER_MARGIN__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=19.0, core=true, t24Name=INPUTTER)
+    }
+/* SUB.ASSET.TYPE
+
+As the title suggests this file contains a further definition of an asset.
+For reporting purposes and information retrieval at account officer level.
+Once a security is opened at security master level and given an asset number the user can further define that position by utilising this file.
+A suggested example would be where for reporting purposes both within the Bank and as regards the client an Equity would be given an asset type"1". But within the Securities Module there are many different types of security. To which end the Sub Asset type is used to define these various holdings.
+Partly paid shares,fully paid shares and new nil paid shares are just 3 examples of sub asset types within the asset type Equities. */
+    SUB_ASSET_TYPE
+        @i18n:Description (en="")
+        @t24:i (t24Name=SUB.ASSET.TYPE, level=I, type=H, additionalInfo="UNP OEU", allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        /* This field is used to specify the Adjusted margin rate for calculating ADJ.MARGIN.AMT in SC.POS.ASSET. */
+        ADJ_MARGIN : T24BusinessTypes:R
+            @i18n:Label (en="Adjusted Margin")
+            @i18n:Tooltip (en="Adjusted Margin")
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=37.0, core=true, t24Name=ADJ.MARGIN)
+        /* This field accepts two numeric values. When the percentage of price change, for the security is greater than ALERT.PRICE.PERC, then an alert will be sent to the portfolio owner, if the portfolio has subscribed for price movement alert. A check will be made to this field, only when ALERT.PRICE.PERC is not defined in SECURITY.MASTER. */
+        ALERT_PRICE_PERC : T24BusinessTypes:R
+            @i18n:Label (en="Alert Price %")
+            @i18n:Tooltip (en="%age price change that would trigger Alert msg")
+            @t24:i (align=R, inputBehaviour=I, maxLength=2, sysNumber=36.0, core=true, t24Name=ALERT.PRICE.PERC)
+/* Specifies the Asset.Type that this SUB ASSET TYPE is a sub-classification of.
+Validation Rules:
+1 to 3 numeric character Asset.Type code. (Mandatory input.)
+Must exist as a valid ASSET TYPE. */
+        ASSET_TYPE_CODE -> ST_Valuation:ASSET_TYPE required
+            @i18n:Label (en="Asset Type")
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=3.0, core=true, t24Name=ASSET.TYPE.CODE)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=49.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=50.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=46.0, core=true, t24Name=AUTHORISER)
+/* Field to indicate whether or not this SUB.ASSET.TYPE refers to capitalisation bonds. Currently this field is only used by the Bon De Caisse regional development.
+Validation Rules:
+Only input of 'YES' or 'NO' allowed.
+Must be 'NO' or left blank except when the KASSENOBLIGATIONEN field is set to 'KASBON' when this can be 'YES', 'NO' of left blank. */
+        CAPITAL_BOND : ST_Valuation:SUB_ASSET_TYPE__CAPITAL_BOND
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=9.0, core=true, t24Name=CAPITAL.BOND)
+/* This field signifies the percentage of the CGT Base amount that will be included in the tax calculation.
+Validation Rules:
+
+
+Optional Input
+Must be a percentage */
+        CGT_BASE_PERC : T24BusinessTypes:N
+            @i18n:Label (en="CGT Percentage")
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=11.0, core=true, t24Name=CGT.BASE.PERC)
+        CONCENTRATION_CAP : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=40.0, core=true, t24Name=CONCENTRATION.CAP)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=47.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURRENCY -> byValue ST_Valuation:SUB_ASSET_TYPE__CURRENCY *
+            @t24:i (t24Name=CURRENCY)
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=43.0, core=true, t24Name=CURR.NO)
+/* Unique reference which identifies the SUB ASSET TYPE.
+Validation Rules:
+1-5 type S (uppercase alpha or numeric) characters. (Mandatory input.) */
+        CUST_STAT_GRP_CODE -> ST_Valuation:SUB_ASSET_TYPE PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=0.0, core=true, businessType=S, t24Name=CUST.STAT.GRP.CODE)
+        DATE_TIME -> byValue ST_Valuation:SUB_ASSET_TYPE__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=48.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue ST_Valuation:SUB_ASSET_TYPE__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+/* This field will select what gets defaulted into a SECURITY.MASTER record in the GRP1.GRP2.METHOD field.
+Validation Rules:
+
+LIFO, FIFO or SUMLIFO
+Optional Input */
+        GRP1_GRP2_METHOD : ST_Valuation:SUB_ASSET_TYPE__GRP1_GRP2_METHOD
+            @t24:i (align=L, inputBehaviour=I, maxLength=7, sysNumber=12.0, core=true, t24Name=GRP1.GRP2.METHOD)
+        INPUTTER -> byValue ST_Valuation:SUB_ASSET_TYPE__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* Indicates whether or not the SUB.ASSET.TYPE is a Kassenobligationen.
+If a new security masterfile record is being set-up and the specified SUB.ASSET.TYPE contains "YES" in this field, then the user is able to leave the MATURITY.DATE blank. Usage of this facility will necessitate your being forced to enter any Kassenobligationen trade maturity date directly onto the SEC.TRADE or other T24 security transaction.
+Validation Rules:
+Only input of 'KASBON', 'YES' or 'NO' allowed.
+Optional Input. Default is NULL (meaning NO) (Optional Input) */
+        KASSENOBLIGATIONEN : ST_Valuation:SUB_ASSET_TYPE__KASSENOBLIGATIONEN
+            @t24:i (align=L, inputBehaviour=F, maxLength=6, sysNumber=4.0, core=true, t24Name=KASSENOBLIGATIONEN)
+/* Specifies the percentage of the asset/liability as defined by the SUB.ASSET.TYPE to be used in portfolio valuations.
+This is the second level of checking when Securities programs value other (non securities) assets.  If a value is not found on the ASSET.BY.CATEG file then this percentage rate is applied to the value of the sub-asset involved.
+Depending upon whether a valuation should include/exclude liabilities, either this field or MARGIN.RATE will be used to calculate the margin value. The method of calculation is defined in the field MARGIN.VALUE in SC.PARAMETER
+If no value is found on either file then a margin rate of 0% is assumed.
+Validation Rules:
+1-5 characters Standard Rate format. Optional Input.
+If entered, must identify a record on the MARGIN.CONTROL file. */
+        LOSS_MARGIN_RATE : T24BusinessTypes:R
+            @i18n:Label (en="Loss Margin Rate")
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=10.0, core=true, t24Name=LOSS.MARGIN.RATE)
+/* Defines the rounding parameters for subscription, redemption and NAV
+Validation Rules:
+Must be a valid MF.ROUNDING.PARAM record id. */
+        MF_ROUNDING_PARAM : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=14, sysNumber=14.0, core=true, t24Name=MF.ROUNDING.PARAM)
+/* The minimum units that needs to be held at any point of time. While redeeming, the system would check the units being redeemed against the current holding to see whether the condition is met.
+Validation Rules:
+Optional Input. Standard T24 nominal / amount ( NOMAMT ) format. */
+        MINIMUM_HOLDING : T24BusinessTypes:NOMAMT
+            @i18n:Label (en="Minimum Holding")
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=19.0, core=true, t24Name=MINIMUM.HOLDING)
+/* Defines the minimum amount of subscription if customer already has a holding in the fund.
+Validation Rules:
+Optional Input.Standard T24 Amount format */
+        MIN_ENSUING_SUBS : T24BusinessTypes:NOMAMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=17.0, core=true, t24Name=MIN.ENSUING.SUBS)
+/* Defines whether error or override needs to be raised when minimum condition as above is not met.
+If MIN.ENSUING.SUBS is specified and this field is left blank,the system would raise override when the condition is not met.
+Validation Rules:
+Optional Input. Allowed values are  'ERROR' or 'OVERRIDE'.
+Would be defauled to 'OVERRIDE' when left blank and MIN.ENSUING.SUBS is specified. */
+        MIN_ENS_ACTION : ST_Valuation:SUB_ASSET_TYPE__MIN_ENS_ACTION
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=18.0, core=true, t24Name=MIN.ENS.ACTION)
+/* Defines whether error or override needs to be raised when minimum condition as above is not met.
+If MINIMUM.HOLDING is specified and this field is left blank,the system would raise override when the condition is not met.
+Validation Rules:
+Optional Input. Allowed values are  'ERROR' or 'OVERRIDE'.
+Would be defauled to 'OVERRIDE' when left blank and MINIMUM.HOLDING is specified. */
+        MIN_HLDG_ACTION : ST_Valuation:SUB_ASSET_TYPE__MIN_HLDG_ACTION
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=20.0, core=true, t24Name=MIN.HLDG.ACTION)
+/* The minimum holding period in days, months or years. At the time of redemption, the system would check whether the units being redeemed have been held for the period specified in this field. The system would check against the holdings being allocated towards the redemption
+Validation Rules:
+Optional Input.Could be nD, nW, nM or nY where n is the number of calender days, Working days, Months or Years */
+        MIN_HLDG_PERIOD : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=21.0, core=true, t24Name=MIN.HLDG.PERIOD)
+/* Defines whether error or override needs to be raised when minimum condition as above is not met.
+If MIN.INIT.SUBS is specified and this field is left blank,the system would raise override when the condition is not met.
+Validation Rules:
+Optional Input. Allowed values are  'ERROR' or 'OVERRIDE'.
+Would be defauled to 'OVERRIDE' when left blank and MIN.INIT.SUBS is specified. */
+        MIN_INIT_ACTION : ST_Valuation:SUB_ASSET_TYPE__MIN_INIT_ACTION
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=16.0, core=true, t24Name=MIN.INIT.ACTION)
+/* Defines the minimum initial subscription if any in terms of amount.
+Validation Rules:
+Optional Input.Standard T24 Amount format */
+        MIN_INIT_SUBS : T24BusinessTypes:NOMAMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=15.0, core=true, t24Name=MIN.INIT.SUBS)
+/* Defines whether error or override needs to be raised when minimum condition as above is not met.
+If MIN.HLDG.PERIOD is specified and this field is left blank,the system would raise override when the condition is not met.
+Validation Rules:
+Optional Input. Allowed values are  'ERROR' or 'OVERRIDE'.
+Would be defauled to 'OVERRIDE' when left blank and MIN.HLDG.PERIOD is specified. */
+        MIN_PERIOD_ACTION : ST_Valuation:SUB_ASSET_TYPE__MIN_PERIOD_ACTION
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=22.0, core=true, t24Name=MIN.PERIOD.ACTION)
+/* The minimum amount or number of units that could be redeemed at any point of time. If the holdings are less than the minimum specified here, the transaction would be allowed without any checks
+Validation Rules:
+Optional Input. Standard T24 nominal / amount ( NOMAMT ) format. */
+        MIN_REDEMPTION : T24BusinessTypes:NOMAMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=23.0, core=true, t24Name=MIN.REDEMPTION)
+/* Defines whether error or override needs to be raised when minimum condition as above is not met.
+If MIN.REDEMPTION is specified and this field is left blank,the system would raise override when the condition is not met.
+Validation Rules:
+Optional Input. Allowed values are  'ERROR' or 'OVERRIDE'.
+Would be defauled to 'OVERRIDE' when left blank and MIN.REDEMPTION is specified. */
+        MIN_REDEM_ACTION : ST_Valuation:SUB_ASSET_TYPE__MIN_REDEM_ACTION
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=25.0, core=true, t24Name=MIN.REDEM.ACTION)
+/* Defines whether the Minimum redemption specified is in terms of value or units. If VALUE is defined here and the redemption is in terms of units, the system would convert the units into value terms at order / trade stage based on prevailing NAV and raise override/error as the case may be and vice versa.
+Validation Rules:
+Optional Input. Allowed values are 'UNITS' or 'VALUE' */
+        MIN_REDEM_UNIT_VAL : ST_Valuation:SUB_ASSET_TYPE__MIN_REDEM_UNIT_VAL
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=24.0, core=true, t24Name=MIN.REDEM.UNIT.VAL)
+        PAY_OUT_ROUTINE : T24BusinessTypes:HOOK
+            @i18n:Label (en="Routine to calculate payout details")
+            @i18n:Tooltip (en="Routine to calculate payout details")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=39.0, core=true, t24Name=PAY.OUT.ROUTINE)
+        /* Price tolerance corresponding to sub asset type. Used as a check to ensure that the difference between the current mid price and that received from the overnight price feed, is within the specified tolerance. If not, reported in the exception report. */
+        PRICE_TOLERANCE : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=8.0, core=true, t24Name=PRICE.TOLERANCE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=42.0, core=true, t24Name=RECORD.STATUS)
+/* Risk level for suitability checking.
+Validation Rules:
+Cross-referenced to EB.LOOKUP table. */
+        RISK_LEVEL : T24BusinessTypes:A
+            @i18n:Label (en="Risk Level")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=30.0, core=true, t24Name=RISK.LEVEL)
+/* Specifies the percentage of the asset/liability as defined by the SUB.ASSET.TYPE to be used in portfolio valuations.
+This is the second level of checking when Securities programs value other (non securities) assets.  If a value is not found on the ASSET.BY.CATEG file then this percentage rate is applied to the value of the sub-asset involved.
+Depending upon whether a valuation should include/exclude liabilities, either this field or LOSS.MARGIN.RATE will be used to calculate the margin value. The method of calculation is defined in the field MARGIN.VALUE in SC.PARAMETER
+If no value is found on either file then a margin rate of 0% is assumed.
+Validation Rules:
+1-5 characters Standard Rate format. Optional Input.
+If entered, must identify a record on the MARGIN.CONTROL file. */
+        SEC_MARGIN_RATE : T24BusinessTypes:R
+            @i18n:Label (en="Sec Margin Rate")
+            @i18n:Tooltip (en="Security Margin Rate")
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=6.0, core=true, t24Name=SEC.MARGIN.RATE)
+/* Margin rate for calculating sell-out margin amount
+Validation Rules:
+Maximum of 9 numeric characters is allowed */
+        SELL_OUT_MARGIN : T24BusinessTypes:R
+            @i18n:Label (en="Sell Out Margin")
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=32.0, core=true, t24Name=SELL.OUT.MARGIN)
+        SHORT_DESCR -> byValue ST_Valuation:SUB_ASSET_TYPE__SHORT_DESCR *
+            @t24:i (t24Name=SHORT.DESCR)
+/* A value of 'YES' indicates that all instruments linked to this SUB.ASSET.TYPE are structured notes.
+Validation Rules:
+Allowed Value - Yes, default value is NULL */
+        STRUCTURE_NOTES : ST_Valuation:SUB_ASSET_TYPE__STRUCTURE_NOTES
+            @i18n:Label (en="Structured Notes")
+            @i18n:Tooltip (en="Structured Notes")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=38.0, core=true, t24Name=STRUCTURE.NOTES)
+/* Supports EU Saving directives.
+Validation Rules:
+LIFO, FIFO or AVERAGE */
+        TAX_BASIS : ST_Valuation:SUB_ASSET_TYPE__TAX_BASIS
+            @i18n:Label (en="Tax Basis")
+            @t24:i (align=L, inputBehaviour=I, maxLength=7, sysNumber=13.0, core=true, t24Name=TAX.BASIS)
+/* Margin rate for calculating top-up margin amount
+Validation Rules:
+Maximum of 9 numeric characters is allowed */
+        TOP_UP_MARGIN : T24BusinessTypes:R
+            @i18n:Label (en="Top Up Margin")
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=31.0, core=true, t24Name=TOP.UP.MARGIN)
+        TRANS_TYPE -> byValue ST_Valuation:SUB_ASSET_TYPE__TRANS_TYPE *
+            @t24:i (t24Name=TRANS.TYPE)
+        /* Reserved for future use. */
+        VAR_INTEREST_BONDS : ST_Valuation:SUB_ASSET_TYPE__VAR_INTEREST_BONDS
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=7.0, core=true, t24Name=VAR.INTEREST.BONDS)
+        YEAR_BREAKS -> byValue ST_Valuation:SUB_ASSET_TYPE__YEAR_BREAKS *
+            @t24:i (t24Name=YEAR.BREAKS)
+    }
+    SUB_ASSET_TYPE__CURRENCY
+    {
+        /* Loss margin rate of the currency . This is of numeric type. */
+        CCY_LOSS_MGN_RATE : T24BusinessTypes:R
+            @i18n:Label (en="Ccy Loss Margin Rate")
+            @i18n:Tooltip (en="Loss Margin rate for assets in this Ccy")
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=35.0, core=true, t24Name=CCY.LOSS.MGN.RATE)
+        /* Asset margin rate of the currency. This is of numeric type. */
+        CCY_SEC_MGN_RATE : T24BusinessTypes:R
+            @i18n:Label (en="Ccy Margin Rate")
+            @i18n:Tooltip (en="Margin for Assets in this Ccy")
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=34.0, core=true, t24Name=CCY.SEC.MGN.RATE)
+        /* Currency for which margin rate is to be specified. Will hold the valid CURRENCY record. */
+        CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en=Ccy)
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=33.0, core=true, businessType=CCY, t24Name=CURRENCY)
+    }
+    SUB_ASSET_TYPE__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=45.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    SUB_ASSET_TYPE__DESCRIPTION
+    {
+/* Describes the SUB ASSET TYPE.
+This field may be expanded to allow the user to enter the Description of the SUB ASSET TYPE in various languages. Each expansion of the field will correspond to a new language as defined in the Language table and will indicate to the user the Language in which the Description is to be entered.
+Validation Rules:
+3 to 35 type AA (alphanumeric, first character must be alpha) characters. Multilanguage field. (Mandatory input.) */
+        DESCRIPTION : T24BusinessTypes:AA required
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    SUB_ASSET_TYPE__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=44.0, core=true, t24Name=INPUTTER)
+    }
+    SUB_ASSET_TYPE__SHORT_DESCR
+    {
+/* Describes in abbreviated form the Sub.Asset.Type.
+This field may be expanded to allow the user to enter the Description of the Sub.Asset.Type in various languages. Each expansion of the field will correspond to a new language as defined in the Language table and will indicate to the user the Language in which the Description is to be entered.
+Validation Rules:
+3 to 15 type SS (uppercase alpha or numeric, first character must be alpha) characters. Multilanguage field. (Mandatory input.) */
+        SHORT_DESCR : T24BusinessTypes:SS required
+            @i18n:Label (en="Short Descr")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, multiLanguage=true, sysNumber=2.0, core=true, t24Name=SHORT.DESCR)
+    }
+    SUB_ASSET_TYPE__TRANS_TYPE
+    {
+/* This is the ID of FT.COMMISSION.TYPE record where fee details are stored.
+Validation Rules:
+Must be a valid FT.COMMISSION.TYPE record
+Fields from TRANS.TYPE to DISC.AMT would be associated multi-value fields. */
+        CHARGE_CODE -> ST_ChargeConfig:FT_COMMISSION_TYPE
+            @i18n:Label (en="Charge Code")
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=27.0, core=true, businessType=A, t24Name=CHARGE.CODE)
+/* This is either discount percentage or amount. If DISC.TYPE is blank, then this would be considered in terms of percentage. The discount would be limited to the extent of fees calculated.
+Validation Rules:
+If DISC.TYPE is percentage, this should be 1- 100 ( %) else any numeric character indicating amount. Standard T4 Amount format.
+Fields from TRANS.TYPE to DISC.AMT would be associated multi-value fields. */
+        DISC_AMT : T24BusinessTypes:AMT
+            @i18n:Label (en="Discount Amount")
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=29.0, core=true, t24Name=DISC.AMT)
+/* This would specify whether discount, if any, is in terms of percentage or amount
+Validation Rules:
+Allowed values are 'PERCENTAGE' or 'AMOUNT'
+Fields from TRANS.TYPE to DISC.AMT would be associated multi-value fields. */
+        DISC_TYPE : ST_Valuation:SUB_ASSET_TYPE__TRANS_TYPE__DISC_TYPE
+            @i18n:Label (en="Discount Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=28.0, core=true, t24Name=DISC.TYPE)
+/* The transaction type for which this charge would be applicable. If ALL is specified, this charge would be applicable for all transaction types, if ALL.CREDIT is specified, this would be applicable for all credit (subscription) transactions, if ALL.DEBIT is specified, this would be applicable for all redemptions. By using different transaction types, it is possible to levy different charges for initial subscription, partial redemptions, full redemptions, switches, etc.
+Validation Rules:
+Allowed values are 'ALL' or 'ALL.CREDIT' or 'ALL.DEBIT' or a valid SC.TRANS.NAME record
+Fields from TRANS.TYPE to DISC.AMT would be associated multi-value fields. */
+        TRANS_TYPE : T24BusinessTypes:A
+            @i18n:Label (en="Transaction Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=26.0, core=true, t24Name=TRANS.TYPE)
+    }
+    SUB_ASSET_TYPE__YEAR_BREAKS
+    {
+/* Only required if field 4 set to "Y".
+Validation Rules:
+Up to 4 characters. */
+        YEAR_BREAKS : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=4, sysNumber=5.0, core=true, t24Name=YEAR.BREAKS)
+    }
+}
+Enumerations {
+    ASSET_TYPE__CG_INCL_ACCR_INT : mml:string
+        NO=NO
+        YES=YES
+    ASSET_TYPE__CG_INCL_EXPENSE : mml:string
+        NO=NO
+        YES=YES
+    ASSET_TYPE__INTERFACE_TO : mml:string
+        AC=AC
+        AD=AD
+        AL=AL
+        DX=DX
+        FD=FD
+        FI=FI
+        FR=FR
+        FU=FU
+        FX=FX
+        LCE=LCE
+        LCI=LCI
+        LD=LD
+        LQ=LQ
+        MD=MD
+        ME=ME
+        MG=MG
+        MM=MM
+        ND=ND
+        RP=RP
+        RPC=RPC
+        RPM=RPM
+        RS=RS
+        RSC=RSC
+        RSM=RSM
+        SW=SW
+        SY=SY
+    ASSET_TYPE__WCG_INCL_ACCR_INT : mml:string
+        NO=NO
+        YES=YES
+    ASSET_TYPE__WCG_INCL_EXPENSE : mml:string
+        NO=NO
+        YES=YES
+    SUB_ASSET_TYPE__CAPITAL_BOND : mml:string
+        NO=NO
+        YES=YES
+    SUB_ASSET_TYPE__GRP1_GRP2_METHOD : mml:string
+        FIFO=FIFO
+        LIFO=LIFO
+        SUMLIFO=SUMLIFO
+    SUB_ASSET_TYPE__KASSENOBLIGATIONEN : mml:string
+        KASBON=KASBON
+        NO=NO
+        YES=YES
+    SUB_ASSET_TYPE__MIN_ENS_ACTION : mml:string
+        ERROR=ERROR
+        OVERRIDE=OVERRIDE
+    SUB_ASSET_TYPE__MIN_HLDG_ACTION : mml:string
+        ERROR=ERROR
+        OVERRIDE=OVERRIDE
+    SUB_ASSET_TYPE__MIN_INIT_ACTION : mml:string
+        ERROR=ERROR
+        OVERRIDE=OVERRIDE
+    SUB_ASSET_TYPE__MIN_PERIOD_ACTION : mml:string
+        ERROR=ERROR
+        OVERRIDE=OVERRIDE
+    SUB_ASSET_TYPE__MIN_REDEM_ACTION : mml:string
+        ERROR=ERROR
+        OVERRIDE=OVERRIDE
+    SUB_ASSET_TYPE__MIN_REDEM_UNIT_VAL : mml:string
+        UNITS=UNITS
+        VALUE=VALUE
+    SUB_ASSET_TYPE__STRUCTURE_NOTES : mml:string
+        YES=YES
+    SUB_ASSET_TYPE__TAX_BASIS : mml:string
+        AVERAGE=AVERAGE
+        FIFO=FIFO
+        LIFO=LIFO
+    SUB_ASSET_TYPE__TRANS_TYPE__DISC_TYPE : mml:string
+        AMOUNT=AMOUNT
+        PERCENTAGE=PERCENTAGE
+    SUB_ASSET_TYPE__VAR_INTEREST_BONDS : mml:string
+        NO=NO
+        YES=YES
+}

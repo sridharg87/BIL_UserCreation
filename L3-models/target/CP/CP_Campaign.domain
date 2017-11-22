@@ -1,0 +1,2617 @@
+# UTF-8
+/* CP - Campaign Management */
+Domain CP_Campaign
+    @t24:i (module=CP)
+    @java:Package (value=com.temenos.t24.datamodel.cp.cp_campaign)
+namespace "http://www.temenos.com/t24/CP_Campaign"
+metamodelVersion 1.30.6
+Classes {
+/* CEP uses triggers as initiators of the campaign execution for dynamic campaigns. CEP should have the capability to respond to triggers and initiate the campaign in real or near real time. 
+These triggers need to be defined by the Admin user of the solution using the User Agent for Administration.
+The definition of the bank triggers is stored in the CP.BANK.TRIGGERS table in T24. The bank triggers refer to events that occur in T24 or Insight (e.g. large amount credited to account, FTs, change of address, attrition indicator, customer profitability etc.). 
+The triggers defined by the Administration user of the CEP are available for the business Marketing user to use them when setting campaign definitions. */
+    CP_BANK_TRIGGER
+        @i18n:Description (en="")
+        @t24:i (t24Name=CP.BANK.TRIGGER, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=25.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=26.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=22.0, core=true, t24Name=AUTHORISER)
+        BANK_TRIGGER_ID -> CP_Campaign:CP_BANK_TRIGGER PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=BANK.TRIGGER.ID)
+        BLOB -> byValue CP_Campaign:CP_BANK_TRIGGER__BLOB *
+            @t24:i (t24Name=BLOB)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=23.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=19.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue CP_Campaign:CP_BANK_TRIGGER__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=24.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue CP_Campaign:CP_BANK_TRIGGER__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+/* This field stores the Bank Event name associated to the bank trigger. 
+This name is displayed in the User Agent for Customer Programs for the Marketing roles.
+Validation Rules:
+Mandatory field, any 50 characters. */
+        EVENT_NAME : T24BusinessTypes:ANY required
+            @i18n:Label (en="Event Name")
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=4.0, core=true, t24Name=EVENT.NAME)
+        INPUTTER -> byValue CP_Campaign:CP_BANK_TRIGGER__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        K_TYPE : T24BusinessTypes:ANY
+            @i18n:Label (en=Type)
+            @t24:i (align=L, inputBehaviour=N, maxLength=50, sysNumber=3.0, core=false, t24Name=K.TYPE)
+/* This field stores the name assigned to a trigger by the Admin user of the Customer Programs module. 
+In the User Agent for Administration, the Admin user will be able to type in the name of the trigger. 
+When the Admin user saves the trigger definition the name of the trigger is stored in this field.
+Validation Rules:
+Mandatory field, any 50 characters. */
+        NAME : T24BusinessTypes:ANY required
+            @i18n:Label (en=Name)
+            @i18n:Tooltip (en="Indicates the Name ")
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=1.0, core=true, t24Name=NAME)
+        OVERRIDE -> byValue CP_Campaign:CP_BANK_TRIGGER__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=18.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=6.0, core=true, t24Name=RESERVED.10)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=11.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=7.0, core=true, t24Name=RESERVED.9)
+/* This field stores the type of the trigger. 
+The Admin user can choose a type of event depending of the source from which the event is passed in Campaign Engine. 
+This will be a predefined list of event types. 
+The Admin role will create the list and be able to pick one of the values from the list to define the type of the new bank event.
+Validation Rules:
+Mandatory field. */
+        TYPE : T24BusinessTypes:ANY required
+            @i18n:Label (en=Type)
+            @i18n:Tooltip (en=Type)
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=3.0, core=true, t24Name=TYPE)
+    }
+    CP_BANK_TRIGGER__BLOB
+    {
+        /* This field stores an XPath query used to filter bank events. */
+        BLOB : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=10000, sysNumber=5.0, core=true, t24Name=BLOB, isTextarea=true)
+    }
+    CP_BANK_TRIGGER__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=21.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    CP_BANK_TRIGGER__DESCRIPTION
+    {
+/* Validation Rules:
+Any 1000 characters. */
+        DESCRIPTION : T24BusinessTypes:ANY
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=1000, sysNumber=2.0, core=true, t24Name=DESCRIPTION, isTextarea=true)
+    }
+    CP_BANK_TRIGGER__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=20.0, core=true, t24Name=INPUTTER)
+    }
+    CP_BANK_TRIGGER__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=17.0, core=true, t24Name=OVERRIDE)
+    }
+    /* ------------------- CP.CAMPAIGN holds configuration information from the Campaign engine - User Agent, specifically the settings/definitions of the new campaigns. */
+    CP_CAMPAIGN
+        @i18n:Description (en="")
+        @t24:i (t24Name=CP.CAMPAIGN, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+/* Actual cost for the Campaign.
+This is an amount/numeric field. */
+        ACTUAL_COSTS : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=5.0, core=true, t24Name=ACTUAL.COSTS)
+        /* Actual cost per customer. This is an amount/numeric field. */
+        ACTUAL_COST_CUST : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=68.0, core=true, t24Name=ACTUAL.COST.CUST)
+/* Actual end date for the new Campaign.
+This is a date type field. */
+        ACTUAL_END_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=9.0, core=true, t24Name=ACTUAL.END.DATE)
+/* The solution will capture and analyse the customers' responses. Example for email:
+The are 6 possibilities:
+1. The customer will ignore the email.
+2. The customer will open the email and take no action further.
+3. The customer will open the email, click on the link but will abandon.
+4. The customer will open the email, click on the link and applies for the overdraft facility.
+5. The email will soft bounce.
+6. The email will hard bounce.
+•    The solution will fill in this field based on the customers responses to the test. If Campaign Test state is any other than Finish, this field will not be shown.
+This is an amount/numeric field. */
+        ACTUAL_NO_TEST_RSP : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=61.0, core=true, t24Name=ACTUAL.NO.TEST.RSP)
+/* Actual return on investment rate for the Campaign.
+This is an amount/numeric field. */
+        ACTUAL_ROI : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=13.0, core=true, t24Name=ACTUAL.ROI, typeModifiers=-)
+/* Actual response rate to the Campaign.
+This is an amount/numeric field, and the value inserted here should be a percent. */
+        ACTUAL_RSP_RATES : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=11.0, core=true, t24Name=ACTUAL.RSP.RATES)
+/* Actual start date for the new Campaign.
+This is a date type field. */
+        ACTUAL_START_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=7.0, core=true, t24Name=ACTUAL.START.DATE)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=94.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=95.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=91.0, core=true, t24Name=AUTHORISER)
+        BANK_TRIGGERS -> byValue CP_Campaign:CP_CAMPAIGN__BANK_TRIGGERS *
+            @t24:i (t24Name=BANK.TRIGGERS)
+/* The status of the Campaign.
+Links to the ID of CP.CAMPAIGN.STATUS table and it is Mandatory. */
+        CAMPAIGN_STATUS -> CP_Campaign:CP_CAMPAIGN_STATUS required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=17.0, core=true, businessType=A, t24Name=CAMPAIGN.STATUS)
+        CHANNEL -> byValue CP_Campaign:CP_CAMPAIGN__CHANNEL *
+            @t24:i (t24Name=CHANNEL)
+        CHANNEL_DATA -> byValue CP_Campaign:CP_CAMPAIGN__CHANNEL_DATA *
+            @t24:i (t24Name=CHANNEL.DATA)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=92.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CP_CAMPAIGN_ID -> CP_Campaign:CP_CAMPAIGN PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=CP.CAMPAIGN.ID)
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=88.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue CP_Campaign:CP_CAMPAIGN__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=93.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue CP_Campaign:CP_CAMPAIGN__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        /* A flag which indicates that the campaign can be versioned - Y/N values. */
+        EDITABLE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=51.0, core=true, t24Name=EDITABLE)
+        /* Gross margin per sale. This is an amount/numeric field. */
+        GROSMARGIN_PER_SALE : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=66.0, core=true, t24Name=GROSMARGIN.PER.SALE, typeModifiers=-)
+        INPUTTER -> byValue CP_Campaign:CP_CAMPAIGN__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        METRICS_PROVIDER -> byValue CP_Campaign:CP_CAMPAIGN__METRICS_PROVIDER *
+            @t24:i (t24Name=METRICS.PROVIDER)
+/* Name of the Campaign.
+This is Mandatory text field. It allows up to 50 any characters. */
+        NAME : T24BusinessTypes:ANY required
+            @i18n:Label (en=Name)
+            @i18n:Tooltip (en="Indicates the Name ")
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=2.0, core=true, t24Name=NAME)
+/* The solution will calculate the number of customers the bank needs to respond to the campaign, so that it reaches break even. It represents the number of customers that have to buy the campaigned product so that the campaign costs are covered. BE=Total cost of the test/cost per customer.
+This is an amount/numeric field. */
+        NO_CUST_BREAK_EVNT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=59.0, core=true, t24Name=NO.CUST.BREAK.EVNT)
+/* The number of times a customer is targeted by a campaign.
+This is a numeric field. */
+        NUMBER_IMPRESSIONS : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=35, sysNumber=37.0, core=true, t24Name=NUMBER.IMPRESSIONS)
+        /* Objective of the Campaign. Links to the ID of CP.OBJECTIVE table. */
+        OBJECTIVE -> CP_Campaign:CP_OBJECTIVE required
+            @t24:i (align=L, inputBehaviour=I, maxLength=100, sysNumber=3.0, core=true, businessType=ANY, t24Name=OBJECTIVE)
+        ONLINE_CHANNEL -> byValue CP_Campaign:CP_CAMPAIGN__ONLINE_CHANNEL *
+            @t24:i (t24Name=ONLINE.CHANNEL)
+        /* If a campaign has been versioned this field stores the ID of the Original campaign. */
+        ORIGINAL_ID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=12, sysNumber=50.0, core=true, t24Name=ORIGINAL.ID)
+        OVERRIDE -> byValue CP_Campaign:CP_CAMPAIGN__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+/* The user who defines the Campaign.
+Links to the ID of USER table and it is Mandatory. */
+        OWNER -> EB_Security:USER required
+            @i18n:Label (en=Owner)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=16.0, core=true, businessType=A, t24Name=OWNER)
+        /* Planned cost per customer. This is an amount/numeric field. */
+        PLANNED_COST_CUST : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=67.0, core=true, t24Name=PLANNED.COST.CUST)
+/* Planned end date for the new Campaign.
+This is a date type field. */
+        PLANNED_END_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=8.0, core=true, t24Name=PLANNED.END.DATE)
+/* Planned start date for the new Campaign.
+This is a date type field. */
+        PLANNED_START_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=6.0, core=true, t24Name=PLANNED.START.DATE)
+/* The priority of the campaign which is used to orchestrated the execution of the campaigns.
+This is an amount/numeric field. */
+        PRIORITY : T24BusinessTypes:AMT
+            @i18n:Label (en=Priority)
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=36.0, core=true, t24Name=PRIORITY)
+        PRODUCT -> byValue CP_Campaign:CP_CAMPAIGN__PRODUCT *
+            @t24:i (t24Name=PRODUCT)
+        PRODUCT_GROUP -> byValue CP_Campaign:CP_CAMPAIGN__PRODUCT_GROUP *
+            @t24:i (t24Name=PRODUCT.GROUP)
+        PROFILE -> byValue CP_Campaign:CP_CAMPAIGN__PROFILE *
+            @t24:i (t24Name=PROFILE)
+/* The ID of the program which contains the Campaign.
+Links to the ID of CP.PROGRAM table. */
+        PROGRAM_ID -> CP_Campaign:CP_PROGRAM
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=19.0, core=true, businessType=A, t24Name=PROGRAM.ID)
+        RATIO_HANDLER -> byValue CP_Campaign:CP_CAMPAIGN__RATIO_HANDLER *
+            @t24:i (t24Name=RATIO.HANDLER)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=87.0, core=true, t24Name=RECORD.STATUS)
+        REQUIRED_DATA_CONTEXT -> byValue CP_Campaign:CP_CAMPAIGN__REQUIRED_DATA_CONTEXT *
+            @t24:i (t24Name=REQUIRED.DATA.CONTEXT)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=84.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=75.0, core=true, t24Name=RESERVED.10)
+        RESERVED_11 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=74.0, core=true, t24Name=RESERVED.11)
+        RESERVED_12 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=73.0, core=true, t24Name=RESERVED.12)
+        RESERVED_13 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=72.0, core=true, t24Name=RESERVED.13)
+        RESERVED_14 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=71.0, core=true, t24Name=RESERVED.14)
+        RESERVED_15 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=70.0, core=true, t24Name=RESERVED.15)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=83.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=82.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=81.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=80.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=79.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=78.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=77.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=76.0, core=true, t24Name=RESERVED.9)
+/* Rule evaluation type.
+This is a text field and it allows up to 30 any characters. */
+        RULE_EVAL_TYPE : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=46.0, core=true, t24Name=RULE.EVAL.TYPE)
+/* Planned cost for the Campaign.
+This is an amount/numeric field. */
+        TARGET_COSTS : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=4.0, core=true, t24Name=TARGET.COSTS)
+/* Planned return on investment rate for the Campaign.
+This is an amount/numeric field. */
+        TARGET_ROI : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=12.0, core=true, t24Name=TARGET.ROI)
+/* Planned response rate to the Campaign.
+This is an amount/numeric field, and the value inserted here should be a percent. */
+        TARGET_RSP_RATES : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=10.0, core=true, t24Name=TARGET.RSP.RATES)
+/* Insight will calculate the Actual response rate. Actual Response rate = actual no. test respondents/ test cell size.
+This is an amount/numeric field. */
+        TEST_ACTUAL_RSP_RATE : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=62.0, core=true, t24Name=TEST.ACTUAL.RSP.RATE)
+/* This is an editable field where the Marketing Inputter will be able to fill in the cost for the campaign per 1000 customers.
+This is an amount/numeric field. */
+        TEST_COST_K_CUST : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=56.0, core=true, t24Name=TEST.COST.K.CUST)
+        /* This is an editable date type field where the Marketing Inputter will be able to define the end date for the Test. */
+        TEST_END_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=54.0, core=true, t24Name=TEST.END.DATE)
+/* Insight will calculate the net profit margin by subtracting the test costs from the total gross margin. Total gross margin = actual number of respondents*gross margin per sale.
+This is an amount/numeric field. */
+        TEST_NET_PROFMARGIN : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=64.0, core=true, t24Name=TEST.NET.PROFMARGIN, typeModifiers=-)
+/* Insight will calculate the ROI by dividing the net profit margin by the total cost of the test. ROI=Net profit margin/Total cost for test.
+This is an amount/numeric field. */
+        TEST_ROI : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=65.0, core=true, t24Name=TEST.ROI, typeModifiers=-)
+/* These are random group of customers who are eligible for a specific campaign. The campaign is launched only for these customers for test purposes. When the campaign is executed for the full set of targeted audience, the test cell will not be included again.
+This is an amount/numeric field. */
+        TEST_SAMPLE : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=55.0, core=true, t24Name=TEST.SAMPLE)
+        /* This is an editable date type field where the Marketing Inputter will be able to define the start date for the Test. */
+        TEST_START_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=53.0, core=true, t24Name=TEST.START.DATE)
+/* The Insight will calculate the total cost of the tested campaign. Total Cost for test = test cell size*cost per 1000cust /1000.
+This is an amount/numeric field. */
+        TEST_TOTAL_COST : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=58.0, core=true, t24Name=TEST.TOTAL.COST)
+/* Insight will calculate the total gross margin by multiplying the number of actual responders/sales by the gross margin per sale. Total gross margin = actual number of respondents*gross margin per sale.
+This is an amount/numeric field. */
+        TEST_TOT_GROSMARGIN : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=63.0, core=true, t24Name=TEST.TOT.GROSMARGIN, typeModifiers=-)
+/* This will be a calculated field by the Insight. Test cell size=Test cell*total targeted audience for the campaign. These customers are linked to the campaign tested on them. Test cell customers must not be included in the Hold out cell for that campaign.
+This is an amount/numeric field. */
+        TEST_TRG_AUD_SIZE : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=57.0, core=true, t24Name=TEST.TRG.AUD.SIZE)
+/* This is an editable field where the Marketing Inputter will fill in the targeted response rate for the test.
+This is an amount/numeric field. */
+        TEST_TRG_RSP_RATE : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=60.0, core=true, t24Name=TEST.TRG.RSP.RATE)
+        /* Should contain Y/N values to indicate if the Marketing Inputter would like to use an already saved template for a communication.. */
+        USE_TEMPLATES : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=44.0, core=true, t24Name=USE.TEMPLATES)
+        /* Should contain Y/N values to indicate if the user would like to define variants (tests) for the defined campaign. */
+        USE_VARIANTS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=47.0, core=true, t24Name=USE.VARIANTS)
+        VARIANT -> byValue CP_Campaign:CP_CAMPAIGN__VARIANT *
+            @t24:i (t24Name=VARIANT)
+        /* The ID of the Variant selection which is a means of splitting the targeted audience identified via a profile. This field links the CP.CAMPAIGN table to CP.VARIANT.SELECTION one. */
+        VARIANT_SELECTION -> CP_Campaign:CP_VARIANT_SELECTION
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=48.0, core=true, businessType=A, t24Name=VARIANT.SELECTION)
+        /* If a campaign is edited by a Marketing Inputter and it is in status Testing or Running, the solution will create a version of that campaign. This numeric field will store the number of that version. */
+        VERSION : T24BusinessTypes:N required
+            @i18n:Label (en=Version)
+            @t24:i (align=R, inputBehaviour=I, maxLength=35, sysNumber=52.0, core=true, t24Name=VERSION)
+        /* This is a field which receives a set of values from edgeConnect based on which the solution decides if the campaign needs to be versioned. */
+        VERSION_FLAG : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=69.0, core=true, t24Name=VERSION.FLAG)
+/* The ID of the workflow which indicates the state of the Campaign.
+Links to the ID of PW.PROCESS table. */
+        WORKFLOW_ID -> PW_Foundation:PW_PROCESS
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=18.0, core=true, businessType=A, t24Name=WORKFLOW.ID)
+    }
+/* Marketing campaigns defined by the Marketing business user using the User Agent for Customer Programs have different approval statuses throughout their lifecycle.
+Each marketing business user can see and take action on a marketing campaign depending on her/his role.
+(E.g. a Marketing Inputter can start the definition of a marketing campaign – at this point the status of the campaign is DRAFT.
+Then the Marketing inputter sends the newly defined campaign to be checked by the Marketing Checker by clicking the Commit button in the User Agent for Customer Programs screen – at this point the status of the campaign
+is Pending to be Checked, and so on)
+The new CP.CAMPAIGN.STATUS table stores:
+-    the statuses on the approval flow of a marketing campaign
+-    the Marketing roles which have permission to interact with the campaign which has a given status
+-    the buttons which allow a Marketing role to move a campaign from one status to another
+-    the sequence of the statuses (back and forward) for a marketing campaign */
+    CP_CAMPAIGN_STATUS
+        @i18n:Description (en="")
+        @t24:i (t24Name=CP.CAMPAIGN.STATUS, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        /* Y/N values. The values indicate whether or not the campaign is editable in the given status. */
+        APP_EDITABLE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=10.0, core=true, t24Name=APP.EDITABLE)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=31.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=32.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=28.0, core=true, t24Name=AUTHORISER)
+        /* This field stores the business Marketing role which can see and interact with the campaign in a given status. The Admin user picks this value from a dropdown list containing the available user roles defined in the USER.SMS.GROUP table. */
+        AUTO_VERSION_STS -> CP_Campaign:CP_CAMPAIGN_STATUS
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=8.0, core=true, businessType=A, t24Name=AUTO.VERSION.STS)
+        /* This field stores the back (backward) status, on the approval flow, a campaign can be moved to by the Marketing role. The Admin user picks this value from a dropdown list containing the available campaign statuses defined in the new CP.CAMPAIGN.STATUS table. */
+        BACK_STATUS -> CP_Campaign:CP_CAMPAIGN_STATUS
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=7.0, core=true, businessType=A, t24Name=BACK.STATUS)
+        /* This field stores the label of the button that has to be clicked by the business Marketing role in order to move the campaign to the given status. */
+        BUTTON_LABEL : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=4.0, core=true, t24Name=BUTTON.LABEL)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=29.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CP_CAMPAIGN_STATUS_ID -> CP_Campaign:CP_CAMPAIGN_STATUS PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=CP.CAMPAIGN.STATUS.ID)
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=25.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue CP_Campaign:CP_CAMPAIGN_STATUS__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=30.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue CP_Campaign:CP_CAMPAIGN_STATUS__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        /* This field stores the direction of the flow when a campaigns is moved in the given status. The values in the list of values available to choose from are: START, NEXT, BACK, END. */
+        FLOW_VALIDATION : CP_Campaign:CP_CAMPAIGN_STATUS__FLOW_VALIDATION required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=2.0, core=true, t24Name=FLOW.VALIDATION)
+        INPUTTER -> byValue CP_Campaign:CP_CAMPAIGN_STATUS__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        K_TYPE : CP_Campaign:CP_CAMPAIGN_STATUS__K_TYPE
+            @i18n:Label (en=Type)
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=3.0, core=false, t24Name=K.TYPE)
+        /* This field stores the next (forward) status, on the approval flow, a campaign can be moved to by the Marketing role. The Admin user picks this value from a dropdown list containing the available campaign statuses defined in the new CP.CAMPAIGN.STATUS table. */
+        NEXT_STATUS -> CP_Campaign:CP_CAMPAIGN_STATUS
+            @i18n:Label (en="Next Status")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=6.0, core=true, businessType=A, t24Name=NEXT.STATUS)
+        NO_AUTHORISATIONS : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=35, sysNumber=11.0, core=true, t24Name=NO.AUTHORISATIONS)
+        OVERRIDE -> byValue CP_Campaign:CP_CAMPAIGN_STATUS__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=24.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=21.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.10)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=20.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=19.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=17.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED.9)
+        /* This field stores the User Agent for Customer Programs Dashboard tab labels. */
+        SEARCH_TITLE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=5.0, core=true, t24Name=SEARCH.TITLE)
+        /* This field stores the type of the campaign status. The values in the list of values available to choose from are: RUNNING, TESTING, NORMAL. */
+        TYPE : CP_Campaign:CP_CAMPAIGN_STATUS__TYPE required
+            @i18n:Label (en=Type)
+            @i18n:Tooltip (en=Type)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=3.0, core=true, t24Name=TYPE)
+        /* This field contains the status of a campaign when it is auto versioned. */
+        USER_ROLE -> EB_Security:USER_SMS_GROUP
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=9.0, core=true, businessType=A, t24Name=USER.ROLE)
+    }
+    CP_CAMPAIGN_STATUS__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=27.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    CP_CAMPAIGN_STATUS__DESCRIPTION
+    {
+        /* This field stores the name of the campaign status (e.g. DRAFT, PENDING.CHECK, PENDING.TEST etc.) */
+        DESCRIPTION : T24BusinessTypes:A required
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    CP_CAMPAIGN_STATUS__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=26.0, core=true, t24Name=INPUTTER)
+    }
+    CP_CAMPAIGN_STATUS__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=23.0, core=true, t24Name=OVERRIDE)
+    }
+    CP_CAMPAIGN__BANK_TRIGGERS
+    {
+/* The ID of the T24/Insight events, such as FT/Attrition Risk, which are used to trigger campaigns. This field links the CP.CAMPAIGN table to CP.BANK.TRIGGER one.
+This is a multi-value text field. */
+        BANK_TRIGGERS -> CP_Campaign:CP_BANK_TRIGGER
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=32.0, core=true, businessType=ANY, t24Name=BANK.TRIGGERS)
+    }
+    CP_CAMPAIGN__CHANNEL
+    {
+/* The ID of the communication channel used to manage the customer interactions for a Campaign.
+Links to the ID of CP.CHANNEL table and it is Mandatory.
+This field is part of an associated multi-value field. */
+        CHANNEL -> CP_Campaign:CP_CHANNEL required
+            @i18n:Label (en=Channel)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=20.0, core=true, businessType=A, t24Name=CHANNEL)
+/* The content which will be displayed for the customer.
+This is a text field up to 1000 any characters, and is part of an associated multi-value field. */
+        CHOSEN_CONTENT : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=1000, sysNumber=23.0, core=true, t24Name=CHOSEN.CONTENT)
+/* Extra Content for the Channel.
+This is a text field up to 250 any characters, and is part of an associated multi-value field. */
+        CONTENT_EXTRA : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=250, sysNumber=26.0, core=true, t24Name=CONTENT.EXTRA)
+/* The ID of the placeholder/section in the edgeConnect project where campaign content can be displayed to the customer as output for the running campaign. This field links the CP.CAMPAIGN table to CP.CHANNEL.OUTPUT one.
+Links to the ID of CP.CHANNEL.OUTPUT table, and is part of an associated multi-value field. */
+        CONTENT_LOCATION -> CP_Campaign:CP_CHANNEL_OUTPUT
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=27.0, core=true, businessType=ANY, t24Name=CONTENT.LOCATION)
+/* Content title of the Campaign.
+This is a text field up to 250 any characters, and is part of an associated multi-value field. */
+        CONTENT_TITLE : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=250, sysNumber=22.0, core=true, t24Name=CONTENT.TITLE)
+/* The ID of the communication template used to shape the message sent to the customer through email or secure message, as part of a Campaign.
+Links to the ID of CP.CHANNEL.OFFLINE.TEMPLATE table, and is part of an associated multi-value field. */
+        OFFLINE_TEMPLATE -> CP_Campaign:CP_CHANNEL_OFFLINE_TEMPLATE
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=21.0, core=true, businessType=A, t24Name=OFFLINE.TEMPLATE)
+/* The URL to which the customer will be redirected if he clicks on the content displayed as output for the campaign.
+This is a text field up to 250 any characters, and is part of an associated multi-value field. */
+        ON_CLICK_URL : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=250, sysNumber=28.0, core=true, t24Name=ON.CLICK.URL)
+/* The ID of a reusable set of content attached or not to a product, that can be used across multiple campaigns.
+Links to the ID of CP.CHANNEL.ONLINE.TEMPLATE table, and is part of an associated multi-value field. */
+        RESOURCE -> CP_Campaign:CP_CHANNEL_ONLINE_TEMPLATE
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=25.0, core=true, businessType=A, t24Name=RESOURCE)
+/* This field allows the Marketing Inputter to choose if s/he will use a Resource - Yes or No.
+This field forms part of an associated multi-value field. */
+        USE_RESOURCE : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=24.0, core=true, t24Name=USE.RESOURCE)
+    }
+    CP_CAMPAIGN__CHANNEL_DATA
+    {
+/* Am XML blob which contains the whole data related to a channel - for the email: this would store the sender, receiver, CC, BCC, subject of the email, and the body of the email.
+This is Blob type field, meaning it allows values on more than one line - multiline field.
+The size of the field is up to 10000 any characters in length. */
+        CHANNEL_DATA : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=10000, sysNumber=45.0, core=true, t24Name=CHANNEL.DATA, isTextarea=true)
+    }
+    CP_CAMPAIGN__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=90.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    CP_CAMPAIGN__DESCRIPTION
+    {
+/* Text description of the Campaign.
+This is Blob type field, meaning it allows values on more than one line - multiline field.
+The size of the field is up to 1000 any characters in length. */
+        DESCRIPTION : T24BusinessTypes:ANY
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=1000, sysNumber=1.0, core=true, t24Name=DESCRIPTION, isTextarea=true)
+    }
+    CP_CAMPAIGN__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=89.0, core=true, t24Name=INPUTTER)
+    }
+    CP_CAMPAIGN__METRICS_PROVIDER
+    {
+        /* Metrics provider. This is a text field. */
+        METRICS_PROVIDER : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=38.0, core=true, t24Name=METRICS.PROVIDER)
+        METRICS_TYPE -> byValue CP_Campaign:CP_CAMPAIGN__METRICS_PROVIDER__METRICS_TYPE *
+            @t24:i (t24Name=METRICS.TYPE)
+    }
+    CP_CAMPAIGN__METRICS_PROVIDER__METRICS_TYPE
+    {
+        /* Budget calculation. This is a text field. */
+        BUDGET_CALCULATION : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=43.0, core=true, t24Name=BUDGET.CALCULATION)
+        /* Budget planned. This is a numeric field. */
+        BUDGET_PLANNED : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=35, sysNumber=41.0, core=true, t24Name=BUDGET.PLANNED)
+        /* Budget result. This is a numeric field. */
+        BUDGET_RESULT : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=35, sysNumber=42.0, core=true, t24Name=BUDGET.RESULT)
+        /* Budget type. This is a text field. */
+        BUDGET_TYPE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=40.0, core=true, t24Name=BUDGET.TYPE)
+        /* Metrics type. This is a text field. */
+        METRICS_TYPE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=39.0, core=true, t24Name=METRICS.TYPE)
+    }
+    CP_CAMPAIGN__ONLINE_CHANNEL
+    {
+/* Name of the online channel.
+This field is part of an associated multi-value field. */
+        CHANNEL_NAME : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=34.0, core=true, t24Name=CHANNEL.NAME)
+        FRONTEND_TRIGGERS -> byValue CP_Campaign:CP_CAMPAIGN__ONLINE_CHANNEL__FRONTEND_TRIGGERS *
+            @t24:i (t24Name=FRONTEND.TRIGGERS)
+/* The ID of the online channels used by the solution to communicate with customers. This field links the CP.CAMPAIGN table to CP.CHANNEL one.
+This field is part of an associated multi-value field. */
+        ONLINE_CHANNEL -> CP_Campaign:CP_CHANNEL
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=33.0, core=true, businessType=A, t24Name=ONLINE.CHANNEL)
+    }
+    CP_CAMPAIGN__ONLINE_CHANNEL__FRONTEND_TRIGGERS
+    {
+/* The ID of the frontend event, such as TCIB login/clicks, which are used to trigger campaigns. This field links the CP.CAMPAIGN table to CP.CHANNEL.TRIGGER one.
+This field is part of an associated multi-value field. */
+        FRONTEND_TRIGGERS -> CP_Campaign:CP_CHANNEL_TRIGGER
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=35.0, core=true, businessType=A, t24Name=FRONTEND.TRIGGERS)
+    }
+    CP_CAMPAIGN__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=86.0, core=true, t24Name=OVERRIDE)
+    }
+    CP_CAMPAIGN__PRODUCT
+    {
+/* The product which is advertised for during the campaign.
+Links to the ID of AA.PRODUCT table. */
+        PRODUCT -> AA_ProductManagement:AA_PRODUCT
+            @i18n:Label (en=Product)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=14.0, core=true, businessType=A, t24Name=PRODUCT)
+    }
+    CP_CAMPAIGN__PRODUCT_GROUP
+    {
+/* The product group which contains the products that are advertised for during the Campaign.
+Links to the ID of AA.PRODUCT.GROUP table. */
+        PRODUCT_GROUP -> AA_ProductFramework:AA_PRODUCT_GROUP
+            @i18n:Label (en="Product Group")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=15.0, core=true, businessType=A, t24Name=PRODUCT.GROUP)
+    }
+    CP_CAMPAIGN__PROFILE
+    {
+        /* The ID of the Profiles that are stored in CP.PROFILE table. This multi-value field links the CP.CAMPAIGN table to CP.PROFILE one. */
+        PROFILE -> CP_Campaign:CP_PROFILE
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=29.0, core=true, businessType=A, t24Name=PROFILE)
+    }
+    CP_CAMPAIGN__RATIO_HANDLER
+    {
+/* A means of splitting the targeted audience identified via a profile.
+This is a 35 characters multi-value text field. */
+        RATIO_HANDLER : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=30.0, core=true, t24Name=RATIO.HANDLER)
+    }
+    CP_CAMPAIGN__REQUIRED_DATA_CONTEXT
+    {
+/* The ID of the T24/Insight data which will be exposed to the Marketing Inputter. This data will be used to build profiles and templates. This field links the CP.CAMPAIGN table to CP.DATA.CONTEXT one.
+This is a multi-value text field. */
+        REQUIRED_DATA_CONTEXT -> CP_Campaign:CP_DATA_CONTEXT
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=31.0, core=true, businessType=A, t24Name=REQUIRED.DATA.CONTEXT)
+    }
+    CP_CAMPAIGN__VARIANT
+    {
+        /* It is a Multi-value field and it represents the ID of a Variant stored in CP.VARIANT. This field links the CP.CAMPAIGN table to CP.VARIANT one. */
+        VARIANT -> CP_Campaign:CP_VARIANT
+            @i18n:Label (en=Variant)
+            @i18n:Tooltip (en=Variant)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=49.0, core=true, businessType=A, t24Name=VARIANT)
+    }
+/* A channel is a medium through which a message is transmitted as part of a campaign to its intended audience, such as E-mail, Internet Banking, Mobile Banking, Secure Message, Push Notification, etc.…
+It is also a medium through which the customer/prospect can interact with the bank.
+The new CP.CHANNEL table stores the definition of the channels used by the business Marketing role to send communication messages towards customers as part of marketing campaigns.
+These channels are defined by the Admin role using the User Agent for Administration. */
+    CP_CHANNEL
+        @i18n:Description (en="")
+        @t24:i (t24Name=CP.CHANNEL, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=30.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=31.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=27.0, core=true, t24Name=AUTHORISER)
+        CHANNEL_ID -> CP_Campaign:CP_CHANNEL PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=CHANNEL.ID)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=28.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=24.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue CP_Campaign:CP_CHANNEL__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=29.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue CP_Campaign:CP_CHANNEL__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        FRONT_TRIGGER -> byValue CP_Campaign:CP_CHANNEL__FRONT_TRIGGER *
+            @t24:i (t24Name=FRONT.TRIGGER)
+        GLOBAL_DATA -> byValue CP_Campaign:CP_CHANNEL__GLOBAL_DATA *
+            @t24:i (t24Name=GLOBAL.DATA)
+/* This field stores if the channel should display to the Marketing User Role the channel Configurable Options when defining a campaign. This will be a predefined yes/no list. The Admin role will create the list and be able to pick one of the values from the list to further display the channel options.
+If value "yes" is chosen, the Marketing User will have displayed, in Channel tab, the fields he must fill in as configurable Options.
+Apply for offline channels only. */
+        HAS_CAMPAIGN_OPT : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=5.0, core=true, t24Name=HAS.CAMPAIGN.OPT)
+/* This field stores if the channel has global option defined. This will be a predefined yes/no list. The Admin role will create the list and be able to pick one of the values from the list to further display the channel options in the User Agent for Customer Program. Option "yes" will display the section "Channel Options".
+Apply for offline channels only. */
+        HAS_GLOBAL_OPTIONS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=6.0, core=true, t24Name=HAS.GLOBAL.OPTIONS)
+        /* This field is a Yes/No field which is set by the Admin User and allows the Marketing User to use templates for a given channel, when defining a marketing campaign. */
+        HAS_TEMPLATE_OPT : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=7.0, core=true, t24Name=HAS.TEMPLATE.OPT)
+        INPUTTER -> byValue CP_Campaign:CP_CHANNEL__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        K_TYPE : T24BusinessTypes:ANY
+            @i18n:Label (en=Type)
+            @t24:i (align=L, inputBehaviour=N, maxLength=50, sysNumber=4.0, core=false, t24Name=K.TYPE)
+        /* This field stores the name of the defined channel */
+        NAME : T24BusinessTypes:ANY required
+            @i18n:Label (en=Name)
+            @i18n:Tooltip (en="Indicates the Name ")
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=1.0, core=true, t24Name=NAME)
+        OUTPUT_CONTENT -> byValue CP_Campaign:CP_CHANNEL__OUTPUT_CONTENT *
+            @t24:i (t24Name=OUTPUT.CONTENT)
+        OVERRIDE -> byValue CP_Campaign:CP_CHANNEL__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+/* This field stores the name of the corresponding project from eConnect for the respective channel. Each channel will have a correspondent project in eConnect. Channel Project Name represents the name of the project from eC, entered manually by the admin user in UAI.
+Apply for both online and offline channels. */
+        PROJECT_NAME : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=3.0, core=true, t24Name=PROJECT.NAME)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=23.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=20.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=11.0, core=true, t24Name=RESERVED.10)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=19.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=17.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.9)
+/* This stores the type of the defined channel. This will be a predefined list of channel types. The Admin role will create the list and be able to pick one of the values from the list to define the type of the Channel.
+The values contained by the list are: ONLINE, OFFLINE */
+        TYPE : T24BusinessTypes:ANY
+            @i18n:Label (en=Type)
+            @i18n:Tooltip (en=Type)
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=4.0, core=true, t24Name=TYPE)
+    }
+/* A template is a standardized file type used by the solution as a pre-formatted example on which to base the personalized messages transmitted as part of a campaign to its intended audience.
+The offline template refers to message templates that are communicated to the customer via the supported offline channels: Email, Secure Message, Push notification etc. */
+    CP_CHANNEL_OFFLINE_TEMPLATE
+        @i18n:Description (en="")
+        @t24:i (t24Name=CP.CHANNEL.OFFLINE.TEMPLATE, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=29.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=30.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=26.0, core=true, t24Name=AUTHORISER)
+        CHANNEL_OFFLINE_TEMPLATE_ID -> CP_Campaign:CP_CHANNEL_OFFLINE_TEMPLATE PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=CHANNEL.OFFLINE.TEMPLATE.ID)
+        /* This field stores the ID of the type of the channel on which the message created using the template will be communicated to the customers as part of a marketing campaign. This field links the CP.CHANNEL.OFFLINE.TEMPLATE table to the CP.CHANNEL one. */
+        CHANNEL_TYPE -> CP_Campaign:CP_CHANNEL required
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=3.0, core=true, businessType=ANY, t24Name=CHANNEL.TYPE)
+        CONTEXT -> byValue CP_Campaign:CP_CHANNEL_OFFLINE_TEMPLATE__CONTEXT *
+            @t24:i (t24Name=CONTEXT)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=27.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=23.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue CP_Campaign:CP_CHANNEL_OFFLINE_TEMPLATE__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=28.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue CP_Campaign:CP_CHANNEL_OFFLINE_TEMPLATE__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        /* Y/N This field indicates whether or not a template can be edited. The versioned templates cannot be edited anymore. */
+        EDITABLE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=7.0, core=true, t24Name=EDITABLE)
+        INPUTTER -> byValue CP_Campaign:CP_CHANNEL_OFFLINE_TEMPLATE__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        /* This field stores the name of the defined offline template. */
+        NAME : T24BusinessTypes:ANY required
+            @i18n:Label (en=Name)
+            @i18n:Tooltip (en="Indicates the Name ")
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=1.0, core=true, t24Name=NAME)
+        /* The solution allows versioning of templates. For every version of a template we need to store the ID of the original one. This field stores the original ID of a template. */
+        ORIGINAL_ID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=12, sysNumber=6.0, core=true, t24Name=ORIGINAL.ID)
+        OVERRIDE -> byValue CP_Campaign:CP_CHANNEL_OFFLINE_TEMPLATE__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=22.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=19.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=RESERVED.10)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=17.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=11.0, core=true, t24Name=RESERVED.9)
+        TEMPLATE_DATA -> byValue CP_Campaign:CP_CHANNEL_OFFLINE_TEMPLATE__TEMPLATE_DATA *
+            @t24:i (t24Name=TEMPLATE.DATA)
+        /* The solution allows versioning of templates. This field stores the number of the version for a given template. */
+        VERSION : T24BusinessTypes:N
+            @i18n:Label (en=Version)
+            @t24:i (align=R, inputBehaviour=N, maxLength=3, sysNumber=8.0, core=true, t24Name=VERSION)
+/* [NULL, NWITEM, NWCP] This field store s the 3 values mentioned.
+NULL- this value is assigned to a template at creation.
+NWITEM – this value is used when the template is versioned without conditioning the versioning of the campaigns which use the template
+NWCP - this value is used when the template is versioned and we condition the versioning of the campaigns which use the template */
+        VERSION_FLAG : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=9.0, core=true, t24Name=VERSION.FLAG)
+    }
+    CP_CHANNEL_OFFLINE_TEMPLATE__CONTEXT
+    {
+        /* This field stores the ID of the context used as part of a new offline template definition. This field links the CP.CHANNEL.OFFLINE.TEMPLATE table to the CP.DATA.CONTEXT one. */
+        CONTEXT -> CP_Campaign:CP_DATA_CONTEXT
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=4.0, core=true, businessType=ANY, t24Name=CONTEXT)
+    }
+    CP_CHANNEL_OFFLINE_TEMPLATE__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=25.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    CP_CHANNEL_OFFLINE_TEMPLATE__DESCRIPTION
+    {
+        /* This field stores the description of a defined offline template */
+        DESCRIPTION : T24BusinessTypes:ANY
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=1000, sysNumber=2.0, core=true, t24Name=DESCRIPTION, isTextarea=true)
+    }
+    CP_CHANNEL_OFFLINE_TEMPLATE__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=24.0, core=true, t24Name=INPUTTER)
+    }
+    CP_CHANNEL_OFFLINE_TEMPLATE__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=21.0, core=true, t24Name=OVERRIDE)
+    }
+    CP_CHANNEL_OFFLINE_TEMPLATE__TEMPLATE_DATA
+    {
+        /* This field stores a string of XML data encoded in Base64, passed down by the project, which Edge will pick up and use with its processing. */
+        TEMPLATE_DATA : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=10000, sysNumber=5.0, core=true, t24Name=TEMPLATE.DATA, isTextarea=true)
+    }
+/* A template is a standardized file type used by the solution as a pre-formatted example on which to base the personalized messages transmitted as part of a campaign to its intended audience.
+The online template refers to message templates that are communicated to the customer via the supported online channels: Internet banking, Mobile Banking, Public Banking Website.
+We define these online templates as Reusable resources */
+    CP_CHANNEL_ONLINE_TEMPLATE
+        @i18n:Description (en="")
+        @t24:i (t24Name=CP.CHANNEL.ONLINE.TEMPLATE, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=30.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=31.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=27.0, core=true, t24Name=AUTHORISER)
+        CHANNEL_ONLINE_TEMPLATE_ID -> CP_Campaign:CP_CHANNEL_ONLINE_TEMPLATE PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=CHANNEL.ONLINE.TEMPLATE.ID)
+        /* This field stores the URL a customer is redirected in case s/he decides to click on the content attached to the message which was communicated by the bank as part of marketing campaign. */
+        CLICK_URL : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=500, sysNumber=9.0, core=true, t24Name=CLICK.URL)
+        /* This field stores the type of the content used for the definition of the reusable resource. (E.g. Image, Video, Text, Image with Text, Article, Blog Entry etc) */
+        CONTENT_TYPE : T24BusinessTypes:ANY
+            @i18n:Label (en="Content Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=100, sysNumber=5.0, core=true, t24Name=CONTENT.TYPE)
+        /* The URL where the given resource exists. */
+        CONTENT_URL : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=500, sysNumber=6.0, core=true, t24Name=CONTENT.URL)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=28.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=24.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue CP_Campaign:CP_CHANNEL_ONLINE_TEMPLATE__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=29.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue CP_Campaign:CP_CHANNEL_ONLINE_TEMPLATE__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        /* Phase 2 Enhancement */
+        EXTRA : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=500, sysNumber=7.0, core=true, t24Name=EXTRA)
+        INPUTTER -> byValue CP_Campaign:CP_CHANNEL_ONLINE_TEMPLATE__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        /* This field stores the name of the reusable resource. */
+        NAME : T24BusinessTypes:ANY required
+            @i18n:Label (en=Name)
+            @i18n:Tooltip (en="Indicates the Name ")
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=1.0, core=true, t24Name=NAME)
+        OVERRIDE -> byValue CP_Campaign:CP_CHANNEL_ONLINE_TEMPLATE__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        /* This field stores the ID of the product group associated with the new defined reusable resource. This field links CP.CHANNEL.ONLINE.TEMPLATE table to the AA.PRODUCT.GROUP one. */
+        PRODUCT_GROUP_ID -> AA_ProductFramework:AA_PRODUCT_GROUP
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=4.0, core=true, businessType=A, t24Name=PRODUCT.GROUP.ID)
+        /* This field stores the ID of the product associated with the new defined reusable resource. This field links CP.CHANNEL.ONLINE.TEMPLATE table to the AA.PRODUCT one. */
+        PRODUCT_ID -> AA_ProductManagement:AA_PRODUCT
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=3.0, core=true, businessType=A, t24Name=PRODUCT.ID)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=23.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=20.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=11.0, core=true, t24Name=RESERVED.10)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=19.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=17.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.9)
+        /* This field stores two values “For All” or “For Products”. The value in this field conditions whether the resource is reusable for All cases or only for product campaigns. */
+        REUSE_TYPE : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=10.0, core=true, t24Name=REUSE.TYPE)
+        /* This field stores the values which are used as tooltips in the User Agent for Customer Programs for the given reusable resource. */
+        TITLE : T24BusinessTypes:ANY
+            @i18n:Label (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=500, sysNumber=8.0, core=true, t24Name=TITLE)
+    }
+    CP_CHANNEL_ONLINE_TEMPLATE__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=26.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    CP_CHANNEL_ONLINE_TEMPLATE__DESCRIPTION
+    {
+        /* This field stores the description of the reusable resource. */
+        DESCRIPTION : T24BusinessTypes:ANY
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=1000, sysNumber=2.0, core=true, t24Name=DESCRIPTION, isTextarea=true)
+    }
+    CP_CHANNEL_ONLINE_TEMPLATE__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=25.0, core=true, t24Name=INPUTTER)
+    }
+    CP_CHANNEL_ONLINE_TEMPLATE__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=22.0, core=true, t24Name=OVERRIDE)
+    }
+    /* Content and text can be used as part of the messages sent as communication items using the supported CEP channels. CP.CHANNEL.OUPUT stores the actual message and content attached to the campaign communication. */
+    CP_CHANNEL_OUTPUT
+        @i18n:Description (en="")
+        @t24:i (t24Name=CP.CHANNEL.OUTPUT, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=27.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=28.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=24.0, core=true, t24Name=AUTHORISER)
+        /* This field stores the ID of the channel through which the message will be communicated to the customer as part of a marketing campaign. This field links CP.CHANNEL.OUTPUT table to the CP.CHANNEL one. */
+        CHANNEL_ID -> CP_Campaign:CP_CHANNEL required
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=3.0, core=true, businessType=A, t24Name=CHANNEL.ID)
+        CHANNEL_OUTPUT_ID -> CP_Campaign:CP_CHANNEL_OUTPUT PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=CHANNEL.OUTPUT.ID)
+/* This field will store characteristics related to content style.
+Apply for online channels only. */
+        CONTENT_ATTRIBUTES : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=1000, sysNumber=6.0, core=true, t24Name=CONTENT.ATTRIBUTES)
+/* This field stores the value associated with the mode content is displayed to the customer on a channel. E.g. of values stored in this list are: Inject Content into Placeholder, Replace Existing Content, and Display in a Popup.
+Apply for online channels only. */
+        CONTENT_MODE : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=100, sysNumber=5.0, core=true, t24Name=CONTENT.MODE)
+        /* This field stores the type of the content used for the definition of the online template. (E.g. Image, Video, Text, Image with Text, Article, Blog Entry etc) */
+        CONTENT_TYPE : T24BusinessTypes:ANY
+            @i18n:Label (en="Content Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=100, sysNumber=4.0, core=true, t24Name=CONTENT.TYPE)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=25.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=21.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue CP_Campaign:CP_CHANNEL_OUTPUT__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=26.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue CP_Campaign:CP_CHANNEL_OUTPUT__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        INPUTTER -> byValue CP_Campaign:CP_CHANNEL_OUTPUT__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        /* This field stores the name of the channel output. */
+        NAME : T24BusinessTypes:ANY required
+            @i18n:Label (en=Name)
+            @i18n:Tooltip (en="Indicates the Name ")
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=1.0, core=true, t24Name=NAME)
+        OVERRIDE -> byValue CP_Campaign:CP_CHANNEL_OUTPUT__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+/* This field stores the name of the component from eC, entered manually by the admin user in User Agent for Administration.
+Apply for online channels only. */
+        PROJECT_IDENTIFIER : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=100, sysNumber=7.0, core=true, t24Name=PROJECT.IDENTIFIER)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=20.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=17.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=RESERVED.10)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=11.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=RESERVED.9)
+    }
+    CP_CHANNEL_OUTPUT__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=23.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    CP_CHANNEL_OUTPUT__DESCRIPTION
+    {
+        /* This field stores the description of the channel output. */
+        DESCRIPTION : T24BusinessTypes:ANY
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=1000, sysNumber=2.0, core=true, t24Name=DESCRIPTION, isTextarea=true)
+    }
+    CP_CHANNEL_OUTPUT__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=22.0, core=true, t24Name=INPUTTER)
+    }
+    CP_CHANNEL_OUTPUT__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=19.0, core=true, t24Name=OVERRIDE)
+    }
+/* CEP uses triggers as initiators of the campaign execution for dynamic campaigns. CEP should have the capability to respond to triggers and initiate the campaign in real or near real time.
+These triggers need to be defined by the Admin user of the solution using the User Agent for Administration.
+The definition of the bank triggers is stored in the CP.CHANNEL.TRIGGERS table in T24. The channel triggers refer to events that occur in the online channels that the customer can interact with
+(e.g. Internet Banking login, click on a given account in Mobile Banking, cancel a standing order in Internet Banking, etc.).
+The triggers defined by the Administration user of the CEP are available for the business Marketing user to use them when setting campaign definitions. */
+    CP_CHANNEL_TRIGGER
+        @i18n:Description (en="")
+        @t24:i (t24Name=CP.CHANNEL.TRIGGER, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=25.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=26.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=22.0, core=true, t24Name=AUTHORISER)
+        /* This field stores the ID of the channel where the business event associated with the channel trigger might occur. This field links CP.CHANNEL.TRGGER table to the CP.CHANNEL one. */
+        CHANNEL_ID -> CP_Campaign:CP_CHANNEL required
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=3.0, core=true, businessType=A, t24Name=CHANNEL.ID)
+        CHANNEL_TRIGGER_ID -> CP_Campaign:CP_CHANNEL_TRIGGER PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=CHANNEL.TRIGGER.ID)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=23.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=19.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue CP_Campaign:CP_CHANNEL_TRIGGER__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=24.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue CP_Campaign:CP_CHANNEL_TRIGGER__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        INPUTTER -> byValue CP_Campaign:CP_CHANNEL_TRIGGER__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        /* This field stores the name of the channel trigger. */
+        NAME : T24BusinessTypes:ANY required
+            @i18n:Label (en=Name)
+            @i18n:Tooltip (en="Indicates the Name ")
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=1.0, core=true, t24Name=NAME)
+        OVERRIDE -> byValue CP_Campaign:CP_CHANNEL_TRIGGER__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+/* This field stores the ID of the component from an edgeConnect project, entered manually by the admin user in User Agent for Administration. (e.g. the Log in button ID)
+Apply for online channels only. */
+        PROJECT_IDENTIFIER : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=100, sysNumber=5.0, core=true, t24Name=PROJECT.IDENTIFIER)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=18.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=6.0, core=true, t24Name=RESERVED.10)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=11.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=7.0, core=true, t24Name=RESERVED.9)
+        /* This field stores the business event associated with the trigger. The business event is an action taken by the customer in the given channel which triggers the Campaign which contains the given trigger in its’ definition. */
+        TRIGGER_TYPE : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=100, sysNumber=4.0, core=true, t24Name=TRIGGER.TYPE)
+    }
+    CP_CHANNEL_TRIGGER__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=21.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    CP_CHANNEL_TRIGGER__DESCRIPTION
+    {
+        /* This field stores the description of the channel trigger. */
+        DESCRIPTION : T24BusinessTypes:ANY
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=1000, sysNumber=2.0, core=true, t24Name=DESCRIPTION, isTextarea=true)
+    }
+    CP_CHANNEL_TRIGGER__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=20.0, core=true, t24Name=INPUTTER)
+    }
+    CP_CHANNEL_TRIGGER__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=17.0, core=true, t24Name=OVERRIDE)
+    }
+    CP_CHANNEL__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=26.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    CP_CHANNEL__DESCRIPTION
+    {
+        /* This field stores the description of a defined channel. */
+        DESCRIPTION : T24BusinessTypes:ANY
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=1000, sysNumber=2.0, core=true, t24Name=DESCRIPTION, isTextarea=true)
+    }
+    CP_CHANNEL__FRONT_TRIGGER
+    {
+        /* This field stores the ID of the Channel trigger associated with the defined channel. This field links the CP.CHANNEL table to the CP.CHANNEL.TRIGGER one. */
+        FRONT_TRIGGER -> CP_Campaign:CP_CHANNEL_TRIGGER
+            @t24:i (align=L, inputBehaviour=N, maxLength=50, sysNumber=9.0, core=true, businessType=A, t24Name=FRONT.TRIGGER)
+    }
+    CP_CHANNEL__GLOBAL_DATA
+    {
+        /* This field stores a string of XML encoded in Base64, passed down by the project, which Edge will pick up and use with its processing. */
+        GLOBAL_DATA : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=10000, sysNumber=8.0, core=true, t24Name=GLOBAL.DATA, isTextarea=true)
+    }
+    CP_CHANNEL__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=25.0, core=true, t24Name=INPUTTER)
+    }
+    CP_CHANNEL__OUTPUT_CONTENT
+    {
+        /* This field stores the ID of the of the channel output. This field links the CP.CHANNEL table to the CP.CHANNEL.OUTPUT one. */
+        OUTPUT_CONTENT -> CP_Campaign:CP_CHANNEL_OUTPUT
+            @t24:i (align=L, inputBehaviour=N, maxLength=50, sysNumber=10.0, core=true, businessType=A, t24Name=OUTPUT.CONTENT)
+    }
+    CP_CHANNEL__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=22.0, core=true, t24Name=OVERRIDE)
+    }
+    CP_COMMENTS
+        @i18n:Description (en="")
+        @t24:i (t24Name=CP.COMMENTS, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=26.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=27.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=23.0, core=true, t24Name=AUTHORISER)
+        COMMENTS -> byValue CP_Campaign:CP_COMMENTS__COMMENTS *
+            @t24:i (t24Name=COMMENTS)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=24.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CP_COMMENTS_ID -> CP_Campaign:CP_COMMENTS PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=CP.COMMENTS.ID)
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=20.0, core=true, t24Name=CURR.NO)
+        DATE : T24BusinessTypes:A required
+            @i18n:Label (en=Date)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=5.0, core=true, t24Name=DATE)
+        DATE_TIME -> byValue CP_Campaign:CP_COMMENTS__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=25.0, core=true, t24Name=DEPT.CODE)
+        HISTORY_STATUS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=6.0, core=true, t24Name=HISTORY.STATUS)
+        ID_CAMPAIGN : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, t24Name=ID.CAMPAIGN)
+        ID_PROGRAM : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=2.0, core=true, t24Name=ID.PROGRAM)
+        INPUTTER -> byValue CP_Campaign:CP_COMMENTS__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        OVERRIDE -> byValue CP_Campaign:CP_COMMENTS__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        OWNER -> EB_Security:USER required
+            @i18n:Label (en=Owner)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=3.0, core=true, businessType=A, t24Name=OWNER)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=19.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=7.0, core=true, t24Name=RESERVED.10)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=11.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=RESERVED.9)
+    }
+    CP_COMMENTS__COMMENTS
+    {
+        COMMENTS : T24BusinessTypes:ANY
+            @i18n:Label (en=Comments)
+            @i18n:Tooltip (en="Comments if any")
+            @t24:i (align=L, inputBehaviour=I, maxLength=1000, sysNumber=4.0, core=true, t24Name=COMMENTS, isTextarea=true)
+    }
+    CP_COMMENTS__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=22.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    CP_COMMENTS__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=21.0, core=true, t24Name=INPUTTER)
+    }
+    CP_COMMENTS__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=OVERRIDE)
+    }
+/* Part of the campaign definition process, the business Marketing role is able to use variables to link and map data stored in T24 and Insight.
+ The needed variables are configured as data contexts by the Admin role using the User Agent for Administration and stored in CP.DATA.CONTEXT new table.
+ The contexts stored in this table are then exposed as lists with items available to be picked in various places in the User Agent for Customer Programs. */
+    CP_DATA_CONTEXT
+        @i18n:Description (en="")
+        @t24:i (t24Name=CP.DATA.CONTEXT, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=27.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=28.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=24.0, core=true, t24Name=AUTHORISER)
+/* This option stores what period of time the data context information should be stored in memory. 
+ This will be a predefined yes/no list. 
+ The Admin role will create the list and be able to pick one of the values from the list to further display the Data Context options. */
+        CACHE_POLICY : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=100, sysNumber=5.0, core=true, t24Name=CACHE.POLICY)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=25.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=21.0, core=true, t24Name=CURR.NO)
+        DATACONTEXT_ID -> CP_Campaign:CP_DATA_CONTEXT PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=DATACONTEXT.ID)
+        DATE_TIME -> byValue CP_Campaign:CP_DATA_CONTEXT__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=26.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue CP_Campaign:CP_DATA_CONTEXT__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        GLOBAL_DATA -> byValue CP_Campaign:CP_DATA_CONTEXT__GLOBAL_DATA *
+            @t24:i (t24Name=GLOBAL.DATA)
+        HAS_GLOBAL_OPTIONS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=6.0, core=true, t24Name=HAS.GLOBAL.OPTIONS)
+        INPUTTER -> byValue CP_Campaign:CP_DATA_CONTEXT__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* This field stores the name of the data context.
+Validation Rules
+:
+ Mandatory field, any 35 characters. */
+        NAME : T24BusinessTypes:ANY required
+            @i18n:Label (en=Name)
+            @i18n:Tooltip (en="Indicates the Name ")
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=1.0, core=true, t24Name=NAME)
+        OVERRIDE -> byValue CP_Campaign:CP_DATA_CONTEXT__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+/* Each data context has a correspondent .ifp eC project. This field stores the name of the corresponding eConnect project for the given Data Context.
+Validation Rules
+:
+ Any 100 characters. */
+        PROJECT_NAME : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=100, sysNumber=3.0, core=true, t24Name=PROJECT.NAME)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=20.0, core=true, t24Name=RECORD.STATUS)
+        REQ_CAMPAIGN_DATA : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=4.0, core=true, t24Name=REQ.CAMPAIGN.DATA)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=17.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=RESERVED.10)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=11.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=RESERVED.9)
+    }
+    CP_DATA_CONTEXT__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=23.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    CP_DATA_CONTEXT__DESCRIPTION
+    {
+/* This field stores the description of the data context.
+Validation Rules
+:
+ Any 1000 characters. */
+        DESCRIPTION : T24BusinessTypes:ANY
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=1000, sysNumber=2.0, core=true, t24Name=DESCRIPTION, isTextarea=true)
+    }
+    CP_DATA_CONTEXT__GLOBAL_DATA
+    {
+        /* This field stores a string of XML data encoded in Base64, passed down by the project, which Edge will pick up and use with its processing. */
+        GLOBAL_DATA : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=10000, sysNumber=7.0, core=true, t24Name=GLOBAL.DATA, isTextarea=true)
+    }
+    CP_DATA_CONTEXT__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=22.0, core=true, t24Name=INPUTTER)
+    }
+    CP_DATA_CONTEXT__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=19.0, core=true, t24Name=OVERRIDE)
+    }
+/* The business marketing role needs to assign business objectives to the marketing campaign s/he defines using the User Agent for Customer Programs. 
+The new CP.OBJECTIVE table stores the business objectives that can be used as part of the marketing campaign definitions. 
+These objectives are defined by the Admin role. */
+    CP_OBJECTIVE
+        @i18n:Description (en="")
+        @t24:i (t24Name=CP.OBJECTIVE, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AA_PRODUCT_GROUP -> AA_ProductFramework:AA_PRODUCT_GROUP
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=4.0, core=true, businessType=A, t24Name=AA.PRODUCT.GROUP)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=24.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=25.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=21.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=22.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CP_OBJECTIVE_ID -> CP_Campaign:CP_OBJECTIVE PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=CP.OBJECTIVE.ID)
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=18.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue CP_Campaign:CP_OBJECTIVE__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=23.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue CP_Campaign:CP_OBJECTIVE__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        INPUTTER -> byValue CP_Campaign:CP_OBJECTIVE__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        LINKED_PRODUCT_GRP : CP_Campaign:CP_OBJECTIVE__LINKED_PRODUCT_GRP
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=3.0, core=true, t24Name=LINKED.PRODUCT.GRP)
+/* This field stores the name of the objective.
+Validation Rules:
+Mandatory field, any 50 characters. */
+        NAME : T24BusinessTypes:ANY required
+            @i18n:Label (en=Name)
+            @i18n:Tooltip (en="Indicates the Name ")
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=2.0, core=true, t24Name=NAME)
+        OVERRIDE -> byValue CP_Campaign:CP_OBJECTIVE__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=17.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=5.0, core=true, t24Name=RESERVED.10)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=11.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=7.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=6.0, core=true, t24Name=RESERVED.9)
+    }
+    CP_OBJECTIVE__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=20.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    CP_OBJECTIVE__DESCRIPTION
+    {
+/* This field stores the description of the objective.
+Validation Rules:
+Any 1000 characters. */
+        DESCRIPTION : T24BusinessTypes:ANY
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=100, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    CP_OBJECTIVE__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=19.0, core=true, t24Name=INPUTTER)
+    }
+    CP_OBJECTIVE__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=OVERRIDE)
+    }
+    CP_PROCESS
+        @i18n:Description (en="")
+        @t24:i (t24Name=CP.PROCESS, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+/* This field stores “Yes” or “No” values.
+This field conditions whether or not a process is still active.
+Validation Rules:
+Mandatory field. */
+        ACTIVE : CP_Campaign:CP_PROCESS__ACTIVE required
+            @i18n:Label (en="Active?")
+            @i18n:Tooltip (en="Is it Active")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=3.0, core=true, t24Name=ACTIVE)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=23.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=24.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=20.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=21.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CP_PROCESS_ID -> CP_Campaign:CP_PROCESS PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=CP.PROCESS.ID)
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=17.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue CP_Campaign:CP_PROCESS__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=22.0, core=true, t24Name=DEPT.CODE)
+        ID_PW_DEFINITION -> PW_Foundation:PW_PROCESS_DEFINITION required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, businessType=A, t24Name=ID.PW.DEFINITION)
+        INPUTTER -> byValue CP_Campaign:CP_PROCESS__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        OVERRIDE -> byValue CP_Campaign:CP_PROCESS__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=16.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=4.0, core=true, t24Name=RESERVED.10)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=11.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=7.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=6.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=5.0, core=true, t24Name=RESERVED.9)
+        TYPE_PW : CP_Campaign:CP_PROCESS__TYPE_PW required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=2.0, core=true, t24Name=TYPE.PW)
+    }
+    CP_PROCESS__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=19.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    CP_PROCESS__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=18.0, core=true, t24Name=INPUTTER)
+    }
+    CP_PROCESS__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=OVERRIDE)
+    }
+/* A profile describes specific segments of your customers, selected based on a set of conditions, gathered from diferent data sources.
+The new CP.PROFILE table stores the definitions of the profiles used to identify the customers who are targeted for a given campaign. */
+    CP_PROFILE
+        @i18n:Description (en="")
+        @t24:i (t24Name=CP.PROFILE, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=30.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=31.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=27.0, core=true, t24Name=AUTHORISER)
+        CONTEXT -> byValue CP_Campaign:CP_PROFILE__CONTEXT *
+            @t24:i (t24Name=CONTEXT)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=28.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=24.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue CP_Campaign:CP_PROFILE__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=29.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue CP_Campaign:CP_PROFILE__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+/* This field stores “Y” or “N” values. 
+This field indicates whether or not a profile can be edited. 
+The versioned profiles cannot be edited anymore. */
+        EDITABLE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=8.0, core=true, t24Name=EDITABLE)
+        FOR_USE_BY -> byValue CP_Campaign:CP_PROFILE__FOR_USE_BY *
+            @t24:i (t24Name=FOR.USE.BY)
+        INPUTTER -> byValue CP_Campaign:CP_PROFILE__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        K_TYPE : T24BusinessTypes:A
+            @i18n:Label (en=Type)
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=3.0, core=false, t24Name=K.TYPE)
+/* This field stores the name of a given profile.
+Validation Rules:
+Mandatory field, any 50 characters. */
+        NAME : T24BusinessTypes:ANY required
+            @i18n:Label (en=Name)
+            @i18n:Tooltip (en="Indicates the Name ")
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=1.0, core=true, t24Name=NAME)
+/* The solution allows versioning of profiles.
+For every version of a profile we need to store the ID of the original one.
+This field stores the original ID of a profile.
+Validation Rules:
+Mandatory field, 12 text characters. */
+        ORIGINAL_ID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=12, sysNumber=7.0, core=true, t24Name=ORIGINAL.ID)
+        OVERRIDE -> byValue CP_Campaign:CP_PROFILE__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        PROFILE_ID -> CP_Campaign:CP_PROFILE PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=PROFILE.ID)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=23.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=20.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=11.0, core=true, t24Name=RESERVED.10)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=19.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=17.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.9)
+/* This field stores whether the given profile is an evaluation one.
+Validation Rules:
+Mandatory field, 35 text characters. */
+        TYPE : T24BusinessTypes:A required
+            @i18n:Label (en=Type)
+            @i18n:Tooltip (en=Type)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=3.0, core=true, t24Name=TYPE)
+        VALUE -> byValue CP_Campaign:CP_PROFILE__VALUE *
+            @t24:i (t24Name=VALUE)
+/* The solution allows versioning of templates.
+This field stores the number of the version for a given profile.
+Validation Rules:
+Mandatory numeric field, maximum 3 digits. */
+        VERSION : T24BusinessTypes:N
+            @i18n:Label (en=Version)
+            @t24:i (align=R, inputBehaviour=N, maxLength=3, sysNumber=6.0, core=true, t24Name=VERSION)
+/* This field stores “NULL”, “NWITEM” or “NWCP” values . 
+NULL - this value is assigned to a profile at creation.
+NWITEM - this value is used when the profile is versioned without conditioning the versioning of the campaigns which use the template
+NWCP - this value is used when the profile is versioned and we condition the versioning of the campaigns which use the profile */
+        VERSION_FLAG : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=9.0, core=true, t24Name=VERSION.FLAG)
+    }
+    CP_PROFILE__CONTEXT
+    {
+/* This field stores the ID of the contexts used to define a profile. 
+A profile can contain one or more contexts. 
+This field links the CP.PROFILE table to the CP.DATA.CONTEXT one.
+Validation Rules:
+Mandatory field, 30 text characters. */
+        CONTEXT -> CP_Campaign:CP_DATA_CONTEXT required
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=4.0, core=true, businessType=A, t24Name=CONTEXT)
+    }
+    CP_PROFILE__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=26.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    CP_PROFILE__DESCRIPTION
+    {
+/* This field stores the description of the profile.
+Validation Rules:
+Any 1000 characters. */
+        DESCRIPTION : T24BusinessTypes:ANY
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=1000, sysNumber=2.0, core=true, t24Name=DESCRIPTION, isTextarea=true)
+    }
+    CP_PROFILE__FOR_USE_BY
+    {
+/* This field stores “Global” or “Normal” values.
+These values condition whether the defined profile is one that will be applied at a global level (to all campaign without it being selected as part of one). */
+        FOR_USE_BY : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=10.0, core=true, t24Name=FOR.USE.BY)
+    }
+    CP_PROFILE__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=25.0, core=true, t24Name=INPUTTER)
+    }
+    CP_PROFILE__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=22.0, core=true, t24Name=OVERRIDE)
+    }
+    CP_PROFILE__VALUE
+    {
+        /* This field stores a profile expression encoded in Base64, passed down by the project, which Edge will pick up and use with its processing. */
+        VALUE : T24BusinessTypes:ANY
+            @i18n:Label (en=Value)
+            @i18n:Tooltip (en=Value)
+            @t24:i (align=L, inputBehaviour=I, maxLength=10000, sysNumber=5.0, core=true, t24Name=VALUE, isTextarea=true)
+    }
+    /* A new table called CP.PROGRAM, that will hold configuration information related to the defined campaign programs, must be created. */
+    CP_PROGRAM
+        @i18n:Description (en="")
+        @t24:i (t24Name=CP.PROGRAM, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        ACTUAL_COSTS : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=10.0, core=true, t24Name=ACTUAL.COSTS)
+        ACTUAL_END_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=8.0, core=true, t24Name=ACTUAL.END.DATE)
+        ACTUAL_ROI : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=14.0, core=true, t24Name=ACTUAL.ROI, typeModifiers=-)
+        ACTUAL_RSP_RATE : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=12.0, core=true, t24Name=ACTUAL.RSP.RATE)
+        ACTUAL_START_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=7.0, core=true, t24Name=ACTUAL.START.DATE)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=35.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=36.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=32.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=33.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CP_PROGRAM_ID -> CP_Campaign:CP_PROGRAM PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=CP.PROGRAM.ID)
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=29.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue CP_Campaign:CP_PROGRAM__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=34.0, core=true, t24Name=DEPT.CODE)
+        INPUTTER -> byValue CP_Campaign:CP_PROGRAM__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        OVERRIDE -> byValue CP_Campaign:CP_PROGRAM__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        /* The ID of the parent campaign program. */
+        PARENT_ID : T24BusinessTypes:A
+            @i18n:Label (en="Parent Id")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=15.0, core=true, t24Name=PARENT.ID)
+        PLANNED_END_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=6.0, core=true, t24Name=PLANNED.END.DATE)
+        PLANNED_START_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=5.0, core=true, t24Name=PLANNED.START.DATE)
+        PROGRAM_DESCRIPTION -> byValue CP_Campaign:CP_PROGRAM__PROGRAM_DESCRIPTION *
+            @t24:i (t24Name=PROGRAM.DESCRIPTION)
+/* The name of the campaign program.
+Validation Rules
+:
+ Mandatory field, any 250 characters. */
+        PROGRAM_NAME : T24BusinessTypes:ANY required
+            @i18n:Label (en="Investment Program")
+            @t24:i (align=L, inputBehaviour=I, maxLength=250, sysNumber=1.0, core=true, t24Name=PROGRAM.NAME)
+/* The name of the user who defined the campiagn program. This field links CP.PROGRAM table to the USER one.
+Validation Rules
+:
+ Mandatory field, 100 text characters. */
+        PROGRAM_OWNER -> EB_Security:USER required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=3.0, core=true, businessType=A, t24Name=PROGRAM.OWNER)
+/* The status of the campaign program.
+ This field links the CP.PROGRAM table to the CP.STATUS one.
+Validation Rules
+:
+ Mandatory field, 100 text characters. */
+        PROGRAM_STATUS -> CP_Campaign:CP_PROGRAM_STATUS
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=4.0, core=true, businessType=A, t24Name=PROGRAM.STATUS)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=28.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=25.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=RESERVED.10)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=24.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=23.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=22.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=21.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=20.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=19.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=17.0, core=true, t24Name=RESERVED.9)
+        TARGET_COSTS : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=9.0, core=true, t24Name=TARGET.COSTS)
+        TARGET_ROI : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=13.0, core=true, t24Name=TARGET.ROI)
+        TARGET_RSP_RATE : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=11.0, core=true, t24Name=TARGET.RSP.RATE)
+    }
+/* Marketing campaign programs defined by the Marketing business user using the User Agent for Customer Programs have different approval statuses throughout their lifecycle.
+Each marketing business user can see and take action on a marketing campaign program depending on her/his role.
+(E.g. a Marketing Inputter can start the definition of a marketing campaign/program – at this point the status of the campaign  program is DRAFT.
+Then the Marketing Inputter sends the newly defined campaign program to be checked by the Marketing Checker by clicking the Commit button in the User Agent for Customer Programs screen
+– at this point the status of the campaign program is Pending to be Checked, and so on)
+The new CP.PROGRAM.STATUS table stores:
+-    the statuses on the approval flow of a marketing campaign program
+-    the Marketing roles which have permission to interact with the campaign program which has a given status
+-    the buttons which allow a Marketing role to move a campaign program from one status to another
+-    the sequence of the statuses (back and forward) for a marketing campaign program */
+    CP_PROGRAM_STATUS
+        @i18n:Description (en="")
+        @t24:i (t24Name=CP.PROGRAM.STATUS, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        /* Y/N values. The values indicate whether or not the program is editable in the given status. */
+        APP_EDITABLE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=10.0, core=true, t24Name=APP.EDITABLE)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=31.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=32.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=28.0, core=true, t24Name=AUTHORISER)
+        /* This field stores the business Marketing role which can see and interact with the program in a given status. The Admin user picks this value from a dropdown list containing the available user roles defined in the USER.SMS.GROUP table. */
+        AUTO_VERSION_STS -> CP_Campaign:CP_PROGRAM_STATUS
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=8.0, core=true, businessType=A, t24Name=AUTO.VERSION.STS)
+        /* This field stores the back (backward) status, on the approval flow, a program can be moved to by the Marketing role. The Admin user picks this value from a dropdown list containing the available program statuses defined in the new CP.PROGRAM.STATUS table. */
+        BACK_STATUS -> CP_Campaign:CP_PROGRAM_STATUS
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=7.0, core=true, businessType=A, t24Name=BACK.STATUS)
+        /* This field stores the label of the button that has to be clicked by the business Marketing role in order to move the program to the given status. */
+        BUTTON_LABEL : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=4.0, core=true, t24Name=BUTTON.LABEL)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=29.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CP_PROGRAM_STATUS_ID -> CP_Campaign:CP_PROGRAM_STATUS PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=CP.PROGRAM.STATUS.ID)
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=25.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue CP_Campaign:CP_PROGRAM_STATUS__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=30.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue CP_Campaign:CP_PROGRAM_STATUS__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        /* This field stores the direction of the flow when a program is moved in the given status. The values in the list of values available to choose from are: START, NEXT, BACK, END. */
+        FLOW_VALIDATION : CP_Campaign:CP_PROGRAM_STATUS__FLOW_VALIDATION required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=2.0, core=true, t24Name=FLOW.VALIDATION)
+        INPUTTER -> byValue CP_Campaign:CP_PROGRAM_STATUS__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        K_TYPE : CP_Campaign:CP_PROGRAM_STATUS__K_TYPE
+            @i18n:Label (en=Type)
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=3.0, core=false, t24Name=K.TYPE)
+        /* This field stores the next (forward) status, on the approval flow, a program can be moved to by the Marketing role. The Admin user picks this value from a dropdown list containing the available program statuses defined in the new CP.PROGRAM.STATUS table. */
+        NEXT_STATUS -> CP_Campaign:CP_PROGRAM_STATUS
+            @i18n:Label (en="Next Status")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=6.0, core=true, businessType=A, t24Name=NEXT.STATUS)
+        NO_AUTHORISATIONS : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=35, sysNumber=11.0, core=true, t24Name=NO.AUTHORISATIONS)
+        OVERRIDE -> byValue CP_Campaign:CP_PROGRAM_STATUS__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=24.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=21.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.10)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=20.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=19.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=17.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED.9)
+        /* This field stores the User Agent for Customer Programs Dashboard tab labels. */
+        SEARCH_TITLE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=5.0, core=true, t24Name=SEARCH.TITLE)
+        /* This field stores the type of the program status. The values in the list of values available to choose from are: RUNNING, TESTING, NORMAL. */
+        TYPE : CP_Campaign:CP_PROGRAM_STATUS__TYPE required
+            @i18n:Label (en=Type)
+            @i18n:Tooltip (en=Type)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=3.0, core=true, t24Name=TYPE)
+        /* This field contains the status of a program when it is auto versioned. */
+        USER_ROLE -> EB_Security:USER_SMS_GROUP
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=9.0, core=true, businessType=A, t24Name=USER.ROLE)
+    }
+    CP_PROGRAM_STATUS__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=27.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    CP_PROGRAM_STATUS__DESCRIPTION
+    {
+        /* This field stores the name of the program status (e.g. DRAFT, PENDING.CHECK, PENDING.TEST etc.) */
+        DESCRIPTION : T24BusinessTypes:A required
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    CP_PROGRAM_STATUS__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=26.0, core=true, t24Name=INPUTTER)
+    }
+    CP_PROGRAM_STATUS__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=23.0, core=true, t24Name=OVERRIDE)
+    }
+    CP_PROGRAM__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=31.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    CP_PROGRAM__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=30.0, core=true, t24Name=INPUTTER)
+    }
+    CP_PROGRAM__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=27.0, core=true, t24Name=OVERRIDE)
+    }
+    CP_PROGRAM__PROGRAM_DESCRIPTION
+    {
+/* The description of the campaign program.
+Validation Rules
+:
+ Mandatory field, any 1000 characters. */
+        PROGRAM_DESCRIPTION : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=1000, sysNumber=2.0, core=true, t24Name=PROGRAM.DESCRIPTION, isTextarea=true)
+    }
+    /* A new table called CP.VARIANT, that will hold information related to the campaign variants, must be created. */
+    CP_VARIANT
+        @i18n:Description (en="")
+        @t24:i (t24Name=CP.VARIANT, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=36.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=37.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=33.0, core=true, t24Name=AUTHORISER)
+/* The ID of the communication channel used to manage the customer interactions for a campaign. This field links the CP.VARIANT table to the CP.CHANNEL one.
+Validation Rules
+:
+ 35 text characters. */
+        CHANNEL -> CP_Campaign:CP_CHANNEL
+            @i18n:Label (en=Channel)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=5.0, core=true, businessType=A, t24Name=CHANNEL)
+        CHANNEL_DATA -> byValue CP_Campaign:CP_VARIANT__CHANNEL_DATA *
+            @t24:i (t24Name=CHANNEL.DATA)
+/* The content which will be displayed for the customer.
+Validation Rules
+:
+ Any 1000 characters. */
+        CHOSEN_CONTENT : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=1000, sysNumber=13.0, core=true, t24Name=CHOSEN.CONTENT)
+/* The extra content which will be displayed for the customer.
+Validation Rules
+:
+ Any 250 characters. */
+        CONTENT_EXTRA : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=250, sysNumber=14.0, core=true, t24Name=CONTENT.EXTRA)
+/* The ID of the placeholder/section in the edgeConnect project where campaign content can be displayed to the customer as output for the running campaign.
+ This field links the CP.VARIANT table to the CP.CHANNEL.OUTPUT one.
+Validation Rules
+:
+ Any 250 characters. */
+        CONTENT_LOCATION -> CP_Campaign:CP_CHANNEL_OUTPUT
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=10.0, core=true, businessType=A, t24Name=CONTENT.LOCATION)
+/* The content which will be displayed for the customer.
+Validation Rules
+:
+ Any 250 characters. */
+        CONTENT_TITLE : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=250, sysNumber=15.0, core=true, t24Name=CONTENT.TITLE)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=34.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=30.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue CP_Campaign:CP_VARIANT__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=35.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue CP_Campaign:CP_VARIANT__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        INPUTTER -> byValue CP_Campaign:CP_VARIANT__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* Name of the Variant.
+Validation Rules
+:
+ Mandatory field, 35 text characters. */
+        NAME : T24BusinessTypes:A required
+            @i18n:Label (en=Name)
+            @i18n:Tooltip (en="Indicates the Name ")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, t24Name=NAME)
+/* The ID of the communication template used to shape the message sent to the customer through email or secure message, as part of a campaign. 
+ This field links the CP.VARIANT table to the  CP.CHANNEL.OFFLINE.TEMPLATE one.
+Validation Rules
+:
+ 35 text characters. */
+        OFFLINE_TEMPLATE -> CP_Campaign:CP_CHANNEL_OFFLINE_TEMPLATE
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=7.0, core=true, businessType=A, t24Name=OFFLINE.TEMPLATE)
+/* The URL to which the customer will be redirected if he clicks on the content displayed as output for the campaign.
+Validation Rules
+:
+ Any 250 characters. */
+        ON_CLICK_URL : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=250, sysNumber=16.0, core=true, t24Name=ON.CLICK.URL)
+        OVERRIDE -> byValue CP_Campaign:CP_VARIANT__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=29.0, core=true, t24Name=RECORD.STATUS)
+        REQ_DATA_CONTEXT -> CP_Campaign:CP_DATA_CONTEXT
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=8.0, core=true, businessType=A, t24Name=REQ.DATA.CONTEXT)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=26.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=17.0, core=true, t24Name=RESERVED.10)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=25.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=24.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=23.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=22.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=21.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=20.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=19.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=RESERVED.9)
+/* The ID of a reusable set of content attached or not to a product, that can be used across multiple campaigns.
+ This field links the CP.VARIANT table to the CP.CHANNEL.ONLINE.TEMPLATE one.
+Validation Rules
+:
+ 35 text characters. */
+        RESOURCE -> CP_Campaign:CP_CHANNEL_ONLINE_TEMPLATE
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=12.0, core=true, businessType=A, t24Name=RESOURCE)
+/* Linked to new option in CP.CAMPAIGN and CP.VARIANT.SELECTION HasVariantOptions = Y.
+Validation Rules
+:
+ Any 10000 characters. */
+        SELECTION_DATA : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=10000, sysNumber=3.0, core=true, t24Name=SELECTION.DATA)
+        USE_RESOURCE : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=11.0, core=true, t24Name=USE.RESOURCE)
+        /* A dropdown list containing Yes/No values to indicate if the Marketing Inputter would like to use an already saved template for a communication. */
+        USE_TEMPLATES : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=6.0, core=true, t24Name=USE.TEMPLATES)
+        VARIANT_ID -> CP_Campaign:CP_VARIANT PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=VARIANT.ID)
+/* Text type of Variant.
+Validation Rules
+:
+ Mandatory field, 35 text characters. */
+        VARIANT_TYPE : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=4.0, core=true, t24Name=VARIANT.TYPE)
+    }
+/* After the targeted audience is identified based on the profiles, the solution enables the user to break the targeted audience into a series of cells. 
+ The new CP.VARIANT.SELECTION table stores the means to split the targeted audience into smaller cells. */
+    CP_VARIANT_SELECTION
+        @i18n:Description (en="")
+        @t24:i (t24Name=CP.VARIANT.SELECTION, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=26.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=27.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=23.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=24.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=20.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue CP_Campaign:CP_VARIANT_SELECTION__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=25.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue CP_Campaign:CP_VARIANT_SELECTION__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        GLOBAL_DATA -> byValue CP_Campaign:CP_VARIANT_SELECTION__GLOBAL_DATA *
+            @t24:i (t24Name=GLOBAL.DATA)
+        /* This field stores only “yes” and “no” values. */
+        HAS_GLOBAL_OPTIONS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=4.0, core=true, t24Name=HAS.GLOBAL.OPTIONS)
+        HAS_VARIANT_OPT : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=6.0, core=true, t24Name=HAS.VARIANT.OPT)
+        INPUTTER -> byValue CP_Campaign:CP_VARIANT_SELECTION__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* This field stores the name of the variant selection.
+Validation Rules
+:
+ Mandatory field, any 50 characters. */
+        NAME : T24BusinessTypes:ANY required
+            @i18n:Label (en=Name)
+            @i18n:Tooltip (en="Indicates the Name ")
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=1.0, core=true, t24Name=NAME)
+        OVERRIDE -> byValue CP_Campaign:CP_VARIANT_SELECTION__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+/* Each variant selection has a correspondent .ifp eC project. This field stores the name of the corresponding eConnect project for the given variant selection.
+Validation Rules
+:
+ Any 100 characters. */
+        PROJECT_NAME : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=100, sysNumber=3.0, core=true, t24Name=PROJECT.NAME)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=19.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=7.0, core=true, t24Name=RESERVED.10)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=11.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=RESERVED.9)
+        VARIANT_SELECTION_ID -> CP_Campaign:CP_VARIANT_SELECTION PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=VARIANT.SELECTION.ID)
+    }
+    CP_VARIANT_SELECTION__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=22.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    CP_VARIANT_SELECTION__DESCRIPTION
+    {
+/* This field stores the description of the variant selection.
+Validation Rules
+:
+ Any 1000 characters. */
+        DESCRIPTION : T24BusinessTypes:ANY
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=1000, sysNumber=2.0, core=true, t24Name=DESCRIPTION, isTextarea=true)
+    }
+    CP_VARIANT_SELECTION__GLOBAL_DATA
+    {
+        /* This field stores a string of XML data encoded in Base64, passed down by the project, which Edge will pick up and use with its processing. */
+        GLOBAL_DATA : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=10000, sysNumber=5.0, core=true, t24Name=GLOBAL.DATA, isTextarea=true)
+    }
+    CP_VARIANT_SELECTION__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=21.0, core=true, t24Name=INPUTTER)
+    }
+    CP_VARIANT_SELECTION__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=OVERRIDE)
+    }
+    CP_VARIANT__CHANNEL_DATA
+    {
+        /* An XML blob which contains the whole data related to a channel (for the email: this would store the sender, receiver, CC, BCC, subject of the email, and the body of the email). */
+        CHANNEL_DATA : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=10000, sysNumber=9.0, core=true, t24Name=CHANNEL.DATA, isTextarea=true)
+    }
+    CP_VARIANT__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=32.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    CP_VARIANT__DESCRIPTION
+    {
+/* Text description of Variant.
+Validation Rules
+:
+ Mandatory field, any 1000 characters. */
+        DESCRIPTION : T24BusinessTypes:ANY
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=1000, sysNumber=2.0, core=true, t24Name=DESCRIPTION, isTextarea=true)
+    }
+    CP_VARIANT__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=31.0, core=true, t24Name=INPUTTER)
+    }
+    CP_VARIANT__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=28.0, core=true, t24Name=OVERRIDE)
+    }
+    NOFILE_CP_CAMPAIGN_STATUS_DEP
+        @i18n:Description (en="")
+        @t24:i (t24Name=NOFILE.CP.CAMPAIGN.STATUS.DEP, level=I, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        TEXT : T24BusinessTypes:N
+            @i18n:Label (en="Pre Syndication ID")
+            @t24:i (align=L, inputBehaviour=N, maxLength=10, core=false, t24Name=TEXT, genOperation=CP.CAMPAIGN.STATUS.USER.DETAILS)
+        TYPE : T24BusinessTypes:N
+            @i18n:Label (en=Type)
+            @i18n:Tooltip (en=Type)
+            @t24:i (align=R, inputBehaviour=N, maxLength=10, core=false, t24Name=TYPE)
+    }
+    NOFILE_CP_GET_CAMPAIGN_STATUS
+        @i18n:Description (en="")
+        @t24:i (t24Name=NOFILE.CP.GET.CAMPAIGN.STATUS, level=I, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        CAMPAIGN_CHANNEL -> byValue CP_Campaign:NOFILE_CP_GET_CAMPAIGN_STATUS__CAMPAIGN_CHANNEL *
+            @t24:i (t24Name=CAMPAIGN.CHANNEL)
+        CAMPAIGN_ID : T24BusinessTypes:N
+            @i18n:Label (en="Campaign Id")
+            @t24:i (align=R, inputBehaviour=N, maxLength=10, core=false, t24Name=CAMPAIGN.ID)
+        CAMPAIGN_NAME : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=10, core=false, t24Name=CAMPAIGN.NAME)
+        CAMPAIGN_OBJECTIVE : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=10, core=false, t24Name=CAMPAIGN.OBJECTIVE)
+        CAMPAIGN_OWNER : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=10, core=false, t24Name=CAMPAIGN.OWNER)
+        CAMPAIGN_PRIORITY : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=10, core=false, t24Name=CAMPAIGN.PRIORITY)
+        CAMPAIGN_PROGRAM : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=10, core=false, t24Name=CAMPAIGN.PROGRAM)
+        CAMPAIGN_STATUS : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=10, core=false, t24Name=CAMPAIGN.STATUS)
+        TEXT : T24BusinessTypes:N
+            @i18n:Label (en="Pre Syndication ID")
+            @t24:i (align=L, inputBehaviour=N, maxLength=100, core=false, t24Name=TEXT, genOperation=CP.GET.CAMPAIGN.STATUS)
+    }
+    NOFILE_CP_GET_CAMPAIGN_STATUS__CAMPAIGN_CHANNEL
+    {
+        CAMPAIGN_CHANNEL : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=10, core=false, t24Name=CAMPAIGN.CHANNEL)
+    }
+    NOFILE_CP_GET_PROGRAM_STATUS
+        @i18n:Description (en="")
+        @t24:i (t24Name=NOFILE.CP.GET.PROGRAM.STATUS, level=I, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        COMMENT_OWNER : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=10, core=false, t24Name=COMMENT.OWNER)
+        PROGRAM_ID : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=10, core=false, t24Name=PROGRAM.ID)
+        PROGRAM_NAME : T24BusinessTypes:N
+            @i18n:Label (en="Investment Program")
+            @t24:i (align=R, inputBehaviour=N, maxLength=10, core=false, t24Name=PROGRAM.NAME)
+        PROGRAM_OWNER : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=10, core=false, t24Name=PROGRAM.OWNER)
+        PROGRAM_PARENT : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=10, core=false, t24Name=PROGRAM.PARENT)
+        PROGRAM_STATUS : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=10, core=false, t24Name=PROGRAM.STATUS)
+        TEXT : T24BusinessTypes:N
+            @i18n:Label (en="Pre Syndication ID")
+            @t24:i (align=L, inputBehaviour=N, maxLength=100, core=false, t24Name=TEXT, genOperation=CP.GET.PROGRAM.STATUS)
+    }
+    NOFILE_CP_PROGRAM_STATUS_DEP
+        @i18n:Description (en="")
+        @t24:i (t24Name=NOFILE.CP.PROGRAM.STATUS.DEP, level=I, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        TEXT : T24BusinessTypes:N
+            @i18n:Label (en="Pre Syndication ID")
+            @t24:i (align=L, inputBehaviour=N, maxLength=10, core=false, t24Name=TEXT, genOperation=CP.PROGRAM.STATUS.USER.DETAILS)
+        TYPE : T24BusinessTypes:N
+            @i18n:Label (en=Type)
+            @i18n:Tooltip (en=Type)
+            @t24:i (align=R, inputBehaviour=N, maxLength=10, core=false, t24Name=TYPE)
+    }
+    NOFILE_CP_USER_ROLES
+        @i18n:Description (en="")
+        @t24:i (t24Name=NOFILE.CP.USER.ROLES, level=I, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        DETAILS : T24BusinessTypes:N
+            @i18n:Label (en=DETAILS)
+            @t24:i (align=L, inputBehaviour=N, maxLength=50, core=false, t24Name=DETAILS, genOperation=CP.USER.ROLES.DETAILS)
+    }
+}
+Enumerations {
+    CP_CAMPAIGN_STATUS__FLOW_VALIDATION : mml:string
+        BACK=BACK
+        END=END
+        NEXT=NEXT
+        NULL=NULL
+        START=START
+    CP_CAMPAIGN_STATUS__K_TYPE : mml:string
+        ARCHIVED=ARCHIVED
+        FINISH=FINISH
+        NORMAL=NORMAL
+        NULL=NULL
+        RUNNING=RUNNING
+        START=START
+        TESTING=TESTING
+    CP_CAMPAIGN_STATUS__TYPE : mml:string
+        ARCHIVED=ARCHIVED
+        FINISH=FINISH
+        NORMAL=NORMAL
+        NULL=NULL
+        RUNNING=RUNNING
+        START=START
+        TESTING=TESTING
+    CP_OBJECTIVE__LINKED_PRODUCT_GRP : mml:string
+        N=N
+        Y=Y
+    CP_PROCESS__ACTIVE : mml:string
+        NO=NO
+        NULL=NULL
+        YES=YES
+    CP_PROCESS__TYPE_PW : mml:string
+        CAMPAIGN=CAMPAIGN
+        NULL=NULL
+        PROGRAM=PROGRAM
+    CP_PROGRAM_STATUS__FLOW_VALIDATION : mml:string
+        BACK=BACK
+        END=END
+        NEXT=NEXT
+        NULL=NULL
+        START=START
+    CP_PROGRAM_STATUS__K_TYPE : mml:string
+        ARCHIVED=ARCHIVED
+        FINISH=FINISH
+        NORMAL=NORMAL
+        NULL=NULL
+        RUNNING=RUNNING
+        START=START
+        TESTING=TESTING
+    CP_PROGRAM_STATUS__TYPE : mml:string
+        ARCHIVED=ARCHIVED
+        FINISH=FINISH
+        NORMAL=NORMAL
+        NULL=NULL
+        RUNNING=RUNNING
+        START=START
+        TESTING=TESTING
+}

@@ -1,0 +1,1117 @@
+# UTF-8
+/* Customer Identification processing for FATCA */
+Domain FA_CustomerIdentification
+    @t24:i (module=FA)
+    @java:Package (value=com.temenos.t24.datamodel.fa.fa_customeridentification)
+namespace "http://www.temenos.com/t24/FA_CustomerIdentification"
+metamodelVersion 1.30.6
+Classes {
+/* Live file used to record the FATCA status condition changes done in file FATCA.STATUS.CONDITION.
+
+This changes information is required in close of business, to reclassify the FATCA status, when AUTO.STATUS.UPDATE is set as “YES” in FATCA.PARAMETER. */
+    FATCA_CONDITION_CHANGE
+        @i18n:Description (en="")
+        @t24:i (t24Name=FATCA.CONDITION.CHANGE, level=C, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        /* Updates the date on which the status condition record is amended. */
+        PROCESSING_DATE -> FA_CustomerIdentification:FATCA_CONDITION_CHANGE PK required
+            @i18n:Label (en="Processing Date")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=0.0, core=true, businessType=D, t24Name=PROCESSING.DATE)
+        STATUS_ID -> byValue FA_CustomerIdentification:FATCA_CONDITION_CHANGE__STATUS_ID *
+            @t24:i (t24Name=STATUS.ID)
+    }
+    FATCA_CONDITION_CHANGE__STATUS_ID
+    {
+/* The following values will be updated by the system based on the changes done on the status condition,
+ADD – When a new status condition is added or restored.
+DEL- When a status condition record is reversed.
+CHG – When a status condition record is amended.
+The STATUS.ID and FUNCTION are associated multi-value fields. */
+        FUNCTION : FA_CustomerIdentification:FATCA_CONDITION_CHANGE__STATUS_ID__FUNCTION
+            @i18n:Label (en="Function Allowed")
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=2.0, core=true, t24Name=FUNCTION)
+/* Updates the record id of status condition.
+A valid record available in the FATCA.STATUS.CONDITION table. The STATUS.ID and FUNCTION are associated multi-value fields. */
+        STATUS_ID : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, t24Name=STATUS.ID)
+    }
+/* The FATCA.CUSTOMER.SUPPLEMENTARY.INFO table holds the supplementary information for a customer related to FATCA. The ID of the record will be the Customer number.
+System updates this file when a different dated record for a customer is created in FATCA.CUSTOMER.SUPPLEMENTARY.INFO. */
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO
+        @i18n:Description (en="")
+        @t24:i (t24Name=FATCA.CUSTOMER.SUPPLEMENTARY.INFO, level=C, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+/* Specifies if the account has any instructions from a US address.
+Validation Rules:
+Allowed values are Yes or No.
+Optional input */
+        ACCT_INSTN_FROM : FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__ACCT_INSTN_FROM
+            @i18n:Label (en="Acct Instn From US")
+            @i18n:Tooltip (en="Acct Instn From US")
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=11.0, core=true, t24Name=ACCT.INSTN.FROM)
+        ADDR_TYPE -> byValue FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__ADDR_TYPE *
+            @t24:i (t24Name=ADDR.TYPE)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=86.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=87.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=83.0, core=true, t24Name=AUTHORISER)
+/* Records whether the client (entity) has any substantial (for NFFEs) or beneficial owners (for FFI).
+Validation rules
+Input is allowed only for entity accounts.The allowed values areYesNoIf NO is input, then it is considered that the account has no US beneficial or substantial owners. */
+        BEN_SUBS_OWNER : FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__BEN_SUBS_OWNER
+            @i18n:Label (en="Ben Subs Owner")
+            @i18n:Tooltip (en="Ben Subs Owner")
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=28.0, core=true, t24Name=BEN.SUBS.OWNER)
+        /* The field is updated to indicate there are pending documents from the customer. It is updated as YES when the documents are pending. The update to the field is removed when the documents are received or when the client status becomes recalcitrant on cut-off date. */
+        CHANGE_PENDING_DOC : FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__CHANGE_PENDING_DOC
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=58.0, core=true, t24Name=CHANGE.PENDING.DOC)
+/* This field is used to record the reason for any status change. Automatic Status update can be manually overridden by specifying a value in this field.
+Validation Rules:
+1-35 ANY characters */
+        CHANGE_REASON : T24BusinessTypes:ANY
+            @i18n:Label (en="Change Reason")
+            @i18n:Tooltip (en="Change Reason")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=57.0, core=true, t24Name=CHANGE.REASON)
+        CITIZENSHIP -> byValue FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__CITIZENSHIP *
+            @t24:i (t24Name=CITIZENSHIP)
+/* The field is used to define the type of client – individual or Legal entity. The due diligence requirements vary based on nature of relationship (for e.g. individual/NFFE). The entity accounts can be classified as Legal Entity but if a further granular classification is required, they can be classified as FFI or NFFE. In fact, NFFEs, if required, can be classified as ACTIVE and PASSIVE NFFEs. NON.REG.LOCAL.BANK, RETIREMENT.FUND, NON.PROFIT.ORG, LOW.VALUE.FFI AND OWNER.DOC.FFI are all sub-classifications of FFIs
+Validation Rules:
+This is a mandatory field, the allowed values are:
+ACTIVE.NFFEFFIINDIVIDUALLEGAL.ENTITYLOW.VALUE.FFINFFENON.PROFIT.ORGNON.REG.LOCAL.BANKOWNER.DOC.FFIPASSIVE.NFFEPRIVATERETAILRETIREMENT.FUNDTRADED.NFFEUS.CORPUSFI */
+        CLIENT_TYPE : FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__CLIENT_TYPE required
+            @i18n:Label (en="Client Type")
+            @i18n:Tooltip (en="Define the type of client")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, t24Name=CLIENT.TYPE)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=84.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CR_CUSTOMER_ID -> byValue FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__CR_CUSTOMER_ID *
+            @t24:i (t24Name=CR.CUSTOMER.ID)
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=80.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=85.0, core=true, t24Name=DEPT.CODE)
+/* The field can be set to YES in case no contact could be established with the client. The automatic classification (FATCA STATUS update) of the account as dormant can be specified based on the settings in FATCA PARAMETER for dormant account identification with this value.
+Validation rules:
+Allowed values are Yes or No. */
+        DORMANT_NO_CONTACT : FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__DORMANT_NO_CONTACT
+            @i18n:Label (en="Dormant Account")
+            @i18n:Tooltip (en="Dormant Account")
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=23.0, core=true, t24Name=DORMANT.NO.CONTACT)
+/* The EIN (Employer identification Number) is a unique nine-digit number assigned by the Internal Revenue Service (IRS). Participating and deemed compliant FFI's will have to register with IRS and obtain an EIN.The EIN can be entered here or in the FORM ID field if EIN is defined as one of the Form Types (document).
+Validation rules:
+1- 35 alphanumeric characters */
+        EIN : T24BusinessTypes:A
+            @i18n:Label (en=Ein)
+            @i18n:Tooltip (en="Employer Identification Number")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=26.0, core=true, t24Name=EIN)
+/* Records the self-classification received from entities. The self-classification will be one of the factors (besides documentation) determining the Account classification (FATCA Status).
+Validation Rules:
+A valid FATCA TAX STATUS ID can be input in this field. */
+        ENTITY_STATUS -> FA_Config:FATCA_TAX_STATUS
+            @i18n:Label (en="Entity Status")
+            @i18n:Tooltip (en="Entity Status")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=25.0, core=true, businessType=ANY, t24Name=ENTITY.STATUS)
+/* If FATCA status is set for auto update, this field will be updated with the error conditions if there are situations where FATCA status could not be updated for whatsoever reason.
+Validation rules:
+System updated field. No input */
+        EXCEPTION_LOG : T24BusinessTypes:N
+            @i18n:Label (en="Exception Log")
+            @i18n:Tooltip (en="Exception Log")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=54.0, core=true, t24Name=EXCEPTION.LOG)
+/* The ID will be the CUSTOMER number.
+Validation Rules:
+Must be a valid record on the Customer table. */
+        FATCA_CUST_ID -> FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=FATCA.CUST.ID)
+/* The field used to specify the FATCA STATUS or Account Classification of the client/entity based on documentation. The FATCA STATUS can be updated either manually or automatically. Even if the status is automatically updated, the same can be changed and the reasons for the change recorded in CHANGE REASON field.
+Validation rules
+A valid FATCA TAX STATUS ID can be input in this field */
+        FATCA_STATUS -> FA_Config:FATCA_TAX_STATUS
+            @i18n:Label (en="Account Classification")
+            @i18n:Tooltip (en="Account Classification")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=52.0, core=true, businessType=ANY, t24Name=FATCA.STATUS)
+/* This field is updated by system with the date of change of FATCA status.
+Validations:
+1. 1-9 Type D Standard date format - (YYYYMMDD).
+2. Updated by system. NOINPUT field */
+        FA_STATUS_CHG_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=N, maxLength=11, sysNumber=66.0, core=true, t24Name=FA.STATUS.CHG.DATE)
+        FORM_OWNER -> byValue FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__FORM_OWNER *
+            @t24:i (t24Name=FORM.OWNER)
+        GIIN : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=59.0, core=true, t24Name=GIIN)
+/* The field is for recording the Greencard details (ID) of the client   and has to be entered  if the customer holds a US Greencard.
+Validation rules
+Alpha-numeric */
+        GREENCARD : T24BusinessTypes:A
+            @i18n:Label (en=Greencard)
+            @i18n:Tooltip (en=Greencard)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=5.0, core=true, t24Name=GREENCARD)
+/* The system will update the field as STRONG, MEDIUM or WEAK based on the indicia details updated.
+Validation rules:
+No input field. System generated values:
+STRONGMEDIUMWEAK */
+        INDICIA_STRENGTH : FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__INDICIA_STRENGTH
+            @i18n:Label (en="Indicia Strength ")
+            @i18n:Tooltip (en="Indicia Strength")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=48.0, core=true, t24Name=INDICIA.STRENGTH)
+        INPUTTER -> byValue FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* Records whether the KYC check has been completed.
+Validation Rules
+Allowed values Yes or No */
+        KYC_CHECK : FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__KYC_CHECK
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=24.0, core=true, t24Name=KYC.CHECK)
+/* This field is updated by system with the old FATCA status value that is being modified.
+Validation rules
+System updated field. NOINPUT */
+        OLD_FATCA_STATUS : T24BusinessTypes:N
+            @i18n:Label (en="Old Fatca Status")
+            @i18n:Tooltip (en="Old Fatca Status")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=55.0, core=true, t24Name=OLD.FATCA.STATUS)
+        OVERRIDE -> byValue FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+/* The field is used to specify whether there is any POA (Power of Attorney)  to a person with US address
+Validation rules:
+Allowed values are Yes or NoOptional input */
+        POA_HOLDER_COUNTRY : FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__POA_HOLDER_COUNTRY
+            @i18n:Label (en="US POA Holder")
+            @i18n:Tooltip (en="US POA Holder")
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=9.0, core=true, t24Name=POA.HOLDER.COUNTRY)
+        PORTFOLIO_ID -> byValue FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__PORTFOLIO_ID *
+            @t24:i (t24Name=PORTFOLIO.ID)
+/* This is the final FATCA.STATUS for the portfolio, the status is arrived based on the TAX.STATUS.NO value from the FATCA.TAX.STATUS record.
+Portfolio status will be highest level classification among the status of the joint customers.
+Validations:
+1. Valid record in FATCA.TAX.STATUS
+2. NOINPUT field */
+        PORTFOLIO_STATUS -> FA_Config:FATCA_TAX_STATUS
+            @i18n:Label (en="Portfolio Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=65.0, core=true, businessType=A, t24Name=PORTFOLIO.STATUS)
+/* This is a system generated field. The value of this field will be calculated by the system based on the indicia details that have been provided. A value of Yes means that the client is potentially US. Any updates to this field will be cleared once the FATCA STATUS is updated.
+Validation rules:
+Allowed value is “Yes”. */
+        POTENTIAL_US : FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__POTENTIAL_US
+            @i18n:Label (en="Potential US")
+            @i18n:Tooltip (en="Potential US")
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=49.0, core=true, t24Name=POTENTIAL.US)
+/* This is a system generated field. The value of this field will be calculated based on the documentation provided. If a client has provided any non-US document, then this field will be updated as YES. Any updates to this field will be cleared once the FATCA STATUS is updated.
+Validation rules
+Allowed value is “Yes”. */
+        PROVEN_NONUS : FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__PROVEN_NONUS
+            @i18n:Label (en="Proven Non US")
+            @i18n:Tooltip (en="Proven Non US")
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=51.0, core=true, t24Name=PROVEN.NONUS)
+/* This is a system generated field. The value of this field will be calculated based on the documentation provided. If a client has provided any US document, then this field will be updated as YES. Any updates to this field will be cleared once the FATCA STATUS is updated
+Validation rules:
+Allowed value is “Yes”. */
+        PROVEN_US : FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__PROVEN_US
+            @i18n:Label (en="Proven US")
+            @i18n:Tooltip (en="Proven US")
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=50.0, core=true, t24Name=PROVEN.US)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=79.0, core=true, t24Name=RECORD.STATUS)
+        /* This field is reserved for future use. */
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=76.0, core=true, t24Name=RESERVED.1)
+        /* This field is reserved for future use. */
+        RESERVED_10 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=67.0, core=true, t24Name=RESERVED.10)
+        /* This field is reserved for future use. */
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=75.0, core=true, t24Name=RESERVED.2)
+        /* This field is reserved for future use. */
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=74.0, core=true, t24Name=RESERVED.3)
+        /* This field is reserved for future use. */
+        RESERVED_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=73.0, core=true, t24Name=RESERVED.4)
+        /* This field is reserved for future use. */
+        RESERVED_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=72.0, core=true, t24Name=RESERVED.5)
+        /* This field is reserved for future use. */
+        RESERVED_6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=71.0, core=true, t24Name=RESERVED.6)
+        /* This field is reserved for future use. */
+        RESERVED_7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=70.0, core=true, t24Name=RESERVED.7)
+        /* This field is reserved for future use. */
+        RESERVED_8 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=69.0, core=true, t24Name=RESERVED.8)
+        /* This field is reserved for future use. */
+        RESERVED_9 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=68.0, core=true, t24Name=RESERVED.9)
+        ROLE_TYPE -> byValue FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__ROLE_TYPE *
+            @t24:i (t24Name=ROLE.TYPE)
+/* The field is used to record the customer’s Social Security Number.
+Validation rules:
+1- 35 alphanumeric characters
+ 
+  */
+        SOCIAL_SEC_NO : T24BusinessTypes:ANY
+            @i18n:Label (en="Social Security No")
+            @i18n:Tooltip (en="Social Security No")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=21.0, core=true, t24Name=SOCIAL.SEC.NO)
+        SPONSOR_GIIN : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=60.0, core=true, t24Name=SPONSOR.GIIN)
+/* This fields holds the date on which the FATCA.STATUS of the customer have been changed.
+Validation rules
+1-9 Type D Standard date format - (YYYYMMDD).Updated by user */
+        STATUS_CHANGE_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Status Change Date")
+            @i18n:Tooltip (en="Status Change Date")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=56.0, core=true, t24Name=STATUS.CHANGE.DATE)
+/* The field denotes the expiry date of the current status in the case of deemed compliant entities. If EIN is included as a document in FORM TYPE field, the expiry date can be specified in the EXP DATE field (part of the FORM OWNER multi-value set) instead of in this field.
+Validation rules:
+1-9 Type D Standard date format -(YYYYMMDD) */
+        STATUS_EXPIRY_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=27.0, core=true, t24Name=STATUS.EXPIRY.DATE)
+/* The field is used to record any free-format narrative relating to the FATCA STATUS (Account classification) updated. If the FATCA STATUS is automatically updated, the Narrative will also be automatically updated.
+Validation rules:
+1-35 ANY characters */
+        STATUS_NARRATIVE : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=53.0, core=true, t24Name=STATUS.NARRATIVE)
+/* The field denotes whether there is any standing instruction "to" an account in US.
+Validation rules
+Allowed values Yes or NoOptional input */
+        STND_INSTRUCTION : FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__STND_INSTRUCTION
+            @i18n:Label (en="Stnd Instruction To US")
+            @i18n:Tooltip (en="Stnd Instruction To US")
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=10.0, core=true, t24Name=STND.INSTRUCTION)
+/* The field is used to record the tax domicile of the client.
+Validation rules
+2-9 type SSS (uppercase alpha) charactersThe code will be the ID of an existing record in the COUNTRY table. */
+        TAX_DOMICILE -> ST_Config:COUNTRY
+            @i18n:Label (en="Tax Domicile")
+            @i18n:Tooltip (en="Tax Domicile")
+            @t24:i (align=L, inputBehaviour=I, maxLength=9, sysNumber=3.0, core=true, businessType=SSS, t24Name=TAX.DOMICILE)
+/* The field is used to record the tax residence of the client (generally based on substantial presence test).
+Validation rules
+2 type SSS (uppercase alpha) charactersThe code will be the ID of an existing record in the COUNTRY table. */
+        TAX_RESIDENCE -> ST_Config:COUNTRY
+            @i18n:Label (en="Tax Residence Country")
+            @i18n:Tooltip (en="Tax Residence Country")
+            @t24:i (align=L, inputBehaviour=I, maxLength=9, sysNumber=6.0, core=true, businessType=SSS, t24Name=TAX.RESIDENCE)
+/* The field is used to specify whether the client has any US telephone number.
+Validation rules
+Allowed values are Yes or No. */
+        TELEPHONE_NUMBER : FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__TELEPHONE_NUMBER
+            @i18n:Label (en="US Telephone No ")
+            @i18n:Tooltip (en="US Telephone No")
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=22.0, core=true, t24Name=TELEPHONE.NUMBER)
+        TIN_COUNTRY -> byValue FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__TIN_COUNTRY *
+            @t24:i (t24Name=TIN.COUNTRY)
+/* To record whether the client has a US place of birth.
+Validation rules
+Allowed values are Yes or No */
+        US_PLACE_OF_BIRTH : FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__US_PLACE_OF_BIRTH
+            @i18n:Label (en="US Birth Place")
+            @i18n:Tooltip (en="US Birth Place")
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=2.0, core=true, t24Name=US.PLACE.OF.BIRTH)
+/* This field is inputted when the customer has to be exempted from FATCA reporting.
+Validations:
+Accepts only the values from FATCA.W9.EXEMPTION.CODES */
+        W9_EXEMPT_CODE -> FA_CustomerIdentification:FATCA_W9_EXEMPTION_CODES
+            @i18n:Label (en="W9 Exempt Code")
+            @i18n:Tooltip (en="W9 Exempt Code")
+            @t24:i (align=L, inputBehaviour=I, maxLength=9, sysNumber=61.0, core=true, businessType=ANY, t24Name=W9.EXEMPT.CODE)
+    }
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__ADDR_TYPE
+    {
+        ADDR_COUNTRY -> byValue FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__ADDR_TYPE__ADDR_COUNTRY *
+            @t24:i (t24Name=ADDR.COUNTRY)
+/* These are the various address types that need to be checked as per US indicia requirements for presence of US address.
+This field is part of multi value set, associated with the field ADDRESS.COUNTRY.
+Validation rules:
+The allowed values are:
+MAILPERMANENTINCAREHOLD.MAILPO.BOX */
+        ADDR_TYPE : FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__ADDR_TYPE__ADDR_TYPE
+            @i18n:Label (en="Address Type")
+            @i18n:Tooltip (en="Address Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=7.0, core=true, t24Name=ADDR.TYPE)
+    }
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__ADDR_TYPE__ADDR_COUNTRY
+    {
+/* Determines the country of customer’s address for the address type specified in the ADDRESS.TYPE field. This field is part of multi value set, associated with the field ADDRESS.TYPE.
+This field will be defaulted with DE.ADDRESS information based on the FATCA.PARAMETER definition.
+Validation Rules:
+2-9 type SSS (uppercase alpha) characters.The code will be the ID of an existing record in the COUNTRY table. */
+        ADDR_COUNTRY -> ST_Config:COUNTRY
+            @i18n:Label (en="Address Country")
+            @i18n:Tooltip (en="Address Country")
+            @t24:i (align=L, inputBehaviour=I, maxLength=9, sysNumber=8.0, core=true, businessType=SSS, t24Name=ADDR.COUNTRY)
+    }
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__CITIZENSHIP
+    {
+/* The field is used to record the Citizenship details of the customer. This field is multi-valued to enable the capture of dual citizenship.
+If the Nationality or Citizenship of the customer is US, the customer will be considered a potential US customer with STRONG Indicia
+Validation rules:
+2-9 type SSS (uppercase alpha) characters.The code will be the ID of an existing record in the COUNTRY table.Will default based on the nationality defined in the Customer record, can be overridden if required */
+        CITIZENSHIP -> ST_Config:COUNTRY
+            @i18n:Label (en=Citizenship)
+            @i18n:Tooltip (en=Citizenship)
+            @t24:i (align=L, inputBehaviour=I, maxLength=9, sysNumber=4.0, core=true, businessType=SSS, t24Name=CITIZENSHIP)
+    }
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__CR_CUSTOMER_ID
+    {
+/* When a TAX type of CUSTOMER.RELATIONSHIP record is linked to portfolio (SEC.ACC.MASTER), then a new record will be created in this table to update the FATCA.STATUS for the portfolio owned by joint customers.
+Customer id of the customers who are a part of the CUSTOMER RELATIONSHIP record will be updated in this field.
+Validations:
+1. Valid customer id
+2. NOINPUT field */
+        CR_CUSTOMER_ID -> ST_Customer:CUSTOMER
+            @i18n:Label (en="Cr Customer Id")
+            @t24:i (align=R, inputBehaviour=N, maxLength=10, sysNumber=62.0, core=true, t24Name=CR.CUSTOMER.ID)
+/* Assiciated field with the  FATCA.CR.CUST field and stores the FATCA.STATUS of the corresponding customer.
+Validations:
+1. Valid record in FATCA.TAX.STATUS
+2. NOINPUT field */
+        CR_CUST_STATUS -> FA_Config:FATCA_TAX_STATUS
+            @i18n:Label (en="Cr Cust Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=63.0, core=true, businessType=A, t24Name=CR.CUST.STATUS)
+    }
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=82.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__FORM_OWNER
+    {
+/* This field is used to maintain document information for each owner.
+If the owner is not given, it will be assumed that the documents pertain to the Primary Customer. If these documents are being recorded for Beneficial and other owners, then the owner ID has to be recorded here.
+It must be noted that for classification of accounts under FATCA, the documents have to be obtained from beneficial, joint and other owners as well.
+The fields from FORM.TYPE to EXP.DATE will be associated sub value fields within this FORM.OWNER multi-value field.
+Validation rules:
+FATCA CUSTOMER SUPPLEMENTARY INFO ID or HOLDER REF value can be specified here. */
+        FORM_OWNER : T24BusinessTypes:ANY
+            @i18n:Label (en="Document Owner")
+            @i18n:Tooltip (en="Document Owner")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=12.0, core=true, t24Name=FORM.OWNER)
+        FORM_TYPE -> byValue FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__FORM_OWNER__FORM_TYPE *
+            @t24:i (t24Name=FORM.TYPE)
+    }
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__FORM_OWNER__FORM_TYPE
+    {
+/* This is the date by when the document specified in FORM.TYPE field has to be received.  This will be defaulted based on the settings in FATCA PARAMETER.
+For a new client, this will be either the Opening or Request Date plus the number of days set in NEW CLNT DOC DAYS.
+For an existing client,  the cut-off date will be determined based on the number of days specified in parameter (EXIST.FFI.DOC.DAYS or OTH.EXIST.DOC.DAYS).
+The cut-off date can be manually changed. If the documents are not received within the cut-off date above, the account status will be changed to “recalcitrant”, provided automatic classification facility is available.
+The field is part of the associated multi-value set starting with FORM.OWNER.
+Validation rules
+1-9 Type D Standard date format -(YYYYMMDD) */
+        CUT_OFF_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Cut Off Date")
+            @i18n:Tooltip (en="Date by which Document should be recd.")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=17.0, core=true, t24Name=CUT.OFF.DATE)
+/* This is the expiry date of the document specified in FORM.TYPE field. The field is part of the associated multi-value set starting with FORM.OWNER.
+If the documents are not renewed within the expiry date, the account status will be changed to “recalcitrant”, provided automatic classification facility is available.
+Validation rules:
+1-9 Type D Standard date format -(YYYYMMDD) */
+        EXP_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Expiry Date")
+            @i18n:Tooltip (en="Expiry Date")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=18.0, core=true, t24Name=EXP.DATE)
+/* This field holds the document reference or ID. For example a Passport number if the document is a passport, or EIN number if the document type is EIN, etc
+Validation rules
+Alpha-numeric (free format)
+ 
+  */
+        FORM_ID : T24BusinessTypes:ANY
+            @i18n:Label (en="Form ID")
+            @i18n:Tooltip (en="Form ID")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=14.0, core=true, t24Name=FORM.ID)
+/* The field is used to record the documents that are expected from the customer. The field is part of the associated multi-value set starting with FORM.OWNER.
+Validation rules
+A valid FATCA FORM TYPE ID is allowed to be input in this field. */
+        FORM_TYPE -> FA_Config:FATCA_FORM_TYPE
+            @i18n:Label (en="Form Type")
+            @i18n:Tooltip (en="Documents that are expected from the customer")
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=13.0, core=true, businessType=ANY, t24Name=FORM.TYPE)
+/* This is the date of receipt of the document specified in FORM.TYPE field. The field is part of the associated multi-value set starting with FORM.OWNER.
+Validation rules
+1-9 Type D Standard date format -(YYYYMMDD)
+ 
+  */
+        RECV_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Received Date")
+            @i18n:Tooltip (en="Date of receipt of document")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=16.0, core=true, t24Name=RECV.DATE)
+/* The date on which the document specified in FORM TYPE has been requested from the client.
+Validation rules
+1-9 Type D Standard date format -(YYYYMMDD)
+ 
+  */
+        REQ_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Requested Date")
+            @i18n:Tooltip (en="Document requested date from the client")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=15.0, core=true, t24Name=REQ.DATE)
+    }
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=81.0, core=true, t24Name=INPUTTER)
+    }
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__OVERRIDE
+    {
+/* This is a multi-valued field. Standard T24 alphanumeric field that will store the overrides.
+Validation rules
+NOINPUT field
+A maximum of 35 characters may be entered. */
+        OVERRIDE : T24BusinessTypes:A
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=78.0, core=true, t24Name=OVERRIDE)
+    }
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__PORTFOLIO_ID
+    {
+/* When a TAX type of CUSTOMER.RELATIONSHIP record is linked to portfolio (SEC.ACC.MASTER), then a new record will be created in this table to update the FATCA.STATUS for the portfolio owned by joint customers.
+This field stores the SEC.ACC.MASTER ids in which the CUSTOMER.RELATIONSHIP is linked.
+Validations:
+1. Valid SEC.ACC.MASTER record id
+2. NOINPUT field */
+        PORTFOLIO_ID -> SC_ScoPortfolioMaintenance:SEC_ACC_MASTER
+            @i18n:Label (en="Portfolio Id")
+            @t24:i (align=L, inputBehaviour=N, maxLength=18, sysNumber=64.0, core=true, businessType=SAM, t24Name=PORTFOLIO.ID)
+    }
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__ROLE_TYPE
+    {
+        ADDRESS -> byValue FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__ROLE_TYPE__ADDRESS *
+            @t24:i (t24Name=ADDRESS)
+        ALIAS -> byValue FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__ROLE_TYPE__ALIAS *
+            @t24:i (t24Name=ALIAS)
+/* Records the birth/incorporation date of the beneficial owner.
+Validation rules
+1-9 Type D Standard date format -(YYYYMMDD)It will get populated from the BIRTH.INCORP.DATE of customer record. If not present, then it will get defaulted to value given in DATE.OF.BIRTH */
+        BIRTH_INCO_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=41.0, core=true, t24Name=BIRTH.INCO.DATE, typeModifiers=1000)
+/* If a customer record exists for the joint, beneficial or substantial owner, the ID of the customer record relating to that specific customer should be entered here.  The Nationality. Residence and Domicile details in FATCA CUSTOMER SUPPLEMENTARY INFO will default from the Customer record.
+Validation rules:
+1-10 numeric character Customer Code or 3-10 type MNE (uppercase alpha or numeric or '.') character Customer Mnemonic. */
+        CUSTOMER_ID -> ST_Customer:CUSTOMER
+            @i18n:Label (en="Customer Id")
+            @i18n:Tooltip (en="Identifies the Customer for the transaction.")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=31.0, core=true, businessType=CUS, t24Name=CUSTOMER.ID)
+/* The field is used to record the domicile of Joint, Beneficial or Substantial owner.
+Validation rules:
+2 type SSS (uppercase alpha) characters.The code must be the ID of an existing record in the COUNTRY table. */
+        DOMICILE -> ST_Config:COUNTRY
+            @i18n:Label (en=Domicile)
+            @i18n:Tooltip (en=Domicile)
+            @t24:i (align=L, inputBehaviour=I, maxLength=9, sysNumber=39.0, core=true, businessType=A, t24Name=DOMICILE)
+/* This field is used in the implementation of the W9 Exempt from Reporting code field at the JO/BO level.
+Mainly it is used in recording the status of beneficial owners.
+Validation rules:
+Accepts only the FATCA.W9.EXEMPTION.CODES */
+        ENT_TAX_CLASS -> FA_CustomerIdentification:FATCA_W9_EXEMPTION_CODES
+            @i18n:Label (en="Entity Tax Classification")
+            @i18n:Tooltip (en="Entity Tax Classification")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=30.0, core=true, businessType=ANY, t24Name=ENT.TAX.CLASS)
+        FIRST_NAME -> byValue FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__ROLE_TYPE__FIRST_NAME *
+            @t24:i (t24Name=FIRST.NAME)
+        HOLDER_NAME -> byValue FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__ROLE_TYPE__HOLDER_NAME *
+            @t24:i (t24Name=HOLDER.NAME)
+/* The field is used to specify a unique ID for the joint, beneficial or substantial owner. The Unique ID is then used in the FORM OWNER field to record the documents received from other owners (joint and beneficial).
+Validation rules:
+The value should contains two parts, first part should be FATCA CUSTOMER.SUPPLEMENTARY INFO ID, separator hyphen “-“, second part with sequence number.
+For example, if the record is being input for customer 100291, the HOLDER REF will be 100291-1 for the first beneficial owner
+  */
+        HOLDER_REF : T24BusinessTypes:ANY
+            @i18n:Label (en="Unique ID")
+            @i18n:Tooltip (en="Holder Reference Id")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=32.0, core=true, t24Name=HOLDER.REF)
+/* The field is used to specify the Tax Identification Number of the joint, beneficial or substantial owner. The field is part of the associated multi-value set starting with ROLE.TYPE.
+Validation rules:
+1-35 any characters
+  */
+        HOLDER_TIN : T24BusinessTypes:ANY
+            @i18n:Label (en="Owner Tin")
+            @i18n:Tooltip (en="Owner Tin")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=43.0, core=true, t24Name=HOLDER.TIN)
+        HOLD_ADDR_COUNTRY -> ST_Config:COUNTRY
+            @t24:i (align=L, inputBehaviour=I, maxLength=9, sysNumber=45.0, core=true, businessType=A, t24Name=HOLD.ADDR.COUNTRY)
+        HOLD_TIN_COUNTRY -> ST_Config:COUNTRY
+            @t24:i (align=L, inputBehaviour=I, maxLength=9, sysNumber=46.0, core=true, businessType=A, t24Name=HOLD.TIN.COUNTRY)
+/* The field is used to record the status (account classification) of the owner in ROLE TYPE/HOLDER NAME field. If the system is set for automatic classification, JO.BO.STATUS will also be updated automatically based on the documentation received. The status of the JO/BO can be either:
+US AccountNon US AccountRecalcitrantInactive
+In view of the above, the only values allowed here will be the default statuses defined in FATCA PARAMETER for these classifications.
+Validation rules:
+A valid FATCA TAX STATUS ID (based on FATCA PARAMETER settings) */
+        JO_BO_STATUS -> FA_Config:FATCA_TAX_STATUS
+            @i18n:Label (en="BO/SO Classification")
+            @i18n:Tooltip (en="BO/SO Classification")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=44.0, core=true, businessType=ANY, t24Name=JO.BO.STATUS)
+        LEGAL_ENTITY_TYPE : FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__ROLE_TYPE__LEGAL_ENTITY_TYPE
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=47.0, core=true, t24Name=LEGAL.ENTITY.TYPE)
+        NATIONALITY -> byValue FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__ROLE_TYPE__NATIONALITY *
+            @t24:i (t24Name=NATIONALITY)
+/* The field to specify the percentage ownership for the owner specified above in the account.
+Validation rules:
+A valid percentage */
+        PRCNT_OWNERSHIP : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=42.0, core=true, t24Name=PRCNT.OWNERSHIP)
+/* The field is used to record the residence of Joint, Beneficial or Substantial owner
+Validation rules:
+2 type SSS (uppercase alpha) charactersThe code must be the ID of an existing record in the COUNTRY table. */
+        RESIDENCE -> ST_Config:COUNTRY
+            @i18n:Label (en=Residence)
+            @t24:i (align=L, inputBehaviour=I, maxLength=9, sysNumber=38.0, core=true, businessType=A, t24Name=RESIDENCE)
+        ROLE_TYPE -> byValue FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__ROLE_TYPE__ROLE_TYPE *
+            @t24:i (t24Name=ROLE.TYPE)
+        SUR_NAME -> byValue FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__ROLE_TYPE__SUR_NAME *
+            @t24:i (t24Name=SUR.NAME)
+    }
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__ROLE_TYPE__ADDRESS
+    {
+/* Specifies the address of Joint or Beneficial or Substantial owner.
+Validation rules
+1 -35 type ANY characters */
+        ADDRESS : T24BusinessTypes:SWI
+            @i18n:Label (en=Address)
+            @i18n:Tooltip (en="Define the address")
+            @t24:i (align=L, inputBehaviour=I, maxLength=100, sysNumber=40.0, core=true, t24Name=ADDRESS)
+    }
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__ROLE_TYPE__ALIAS
+    {
+/* The field is used to specify the alias name of the joint, beneficial or substantial owner. The field is part of the associated multi-value set starting with ROLE.TYPE.
+Validation Rules:
+1-35 type A (uppercase alpha or numeric) characters. */
+        ALIAS : T24BusinessTypes:SWI
+            @t24:i (align=L, inputBehaviour=I, maxLength=65, multiLanguage=true, sysNumber=36.0, core=true, t24Name=ALIAS)
+    }
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__ROLE_TYPE__FIRST_NAME
+    {
+/* The field is used to specify the first name of the joint, beneficial or substantial owner. The field is part of the associated multi-value set starting with ROLE.TYPE.
+Validation Rules:
+1-35 type A (uppercase alpha or numeric) characters */
+        FIRST_NAME : T24BusinessTypes:SWI
+            @t24:i (align=L, inputBehaviour=I, maxLength=65, multiLanguage=true, sysNumber=35.0, core=true, t24Name=FIRST.NAME)
+    }
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__ROLE_TYPE__HOLDER_NAME
+    {
+/* The field is used to specify the name of the joint, beneficial or substantial owner. The field is part of the associated multi-value set starting with ROLE.TYPE.
+Validation rules:
+1-35 type A (uppercase alpha or numeric) characters. */
+        HOLDER_NAME : T24BusinessTypes:SWI
+            @i18n:Label (en="Owner Name")
+            @i18n:Tooltip (en="Specify the name of the joint, beneficial or substantial owner")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=33.0, core=true, t24Name=HOLDER.NAME)
+    }
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__ROLE_TYPE__NATIONALITY
+    {
+/* The field is used to record the Nationality of Joint, Beneficial or Substantial owner.
+Validation rules
+2 type SSS (uppercase alpha) charactersThe code must be the ID of an existing record in the COUNTRY table. */
+        NATIONALITY -> ST_Config:COUNTRY
+            @i18n:Label (en=Nationality)
+            @i18n:Tooltip (en="Indicates the nationality")
+            @t24:i (align=L, inputBehaviour=I, maxLength=9, sysNumber=37.0, core=true, businessType=SSS, t24Name=NATIONALITY)
+    }
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__ROLE_TYPE__ROLE_TYPE
+    {
+/* The field is used to specify the role of the person(s) specified in the associated multi-value fields below – Joint in case of individual accounts, beneficial in case of FFI/individual accounts and substantial in case of NFFE accounts. The field is also used to capture the other capacities in which the person below is acting. The due diligence will be required only for joint, beneficial and substantial owners. Based on the documentation, JO BO STATUS will be updated only for these role types.
+Validation rules:
+Accepted values are
+JOINTBENEFICIALSUBSTANTIAL */
+        ROLE_TYPE : FA_CustomerIdentification:FATCA_CUSTOMER_SUPPLEMENTARY_INFO__ROLE_TYPE__ROLE_TYPE__ROLE_TYPE
+            @i18n:Label (en="Role Type")
+            @i18n:Tooltip (en="Role Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=29.0, core=true, t24Name=ROLE.TYPE)
+    }
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__ROLE_TYPE__SUR_NAME
+    {
+/* The field is used to specify the SUR name of the joint, beneficial or substantial owner. The field is part of the associated multi-value set starting with ROLE.TYPE.
+Validations:
+1-35 type A (uppercase alpha or numeric) characters. */
+        SUR_NAME : T24BusinessTypes:SWI
+            @t24:i (align=L, inputBehaviour=I, maxLength=65, multiLanguage=true, sysNumber=34.0, core=true, t24Name=SUR.NAME)
+    }
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__TIN_COUNTRY
+    {
+/* The  field is used to record the Tax Identification number of the customer
+Validation rules
+Free format field 35 characters
+ 
+  */
+        TIN_CODE : T24BusinessTypes:ANY
+            @i18n:Label (en="TIN Code")
+            @i18n:Tooltip (en="TIN Code")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=20.0, core=true, t24Name=TIN.CODE)
+/* The field is used to define the country that the associated Tax Identification Number (TIN) relates to.
+Associated with the field TIN.CODE
+Validation rules
+2 type SSS (uppercase alpha) charactersThe code will be the ID of an existing record in the COUNTRY table.
+  */
+        TIN_COUNTRY -> ST_Config:COUNTRY
+            @i18n:Label (en="TIN Country")
+            @i18n:Tooltip (en="TIN Country")
+            @t24:i (align=L, inputBehaviour=I, maxLength=9, sysNumber=19.0, core=true, businessType=SSS, t24Name=TIN.COUNTRY)
+    }
+/* Live file used to record the FATCA status information with effective dates for each FATCA customer accounts.
+It will be updated during authorization of FATCA.CUSTOMER.SUPPLEMENTARY.INFO record created. And the information will be deleted if the FATCA.CUSTOMER.SUPPLEMENTARY.INFO record is reversed */
+    FATCA_FCSI_AMENDMENTS
+        @i18n:Description (en="")
+        @t24:i (t24Name=FATCA.FCSI.AMENDMENTS, level=C, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* The customer id of the client for whom the FATCA.CUSTOMER.SUPPLEMENTARY.INFO is created.
+Validation rules
+NOINPUT field */
+        CUSTOMER_NO -> FA_CustomerIdentification:FATCA_FCSI_AMENDMENTS PK required
+            @i18n:Label (en="Customer No")
+            @i18n:Tooltip (en="Identifies the Customer for the transaction.")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=CUSTOMER.NO)
+        EFFECTIVE_DATE -> byValue FA_CustomerIdentification:FATCA_FCSI_AMENDMENTS__EFFECTIVE_DATE *
+            @t24:i (t24Name=EFFECTIVE.DATE)
+    }
+    FATCA_FCSI_AMENDMENTS__EFFECTIVE_DATE
+    {
+/* The date on which the the FATCA.STATUS is updated.
+Forms part of a multi value set with FATCA.STATUS and FCSI.CURR.NO
+Validation rules
+NOINPUT field */
+        EFFECTIVE_DATE : T24BusinessTypes:D required
+            @i18n:Label (en="Effective Date")
+            @i18n:Tooltip (en="Effective date of the transaction")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=1.0, core=true, t24Name=EFFECTIVE.DATE)
+/* This will hold the FATCA.STATUS updated in the FATCA.CUSTOMER.SUPPLEMENTARY.INFO record. If this has not been specified in the FATCA.CUSTOMER.SUPPLEMENTARY.INFO record then this field will be blank.
+Validation rules
+NOINPUT field */
+        FATCA_STATUS : T24BusinessTypes:ANY
+            @i18n:Label (en="Account Classification")
+            @i18n:Tooltip (en="Account Classification")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=2.0, core=true, t24Name=FATCA.STATUS)
+/* The CURR.NO value of the FATCA.CUSTOMER.SUPPLEMENTARY.INFO record in which the status was updated.
+Validation rules
+NOINPUT field */
+        FCSI_CURR_NO : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=3.0, core=true, t24Name=FCSI.CURR.NO)
+    }
+    /* This is a live table updated by the system. The id to the record is the customer number of thejoint/beneficial owner from the FATCA.CUSTOMER.SUPPLEMENTARY.INFO. */
+    FATCA_ROLE_CUSTOMER
+        @i18n:Description (en="")
+        @t24:i (t24Name=FATCA.ROLE.CUSTOMER, level=C, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* The id to the FATCA.ROLE.CUSTOMER record is the Customer number of the joint holder.
+Validation rules
+Must be a valid customer from the Customer application. */
+        CUSTOMER_NO -> FA_CustomerIdentification:FATCA_ROLE_CUSTOMER PK required
+            @i18n:Label (en="Customer No")
+            @i18n:Tooltip (en="Identifies the Customer for the transaction.")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=0.0, core=true, businessType=CUS, t24Name=CUSTOMER.NO)
+        CUS_SUP_INFO_ID -> byValue FA_CustomerIdentification:FATCA_ROLE_CUSTOMER__CUS_SUP_INFO_ID *
+            @t24:i (t24Name=CUS.SUP.INFO.ID)
+    }
+    FATCA_ROLE_CUSTOMER__CUS_SUP_INFO_ID
+    {
+        CUS_SUP_INFO_ID : T24BusinessTypes:ANY required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=1.0, core=true, t24Name=CUS.SUP.INFO.ID)
+    }
+/* The rule based automatic status classification will be based on the conditions defined in this table.
+The account classification logic within T24 will be rule based, so that if there are any modifications (new documentation requirements, addition of new classifications, etc.), these can be easily handled by changing the rules set. 
+The FATCA.STATUS in FATCA.CUSTOMER.SUPPLEMENTARY.INFO will be updated based on the conditions defined here, when AUTO.UPDATE is set as “YES” in FATCA.PARAMETER */
+    FATCA_STATUS_CONDITION
+        @i18n:Description (en="")
+        @t24:i (t24Name=FATCA.STATUS.CONDITION, level=C, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=24.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=25.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=21.0, core=true, t24Name=AUTHORISER)
+/* If this field is set to “YES”, then the owner status will also be considered in evaluating the account classification. Owners with role type JOINT / BENEFICIAL / SUBSTANTIAL will only be considered for evaluation.
+If the field is blank then it will not be considered for status classification.
+Validation rules
+Allowed value is “YES” */
+        CHECK_JO_BO_STATUS : FA_CustomerIdentification:FATCA_STATUS_CONDITION__CHECK_JO_BO_STATUS
+            @i18n:Label (en="Check Jo/Bo Status")
+            @i18n:Tooltip (en="Check Jo/Bo Status")
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=9.0, core=true, t24Name=CHECK.JO.BO.STATUS)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=22.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=18.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue FA_CustomerIdentification:FATCA_STATUS_CONDITION__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DECISION_FIELD -> byValue FA_CustomerIdentification:FATCA_STATUS_CONDITION__DECISION_FIELD *
+            @t24:i (t24Name=DECISION.FIELD)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=23.0, core=true, t24Name=DEPT.CODE)
+/* If the client choice (entity self-classification) also has to be checked for arriving at the account classification, the self-classification pertaining to this account classification has to be defined here. The condition match will happen only when the value specified here is same as the value specified in ENTITY.STATUS field of FATCA.CUSTOMER.SUPPLEMENTARY.INFO
+Validation rules
+A valid FATCA TAX STATUS ID */
+        ENTITY_STATUS -> FA_Config:FATCA_TAX_STATUS
+            @i18n:Label (en="Entity Status")
+            @i18n:Tooltip (en="Entity Status")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=8.0, core=true, businessType=ANY, t24Name=ENTITY.STATUS)
+/* The field is used to indicate whether the conditions above are applicable only to new clients or existing clients or both.
+This will be determined by referring to the CUSTOMER SINCE field in CUSTOMER. If the date is on or after 1st July 2013, the relationship will be considered new else (even if the field is blank), the relationship will be considered existing. If the condition, for example, is specified only for New, the conditions specified here will not apply for Existing accounts.
+When this field value is not updated, it will be considered as “BOTH”, it will be applicable to both New and Existing accounts.
+Validation Rules:
+NEW or EXISTING or BOTH */
+        EXISTING_NEW : FA_CustomerIdentification:FATCA_STATUS_CONDITION__EXISTING_NEW
+            @i18n:Label (en=Existing/New)
+            @i18n:Tooltip (en="Indicates to whom the condition is applicable")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=6.0, core=true, t24Name=EXISTING.NEW)
+/* If the FATCA.STATUS has to be automatically updated for clients with no indicia (say, NON.US.NO.INDICIA), then this field will have to be set as ‘NULL’ and only the clients with no indicia (identified based on INDICIA STRENGTH in FATCA.CUSTOMER.SUPPLEMENTARY.INFO) will be considered as complying with the condition.
+This can be set only in conjunction with any of the documents in DECISION.FIELD and DECISION.VALUE above.
+Validation Rules:
+NULL is the only allowed value for this field. */
+        INDICIA : FA_CustomerIdentification:FATCA_STATUS_CONDITION__INDICIA
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=12.0, core=true, t24Name=INDICIA)
+        INPUTTER -> byValue FA_CustomerIdentification:FATCA_STATUS_CONDITION__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* This field accepts one of the values defined in DEFLT.US.STATUS, DEFLT.NONUS.STATUS fields in FATCA.PARAMETER.
+If the JO.BO.STATUS value is defined with a value specified in DEFLT.US.STATUS field of FATCA.PARAMETER, then the account with even one US Joint or beneficial or Substantial owner will be considered as US account.
+If the JO.BO.STATUS value is defined with a value specified in DEFLT.NONUS.STATUS field of FATCA.PARAMETER, then the account with all non-us owners (Joint or beneficial or Substantial owner) will be considered as Non-US account.
+Validation Rules:
+Mandatory when CHECK.JO.BO.STATUS is set as “YES”Must be a valid value from the FATCA.TAX.STATUS application. */
+        JO_BO_STATUS -> FA_Config:FATCA_TAX_STATUS
+            @i18n:Label (en="Jo/Bo Status")
+            @i18n:Tooltip (en="Jo/Bo Status")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=10.0, core=true, businessType=ANY, t24Name=JO.BO.STATUS)
+/* If this field is set to YES, only clients with KYC checks completed (KYC CHECK field in FATCA CUSTOMER record set to YES), will be considered to have complied with this rule. If this field is left blank, then the value of KYC check field will not be considered for status classification.
+Validation rules
+The allowed values are YES or NO */
+        KYC_CHECK : FA_CustomerIdentification:FATCA_STATUS_CONDITION__KYC_CHECK
+            @i18n:Label (en="KYC Check")
+            @i18n:Tooltip (en="KYC Check")
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=7.0, core=true, t24Name=KYC.CHECK)
+/* The Narrative to be updated in the Status Narrative field in FATCA.CUSTOMER.SUPPLEMENTARY.INFO along with the Account classification
+Validation rules
+1-35 ANY characters */
+        NARRATIVE : T24BusinessTypes:ANY
+            @i18n:Label (en=Narrative)
+            @i18n:Tooltip (en="Any narrative to be input for user information")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=11.0, core=true, t24Name=NARRATIVE)
+        OVERRIDE -> byValue FA_CustomerIdentification:FATCA_STATUS_CONDITION__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=17.0, core=true, t24Name=RECORD.STATUS)
+        /* This field is reserved for future use. */
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=RESERVED.1)
+        /* This field is reserved for future use. */
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED.2)
+/* Specifies a valid FATCA.TAX.STATUS id.
+Validation Rules:
+Must be a valid value from the FATCA.TAX.STATUS application */
+        STATUS_COND_ID -> FA_CustomerIdentification:FATCA_STATUS_CONDITION PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=ANY, t24Name=STATUS.COND.ID)
+    }
+    FATCA_STATUS_CONDITION__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=20.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    FATCA_STATUS_CONDITION__DECISION_FIELD
+    {
+/* The field links the DECISION.FIELD to DECISION.VALUE.
+The operand governing whether the value given below fits in with the above condition
+Validation Rules:
+EQ or NE */
+        DECISION : FA_CustomerIdentification:FATCA_STATUS_CONDITION__DECISION_FIELD__DECISION
+            @i18n:Label (en=Decision)
+            @i18n:Tooltip (en="Indicates the type of function to perform")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=2.0, core=true, t24Name=DECISION)
+/* This is a valid field from FATCA CUSTOMER SUPPLEMENTARY INFO based on which the rule is defined. As of now, the only field allowed is FORM TYPE.
+Validation rules
+The only allowed input is FORM TYPE */
+        DECISION_FIELD : FA_CustomerIdentification:FATCA_STATUS_CONDITION__DECISION_FIELD__DECISION_FIELD
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=1.0, core=true, t24Name=DECISION.FIELD)
+/* A valid value for the field specified in DECISION.FIELD. Since only FORM TYPE is allowed as of now, the field will hold the valid document type (FATCA.FORM.TYPE).
+Validation rules
+A valid FATCA.FORM.TYPE */
+        DECISION_VALUE -> FA_Config:FATCA_FORM_TYPE
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=3.0, core=true, businessType=ANY, t24Name=DECISION.VALUE)
+/* Level will be used to group the conditions and evaluate based on the condition level.
+When no value is specified it will be considered as previous conditions level value.
+An example is provided below:
+To be considered a non-US account, the client has to provide W-8BEN or FGN.PASSPORT. In this case, the Level field will be blank.If the requirement is to provide (W-8BEN-E and FIN.REPORT) or (OWNER.CONFIRMATION), then W-8BEN-E and FIN.REPORT can be set as LEVEL 1 (to be evaluated together) and OWNER CONFIRMATION as LEVEL 2 (this will be evaluated after Level 1 has been evaluated and no match has been found).
+Validation rules
+Numeric inputMust be defined in ascending order. */
+        LEVEL : T24BusinessTypes:N
+            @i18n:Label (en=Level)
+            @t24:i (align=R, inputBehaviour=I, maxLength=2, sysNumber=4.0, core=true, t24Name=LEVEL)
+/* The fields from Decision Field to Operand are associated multi-value fields. If there are more than one set of values, the Operand will determine whether both these conditions will have to be satisfied or if it is sufficient even if one of the conditions is met.
+Validation Rules:
+Mandatory when multiple conditions are specified. Not required for the last condition defined.AND or OR */
+        OPERAND : FA_CustomerIdentification:FATCA_STATUS_CONDITION__DECISION_FIELD__OPERAND
+            @i18n:Label (en=Operand)
+            @i18n:Tooltip (en="The Operand to use eg EQ,GT,LT etc")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=5.0, core=true, t24Name=OPERAND)
+    }
+    FATCA_STATUS_CONDITION__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=19.0, core=true, t24Name=INPUTTER)
+    }
+    FATCA_STATUS_CONDITION__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:A
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=OVERRIDE)
+    }
+/* OVERVIEW
+The FATCA.W9.EXEMPTION.CODES table is used to record the different Exemption Codes which are to be exempted from fatca reporting.An Exemption Code can be used in FATCA CUSTOMER SUPPLEMENTARY INFO only after a record is created here for the classification.
+Exemption from FATCA reporting, code with values from A-M. This is only applicable to Legal Entity / Corporate clients */
+    FATCA_W9_EXEMPTION_CODES
+        @i18n:Description (en="")
+        @t24:i (t24Name=FATCA.W9.EXEMPTION.CODES, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=16.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=17.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=13.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=14.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=10.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue FA_CustomerIdentification:FATCA_W9_EXEMPTION_CODES__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=15.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue FA_CustomerIdentification:FATCA_W9_EXEMPTION_CODES__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        FATCA_EXEMPT_CODE -> FA_CustomerIdentification:FATCA_W9_EXEMPTION_CODES PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=0.0, core=true, businessType=ANY, t24Name=FATCA.EXEMPT.CODE)
+        INPUTTER -> byValue FA_CustomerIdentification:FATCA_W9_EXEMPTION_CODES__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        OTHER_INFO -> byValue FA_CustomerIdentification:FATCA_W9_EXEMPTION_CODES__OTHER_INFO *
+            @t24:i (t24Name=OTHER.INFO)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=9.0, core=true, t24Name=RECORD.STATUS)
+        /* This field is reserved for future use. */
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=7.0, core=true, t24Name=RESERVED.1)
+        /* This field is reserved for future use. */
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=6.0, core=true, t24Name=RESERVED.2)
+        /* This field is reserved for future use. */
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=5.0, core=true, t24Name=RESERVED.3)
+        /* This field is reserved for future use. */
+        RESERVED_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=4.0, core=true, t24Name=RESERVED.4)
+        /* This field is reserved for future use. */
+        RESERVED_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=3.0, core=true, t24Name=RESERVED.5)
+    }
+    FATCA_W9_EXEMPTION_CODES__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=12.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    FATCA_W9_EXEMPTION_CODES__DESCRIPTION
+    {
+/* This field contains a description of the Exemption Codes.
+Validation Rules
+1-50 ANY characters */
+        DESCRIPTION : T24BusinessTypes:ANY required
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    FATCA_W9_EXEMPTION_CODES__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=11.0, core=true, t24Name=INPUTTER)
+    }
+    FATCA_W9_EXEMPTION_CODES__OTHER_INFO
+    {
+/* This field contains additional information about the Exemption Codes if any.
+Validation Rules
+upto 50 ANY characters */
+        OTHER_INFO : T24BusinessTypes:ANY
+            @i18n:Label (en=Notes)
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=2.0, core=true, t24Name=OTHER.INFO)
+    }
+    FA_CUSTOMER_RELATIONSHIP_WORK
+        @i18n:Description (en="")
+        @t24:i (t24Name=FA.CUSTOMER.RELATIONSHIP.WORK, level=C, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        CUST_REL_ID -> byValue FA_CustomerIdentification:FA_CUSTOMER_RELATIONSHIP_WORK__CUST_REL_ID *
+            @t24:i (t24Name=CUST.REL.ID)
+        ID -> FA_CustomerIdentification:FA_CUSTOMER_RELATIONSHIP_WORK PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name="@ID")
+    }
+    FA_CUSTOMER_RELATIONSHIP_WORK__CUST_REL_ID
+    {
+        CUST_REL_ID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, t24Name=CUST.REL.ID)
+    }
+    FA_TAX_STATUS_NO_CONCAT
+        @i18n:Description (en="")
+        @t24:i (t24Name=FA.TAX.STATUS.NO.CONCAT, level=C, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        ID -> FA_CustomerIdentification:FA_TAX_STATUS_NO_CONCAT PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name="@ID")
+        TAX_STATUS_ID -> byValue FA_CustomerIdentification:FA_TAX_STATUS_NO_CONCAT__TAX_STATUS_ID *
+            @t24:i (t24Name=TAX.STATUS.ID)
+    }
+    FA_TAX_STATUS_NO_CONCAT__TAX_STATUS_ID
+    {
+        TAX_STATUS_ID -> FA_Config:FATCA_TAX_STATUS
+            @i18n:Label (en="Tax Status Id")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, businessType=A, t24Name=TAX.STATUS.ID)
+    }
+}
+Enumerations {
+    FATCA_CONDITION_CHANGE__STATUS_ID__FUNCTION : mml:string
+        ADD=ADD
+        CHG=CHG
+        DEL=DEL
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__ACCT_INSTN_FROM : mml:string
+        NO=NO
+        YES=YES
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__ADDR_TYPE__ADDR_TYPE : mml:string
+        HOLD_MAIL=HOLD.MAIL
+        INCARE=INCARE
+        MAIL=MAIL
+        PERMANENT=PERMANENT
+        PO_BOX=PO.BOX
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__BEN_SUBS_OWNER : mml:string
+        NO=NO
+        YES=YES
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__CHANGE_PENDING_DOC : mml:string
+        NULL=NULL
+        YES=YES
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__CLIENT_TYPE : mml:string
+        ACTIVE_NFFE=ACTIVE.NFFE
+        FFI=FFI
+        HIGH_VALUE_ACCOUNT=HIGH.VALUE.ACCOUNT
+        INDIVIDUAL=INDIVIDUAL
+        LEGAL_ENTITY=LEGAL.ENTITY
+        LOW_VALUE_FFI=LOW.VALUE.FFI
+        NFFE=NFFE
+        NON_PROFIT_ORG=NON.PROFIT.ORG
+        NON_REG_LOCAL_BANK=NON.REG.LOCAL.BANK
+        OWNER_DOC_FFI=OWNER.DOC.FFI
+        PASSIVE_NFFE=PASSIVE.NFFE
+        PRIVATE=PRIVATE
+        RETAIL=RETAIL
+        RETIREMENT_FUND=RETIREMENT.FUND
+        SMALL_ACCOUNT=SMALL.ACCOUNT
+        SMALL_ENTITY=SMALL.ENTITY
+        TRADED_NFFE=TRADED.NFFE
+        USFI=USFI
+        US_CORP=US.CORP
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__DORMANT_NO_CONTACT : mml:string
+        NO=NO
+        YES=YES
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__INDICIA_STRENGTH : mml:string
+        MEDIUM=MEDIUM
+        STRONG=STRONG
+        WEAK=WEAK
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__KYC_CHECK : mml:string
+        NO=NO
+        YES=YES
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__POA_HOLDER_COUNTRY : mml:string
+        NO=NO
+        YES=YES
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__POTENTIAL_US : mml:string
+        NULL=NULL
+        YES=YES
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__PROVEN_NONUS : mml:string
+        NULL=NULL
+        YES=YES
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__PROVEN_US : mml:string
+        NULL=NULL
+        YES=YES
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__ROLE_TYPE__LEGAL_ENTITY_TYPE : mml:string
+        CONT=CONT
+        ORGA=ORGA
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__ROLE_TYPE__ROLE_TYPE__ROLE_TYPE : mml:string
+        ACCOUNT_HOLDER=ACCOUNT.HOLDER
+        AUTHORIZED_SIGNER=AUTHORIZED.SIGNER
+        BENEFICIAL=BENEFICIAL
+        BO_COMPANY=BO.COMPANY
+        CORPORATE_DIRECTOR=CORPORATE.DIRECTOR
+        GENERAL_POA=GENERAL.POA
+        INTERIM_BO=INTERIM.BO
+        JOINT=JOINT
+        LIMITED_POA=LIMITED.POA
+        SUBSTANTIAL=SUBSTANTIAL
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__STND_INSTRUCTION : mml:string
+        NO=NO
+        YES=YES
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__TELEPHONE_NUMBER : mml:string
+        NO=NO
+        YES=YES
+    FATCA_CUSTOMER_SUPPLEMENTARY_INFO__US_PLACE_OF_BIRTH : mml:string
+        NO=NO
+        YES=YES
+    FATCA_STATUS_CONDITION__CHECK_JO_BO_STATUS : mml:string
+        NULL=NULL
+        YES=YES
+    FATCA_STATUS_CONDITION__DECISION_FIELD__DECISION : mml:string
+        EQ=EQ
+        NE=NE
+    FATCA_STATUS_CONDITION__DECISION_FIELD__DECISION_FIELD : mml:string
+        FORM_TYPE=FORM.TYPE
+    FATCA_STATUS_CONDITION__DECISION_FIELD__OPERAND : mml:string
+        AND=AND
+        OR=OR
+    FATCA_STATUS_CONDITION__EXISTING_NEW : mml:string
+        BOTH=BOTH
+        EXISTING=EXISTING
+        NEW=NEW
+    FATCA_STATUS_CONDITION__INDICIA : mml:string
+        NULL=NULL
+    FATCA_STATUS_CONDITION__KYC_CHECK : mml:string
+        NO=NO
+        YES=YES
+}

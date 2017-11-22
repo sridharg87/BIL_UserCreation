@@ -1,0 +1,372 @@
+# UTF-8
+/* Fee Calculation for Securities Trade */
+Domain SC_SctFees
+    @t24:i (module=SC)
+    @java:Package (value=com.temenos.t24.datamodel.sc.sc_sctfees)
+namespace "http://www.temenos.com/t24/SC_SctFees"
+metamodelVersion 1.30.6
+Classes {
+/* Used for information purposes only to illustrate precisely how much business, in the form of commission earned is being passed on to individual brokers.
+It has the additional facility of being able to record those commissions in the actual currency of trade.
+There is also a multi value field which allows the user to store various levels of commission earned at which related discounts should be paid. Once a retrocession has been received the running total can be adjusted by a simple input to either a 0.00 position or a lower amount accordingly.
+It must be pointed out however that this application does not pass any financial entries.  Any money received from brokers as a result of this must utilise the DATA.CAPTURE facility. */
+    BROKER_COMM_EARNT
+        @i18n:Description (en="")
+        @t24:i (t24Name=BROKER.COMM.EARNT, level=F, type=H, additionalInfo="UNP OEU", allowedFunctions="A C D E H I L P Q R S", localRefAllowed=false)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=14.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=15.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=11.0, core=true, t24Name=AUTHORISER)
+/* Identifies the Broker.
+Validation Rules:
+1-10 numeric character customer id             or 3-10 type MNE (uppercase alpha or numeric or ".") character mnemonic customer id.  (Mandatory input).
+Must be a valid customer for whom the CUSTOMER.SECURITY file record (CUSTOMER.TYPE) equals "BROKER". */
+        BROKER_NO -> SC_SctFees:BROKER_COMM_EARNT PK required
+            @i18n:Label (en="Broker No")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=0.0, core=true, businessType=CUS, t24Name=BROKER.NO)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=12.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=8.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue SC_SctFees:BROKER_COMM_EARNT__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=13.0, core=true, t24Name=DEPT.CODE)
+        INPUTTER -> byValue SC_SctFees:BROKER_COMM_EARNT__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=7.0, core=true, t24Name=RECORD.STATUS)
+        TRADE_CCY -> byValue SC_SctFees:BROKER_COMM_EARNT__TRADE_CCY *
+            @t24:i (t24Name=TRADE.CCY)
+    }
+    BROKER_COMM_EARNT__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=10.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    BROKER_COMM_EARNT__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=9.0, core=true, t24Name=INPUTTER)
+    }
+    BROKER_COMM_EARNT__TRADE_CCY
+    {
+        AMOUNT -> byValue SC_SctFees:BROKER_COMM_EARNT__TRADE_CCY__AMOUNT *
+            @t24:i (t24Name=AMOUNT)
+/* An indicator to the user that any commission earned by the broker is of a 'Net' nature, i.e. no retrocession will be repaid.
+Validation Rules:
+(Y)es or (N)o allowed only. (Mandatory input) */
+        NET_ONLY : SC_SctFees:BROKER_COMM_EARNT__TRADE_CCY__NET_ONLY required
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=4.0, core=true, t24Name=NET.ONLY)
+/* Automatically updated with the brokerage charged by a broker in the currency as specified in TRADE.CCY.
+Whenever a retrocession is received from a broker based on the nominal amounts stored within the AMOUNT and the percentage stored in the PERC.DISC this field should be reset to "0.00".
+Validation Rules:
+1-14 numeric characters (plus up to 3 decimal places dependant on TRADE.CCY entered).  (Multivalue field). */
+        RUNNING_TOTAL : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=6.0, core=true, t24Name=RUNNING.TOTAL, typeModifiers="1.XD")
+/* Date from which any accrued commissions relate.  Each time the running total is cleared the date should be reset to illustrate the new period.
+Each date corresponds to the previous TRADE.CCY.
+Validation Rules:
+Standard Date format (type D). (Multivalue field) (Mandatory input) */
+        TOT_START_DATE : T24BusinessTypes:D required
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=5.0, core=true, t24Name=TOT.START.DATE)
+/* Specifies the currency in which the trade is settled (i.e. the broker currency).
+This is a multi value field so that any number of currencies may be entered.
+Validation Rules:
+3 characters (uppercase alpha) - type SSS         or 1-3 numeric characters. (Multivalue field). (Mandatory input).
+Must exist as a valid code on the CURRENCY table. */
+        TRADE_CCY -> ST_CurrencyConfig:CURRENCY required
+            @i18n:Label (en="Trade Currency")
+            @i18n:Tooltip (en="Identifies the currency of the transaction")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, businessType=CCY, t24Name=TRADE.CCY)
+    }
+    BROKER_COMM_EARNT__TRADE_CCY__AMOUNT
+    {
+/* Defines a predetermined brokerage amount at which a discount (retrocession) should be received.  Multivalue for different amounts and related percentages.
+Validation Rules:
+1-14 numeric characters (Plus up to 3 decimal places dependant on the TRADE.CCY entered).  Multivalue field with subvalue.  (Optional input). */
+        AMOUNT : T24BusinessTypes:AMT
+            @i18n:Label (en=Amount)
+            @i18n:Tooltip (en="Indicates the Amount")
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=2.0, core=true, t24Name=AMOUNT, typeModifiers="1.XD")
+/* Specifies the percentage discount payable on the AMOUNT as stored in the related field.
+Validation Rules:
+Up to 5 numeric characters.  Multivalue field with subvalue.  (Optional input) */
+        PERC_DISC : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=5, sysNumber=3.0, core=true, t24Name=PERC.DISC)
+    }
+/* SCTR.CHARGE.PARAMETER
+SECURITIES TRADING CHARGE PARAMETERS
+The purpose of this table is to define the rules for deriving the base amount to be used when calculation charges and commissions.
+Different rules may be required for different types of security and therefore these must be grouped into types for commission purposes.
+For maximum flexibility the IDs to this file represent different levels of classification or type:-
+Classification/Type           ID Format            Example DEFAULT                                                     "ALL"ALL ASSET.TYPE                                         A-N to A-NNNA-20 SUB.ASSET.TYPE                          S-N to S-NNNNS-300 SECURITY NUMBER                       NNNNNN-NNN123456- 000
+Each record will then define a rule which is used to calculate the base amount for use in the calculation of commission for that security type.
+The user is required to enter a base code which defines a method of calculation along with a percentage which is to be applied to the value calculated for the specific base code.  Valid base codes are:-                               NOMINAL   The nominal quantity/value of shares                        held.              VALUE     The market value of shares held.
+The "HIGHEST.LOWEST" field will determine which of the base code values will be taken.
+i.e. if the "HIGHEST" is entered then all the defined combinations of values and percentages will be taken and the highest resultant value will then be used for commission calculations.
+Example:
+ID     Type                        All       Default
+2.1    BASE.CODE      NOMINAL             Nominal value of shares 3.1    PERCENTAGE      75 2.2    BASE.CODE      VALUE                   Market value of shares 3.2    PERCENTAGE        90 4      HIGHEST.LOWEST    LOWEST
+In this example 75 percent of the average nominal and 90 percent of the average market value are calculated and the "lower" of these values (base amount) will be used to calculate the commissions. */
+    SCTR_CHARGE_PARAMETER
+        @i18n:Description (en="")
+        @t24:i (t24Name=SCTR.CHARGE.PARAMETER, level=C, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=false)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=13.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=14.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=10.0, core=true, t24Name=AUTHORISER)
+        BASE_CODE -> byValue SC_SctFees:SCTR_CHARGE_PARAMETER__BASE_CODE *
+            @t24:i (t24Name=BASE.CODE)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=11.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=7.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue SC_SctFees:SCTR_CHARGE_PARAMETER__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=12.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue SC_SctFees:SCTR_CHARGE_PARAMETER__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+/* Defines the level of calculation.
+If both base codes are entered (NOMINAL and VALUE) then the user must enter "HIGHEST" or "LOWEST".
+When an amount has been calculated for each of the base codes then the management fee amount will be calculated using one of these amounts based on the HIGHEST/LOWEST flag.
+Validation Rules:
+Input is optional unless more than the base code is entered. */
+        HIGHEST_LOWEST : SC_SctFees:SCTR_CHARGE_PARAMETER__HIGHEST_LOWEST
+            @i18n:Label (en="Highest Lowest")
+            @i18n:Tooltip (en="Defines the level of calculation")
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=4.0, core=true, t24Name=HIGHEST.LOWEST)
+        INPUTTER -> byValue SC_SctFees:SCTR_CHARGE_PARAMETER__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* Identifies the trading charge parameter code.
+The parameter codes is referred by the group condition file.  this will either be a valid security code, an asset type prefixed with a "A-", a sub asset type prefixed with a "S-" or "ALL" for all other security types.
+Validation Rules:
+Input is Mandatory Upto 10 characters (alphanumeric) */
+        PARAM_CODE -> SC_SctFees:SCTR_CHARGE_PARAMETER PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=12, sysNumber=0.0, core=true, businessType=A, t24Name=PARAM.CODE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=6.0, core=true, t24Name=RECORD.STATUS)
+        /* Reserved for future expansion. */
+        RESERVE_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=7, sysNumber=5.0, core=true, t24Name=RESERVE.1)
+    }
+    SCTR_CHARGE_PARAMETER__BASE_CODE
+    {
+/* Identifies the base to be used for calculating the basis amount.
+When calculating the basis amount for trading              charges if "VALUE" is entered here then basis              amount will be calculated based on the current              market price and/or "NOMINAL" is entered a basis              amount will be calculated based on the current              Nominal Value.
+Validation Rules:
+Input is Mandatory Valid input is "VALUE" or "NOMINAL" */
+        BASE_CODE : SC_SctFees:SCTR_CHARGE_PARAMETER__BASE_CODE__BASE_CODE required
+            @i18n:Label (en="Base Code")
+            @i18n:Tooltip (en="Base to be used for calculating the basis amount")
+            @t24:i (align=L, inputBehaviour=I, maxLength=12, sysNumber=2.0, core=true, t24Name=BASE.CODE)
+/* Percentage applied to either "Nominal" or "Value".
+A percentage of either the nominal value and/or the market value will be calculated for the base amount.
+Each of these percentages is associated to the base code entered.
+Validation Rules:
+Input is Mandatory Must be numeric and positive. */
+        PERCENTAGE : T24BusinessTypes:R required
+            @i18n:Label (en="% Change")
+            @t24:i (align=R, inputBehaviour=I, maxLength=7, sysNumber=3.0, core=true, t24Name=PERCENTAGE)
+    }
+    SCTR_CHARGE_PARAMETER__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=9.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    SCTR_CHARGE_PARAMETER__DESCRIPTION
+    {
+/* Defines the description of the parameter code.
+This field will be used for enrichment purposes by other screen inputs to identify the charge parameter code.
+Validation Rules:
+Input is Mandatory upto 35 alphanumeric characters. */
+        DESCRIPTION : T24BusinessTypes:A required
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    SCTR_CHARGE_PARAMETER__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=8.0, core=true, t24Name=INPUTTER)
+    }
+/* This module defines the specific charge details for each customer group.
+ID format for the group condition can be "NNN" ,"C-NNNNNN" or "P-NNNNNN-N" where NNNNNN is the customer ID and NNNNNN-N denotes the portfolio ID
+On authorization of the customer level record, the ID (C-NNNNNN) will update the ACTUAL.GROUP in CUSTOMER.CHARGE to be used as the default condition for the charge type.
+If a Portfolio level record exists, the ACTUAL.GROUP (for the portfolio) in CUSTOMER.CHARGE, for the charge type, will be updated with the portfolio record ID.
+The following data will be recorded on this file.
+Trading Activity-   Trading modules such as: SEC.TRADE and                     SECURITY.TRANSFER, (multivalued).
+Security Type       -         Sub-valued which must exist on                               the Trading charge parameters                               associated to the trading                               activity.
+Charge/ Commission Code -   Valid FT.COMMISSION.TYPE code for each                     security type.
+Percentage      -   Percentages applied to the charge calculated                     for each commission type.
+Admin Activity  -   Admin modules such as; DIV.COUP.CUS,                     REDEMPTION.CUS and STOCK.DIV.CUS                     (multivalued).
+Admin Percentage-   Percentage applied to the charge calculated                     for each admin activity.
+Depending on the Trading activity, charges are calculated for the security type required and the percentage applied to give the portfolio commission amount for the security on the transaction. */
+    SCTR_GROUP_CONDITION
+        @i18n:Description (en="")
+        @t24:i (t24Name=SCTR.GROUP.CONDITION, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=false)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=15.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=16.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=12.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=13.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=9.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue SC_SctFees:SCTR_GROUP_CONDITION__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=14.0, core=true, t24Name=DEPT.CODE)
+        INPUTTER -> byValue SC_SctFees:SCTR_GROUP_CONDITION__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        K_PERCENTAGE -> byValue SC_SctFees:SCTR_GROUP_CONDITION__K_PERCENTAGE *
+            @t24:i (t24Name=K.PERCENTAGE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=8.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=5, sysNumber=7.0, core=true, t24Name=RESERVED)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=20, sysNumber=6.0, core=true, t24Name=RESERVED.2)
+/* Identifies the group of customers for Securities Trading
+If the input is numeric it must be previously defined on the Securities Trading General Condition record and enriched with its description.
+If the input is for a specific customer then this is enriched with the short name of the customer.
+Validation Rules:
+Mandatory Input. Three numeric characters formatted with leading zeros or a valid customer number prefixed with "C-". */
+        SCTR_GROUP_NO -> SC_SctFees:SCTR_GROUP_CONDITION PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=0.0, core=true, businessType=A, t24Name=SCTR.GROUP.NO)
+        TRADE_ACTIVITY -> byValue SC_SctFees:SCTR_GROUP_CONDITION__TRADE_ACTIVITY *
+            @t24:i (t24Name=TRADE.ACTIVITY)
+    }
+    SCTR_GROUP_CONDITION__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=11.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    SCTR_GROUP_CONDITION__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=10.0, core=true, t24Name=INPUTTER)
+    }
+    SCTR_GROUP_CONDITION__K_PERCENTAGE
+    {
+        /* Field not in use. */
+        K_PERCENTAGE : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=N, maxLength=7, sysNumber=4.0, core=false, t24Name=K.PERCENTAGE)
+    }
+    SCTR_GROUP_CONDITION__TRADE_ACTIVITY
+    {
+        SEC_TYPE -> byValue SC_SctFees:SCTR_GROUP_CONDITION__TRADE_ACTIVITY__SEC_TYPE *
+            @t24:i (t24Name=SEC.TYPE)
+/* Identifies the trading module for calculating charges.
+This is a multi-valued field which holds the trading activities for calculating commissions and charges.
+Validation Rules:
+Input of ALL is Mandatory
+Any input must either exist on the DIARY.TYPE application or be one of the following applications; SEC.TRADE  MF.TRADE  LIQD.TRADE SECURITY.TRANSFER OPTION.TAKEUP DIV.COUP.CUS STOCK.DIV.CUS REDEMPTION.CUS  Input of ALL is also allowed. Note; The applications SECURITY.TRANSFER , SEC.TRADE and MF.TRADE can have a valid SC.TRANS.NAME used as a suffix. e.g. SEC.TRADE-SPR, MF.TRADE-BUY */
+        TRADE_ACTIVITY : T24BusinessTypes:A required
+            @i18n:Label (en="Trade Activity")
+            @i18n:Tooltip (en="Trade Activity")
+            @t24:i (align=L, inputBehaviour=I, maxLength=21, sysNumber=1.0, core=true, t24Name=TRADE.ACTIVITY)
+    }
+    SCTR_GROUP_CONDITION__TRADE_ACTIVITY__SEC_TYPE
+    {
+/* Identifies the commission code on the FT.COMMISSION.TYPE table.
+This commission code will be used to calculate the commission amount for the security type within the trade activity.
+Validation Rules:
+Input is Mandatory of upto 11 characters. */
+        CHG_COMM_CD -> ST_ChargeConfig:FT_COMMISSION_TYPE required
+            @i18n:Label (en="Charge Comm Code")
+            @i18n:Tooltip (en="Charge Commission Code")
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=3.0, core=true, businessType=A, t24Name=CHG.COMM.CD)
+/* Customer discount percentage. This is the percentage discount to be taken for SEC.TRADE transactions for customers linked to this SCTR.GROUP.CONDITION record. It will automatically feed through to the CU.DISC.PCENT field on any SEC.TRADE transaction. At present this field is only used by the SEC.TRADE and MF.TRADE applications and therefore input will not be allowed for other specific applications.
+Validation Rules:
+Mandatory input if the associated TRADE.ACTIVITY field is SEC.TRADE.
+Input is allowed only if the TRADE.ACTIVITY is SEC.TRADE, MF.TRADE or ALL.
+Any input must be in the range 0 to 100. */
+        DISC_PERCENT : T24BusinessTypes:R
+            @i18n:Label (en="Discount Percent")
+            @i18n:Tooltip (en="Discount Percent")
+            @t24:i (align=R, inputBehaviour=I, maxLength=16, sysNumber=5.0, core=true, t24Name=DISC.PERCENT)
+/* Percentage to be applied to the commission calculated.
+This percentage relates to the security type within the trading activity and it is to be applied to the commission amount calculated.
+Validation Rules:
+Input is Mandatory, numeric and positive. */
+        PERCENTAGE : T24BusinessTypes:R required
+            @i18n:Label (en="% Change")
+            @t24:i (align=R, inputBehaviour=I, maxLength=7, sysNumber=4.0, core=true, t24Name=PERCENTAGE)
+/* Identifies the level for calculating commissions within each trading activity.
+For each trade activity the user may define several security types in order to calculate the commission amount.
+i.e. Valid security number, Asset types prefixed with "A-", Sub Asset types prefixed with "S-" or "ALL" for all other types not defined.
+All these must exist on the trading charge parameter table.
+In addition to the above a suffix of '*' followed by a country code can be added. This will be used to calculate different charges for different Stock Exchange Calculation Countries.
+Validation Rules:
+Input is Mandatory
+Must exist on SCTR.CHARGE.PARAMETER. */
+        SEC_TYPE : T24BusinessTypes:A required
+            @i18n:Label (en="Security Type")
+            @i18n:Tooltip (en="Security Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=2.0, core=true, t24Name=SEC.TYPE)
+    }
+}
+Enumerations {
+    BROKER_COMM_EARNT__TRADE_CCY__NET_ONLY : mml:string
+        NO=NO
+        Y=Y
+    SCTR_CHARGE_PARAMETER__BASE_CODE__BASE_CODE : mml:string
+        NOMINAL=NOMINAL
+        VALUE=VALUE
+    SCTR_CHARGE_PARAMETER__HIGHEST_LOWEST : mml:string
+        HIGHEST=HIGHEST
+        LOWEST=LOWEST
+}

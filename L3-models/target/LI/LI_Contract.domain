@@ -1,0 +1,1044 @@
+# UTF-8
+/* Template Servicing of Limit */
+Domain LI_Contract
+    @t24:i (module=LI)
+    @java:Package (value=com.temenos.t24.datamodel.li.li_contract)
+namespace "http://www.temenos.com/t24/LI_Contract"
+metamodelVersion 1.30.6
+Classes {
+    EB_LIMIT_TXN_DATA
+        @i18n:Description (en="")
+        @t24:i (t24Name=EB.LIMIT.TXN.DATA, level=F, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        AUT_DATA : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=55, sysNumber=2.0, core=true, t24Name=AUT.DATA)
+        CONTRACT_ID -> LI_Contract:EB_LIMIT_TXN_DATA PK required
+            @i18n:Label (en="Contract Id")
+            @t24:i (align=L, inputBehaviour=I, maxLength=55, sysNumber=0.0, core=true, businessType=A, t24Name=CONTRACT.ID)
+        NAU_DATA : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=55, sysNumber=1.0, core=true, t24Name=NAU.DATA)
+        NAU_LIMIT_ACTION : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=3.0, core=true, t24Name=NAU.LIMIT.ACTION)
+    }
+    INCREASE_LIMIT_REP
+        @i18n:Description (en="")
+        @t24:i (t24Name=INCREASE.LIMIT.REP, level=C, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        DESCRIPTION -> byValue LI_Contract:INCREASE_LIMIT_REP__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        INCREASE_DATE -> LI_Contract:INCREASE_LIMIT_REP PK required
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=0.0, core=true, businessType=D, t24Name=INCREASE.DATE)
+    }
+    INCREASE_LIMIT_REP__DESCRIPTION
+    {
+        DESCRIPTION : T24BusinessTypes:A
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=60, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+/* This Application is used when the user wishes to change the Liability number of a Customer, the currency of a limit record and/or the percentage attached to a limit reference. During the on-line session, the user may call this facility to specify any of the following:
+i)         Customers and their new liability numbers ii)        Limit records and their new currency codes iii)       Limit records and their CHECK.LIMIT values. iv)        Limit references with their old and new percentages            where percentage is to be changed.
+During the End of Day process of the LIMIT Application, the program LIMIT.REP.LIAB.MOVE will then execute:
+i)         The transfer of the various corresponding LIMIT            records between the previous and new liability            numbers.
+ii)        The 'revaluation' of limits and outstanding amounts on            the LIMIT and LIMIT.DAILY.OS files.
+iii)       Change the value of CHECK.LIMIT on the limit records            in a given limit structure.
+iv)        Update the limit reference file with the new percentage            and updated outstanding amounts on the LIMIT,            LIMIT.DAILY.OS and LIMIT.TXNS files for those            records associated with a percentage charge.
+It is important to note that this program will ignore liability number change for Customers who have pending sub allocations on their limit record(s). */
+    LIMIT_CHANGE
+        @i18n:Description (en="")
+        @t24:i (t24Name=LIMIT.CHANGE, level=C, type=U, allowedFunctions="A C D E I L P Q R S V", localRefAllowed=true)
+    {
+        ALLOCATION_KEY -> byValue LI_Contract:LIMIT_CHANGE__ALLOCATION_KEY *
+            @t24:i (t24Name=ALLOCATION.KEY)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=50.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=51.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=47.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=48.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CREDIT_LINE_NO -> byValue LI_Contract:LIMIT_CHANGE__CREDIT_LINE_NO *
+            @t24:i (t24Name=CREDIT.LINE.NO)
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=44.0, core=true, t24Name=CURR.NO)
+        CUSTOMER_NO -> byValue LI_Contract:LIMIT_CHANGE__CUSTOMER_NO *
+            @t24:i (t24Name=CUSTOMER.NO)
+        DATE_TIME -> byValue LI_Contract:LIMIT_CHANGE__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=49.0, core=true, t24Name=DEPT.CODE)
+        GROUP_CUSTOMER -> byValue LI_Contract:LIMIT_CHANGE__GROUP_CUSTOMER *
+            @t24:i (t24Name=GROUP.CUSTOMER)
+        INPUTTER -> byValue LI_Contract:LIMIT_CHANGE__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* Identifies the unique key of this file (i.e. SYSTEM).
+Validation Rules:
+The only valid input in this field is 'SYSTEM'. */
+        KEY : LI_Contract:LIMIT_CHANGE__KEY PK required
+            @i18n:Label (en=Key)
+            @i18n:Tooltip (en="Indicates th transaction key")
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=0.0, core=true, t24Name=KEY)
+        LIMIT_REFERENCE -> byValue LI_Contract:LIMIT_CHANGE__LIMIT_REFERENCE *
+            @t24:i (t24Name=LIMIT.REFERENCE)
+/* Used to change the status of the NET.OUTSTANDING flag on the SYSTEM record of LIMIT.PARAMETER.
+The actual change will take place at the beginning of the next limits batch processing.
+This field will be reset to null during the Limits end of day processing.
+Validation Rules:
+Optional input.  Values can be "Y", "N" or blank.  The value entered depends on the contents of the field NET.OUTSTANDING on the LIMIT.PARAMETER record called SYSTEM.  A value of "Y" is acceptable if the LIMIT.PARAMETER is set to "N".  A value of "N" is acceptable if the LIMIT.PARAMETER is set to "Y". */
+        NET_OUTSTANDING : LI_Contract:LIMIT_CHANGE__NET_OUTSTANDING
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=15.0, core=true, t24Name=NET.OUTSTANDING)
+/* "MANUAL" or "NONE".
+Allows or disallows manually setting allocation priorities in Collateral Right records. The corresponding field will be set to this value in each of the COLLATERAL.PARAMETER records.
+Validation Rules:
+
+"MANUAL" or "NONE". */
+        ORDER_PRIORITY : LI_Contract:LIMIT_CHANGE__ORDER_PRIORITY
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=16.0, core=true, t24Name=ORDER.PRIORITY)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=43.0, core=true, t24Name=RECORD.STATUS)
+/* Reserved for future use.
+Validation Rules:
+System field, no input. */
+        RESERVED1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=42.0, core=true, t24Name=RESERVED1)
+/* Reserved for future use.
+Validation Rules:
+System field, no input. */
+        RESERVED3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=40.0, core=true, t24Name=RESERVED3)
+/* Reserved for future use.
+Validation Rules:
+System field, no input. */
+        RESERVED4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=39.0, core=true, t24Name=RESERVED4)
+/* Reserved for future use.
+Validation Rules:
+System field, no input. */
+        RESERVED5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=38.0, core=true, t24Name=RESERVED5)
+        SHARING_GROUP_KEY -> byValue LI_Contract:LIMIT_CHANGE__SHARING_GROUP_KEY *
+            @t24:i (t24Name=SHARING.GROUP.KEY)
+    }
+    LIMIT_CHANGE_HIST
+        @i18n:Description (en="")
+        @t24:i (t24Name=LIMIT.CHANGE.HIST, level=C, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=false)
+    {
+        ALLOCATION_KEY -> byValue LI_Contract:LIMIT_CHANGE_HIST__ALLOCATION_KEY *
+            @t24:i (t24Name=ALLOCATION.KEY)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=50.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=51.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=47.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=48.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CREDIT_LINE_NO -> byValue LI_Contract:LIMIT_CHANGE_HIST__CREDIT_LINE_NO *
+            @t24:i (t24Name=CREDIT.LINE.NO)
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=44.0, core=true, t24Name=CURR.NO)
+        CUSTOMER_NO -> byValue LI_Contract:LIMIT_CHANGE_HIST__CUSTOMER_NO *
+            @t24:i (t24Name=CUSTOMER.NO)
+        DATE_TIME -> byValue LI_Contract:LIMIT_CHANGE_HIST__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=49.0, core=true, t24Name=DEPT.CODE)
+        GROUP_CUSTOMER -> byValue LI_Contract:LIMIT_CHANGE_HIST__GROUP_CUSTOMER *
+            @t24:i (t24Name=GROUP.CUSTOMER)
+        INPUTTER -> byValue LI_Contract:LIMIT_CHANGE_HIST__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        KEY -> LI_Contract:LIMIT_CHANGE_HIST PK required
+            @i18n:Label (en=Key)
+            @i18n:Tooltip (en="Indicates th transaction key")
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=0.0, core=true, businessType=ANY, t24Name=KEY)
+        LIMIT_REFERENCE -> byValue LI_Contract:LIMIT_CHANGE_HIST__LIMIT_REFERENCE *
+            @t24:i (t24Name=LIMIT.REFERENCE)
+        NET_OUTSTANDING : LI_Contract:LIMIT_CHANGE_HIST__NET_OUTSTANDING
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=15.0, core=true, t24Name=NET.OUTSTANDING)
+        ORDER_PRIORITY : LI_Contract:LIMIT_CHANGE_HIST__ORDER_PRIORITY
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=16.0, core=true, t24Name=ORDER.PRIORITY)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=43.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=42.0, core=true, t24Name=RESERVED1)
+        RESERVED2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=41.0, core=true, t24Name=RESERVED2)
+        RESERVED3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=40.0, core=true, t24Name=RESERVED3)
+        RESERVED4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=39.0, core=true, t24Name=RESERVED4)
+        RESERVED5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=38.0, core=true, t24Name=RESERVED5)
+        SHARING_GROUP_KEY -> byValue LI_Contract:LIMIT_CHANGE_HIST__SHARING_GROUP_KEY *
+            @t24:i (t24Name=SHARING.GROUP.KEY)
+    }
+    LIMIT_CHANGE_HIST__ALLOCATION_KEY
+    {
+        ALLOCATION_KEY -> CO_Contract:CO_ALLOCATION_PARAMETER
+            @i18n:Label (en="Allocation Key")
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=23.0, core=true, businessType=A, t24Name=ALLOCATION.KEY)
+        ALLOC_RESERVED1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=37.0, core=true, t24Name=ALLOC.RESERVED1)
+        ALLOC_RESERVED10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=28.0, core=true, t24Name=ALLOC.RESERVED10)
+        ALLOC_RESERVED2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=36.0, core=true, t24Name=ALLOC.RESERVED2)
+        ALLOC_RESERVED3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=35.0, core=true, t24Name=ALLOC.RESERVED3)
+        ALLOC_RESERVED4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=34.0, core=true, t24Name=ALLOC.RESERVED4)
+        ALLOC_RESERVED5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=33.0, core=true, t24Name=ALLOC.RESERVED5)
+        ALLOC_RESERVED6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=32.0, core=true, t24Name=ALLOC.RESERVED6)
+        ALLOC_RESERVED7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=31.0, core=true, t24Name=ALLOC.RESERVED7)
+        ALLOC_RESERVED8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=30.0, core=true, t24Name=ALLOC.RESERVED8)
+        ALLOC_RESERVED9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=29.0, core=true, t24Name=ALLOC.RESERVED9)
+        NEW_ASSET_ORDER -> byValue LI_Contract:LIMIT_CHANGE_HIST__ALLOCATION_KEY__NEW_ASSET_ORDER *
+            @t24:i (t24Name=NEW.ASSET.ORDER)
+        NEW_COVER_LIABILITY : LI_Contract:LIMIT_CHANGE_HIST__ALLOCATION_KEY__NEW_COVER_LIABILITY
+            @i18n:Label (en="New Cover Liability")
+            @t24:i (align=R, inputBehaviour=I, maxLength=1, sysNumber=24.0, core=true, t24Name=NEW.COVER.LIABILITY)
+        NEW_PRIORITY_RECEIVE : LI_Contract:LIMIT_CHANGE_HIST__ALLOCATION_KEY__NEW_PRIORITY_RECEIVE
+            @i18n:Label (en="New Priority Receive")
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=26.0, core=true, t24Name=NEW.PRIORITY.RECEIVE)
+        NEW_USE_COLLATERAL : LI_Contract:LIMIT_CHANGE_HIST__ALLOCATION_KEY__NEW_USE_COLLATERAL
+            @i18n:Label (en="New Use Collateral")
+            @t24:i (align=R, inputBehaviour=I, maxLength=1, sysNumber=25.0, core=true, t24Name=NEW.USE.COLLATERAL)
+    }
+    LIMIT_CHANGE_HIST__ALLOCATION_KEY__NEW_ASSET_ORDER
+    {
+        NEW_ASSET_ORDER -> CO_Config:COLLATERAL_CODE
+            @i18n:Label (en="New Asset Order")
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=27.0, core=true, t24Name=NEW.ASSET.ORDER)
+    }
+    LIMIT_CHANGE_HIST__CREDIT_LINE_NO
+    {
+/* Indicates the limit record for which the currency and/or value of CHECK.LIMIT was changed.
+The limit records for which the limit currency was changed. The previous currency is shown as part of the field enrichment. This field displays thetop level limit for which the CHECK.LIMIT value was changed. All limits under this was changed to the new value.
+Validation Rules:
+
+
+Noinput.  Populated from LIMIT.CHANGE */
+        CREDIT_LINE_NO : T24BusinessTypes:S
+            @i18n:Label (en="Credit Line No.")
+            @t24:i (align=L, inputBehaviour=I, maxLength=32, sysNumber=3.0, core=true, t24Name=CREDIT.LINE.NO)
+/* Value of the field CHECK.LIMIT for the specified limit structure after eod processing.
+This field was used to change the value of the CHECK.LIMIT field on each LIMIT record in the LIMIT structure which the CREDIT.LINE.NO was the top of.
+Validation Rules:
+
+
+Noinput field.  Populated from LIMIT.CHANGE application. */
+        NEW_CHECK_LIMIT : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=1, sysNumber=5.0, core=true, t24Name=NEW.CHECK.LIMIT)
+/* Identifies the currency for which all amount fields specified as part of the limit were denominated.
+Validation Rules:
+
+
+Noinput field.  Populated from LIMIT.CHANGE application. */
+        NEW_CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=4.0, core=true, businessType=CCY, t24Name=NEW.CURRENCY)
+    }
+    LIMIT_CHANGE_HIST__CUSTOMER_NO
+    {
+/* Identifies the CUSTOMER NO for whom the Liability number has been changed.
+Validation Rules:
+Noinput field */
+        CUSTOMER_NO -> ST_Customer:CUSTOMER
+            @i18n:Label (en="Customer No")
+            @i18n:Tooltip (en="Identifies the Customer for the transaction.")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=1.0, core=true, businessType=CUS, t24Name=CUSTOMER.NO)
+/* Identifies the Liability number for the Customer specified in the previous field.
+Validation Rules:
+
+
+Noinput field */
+        LIABILITY_NO -> ST_Customer:CUSTOMER
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=2.0, core=true, businessType=CUS, t24Name=LIABILITY.NO)
+    }
+    LIMIT_CHANGE_HIST__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=46.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    LIMIT_CHANGE_HIST__GROUP_CUSTOMER
+    {
+        GROUP_CUSTOMER -> LI_GroupLimit:LI_CUSTOMER_GROUP
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=20.0, core=true, businessType=CUS, t24Name=GROUP.CUSTOMER)
+        NEW_CUS_PRIORITY : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=5, sysNumber=21.0, core=true, t24Name=NEW.CUS.PRIORITY)
+        NEW_GROUP_ORDER -> byValue LI_Contract:LIMIT_CHANGE_HIST__GROUP_CUSTOMER__NEW_GROUP_ORDER *
+            @t24:i (t24Name=NEW.GROUP.ORDER)
+    }
+    LIMIT_CHANGE_HIST__GROUP_CUSTOMER__NEW_GROUP_ORDER
+    {
+        NEW_GROUP_ORDER : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=22.0, core=true, t24Name=NEW.GROUP.ORDER)
+    }
+    LIMIT_CHANGE_HIST__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=45.0, core=true, t24Name=INPUTTER)
+    }
+    LIMIT_CHANGE_HIST__LIMIT_REFERENCE
+    {
+/* The product or sub-product limit reference record whose percentage field was changed.
+Validation Rules:
+
+
+Rule 1
+Rule 2 */
+        LIMIT_REFERENCE -> LI_Config:LIMIT_REFERENCE
+            @i18n:Label (en="Limit Reference")
+            @i18n:Tooltip (en="Indicates the limit that will be updated")
+            @t24:i (align=R, inputBehaviour=I, maxLength=4, sysNumber=6.0, core=true, t24Name=LIMIT.REFERENCE)
+        LIMIT_SUBR -> EB_SystemTables:PGM_FILE
+            @t24:i (align=L, inputBehaviour=I, maxLength=27, sysNumber=11.0, core=true, businessType=A, t24Name=LIMIT.SUBR)
+        LIM_BAND_LEVEL : LI_Contract:LIMIT_CHANGE_HIST__LIMIT_REFERENCE__LIM_BAND_LEVEL
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=8.0, core=true, t24Name=LIM.BAND.LEVEL)
+        MATUR_PERIOD -> byValue LI_Contract:LIMIT_CHANGE_HIST__LIMIT_REFERENCE__MATUR_PERIOD *
+            @t24:i (t24Name=MATUR.PERIOD)
+/* The percentage applied to transaction amounts calculating the amount checked against the limit amounts..
+Validation Rules:
+
+
+Rule 1
+Rule 2 */
+        NEW_PERCENTAGE : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=7.0, core=true, t24Name=NEW.PERCENTAGE)
+        PERCENTAGE_CAP : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=12.0, core=true, t24Name=PERCENTAGE.CAP)
+        PERCENTAGE_FLR : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=13.0, core=true, t24Name=PERCENTAGE.FLR)
+        PERC_CALC_BASIS : LI_Contract:LIMIT_CHANGE_HIST__LIMIT_REFERENCE__PERC_CALC_BASIS
+            @i18n:Label (en="Perc Calc Basis")
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=14.0, core=true, t24Name=PERC.CALC.BASIS)
+    }
+    LIMIT_CHANGE_HIST__LIMIT_REFERENCE__MATUR_PERIOD
+    {
+        MATUR_PERIOD : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=9.0, core=true, t24Name=MATUR.PERIOD)
+        NEW_PERC : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=10.0, core=true, t24Name=NEW.PERC)
+    }
+    LIMIT_CHANGE_HIST__SHARING_GROUP_KEY
+    {
+        REMOVE_CUSTOMER -> byValue LI_Contract:LIMIT_CHANGE_HIST__SHARING_GROUP_KEY__REMOVE_CUSTOMER *
+            @t24:i (t24Name=REMOVE.CUSTOMER)
+        REMOVE_PRODUCT -> byValue LI_Contract:LIMIT_CHANGE_HIST__SHARING_GROUP_KEY__REMOVE_PRODUCT *
+            @t24:i (t24Name=REMOVE.PRODUCT)
+        SHARING_GROUP_KEY -> LI_GroupLimit:LIMIT_SHARING_GROUP
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=17.0, core=true, businessType=A, t24Name=SHARING.GROUP.KEY)
+    }
+    LIMIT_CHANGE_HIST__SHARING_GROUP_KEY__REMOVE_CUSTOMER
+    {
+        REMOVE_CUSTOMER -> ST_Customer:CUSTOMER
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=18.0, core=true, businessType=CUS, t24Name=REMOVE.CUSTOMER)
+    }
+    LIMIT_CHANGE_HIST__SHARING_GROUP_KEY__REMOVE_PRODUCT
+    {
+        REMOVE_PRODUCT -> LI_Config:LIMIT_REFERENCE
+            @t24:i (align=R, inputBehaviour=I, maxLength=4, sysNumber=19.0, core=true, t24Name=REMOVE.PRODUCT)
+    }
+    LIMIT_CHANGE__ALLOCATION_KEY
+    {
+/* Identifies the unique key of this file (i.e. SYSTEM).
+Validation Rules:Only a valid CO.ALLOCATION.PARAMETER key is accepted. */
+        ALLOCATION_KEY -> CO_Contract:CO_ALLOCATION_PARAMETER
+            @i18n:Label (en="Allocation Key")
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=23.0, core=true, businessType=A, t24Name=ALLOCATION.KEY)
+        ALLOC_RESERVED1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=37.0, core=true, t24Name=ALLOC.RESERVED1)
+/* Reserved fields related to CO.ALLOCATION.PARAMETER for future use.
+Validation Rules: */
+        ALLOC_RESERVED10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=28.0, core=true, t24Name=ALLOC.RESERVED10)
+        ALLOC_RESERVED2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=36.0, core=true, t24Name=ALLOC.RESERVED2)
+        ALLOC_RESERVED3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=35.0, core=true, t24Name=ALLOC.RESERVED3)
+        ALLOC_RESERVED4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=34.0, core=true, t24Name=ALLOC.RESERVED4)
+        ALLOC_RESERVED5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=33.0, core=true, t24Name=ALLOC.RESERVED5)
+        ALLOC_RESERVED6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=32.0, core=true, t24Name=ALLOC.RESERVED6)
+        ALLOC_RESERVED7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=31.0, core=true, t24Name=ALLOC.RESERVED7)
+        ALLOC_RESERVED8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=30.0, core=true, t24Name=ALLOC.RESERVED8)
+        ALLOC_RESERVED9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=0, sysNumber=29.0, core=true, t24Name=ALLOC.RESERVED9)
+        NEW_ASSET_ORDER -> byValue LI_Contract:LIMIT_CHANGE__ALLOCATION_KEY__NEW_ASSET_ORDER *
+            @t24:i (t24Name=NEW.ASSET.ORDER)
+/* Field to define the Giving Priority. Based on this setup Limits covered by a collateral right will be sorted during collateral allocation.
+Validation Rules: 1 - Own liabilities are covered first and allocations are sorted in ascending order. 2 - Own liabilities are covered first and allocations are sorted in descending order. null */
+        NEW_COVER_LIABILITY : LI_Contract:LIMIT_CHANGE__ALLOCATION_KEY__NEW_COVER_LIABILITY
+            @i18n:Label (en="Cover Liability")
+            @t24:i (align=R, inputBehaviour=I, maxLength=1, sysNumber=24.0, core=true, t24Name=NEW.COVER.LIABILITY)
+/* This field is used to specify the order by  which collateral should be sorted.
+Validation Rules:
+1 – ASSET TYPE -  COLLATERAL.RIGHT received will be sorted by Asset first.
+When more than one asset of same type from different customers, then it will be further sorted by Customer key.
+The sorting can be set to sort largest to smallest or vice versa.
+2 – CUSTOMER -  COLLATERAL.RIGHT received will be sorted by Customer first.
+When there are multiple Assets for the same customer then they will be further sorted by Asset. The sorting can be set to sort largest to smallest or vice versa.
+Null – System default (ASSET TYPE). */
+        NEW_PRIORITY_RECEIVE : LI_Contract:LIMIT_CHANGE__ALLOCATION_KEY__NEW_PRIORITY_RECEIVE
+            @i18n:Label (en="New Priority Receive")
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=26.0, core=true, t24Name=NEW.PRIORITY.RECEIVE)
+/* Receiving priority order, Based on this setup collateral rights used to cover a liability will be sorted and utilised based on the sorted order.
+Validation Rules: 1 - Own liabilities are covered first and allocations are sorted in ascending order. 2 - Own liabilities are covered first and allocations are sorted in descending order. null */
+        NEW_USE_COLLATERAL : LI_Contract:LIMIT_CHANGE__ALLOCATION_KEY__NEW_USE_COLLATERAL
+            @i18n:Label (en="New Use Collateral")
+            @t24:i (align=R, inputBehaviour=I, maxLength=1, sysNumber=25.0, core=true, t24Name=NEW.USE.COLLATERAL)
+    }
+    LIMIT_CHANGE__ALLOCATION_KEY__NEW_ASSET_ORDER
+    {
+/* Using this field User can define their own  ASSET TYPE order in which the COLLATERAL RIGHTS of a liability will be utilized.
+This will overwrite the order (ASCENDING/DESCENDING) specified in the field USE.COLLATERAL. COLLATERAL.RIGHTS with COLLATERAL.CODE
+which are not specified in this field will be sorted in the order specified in USE.COLLATERAL field.
+Validation Rules:
+Must be a valid COLLATERAL.CODE record id.
+Input is allowed only when the PRIORITY.RECEIVE is set as ASSET.TYPE.
+NULL – Order mentioned in USE.COLLATERAL field otherwise system default. */
+        NEW_ASSET_ORDER -> CO_Config:COLLATERAL_CODE
+            @i18n:Label (en="Asset Order")
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=27.0, core=true, t24Name=NEW.ASSET.ORDER)
+    }
+    LIMIT_CHANGE__CREDIT_LINE_NO
+    {
+/* Identifies the limit record for which the currency and/or value of CHECK.LIMIT is to be changed.
+The limit records for which the limit currency is to be changed are to be entered individually. The old currency is shown as part of the field enrichment. The top level limit for which the CHECK.LIMIT value is to be changed should be entered. All limits under this will be changed to the new value.
+Validation Rules:
+Input as follows: a) 1-6 numeric characters Liability Number or 3-10 Customer Mnemonic code b) 3-7 numeric character Limit Reference code c) 2 numeric character Limit Serial number d) 1-6 numeric character Customer Number or 3-10 Customer Mnemonic code If data is to be input in this field: a), b), c) and d) must be separated by '.';a) and b) are Mandatory; c) defaults to '01'; d) is Optional, only used to specify Customer sub-limit. Multivalue field associated with field 4.1. Optional Input
+Input must correspond to a valid ID on the limit file.
+Duplications will not be allowed. */
+        CREDIT_LINE_NO : T24BusinessTypes:S
+            @i18n:Label (en="Credit Line No")
+            @i18n:Tooltip (en="Credit Line No")
+            @t24:i (align=L, inputBehaviour=I, maxLength=32, sysNumber=3.0, core=true, t24Name=CREDIT.LINE.NO)
+/* New value of the field CHECK.LIMIT for the specified limit structure.
+This field will be used to change the  current value of the CHECK.LIMIT field on each LIMIT record in the LIMIT structure which the CREDIT.LINE.NO is the top of.
+Validation Rules:
+Y or N Multi value field associated with 3.1 and 4.1. Optional input when  CREDIT.LINE.NO (field 3.1) input, otherwise not allowed.
+The associated CREDIT.LINE.NO must be the top of the LIMIT structure, ie must be a key to the LIMIT.LINES file.
+The value entered must not be the same as that on the LIMIT record of the CREDIT.LINE.NO.
+Input only allowed when CREDIT.LINE.NO has been entered. */
+        NEW_CHECK_LIMIT : LI_Contract:LIMIT_CHANGE__CREDIT_LINE_NO__NEW_CHECK_LIMIT
+            @i18n:Label (en="New Check Limit")
+            @i18n:Tooltip (en="New Check Limit")
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=5.0, core=true, t24Name=NEW.CHECK.LIMIT)
+/* Identifies the new currency in which all amount fields specified as part of the limit will be denominated.
+Validation Rules:
+1-3 numeric character Currency code or     3 character SWIFT Currency code Multivalue field associated with field 3.1 Optional input when CREDIT.LINE.NO (field 3.1) input, otherwise not allowed.
+Input must correspond to a valid ID in the Currency file.
+Input only allowed when CREDIT.LINE.NO (field 3.1) has been entered.
+No input allowed if CREDIT.LINE.NO (field 3.1) has not been entered.
+Input must be different to the current Currency on the limit record. */
+        NEW_CURRENCY : T24BusinessTypes:CCY
+            @i18n:Label (en="New Currency")
+            @i18n:Tooltip (en="New Currency")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=4.0, core=true, t24Name=NEW.CURRENCY)
+    }
+    LIMIT_CHANGE__CUSTOMER_NO
+    {
+/* Identifies the CUSTOMER NO for whom the user wants to specify a Liability number change.
+Validation Rules:
+1 to 6 numeric characters CUSTOMER CODE or 3 to 10 Mnemonic character. Multivalue field associated with field 2.1. Optional input;  Default Value = Nil.
+Input must correspond to a valid ID on the CUSTOMER file.
+Duplicates will not be allowed.
+Input of a Customer number already used as a liability number for other Customers will not be allowed.  For this reason, to reverse the relation 2 (CUSTOMER) to 1 (LIABILITY) requires 2 steps.  The first day the user must set the Liability no of Customer 2 of 2 and the second day, he must set the Liability number of Customer 1 to 2.
+Input of a Customer number which has pending suballocation(s) or commitment(s) in its LIMIT record is not allowed.  If suballocation(s) or commitment(s) are entered later during the on-line session for this customer, the End of Day program LIMIT.REP.LIAB.MOVE will not process the change and instead will write an error message. */
+        CUSTOMER_NO -> ST_Customer:CUSTOMER
+            @i18n:Label (en="Customer No")
+            @i18n:Tooltip (en="Identifies the Customer for the transaction.")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=1.0, core=true, businessType=CUS, t24Name=CUSTOMER.NO)
+/* Identifies the new Liability number for the Customer specified in the previous field.
+Validation Rules:
+1 to 6 numeric characters CUSTOMER code or 3 to 10 Mnemonic characters. Multivalue field associated with Field 1.1. Optional input when Customer number entered; otherwise not allowed.
+Input must correspond to a valid ID on the CUSTOMER file.
+Input only allowed when CUSTOMER NO (Field 1.1) has been entered.
+This field must be left blank when the user wants to define that the Liability number is no more requested for the Customer defined in the previous field.
+Input must be different from existing CUSTOMER LIABILITY field on the CUSTOMER record existing for the Customer defined in the previous field.
+Duplicates are allowed but all the Customer numbers entered in the previous field must be different.  The CUSTOMER NO and LIABILITY NO may be the same when the user wants to specify that a Customer no longer belongs to another Liability number.
+The number input in this field cannot belong to another Liability. */
+        LIABILITY_NO -> ST_Customer:CUSTOMER
+            @i18n:Label (en="Liability Customer")
+            @i18n:Tooltip (en="Indicates the liability customer")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=2.0, core=true, businessType=CUS, t24Name=LIABILITY.NO)
+    }
+    LIMIT_CHANGE__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=46.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    LIMIT_CHANGE__GROUP_CUSTOMER
+    {
+/* Indicates the Customer id for which the existing limit priority needs to be changed.
+Validations:
+Valid key from LI.LIMIT.DEFINE.PRIORITY record */
+        GROUP_CUSTOMER -> LI_GroupLimit:LI_CUSTOMER_GROUP
+            @i18n:Tooltip (en="Defines ID of the Customer in the Group")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=20.0, core=true, businessType=CUS, t24Name=GROUP.CUSTOMER)
+/* This field is used to change the existing Customer priority, which is used for determining the order of allocation of limits during Group limits reallocation.
+Validations:
+Any numeric Value up to three digits.
+When left blank, existing customer priority in LI.LIMIT.DEFINE.PRIORITY will get removed */
+        NEW_CUS_PRIORITY : T24BusinessTypes:N
+            @i18n:Tooltip (en="New Customer Priority")
+            @t24:i (align=R, inputBehaviour=I, maxLength=5, sysNumber=21.0, core=true, t24Name=NEW.CUS.PRIORITY)
+        NEW_GROUP_ORDER -> byValue LI_Contract:LIMIT_CHANGE__GROUP_CUSTOMER__NEW_GROUP_ORDER *
+            @t24:i (t24Name=NEW.GROUP.ORDER)
+    }
+    LIMIT_CHANGE__GROUP_CUSTOMER__NEW_GROUP_ORDER
+    {
+/* This field is used to define the new order in which limits has to be utilised when there is any transaction for the customer.
+Validations:
+Valid reference from LIMIT.SHARING.GROUP in which customer is a part or the keyword “OWN” is acceptedThe keyword “OWN” is to indicate that the individual Limit is not prioritised first as default; it will be used based on the priority specified here.Duplication not allowed. */
+        NEW_GROUP_ORDER : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=22.0, core=true, t24Name=NEW.GROUP.ORDER)
+    }
+    LIMIT_CHANGE__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=45.0, core=true, t24Name=INPUTTER)
+    }
+    LIMIT_CHANGE__LIMIT_REFERENCE
+    {
+/* Identifies the product or sub-product limit reference record whose percentage field is to be changed.
+Validation Rules:
+3-4 numeric characters. Multivalue field associated with fields 6.1 and 7.1. Optional input.
+Input must correspond to a valid ID on the limit reference file.
+Duplications will not be allowed.
+The limit reference record must be either a sub-product record or a product record without any associated sub-products.
+Input cannot be the limit reference for fiduciaries and/or deposits. Ie. Reference numbers 9700, 9800 and 9900 are not allowed. */
+        LIMIT_REFERENCE -> LI_Config:LIMIT_REFERENCE
+            @i18n:Label (en="Limit Reference")
+            @i18n:Tooltip (en="Indicates the limit that will be updated")
+            @t24:i (align=R, inputBehaviour=I, maxLength=4, sysNumber=6.0, core=true, t24Name=LIMIT.REFERENCE)
+/* Identifies the new subroutine which will be called to return the limit amount.
+Validation Rules:
+1 to 27 Alphanumeric characters.
+Subroutine must be identified as a record in the application PGM.FILE with the type equal to 'S' for subroutine.
+The routine must be compiled and cataloged with an entry in the T24 account VOC file. */
+        LIMIT_SUBR -> EB_SystemTables:PGM_FILE
+            @i18n:Label (en="Limit Subroutine")
+            @i18n:Tooltip (en="Limit Subroutine")
+            @t24:i (align=L, inputBehaviour=I, maxLength=27, sysNumber=11.0, core=true, businessType=A, t24Name=LIMIT.SUBR)
+/* Specifies the new value used to determine the percentage amount.
+This field can contain one of two values.
+The word BAND in this field indicates that the percentages from more than one band (See MATURITY.PERIOD and PERCENTAGE) will be elected and summed to determine the working percentage.
+The word LEVEL in this field indicates that a single band will be elected as the working percentage.
+In both cases the bands used will be resolved on the time left before contract maturity.
+Validation Rules:
+The following values will be accepted: BAND or LEVEL.
+Default: LEVEL.
+Input in this field will only be retained when the fields MATURITY.PERIOD and PERCENTAGE have been given. */
+        LIM_BAND_LEVEL : LI_Contract:LIMIT_CHANGE__LIMIT_REFERENCE__LIM_BAND_LEVEL
+            @i18n:Label (en=Band/Level)
+            @i18n:Tooltip (en=Band/Level)
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=8.0, core=true, t24Name=LIM.BAND.LEVEL)
+        MATUR_PERIOD -> byValue LI_Contract:LIMIT_CHANGE__LIMIT_REFERENCE__MATUR_PERIOD *
+            @t24:i (t24Name=MATUR.PERIOD)
+/* Identifies the new percentage to be applied to transaction amounts to calculate the amount to be checked against the limit amounts.
+Validation Rules:
+1-3 numeric characters in the range 1-100. Multivalue field associated with fields 6.1 and 7.1 Mandatory input if field 6.1 is input otherwise not allowed.
+Input only allowed when LIMIT.REFERENCE (field 6.1) has been entered.
+No input allowed if LIMIT.REFERENCE (field 6.1) has not been entered.
+Input can not be equal to that in OLD.PERCENTAGE (field 7.1). */
+        NEW_PERCENTAGE : T24BusinessTypes:N
+            @i18n:Label (en="New Percentage")
+            @i18n:Tooltip (en="New Percentage")
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=7.0, core=true, t24Name=NEW.PERCENTAGE)
+/* Identifies the new agreed maximum percentage when deriving the limit percentage.
+Validation Rules:
+1-11 Numeric characters (1-6 decimals) percentage must be less than or equal to 100%.
+Capped percentage must be greater than the floor percentage. */
+        PERCENTAGE_CAP : T24BusinessTypes:R
+            @i18n:Label (en="Max Percentage")
+            @i18n:Tooltip (en="Max Percentage")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=12.0, core=true, t24Name=PERCENTAGE.CAP)
+/* Identifies the new agreed minimum percentage when deriving the limit percentage.
+Validation Rules:
+1-11 Numeric characters (1-6 decimals) percentage must be less than or equal to 100%.
+Capped percentage must be greater than the floor percentage. */
+        PERCENTAGE_FLR : T24BusinessTypes:R
+            @i18n:Label (en="Min Percentage")
+            @i18n:Tooltip (en="Min Percentage")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=13.0, core=true, t24Name=PERCENTAGE.FLR)
+/* Determines how the percentage amount will be derived from the MATURITY.PERIOD and MAT.PERIOD.PERC fields.
+This field can contain one of three values.
+The keyword PRORATA in this field indicates that the calculation will be pro rata according to the time remaining to maturity or the length of a MATURITY.PERIOD.BAND.
+For pro rata the calculation will be;
+% x days to maturity                    ----------------                          365
+with the annual period always in days.
+The keyword PERIOD indicates that the calculation will be prorata according to the time remaining to maturity or the length of a MATURITY.PERIOD.BAND.
+The pro rata calculation for the PERIOD setting will be:
+% x period to maturity                    ------------------                          period
+where period is set according to the MATURITY.BAND.DEFINITION i.e in Days  (D)        Weeks (W)        Months(M)        Years (Y) Where a period is a fraction of a band this will be rounded up.
+When the word FIXED is indicated the calculation will not be pro rata and is calculated as a simple percentage.
+When PRORATA or PERIOD is used with LEVEL structure, the relevant percentage derived for the remaining contract period will be applied.
+When PRORATA or PERIOD is used with a BANDED structure, each percentage band falling within the remaining contract period will be applied for the period of the that band.
+A PRORATA/PERIOD method can result in a total percentage taken which is in excess of 100% of the transaction value. This can be limited by use of the PERCENTAGE.CAP field.
+Example:
+The following percentage structure may be defined:
+Transactions maturing in up to  6 months are recorded  at  5% Transactions maturing in up to 12 months are recorded  at  6% Transactions maturing in up to 24 months are recorded  at  7% Transactions maturing more than 24 months are recorded at 10%
+This is entered as:
+MATURITY.PERIOD   6M     12M     24M     R MAT.PERIOD.PERC   5%      6%      7%    10%
+The risk on a 1 million USD loan with a 36 month initial period would be calculcaled as:
+At input:
+LIMIT.BAND.LEVEL = LEVEL PERC.CALC.BASIS  = FIXED
+10% of the value (36 months remaining falls in the rest period)
+Amount = 10% * 1,000,000 = 100,000 USD
+LIMIT.BAND.LEVEL = LEVEL PERC.CALC.BASIS  = PRORATA
+10% of the value (36 months remaining falls in the rest period)
+Amount = 10% * 1,000,000 * (3 * 365 / 365) = 300,000 USD
+LIMIT.BAND.LEVEL = BAND PERC.CALC.BASIS  = FIXED
+5% of the value (the loan falls in the 0 - 6 month band)
+Amount = 5% * 1,000,000 = 50,000 USD
+6% of the value (the loan falls in the 6 - 12 month band)
+Amount = 6% * 1,000,000 = 60,000 USD
+7% of the value (the loan falls in the 12 -24 month band)
+Amount = 7% * 1,000,000 = 70,000 USD
+10% of the value (the loan falls in the Rest band)
+Amount = 10% * 1,000,000 = 100,000 USD
+Total 28%   = 280,000 USD
+LIMIT.BAND.LEVEL = BAND PERC.CALC.BASIS  = PRORATA Note the number of days in the bands may vary according to the exact dates invloved.
+5% of the value for 6 months (the loan falls in the 0 - 6 month band)
+Amount = 5% * 1,000,000 * (182 / 365) = 24,931.51 USD
+6% of the value for 6 months (the loan falls in the 6 - 12 month band)
+
+Amount = 6% * 1,000,000 * (183 / 365) = 30,082.19 USD
+7% of the value for 12 months (the loan falls in the 12 -24 month band)
+
+Amount = 7% * 1,000,000 * (365/365) = 70,000 USD
+10% of the value for 12 months (the loan falls in the Rest band)
+Amount = 10% * 1,000,000 * (365/365) = 100,000 USD
+Total = 225,013.70 USD
+With  18 months remaining to maturity:
+LIMIT.BAND.LEVEL = LEVEL PERC.CALC.BASIS  = FIXED
+7% of the value (18 months remaining falls in the 12 - 24 month period)
+
+Amount = 7% * 1,000,000 = 70,000 USD
+LIMIT.BAND.LEVEL = LEVEL PERC.CALC.BASIS  = PRORATA
+7% of the value (18 months remaining falls in the 12 - 24 month period)
+Amount = 7% * 1,000,000 * (547 / 365) = 104,904.11 USD
+LIMIT.BAND.LEVEL = BAND PERC.CALC.BASIS  = FIXED
+5% of the value (the loan falls in the 0 - 6 month band)
+Amount = 5% * 1,000,000 = 50,000 USD
+6% of the value (the loan falls in the 6 - 12 month band)
+Amount = 6% * 1,000,000 = 60,000 USD
+7% of the value (the loan falls in the 12 -24 month band)
+Amount = 7% * 1,000,000 = 70,000 USD
+Total 18%   = 180,000 USD
+LIMIT.BAND.LEVEL = BAND PERC.CALC.BASIS  = PRORATA Note the number of days in the bands may vary according to the exact dates invloved.
+5% of the value for 6 months (the loan falls in the 0 - 6 month band)
+Amount = 5% * 1,000,000 * (182 / 365) = 24,931.51 USD
+6% of the value for 6 months (the loan falls in the 6 - 12 month band)
+
+Amount = 6% * 1,000,000 * (183 / 365) = 30,082.19 USD
+7% of the value for 6 months (the loan falls in the 12 -24 month band)
+Amount = 7% * 1,000,000 * (182/365) = 34,904.11 USD
+Total = 89,917.81 USD
+Validation Rules:
+The following values will be accepted: FIXED, PRORATA, PERIOD. (No change)
+Default: FIXED.
+Input in this field will only be retained when the fields MATURITY.PERIOD and PERCENTAGE have been given. */
+        PERC_CALC_BASIS : LI_Contract:LIMIT_CHANGE__LIMIT_REFERENCE__PERC_CALC_BASIS
+            @i18n:Label (en="Perc Calc Basis")
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=14.0, core=true, t24Name=PERC.CALC.BASIS)
+    }
+    LIMIT_CHANGE__LIMIT_REFERENCE__MATUR_PERIOD
+    {
+/* Indicates the new period to which a percetage will be applied.
+Associated with MAT.PERIOD.PERC.
+Validation Rules:
+nnA where nnn - Number of A where: A = Y for years     M for months     W for weeks or  D for days e.g. a 12 month period could ne input as 12M or 1Y.
+The numbers of days, weeks, months or years must be entered in a logical order i.e. in ascending sequence.
+When more than one period is defined an consistent unit must be used. */
+        MATUR_PERIOD : T24BusinessTypes:A
+            @i18n:Label (en="Maturity Period")
+            @i18n:Tooltip (en="Maturity Period")
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=9.0, core=true, t24Name=MATUR.PERIOD)
+/* Supply the new percentage to be used in deriving a final limit percentage. The resulting percentage amount of each transaction movement will be monitored against the limit amount.
+See LIMIT.BAND.LEVEL.
+Associated with MATURITY.PERIOD.
+Validation Rules:
+1-11 Numeric characters (1-6 decimals) percentage must be less than or equal to 100%.
+Input is not allowed in this field for Fiduciary and Deposit Limit Reference records. */
+        NEW_PERC : T24BusinessTypes:R
+            @i18n:Label (en="New Perc")
+            @i18n:Tooltip (en="New Perc")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=10.0, core=true, t24Name=NEW.PERC)
+    }
+    LIMIT_CHANGE__SHARING_GROUP_KEY
+    {
+        REMOVE_CUSTOMER -> byValue LI_Contract:LIMIT_CHANGE__SHARING_GROUP_KEY__REMOVE_CUSTOMER *
+            @t24:i (t24Name=REMOVE.CUSTOMER)
+        REMOVE_PRODUCT -> byValue LI_Contract:LIMIT_CHANGE__SHARING_GROUP_KEY__REMOVE_PRODUCT *
+            @t24:i (t24Name=REMOVE.PRODUCT)
+/* Indicates Limit sharing Group key from which the customer or limit product has to be removed.
+Validations:
+Only a valid LIMIT.SHARING.GROUP key is accepted. */
+        SHARING_GROUP_KEY -> LI_GroupLimit:LIMIT_SHARING_GROUP
+            @i18n:Tooltip (en="Defines the ID of Group")
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=17.0, core=true, businessType=A, t24Name=SHARING.GROUP.KEY)
+    }
+    LIMIT_CHANGE__SHARING_GROUP_KEY__REMOVE_CUSTOMER
+    {
+/* This field is used to enter the Customer id which needs to be removed from the associated limit sharing group.
+Validations:
+This field will accept a valid customer id.Customer id entered must exist in the associated limit sharing group */
+        REMOVE_CUSTOMER -> ST_Customer:CUSTOMER
+            @i18n:Tooltip (en="Customer to be removed from Group")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=18.0, core=true, businessType=CUS, t24Name=REMOVE.CUSTOMER)
+    }
+    LIMIT_CHANGE__SHARING_GROUP_KEY__REMOVE_PRODUCT
+    {
+        REMOVE_PRODUCT -> LI_Config:LIMIT_REFERENCE
+            @i18n:Tooltip (en="Limit Product to be removed from Group")
+            @t24:i (align=R, inputBehaviour=I, maxLength=4, sysNumber=19.0, core=true, t24Name=REMOVE.PRODUCT)
+    }
+    LIMIT_CUSTOMER_CHANGE
+        @i18n:Description (en="")
+        @t24:i (t24Name=LIMIT.CUSTOMER.CHANGE, level=C, type=H, allowedFunctions="A C D E I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=41.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=42.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=38.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=39.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=35.0, core=true, t24Name=CURR.NO)
+        CUSTOMER_NUMBER -> byValue LI_Contract:LIMIT_CUSTOMER_CHANGE__CUSTOMER_NUMBER *
+            @t24:i (t24Name=CUSTOMER.NUMBER)
+        CUST_GRP_CHANGE_ID -> LI_Contract:LIMIT_CUSTOMER_CHANGE PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=CUST.GRP.CHANGE.ID)
+        DATE_TIME -> byValue LI_Contract:LIMIT_CUSTOMER_CHANGE__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=40.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue LI_Contract:LIMIT_CUSTOMER_CHANGE__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        INPUTTER -> byValue LI_Contract:LIMIT_CUSTOMER_CHANGE__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        OVERRIDE -> byValue LI_Contract:LIMIT_CUSTOMER_CHANGE__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=34.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 -> byValue LI_Contract:LIMIT_CUSTOMER_CHANGE__RESERVED_1 *
+            @t24:i (t24Name=RESERVED.1)
+        RESERVED_10 -> byValue LI_Contract:LIMIT_CUSTOMER_CHANGE__RESERVED_10 *
+            @t24:i (t24Name=RESERVED.10)
+        RESERVED_11 -> byValue LI_Contract:LIMIT_CUSTOMER_CHANGE__RESERVED_11 *
+            @t24:i (t24Name=RESERVED.11)
+        RESERVED_12 -> byValue LI_Contract:LIMIT_CUSTOMER_CHANGE__RESERVED_12 *
+            @t24:i (t24Name=RESERVED.12)
+        RESERVED_13 -> byValue LI_Contract:LIMIT_CUSTOMER_CHANGE__RESERVED_13 *
+            @t24:i (t24Name=RESERVED.13)
+        RESERVED_14 -> byValue LI_Contract:LIMIT_CUSTOMER_CHANGE__RESERVED_14 *
+            @t24:i (t24Name=RESERVED.14)
+        RESERVED_15 -> byValue LI_Contract:LIMIT_CUSTOMER_CHANGE__RESERVED_15 *
+            @t24:i (t24Name=RESERVED.15)
+        RESERVED_16 -> byValue LI_Contract:LIMIT_CUSTOMER_CHANGE__RESERVED_16 *
+            @t24:i (t24Name=RESERVED.16)
+        RESERVED_17 -> byValue LI_Contract:LIMIT_CUSTOMER_CHANGE__RESERVED_17 *
+            @t24:i (t24Name=RESERVED.17)
+        RESERVED_18 -> byValue LI_Contract:LIMIT_CUSTOMER_CHANGE__RESERVED_18 *
+            @t24:i (t24Name=RESERVED.18)
+        RESERVED_19 -> byValue LI_Contract:LIMIT_CUSTOMER_CHANGE__RESERVED_19 *
+            @t24:i (t24Name=RESERVED.19)
+        RESERVED_2 -> byValue LI_Contract:LIMIT_CUSTOMER_CHANGE__RESERVED_2 *
+            @t24:i (t24Name=RESERVED.2)
+        RESERVED_20 -> byValue LI_Contract:LIMIT_CUSTOMER_CHANGE__RESERVED_20 *
+            @t24:i (t24Name=RESERVED.20)
+        RESERVED_3 -> byValue LI_Contract:LIMIT_CUSTOMER_CHANGE__RESERVED_3 *
+            @t24:i (t24Name=RESERVED.3)
+        RESERVED_4 -> byValue LI_Contract:LIMIT_CUSTOMER_CHANGE__RESERVED_4 *
+            @t24:i (t24Name=RESERVED.4)
+        RESERVED_5 -> byValue LI_Contract:LIMIT_CUSTOMER_CHANGE__RESERVED_5 *
+            @t24:i (t24Name=RESERVED.5)
+        RESERVED_6 -> byValue LI_Contract:LIMIT_CUSTOMER_CHANGE__RESERVED_6 *
+            @t24:i (t24Name=RESERVED.6)
+        RESERVED_7 -> byValue LI_Contract:LIMIT_CUSTOMER_CHANGE__RESERVED_7 *
+            @t24:i (t24Name=RESERVED.7)
+        RESERVED_8 -> byValue LI_Contract:LIMIT_CUSTOMER_CHANGE__RESERVED_8 *
+            @t24:i (t24Name=RESERVED.8)
+        RESERVED_9 -> byValue LI_Contract:LIMIT_CUSTOMER_CHANGE__RESERVED_9 *
+            @t24:i (t24Name=RESERVED.9)
+        SHARING_GROUP_KEY -> byValue LI_Contract:LIMIT_CUSTOMER_CHANGE__SHARING_GROUP_KEY *
+            @t24:i (t24Name=SHARING.GROUP.KEY)
+    }
+    LIMIT_CUSTOMER_CHANGE__CUSTOMER_NUMBER
+    {
+        CUSTOMER_NUMBER -> ST_Customer:CUSTOMER
+            @i18n:Label (en="Customer No")
+            @i18n:Tooltip (en="Identifies the Customer for the transaction.")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=2.0, core=true, businessType=CUS, t24Name=CUSTOMER.NUMBER)
+        LIABILITY_NUMBER -> ST_Customer:CUSTOMER
+            @i18n:Label (en="Liability No.")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=3.0, core=true, businessType=CUS, t24Name=LIABILITY.NUMBER)
+        RESERVED_21 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=RESERVED.21)
+        RESERVED_22 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=7.0, core=true, t24Name=RESERVED.22)
+        RESERVED_23 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=6.0, core=true, t24Name=RESERVED.23)
+        RESERVED_24 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=5.0, core=true, t24Name=RESERVED.24)
+        RESERVED_25 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=4.0, core=true, t24Name=RESERVED.25)
+    }
+    LIMIT_CUSTOMER_CHANGE__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=37.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    LIMIT_CUSTOMER_CHANGE__DESCRIPTION
+    {
+        DESCRIPTION : T24BusinessTypes:A required
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    LIMIT_CUSTOMER_CHANGE__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=36.0, core=true, t24Name=INPUTTER)
+    }
+    LIMIT_CUSTOMER_CHANGE__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=33.0, core=true, t24Name=OVERRIDE)
+    }
+    LIMIT_CUSTOMER_CHANGE__RESERVED_1
+    {
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=31.0, core=true, t24Name=RESERVED.1)
+    }
+    LIMIT_CUSTOMER_CHANGE__RESERVED_10
+    {
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=22.0, core=true, t24Name=RESERVED.10)
+    }
+    LIMIT_CUSTOMER_CHANGE__RESERVED_11
+    {
+        RESERVED_11 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=21.0, core=true, t24Name=RESERVED.11)
+    }
+    LIMIT_CUSTOMER_CHANGE__RESERVED_12
+    {
+        RESERVED_12 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=20.0, core=true, t24Name=RESERVED.12)
+    }
+    LIMIT_CUSTOMER_CHANGE__RESERVED_13
+    {
+        RESERVED_13 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=19.0, core=true, t24Name=RESERVED.13)
+    }
+    LIMIT_CUSTOMER_CHANGE__RESERVED_14
+    {
+        RESERVED_14 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=RESERVED.14)
+    }
+    LIMIT_CUSTOMER_CHANGE__RESERVED_15
+    {
+        RESERVED_15 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=17.0, core=true, t24Name=RESERVED.15)
+    }
+    LIMIT_CUSTOMER_CHANGE__RESERVED_16
+    {
+        RESERVED_16 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=RESERVED.16)
+    }
+    LIMIT_CUSTOMER_CHANGE__RESERVED_17
+    {
+        RESERVED_17 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=RESERVED.17)
+    }
+    LIMIT_CUSTOMER_CHANGE__RESERVED_18
+    {
+        RESERVED_18 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=RESERVED.18)
+    }
+    LIMIT_CUSTOMER_CHANGE__RESERVED_19
+    {
+        RESERVED_19 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED.19)
+    }
+    LIMIT_CUSTOMER_CHANGE__RESERVED_2
+    {
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=30.0, core=true, t24Name=RESERVED.2)
+    }
+    LIMIT_CUSTOMER_CHANGE__RESERVED_20
+    {
+        RESERVED_20 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.20)
+    }
+    LIMIT_CUSTOMER_CHANGE__RESERVED_3
+    {
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=29.0, core=true, t24Name=RESERVED.3)
+    }
+    LIMIT_CUSTOMER_CHANGE__RESERVED_4
+    {
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=28.0, core=true, t24Name=RESERVED.4)
+    }
+    LIMIT_CUSTOMER_CHANGE__RESERVED_5
+    {
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=27.0, core=true, t24Name=RESERVED.5)
+    }
+    LIMIT_CUSTOMER_CHANGE__RESERVED_6
+    {
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=26.0, core=true, t24Name=RESERVED.6)
+    }
+    LIMIT_CUSTOMER_CHANGE__RESERVED_7
+    {
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=25.0, core=true, t24Name=RESERVED.7)
+    }
+    LIMIT_CUSTOMER_CHANGE__RESERVED_8
+    {
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=24.0, core=true, t24Name=RESERVED.8)
+    }
+    LIMIT_CUSTOMER_CHANGE__RESERVED_9
+    {
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=23.0, core=true, t24Name=RESERVED.9)
+    }
+    LIMIT_CUSTOMER_CHANGE__SHARING_GROUP_KEY
+    {
+        REMOVE_CUSTOMER -> byValue LI_Contract:LIMIT_CUSTOMER_CHANGE__SHARING_GROUP_KEY__REMOVE_CUSTOMER *
+            @t24:i (t24Name=REMOVE.CUSTOMER)
+        REMOVE_PRODUCT -> byValue LI_Contract:LIMIT_CUSTOMER_CHANGE__SHARING_GROUP_KEY__REMOVE_PRODUCT *
+            @t24:i (t24Name=REMOVE.PRODUCT)
+        SHARING_GROUP_KEY -> LI_GroupLimit:LIMIT_SHARING_GROUP
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=9.0, core=true, businessType=A, t24Name=SHARING.GROUP.KEY)
+    }
+    LIMIT_CUSTOMER_CHANGE__SHARING_GROUP_KEY__REMOVE_CUSTOMER
+    {
+        REMOVE_CUSTOMER -> ST_Customer:CUSTOMER
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=10.0, core=true, businessType=CUS, t24Name=REMOVE.CUSTOMER)
+    }
+    LIMIT_CUSTOMER_CHANGE__SHARING_GROUP_KEY__REMOVE_PRODUCT
+    {
+        REMOVE_PRODUCT -> LI_Config:LIMIT_REFERENCE
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=11.0, core=true, businessType=A, t24Name=REMOVE.PRODUCT)
+    }
+}
+Enumerations {
+    LIMIT_CHANGE_HIST__ALLOCATION_KEY__NEW_COVER_LIABILITY : mml:string
+        1=1
+        2=2
+        NULL=NULL
+    LIMIT_CHANGE_HIST__ALLOCATION_KEY__NEW_PRIORITY_RECEIVE : mml:string
+        ASSET_TYPE=ASSET.TYPE
+        CUSTOMER=CUSTOMER
+    LIMIT_CHANGE_HIST__ALLOCATION_KEY__NEW_USE_COLLATERAL : mml:string
+        1=1
+        2=2
+        NULL=NULL
+    LIMIT_CHANGE_HIST__LIMIT_REFERENCE__LIM_BAND_LEVEL : mml:string
+        BAND=BAND
+        LEVEL=LEVEL
+    LIMIT_CHANGE_HIST__LIMIT_REFERENCE__PERC_CALC_BASIS : mml:string
+        FIXED=FIXED
+        PERIOD=PERIOD
+        PRORATA=PRORATA
+    LIMIT_CHANGE_HIST__NET_OUTSTANDING : mml:string
+        N=N
+        NULL=NULL
+        Y=Y
+    LIMIT_CHANGE_HIST__ORDER_PRIORITY : mml:string
+        MANUAL=MANUAL
+        NONE=NONE
+    LIMIT_CHANGE__ALLOCATION_KEY__NEW_COVER_LIABILITY : mml:string
+        1=1
+        2=2
+        NULL=NULL
+    LIMIT_CHANGE__ALLOCATION_KEY__NEW_PRIORITY_RECEIVE : mml:string
+        ASSET_TYPE=ASSET.TYPE
+        CUSTOMER=CUSTOMER
+    LIMIT_CHANGE__ALLOCATION_KEY__NEW_USE_COLLATERAL : mml:string
+        1=1
+        2=2
+        NULL=NULL
+    LIMIT_CHANGE__CREDIT_LINE_NO__NEW_CHECK_LIMIT : mml:string
+        N=N
+        SUPPRESS=SUPPRESS
+        Y=Y
+    LIMIT_CHANGE__KEY : mml:string
+        NULL=NULL
+        SYSTEM=SYSTEM
+    LIMIT_CHANGE__LIMIT_REFERENCE__LIM_BAND_LEVEL : mml:string
+        BAND=BAND
+        LEVEL=LEVEL
+    LIMIT_CHANGE__LIMIT_REFERENCE__PERC_CALC_BASIS : mml:string
+        FIXED=FIXED
+        PERIOD=PERIOD
+        PRORATA=PRORATA
+    LIMIT_CHANGE__NET_OUTSTANDING : mml:string
+        N=N
+        NULL=NULL
+        Y=Y
+    LIMIT_CHANGE__ORDER_PRIORITY : mml:string
+        MANUAL=MANUAL
+        NONE=NONE
+}

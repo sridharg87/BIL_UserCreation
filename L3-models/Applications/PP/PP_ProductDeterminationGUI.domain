@@ -1,0 +1,3391 @@
+# UTF-8
+/* Product Determination GUI */
+Domain PP_ProductDeterminationGUI
+    @t24:i (module=PP)
+    @java:Package (value=com.temenos.t24.datamodel.pp.pp_productdeterminationgui)
+namespace "http://www.temenos.com/t24/PP_ProductDeterminationGUI"
+metamodelVersion 1.30.6
+Classes {
+    NOFILE_CTRYGRP
+        @i18n:Description (en="")
+        @t24:i (t24Name=NOFILE.CTRYGRP, level=I, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        CTR_ID : T24BusinessTypes:N
+            @t24:i (align=L, inputBehaviour=N, maxLength=100, core=false, t24Name=CTR.ID, genOperation=COUNTRY.DROPDOWN)
+        DESCRIPTION : T24BusinessTypes:N
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=R, inputBehaviour=N, maxLength=100, core=false, t24Name=DESCRIPTION)
+        ID : T24BusinessTypes:N
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=R, inputBehaviour=N, maxLength=25, core=false, t24Name=ID)
+    }
+    /* This table is used to define various criteria to determine a product for heavy weight payment.  Based on the payment characteristics, a product will be determined and the product is linked to various like Fee, Ledger, Client Condition, Posting and Routing product. This is also linked to various transaction code to be used while booking the payments. This will influence the flow of payment based on the STP indicator, Imposed flag and Message priority. */
+    PPL_HEAVYWEIGHTPRODUCTCOND
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPL.HEAVYWEIGHTPRODUCTCOND, nonStop=true, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        ApprovedDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=60.0, core=true, t24Name=ApprovedDateTime, mask="RDDDD DD  DD ##:##:##.###")
+        ApproverUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=59.0, core=true, t24Name=ApproverUserID)
+/* Indicate the urgency of the Payment.
+
+It's a mandatory field,can have a maximum length of 4.
+This field is used as one of the criteria to determine the product of a payment. */
+        BankingPriority : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=22.0, core=true, t24Name=BankingPriority)
+/* Indiactes the Presence of Beneficiary BIC.
+Possible Values:
+Y - Yes
+* - Default Value
+
+It's a mandatory field
+
+Validation Rules:
+Mandatory Field
+This field is used as one of the criteria to determine the product of a payment. */
+        BeneficiaryBICPresent : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=15.0, core=true, t24Name=BeneficiaryBICPresent)
+/* As part of the Auto repair functionality which enriches payment information, banks can opt for events/ errors that can be chargeable.
+This provision is available via the SetBeneficiaryBICRepairedFlag which can be configured in the AutoRepairReturn Code table.
+Based on the configuration in the AutoRepairReturn Code table and the values returned from AutoRepair (Return Codes) engine, system determines if the Repair/enrichments are Chargeable or not.
+If it is chargeable, then a single field “BeneficiaryBICRepairedFlag” is set to Y, else its set to N for determining the corresponding Product and also used in Fee Determination to apply Conditional Fee.
+Possible Values:
+Y - Yes
+N - No
+* - Default value
+
+It's a mandatory field. */
+        BeneficiaryBICRepaired : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=18.0, core=true, t24Name=BeneficiaryBICRepaired)
+/* Indicates the country where the Beneficiary has an account.
+
+It's a mandatory field,lenght should be 2 char.
+The entry should be an existing record in COUNTRY or "*".
+This field is used as one of the criteria to determine the product of a payment. */
+        BeneficiaryCountry : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=27.0, core=true, t24Name=BeneficiaryCountry)
+/* Indicates the country code present in the IBAN of the Beneficiery.
+
+it's a Mandatory Field and Lenght should be 2 characters.
+The entry should be an existing record in COUNTRY or "*".
+This field is used as one of the criteria to determine the product of a payment. */
+        BeneficiaryPartyIBANCountry : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=28.0, core=true, t24Name=BeneficiaryPartyIBANCountry)
+/* Indiactes Presence of Beneficiary IBAN.
+
+Possible Values:
+Y - Yes
+* - Default Value
+
+it's a Mandatory Field.
+This field is used as one of the criteria to determine the product of a payment. */
+        BeneficiaryPartyIBANPresent : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=17.0, core=true, t24Name=BeneficiaryPartyIBANPresent)
+/* Indicates the transfer type of the payment.
+Possible values:
+"C" – Customer transfer payment
+"B" – Bank transfer payment
+
+It's a mandatory field.
+This field is used as one of the criteria to determine the product of a payment. */
+        CTRBTRIndicator : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=3.0, core=true, t24Name=CTRBTRIndicator)
+/* Holds the Charge type of the payment.
+
+Possible values:
+BEN - Charges are borne by the Beneficiary
+SHA - Charges are shared by both Ordering Party and Beneficiary
+OUR - Charges are borne by the Ordering Party
+*   - Defaul Value
+
+it's a Mandatory Field.
+This field is used as one of the criteria to determine the product of a payment. */
+        ChargeType : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=13.0, core=true, t24Name=ChargeType)
+/* Indicates Client Condition Product for the payment.
+
+It's a mandatory field,can have a maximum length of 10 AlphaNumeric Character.
+The value links to the field ‘ClientConditionProduct’ in PPT.CLIENTCONDITIONPRODUCT
+This field will be used as an output of the product determination. */
+        ClientConditionProduct : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=36.0, core=true, t24Name=ClientConditionProduct)
+/* Holds the text associated with the Final Code Word.
+
+It's a mandatory field,can have a maximum length of 35 AlphaNumeric characters.
+This field is used as one of the criteria to determine the product of a payment. */
+        CodeWordText : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=20.0, core=true, t24Name=CodeWordText)
+/* Indicates the company ID for which the record is created.
+Example : BNK,GB1
+Validation Rules:
+It's a mandatory field.
+3 alphanumeric characters.
+The value links to the field ‘CompanyID’ in PPT.COMPANY */
+        CompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=2.0, core=true, t24Name=CompanyID)
+/* Identifies the booking code for the credit entry on the payment transaction amount.
+
+Can have a maximum length of 10 AlphaNumeric characters.
+This field will be used as an output of the product determination. */
+        CreditBookCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=44.0, core=true, t24Name=CreditBookCode)
+/* Identifies the booking code for the Charge Credit. It will be used by the Posting Scheme.
+
+Can have a maximum length of 10 AlphaNumeric characters.
+This field will be used as an output of the product determination. */
+        CreditChargeBookCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=46.0, core=true, t24Name=CreditChargeBookCode)
+/* Identifies the booking code for VAT Credit.  It will be used by the Posting Scheme.
+
+Can have a maximum length of 10 AlphaNumeric characters.
+This field will be used as an output of the product determination. */
+        CreditVATBookCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=48.0, core=true, t24Name=CreditVATBookCode)
+/* Holds a 3 character unique code which denotes a specific currency used in the system.
+
+It's a mandatory field.
+Default Value is "*"
+This field is used as one of the criteria to determine the product of a payment. */
+        Currency : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=10.0, core=true, t24Name=Currency)
+/* Currency Markets are used to identify the correct exchange and revaluation Rates,
+to be applied to each Currency in case of cross currency transactions. */
+        CurrencyMarket : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=65.0, core=true, t24Name=CurrencyMarket)
+/* Indicates the type of the Debit Account.
+Possible Values:
+C – Client
+N – Nostro
+V – Vostro
+I  - Internal
+PL – P&L
+* - Defaule value
+
+It's a mandatory field.
+This field is used as one of the criteria to determine the product of a payment. */
+        DebitAccountType : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=30.0, core=true, t24Name=DebitAccountType)
+/* Identifies the booking code for the debit entry on the payment transaction amount.
+
+Can have a maximum length of 10 AlphaNumeric characters.
+This field will be used as an output of the product determination. */
+        DebitBookCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=43.0, core=true, t24Name=DebitBookCode)
+/* Identifies the booking code for the Charge Debit. It will be used by the Posting Scheme.
+
+Can have a maximum length of 10 AlphaNumeric characters.
+This field will be used as an output of the product determination. */
+        DebitChargeBookCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=45.0, core=true, t24Name=DebitChargeBookCode)
+/* Identifies the booking code for VAT Debit. It will be used by the Posting Scheme.
+
+Can have a maximum length of 10 AlphaNumeric characters.
+This field will be used as an output of the product determination. */
+        DebitVATBookCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=47.0, core=true, t24Name=DebitVATBookCode)
+/* Indicates Payment type based on Currency and Geography.
+"I" –  International Payment
+"D" – Domestic payment
+
+It's a mandatory field.
+This field is used as one of the criteria to determine the product of a payment. */
+        DomesticInternational : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=5.0, core=true, t24Name=DomesticInternational)
+/* Idefines if the Payment is EC Compliant.
+Y – Payment is EC Compliant
+N – Payment is not EC Compliant
+
+It's a mandatory field.
+This field will be used as an output of the product determination. */
+        ECCompliantIndicator : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=53.0, core=true, t24Name=ECCompliantIndicator)
+        /* Specifies the date until which the record is to be considered as active for payments processing.Post this date, the record will be set as Inactive by the payments hub. */
+        EndDateHeavyWeightProduct : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=54.0, core=true, t24Name=EndDateHeavyWeightProduct)
+        EntryDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=58.0, core=true, t24Name=EntryDateTime, mask="RDDDD DD  DD ##:##:##.###")
+        EntryUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=57.0, core=true, t24Name=EntryUserID)
+/* Indicates Fee Product for the payment.
+
+It's a mandatory field,can have a maximum length of 10 AlphaNumeric Characters.
+The value links to the field ‘FeeProduct’ in PPT.FEEPRODUCT
+This field will be used as an output of the product determination. */
+        FeeProduct : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=40.0, core=true, t24Name=FeeProduct)
+        FilterProduct : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=62.0, core=true, t24Name=FilterProduct)
+/* Holds the bilaterally agreed code words between the banks.
+
+It's a mandatory field,can have a maximum length of 8 AlphaNumeric characters.
+This field is used as one of the criteria to determine the product of a payment. */
+        FinalCodeWord : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=19.0, core=true, t24Name=FinalCodeWord)
+        ForwardEntryFlag : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=63.0, core=true, t24Name=ForwardEntryFlag)
+/* Holds the starting amount range.
+
+It's a mandatory field,can have a maximum length of 17 Numneric characters.
+This field is used as one of the criteria to determine the product of a payment. */
+        FromAmount : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=17, sysNumber=11.0, core=true, t24Name=FromAmount)
+        HWConcat : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=61.0, core=true, t24Name=HWConcat)
+/* Unique ID generated by the payments hub in order to identify each record in the application.
+This field can hold upto 65 alphanumeric characters. */
+        HeavyWeightProductID : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, t24Name=HeavyWeightProductID)
+        ID -> PP_ProductDeterminationGUI:PPL_HEAVYWEIGHTPRODUCTCOND PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+        /* Flag which is used to impose the appropriate Routing Group for outgoing payments to be routed via local clearing. Such payments should never pick the default route. */
+        ImposeRoutingFlag : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=39.0, core=true, t24Name=ImposeRoutingFlag)
+/* Indicates the message type of the Payment.
+
+It's a mandatory field,can have a maximum length of 10 AlphaNumneric characters.
+The value links to the field ‘MessagePaymentType’ in PPT.MESSAGEPAYMENTTYPE
+Default value is "*"
+This field is used as one of the criteria to determine the product of a payment. */
+        IncomingMessageType : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=33.0, core=true, t24Name=IncomingMessageType)
+/* Identifies “Intra-Company” payments and this value is expected to be present in the Final Code Word.
+
+Possible Values:
+Y - Yes
+* - Default Value
+
+It's a mandatory field.
+This field is used as one of the criteria to determine the product of a payment. */
+        IntraCompanyPayment : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=21.0, core=true, t24Name=IntraCompanyPayment)
+/* Enables identification of the Product for description line/narrative purposes, even if the Posting Group and resulting Posting Lines are same for two different products.
+
+It's a mandatory field,can have a maximum length of 10 AlphaNumneric characters.
+The value links to the field ‘LedgerProductCode’ in PPT.LEDGERPRODUCTCODES
+
+This field will be used as an output of the product determination. */
+        LedgerProductCode : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=42.0, core=true, t24Name=LedgerProductCode)
+/* Identifies the Payment Message Priority.
+Possible values:
+1,2,3,4,5,6,7,8,9
+It's a mandatory field
+This field will be used as an output of the product determination. */
+        MessagePriority : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=2, sysNumber=6.0, core=true, t24Name=MessagePriority)
+/* Identifies the new Priority of the Payment. User can choose to ignore the incoming priority and define a new Priority.
+Possible values:
+1,2,3,4,5,6,7,8,9
+It's a mandatory field
+This field will be used as an output of the product determination. */
+        NewPriority : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=2, sysNumber=50.0, core=true, t24Name=NewPriority)
+/* Indicates whether the payment is sent to Repair queue or not.
+Possible Values:
+Y - Yes
+N -No
+
+This field will be used as an output of the product determination. */
+        NonSTPIndicator : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=51.0, core=true, t24Name=NonSTPIndicator)
+/* Indiactes Presence of Ordering Institution BIC.
+Possible Values:
+Y - Yes
+* - Default Value
+
+It's a mandatory field
+This field is used as one of the criteria to determine the product of a payment. */
+        OrderingInstitutionBICPresent : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=14.0, core=true, t24Name=OrderingInstitutionBICPresent)
+/* Indicates the country code present in the IBAN of the Ordering Party.
+
+It's a mandatory field,lenght should be 2 char.
+The entry should be an existing record in COUNTRY or "*".
+This field is used as one of the criteria to determine the product of a payment. */
+        OrderingPartyIBANCountry : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=24.0, core=true, t24Name=OrderingPartyIBANCountry)
+/* Indiactes Presence of IBAN of the Ordering Party.
+Possible Values:
+Y - Yes
+* - Default Value
+It's a mandatory field.
+This field is used as one of the criteria to determine the product of a payment. */
+        OrderingPartyIBANPresent : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=16.0, core=true, t24Name=OrderingPartyIBANPresent)
+/* Indicates the Resident type of the Ordering Party.
+Possible Values:
+R - Resident
+N - Non Resident
+* - Default Value
+
+It's a mandatory field.
+This field is used as one of the criteria to determine the product of a payment. */
+        OrderingPartyResidency : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=26.0, core=true, t24Name=OrderingPartyResidency)
+/* Indicates the country where the Payment originated.
+
+It's a mandatory field,length should be 2 char.
+The entry should be an existing record in COUNTRY or "*".
+This field is used as one of the criteria to determine the product of a payment. */
+        OriginatingDebitPartyCountry : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=23.0, core=true, t24Name=OriginatingDebitPartyCountry)
+/* Identifies the Source Group of the Payment.
+
+It's a mandatory field,length should be 10 AlphaNumeric characters.
+The value links to the field ‘SourceProduct’ in PPT.SOURCEPDGROUP
+Default value is "*"
+This field is used as one of the criteria to determine the product of a payment. */
+        OriginatingSource : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=8.0, core=true, t24Name=OriginatingSource)
+/* Idefines if the Payment is PSD Compliant.
+Possible Values:
+D – Debit Side is PSD Compliant
+C – Credit Side is PSD Compliant
+Y – Payment is PSD Compliant
+N – Payment is not PSD Compliant
+I - Ignore
+
+It's a mandatory field.
+This field will be used as an output of the product determination. */
+        PSDCompliantIndicator : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=52.0, core=true, t24Name=PSDCompliantIndicator)
+/* Indicates the Direction of the payment.
+Possible values:
+"I" – Incoming payment
+"B" – Book payment
+"O" – Outgoing Payment
+"R" – Redirect payment
+
+It's a mandatory field.
+This field is used as one of the criteria to determine the product of a payment. */
+        PaymentDirection : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=4.0, core=true, t24Name=PaymentDirection)
+/* Indicates Posting Product for the payment as defined in PPT_PostingProduct.
+
+It's a mandatory field,can have a maximum length of 10.
+The value links to the field ‘FeeProduct’ in PPT.FEEPRODUCT
+This field will be used as an output of the product determination. */
+        PostingProduct : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=41.0, core=true, t24Name=PostingProduct)
+/* Record Activation Code generated for the record by the payment's hub.
+Possible values:
+N - Not active
+A -  Active
+H-YYYYMMDDHHMMSSsss - History. Where: YYYY - year, MM - month, DD - day, HH - hour, MM - minutes, SS - seconds and sss - miliseconds
+F - Future
+C - Not active future
+Validation Rules:
+19 alphanumeric characters. */
+        RACHeavyWeightProduct : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=55.0, core=true, t24Name=RACHeavyWeightProduct)
+/* Record Status Code generated for the record by the payments hub.
+Possible values:
+L - Live
+U - Unapproved
+R - Reversed
+MF - Modified future
+Validation Rules:
+1 alphanumeric character. */
+        RSCHeavyWeightProduct : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=56.0, core=true, t24Name=RSCHeavyWeightProduct)
+/* Defines the destination BIC to which the message should
+be sent.
+
+It's a mandatory field,can have a maximum length of 15 AlphaNumeric Characters.
+The value links to the field ‘BICCode’ in PPT.BICTABLE
+Default Value is "*"
+This field is used as one of the criteria to determine the product of a payment. */
+        ReceiverBIC : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=32.0, core=true, t24Name=ReceiverBIC)
+/* Indicates the Receiver Country of the payment.
+
+It's a mandatory field, lenght should be 2 charachters.
+The entry should be an existing record in COUNTRY or "*".
+This field is used as one of the criteria to determine the product of a payment. */
+        ReceiverCountry : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=29.0, core=true, t24Name=ReceiverCountry)
+/* Identifies whether the Payment has to fulfil Regulatory Reporting requirements.
+This field will be used as an output of the product determination. */
+        RegulatoryReportingIndicator : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=49.0, core=true, t24Name=RegulatoryReportingIndicator)
+/* Indicates that an incoming Payment has to be returned to the Originator of the message
+Possible Values:
+Y - Yes
+* - Default Value
+
+It's a mandatory field.
+
+This field is used as one of the criteria to determine the product of a payment. */
+        ReturnTrigger : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=9.0, core=true, t24Name=ReturnTrigger)
+/* Indicates Routing Product for the payment.
+
+It's a mandatory field,can have a maximum length of 10.
+The value links to the field ‘RoutingProduct’ in PPT.RoutingPRODUCT
+This field will be used as an output of the product determination. */
+        RoutingProduct : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=38.0, core=true, t24Name=RoutingProduct)
+        STPFlagForPO : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=64.0, core=true, t24Name=STPFlagForPO)
+/* Indicates the Sender BIC.
+
+It's a mandatory field,can have a maximum length of 15 AlphaNumeric Characters.
+The value links to the field ‘BICCode’ in PPT.BICTABLE
+Default Value is "*"
+This field is used as one of the criteria to determine the product of a payment. */
+        SenderBIC : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=31.0, core=true, t24Name=SenderBIC)
+/* Indicates the sender country of the payment.
+
+It's a mandatory field, lenght should be 2 charachters.
+The entry should be an existing record in COUNTRY or "*".
+This field is used as one of the criteria to determine the product of a payment. */
+        SenderCountry : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=25.0, core=true, t24Name=SenderCountry)
+/* Indicates payment type based on Single, Batch and Clearing payment.
+Possible values:
+“S” - Single Payments
+“C” - Batch Child Payments
+“Y” - Clearing Settlement Transaction
+
+It's a mandatory field.
+"N” - Clearing Payments
+“P” - Batch Parent Payments
+This field is used as one of the criteria to determine the product of a payment. */
+        SingleBatchClearing : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=7.0, core=true, t24Name=SingleBatchClearing)
+/* Indicates Source type of the payment.
+Possible Values:
+S – Source
+G – Source Group
+
+It's a mandatory field.
+This field is used as one of the criteria to determine the product of a payment. */
+        SourceIndicator : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=37.0, core=true, t24Name=SourceIndicator)
+        /* Specifies the date from which the record is to be considered as active for payments processing. */
+        StartDateHeavyWeightProduct : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=35.0, core=true, t24Name=StartDateHeavyWeightProduct)
+/* Holds the ending amount range.
+
+It's a mandatory field,can have a maximum length of 17 Numneric characters.
+This field is used as one of the criteria to determine the product of a payment. */
+        ToAmount : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=17, sysNumber=12.0, core=true, t24Name=ToAmount)
+/* Flag is used to differentiate a normal MT103 from a MT103+ (STP) and an MT202 from an MT202 (COV) message.
+
+It's a mandatory field,can have a maximum length of 8 Numneric characters.
+Default Value is "*"
+This field is used as one of the criteria to determine the product of a payment. */
+        ValidationFlag : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=34.0, core=true, t24Name=ValidationFlag)
+    }
+/* The purpose of this table is to define various criteria to determine a product for light weight payment. Based on the payment characteristics, a product will be determined and the product is linked to various like Fee, Ledger, Client Condition, Posting and Routing product. This is also linked to various transaction code to be used while booking the payments. This will influence the flow of payment based on the STP indicator, Imposed flag and Message priority.
+The configurations will be done through the PP.LIGHTWEIGHTPRODUCTCOND screen and saved into PPL.LIGHTWEIGHTPRODUCTCOND table. */
+    PPL_LIGHTWEIGHTPRODUCTCOND
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPL.LIGHTWEIGHTPRODUCTCOND, nonStop=true, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* Indicates the system date and time when the entry was approved.
+Validation Rules:
+17 characters Date Time format.
+It need to be displayed as DD MMM YYYY HH:MM:SS.sss.
+Example: 12 JAN 2015 12:34:25.123
+The value is not editable by the user. */
+        ApprovedDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=31.0, core=true, t24Name=ApprovedDateTime, mask="RDDDD DD  DD ##:##:##.###")
+/* Indicates the name of the user who approved the entry.
+Validation Rules:
+30 alphanumeric characters.
+The value is not editable by the user. */
+        ApproverUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=30.0, core=true, t24Name=ApproverUserID)
+/* Identifies the nature of clearing payment. It is updated from Mapping.
+
+It's a mandatory field,can have a maximum length of 20 AlphaNumeric Character.
+This field is used as one of the criteria to determine the product of a payment. */
+        ClearingNatureCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=5.0, core=true, t24Name=ClearingNatureCode)
+/* This field is used to maintain a distinction between returns / refunds and normal incoming credit transfers / direct debits
+Validation Rules:
+2 alphanumeric characters
+The value links to the field 'ClearingTransactionType' in PPT.TRANSACTIONTYPES table. Wildcard ‘*’ is acceptable which denotes all transaction types. */
+        ClearingTransactionType : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=35.0, core=true, t24Name=ClearingTransactionType)
+/* Indicates Client Condition Product for the payment.
+
+It's a mandatory field,can have a maximum length of 10 AlphaNumeric Character.
+
+The value links to the field ‘ClientConditionProduct’ in PPT.CLIENTCONDITIONPRODUCT
+
+This field will be used as an output of the product determination. */
+        ClientConditionProduct : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=8.0, core=true, t24Name=ClientConditionProduct)
+/* Indicates the company ID for which the record is created.
+Example : BNK,GB1
+Validation Rules:
+3 alphanumeric characters.
+The value links to the field ‘CompanyID’ in PPT.COMPANY */
+        CompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=2.0, core=true, t24Name=CompanyID)
+/* Identifies the booking code for the credit entry on the payment transaction amount.
+
+Can have a maximum length of 10 AlphaNumeric characters.
+
+This field will be used as an output of the product determination. */
+        CreditBookCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=16.0, core=true, t24Name=CreditBookCode)
+/* Identifies the booking code for the Charge Credit. It will be used by the Posting Scheme.
+
+Can have a maximum length of 10 AlphaNumeric characters.
+This field will be used as an output of the product determination. */
+        CreditChargeBookCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=18.0, core=true, t24Name=CreditChargeBookCode)
+/* Identifies the booking code for VAT Credit.  It will be used by the Posting Scheme.
+
+Can have a maximum length of 10 AlphaNumeric characters.
+This field will be used as an output of the product determination. */
+        CreditVATBookCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=20.0, core=true, t24Name=CreditVATBookCode)
+/* Currency Markets are used to identify the correct exchange and revaluation Rates,
+to be applied to each Currency in case of cross currency transactions. */
+        CurrencyMarket : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=36.0, core=true, t24Name=CurrencyMarket)
+/* Identifies the booking code for the debit entry on the payment transaction amount.
+
+Can have a maximum length of 10 AlphaNumeric characters.
+This field will be used as an output of the product determination. */
+        DebitBookCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=15.0, core=true, t24Name=DebitBookCode)
+/* Identifies the booking code for the Charge Debit. It will be used by the Posting Scheme.
+
+Can have a maximum length of 10 AlphaNumeric characters.
+This field will be used as an output of the product determination. */
+        DebitChargeBookCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=17.0, core=true, t24Name=DebitChargeBookCode)
+/* Identifies the booking code for VAT Debit. It will be used by the Posting Scheme.
+
+Can have a maximum length of 10 AlphaNumeric characters.
+This field will be used as an output of the product determination. */
+        DebitVATBookCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=19.0, core=true, t24Name=DebitVATBookCode)
+/* Identifies if the Payment is EC Compliant.
+Y – Payment is EC Compliant
+N – Payment is not EC Compliant
+
+It's a mandatory field.
+This field will be used as an output of the product determination. */
+        ECCompliantIndicator : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=24.0, core=true, t24Name=ECCompliantIndicator)
+/* Specifies the date until which the record is to be considered as active for payments processing.Post this date, the record will be set as Inactive by the payments hub.
+Validation Rules:
+11 characters Date format should be entered.
+Default value defined as 99991231
+End Date must be greater than Start Date. */
+        EndDateLightWeightProduct : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=25.0, core=true, t24Name=EndDateLightWeightProduct)
+/* Indicates the system date and time when the entry was created or modified.
+Validation Rules:
+17 characters Date Time format.
+It need to be displayed as DD MMM YYYY HH:MM:SS.sss.
+Example: 12 JAN 2015 12:34:25.123
+The value is not editable by the user. */
+        EntryDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=29.0, core=true, t24Name=EntryDateTime, mask="RDDDD DD  DD ##:##:##.###")
+/* Indicates the user that created or modified the entry.
+Validation Rules:
+30 alphanumeric characters.
+The value is not editable by the user. */
+        EntryUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=28.0, core=true, t24Name=EntryUserID)
+/* Holds the bilaterally agreed code words between the banks.
+
+It's a mandatory field,can have a maximum length of 8 AlphaNumeric characters.
+This field will be used as an output of the product determination. */
+        FeeProduct : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=12.0, core=true, t24Name=FeeProduct)
+/* Indicates Filtering Product for the payment.
+It's a mandatory field, can have a maximum length of 10 AlphaNumeric characters.
+The value links to the field 'FilteringProduct' in PPT.FilteringProduct.
+This field will be used as an output of the product determination. */
+        FilterProduct : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=32.0, core=true, t24Name=FilterProduct)
+        /* description to be added */
+        ForwardEntryFlag : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=33.0, core=true, t24Name=ForwardEntryFlag)
+        /* Unique ID generated by the payments hub in order to identify each record in the application. */
+        ID -> PP_ProductDeterminationGUI:PPL_LIGHTWEIGHTPRODUCTCOND PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+        /* Flag which is used to impose the appropriate Routing Group for outgoing payments to be routed via local clearing. Such payments should never pick the default route. */
+        ImposeRoutingFlag : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=11.0, core=true, t24Name=ImposeRoutingFlag)
+/* Indicates the message type of the Payment.
+
+It's a mandatory field,can have a maximum length of 10 AlphaNumneric characters.
+The value links to the field ‘MessagePaymentType’ in PPT.MESSAGEPAYMENTTYPE
+Default value is "*"
+This field is used as one of the criteria to determine the product of a payment. */
+        IncomingMessageType : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=4.0, core=true, t24Name=IncomingMessageType)
+/* Enables identification of the Product for description line/narrative purposes, even if the Posting Group and resulting Posting Lines are same for two different products.
+This field will be used as an output of the product determination. */
+        LedgerProductCode : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=14.0, core=true, t24Name=LedgerProductCode)
+        /* Unique ID generated by the payments hub in order to identify each record in the application. It has the same value with the ID record. */
+        LightWeightProductID : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, t24Name=LightWeightProductID)
+/* Indicates whether or not the payment is sent to Repair queue.
+Possible Values:
+Y - Yes
+N -No
+
+This field will be used as an output of the product determination. */
+        NonSTPIndicator : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=22.0, core=true, t24Name=NonSTPIndicator)
+/* Identifies the Source Group of the Payment.
+
+It's a mandatory field,length should be 10 AlphaNumeric characters.
+The value links to the field ‘SourceProduct’ in PPT.SOURCEPDGROUP
+Default value is "*"
+This field is used as one of the criteria to determine the product of a payment. */
+        OriginatingSource : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=3.0, core=true, t24Name=OriginatingSource)
+/* Identifies if the Payment is PSD Compliant.
+Possible Values:
+D – Debit Side is PSD Compliant
+C – Credit Side is PSD Compliant
+Y – Payment is PSD Compliant
+N – Payment is not PSD Compliant
+I - Ignore
+
+It's a mandatory field.
+This field will be used as an output of the product determination. */
+        PSDCompliantIndicator : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=23.0, core=true, t24Name=PSDCompliantIndicator)
+/* Indicates Posting Product for the payment as defined in PPT_PostingProduct .
+This field will be used as an output of the product determination. */
+        PostingProduct : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=13.0, core=true, t24Name=PostingProduct)
+/* Record Activation Code generated for the record by the payment's hub.
+Possible values:
+N - Not active
+A -  Active
+H-YYYYMMDDHHMMSSsss - History. Where: YYYY - year, MM - month, DD - day, HH - hour, MM - minutes, SS - seconds and sss - miliseconds
+F - Future
+C - Not active future
+Validation Rules:
+19 alphanumeric characters.
+The value is not editable by the user. */
+        RACLightWeightProduct : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=26.0, core=true, t24Name=RACLightWeightProduct)
+/* Record Status Code generated for the record by the payments hub.
+Possible values:
+L - Live
+U - Unapproved
+R - Reversed
+MF - Modified future
+Validation Rules:
+1 alphanumeric character.
+The value is not editable by the user. */
+        RSCLightWeightProduct : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=27.0, core=true, t24Name=RSCLightWeightProduct)
+/* Identifies whether the Payment has to fulfil Regulatory Reporting requirements.
+This field will be used as an output of the product determination. */
+        RegulatoryReportingIndicator : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=21.0, core=true, t24Name=RegulatoryReportingIndicator)
+/* Indicates Routing Product for the payment.
+
+It's a mandatory field,can have a maximum length of 10.
+The value links to the field ‘RoutingProduct’ in PPT.RoutingPRODUCT
+This field will be used as an output of the product determination. */
+        RoutingProduct : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=10.0, core=true, t24Name=RoutingProduct)
+        /* description to be added */
+        STPFlagForPO : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=34.0, core=true, t24Name=STPFlagForPO)
+/* Identifies whether the payment is settlement transaction or not.
+Possible Values:
+Y - Yes
+* - Default Value
+
+It's a mandatory field.
+This field is used as one of the criteria to determine the product of a payment. */
+        SettlementIndicator : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=6.0, core=true, t24Name=SettlementIndicator)
+/* Indicates the source group from where payment has been originated.
+
+It's a mandatory field,length should be 10 AlphaNumeric characters.
+This field is used as one of the criteria to determine the product of a payment. */
+        SourceProduct : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=9.0, core=true, t24Name=SourceProduct)
+/* Specifies the date from which the record is to be considered as active for payments processing.
+Validation Rules:
+11 characters Date format should be entered.
+Default value defined as Current Business Date.
+Start Date must be less than End Date. */
+        StartDateLightWeightProduct : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=7.0, core=true, t24Name=StartDateLightWeightProduct)
+    }
+/* The purpose of this table is to define various criteria to determine a product for medium weight payment. Based on the payment characteristics, a product will be determined and the product is linked to various like Fee, Ledger, Client Condition, Posting and Routing product. This is also linked to various transaction code to be used while booking the payments. This will influence the flow of payment based on the STP indicator, Imposed flag and Message priority.
+The configurations will be done through the PP.MEDIUMWEIGHTPRODUCTCOND screen and saved into PPL.MEDIUMWEIGHTPRODUCTCOND table. */
+    PPL_MEDIUMWEIGHTPRODUCTCOND
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPL.MEDIUMWEIGHTPRODUCTCOND, nonStop=true, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        ApprovedDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=47.0, core=true, t24Name=ApprovedDateTime, mask="RDDDD DD  DD ##:##:##.###")
+        ApproverUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=46.0, core=true, t24Name=ApproverUserID)
+/* Indicates Presence of Beneficiary institution BIC.
+
+Possible Values:
+“Y” - Yes
+“*” - Applies-to-all Value
+
+Default value is "Y".
+It's a mandatory field.
+This field is used as one of the criteria to determine the product of a payment. */
+        BeneficiaryInstitBICPresent : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=17.0, core=true, t24Name=BeneficiaryInstitBICPresent)
+/* Indicates the country code or country group present in the IBAN of the Beneficiary.
+
+It's a mandatory field.
+Can have a maximum length of 2 alpha-numeric characters.
+The entry should be an existing record in PPT.COUNTRY or COUNTRY.GROUP.
+Default value is "*".
+This field is used as one of the criteria to determine the product of a payment. */
+        BeneficiaryPartyIBANCountry : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=13.0, core=true, t24Name=BeneficiaryPartyIBANCountry)
+/* Indicates Presence of Beneficiary IBAN.
+
+Possible Values:
+“Y” - Yes
+“*” - Applies-to-all Value
+
+Default value is "Y".
+It's a mandatory field.
+This field is used as one of the criteria to determine the product of a payment. */
+        BeneficiaryPartyIBANPresent : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=15.0, core=true, t24Name=BeneficiaryPartyIBANPresent)
+/* Holds the Charge type of the payment.
+
+Possible values:
+“BEN” - Charges are borne by the Beneficiary
+“SHA” - Charges are shared by both Ordering Party and Beneficiary
+“OUR” - Charges are borne by the Ordering Party
+
+It's a mandatory field.
+This field is used as one of the criteria to determine the product of a payment. */
+        ChargeType : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=6.0, core=true, t24Name=ChargeType)
+/* Identifies the nature of clearing payment. It is updated from Mapping.
+
+Default value is "*".
+It's a mandatory field.
+Can have a maximum length of 20 alpha-numeric characters.
+The value links to the field ‘ClearingNatureCode’ in PPT.CLEARINGNATURECODE.
+This field is used as one of the criteria to determine the product of a payment. */
+        ClearingNatureCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=12.0, core=true, t24Name=ClearingNatureCode)
+/* Identifies the clearing transaction type of the payment.
+
+Example:
+“CC” - Cheque Credits
+“CD” - Cheque Debits
+“CT” - Credit Transfer
+“DD” - Direct Debits
+
+It's a mandatory Field.
+This field is used as one of the criteria to determine the product of a payment. */
+        ClearingTransactionType : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=4.0, core=true, t24Name=ClearingTransactionType)
+/* Indicates Client Condition Product for the payment.
+
+It's a mandatory field.
+Can have a maximum length of 10 alpha-numeric characters.
+The value links to the field ‘ClientConditionProduct’ in PPT.CLIENTCONDITIONPRODUCT.
+This field will be used as an output of the product determination. */
+        ClientConditionProduct : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=22.0, core=true, t24Name=ClientConditionProduct)
+/* Indicates the company ID for which the record is created.
+
+Example: BNK, GB1
+
+It's a mandatory field.
+The value links to the field ‘CompanyID’ in PPT.COMPANY.
+This field is used as one of the criteria to determine the product of a payment. */
+        CompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=2.0, core=true, t24Name=CompanyID)
+/* Identifies the booking code for the credit entry on the payment transaction amount.
+
+Can have a maximum length of 10 alpha-numeric characters.
+This field will be used as an output of the product determination. */
+        CreditBookCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=31.0, core=true, t24Name=CreditBookCode)
+/* Identifies the booking code for the Charge Credit. It will be used by the Posting Scheme.
+
+Can have a maximum length of 10 alpha-numeric characters.
+This field will be used as an output of the product determination. */
+        CreditChargeBookCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=33.0, core=true, t24Name=CreditChargeBookCode)
+/* Identifies the booking code for VAT Credit. It will be used by the Posting Scheme.
+
+Can have a maximum length of 10 alpha-numeric characters.
+This field will be used as an output of the product determination. */
+        CreditVATBookCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=35.0, core=true, t24Name=CreditVATBookCode)
+/* Holds a 3 character unique code which denotes a specific currency used in the system.
+
+It's a mandatory field.
+The value links to the field ‘CurrencyCode’ in PPT.CURRENCY.
+This field is used as one of the criteria to determine the product of a payment. */
+        Currency : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=7.0, core=true, t24Name=Currency)
+/* Currency Markets are used to identify the correct exchange and revaluation Rates,
+to be applied to each Currency in case of cross currency transactions. */
+        CurrencyMarket : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=49.0, core=true, t24Name=CurrencyMarket)
+/* Identifies the booking code for the debit entry on the payment transaction amount.
+
+Can have a maximum length of 10 alpha-numeric characters.
+This field will be used as an output of the product determination. */
+        DebitBookCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=30.0, core=true, t24Name=DebitBookCode)
+/* Identifies the booking code for the Charge Debit. It will be used by the Posting Scheme.
+
+Can have a maximum length of 10 alpha-numeric characters.
+This field will be used as an output of the product determination. */
+        DebitChargeBookCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=32.0, core=true, t24Name=DebitChargeBookCode)
+/* Identifies the booking code for VAT Debit. It will be used by the Posting Scheme.
+
+Can have a maximum length of 10 alpha-numeric characters.
+This field will be used as an output of the product determination. */
+        DebitVATBookCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=34.0, core=true, t24Name=DebitVATBookCode)
+/* Identifies if the Payment is EC (European Council) compliant.
+
+Possible values:
+“Y” – Payment is EC Compliant
+“N” – Payment is not EC Compliant
+
+It's a mandatory field.
+This field will be used as an output of the product determination. */
+        ECCompliantIndicator : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=40.0, core=true, t24Name=ECCompliantIndicator)
+        /* Specifies the date until which the record is to be considered as active for payments processing. Post this date, the record will be set as Inactive by the payments hub. */
+        EndDateMediumWeightProduct : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=41.0, core=true, t24Name=EndDateMediumWeightProduct)
+        EntryDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=45.0, core=true, t24Name=EntryDateTime, mask="RDDDD DD  DD ##:##:##.###")
+        EntryUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=44.0, core=true, t24Name=EntryUserID)
+/* Indicates Fee Product for the payment.
+
+It's a mandatory field.
+Can have a maximum length of 10 alpha-numeric characters.
+The value links to the field ‘FeeProduct’ in PPT.FEEPRODUCT.
+This field will be used as an output of the product determination. */
+        FeeProduct : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=26.0, core=true, t24Name=FeeProduct)
+        FilterProduct : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=28.0, core=true, t24Name=FilterProduct)
+/* Holds the bilaterally agreed code words between the banks.
+
+Default value is "*".
+It's a mandatory field.
+Can have a maximum length of 8 alpha-numeric characters.
+The value links to the field ‘CodeWord’ in PPL.INBOUNDCODEWORD.
+This field is used as one of the criteria to determine the product of a payment. */
+        FinalCodeWord : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=20.0, core=true, t24Name=FinalCodeWord)
+/* Holds the starting amount range.
+
+It's a mandatory field.
+Can have a maximum length of 17 numeric characters.
+This field is used as one of the criteria to determine the product of a payment. */
+        FromAmount : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=17, sysNumber=8.0, core=true, t24Name=FromAmount)
+        ID -> PP_ProductDeterminationGUI:PPL_MEDIUMWEIGHTPRODUCTCOND PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+        /* Flag which is used to impose the appropriate Routing Group for outgoing payments to be routed via local clearing. Such payments should never pick the default route. */
+        ImposeRoutingFlag : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=25.0, core=true, t24Name=ImposeRoutingFlag)
+/* Indicates the message type of the Payment.
+
+Default value is "*".
+It's a mandatory field.
+Can have a maximum length of 10 alpha-numeric characters.
+The value links to the field ‘MessagePaymentType’ in PPT.MESSAGEPAYMENTTYPE.
+This field is used as one of the criteria to determine the product of a payment. */
+        IncomingMessageType : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=11.0, core=true, t24Name=IncomingMessageType)
+/* Enables identification of the Product for description line/narrative purposes, even if the Posting Group and resulting Posting Lines are same for two different products.
+
+It's a mandatory field.
+Can have a maximum length of 10 alpha-numeric characters.
+The value links to the field ‘LedgerProductCode’ in PPT.LEDGERPRODUCTCODES.
+This field will be used as an output of the product determination. */
+        LedgerProductCode : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=29.0, core=true, t24Name=LedgerProductCode)
+        MWConcat : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=48.0, core=true, t24Name=MWConcat)
+        MediumWeightProductID : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, t24Name=MediumWeightProductID)
+/* Identifies the new priority of the payment. User can choose to ignore the incoming priority and define a new priority.
+
+Possible values:
+1,2,3,4,5,6,7,8,9
+
+This field will be used as an output of the product determination. */
+        NewPriority : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=2, sysNumber=37.0, core=true, t24Name=NewPriority)
+/* Indicates whether the payment is sent to Repair queue or not.
+
+Possible Values:
+“Y” - Yes
+“N” - No
+
+This field will be used as an output of the product determination. */
+        NonSTPIndicator : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=38.0, core=true, t24Name=NonSTPIndicator)
+/* Indicates Presence of Ordering institution BIC.
+
+Possible Values:
+“Y” - Yes
+“*” - Applies-to-all Value
+
+Default value is "Y".
+It's a mandatory field.
+This field is used as one of the criteria to determine the product of a payment. */
+        OrderingInstitBICPresent : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=18.0, core=true, t24Name=OrderingInstitBICPresent)
+/* Indicates the country code or country group present in the IBAN of the Ordering Party.
+
+It's a mandatory field.
+Can have a maximum length of 2 alpha-numeric characters.
+The entry should be an existing record in PPT.COUNTRY or COUNTRY.GROUP.
+Default value is "*".
+This field is used as one of the criteria to determine the product of a payment. */
+        OrderingPartyIBANCountry : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=14.0, core=true, t24Name=OrderingPartyIBANCountry)
+/* Indicates Presence of Ordering Party IBAN.
+
+Possible Values:
+“Y” - Yes
+“*” - Applies-to-all Value
+
+Default value is "Y".
+It's a mandatory field.
+This field is used as one of the criteria to determine the product of a payment. */
+        OrderingPartyIBANPresent : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=16.0, core=true, t24Name=OrderingPartyIBANPresent)
+/* Indicates the Resident type of the Ordering party.
+
+Possible Values:
+“R” - Resident
+“N” - Non Resident
+“*” - Applies-to-all Value
+
+Default value is "*".
+It's a mandatory field.
+This field is used as one of the criteria to determine the product of a payment. */
+        OrderingPartyResidency : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=19.0, core=true, t24Name=OrderingPartyResidency)
+/* Identifies the Source Group of the payment.
+
+It's a mandatory field.
+Can have a maximum length of 10 alpha-numeric characters.
+The value links to the field ‘SourceProduct’ in PPT.SOURCEPDGROUP.
+Default value is "*".
+This field is used as one of the criteria to determine the product of a payment. */
+        OriginatingSource : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=10.0, core=true, t24Name=OriginatingSource)
+/* Identifies if the Payment is PSD (Payment Services Directive) compliant.
+
+Possible Values:
+“C” – Credit Side is PSD Compliant
+“D” – Debit Side is PSD Compliant
+“I” - Ignore
+“N” – Payment is not PSD Compliant
+“Y” – Payment is PSD Compliant
+
+It's a mandatory field.
+This field will be used as an output of the product determination. */
+        PSDCompliantIndicator : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=39.0, core=true, t24Name=PSDCompliantIndicator)
+/* Indicates the Direction of the payment.
+
+Possible values:
+“I” – Incoming payment
+“B” – Book payment
+“O” – Outgoing payment
+“R” – Redirect payment
+
+It's a mandatory field.
+This field is used as one of the criteria to determine the product of a payment. */
+        PaymentDirection : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=3.0, core=true, t24Name=PaymentDirection)
+/* Indicates Posting Product for the payment.
+
+It's a mandatory field.
+Can have a maximum length of 10 alpha-numeric characters.
+The value links to the field ‘PostingProduct in PPT_POSTINGPRODUCT.
+This field will be used as an output of the product determination. */
+        PostingProduct : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=27.0, core=true, t24Name=PostingProduct)
+        RACMediumWeightProduct : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=42.0, core=true, t24Name=RACMediumWeightProduct)
+        RSCMediumWeightProduct : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=43.0, core=true, t24Name=RSCMediumWeightProduct)
+/* Identifies whether the Payment has to fulfil Regulatory Reporting requirements.
+This field will be used as an output of the product determination. */
+        RegulatoryReportingIndicator : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=36.0, core=true, t24Name=RegulatoryReportingIndicator)
+/* Indicates Routing Product for the payment.
+
+It's a mandatory field.
+Can have a maximum length of 10 alpha-numeric characters.
+The value links to the field ‘RoutingProduct’ in PPT.ROUTINGPRODUCT.
+This field will be used as an output of the product determination. */
+        RoutingProduct : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=24.0, core=true, t24Name=RoutingProduct)
+/* Indicates payment type based on Single, Batch and Clearing payment.
+Possible values:
+“C” - Batch Child payment
+"N” - Clearing payment
+“P” - Batch Parent payment
+“S” - Single payment
+“Y” - Clearing Settlement Transaction
+
+It's a mandatory field.
+This field is used as one of the criteria to determine the product of a payment. */
+        SingleBatchClearing : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=5.0, core=true, t24Name=SingleBatchClearing)
+/* Identifies if the output of Product Determination is an Originating Source or a Source Group.
+
+Possible Values:
+“S” - Source
+“G” - Source Group
+
+It's a mandatory field.
+This field will be used as an output of the product determination. */
+        SourceIndicator : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=23.0, core=true, t24Name=SourceIndicator)
+        /* Specifies the date from which the record is to be considered as active for payments processing. */
+        StartDateMediumWeightProduct : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=21.0, core=true, t24Name=StartDateMediumWeightProduct)
+/* Holds the ending amount range.
+
+It's a mandatory field.
+Can have a maximum length of 17 numeric characters.
+This field is used as one of the criteria to determine the product of a payment. */
+        ToAmount : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=17, sysNumber=9.0, core=true, t24Name=ToAmount)
+    }
+/* This screen is used to setup ledger product codes with product description for a processing company in different languages.
+A record authorised in this screen will create or amend or delete a record in store table, PPT.LEDGERPRODUCTCODES */
+    PPT_LEDGERPRODUCTCODES
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPT.LEDGERPRODUCTCODES, nonStop=true, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        ApprovedDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=19.0, core=true, t24Name=ApprovedDateTime, mask="RDDDD DD  DD ##:##:##.###")
+        ApproverUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=18.0, core=true, t24Name=ApproverUserID)
+/* Indicates the company ID for which the record is created.
+Example : BNK,GB1
+Validation Rules:
+3 alphanumeric characters.
+The value links to the field ‘CompanyID’ in PPT.COMPANY */
+        CompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+        /* Specifies the date until which the record is to be considered as active for payments processing.Post this date, the record will be set as Inactive by the payments hub. */
+        EndDateLedgerProductCodes : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=13.0, core=true, t24Name=EndDateLedgerProductCodes)
+        EntryDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=17.0, core=true, t24Name=EntryDateTime, mask="RDDDD DD  DD ##:##:##.###")
+        EntryUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=16.0, core=true, t24Name=EntryUserID)
+        /* Unique ID generated by the payments hub in order to identify each record in the application. */
+        ID -> PP_ProductDeterminationGUI:PPT_LEDGERPRODUCTCODES PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=ANY, t24Name=ID)
+/* This indicates the language in which the ledger product description will be shown in posting statement lines.
+Validation Rules:
+Mandatory field. 2 alphanumeric character. The value links to field, 'LanguageID' in PPT.LANGUAGE. */
+        LanguageID1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=4.0, core=true, t24Name=LanguageID1)
+/* This indicates the language in which the ledger product description will be shown in posting statement lines.
+Validation Rules:
+2 alphanumeric character. The value links to field, 'LanguageID' in PPT.LANGUAGE. */
+        LanguageID2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=7.0, core=true, t24Name=LanguageID2)
+/* This indicates the language in which the ledger product description will be shown in posting statement lines.
+Validation Rules:
+2 alphanumeric character. The value links to field, 'LanguageID' in PPT.LANGUAGE. */
+        LanguageID3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=10.0, core=true, t24Name=LanguageID3)
+/* Indicates a unique code for the ledger product in the processing company.
+Validation Rules:
+Mandatory field. 10 alphanumeric characters. */
+        LedgerProductCode : T24BusinessTypes:ANY required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=2.0, core=true, t24Name=LedgerProductCode)
+/* Product description in LanguageID1.
+Validation Rules:
+Mandatory field. 60 alphanumeric characters. */
+        ProductDescription1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=60, sysNumber=5.0, core=true, t24Name=ProductDescription1)
+/* Product description in LanguageID2
+Validation Rules:
+Mandatory field if Language2 is chosen. 60 alphanumeric characters. */
+        ProductDescription2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=60, sysNumber=8.0, core=true, t24Name=ProductDescription2)
+/* Product description in LanguageID3
+Validation Rules:
+Mandatory field if Language3 is chosen. 60 alphanumeric characters. */
+        ProductDescription3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=60, sysNumber=11.0, core=true, t24Name=ProductDescription3)
+        RACLedgerProductCodes : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=14.0, core=true, t24Name=RACLedgerProductCodes)
+        RSCLedgerProductCodes : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=15.0, core=true, t24Name=RSCLedgerProductCodes)
+/* Short Description of Ledger Product Code in LanguageID1
+Validation Rules:
+Mandatory field. 34 alphanumeric characters. */
+        ShortProductDescription1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=34, sysNumber=6.0, core=true, t24Name=ShortProductDescription1)
+/* Short Description of Ledger Product Code in LanguageID2
+Validation Rules:
+Mandatory field if LanguageID2 is chosen. 34 alphanumeric characters. */
+        ShortProductDescription2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=34, sysNumber=9.0, core=true, t24Name=ShortProductDescription2)
+/* Short Description of Ledger Product Code in LanguageID3
+Validation Rules:
+Mandatory field if LanguageID3 is chosen. 34 alphanumeric characters. */
+        ShortProductDescription3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=34, sysNumber=12.0, core=true, t24Name=ShortProductDescription3)
+        /* Specifies the date from which the record is to be considered as active for payments processing. */
+        StartDateLedgerProductCodes : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=3.0, core=true, t24Name=StartDateLedgerProductCodes)
+    }
+/* This table is used to define source product group in the payments hub.
+Each source can be part of a SourceProduct and also a source can be a SourceProduct of its own. */
+    PPT_SOURCEPRODUCTGROUP
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPT.SOURCEPRODUCTGROUP, nonStop=true, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        ApprovedDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=7.0, core=true, t24Name=ApprovedDateTime, mask="RDDDD DD  DD ##:##:##.###")
+        ApproverUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=6.0, core=true, t24Name=ApproverUserID)
+        EntryDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=5.0, core=true, t24Name=EntryDateTime, mask="RDDDD DD  DD ##:##:##.###")
+        EntryUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=4.0, core=true, t24Name=EntryUserID)
+        ID -> PP_ProductDeterminationGUI:PPT_SOURCEPRODUCTGROUP PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+/* Record Activation Code generated for the record by the payment's hub.
+Possible values:
+N - Not active
+A -  Active
+H - History
+F - Future
+C - Not active future
+Validation Rules:
+19 alphanumeric characters. */
+        RACSourceProductGroup : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=2.0, core=true, t24Name=RACSourceProductGroup)
+/* Record Status Code generated for the record by the payments hub.
+Possible values:
+L - Live
+U - Unapproved
+R - Reversed
+Validation Rules:
+1 alphanumeric character. */
+        RSCSourceProductGroup : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=3.0, core=true, t24Name=RSCSourceProductGroup)
+/* Product Group under which the source falls.
+
+Validation Rules:
+1) Mandatory
+2) Free Text */
+        SourceProduct : T24BusinessTypes:ANY required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=1.0, core=true, t24Name=SourceProduct)
+    }
+/* This screen is used to define various criteria to determine a product for heavy weight payment.  Based on the payment characteristics, a product will be determined and the product is linked to various like Fee, Ledger, Client Condition, Posting and Routing product. This is also linked to various transaction code to be used while booking the payments. This will influence the flow of payment based on the STP indicator, Imposed flag and Message priority.
+The details will also be stored in the  table PP.HEAVYWEIGHTPRODUCTCOND.PDS */
+    PP_HEAVYWEIGHTPRODUCTCOND
+        @i18n:Description (en="")
+        @t24:i (t24Name=PP.HEAVYWEIGHTPRODUCTCOND, nonStop=true, level=I, type=H, additionalInfo=HLD, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=73.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=74.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=70.0, core=true, t24Name=AUTHORISER)
+/* Indicate the urgency of the Payment.
+
+It's a mandatory field,can have a maximum length of 4.
+This field is used as one of the criteria to determine the product of a payment. */
+        BankingPriority : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=19.0, core=true, t24Name=BankingPriority)
+/* Indicates the Presence of Beneficiary BIC.
+Possible Values:
+Y - Yes
+* - Default Value
+
+It's a mandatory field
+
+Validation Rules:
+Mandatory Field
+This field is used as one of the criteria to determine the product of a payment. */
+        BeneficiaryBICPresent : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND__BeneficiaryBICPresent required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=12.0, core=true, t24Name=BeneficiaryBICPresent)
+/* As part of the Auto repair functionality which enriches payment information, banks can opt for events/ errors that can be chargeable.
+This provision is available via the SetBeneficiaryBICRepairedFlag which can be configured in the AutoRepairReturn Code table.
+Based on the configuration in the AutoRepairReturn Code table and the values returned from AutoRepair (Return Codes) engine, system determines if the Repair/enrichments are Chargeable or not.
+If it is chargeable, then a single field “BeneficiaryBICRepairedFlag” is set to Y, else its set to N for determining the corresponding Product and also used in Fee Determination to apply Conditional Fee.
+Possible Values:
+Y - Yes
+N - No
+* - Default value
+
+It's a mandatory field. */
+        BeneficiaryBICRepaired : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND__BeneficiaryBICRepaired required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=15.0, core=true, t24Name=BeneficiaryBICRepaired)
+/* Indicates the country or country group where the Beneficiary has an account.
+
+Validation Rules:
+Maximum length of 2 characters.(Mandatory input)
+The entry should be an existing record in COUNTRY or COUNTRY.GROUP or "*".
+This field is used as one of the criteria to determine the product of a payment. */
+        BeneficiaryCountry : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=24.0, core=true, t24Name=BeneficiaryCountry)
+/* Indicates the country code or country group present in the IBAN of the Beneficiary.
+
+Validation Rules:
+Maximum length of 2 characters.(Mandatory input)
+The entry should be an existing record in COUNTRY or COUNTRY.GROUP or "*".
+This field is used as one of the criteria to determine the product of a payment. */
+        BeneficiaryPartyIBANCountry : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=25.0, core=true, t24Name=BeneficiaryPartyIBANCountry)
+/* Indicates Presence of Beneficiary IBAN.
+
+Possible Values:
+Y - Yes
+* - Default Value
+
+it's a Mandatory Field.
+This field is used as one of the criteria to determine the product of a payment. */
+        BeneficiaryPartyIBANPresent : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND__BeneficiaryPartyIBANPresent required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=14.0, core=true, t24Name=BeneficiaryPartyIBANPresent)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=71.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+/* Indicates the transfer type of the payment.
+Possible values:
+"C" – Customer transfer payment
+"B" – Bank transfer payment
+
+It's a mandatory field.
+This field is used as one of the criteria to determine the product of a payment. */
+        CTRBTRIndicator : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND__CTRBTRIndicator required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=2.0, core=true, t24Name=CTRBTRIndicator)
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=67.0, core=true, t24Name=CURR.NO)
+/* Holds the Charge type of the payment.
+
+Possible values:
+BEN - Charges are borne by the Beneficiary
+SHA - Charges are shared by both Ordering Party and Beneficiary
+OUR - Charges are borne by the Ordering Party
+*   - Default Value
+
+it's a Mandatory Field.
+This field is used as one of the criteria to determine the product of a payment. */
+        ChargeType : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND__ChargeType required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=10.0, core=true, t24Name=ChargeType)
+        /* The codeword text will be used to identify the final codeword */
+        CodeWordText : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=17.0, core=true, t24Name=CodeWordText)
+/* Indicates the company ID for which the record is created.
+Example : BNK,GB1
+Validation Rules:
+It's a mandatory field.
+3 alphanumeric characters.
+The value links to the field ‘CompanyID’ in PP.COMPANY
+This field is used as one of the criteria to determine the product of a payment. */
+        CompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=1.0, core=true, t24Name=CompanyID)
+/* Holds a 3 character unique code which denotes a specific currency used in the system.
+
+It's a mandatory field.
+Default Value is "*"
+This field is used as one of the criteria to determine the product of a payment. */
+        Currency : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=9.0, core=true, t24Name=Currency)
+        DATE_TIME -> byValue PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=72.0, core=true, t24Name=DEPT.CODE)
+/* Indicates the type of the Debit Account.
+Possible Values:
+C – Client
+N – Nostro
+V – Vostro
+I  - Internal
+PL – P&L
+* - Default value
+
+It's a mandatory field.
+This field is used as one of the criteria to determine the product of a payment. */
+        DebitAccountType : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND__DebitAccountType required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=27.0, core=true, t24Name=DebitAccountType)
+/* Indicates Payment type based on Currency and Geography.
+"I" –  International Payment
+"D" – Domestic payment
+
+It's a mandatory field.
+This field is used as one of the criteria to determine the product of a payment. */
+        DomesticInternational : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND__DomesticInternational required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=4.0, core=true, t24Name=DomesticInternational)
+        /* Specifies the date until which the record is to be considered as active for payments processing.Post this date, the record will be set as Inactive by the payments hub. */
+        EndDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=33.0, core=true, t24Name=EndDate)
+/* Holds the bilaterally agreed code words between the banks.
+
+It's a mandatory field,can have a maximum length of 8 AlphaNumeric characters.
+This field is used as one of the criteria to determine the product of a payment. */
+        FinalCodeWord : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=16.0, core=true, t24Name=FinalCodeWord)
+        FromAmount -> byValue PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND__FromAmount *
+            @t24:i (t24Name=FromAmount)
+        ID -> PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=75, sysNumber=0.0, core=true, businessType=ANY, t24Name=ID)
+        INPUTTER -> byValue PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* Indicates the message type of the Payment.
+
+It's a mandatory field,can have a maximum length of 10 AlphaNumneric characters.
+The value links to the field ‘MessagePaymentType’ in PP.MESSAGEPAYMENTTYPE
+Default value is "*"
+This field is used as one of the criteria to determine the product of a payment. */
+        IncomingMessageType : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=30.0, core=true, t24Name=IncomingMessageType)
+/* Identifies “Intra-Company” payments and this value is expected to be present in the Final Code Word.
+
+Possible Values:
+Y - Yes
+* - Default Value
+
+It's a mandatory field.
+This field is used as one of the criteria to determine the product of a payment. */
+        IntraCompanyPayment : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND__IntraCompanyPayment required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=18.0, core=true, t24Name=IntraCompanyPayment)
+/* This field will store the concat of all the primary key fields of the table.It is a no inputtable field.
+This field value will get updated as the ID in the PP.HEAVYWEIGHTPRODUCTCOND.PDS table.
+Not Valid.
+Not Applicable.
+Not Applicable. */
+        LinkID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=65.0, core=true, t24Name=LinkID)
+/* Identifies the Payment Message Priority.
+Possible values:
+1,2,3,4,5,6,7,8,9
+It's a mandatory field
+This field will be used as an output of the product determination. */
+        MessagePriority : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND__MessagePriority required
+            @t24:i (align=R, inputBehaviour=I, maxLength=2, sysNumber=5.0, core=true, t24Name=MessagePriority)
+        OVERRIDE -> byValue PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+/* Indicates Presence of Ordering Institution BIC.
+Possible Values:
+Y - Yes
+* - Default Value
+
+It's a mandatory field
+This field is used as one of the criteria to determine the product of a payment. */
+        OrderingInstitutionBICPresent : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND__OrderingInstitutionBICPresent required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=11.0, core=true, t24Name=OrderingInstitutionBICPresent)
+/* Indicates the country code or country group present in the IBAN of the Ordering Party.
+
+Validation Rules:
+Maximum length of 2 characters.(Mandatory input)
+The entry should be an existing record in COUNTRY or COUNTRY.GROUP or "*".
+This field is used as one of the criteria to determine the product of a payment. */
+        OrderingPartyIBANCountry : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=21.0, core=true, t24Name=OrderingPartyIBANCountry)
+/* Indicates Presence of IBAN of the Ordering Party.
+Possible Values:
+Y - Yes
+* - Default Value
+It's a mandatory field.
+This field is used as one of the criteria to determine the product of a payment. */
+        OrderingPartyIBANPresent : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND__OrderingPartyIBANPresent required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=13.0, core=true, t24Name=OrderingPartyIBANPresent)
+/* Indicates the Resident type of the Ordering Party.
+Possible Values:
+R - Resident
+N - Non Resident
+* - Default Value
+
+It's a mandatory field.
+This field is used as one of the criteria to determine the product of a payment. */
+        OrderingPartyResidency : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND__OrderingPartyResidency required
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=23.0, core=true, t24Name=OrderingPartyResidency)
+/* Indicates the country or country group where the Payment is originated.
+
+Validation Rules:
+Maximum length of 2 characters.(Mandatory input)
+The entry should be an existing record in COUNTRY or COUNTRY.GROUP or "*".
+This field is used as one of the criteria to determine the product of a payment. */
+        OriginatingDebitPartyCountry : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=20.0, core=true, t24Name=OriginatingDebitPartyCountry)
+/* Identifies the Source Group of the Payment.
+
+It's a mandatory field,length should be 10 AlphaNumeric characters.
+The value links to the field ‘SourceProduct’ in PP.SOURCE
+Default value is "*"
+This field is used as one of the criteria to determine the product of a payment. */
+        OriginatingSource : T24BusinessTypes:ANY required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=7.0, core=true, t24Name=OriginatingSource)
+/* Indicates the Direction of the payment.
+Possible values:
+"I" – Incoming payment
+"B" – Book payment
+"O" – Outgoing Payment
+"R" – Redirect payment
+
+It's a mandatory field.
+This field is used as one of the criteria to determine the product of a payment. */
+        PaymentDirection : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND__PaymentDirection required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=3.0, core=true, t24Name=PaymentDirection)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=66.0, core=true, t24Name=RECORD.STATUS)
+/* Reserverd field for future use.
+Not Valid.
+Not Applicable.
+Not Applicable. */
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=62.0, core=true, t24Name=RESERVED.1)
+/* Reserverd field for future use.
+Not Valid.
+Not Applicable.
+Not Applicable. */
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=61.0, core=true, t24Name=RESERVED.2)
+/* Reserverd field for future use.
+Not Valid.
+Not Applicable.
+Not Applicable. */
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=60.0, core=true, t24Name=RESERVED.3)
+/* Reserverd field for future use.
+Not Valid.
+Not Applicable.
+Not Applicable. */
+        RESERVED_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=59.0, core=true, t24Name=RESERVED.4)
+/* Reserverd field for future use.
+Not Valid.
+Not Applicable.
+Not Applicable. */
+        RESERVED_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=58.0, core=true, t24Name=RESERVED.5)
+/* Defines the destination BIC to which the message should
+be sent.
+
+It's a mandatory field,can have a maximum length of 15 AlphaNumeric Characters.
+The value links to the field ‘BICCode’ in PPT.BICTABLE
+Default Value is "*"
+This field is used as one of the criteria to determine the product of a payment. */
+        ReceiverBIC : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=29.0, core=true, t24Name=ReceiverBIC)
+/* Indicates the Receiver Country or Country Group of the Payment.
+
+Validation Rules:
+Maximum length of 2 characters.(Mandatory input)
+The entry should be an existing record in COUNTRY or COUNTRY.GROUP or "*".
+This field is used as one of the criteria to determine the product of a payment. */
+        ReceiverCountry : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=26.0, core=true, t24Name=ReceiverCountry)
+/* Indicates that an incoming Payment has to be returned to the Originator of the message
+Possible Values:
+Y - Yes
+* - Default Value
+
+It's a mandatory field.
+
+This field is used as one of the criteria to determine the product of a payment. */
+        ReturnTrigger : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND__ReturnTrigger required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=8.0, core=true, t24Name=ReturnTrigger)
+/* Indicates the Sender BIC.
+
+It's a mandatory field,can have a maximum length of 15 AlphaNumeric Characters.
+The value links to the field ‘BICCode’ in PPT.BICTABLE
+Default Value is "*"
+This field is used as one of the criteria to determine the product of a payment. */
+        SenderBIC : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=28.0, core=true, t24Name=SenderBIC)
+/* Indicates the sender country or country group of the Payment.
+
+Validation Rules:
+Maximum length of 2 characters.(Mandatory input)
+The entry should be an existing record in COUNTRY or COUNTRY.GROUP or "*".
+This field is used as one of the criteria to determine the product of a payment. */
+        SenderCountry : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=22.0, core=true, t24Name=SenderCountry)
+/* Indicates payment type based on Single, Batch and Clearing payment.
+Possible values:
+“S” - Single Payments
+“C” - Batch Child Payments
+“Y” - Clearing Settlement Transaction
+
+It's a mandatory field.
+"N” - Clearing Payments
+“P” - Batch Parent Payments
+This field is used as one of the criteria to determine the product of a payment. */
+        SingleBatchClearing : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND__SingleBatchClearing required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=6.0, core=true, t24Name=SingleBatchClearing)
+        /* Specifies the date from which the record is to be considered as active for payments processing. */
+        StartDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=N, maxLength=11, sysNumber=32.0, core=true, t24Name=StartDate)
+/* Flag is used to differentiate a normal MT103 from a MT103+ (STP) and an MT202 from an MT202 (COV) message.
+
+It's a mandatory field,can have a maximum length of 8 Numeric characters.
+Default Value is "*"
+This field is used as one of the criteria to determine the product of a payment. */
+        ValidationFlag : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=31.0, core=true, t24Name=ValidationFlag)
+    }
+    PP_HEAVYWEIGHTPRODUCTCOND_PDS
+        @i18n:Description (en="")
+        @t24:i (t24Name=PP.HEAVYWEIGHTPRODUCTCOND.PDS, nonStop=true, level=I, type=L, allowedFunctions="L P S", localRefAllowed=true)
+    {
+        BankingPriority : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=19.0, core=true, t24Name=BankingPriority)
+        BeneficiaryBICPresent : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND_PDS__BeneficiaryBICPresent required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=12.0, core=true, t24Name=BeneficiaryBICPresent)
+        BeneficiaryBICRepaired : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND_PDS__BeneficiaryBICRepaired required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=15.0, core=true, t24Name=BeneficiaryBICRepaired)
+        BeneficiaryCountry : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=24.0, core=true, t24Name=BeneficiaryCountry)
+        BeneficiaryPartyIBANCountry : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=25.0, core=true, t24Name=BeneficiaryPartyIBANCountry)
+        BeneficiaryPartyIBANPresent : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND_PDS__BeneficiaryPartyIBANPresent required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=14.0, core=true, t24Name=BeneficiaryPartyIBANPresent)
+        CTRBTRIndicator : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND_PDS__CTRBTRIndicator required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=2.0, core=true, t24Name=CTRBTRIndicator)
+        ChargeType : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND_PDS__ChargeType required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=10.0, core=true, t24Name=ChargeType)
+        CodeWordText : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=17.0, core=true, t24Name=CodeWordText)
+        CompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=1.0, core=true, t24Name=CompanyID)
+        Currency : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=9.0, core=true, t24Name=Currency)
+        DebitAccountType : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND_PDS__DebitAccountType required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=27.0, core=true, t24Name=DebitAccountType)
+        DomesticInternational : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND_PDS__DomesticInternational required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=4.0, core=true, t24Name=DomesticInternational)
+        EndDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=33.0, core=true, t24Name=EndDate)
+        FinalCodeWord : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=16.0, core=true, t24Name=FinalCodeWord)
+        FromAmount -> byValue PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND_PDS__FromAmount *
+            @t24:i (t24Name=FromAmount)
+        ID -> PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND_PDS PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=75, sysNumber=0.0, core=true, businessType=ANY, t24Name=ID)
+        IncomingMessageType : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=30.0, core=true, t24Name=IncomingMessageType)
+        IntraCompanyPayment : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND_PDS__IntraCompanyPayment required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=18.0, core=true, t24Name=IntraCompanyPayment)
+        LinkID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=65.0, core=true, t24Name=LinkID)
+        MessagePriority : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND_PDS__MessagePriority required
+            @t24:i (align=R, inputBehaviour=I, maxLength=2, sysNumber=5.0, core=true, t24Name=MessagePriority)
+        OVERRIDE -> byValue PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND_PDS__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        OrderingInstitutionBICPresent : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND_PDS__OrderingInstitutionBICPresent required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=11.0, core=true, t24Name=OrderingInstitutionBICPresent)
+        OrderingPartyIBANCountry : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=21.0, core=true, t24Name=OrderingPartyIBANCountry)
+        OrderingPartyIBANPresent : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND_PDS__OrderingPartyIBANPresent required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=13.0, core=true, t24Name=OrderingPartyIBANPresent)
+        OrderingPartyResidency : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND_PDS__OrderingPartyResidency required
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=23.0, core=true, t24Name=OrderingPartyResidency)
+        OriginatingDebitPartyCountry : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=20.0, core=true, t24Name=OriginatingDebitPartyCountry)
+        OriginatingSource : T24BusinessTypes:ANY required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=7.0, core=true, t24Name=OriginatingSource)
+        PaymentDirection : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND_PDS__PaymentDirection required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=3.0, core=true, t24Name=PaymentDirection)
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=62.0, core=true, t24Name=RESERVED.1)
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=61.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=60.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=59.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=58.0, core=true, t24Name=RESERVED.5)
+        ReceiverBIC : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=29.0, core=true, t24Name=ReceiverBIC)
+        ReceiverCountry : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=26.0, core=true, t24Name=ReceiverCountry)
+        ReturnTrigger : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND_PDS__ReturnTrigger required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=8.0, core=true, t24Name=ReturnTrigger)
+        SenderBIC : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=28.0, core=true, t24Name=SenderBIC)
+        SenderCountry : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=22.0, core=true, t24Name=SenderCountry)
+        SingleBatchClearing : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND_PDS__SingleBatchClearing required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=6.0, core=true, t24Name=SingleBatchClearing)
+        StartDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=N, maxLength=11, sysNumber=32.0, core=true, t24Name=StartDate)
+        ValidationFlag : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=31.0, core=true, t24Name=ValidationFlag)
+    }
+    PP_HEAVYWEIGHTPRODUCTCOND_PDS__FromAmount
+    {
+        ClientConditionProduct -> PP_ClientConditionsGUI:PP_CLIENTCOND_PRODUCT required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=36.0, core=true, businessType=ANY, t24Name=ClientConditionProduct)
+        CreditBookCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=44.0, core=true, t24Name=CreditBookCode)
+        CreditChargeBookCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=46.0, core=true, t24Name=CreditChargeBookCode)
+        CreditVATBookCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=48.0, core=true, t24Name=CreditVATBookCode)
+        CurrencyMarket -> ST_CurrencyConfig:CURRENCY_MARKET
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=57.0, core=true, businessType=A, t24Name=CurrencyMarket)
+        DebitBookCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=43.0, core=true, t24Name=DebitBookCode)
+        DebitChargeBookCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=45.0, core=true, t24Name=DebitChargeBookCode)
+        DebitVATBookCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=47.0, core=true, t24Name=DebitVATBookCode)
+        ECCompliantIndicator : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND_PDS__FromAmount__ECCompliantIndicator required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=53.0, core=true, t24Name=ECCompliantIndicator)
+        FeeProduct -> PP_FeeDeterminationGUI:PP_FEE_PRODUCT required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=40.0, core=true, businessType=ANY, t24Name=FeeProduct)
+        FilterProduct -> PP_FilteringGUI:PP_FILTERING_PRODUCT
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=54.0, core=true, businessType=ANY, t24Name=FilterProduct)
+        ForwardEntryFlag : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND_PDS__FromAmount__ForwardEntryFlag
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=55.0, core=true, t24Name=ForwardEntryFlag)
+        FromAmount : T24BusinessTypes:AMT required
+            @t24:i (align=R, inputBehaviour=I, maxLength=17, sysNumber=34.0, core=true, t24Name=FromAmount)
+        ImposeRoutingFlag : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND_PDS__FromAmount__ImposeRoutingFlag
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=39.0, core=true, t24Name=ImposeRoutingFlag)
+        LedgerProductCode -> PP_ProductDeterminationGUI:PP_LEDGER_PRODUCT_CODES required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=42.0, core=true, businessType=ANY, t24Name=LedgerProductCode)
+        NewPriority : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND_PDS__FromAmount__NewPriority
+            @t24:i (align=R, inputBehaviour=I, maxLength=2, sysNumber=50.0, core=true, t24Name=NewPriority)
+        NonSTPIndicator : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND_PDS__FromAmount__NonSTPIndicator
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=51.0, core=true, t24Name=NonSTPIndicator)
+        PSDCompliantIndicator : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND_PDS__FromAmount__PSDCompliantIndicator required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=52.0, core=true, t24Name=PSDCompliantIndicator)
+        PostingProduct -> PP_PostingSchemeGUI:PP_POSTING_PRODUCT required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=41.0, core=true, businessType=ANY, t24Name=PostingProduct)
+        RegulatoryReportingIndicator : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND_PDS__FromAmount__RegulatoryReportingIndicator
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=49.0, core=true, t24Name=RegulatoryReportingIndicator)
+        RoutingProduct -> PP_RoutingAndSettlementGUI:PP_ROUTING_PRODUCT required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=38.0, core=true, businessType=ANY, t24Name=RoutingProduct)
+        STPFlagForPO : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND_PDS__FromAmount__STPFlagForPO
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=56.0, core=true, t24Name=STPFlagForPO)
+        SourceIndicator : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND_PDS__FromAmount__SourceIndicator required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=37.0, core=true, t24Name=SourceIndicator)
+        ToAmount : T24BusinessTypes:AMT required
+            @t24:i (align=R, inputBehaviour=I, maxLength=17, sysNumber=35.0, core=true, t24Name=ToAmount)
+    }
+    PP_HEAVYWEIGHTPRODUCTCOND_PDS__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=64.0, core=true, t24Name=OVERRIDE)
+    }
+    PP_HEAVYWEIGHTPRODUCTCOND__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=69.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    PP_HEAVYWEIGHTPRODUCTCOND__FromAmount
+    {
+/* Indicates Client Condition Product for the payment.
+
+It's a mandatory field,can have a maximum length of 10 AlphaNumeric Character.
+The value links to the field ID in PP.CLIENTCOND.PRODUCT
+This field will be used as an output of the product determination. */
+        ClientConditionProduct -> PP_ClientConditionsGUI:PP_CLIENTCOND_PRODUCT required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=36.0, core=true, businessType=ANY, t24Name=ClientConditionProduct)
+/* Identifies the booking code for the credit entry on the payment transaction amount.
+
+Can have a maximum length of 10 AlphaNumeric characters.
+This field will be used as an output of the product determination. */
+        CreditBookCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=44.0, core=true, t24Name=CreditBookCode)
+/* Identifies the booking code for the Charge Credit. It will be used by the Posting Scheme.
+
+Can have a maximum length of 10 AlphaNumeric characters.
+This field will be used as an output of the product determination. */
+        CreditChargeBookCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=46.0, core=true, t24Name=CreditChargeBookCode)
+/* Identifies the booking code for VAT Credit.  It will be used by the Posting Scheme.
+
+Can have a maximum length of 10 AlphaNumeric characters.
+This field will be used as an output of the product determination. */
+        CreditVATBookCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=48.0, core=true, t24Name=CreditVATBookCode)
+/* Currency Markets are used to identify the correct exchange and revaluation Rates,
+to be applied to each Currency in case of cross currency transactions. */
+        CurrencyMarket -> ST_CurrencyConfig:CURRENCY_MARKET
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=57.0, core=true, businessType=A, t24Name=CurrencyMarket)
+/* Identifies the booking code for the debit entry on the payment transaction amount.
+
+Can have a maximum length of 10 AlphaNumeric characters.
+This field will be used as an output of the product determination. */
+        DebitBookCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=43.0, core=true, t24Name=DebitBookCode)
+/* Identifies the booking code for the Charge Debit. It will be used by the Posting Scheme.
+
+Can have a maximum length of 10 AlphaNumeric characters.
+This field will be used as an output of the product determination. */
+        DebitChargeBookCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=45.0, core=true, t24Name=DebitChargeBookCode)
+/* Identifies the booking code for VAT Debit. It will be used by the Posting Scheme.
+
+Can have a maximum length of 10 AlphaNumeric characters.
+This field will be used as an output of the product determination. */
+        DebitVATBookCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=47.0, core=true, t24Name=DebitVATBookCode)
+/* Identifies if the Payment is EC Compliant.
+Y – Payment is EC Compliant
+N – Payment is not EC Compliant
+
+It's a mandatory field.
+This field will be used as an output of the product determination. */
+        ECCompliantIndicator : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND__FromAmount__ECCompliantIndicator required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=53.0, core=true, t24Name=ECCompliantIndicator)
+/* Indicates Fee Product for the payment.
+
+It's a mandatory field,can have a maximum length of 10 AlphaNumeric Characters.
+The value links to the field ‘FeeProduct’ in PP.FEE.PRODUCT
+This field will be used as an output of the product determination. */
+        FeeProduct -> PP_FeeDeterminationGUI:PP_FEE_PRODUCT required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=40.0, core=true, businessType=ANY, t24Name=FeeProduct)
+/* Indicates Filtering Product for the payment.
+
+It's a mandatory field, can have a maximum length of 10 AlphaNumeric characters.
+The value links to the field ‘FilteringProduct’ in PP.FILTERING.PRODUCT.
+This field will be used as an output of the product determination. */
+        FilterProduct -> PP_FilteringGUI:PP_FILTERING_PRODUCT
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=54.0, core=true, businessType=ANY, t24Name=FilterProduct)
+        /* This fiiled will determine whether forward entries needs to be raised or not for the payment */
+        ForwardEntryFlag : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND__FromAmount__ForwardEntryFlag
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=55.0, core=true, t24Name=ForwardEntryFlag)
+/* Holds the starting amount range.
+
+It's a mandatory field,can have a maximum length of 17 Numeric characters.
+This field is used as one of the criteria to determine the product of a payment. */
+        FromAmount : T24BusinessTypes:AMT required
+            @t24:i (align=R, inputBehaviour=I, maxLength=17, sysNumber=34.0, core=true, t24Name=FromAmount)
+        /* Flag which is used to impose the appropriate Routing Group for outgoing payments to be routed via local clearing. Such payments should never pick the default route. */
+        ImposeRoutingFlag : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND__FromAmount__ImposeRoutingFlag
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=39.0, core=true, t24Name=ImposeRoutingFlag)
+/* Enables identification of the Product for description line/narrative purposes, even if the Posting Group and resulting Posting Lines are same for two different products.
+
+It's a mandatory field,can have a maximum length of 10 AlphaNumneric characters.
+The value links to the field ‘LedgerProductCode’ in PP.LEDGER.PRODUCT.CODES
+
+This field will be used as an output of the product determination. */
+        LedgerProductCode -> PP_ProductDeterminationGUI:PP_LEDGER_PRODUCT_CODES required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=42.0, core=true, businessType=ANY, t24Name=LedgerProductCode)
+/* Identifies the new Priority of the Payment. User can choose to ignore the incoming priority and define a new Priority.
+Possible values:
+1,2,3,4,5,6,7,8,9
+It's a mandatory field
+This field will be used as an output of the product determination. */
+        NewPriority : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND__FromAmount__NewPriority
+            @t24:i (align=R, inputBehaviour=I, maxLength=2, sysNumber=50.0, core=true, t24Name=NewPriority)
+/* Indicates whether the payment is sent to Repair queue or not.
+Possible Values:
+Y - Yes
+N -No
+
+This field will be used as an output of the product determination. */
+        NonSTPIndicator : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND__FromAmount__NonSTPIndicator
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=51.0, core=true, t24Name=NonSTPIndicator)
+/* Identifies if the Payment is PSD Compliant.
+Possible Values:
+D – Debit Side is PSD Compliant
+C – Credit Side is PSD Compliant
+Y – Payment is PSD Compliant
+N – Payment is not PSD Compliant
+I - Ignore
+
+It's a mandatory field.
+This field will be used as an output of the product determination. */
+        PSDCompliantIndicator : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND__FromAmount__PSDCompliantIndicator required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=52.0, core=true, t24Name=PSDCompliantIndicator)
+/* Indicates Posting Product for the payment as defined in PPT_PostingProduct.
+
+It's a mandatory field,can have a maximum length of 10.
+The value links to the field ID in PP.POSTING.PRODUCT
+This field will be used as an output of the product determination. */
+        PostingProduct -> PP_PostingSchemeGUI:PP_POSTING_PRODUCT required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=41.0, core=true, businessType=ANY, t24Name=PostingProduct)
+/* Identifies whether the Payment has to fulfil Regulatory Reporting requirements.
+This field will be used as an output of the product determination. */
+        RegulatoryReportingIndicator : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND__FromAmount__RegulatoryReportingIndicator
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=49.0, core=true, t24Name=RegulatoryReportingIndicator)
+/* Indicates Routing Product for the payment.
+
+It's a mandatory field,can have a maximum length of 10.
+The value links to the field ‘ID’ in PP.ROUTING.PRODUCT
+This field will be used as an output of the product determination. */
+        RoutingProduct -> PP_RoutingAndSettlementGUI:PP_ROUTING_PRODUCT required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=38.0, core=true, businessType=ANY, t24Name=RoutingProduct)
+/* This field is used to identify if a payment coming from Payment Order application or any other external application
+should be routed to repair or processed via STP.Field value Y -> Payment processed STP, N->Payment will move to repair */
+        STPFlagForPO : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND__FromAmount__STPFlagForPO
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=56.0, core=true, t24Name=STPFlagForPO)
+/* Indicates Source type of the payment.
+Possible Values:
+S – Source
+G – Source Group
+
+It's a mandatory field.
+This field is used as one of the criteria to determine the product of a payment. */
+        SourceIndicator : PP_ProductDeterminationGUI:PP_HEAVYWEIGHTPRODUCTCOND__FromAmount__SourceIndicator required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=37.0, core=true, t24Name=SourceIndicator)
+/* Holds the ending amount range.
+
+It's a mandatory field,can have a maximum length of 17 Numeric characters.
+This field is used as one of the criteria to determine the product of a payment. */
+        ToAmount : T24BusinessTypes:AMT required
+            @t24:i (align=R, inputBehaviour=I, maxLength=17, sysNumber=35.0, core=true, t24Name=ToAmount)
+    }
+    PP_HEAVYWEIGHTPRODUCTCOND__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=68.0, core=true, t24Name=INPUTTER)
+    }
+    PP_HEAVYWEIGHTPRODUCTCOND__OVERRIDE
+    {
+        /* Contains all the override messages which the user agreed to during Input. During the validation of a transaction, the system may provide the user with a series of screen override messages to indicate an anomaly. */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=64.0, core=true, t24Name=OVERRIDE)
+    }
+/* This screen is used to setup ledger product codes with product description for a processing company in different languages.
+This is Non dated and FTD type of classification.
+This application follows T24 Standard and it will be of History Type application. */
+    PP_LEDGER_PRODUCT_CODES
+        @i18n:Description (en="")
+        @t24:i (additionalInfo=HLD, t24Name=PP.LEDGER.PRODUCT.CODES, nonStop=true, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=18.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=19.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=15.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=16.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=12.0, core=true, t24Name=CURR.NO)
+/* Indicates the FTD company ID for which the record is created.
+It is NOINPUT field. On click of validate button, Company ID gets autopopulated from FTD Company.
+Examples: BNK,GB1
+Validation Rules:
+3 alphanumeric characters. */
+        CompanyID : T24BusinessTypes:A
+            @i18n:Label (en="Company ID")
+            @i18n:Tooltip (en="Company ID")
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+        DATE_TIME -> byValue PP_ProductDeterminationGUI:PP_LEDGER_PRODUCT_CODES__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=17.0, core=true, t24Name=DEPT.CODE)
+        INPUTTER -> byValue PP_ProductDeterminationGUI:PP_LEDGER_PRODUCT_CODES__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        LedgerProduct -> PP_ProductDeterminationGUI:PP_LEDGER_PRODUCT_CODES PK required
+            @i18n:Label (en="Ledger Product")
+            @i18n:Tooltip (en="Ledger Product")
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=0.0, core=true, businessType=ANY, t24Name=LedgerProduct)
+        OVERRIDE -> byValue PP_ProductDeterminationGUI:PP_LEDGER_PRODUCT_CODES__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        ProductDescription -> byValue PP_ProductDeterminationGUI:PP_LEDGER_PRODUCT_CODES__ProductDescription *
+            @t24:i (t24Name=ProductDescription)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=11.0, core=true, t24Name=RECORD.STATUS)
+        /* Standard T24 String. No Input Field */
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=RESERVED.1)
+        /* Standard T24 String. No Input Field */
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=7.0, core=true, t24Name=RESERVED.2)
+        /* Standard T24 String. No Input Field */
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=6.0, core=true, t24Name=RESERVED.3)
+        /* Standard T24 String. No Input Field */
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=5.0, core=true, t24Name=RESERVED.4)
+        /* Standard T24 String. No Input Field */
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=4.0, core=true, t24Name=RESERVED.5)
+        ShortProductDescription -> byValue PP_ProductDeterminationGUI:PP_LEDGER_PRODUCT_CODES__ShortProductDescription *
+            @t24:i (t24Name=ShortProductDescription)
+    }
+    PP_LEDGER_PRODUCT_CODES__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=14.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    PP_LEDGER_PRODUCT_CODES__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=13.0, core=true, t24Name=INPUTTER)
+    }
+    PP_LEDGER_PRODUCT_CODES__OVERRIDE
+    {
+        /* Contains all the override messages which the user agreed to during Input. During the validation of a transaction, the system may provide the user with a series of screen override messages to indicate an anomaly. */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=OVERRIDE)
+    }
+    PP_LEDGER_PRODUCT_CODES__ProductDescription
+    {
+/* Product description in a specified language in which the ledger product description will be shown in posting statement lines.
+Validation Rules:
+Mandatory field. 60 alphanumeric characters. Multivalue field. */
+        ProductDescription : T24BusinessTypes:A required
+            @i18n:Label (en="Product Description")
+            @i18n:Tooltip (en="Product Description")
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, multiLanguage=true, sysNumber=2.0, core=true, t24Name=ProductDescription)
+    }
+    PP_LEDGER_PRODUCT_CODES__ShortProductDescription
+    {
+/* Short Description of Ledger Product Code in a specified language.
+Validation Rules:
+Mandatory field. 34 alphanumeric characters. Multivalue field */
+        ShortProductDescription : T24BusinessTypes:A required
+            @i18n:Label (en="Short Product Description")
+            @i18n:Tooltip (en="Short Product Description")
+            @t24:i (align=L, inputBehaviour=I, maxLength=34, multiLanguage=true, sysNumber=3.0, core=true, t24Name=ShortProductDescription)
+    }
+    PP_LIGHTWEIGHTPRODUCTCOND
+        @i18n:Description (en="")
+        @t24:i (t24Name=PP.LIGHTWEIGHTPRODUCTCOND, nonStop=true, level=I, type=H, additionalInfo=HLD, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=45.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=46.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=42.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=43.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=39.0, core=true, t24Name=CURR.NO)
+        ClearingHoliday -> PP_LocalClearingGUI:PP_CLEARING
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=31.0, core=true, businessType=A, t24Name=ClearingHoliday)
+        ClearingNatureCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=4.0, core=true, t24Name=ClearingNatureCode)
+        ClearingTransactionType : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=28.0, core=true, t24Name=ClearingTransactionType)
+        ClientConditionProduct -> PP_ClientConditionsGUI:PP_CLIENTCOND_PRODUCT required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=8.0, core=true, businessType=ANY, t24Name=ClientConditionProduct)
+        CompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=1.0, core=true, t24Name=CompanyID)
+        CreditBookCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=16.0, core=true, t24Name=CreditBookCode)
+        CreditChargeBookCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=18.0, core=true, t24Name=CreditChargeBookCode)
+        CreditVATBookCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=20.0, core=true, t24Name=CreditVATBookCode)
+        CurrencyMarket -> ST_CurrencyConfig:CURRENCY_MARKET
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=29.0, core=true, businessType=A, t24Name=CurrencyMarket)
+        DATE_TIME -> byValue PP_ProductDeterminationGUI:PP_LIGHTWEIGHTPRODUCTCOND__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=44.0, core=true, t24Name=DEPT.CODE)
+        DebitBookCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=15.0, core=true, t24Name=DebitBookCode)
+        DebitChargeBookCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=17.0, core=true, t24Name=DebitChargeBookCode)
+        DebitVATBookCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=19.0, core=true, t24Name=DebitVATBookCode)
+        ECCompliantIndicator : PP_ProductDeterminationGUI:PP_LIGHTWEIGHTPRODUCTCOND__ECCompliantIndicator required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=24.0, core=true, t24Name=ECCompliantIndicator)
+        EndDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=7.0, core=true, t24Name=EndDate)
+        FeeProduct -> PP_FeeDeterminationGUI:PP_FEE_PRODUCT required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=12.0, core=true, businessType=ANY, t24Name=FeeProduct)
+        FilterProduct -> PP_FilteringGUI:PP_FILTERING_PRODUCT
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=25.0, core=true, businessType=ANY, t24Name=FilterProduct)
+        ForwardEntryFlag : PP_ProductDeterminationGUI:PP_LIGHTWEIGHTPRODUCTCOND__ForwardEntryFlag
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=26.0, core=true, t24Name=ForwardEntryFlag)
+        ID -> PP_ProductDeterminationGUI:PP_LIGHTWEIGHTPRODUCTCOND PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=75, sysNumber=0.0, core=true, businessType=ANY, t24Name=ID)
+        INPUTTER -> byValue PP_ProductDeterminationGUI:PP_LIGHTWEIGHTPRODUCTCOND__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        ImposeRoutingFlag : PP_ProductDeterminationGUI:PP_LIGHTWEIGHTPRODUCTCOND__ImposeRoutingFlag
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=11.0, core=true, t24Name=ImposeRoutingFlag)
+        LedgerProductCode -> PP_ProductDeterminationGUI:PP_LEDGER_PRODUCT_CODES
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=14.0, core=true, businessType=ANY, t24Name=LedgerProductCode)
+        LinkID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=37.0, core=true, t24Name=LinkID)
+        MessageType -> PP_MessageMappingGUI:PP_MSGPAYMENTTYPE required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=3.0, core=true, businessType=A, t24Name=MessageType)
+        NonSTPIndicator : PP_ProductDeterminationGUI:PP_LIGHTWEIGHTPRODUCTCOND__NonSTPIndicator
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=22.0, core=true, t24Name=NonSTPIndicator)
+        OVERRIDE -> byValue PP_ProductDeterminationGUI:PP_LIGHTWEIGHTPRODUCTCOND__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        OriginatingSource -> PP_StaticDataGUI:PP_SOURCE required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=2.0, core=true, businessType=ANY, t24Name=OriginatingSource)
+        PSDCompliantIndicator : PP_ProductDeterminationGUI:PP_LIGHTWEIGHTPRODUCTCOND__PSDCompliantIndicator required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=23.0, core=true, t24Name=PSDCompliantIndicator)
+        PostingProduct -> PP_PostingSchemeGUI:PP_POSTING_PRODUCT required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=13.0, core=true, businessType=ANY, t24Name=PostingProduct)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=38.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=34.0, core=true, t24Name=RESERVED.1)
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=33.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=32.0, core=true, t24Name=RESERVED.3)
+        RegulatoryReportingIndicator : PP_ProductDeterminationGUI:PP_LIGHTWEIGHTPRODUCTCOND__RegulatoryReportingIndicator
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=21.0, core=true, t24Name=RegulatoryReportingIndicator)
+        RoutingProduct -> PP_RoutingAndSettlementGUI:PP_ROUTING_PRODUCT required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=10.0, core=true, businessType=ANY, t24Name=RoutingProduct)
+        STPFlagForPO : PP_ProductDeterminationGUI:PP_LIGHTWEIGHTPRODUCTCOND__STPFlagForPO
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=27.0, core=true, t24Name=STPFlagForPO)
+        SettlementIndicator : PP_ProductDeterminationGUI:PP_LIGHTWEIGHTPRODUCTCOND__SettlementIndicator required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=5.0, core=true, t24Name=SettlementIndicator)
+        SettlementType : PP_ProductDeterminationGUI:PP_LIGHTWEIGHTPRODUCTCOND__SettlementType
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=30.0, core=true, t24Name=SettlementType)
+        SourceProduct -> PP_ProductDeterminationGUI:PP_SOURCEPRODUCTGROUP required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=9.0, core=true, businessType=ANY, t24Name=SourceProduct)
+        StartDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=N, maxLength=11, sysNumber=6.0, core=true, t24Name=StartDate)
+    }
+    PP_LIGHTWEIGHTPRODUCTCOND_PDS
+        @i18n:Description (en="")
+        @t24:i (t24Name=PP.LIGHTWEIGHTPRODUCTCOND.PDS, nonStop=true, level=I, type=L, allowedFunctions="L P S", localRefAllowed=true)
+    {
+        ClearingHoliday -> PP_LocalClearingGUI:PP_CLEARING
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=31.0, core=true, businessType=A, t24Name=ClearingHoliday)
+        ClearingNatureCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=4.0, core=true, t24Name=ClearingNatureCode)
+        ClearingTransactionType : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=28.0, core=true, t24Name=ClearingTransactionType)
+        ClientConditionProduct -> PP_ClientConditionsGUI:PP_CLIENTCOND_PRODUCT required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=8.0, core=true, businessType=ANY, t24Name=ClientConditionProduct)
+        CompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=1.0, core=true, t24Name=CompanyID)
+        CreditBookCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=16.0, core=true, t24Name=CreditBookCode)
+        CreditChargeBookCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=18.0, core=true, t24Name=CreditChargeBookCode)
+        CreditVATBookCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=20.0, core=true, t24Name=CreditVATBookCode)
+        CurrencyMarket -> ST_CurrencyConfig:CURRENCY_MARKET
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=29.0, core=true, businessType=A, t24Name=CurrencyMarket)
+        DebitBookCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=15.0, core=true, t24Name=DebitBookCode)
+        DebitChargeBookCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=17.0, core=true, t24Name=DebitChargeBookCode)
+        DebitVATBookCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=19.0, core=true, t24Name=DebitVATBookCode)
+        ECCompliantIndicator : PP_ProductDeterminationGUI:PP_LIGHTWEIGHTPRODUCTCOND_PDS__ECCompliantIndicator required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=24.0, core=true, t24Name=ECCompliantIndicator)
+        EndDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=7.0, core=true, t24Name=EndDate)
+        FeeProduct -> PP_FeeDeterminationGUI:PP_FEE_PRODUCT required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=12.0, core=true, businessType=ANY, t24Name=FeeProduct)
+        FilterProduct -> PP_FilteringGUI:PP_FILTERING_PRODUCT
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=25.0, core=true, businessType=ANY, t24Name=FilterProduct)
+        ForwardEntryFlag : PP_ProductDeterminationGUI:PP_LIGHTWEIGHTPRODUCTCOND_PDS__ForwardEntryFlag
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=26.0, core=true, t24Name=ForwardEntryFlag)
+        ID -> PP_ProductDeterminationGUI:PP_LIGHTWEIGHTPRODUCTCOND_PDS PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=75, sysNumber=0.0, core=true, businessType=ANY, t24Name=ID)
+        ImposeRoutingFlag : PP_ProductDeterminationGUI:PP_LIGHTWEIGHTPRODUCTCOND_PDS__ImposeRoutingFlag
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=11.0, core=true, t24Name=ImposeRoutingFlag)
+        LedgerProductCode -> PP_ProductDeterminationGUI:PP_LEDGER_PRODUCT_CODES
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=14.0, core=true, businessType=ANY, t24Name=LedgerProductCode)
+        LinkID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=37.0, core=true, t24Name=LinkID)
+        MessageType -> PP_MessageMappingGUI:PP_MSGPAYMENTTYPE required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=3.0, core=true, businessType=A, t24Name=MessageType)
+        NonSTPIndicator : PP_ProductDeterminationGUI:PP_LIGHTWEIGHTPRODUCTCOND_PDS__NonSTPIndicator
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=22.0, core=true, t24Name=NonSTPIndicator)
+        OVERRIDE -> byValue PP_ProductDeterminationGUI:PP_LIGHTWEIGHTPRODUCTCOND_PDS__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        OriginatingSource -> PP_StaticDataGUI:PP_SOURCE required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=2.0, core=true, businessType=ANY, t24Name=OriginatingSource)
+        PSDCompliantIndicator : PP_ProductDeterminationGUI:PP_LIGHTWEIGHTPRODUCTCOND_PDS__PSDCompliantIndicator required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=23.0, core=true, t24Name=PSDCompliantIndicator)
+        PostingProduct -> PP_PostingSchemeGUI:PP_POSTING_PRODUCT required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=13.0, core=true, businessType=ANY, t24Name=PostingProduct)
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=34.0, core=true, t24Name=RESERVED.1)
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=33.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=32.0, core=true, t24Name=RESERVED.3)
+        RegulatoryReportingIndicator : PP_ProductDeterminationGUI:PP_LIGHTWEIGHTPRODUCTCOND_PDS__RegulatoryReportingIndicator
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=21.0, core=true, t24Name=RegulatoryReportingIndicator)
+        RoutingProduct -> PP_RoutingAndSettlementGUI:PP_ROUTING_PRODUCT required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=10.0, core=true, businessType=ANY, t24Name=RoutingProduct)
+        STPFlagForPO : PP_ProductDeterminationGUI:PP_LIGHTWEIGHTPRODUCTCOND_PDS__STPFlagForPO
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=27.0, core=true, t24Name=STPFlagForPO)
+        SettlementIndicator : PP_ProductDeterminationGUI:PP_LIGHTWEIGHTPRODUCTCOND_PDS__SettlementIndicator required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=5.0, core=true, t24Name=SettlementIndicator)
+        SettlementType : PP_ProductDeterminationGUI:PP_LIGHTWEIGHTPRODUCTCOND_PDS__SettlementType
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=30.0, core=true, t24Name=SettlementType)
+        SourceProduct -> PP_ProductDeterminationGUI:PP_SOURCEPRODUCTGROUP required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=9.0, core=true, businessType=ANY, t24Name=SourceProduct)
+        StartDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=N, maxLength=11, sysNumber=6.0, core=true, t24Name=StartDate)
+    }
+    PP_LIGHTWEIGHTPRODUCTCOND_PDS__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=36.0, core=true, t24Name=OVERRIDE)
+    }
+    PP_LIGHTWEIGHTPRODUCTCOND__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=41.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    PP_LIGHTWEIGHTPRODUCTCOND__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=40.0, core=true, t24Name=INPUTTER)
+    }
+    PP_LIGHTWEIGHTPRODUCTCOND__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=36.0, core=true, t24Name=OVERRIDE)
+    }
+/* This screen is used to define various criteria to determine a product for medium weight payment. Based on the payment characteristics, a product will be determined and this product is linked to various others, like: Fee, Ledger, Client Condition, Posting and Routing product. This is also linked to various transaction codes to be used while booking the payments. They will influence the flow of payment based on the output parameters.
+The details will be stored in the store table, PPL.MEDIUMWEIGHTPRODUCTCOND. */
+    PP_MEDIUMWEIGHTPRODUCTCOND
+        @i18n:Description (en="")
+        @t24:i (t24Name=PP.MEDIUMWEIGHTPRODUCTCOND, nonStop=true, level=I, type=H, additionalInfo=HLD, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=57.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=58.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=54.0, core=true, t24Name=AUTHORISER)
+/* Indicates Presence of Beneficiary institution BIC.
+
+Possible Values:
+“Y” - Yes
+“*” - Applies-to-all Value
+
+Default value is "Y".
+It's a mandatory field.
+This field is used as one of the criteria to determine the product of a payment. */
+        BeneficiaryInstitBICPresent : PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND__BeneficiaryInstitBICPresent required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=14.0, core=true, t24Name=BeneficiaryInstitBICPresent)
+/* Indicates the country code or country group present in the IBAN of the Beneficiary.
+
+It's a mandatory field.
+Can have a maximum length of 2 alpha-numeric characters.
+The entry should be an existing record in COUNTRY or COUNTRY.GROUP.
+Default value is "*".
+This field is used as one of the criteria to determine the product of a payment. */
+        BeneficiaryPartyIBANCountry : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=10.0, core=true, t24Name=BeneficiaryPartyIBANCountry)
+/* Indicates Presence of Beneficiary IBAN.
+
+Possible Values:
+“Y” - Yes
+“*” - Applies-to-all Value
+
+Default value is "Y".
+It's a mandatory field.
+This field is used as one of the criteria to determine the product of a payment. */
+        BeneficiaryPartyIBANPresent : PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND__BeneficiaryPartyIBANPresent required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=12.0, core=true, t24Name=BeneficiaryPartyIBANPresent)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=55.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=51.0, core=true, t24Name=CURR.NO)
+/* Holds the Charge type of the payment.
+
+Possible values:
+“BEN” - Charges are borne by the Beneficiary
+“SHA” - Charges are shared by both Ordering Party and Beneficiary
+“OUR” - Charges are borne by the Ordering Party
+
+It's a mandatory field.
+This field is used as one of the criteria to determine the product of a payment. */
+        ChargeType : PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND__ChargeType required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=5.0, core=true, t24Name=ChargeType)
+/* Identifies the nature of clearing payment. It is updated from Mapping.
+
+Default value is "*".
+It's a mandatory field.
+Can have a maximum length of 20 alpha-numeric characters.
+The value links to the field ‘ClearingNatureCode’ in PP.CLEARING.NATURE.CODE.
+This field is used as one of the criteria to determine the product of a payment. */
+        ClearingNatureCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=9.0, core=true, t24Name=ClearingNatureCode)
+/* Identifies the clearing transaction type of the payment.It will be validated with PP.TRANSACTION.TYPES
+
+Example:
+“CC” - Cheque Credits
+“CD” - Cheque Debits
+“CT” - Credit Transfer
+“DD” - Direct Debits
+
+It's a mandatory Field.
+This field is used as one of the criteria to determine the product of a payment. */
+        ClearingTransactionType : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=3.0, core=true, t24Name=ClearingTransactionType)
+/* This is a No-Input field which gets Auto-Populated on Clicking Validate button
+Example : BNK,GB1 */
+        CompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=1.0, core=true, t24Name=CompanyID)
+/* Holds a 3 character unique code which denotes a specific currency used in the system.
+
+It's a mandatory field.
+The value links to the field ‘CurrencyCode’ in PP.CURRENCY.
+This field is used as one of the criteria to determine the product of a payment. */
+        Currency -> PP_StaticDataGUI:PP_CURRENCY required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=6.0, core=true, businessType=A, t24Name=Currency)
+        DATE_TIME -> byValue PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=56.0, core=true, t24Name=DEPT.CODE)
+/* Specifies the date until which the record is to be considered as active for payments processing.Post this date, the record will be set as
+Inactive by the payments hub. */
+        EndDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=19.0, core=true, t24Name=EndDate)
+/* Holds the bilaterally agreed code words between the banks.
+
+Default value is "*".
+It's a mandatory field.
+Can have a maximum length of 8 alpha-numeric characters.
+The value links to the field ‘CodeWord’ in PP.INBOUND.CODEWORD.
+This field is used as one of the criteria to determine the product of a payment. */
+        FinalCodeWord : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=17.0, core=true, t24Name=FinalCodeWord)
+        FromAmount -> byValue PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND__FromAmount *
+            @t24:i (t24Name=FromAmount)
+        /* ID-Date will be the format for ID. */
+        ID -> PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=75, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+        INPUTTER -> byValue PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* Indicates the message type of the Payment.
+
+Default value is "*".
+It's a mandatory field.
+Can have a maximum length of 10 alpha-numeric characters.
+The value links to the field ID in PP.MESSAGEPAYMENTTYPE.
+This field is used as one of the criteria to determine the product of a payment. */
+        IncomingMessageType : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=8.0, core=true, t24Name=IncomingMessageType)
+/* Its a No-Input field
+Value is populated by concatenating all the Primary Keys */
+        LinkID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=49.0, core=true, t24Name=LinkID)
+        OVERRIDE -> byValue PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+/* Indicates Presence of Ordering institution BIC.
+
+Possible Values:
+“Y” - Yes
+“*” - Applies-to-all Value
+
+Default value is "Y".
+It's a mandatory field.
+This field is used as one of the criteria to determine the product of a payment. */
+        OrderingInstitBICPresent : PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND__OrderingInstitBICPresent required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=15.0, core=true, t24Name=OrderingInstitBICPresent)
+/* Indicates the country code or country group present in the IBAN of the Ordering Party.
+
+It's a mandatory field.
+Can have a maximum length of 2 alpha-numeric characters.
+The entry should be an existing record in COUNTRY or COUNTRY.GROUP.
+Default value is "*".
+This field is used as one of the criteria to determine the product of a payment. */
+        OrderingPartyIBANCountry : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=11.0, core=true, t24Name=OrderingPartyIBANCountry)
+/* Indicates Presence of Ordering Party IBAN.
+
+Possible Values:
+“Y” - Yes
+“*” - Applies-to-all Value
+
+Default value is "Y".
+It's a mandatory field.
+This field is used as one of the criteria to determine the product of a payment. */
+        OrderingPartyIBANPresent : PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND__OrderingPartyIBANPresent required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=13.0, core=true, t24Name=OrderingPartyIBANPresent)
+/* Indicates the Resident type of the Ordering party.
+
+Possible Values:
+“R” - Resident
+“N” - Non Resident
+“*” - Applies-to-all Value
+
+Default value is "*".
+It's a mandatory field.
+This field is used as one of the criteria to determine the product of a payment. */
+        OrderingPartyResidency : PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND__OrderingPartyResidency required
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=16.0, core=true, t24Name=OrderingPartyResidency)
+/* Identifies the Source Group of the payment.
+
+It's a mandatory field.
+Can have a maximum length of 10 alpha-numeric characters.
+The value links to the field ID in PP.SOURCE.
+Default value is "*".
+This field is used as one of the criteria to determine the product of a payment. */
+        OriginatingSource : T24BusinessTypes:ANY required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=7.0, core=true, t24Name=OriginatingSource)
+/* Indicates the Direction of the payment.
+
+Possible values:
+“I” – Incoming payment
+“B” – Book payment
+“O” – Outgoing payment
+“R” – Redirect payment
+
+It's a mandatory field.
+This field is used as one of the criteria to determine the product of a payment. */
+        PaymentDirection : PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND__PaymentDirection required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=2.0, core=true, t24Name=PaymentDirection)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=50.0, core=true, t24Name=RECORD.STATUS)
+        /* Standard T24 field. Reserved for future use */
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=46.0, core=true, t24Name=RESERVED.1)
+        /* Standard T24 field. Reserved for future use */
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=45.0, core=true, t24Name=RESERVED.2)
+        /* Standard T24 field. Reserved for future use */
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=44.0, core=true, t24Name=RESERVED.3)
+/* Indicates payment type based on Single, Batch and Clearing payment.
+Possible values:
+“C” - Batch Child payment
+"N” - Clearing payment
+“P” - Batch Parent payment
+“S” - Single payment
+“Y” - Clearing Settlement Transaction
+
+It's a mandatory field.
+This field is used as one of the criteria to determine the product of a payment. */
+        SingleBatchClearing : PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND__SingleBatchClearing required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=4.0, core=true, t24Name=SingleBatchClearing)
+/* Specifies the date from which the record is to be considered as active for payments processing.
+Autopopulated from the ID upon clicking Validate Button */
+        StartDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=N, maxLength=11, sysNumber=18.0, core=true, t24Name=StartDate)
+    }
+    PP_MEDIUMWEIGHTPRODUCTCOND_PDS
+        @i18n:Description (en="")
+        @t24:i (t24Name=PP.MEDIUMWEIGHTPRODUCTCOND.PDS, nonStop=true, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=57.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=58.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=54.0, core=true, t24Name=AUTHORISER)
+        BeneficiaryInstitBICPresent : PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND_PDS__BeneficiaryInstitBICPresent required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=14.0, core=true, t24Name=BeneficiaryInstitBICPresent)
+        BeneficiaryPartyIBANCountry : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=10.0, core=true, t24Name=BeneficiaryPartyIBANCountry)
+        BeneficiaryPartyIBANPresent : PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND_PDS__BeneficiaryPartyIBANPresent required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=12.0, core=true, t24Name=BeneficiaryPartyIBANPresent)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=55.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=51.0, core=true, t24Name=CURR.NO)
+        ChargeType : PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND_PDS__ChargeType required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=5.0, core=true, t24Name=ChargeType)
+        ClearingNatureCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=9.0, core=true, t24Name=ClearingNatureCode)
+        ClearingTransactionType : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=3.0, core=true, t24Name=ClearingTransactionType)
+        CompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=1.0, core=true, t24Name=CompanyID)
+        Currency -> PP_StaticDataGUI:PP_CURRENCY required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=6.0, core=true, businessType=A, t24Name=Currency)
+        DATE_TIME -> byValue PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND_PDS__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=56.0, core=true, t24Name=DEPT.CODE)
+        EndDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=19.0, core=true, t24Name=EndDate)
+        FinalCodeWord : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=17.0, core=true, t24Name=FinalCodeWord)
+        FromAmount -> byValue PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND_PDS__FromAmount *
+            @t24:i (t24Name=FromAmount)
+        ID -> PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND_PDS PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=75, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+        INPUTTER -> byValue PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND_PDS__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        IncomingMessageType : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=8.0, core=true, t24Name=IncomingMessageType)
+        LinkID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=49.0, core=true, t24Name=LinkID)
+        OVERRIDE -> byValue PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND_PDS__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        OrderingInstitBICPresent : PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND_PDS__OrderingInstitBICPresent required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=15.0, core=true, t24Name=OrderingInstitBICPresent)
+        OrderingPartyIBANCountry : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=11.0, core=true, t24Name=OrderingPartyIBANCountry)
+        OrderingPartyIBANPresent : PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND_PDS__OrderingPartyIBANPresent required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=13.0, core=true, t24Name=OrderingPartyIBANPresent)
+        OrderingPartyResidency : PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND_PDS__OrderingPartyResidency required
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=16.0, core=true, t24Name=OrderingPartyResidency)
+        OriginatingSource : T24BusinessTypes:ANY required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=7.0, core=true, t24Name=OriginatingSource)
+        PaymentDirection : PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND_PDS__PaymentDirection required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=2.0, core=true, t24Name=PaymentDirection)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=50.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=46.0, core=true, t24Name=RESERVED.1)
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=45.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=44.0, core=true, t24Name=RESERVED.3)
+        SingleBatchClearing : PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND_PDS__SingleBatchClearing required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=4.0, core=true, t24Name=SingleBatchClearing)
+        StartDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=N, maxLength=11, sysNumber=18.0, core=true, t24Name=StartDate)
+    }
+    PP_MEDIUMWEIGHTPRODUCTCOND_PDS__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=53.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    PP_MEDIUMWEIGHTPRODUCTCOND_PDS__FromAmount
+    {
+        ClearingHoliday -> PP_LocalClearingGUI:PP_CLEARING
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=43.0, core=true, businessType=A, t24Name=ClearingHoliday)
+        ClientConditionProduct -> PP_ClientConditionsGUI:PP_CLIENTCOND_PRODUCT required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=22.0, core=true, businessType=ANY, t24Name=ClientConditionProduct)
+        CreditBookCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=31.0, core=true, t24Name=CreditBookCode)
+        CreditChargeBookCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=33.0, core=true, t24Name=CreditChargeBookCode)
+        CreditVATBookCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=35.0, core=true, t24Name=CreditVATBookCode)
+        CurrencyMarket -> ST_CurrencyConfig:CURRENCY_MARKET
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=41.0, core=true, businessType=A, t24Name=CurrencyMarket)
+        DebitBookCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=30.0, core=true, t24Name=DebitBookCode)
+        DebitChargeBookCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=32.0, core=true, t24Name=DebitChargeBookCode)
+        DebitVATBookCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=34.0, core=true, t24Name=DebitVATBookCode)
+        ECCompliantIndicator : PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND_PDS__FromAmount__ECCompliantIndicator required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=40.0, core=true, t24Name=ECCompliantIndicator)
+        FeeProduct -> PP_FeeDeterminationGUI:PP_FEE_PRODUCT required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=26.0, core=true, businessType=ANY, t24Name=FeeProduct)
+        FilterProduct -> PP_FilteringGUI:PP_FILTERING_PRODUCT
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=28.0, core=true, businessType=ANY, t24Name=FilterProduct)
+        FromAmount : T24BusinessTypes:AMT required
+            @t24:i (align=R, inputBehaviour=I, maxLength=17, sysNumber=20.0, core=true, t24Name=FromAmount)
+        ImposeRoutingFlag : PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND_PDS__FromAmount__ImposeRoutingFlag
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=25.0, core=true, t24Name=ImposeRoutingFlag)
+        LedgerProductCode -> PP_ProductDeterminationGUI:PP_LEDGER_PRODUCT_CODES required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=29.0, core=true, businessType=ANY, t24Name=LedgerProductCode)
+        NewPriority : PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND_PDS__FromAmount__NewPriority
+            @t24:i (align=R, inputBehaviour=I, maxLength=2, sysNumber=37.0, core=true, t24Name=NewPriority)
+        NonSTPIndicator : PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND_PDS__FromAmount__NonSTPIndicator
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=38.0, core=true, t24Name=NonSTPIndicator)
+        PSDCompliantIndicator : PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND_PDS__FromAmount__PSDCompliantIndicator required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=39.0, core=true, t24Name=PSDCompliantIndicator)
+        PostingProduct -> PP_PostingSchemeGUI:PP_POSTING_PRODUCT required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=27.0, core=true, businessType=ANY, t24Name=PostingProduct)
+        RegulatoryReportingIndicator : PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND_PDS__FromAmount__RegulatoryReportingIndicator
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=36.0, core=true, t24Name=RegulatoryReportingIndicator)
+        RoutingProduct -> PP_RoutingAndSettlementGUI:PP_ROUTING_PRODUCT
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=24.0, core=true, businessType=ANY, t24Name=RoutingProduct)
+        SettlementType : PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND_PDS__FromAmount__SettlementType
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=42.0, core=true, t24Name=SettlementType)
+        SourceIndicator : PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND_PDS__FromAmount__SourceIndicator required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=23.0, core=true, t24Name=SourceIndicator)
+        ToAmount : T24BusinessTypes:AMT required
+            @t24:i (align=R, inputBehaviour=I, maxLength=17, sysNumber=21.0, core=true, t24Name=ToAmount)
+    }
+    PP_MEDIUMWEIGHTPRODUCTCOND_PDS__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=52.0, core=true, t24Name=INPUTTER)
+    }
+    PP_MEDIUMWEIGHTPRODUCTCOND_PDS__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=48.0, core=true, t24Name=OVERRIDE)
+    }
+    PP_MEDIUMWEIGHTPRODUCTCOND__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=53.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    PP_MEDIUMWEIGHTPRODUCTCOND__FromAmount
+    {
+        ClearingHoliday -> PP_LocalClearingGUI:PP_CLEARING
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=43.0, core=true, businessType=A, t24Name=ClearingHoliday)
+/* Indicates Client Condition Product for the payment.
+
+It's a mandatory field.
+Can have a maximum length of 10 alpha-numeric characters.
+The value links to the field ID in PP.CLIENTCOND.PRODUCT.
+This field will be used as an output of the product determination. */
+        ClientConditionProduct -> PP_ClientConditionsGUI:PP_CLIENTCOND_PRODUCT required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=22.0, core=true, businessType=ANY, t24Name=ClientConditionProduct)
+/* Identifies the booking code for the credit entry on the payment transaction amount.
+
+Can have a maximum length of 10 alpha-numeric characters.
+This field will be used as an output of the product determination. */
+        CreditBookCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=31.0, core=true, t24Name=CreditBookCode)
+/* Identifies the booking code for the Charge Credit. It will be used by the Posting Scheme.
+
+Can have a maximum length of 10 alpha-numeric characters.
+This field will be used as an output of the product determination. */
+        CreditChargeBookCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=33.0, core=true, t24Name=CreditChargeBookCode)
+/* Identifies the booking code for VAT Credit. It will be used by the Posting Scheme.
+
+Can have a maximum length of 10 alpha-numeric characters.
+This field will be used as an output of the product determination. */
+        CreditVATBookCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=35.0, core=true, t24Name=CreditVATBookCode)
+/* Currency Markets are used to identify the correct exchange and revaluation Rates.
+to be applied to each Currency in case of cross currency transactions. */
+        CurrencyMarket -> ST_CurrencyConfig:CURRENCY_MARKET
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=41.0, core=true, businessType=A, t24Name=CurrencyMarket)
+/* Identifies the booking code for the debit entry on the payment transaction amount.
+
+Can have a maximum length of 10 alpha-numeric characters.
+This field will be used as an output of the product determination. */
+        DebitBookCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=30.0, core=true, t24Name=DebitBookCode)
+/* Identifies the booking code for the Charge Debit. It will be used by the Posting Scheme.
+
+Can have a maximum length of 10 alpha-numeric characters.
+This field will be used as an output of the product determination. */
+        DebitChargeBookCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=32.0, core=true, t24Name=DebitChargeBookCode)
+/* Identifies the booking code for VAT Debit. It will be used by the Posting Scheme.
+
+Can have a maximum length of 10 alpha-numeric characters.
+This field will be used as an output of the product determination. */
+        DebitVATBookCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=34.0, core=true, t24Name=DebitVATBookCode)
+/* Identifies if the Payment is EC (European Council) compliant.
+
+Possible values:
+“Y” – Payment is EC Compliant
+“N” – Payment is not EC Compliant
+
+It's a mandatory field.
+This field will be used as an output of the product determination. */
+        ECCompliantIndicator : PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND__FromAmount__ECCompliantIndicator required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=40.0, core=true, t24Name=ECCompliantIndicator)
+/* Indicates Fee Product for the payment.
+
+It's a mandatory field.
+Can have a maximum length of 10 alpha-numeric characters.
+The value links to the field ID in PP.FEE.PRODUCT
+This field will be used as an output of the product determination. */
+        FeeProduct -> PP_FeeDeterminationGUI:PP_FEE_PRODUCT required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=26.0, core=true, businessType=ANY, t24Name=FeeProduct)
+/* Indicates Filtering Product for the payment.
+
+It's a mandatory field.
+Can have a maximum length of 10 alpha-numeric characters.
+The value links to the field ID in PP.FILTERING.PRODUCT
+This field will be used as an output of the product determination. */
+        FilterProduct -> PP_FilteringGUI:PP_FILTERING_PRODUCT
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=28.0, core=true, businessType=ANY, t24Name=FilterProduct)
+/* Holds the starting amount range.
+
+It's a mandatory field.
+Can have a maximum length of 17 numeric characters.
+This field is used as one of the criteria to determine the product of a payment. */
+        FromAmount : T24BusinessTypes:AMT required
+            @t24:i (align=R, inputBehaviour=I, maxLength=17, sysNumber=20.0, core=true, t24Name=FromAmount)
+        /* Flag which is used to impose the appropriate Routing Group for outgoing payments to be routed via local clearing. Such payments should never pick the default route. */
+        ImposeRoutingFlag : PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND__FromAmount__ImposeRoutingFlag
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=25.0, core=true, t24Name=ImposeRoutingFlag)
+/* Enables identification of the Product for description line/narrative purposes, even if the Posting Group and resulting Posting Lines are same for two different products.
+
+It's a mandatory field.
+Can have a maximum length of 10 alpha-numeric characters.
+The value links to the field ID in PP.LEDGER.PRODUCT.CODES.
+This field will be used as an output of the product determination. */
+        LedgerProductCode -> PP_ProductDeterminationGUI:PP_LEDGER_PRODUCT_CODES required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=29.0, core=true, businessType=ANY, t24Name=LedgerProductCode)
+/* Identifies the new priority of the payment. User can choose to ignore the incoming priority and define a new priority.
+
+Possible values:
+1,2,3,4,5,6,7,8,9
+
+This field will be used as an output of the product determination. */
+        NewPriority : PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND__FromAmount__NewPriority
+            @t24:i (align=R, inputBehaviour=I, maxLength=2, sysNumber=37.0, core=true, t24Name=NewPriority)
+/* Indicates whether the payment is sent to Repair queue or not.
+
+Possible Values:
+“Y” - Yes
+“N” - No
+
+This field will be used as an output of the product determination. */
+        NonSTPIndicator : PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND__FromAmount__NonSTPIndicator
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=38.0, core=true, t24Name=NonSTPIndicator)
+/* Identifies if the Payment is PSD (Payment Services Directive) compliant.
+
+Possible Values:
+“C” – Credit Side is PSD Compliant
+“D” – Debit Side is PSD Compliant
+“I” - Ignore
+“N” – Payment is not PSD Compliant
+“Y” – Payment is PSD Compliant
+
+It's a mandatory field.
+This field will be used as an output of the product determination. */
+        PSDCompliantIndicator : PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND__FromAmount__PSDCompliantIndicator required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=39.0, core=true, t24Name=PSDCompliantIndicator)
+/* Indicates Posting Product for the payment.
+
+It's a mandatory field.
+Can have a maximum length of 10 alpha-numeric characters.
+The value links to the field ID in PP.POSTING.PRODUCT.
+This field will be used as an output of the product determination. */
+        PostingProduct -> PP_PostingSchemeGUI:PP_POSTING_PRODUCT required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=27.0, core=true, businessType=ANY, t24Name=PostingProduct)
+/* Identifies whether the Payment has to fulfil Regulatory Reporting requirements.
+This field will be used as an output of the product determination. */
+        RegulatoryReportingIndicator : PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND__FromAmount__RegulatoryReportingIndicator
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=36.0, core=true, t24Name=RegulatoryReportingIndicator)
+/* Indicates Routing Product for the payment.
+
+It's a mandatory field.
+Can have a maximum length of 10 alpha-numeric characters.
+The value links to the field ID in PP.ROUTING.PRODUCT.
+This field will be used as an output of the product determination. */
+        RoutingProduct -> PP_RoutingAndSettlementGUI:PP_ROUTING_PRODUCT
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=24.0, core=true, businessType=ANY, t24Name=RoutingProduct)
+        SettlementType : PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND__FromAmount__SettlementType
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=42.0, core=true, t24Name=SettlementType)
+/* Identifies if the output of Product Determination is an Originating Source or a Source Group.
+
+Possible Values:
+“S” - Source
+“G” - Source Group
+
+It's a mandatory field.
+This field will be used as an output of the product determination. */
+        SourceIndicator : PP_ProductDeterminationGUI:PP_MEDIUMWEIGHTPRODUCTCOND__FromAmount__SourceIndicator required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=23.0, core=true, t24Name=SourceIndicator)
+/* Holds the ending amount range.
+
+It's a mandatory field.
+Can have a maximum length of 17 numeric characters.
+This field is used as one of the criteria to determine the product of a payment. */
+        ToAmount : T24BusinessTypes:AMT required
+            @t24:i (align=R, inputBehaviour=I, maxLength=17, sysNumber=21.0, core=true, t24Name=ToAmount)
+    }
+    PP_MEDIUMWEIGHTPRODUCTCOND__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=52.0, core=true, t24Name=INPUTTER)
+    }
+    PP_MEDIUMWEIGHTPRODUCTCOND__OVERRIDE
+    {
+        /* Contains all the override messages which the user agreed to during Input. During the validation of a transaction, the system may provide the user with a series of screen override messages to indicate an anomaly. */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=48.0, core=true, t24Name=OVERRIDE)
+    }
+/* This screen is used to define source product group in the payments hub.
+Each source can be part of a SourceProduct and also a source can be a SourceProduct of its own.
+This is Non dated and INT type of classification
+This application follows T24 Standard and it will be of History Type application. */
+    PP_SOURCEPRODUCTGROUP
+        @i18n:Description (en="")
+        @t24:i (additionalInfo=HLD, t24Name=PP.SOURCEPRODUCTGROUP, nonStop=true, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=16.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=17.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=13.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=14.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=10.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue PP_ProductDeterminationGUI:PP_SOURCEPRODUCTGROUP__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=15.0, core=true, t24Name=DEPT.CODE)
+        INPUTTER -> byValue PP_ProductDeterminationGUI:PP_SOURCEPRODUCTGROUP__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        OVERRIDE -> byValue PP_ProductDeterminationGUI:PP_SOURCEPRODUCTGROUP__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=9.0, core=true, t24Name=RECORD.STATUS)
+        /* Standard T24 String. No Input Field */
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=6.0, core=true, t24Name=RESERVED.1)
+        /* Standard T24 String. No Input Field */
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=5.0, core=true, t24Name=RESERVED.2)
+        /* Standard T24 String. No Input Field */
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=4.0, core=true, t24Name=RESERVED.3)
+        /* Standard T24 String. No Input Field */
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=3.0, core=true, t24Name=RESERVED.4)
+        /* Standard T24 String. No Input Field */
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=2.0, core=true, t24Name=RESERVED.5)
+        SourceDescription -> byValue PP_ProductDeterminationGUI:PP_SOURCEPRODUCTGROUP__SourceDescription *
+            @t24:i (t24Name=SourceDescription)
+/* Product Group under which the source falls. And it represents the ID of the application.
+Validation Rules:
+10 alphanumeric characters. */
+        SourceProduct -> PP_ProductDeterminationGUI:PP_SOURCEPRODUCTGROUP PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=0.0, core=true, businessType=ANY, t24Name=SourceProduct)
+    }
+    PP_SOURCEPRODUCTGROUP__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=12.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    PP_SOURCEPRODUCTGROUP__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=11.0, core=true, t24Name=INPUTTER)
+    }
+    PP_SOURCEPRODUCTGROUP__OVERRIDE
+    {
+        /* Contains all the override messages which the user agreed to during Input. During the validation of a transaction, the system may provide the user with a series of screen override messages to indicate an anomaly. */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=OVERRIDE)
+    }
+    PP_SOURCEPRODUCTGROUP__SourceDescription
+    {
+/* Product Group under which the source falls.
+
+Validation Rules:
+50 alphanumeric characters. Mandatory field. */
+        SourceDescription : T24BusinessTypes:A required
+            @i18n:Label (en=SourceDescription)
+            @i18n:Tooltip (en=SourceDescription)
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, multiLanguage=true, sysNumber=1.0, core=true, t24Name=SourceDescription)
+    }
+}
+Enumerations {
+    PP_HEAVYWEIGHTPRODUCTCOND_PDS__BeneficiaryBICPresent : mml:string
+        STAR="*"
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND_PDS__BeneficiaryBICRepaired : mml:string
+        N=N
+        STAR="*"
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND_PDS__BeneficiaryPartyIBANPresent : mml:string
+        STAR="*"
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND_PDS__CTRBTRIndicator : mml:string
+        B=B
+        C=C
+    PP_HEAVYWEIGHTPRODUCTCOND_PDS__ChargeType : mml:string
+        BEN=BEN
+        OUR=OUR
+        SHA=SHA
+        STAR="*"
+    PP_HEAVYWEIGHTPRODUCTCOND_PDS__DebitAccountType : mml:string
+        C=C
+        I=I
+        N=N
+        PL=PL
+        STAR="*"
+        V=V
+    PP_HEAVYWEIGHTPRODUCTCOND_PDS__DomesticInternational : mml:string
+        D=D
+        I=I
+    PP_HEAVYWEIGHTPRODUCTCOND_PDS__FromAmount__ECCompliantIndicator : mml:string
+        N=N
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND_PDS__FromAmount__ForwardEntryFlag : mml:string
+        N=N
+        NULL=NULL
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND_PDS__FromAmount__ImposeRoutingFlag : mml:string
+        NULL=NULL
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND_PDS__FromAmount__NewPriority : mml:string
+        1=1
+        2=2
+        3=3
+        4=4
+        5=5
+        6=6
+        7=7
+        8=8
+        9=9
+    PP_HEAVYWEIGHTPRODUCTCOND_PDS__FromAmount__NonSTPIndicator : mml:string
+        NULL=NULL
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND_PDS__FromAmount__PSDCompliantIndicator : mml:string
+        C=C
+        D=D
+        I=I
+        N=N
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND_PDS__FromAmount__RegulatoryReportingIndicator : mml:string
+        NULL=NULL
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND_PDS__FromAmount__STPFlagForPO : mml:string
+        N=N
+        NULL=NULL
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND_PDS__FromAmount__SourceIndicator : mml:string
+        G=G
+        S=S
+    PP_HEAVYWEIGHTPRODUCTCOND_PDS__IntraCompanyPayment : mml:string
+        STAR="*"
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND_PDS__MessagePriority : mml:string
+        1=1
+        2=2
+        3=3
+        4=4
+        5=5
+        6=6
+        7=7
+        8=8
+        9=9
+    PP_HEAVYWEIGHTPRODUCTCOND_PDS__OrderingInstitutionBICPresent : mml:string
+        STAR="*"
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND_PDS__OrderingPartyIBANPresent : mml:string
+        STAR="*"
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND_PDS__OrderingPartyResidency : mml:string
+        N=N
+        R=R
+        STAR="*"
+    PP_HEAVYWEIGHTPRODUCTCOND_PDS__PaymentDirection : mml:string
+        B=B
+        I=I
+        O=O
+        R=R
+    PP_HEAVYWEIGHTPRODUCTCOND_PDS__ReturnTrigger : mml:string
+        STAR="*"
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND_PDS__SingleBatchClearing : mml:string
+        C=C
+        N=N
+        P=P
+        S=S
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND__BeneficiaryBICPresent : mml:string
+        STAR="*"
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND__BeneficiaryBICRepaired : mml:string
+        N=N
+        STAR="*"
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND__BeneficiaryPartyIBANPresent : mml:string
+        STAR="*"
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND__CTRBTRIndicator : mml:string
+        B=B
+        C=C
+    PP_HEAVYWEIGHTPRODUCTCOND__ChargeType : mml:string
+        BEN=BEN
+        OUR=OUR
+        SHA=SHA
+        STAR="*"
+    PP_HEAVYWEIGHTPRODUCTCOND__DebitAccountType : mml:string
+        C=C
+        I=I
+        N=N
+        PL=PL
+        STAR="*"
+        V=V
+    PP_HEAVYWEIGHTPRODUCTCOND__DomesticInternational : mml:string
+        D=D
+        I=I
+    PP_HEAVYWEIGHTPRODUCTCOND__ECCompliantIndicator : mml:string
+        N=N
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND__ForwardEntryFlag : mml:string
+        N=N
+        NULL=NULL
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND__FromAmount__ECCompliantIndicator : mml:string
+        N=N
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND__FromAmount__ForwardEntryFlag : mml:string
+        N=N
+        NULL=NULL
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND__FromAmount__ImposeRoutingFlag : mml:string
+        NULL=NULL
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND__FromAmount__NewPriority : mml:string
+        1=1
+        2=2
+        3=3
+        4=4
+        5=5
+        6=6
+        7=7
+        8=8
+        9=9
+    PP_HEAVYWEIGHTPRODUCTCOND__FromAmount__NonSTPIndicator : mml:string
+        NULL=NULL
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND__FromAmount__PSDCompliantIndicator : mml:string
+        C=C
+        D=D
+        I=I
+        N=N
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND__FromAmount__RegulatoryReportingIndicator : mml:string
+        NULL=NULL
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND__FromAmount__STPFlagForPO : mml:string
+        N=N
+        NULL=NULL
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND__FromAmount__SourceIndicator : mml:string
+        G=G
+        S=S
+    PP_HEAVYWEIGHTPRODUCTCOND__ImposeRoutingFlag : mml:string
+        NULL=NULL
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND__IntraCompanyPayment : mml:string
+        STAR="*"
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND__MessagePriority : mml:string
+        1=1
+        2=2
+        3=3
+        4=4
+        5=5
+        6=6
+        7=7
+        8=8
+        9=9
+    PP_HEAVYWEIGHTPRODUCTCOND__NewPriority : mml:string
+        1=1
+        2=2
+        3=3
+        4=4
+        5=5
+        6=6
+        7=7
+        8=8
+        9=9
+    PP_HEAVYWEIGHTPRODUCTCOND__NonSTPIndicator : mml:string
+        NULL=NULL
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND__OrderingInstitutionBICPresent : mml:string
+        STAR="*"
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND__OrderingPartyIBANPresent : mml:string
+        STAR="*"
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND__OrderingPartyResidency : mml:string
+        N=N
+        R=R
+        STAR="*"
+    PP_HEAVYWEIGHTPRODUCTCOND__PSDCompliantIndicator : mml:string
+        C=C
+        D=D
+        I=I
+        N=N
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND__PaymentDirection : mml:string
+        B=B
+        I=I
+        O=O
+        R=R
+    PP_HEAVYWEIGHTPRODUCTCOND__RegulatoryReportingIndicator : mml:string
+        NULL=NULL
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND__ReturnTrigger : mml:string
+        STAR="*"
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND__STPFlagForPO : mml:string
+        N=N
+        NULL=NULL
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND__SingleBatchClearing : mml:string
+        C=C
+        N=N
+        P=P
+        S=S
+        Y=Y
+    PP_HEAVYWEIGHTPRODUCTCOND__SourceIndicator : mml:string
+        G=G
+        S=S
+    PP_LIGHTWEIGHTPRODUCTCOND_PDS__ECCompliantIndicator : mml:string
+        N=N
+        Y=Y
+    PP_LIGHTWEIGHTPRODUCTCOND_PDS__ForwardEntryFlag : mml:string
+        N=N
+        NULL=NULL
+        Y=Y
+    PP_LIGHTWEIGHTPRODUCTCOND_PDS__ImposeRoutingFlag : mml:string
+        NULL=NULL
+        Y=Y
+    PP_LIGHTWEIGHTPRODUCTCOND_PDS__NonSTPIndicator : mml:string
+        NULL=NULL
+        Y=Y
+    PP_LIGHTWEIGHTPRODUCTCOND_PDS__PSDCompliantIndicator : mml:string
+        I=I
+        N=N
+        Y=Y
+    PP_LIGHTWEIGHTPRODUCTCOND_PDS__RegulatoryReportingIndicator : mml:string
+        NULL=NULL
+        Y=Y
+    PP_LIGHTWEIGHTPRODUCTCOND_PDS__STPFlagForPO : mml:string
+        N=N
+        NULL=NULL
+        Y=Y
+    PP_LIGHTWEIGHTPRODUCTCOND_PDS__SettlementIndicator : mml:string
+        STAR="*"
+        Y=Y
+    PP_LIGHTWEIGHTPRODUCTCOND_PDS__SettlementType : mml:string
+        NULL=NULL
+        PostSettle=PostSettle
+        PreSettle=PreSettle
+    PP_LIGHTWEIGHTPRODUCTCOND__ECCompliantIndicator : mml:string
+        N=N
+        Y=Y
+    PP_LIGHTWEIGHTPRODUCTCOND__ForwardEntryFlag : mml:string
+        N=N
+        NULL=NULL
+        Y=Y
+    PP_LIGHTWEIGHTPRODUCTCOND__ImposeRoutingFlag : mml:string
+        NULL=NULL
+        Y=Y
+    PP_LIGHTWEIGHTPRODUCTCOND__NonSTPIndicator : mml:string
+        NULL=NULL
+        Y=Y
+    PP_LIGHTWEIGHTPRODUCTCOND__PSDCompliantIndicator : mml:string
+        I=I
+        N=N
+        Y=Y
+    PP_LIGHTWEIGHTPRODUCTCOND__RegulatoryReportingIndicator : mml:string
+        NULL=NULL
+        Y=Y
+    PP_LIGHTWEIGHTPRODUCTCOND__STPFlagForPO : mml:string
+        N=N
+        NULL=NULL
+        Y=Y
+    PP_LIGHTWEIGHTPRODUCTCOND__SettlementIndicator : mml:string
+        STAR="*"
+        Y=Y
+    PP_LIGHTWEIGHTPRODUCTCOND__SettlementType : mml:string
+        NULL=NULL
+        PostSettle=PostSettle
+        PreSettle=PreSettle
+    PP_MEDIUMWEIGHTPRODUCTCOND_PDS__BeneficiaryInstitBICPresent : mml:string
+        STAR="*"
+        Y=Y
+    PP_MEDIUMWEIGHTPRODUCTCOND_PDS__BeneficiaryPartyIBANPresent : mml:string
+        STAR="*"
+        Y=Y
+    PP_MEDIUMWEIGHTPRODUCTCOND_PDS__ChargeType : mml:string
+        BEN=BEN
+        OUR=OUR
+        SHA=SHA
+    PP_MEDIUMWEIGHTPRODUCTCOND_PDS__FromAmount__ECCompliantIndicator : mml:string
+        N=N
+        Y=Y
+    PP_MEDIUMWEIGHTPRODUCTCOND_PDS__FromAmount__ImposeRoutingFlag : mml:string
+        NULL=NULL
+        Y=Y
+    PP_MEDIUMWEIGHTPRODUCTCOND_PDS__FromAmount__NewPriority : mml:string
+        1=1
+        2=2
+        3=3
+        4=4
+        5=5
+        6=6
+        7=7
+        8=8
+        9=9
+    PP_MEDIUMWEIGHTPRODUCTCOND_PDS__FromAmount__NonSTPIndicator : mml:string
+        NULL=NULL
+        Y=Y
+    PP_MEDIUMWEIGHTPRODUCTCOND_PDS__FromAmount__PSDCompliantIndicator : mml:string
+        C=C
+        D=D
+        I=I
+        N=N
+        Y=Y
+    PP_MEDIUMWEIGHTPRODUCTCOND_PDS__FromAmount__RegulatoryReportingIndicator : mml:string
+        NULL=NULL
+        Y=Y
+    PP_MEDIUMWEIGHTPRODUCTCOND_PDS__FromAmount__SettlementType : mml:string
+        NULL=NULL
+        PostSettle=PostSettle
+        PreSettle=PreSettle
+    PP_MEDIUMWEIGHTPRODUCTCOND_PDS__FromAmount__SourceIndicator : mml:string
+        G=G
+        S=S
+    PP_MEDIUMWEIGHTPRODUCTCOND_PDS__OrderingInstitBICPresent : mml:string
+        STAR="*"
+        Y=Y
+    PP_MEDIUMWEIGHTPRODUCTCOND_PDS__OrderingPartyIBANPresent : mml:string
+        STAR="*"
+        Y=Y
+    PP_MEDIUMWEIGHTPRODUCTCOND_PDS__OrderingPartyResidency : mml:string
+        N=N
+        R=R
+        STAR="*"
+    PP_MEDIUMWEIGHTPRODUCTCOND_PDS__PaymentDirection : mml:string
+        B=B
+        I=I
+        O=O
+        R=R
+    PP_MEDIUMWEIGHTPRODUCTCOND_PDS__SingleBatchClearing : mml:string
+        C=C
+        N=N
+        P=P
+        S=S
+        Y=Y
+    PP_MEDIUMWEIGHTPRODUCTCOND__BeneficiaryInstitBICPresent : mml:string
+        STAR="*"
+        Y=Y
+    PP_MEDIUMWEIGHTPRODUCTCOND__BeneficiaryPartyIBANPresent : mml:string
+        STAR="*"
+        Y=Y
+    PP_MEDIUMWEIGHTPRODUCTCOND__ChargeType : mml:string
+        BEN=BEN
+        OUR=OUR
+        SHA=SHA
+    PP_MEDIUMWEIGHTPRODUCTCOND__ECCompliantIndicator : mml:string
+        N=N
+        Y=Y
+    PP_MEDIUMWEIGHTPRODUCTCOND__FromAmount__ECCompliantIndicator : mml:string
+        N=N
+        Y=Y
+    PP_MEDIUMWEIGHTPRODUCTCOND__FromAmount__ImposeRoutingFlag : mml:string
+        NULL=NULL
+        Y=Y
+    PP_MEDIUMWEIGHTPRODUCTCOND__FromAmount__NewPriority : mml:string
+        1=1
+        2=2
+        3=3
+        4=4
+        5=5
+        6=6
+        7=7
+        8=8
+        9=9
+    PP_MEDIUMWEIGHTPRODUCTCOND__FromAmount__NonSTPIndicator : mml:string
+        NULL=NULL
+        Y=Y
+    PP_MEDIUMWEIGHTPRODUCTCOND__FromAmount__PSDCompliantIndicator : mml:string
+        C=C
+        D=D
+        I=I
+        N=N
+        Y=Y
+    PP_MEDIUMWEIGHTPRODUCTCOND__FromAmount__RegulatoryReportingIndicator : mml:string
+        NULL=NULL
+        Y=Y
+    PP_MEDIUMWEIGHTPRODUCTCOND__FromAmount__SettlementType : mml:string
+        NULL=NULL
+        PostSettle=PostSettle
+        PreSettle=PreSettle
+    PP_MEDIUMWEIGHTPRODUCTCOND__FromAmount__SourceIndicator : mml:string
+        G=G
+        S=S
+    PP_MEDIUMWEIGHTPRODUCTCOND__ImposeRoutingFlag : mml:string
+        NULL=NULL
+        Y=Y
+    PP_MEDIUMWEIGHTPRODUCTCOND__NewPriority : mml:string
+        1=1
+        2=2
+        3=3
+        4=4
+        5=5
+        6=6
+        7=7
+        8=8
+        9=9
+    PP_MEDIUMWEIGHTPRODUCTCOND__NonSTPIndicator : mml:string
+        NULL=NULL
+        Y=Y
+    PP_MEDIUMWEIGHTPRODUCTCOND__OrderingInstitBICPresent : mml:string
+        STAR="*"
+        Y=Y
+    PP_MEDIUMWEIGHTPRODUCTCOND__OrderingPartyIBANPresent : mml:string
+        STAR="*"
+        Y=Y
+    PP_MEDIUMWEIGHTPRODUCTCOND__OrderingPartyResidency : mml:string
+        N=N
+        R=R
+        STAR="*"
+    PP_MEDIUMWEIGHTPRODUCTCOND__PSDCompliantIndicator : mml:string
+        C=C
+        D=D
+        I=I
+        N=N
+        Y=Y
+    PP_MEDIUMWEIGHTPRODUCTCOND__PaymentDirection : mml:string
+        B=B
+        I=I
+        O=O
+        R=R
+    PP_MEDIUMWEIGHTPRODUCTCOND__RegulatoryReportingIndicator : mml:string
+        NULL=NULL
+        Y=Y
+    PP_MEDIUMWEIGHTPRODUCTCOND__SingleBatchClearing : mml:string
+        C=C
+        N=N
+        P=P
+        S=S
+        Y=Y
+    PP_MEDIUMWEIGHTPRODUCTCOND__SourceIndicator : mml:string
+        G=G
+        S=S
+}

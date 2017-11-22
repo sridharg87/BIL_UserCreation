@@ -1,0 +1,234 @@
+# UTF-8
+/* Local Clearing */
+Domain PP_LocalClearingBACSService
+    @t24:i (module=PP)
+    @java:Package (value=com.temenos.t24.datamodel.pp.pp_localclearingbacsservice)
+namespace "http://www.temenos.com/t24/PP_LocalClearingBACSService"
+metamodelVersion 1.30.6
+Classes {
+    /* Store records in POR.BACS table. */
+    POR_BACS
+        @i18n:Description (en="")
+        @t24:i (t24Name=POR.BACS, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* Destination a/c type; (Payer’s a/c type)
+Specifies the type of account.
+Possible values:
+C - Client
+N - Nostro
+V - Vostro/Loro
+I - Suspense/Internal
+PL - P&L Account
+Validation Rules:
+8 alphanumeric characters */
+        CDAccountType : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=33.0, core=true, t24Name=CDAccountType, typeModifiers="0")
+/* Originating sorting code; Payee’s Bank
+Validation Rules:
+6 alphanumeric characters */
+        CDCollectingMemberSortCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=35.0, core=true, t24Name=CDCollectingMemberSortCode, typeModifiers="0")
+/* CD DraweeMember Sort Code
+Validation Rules:
+6 alphanumeric characters */
+        CDDraweeMemberSortCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=31.0, core=true, t24Name=CDDraweeMemberSortCode, typeModifiers="0")
+/* Destination a/c number; (Payer’s a/c number)
+Validation Rules:
+8 alphanumeric characters */
+        CDDrawerAccountNumber : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=32.0, core=true, t24Name=CDDrawerAccountNumber, typeModifiers="0")
+/* Processing date as received from the BACS file (converted from Julian file date into regular date)
+Validation Rules:
+5 alphanumeric characters */
+        CDProcessingDate : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=30.0, core=true, t24Name=CDProcessingDate)
+/* Reference Number; (Cheque Number)
+Validation Rules:
+18 alphanumeric characters */
+        CDReferenceNumber : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=18, sysNumber=37.0, core=true, t24Name=CDReferenceNumber)
+/* Cheque amount in pence/cents; (divide by hundred)
+Validation Rules:
+11 characters */
+        CDTransactionAmount : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=36.0, core=true, t24Name=CDTransactionAmount, typeModifiers="2")
+/* CD Transaction Code
+Validation Rules:
+2 alphanumeric characters */
+        CDTransactionCode : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=2, sysNumber=34.0, core=true, t24Name=CDTransactionCode, typeModifiers="0")
+/* CT Account Type
+Specifies the type of account.
+Possible values:
+C - Client
+N - Nostro
+V - Vostro/Loro
+I - Suspense/Internal
+PL - P&L Account
+Validation Rules:
+8 alphanumeric characters */
+        CTAccountType : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=10.0, core=true, t24Name=CTAccountType, typeModifiers="0")
+/* CT Beneficiary Account Number
+Validation Rules:
+8 alphanumeric characters */
+        CTBeneficiaryAccountNumber : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=9.0, core=true, t24Name=CTBeneficiaryAccountNumber, typeModifiers="0")
+/* CT Beneficiary Name
+Validation Rules:
+18 alphanumeric characters */
+        CTBeneficiaryName : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=18, sysNumber=18.0, core=true, t24Name=CTBeneficiaryName)
+/* CT Beneficiary Sort Code
+Validation Rules:
+6 alphanumeric characters */
+        CTBeneficiarySortCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=8.0, core=true, t24Name=CTBeneficiarySortCode, typeModifiers="0")
+/* Converted from Julian date to Date
+Validation Rules:
+5 alphanumeric characters */
+        CTPostingDate : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=14.0, core=true, t24Name=CTPostingDate)
+/* CT Reference Number
+Validation Rules:
+18 alphanumeric characters */
+        CTReferenceNumber : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=18, sysNumber=17.0, core=true, t24Name=CTReferenceNumber)
+/* CT Remitter Name
+Validation Rules:
+18 alphanumeric characters */
+        CTRemitterName : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=18, sysNumber=16.0, core=true, t24Name=CTRemitterName)
+/* CT Remitters Account Number
+Validation Rules:
+8 alphanumeric characters */
+        CTRemittersAccountNumber : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=13.0, core=true, t24Name=CTRemittersAccountNumber, typeModifiers="0")
+/* CT Remitters Sort Code
+Validation Rules:
+6 alphanumeric characters */
+        CTRemittersSortCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=12.0, core=true, t24Name=CTRemittersSortCode, typeModifiers="0")
+/* CT Transaction Amount
+Validation Rules:
+11 characters */
+        CTTransactionAmount : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=15.0, core=true, t24Name=CTTransactionAmount, typeModifiers="2")
+/* CT Transaction Code
+Validation Rules:
+2 alphanumeric characters */
+        CTTransactionCode : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=2, sysNumber=11.0, core=true, t24Name=CTTransactionCode, typeModifiers="0")
+/* Indicates the company ID for which the record is created.
+Example : BNK,GB1
+Validation Rules:
+3 alphanumeric characters.
+The value links to the field 'CompanyID' in PPT.COMPANY */
+        CompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+/* Currency Code
+Holds a 3 character unique code which denotes a specific currency used in the system.
+Validation Rules:
+Currency should be a valid entry in Currency Table (PPT.CURRENCY). */
+        CurrencyCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=7.0, core=true, t24Name=CurrencyCode)
+/* DD Account Type
+Specifies the type of account.
+Possible values:
+C - Client
+N - Nostro
+V - Vostro/Loro
+I - Suspense/Internal
+PL - P&L Account
+Validation Rules:
+8 alphanumeric characters */
+        DDAccountType : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=21.0, core=true, t24Name=DDAccountType, typeModifiers="0")
+/* DD Creditor Account Number
+Validation Rules:
+8 alphanumeric characters */
+        DDCreditorAccountNumber : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=24.0, core=true, t24Name=DDCreditorAccountNumber, typeModifiers="0")
+/* DD Creditor Name
+Validation Rules:
+18 alphanumeric characters */
+        DDCreditorName : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=18, sysNumber=27.0, core=true, t24Name=DDCreditorName)
+/* DD Creditor Sort Code
+Validation Rules:
+6 alphanumeric characters */
+        DDCreditorSortCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=23.0, core=true, t24Name=DDCreditorSortCode, typeModifiers="0")
+/* DD Debtor Account Name
+Validation Rules:
+18 alphanumeric characters */
+        DDDebtorAccountName : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=18, sysNumber=29.0, core=true, t24Name=DDDebtorAccountName)
+/* DD Debtor Account Number
+Validation Rules:
+8 alphanumeric characters */
+        DDDebtorAccountNumber : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=20.0, core=true, t24Name=DDDebtorAccountNumber, typeModifiers="0")
+/* DD Debtor Sort Code
+Validation Rules:
+6 alphanumeric characters */
+        DDDebtorSortCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=19.0, core=true, t24Name=DDDebtorSortCode, typeModifiers="0")
+/* DD Mandate Reference
+Validation Rules:
+18 alphanumeric characters */
+        DDMandateReference : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=18, sysNumber=28.0, core=true, t24Name=DDMandateReference)
+/* DD Posting Date
+Validation Rules:
+5 alphanumeric characters */
+        DDPostingDate : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=25.0, core=true, t24Name=DDPostingDate)
+/* DD Transaction Amount
+Validation Rules:
+11 characters */
+        DDTransactionAmount : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=26.0, core=true, t24Name=DDTransactionAmount, typeModifiers="2")
+/* DD Transaction Code
+Validation Rules:
+2 alphanumeric characters */
+        DDTransactionCode : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=2, sysNumber=22.0, core=true, t24Name=DDTransactionCode, typeModifiers="0")
+/* Denotes the unique ID generated by the payments hub upon generating a payment order.
+Validation Rules:
+Mandatory field; 16 alphanumeric characters. */
+        FTNumber : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=2.0, core=true, t24Name=FTNumber)
+/* File Product Name.
+Possible values:
+OM1
+OM2
+OMC
+OMD
+Validation Rules:
+3 alphanumeric characters */
+        FileProductName : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=3.0, core=true, t24Name=FileProductName)
+/* Unique number/name generated by FT2.
+Validation Rules:
+This field can hold upto 50 alphanumeric characters generated by the system */
+        FileReference : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=4.0, core=true, t24Name=FileReference)
+/* File name appended with current business date.
+Validation Rules:
+50 alphanumeric characters */
+        FileSendersReference : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=5.0, core=true, t24Name=FileSendersReference)
+        /* Unique ID generated by the payments hub in order to identify each record in the application. */
+        ID -> PP_LocalClearingBACSService:POR_BACS PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+/* Date from the file (with conversion function)
+Validation Rules:
+8 characters of type DATE. */
+        ProcessingDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=8, sysNumber=6.0, core=true, t24Name=ProcessingDate)
+    }
+}

@@ -1,0 +1,394 @@
+# UTF-8
+/* Field Defintions for SEPA */
+Domain EP_Fields
+    @t24:i (module=EP)
+    @java:Package (value=com.temenos.t24.datamodel.ep.ep_fields)
+namespace "http://www.temenos.com/t24/EP_Fields"
+metamodelVersion 1.30.6
+Classes {
+/* This ‘H’ type table contains the final mapping of any field belonging to a SEPA clearing message layout.
+Unless given here, any XML element of an outward SEPA message may only be defaulted to a fixed text value or calculated by an elementary routine without any argument.
+A numeric suffix n, separated by a ‘-‘, means the nth multi-value of a field in a T24 application. If the suffix is ‘–n.m’, the field content is associated to the mth sub-value of the nth multi-value.
+If allowed or vetting fields are left blank, default values from UNIFI.XML.FORMAT would apply
+
+For example, the fields CREDIT.CUSTOMER and CREDIT.ACCT.NO may be defined as:
+NEWMASTER 5.0      SEPA.FIELDS, S=VOIR
+FIELD.DETAIL.ID... CREDIT.CUSTOMER
+-----------------------------------------------------------------------
+1. 1 DEST.APPL...... SEPA.OUTWARD        SEPA.OUTWARD
+3. 1 DEST.FINAL..... INITIAL.NAME
+1. 2 DEST.APPL...... SEPA.FOLLOW.UP      SEPA.FOLLOW.UP
+3. 2 DEST.FINAL..... INITIAL.NAME
+7. 1 ORIG.APPL...... CFONB
+10. 1 ORIG.FMT.RTN... @LOT.CUSTOMER.NAME
+7. 2 ORIG.APPL...... FUNDS.TRANSFER
+8. 2. 1 ORIG.JOIN... CUSTOMER>CREDIT.CUSTOMER
+9. 2 ORIG.FINAL..... SHORT.NAME
+7. 3 ORIG.APPL...... SEPA.FOLLOW.UP
+8. 3. 1 ORIG.JOIN... ACCOUNT>CREDIT.ACCT.NO
+8. 3. 2 ORIG.JOIN... CUSTOMER>CUSTOMER
+9. 3 ORIG.FINAL..... SHORT.NAME
+14 LENGTH............ 35
+15. 1. 1 ATTRIBUTE... A
+
+
+NEWMASTER 5.0      SEPA.FIELDS, S=VOIR
+FIELD.DETAIL.ID... CREDIT.ACCT.NO
+-----------------------------------------------------------------------
+1. 1 DEST.APPL...... SEPA.INWARD         SEPA.INWARD
+3. 1 DEST.FINAL..... CREDIT.ACCT.NO@IBAN.TO.ACCOUNT (**)
+1. 2 DEST.APPL...... SEPA.INWARD         SEPA.INWARD
+3. 2 DEST.FINAL..... INITIAL.ACCOUNT@IBAN.TO.ACCOUNT
+1. 3 DEST.APPL...... SEPA.INWARD         SEPA.INWARD
+3. 3 DEST.FINAL..... INITIAL.IBAN
+1. 4 DEST.APPL...... SEPA.OUTWARD        SEPA.OUTWARD
+3. 4 DEST.FINAL..... INITIAL.ACCOUNT@IBAN.TO.ACCOUNT
+1. 5 DEST.APPL...... SEPA.OUTWARD        SEPA.OUTWARD
+3. 5 DEST.FINAL..... INITIAL.IBAN
+7. 1 ORIG.APPL...... CFONB (***)
+10. 1 ORIG.FMT.RTN... @LOT.CUST.IBAN.ACCOUNT
+7. 2 ORIG.APPL...... FUNDS.TRANSFER
+9. 2 ORIG.FINAL..... CREDIT.ACCT.NO
+10. 2 ORIG.FMT.RTN... @ACCOUNT.TO.IBAN
+7. 3 ORIG.APPL...... SEPA.FOLLOW.UP
+9. 3 ORIG.FINAL..... INITIAL.IBAN
+7. 3 ORIG.APPL...... SEPA.FOLLOW.UP
+9. 3 ORIG.FINAL..... INITIAL.IBAN
+
+(**) The system is searching the SEPA.LAYOUT field associated to CREDIT.ACCT.NO, stores its content in field INITIAL.IBAN of SEPA.INWARD and converts its content from IBAN to T24 ACCOUNT key before storing it in 2 more fields of SEPA.INWARD: INITIAL.ACCOUNT and CREDIT.ACCT.NO.
+(***) If the generation of bulk outward messages is directly done from a fixed text file sent by a corporate customer, the mapping should be done through the definition of an additional multi-value associated to the original definition of the received file. The field ORIG.APPL should then be completed with the generic ‘CFONB’ or specific ‘CFONB.nnmm’ value referring to a specific layout description within the distinct LOT application.
+The following SEPA.FIELDS record is referring to the initial Credit Transfer message (and should therefore be given in the corresponding FIELD.DETAIL of its own SEPA.LAYOUT) to retrieve the original transaction Id in order to have it returned or cancelled:
+FIELD.DETAIL.ID... ACT.TXN.ID
+-----------------------------------------------------------------------
+7. 1 ORIG.APPL...... !ORIGINAL.RECORD
+9. 1 ORIG.FINAL..... ACT.TXN.ID
+
+The IBAN.TO.ACCOUNT as well as the ACCOUNT.TO.IBAN has to be defined as SEPA.FIELDS records that should only contain in the field FORMATING.RTN the exact name of the routine used by the bank to make the conversion through the input/output common variable COMI between the IBAN format and the T24 ACCOUNT key. These names will be extracted onto I_SEPAIBAN insert by any application or batch program to be available for standard routines all over the SEPA application.
+FIELD.DETAIL.ID... ACCOUNT.TO.IBAN
+----------------------------------------------------------------------
+10. 1 ORIG.FMT.RTN... @ACCOUNT.TO.IBAN
+
+FIELD.DETAIL.ID... IBAN.TO.ACCOUNT
+-----------------------------------------------------------------------
+10. 1 ORIG.FMT.RTN... @IBAN.TO.ACCOUNT
+A fixed value can also be assigned to an outward tag element as with:
+FIELD.DETAIL.ID... BANK.ID
+-----------------------------------------------------------------------
+9. 1 ORIG.FINAL..... "DIRPFRBB" */
+    SEPA_FIELDS
+        @i18n:Description (en="")
+        @t24:i (t24Name=SEPA.FIELDS, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        ALLOWED_VALUE -> byValue EP_Fields:SEPA_FIELDS__ALLOWED_VALUE *
+            @t24:i (t24Name=ALLOWED.VALUE)
+        ATTRIBUTE -> byValue EP_Fields:SEPA_FIELDS__ATTRIBUTE *
+            @t24:i (t24Name=ATTRIBUTE)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=35.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=36.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=32.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=33.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=29.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue EP_Fields:SEPA_FIELDS__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=34.0, core=true, t24Name=DEPT.CODE)
+/* This field Gives the ‘F’ description to be associated to the redefinition as modulo (3i-2) of one of the 25 groups of 3 free fields foreseen in the SEPA.FOLLOW.UP application.
+If not null, the field will be present in any coding screen version of the application. All needed checks and cross controls are being defined here after and/or through the FORMATING.RTN.
+
+Validation rules
+Value upto 35 type ANY(Any Character) */
+        DESCRIPTION : T24BusinessTypes:ANY
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=13.0, core=true, t24Name=DESCRIPTION)
+        DEST_APPL -> byValue EP_Fields:SEPA_FIELDS__DEST_APPL *
+            @t24:i (t24Name=DEST.APPL)
+/* This field holds Free alphanumeric key.
+
+Validation rules
+value upto 35 type A(AplhaNumeric) */
+        FIELD_DETAIL_ID -> EP_Fields:SEPA_FIELDS PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=FIELD.DETAIL.ID)
+        INPUTTER -> byValue EP_Fields:SEPA_FIELDS__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* This Field Gives the ‘N’ description associated to the field for SEPA.FOLLOW.UP definition.
+
+Validation rules
+Value upto 7 type A(AplhaNumeric) */
+        LENGTH : T24BusinessTypes:A
+            @i18n:Label (en=Length)
+            @i18n:Tooltip (en=Length)
+            @t24:i (align=L, inputBehaviour=I, maxLength=7, sysNumber=14.0, core=true, t24Name=LENGTH)
+        ORIG_APPL -> byValue EP_Fields:SEPA_FIELDS__ORIG_APPL *
+            @t24:i (t24Name=ORIG.APPL)
+        OVERRIDE -> byValue EP_Fields:SEPA_FIELDS__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=28.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=1, sysNumber=25.0, core=true, t24Name=RESERVED.1)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=1, sysNumber=24.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=1, sysNumber=23.0, core=true, t24Name=RESERVED.3)
+/* This Field specifies the Rank of a mandatory field from the vetting application.
+
+Validation rules
+Value upto 3 */
+        VETTING_FIELD : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=22.0, core=true, t24Name=VETTING.FIELD)
+/* This Field specifies the Name of a T24 vetting table containing allowed values.
+
+Validation rules
+Value upto 35 type A(AplhaNumeric) and must exist in Application FILE.CONTROL */
+        VETTING_TABLE -> EB_SystemTables:FILE_CONTROL
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=21.0, core=true, businessType=A, t24Name=VETTING.TABLE)
+    }
+    SEPA_FIELDS__ALLOWED_VALUE
+    {
+/* This Field specifies the Maximum delay allowing this return/refund or reverse reason to be used in an outward message from the initial settlement date.
+If left blanc, the return/refund reason will be considered as a technical one allowing an immediate posting of a SEPA.FOLLOW.UP.
+
+Validation rules
+Associated Multi Value set of Field ALLOWED.VALUE to ALLOWED.MAP */
+        ALLOWED_EXP_DAY : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=19.0, core=true, t24Name=ALLOWED.EXP.DAY)
+        ALLOWED_MAP -> byValue EP_Fields:SEPA_FIELDS__ALLOWED_VALUE__ALLOWED_MAP *
+            @t24:i (t24Name=ALLOWED.MAP)
+/* This field  Gives the narrative of the allowed value for the data field used in SEPA.FOLLOW.UP.
+This allows the production of an available list as enrichment redefining the modulo(3i) rank of fields in SEPA.FOLLOW.UP anytime that the data coding field modulo(3i-1) is set to null. Otherwise it only contains the narrative of the coded value.
+
+Validation rules
+Associated Multi Value set of Field ALLOWED.VALUE to ALLOWED.MAP */
+        ALLOWED_NARR : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=17.0, core=true, t24Name=ALLOWED.NARR)
+/* This field specifies the Default process type for a transaction if none is associated to its own definition:
+‘SAO’: direct authorization attempt for the SEPA.FOLLOW.UP whatever the status of the customer account might be.
+‘SNP’: direct authorization attempt for the SEPA.FOLLOW.UP if no non overridable message forbade the booking entry on the customer account (if one is involved).
+Otherwise, the SEPA.FOLLOW.UP is only validated with a ‘FNAO’ status.
+‘RET’: direct authorization attempt for the SEPA.FOLLOW.UP through the same transit account as the one used for the inward entry.
+‘MAN’: the SEPA.FOLLOW.UP is produced in the ‘FHLD’ non validated status.
+‘NO’: SEPA.FOLLOW.UP not generated.
+
+Validation rules
+Value upto 3 type A(AlphaNumeric) and user can input only 'NO' 'MAN' 'RET' 'SAO' and 'SNP'
+Associated Multi Value set of Field ALLOWED.VALUE to ALLOWED.MAP */
+        ALLOWED_PROCESS : EP_Fields:SEPA_FIELDS__ALLOWED_VALUE__ALLOWED_PROCESS
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=18.0, core=true, t24Name=ALLOWED.PROCESS)
+/* This field Gives the list of the allowed value for the data field to be used in SEPA.FOLLOW.UP.
+
+Validation rules
+Value upto 35 type ANY(Any Character)
+Multi Value set */
+        ALLOWED_VALUE : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=16.0, core=true, t24Name=ALLOWED.VALUE)
+    }
+    SEPA_FIELDS__ALLOWED_VALUE__ALLOWED_MAP
+    {
+/* This field holds the List of the error messages that may be mapped with this return/refund reason.
+
+Validation rules
+Multi Value field and Associated Multi Value set of Field ALLOWED.VALUE */
+        ALLOWED_MAP : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=20.0, core=true, t24Name=ALLOWED.MAP)
+    }
+    SEPA_FIELDS__ATTRIBUTE
+    {
+        ATTRIBUTE -> byValue EP_Fields:SEPA_FIELDS__ATTRIBUTE__ATTRIBUTE *
+            @t24:i (t24Name=ATTRIBUTE)
+    }
+    SEPA_FIELDS__ATTRIBUTE__ATTRIBUTE
+    {
+/* This field Gives the ‘T’ description associated to the field for its definition in SEPA.FOLLOW.UP.
+
+Validation rules
+Value upto 35 type A(AplhaNumeric)
+Multi Value field */
+        ATTRIBUTE : T24BusinessTypes:A
+            @i18n:Label (en=Attribute)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=15.0, core=true, t24Name=ATTRIBUTE)
+    }
+    SEPA_FIELDS__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=31.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    SEPA_FIELDS__DEST_APPL
+    {
+/* This Field contains the T24 application receiving the tag element SEPA.INWARD, SEPA.INWARD.FILES, SEPA.FOLLOW.UP, SEPA.OUTWARD, SEPA.OUTWARD.FILES …
+
+Validation rules
+Value upto 35 type A(AplhaNumeric) and must exist in FILE.CONTROL Application
+Multi value set */
+        DEST_APPL -> EB_SystemTables:FILE_CONTROL
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, businessType=A, t24Name=DEST.APPL)
+        DEST_CHARS -> byValue EP_Fields:SEPA_FIELDS__DEST_APPL__DEST_CHARS *
+            @t24:i (t24Name=DEST.CHARS)
+/* This Field contains the Name of the field to be populated in the DEST.APPL. The content may have been transform by one or more link done at the previous field.  An optional suffix separated by ‘@’ allows a formating routine on its value as COMI input/output argument.
+
+Validation rules
+Value upto 35 type A(AplhaNumeric)
+Associated Multi value set of field DEST.APPL to DEST.CHARS */
+        DEST_FINAL : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=3.0, core=true, t24Name=DEST.FINAL)
+/* This Field contains the Name of a routine prefixed par ‘@’ that will return a calculated value as common output COMI argument. Alternatively, a fixed value may be given between ˝˝.
+
+Validation rules
+Value upto 40 type A(AplhaNumeric)
+Associated Multi value set of field DEST.APPL to DEST.CHARS */
+        DEST_FMT_RTN : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=40, sysNumber=4.0, core=true, t24Name=DEST.FMT.RTN)
+        DEST_JOIN -> byValue EP_Fields:SEPA_FIELDS__DEST_APPL__DEST_JOIN *
+            @t24:i (t24Name=DEST.JOIN)
+/* This Fields holds the Justification, if any, applies to the extracted and/or calculated data.
+‘n”X”R’: Length n, “X” filled, right justify
+‘n”X”L’: Length n, “X” filled, left justify
+‘nR’: Length n, right justify/truncated
+‘nL’: Length n, left justify/truncated
+
+Validation rules
+Value upto 6 type ANY(Any Character)
+Associated Multi value set of field DEST.APPL to DEST.CHARS */
+        DEST_JUSTIFY : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=5.0, core=true, t24Name=DEST.JUSTIFY)
+    }
+    SEPA_FIELDS__DEST_APPL__DEST_CHARS
+    {
+/* In some cases it may be necessary to pass only certain parts of a data field. This is done on the extracted data.
+This field being sub-valued, it is possible to concatenate different character strings.
+n1 being the 1st character position, the sequence may be identified as :
+n1,n2 (n2 = string length) or
+n1:n2 (n2 = last character position)
+
+Validation rules
+Value upto 7 type A(AplhaNumeric)
+Individual Multi Value field and Associated Multi value set of field DEST.APPL to DEST.CHARS */
+        DEST_CHARS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=7, sysNumber=6.0, core=true, t24Name=DEST.CHARS)
+    }
+    SEPA_FIELDS__DEST_APPL__DEST_JOIN
+    {
+/* This Field contains the Name of a T24 application:‘>’: field name.
+With an optional suffix separated by ‘@’ for a preformating routine with COMI as input/output argument.
+Field name is the key to this application, originally content of the tag’s element, its value is the result of the previous link if DES.JOIN is sub-valued
+
+Validation rules
+Value upto 50 type A(AlphaNumeric)
+Associated Multi value subset of field DEST.APPL */
+        DEST_JOIN : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=2.0, core=true, t24Name=DEST.JOIN)
+    }
+    SEPA_FIELDS__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=30.0, core=true, t24Name=INPUTTER)
+    }
+    SEPA_FIELDS__ORIG_APPL
+    {
+/* This Field contains the T24 application, original SEPA transaction or inward customer remitted file from LOT application containing the raw data (*):
+FUNDS.TRANSFER, SEPA.FOLLOW.UP
+!ORIGINAL.TRANSACTION, CFONB[.aa] …
+
+Validation rules
+Value upto 35 type A(AplhaNumeric)
+Multi Value set */
+        ORIG_APPL : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=7.0, core=true, t24Name=ORIG.APPL)
+        ORIG_CHARS -> byValue EP_Fields:SEPA_FIELDS__ORIG_APPL__ORIG_CHARS *
+            @t24:i (t24Name=ORIG.CHARS)
+/* This Field contains the Name of a field from the application of the last multi-value of JOIN.FIELD or, if none, from the T24 SOURCE.APPL application.
+Alternatively, a fixed value may be given between ˝˝.
+
+Validation rules
+Value upto 50 type A(AplhaNumeric)
+Associated Multi value set of field ORIG.APPL to ORIG.CHARS */
+        ORIG_FINAL : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=9.0, core=true, t24Name=ORIG.FINAL)
+/* This Field contains the Name of a routine prefixed par ‘@’ that will use the value calculated through the FINAL.FIELD passed as the common input/output COMI argument.
+
+Validation rules
+Value upto 40 type A(AplhaNumeric)
+Associated Multi value set of field ORIG.APPL to ORIG.CHARS */
+        ORIG_FMT_RTN : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=40, sysNumber=10.0, core=true, t24Name=ORIG.FMT.RTN)
+        ORIG_JOIN -> byValue EP_Fields:SEPA_FIELDS__ORIG_APPL__ORIG_JOIN *
+            @t24:i (t24Name=ORIG.JOIN)
+/* This Field specifies the Justification used, if any, applies to the retrieved and/or calculated data.
+‘n”X”R’: Length n, “X” filled, right justify
+‘n”X”L’: Length n, “X” filled, left justify
+‘nR’: Length n, right justify/truncated
+‘nL’: Length n, left justify/truncated
+
+
+Validation rules
+Value upto 6 type ANY(Any Character)
+Associated Multi value set of field ORIG.APPL to ORIG.CHARS */
+        ORIG_JUSTIFY : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=11.0, core=true, t24Name=ORIG.JUSTIFY)
+    }
+    SEPA_FIELDS__ORIG_APPL__ORIG_CHARS
+    {
+/* In some cases it may be necessary to keep only certain parts of a data field. This can be done on the full initial record or on the resulting calculated data.
+This field being sub-valued, it is possible to concatenate different character strings.
+n1 being the 1st character position, the sequence may be identified as :
+n1,n2 (n2 = string length) or
+n1:n2 (n2 = last character position)
+For example, as a date is recorded in T24 under the format CCYYMMDD. Its extraction under the format YYMMDD requires for this field one of the following values: 3,6 (or 3:8).
+
+Validation rules
+Value upto 7 type A(AplhaNumeric)
+Individual Multi Value field and Associated Multi value set of field ORIG.APPL */
+        ORIG_CHARS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=7, sysNumber=12.0, core=true, t24Name=ORIG.CHARS)
+    }
+    SEPA_FIELDS__ORIG_APPL__ORIG_JOIN
+    {
+/* This Field contains the Name of a T24 application:‘>’: field name.
+With an optional suffix separated by ‘@’ for a preformating routine with COMI as input/output argument.
+Field name, the key to this application, is the name of a field from the application of the previous multi-value or, for the first one, from SOURCE.APPL application (*).
+
+Validation rules
+Value upto 50 type A(AplhaNumeric)
+Associated Multi value subset of field ORIG.APPL */
+        ORIG_JOIN : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=8.0, core=true, t24Name=ORIG.JOIN)
+    }
+    SEPA_FIELDS__OVERRIDE
+    {
+/* This field is defaulted with the Override message generated for this application.
+
+Validation rules
+Value upto 35 and NOINPUT field */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=27.0, core=true, t24Name=OVERRIDE)
+    }
+}
+Enumerations {
+    SEPA_FIELDS__ALLOWED_VALUE__ALLOWED_PROCESS : mml:string
+        MAN=MAN
+        NO=NO
+        RET=RET
+        SAO=SAO
+        SNP=SNP
+}

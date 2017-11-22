@@ -1,0 +1,235 @@
+# UTF-8
+/* Fee Calculation for Letter of Credit */
+Domain LC_Fees
+    @t24:i (module=LC)
+    @java:Package (value=com.temenos.t24.datamodel.lc.lc_fees)
+namespace "http://www.temenos.com/t24/LC_Fees"
+metamodelVersion 1.30.6
+Classes {
+    /* OVERVIEWLive file to hold periodic commission accrual details of LETTER.OF.CREDIT or DRAWINGS contract. */
+    LC_COMM_ACCR_DETAILS
+        @i18n:Description (en="")
+        @t24:i (t24Name=LC.COMM.ACCR.DETAILS, level=F, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        ACCR_FROM_DATE -> byValue LC_Fees:LC_COMM_ACCR_DETAILS__ACCR_FROM_DATE *
+            @t24:i (t24Name=ACCR.FROM.DATE)
+        COMM_CODE -> byValue LC_Fees:LC_COMM_ACCR_DETAILS__COMM_CODE *
+            @t24:i (t24Name=COMM.CODE)
+/* Holds the period at which the commission rate is to be applied.
+System maintained field. */
+        COMM_PERIOD : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=2, sysNumber=24.0, core=true, t24Name=COMM.PERIOD)
+        COMM_ST_DATE -> byValue LC_Fees:LC_COMM_ACCR_DETAILS__COMM_ST_DATE *
+            @t24:i (t24Name=COMM.ST.DATE)
+        /* Holds the tax component of the commission amount for the current schedule. */
+        COMM_TAX_AMOUNT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=7.0, core=true, t24Name=COMM.TAX.AMOUNT, typeModifiers="-1")
+        CONTRACT_NUMBER -> LC_Fees:LC_COMM_ACCR_DETAILS PK required
+            @i18n:Label (en="Contract Number")
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=0.0, core=true, businessType=LETT, t24Name=CONTRACT.NUMBER)
+        /* Holds the commission amount for the current schedule. */
+        CSN_AMOUNT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=6.0, core=true, t24Name=CSN.AMOUNT, typeModifiers="-1")
+        /* Reserved for future use. */
+        CSN_BASE_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=8.0, core=true, t24Name=CSN.BASE.DATE)
+        CSN_RATE -> byValue LC_Fees:LC_COMM_ACCR_DETAILS__CSN_RATE *
+            @t24:i (t24Name=CSN.RATE)
+        /* Currency of Letter of Credit or Drawings contract. */
+        CURRENCY : T24BusinessTypes:CCY
+            @i18n:Label (en=Ccy)
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CURRENCY)
+        /* Holds the start date of commission for the next schedule. */
+        END_CSN_PERIOD : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=5.0, core=true, t24Name=END.CSN.PERIOD)
+        PRIN_BALANCE -> byValue LC_Fees:LC_COMM_ACCR_DETAILS__PRIN_BALANCE *
+            @t24:i (t24Name=PRIN.BALANCE)
+        SCH_CSN_DT -> byValue LC_Fees:LC_COMM_ACCR_DETAILS__SCH_CSN_DT *
+            @t24:i (t24Name=SCH.CSN.DT)
+        /* Holds the date from which the commission is calculated for the current schedule. */
+        START_CSN_PERIOD : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=4.0, core=true, t24Name=START.CSN.PERIOD)
+    }
+    LC_COMM_ACCR_DETAILS__ACCR_FROM_DATE
+    {
+        /* Holds the actual value (before rounding off) the commission amount accrued. */
+        ACCR_ACT_AMT : T24BusinessTypes:AMT required
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=15.0, core=true, t24Name=ACCR.ACT.AMT, typeModifiers="-1")
+        /* Holds the commission amount accrued. */
+        ACCR_AMT : T24BusinessTypes:AMT required
+            @i18n:Label (en="Accr Amt")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=14.0, core=true, t24Name=ACCR.AMT, typeModifiers="-1")
+        /* Holds the number of days for which commission accrual has taken place. */
+        ACCR_DAYS : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=35, sysNumber=11.0, core=true, t24Name=ACCR.DAYS)
+        /* Holds the start date for the commission amount (ACCR.AMT) accrued. */
+        ACCR_FROM_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Accr From Date")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=9.0, core=true, t24Name=ACCR.FROM.DATE)
+        /* Holds the principal amount on which the commission is accrued. */
+        ACCR_PRIN : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=12.0, core=true, t24Name=ACCR.PRIN, typeModifiers="-1")
+        /* Holds the rate at which commission is accrued. */
+        ACCR_RATE : T24BusinessTypes:R
+            @i18n:Label (en="Accr Rate")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=13.0, core=true, t24Name=ACCR.RATE)
+        /* Holds the end date for the commission amount (ACCR.AMT) accrued. */
+        ACCR_TO_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Accr To Date")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=10.0, core=true, t24Name=ACCR.TO.DATE)
+    }
+    LC_COMM_ACCR_DETAILS__COMM_CODE
+    {
+/* Holds the Periodic commission amount related to the associated COMM.CODE.
+Associated multi-value field.
+System maintained field. */
+        COMM_AMT : T24BusinessTypes:AMT
+            @i18n:Label (en="Commission Amount")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=27.0, core=true, t24Name=COMM.AMT, typeModifiers="1")
+/* Holds the Periodic commission code specified in the LC during issuance.
+If separate periodic commission code is specified on amendment during operation ‘A’ or ‘D’,  then this field is multi-valued and the new commission code is stored.
+Associated multi-value field.
+System maintained field. */
+        COMM_CODE : T24BusinessTypes:N
+            @i18n:Label (en="Commission Code")
+            @i18n:Tooltip (en="Indicates the commission code")
+            @t24:i (align=R, inputBehaviour=I, maxLength=20, sysNumber=25.0, core=true, t24Name=COMM.CODE)
+/* Holds the Periodic commission rate related to the associated COMM.CODE.
+Associated multi-value field.
+System maintained field. */
+        COMM_RATE : T24BusinessTypes:R
+            @i18n:Label (en="Comm Rate")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=26.0, core=true, t24Name=COMM.RATE)
+        RESERVED1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=1, sysNumber=28.0, core=true, t24Name=RESERVED1)
+        RESERVED2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=1, sysNumber=29.0, core=true, t24Name=RESERVED2)
+    }
+    LC_COMM_ACCR_DETAILS__COMM_ST_DATE
+    {
+/* Holds the End date for commission calculation
+Associated multi-valued field
+System maintained field */
+        COMM_END_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=23.0, core=true, t24Name=COMM.END.DATE)
+/* Holds the Start date for commission calculation
+Associated multi-valued field
+System maintained field */
+        COMM_ST_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=21.0, core=true, t24Name=COMM.ST.DATE)
+/* Holds the Principal amount effective from start date
+Associated multi-valued field
+System maintained field */
+        PRIN_AMT : T24BusinessTypes:AMT
+            @i18n:Label (en=Principal)
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=22.0, core=true, t24Name=PRIN.AMT, typeModifiers="1D")
+    }
+    LC_COMM_ACCR_DETAILS__CSN_RATE
+    {
+        /* Holds the commission rate associated with the effective date. */
+        CSN_RATE : T24BusinessTypes:R
+            @i18n:Label (en="CSN Rate")
+            @i18n:Tooltip (en="Specifies the commission Rate")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=16.0, core=true, t24Name=CSN.RATE)
+        /* Holds the effective date  with the associated commission rate. */
+        CSN_RATE_EFF_DT : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=17.0, core=true, t24Name=CSN.RATE.EFF.DT)
+    }
+    LC_COMM_ACCR_DETAILS__PRIN_BALANCE
+    {
+        /* Identifies the principal movement in LC or Drawings. */
+        PRIN_BALANCE : T24BusinessTypes:AMT
+            @i18n:Label (en="Principal Amt")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=2.0, core=true, t24Name=PRIN.BALANCE, typeModifiers="-1")
+        /* Identifies the effective date of movement. */
+        PRIN_EFF_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=3.0, core=true, t24Name=PRIN.EFF.DATE)
+    }
+    LC_COMM_ACCR_DETAILS__SCH_CSN_DT
+    {
+        /* Holds the commission amount associated with the scheduled commission date. */
+        SCH_CSN_AMT : T24BusinessTypes:AMT required
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=20.0, core=true, t24Name=SCH.CSN.AMT, typeModifiers="-1")
+        /* Holds the scheduled commission date. */
+        SCH_CSN_DT : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=18.0, core=true, t24Name=SCH.CSN.DT)
+        /* Holds the scheduled commission processed date. */
+        SCH_PRC_DT : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=19.0, core=true, t24Name=SCH.PRC.DT)
+    }
+/* System maintained table.
+Holds details of commission calculations. File is updated only when commission amount is calculated based on the conditions defined in PERIODIC.COMMISSION table and not for user input commission rate/amount.
+@ID is the transaction reference of either LETTER.OF.CREDIT or DRAWINGS record. */
+    LC_COMM_CALC_DETAILS
+        @i18n:Description (en="")
+        @t24:i (t24Name=LC.COMM.CALC.DETAILS, level=F, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        /* Holds valid record of PERIODIC.COMMISSION table. */
+        COMM_CODE -> ST_ChargeConfig:FT_COMMISSION_TYPE required
+            @i18n:Label (en="Commission Code")
+            @i18n:Tooltip (en="Indicates the commission code")
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=2.0, core=true, businessType=A, t24Name=COMM.CODE)
+        CONTRACT_NUMBER -> LC_Fees:LC_COMM_CALC_DETAILS PK required
+            @i18n:Label (en="Contract Number")
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=0.0, core=true, businessType=LETT, t24Name=CONTRACT.NUMBER)
+        /* Holds the currency of LETTER.OF.CREDIT or DRAWINGS contract. */
+        CURRENCY : T24BusinessTypes:CCY
+            @i18n:Label (en=Ccy)
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CURRENCY)
+        EFFECTIVE_DATE -> byValue LC_Fees:LC_COMM_CALC_DETAILS__EFFECTIVE_DATE *
+            @t24:i (t24Name=EFFECTIVE.DATE)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED.1)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=11.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=RESERVED.5)
+    }
+    LC_COMM_CALC_DETAILS__EFFECTIVE_DATE
+    {
+/* Holds the commission code applied for the period band.
+Associated multi value field. */
+        CSN_CODE -> ST_ChargeConfig:FT_COMMISSION_TYPE required
+            @i18n:Label (en="CSN Code")
+            @i18n:Tooltip (en="Commission Code")
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=4.0, core=true, businessType=A, t24Name=CSN.CODE)
+/* Holds the start date for each commission schedule as well the date from which the commission was recalculated.
+Multi value field. */
+        EFFECTIVE_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Effective Date")
+            @i18n:Tooltip (en="Effective date of the transaction")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=3.0, core=true, t24Name=EFFECTIVE.DATE)
+        UPTO_AMT -> byValue LC_Fees:LC_COMM_CALC_DETAILS__EFFECTIVE_DATE__UPTO_AMT *
+            @t24:i (t24Name=UPTO.AMT)
+/* Number of days for which the commission is calculated for the associated period band.
+Associated sub-value field. */
+        UPTO_DAYS : T24BusinessTypes:N
+            @i18n:Label (en="Upto Days")
+            @i18n:Tooltip (en="Indicates number of days Upto")
+            @t24:i (align=R, inputBehaviour=I, maxLength=35, sysNumber=5.0, core=true, t24Name=UPTO.DAYS)
+    }
+    LC_COMM_CALC_DETAILS__EFFECTIVE_DATE__UPTO_AMT
+    {
+/* Amount calculated by applying ‘CSN.RATE’ on ‘UPTO.AMT’.
+Associated sub-value field. */
+        CSN_AMT : T24BusinessTypes:AMT
+            @i18n:Label (en="CSN Amount")
+            @i18n:Tooltip (en="Specifies the Commission Amount")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=8.0, core=true, t24Name=CSN.AMT, typeModifiers="-1")
+/* Rate applied on the ‘UPTO.AMT’ to calculate the ‘CSN.AMT’.
+Associated sub-value field. */
+        CSN_RATE : T24BusinessTypes:R
+            @i18n:Label (en="CSN Rate")
+            @i18n:Tooltip (en="Specifies the commission Rate")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=7.0, core=true, t24Name=CSN.RATE)
+/* Amount on which the ‘CSN.RATE’ is applied to arrive at the ‘CSN.AMT’.
+Associated sub-value field. */
+        UPTO_AMT : T24BusinessTypes:AMT
+            @i18n:Label (en=Upto..)
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=6.0, core=true, t24Name=UPTO.AMT, typeModifiers="-1")
+    }
+}

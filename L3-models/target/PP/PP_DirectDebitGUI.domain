@@ -1,0 +1,1420 @@
+# UTF-8
+/* Direct Debit GUI */
+Domain PP_DirectDebitGUI
+    @t24:i (module=PP)
+    @java:Package (value=com.temenos.t24.datamodel.pp.pp_directdebitgui)
+namespace "http://www.temenos.com/t24/PP_DirectDebitGUI"
+metamodelVersion 1.30.6
+Classes {
+    NOFILE_DB_CR_INSTRUCTION
+        @i18n:Description (en="")
+        @t24:i (t24Name=NOFILE.DB.CR.INSTRUCTION, level=I, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        OUT_VAL : T24BusinessTypes:N
+            @t24:i (align=L, inputBehaviour=N, maxLength=150, core=false, t24Name=OUT.VAL, genOperation=PP.GET.DB.CR.INSTRUCTION)
+        PP_COMPANY : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=3, core=false, t24Name=PP.COMPANY)
+        PP_TRANSNUM : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=20, core=false, t24Name=PP.TRANSNUM)
+    }
+/* An incoming local clearing payment can be returned or rejected, and for that a reason has to be given.
+This reason is local clearing specific. */
+    PPT_CLEARINGRETURNCODE
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPT.CLEARINGRETURNCODE, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* Indicates the system date and time when the entry was approved.
+Validation Rules:
+17 characters Date Time format.
+It need to be displayed as DD MMM YYYY HH:MM:SS.sss.
+Example: 12 JAN 2015 12:34:25.123
+The value is not editable by the user. */
+        ApprovedDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=15.0, core=true, t24Name=ApprovedDateTime, mask="RDDDD DD  DD ##:##:##.###")
+/* Indicates the name of the user who approved the entry.
+Validation Rules:
+30 alphanumeric characters.
+The value is not editable by the user. */
+        ApproverUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=14.0, core=true, t24Name=ApproverUserID)
+/* Denotes the currency of the clearing account number.
+Validation Rules:
+Mandatory field. 3 alphanumeric characters. Value links to field 'CurrencyCode' in PPT.CURRENCY table. */
+        ClearingCurrency : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=3.0, core=true, t24Name=ClearingCurrency)
+/* Specifies the name of the clearing in the payments hub.
+Example :
+Global TRX-based: "TARGET2"
+Global file-based: "EBA"
+Local TRX-based: "FPS" (UK), "CHAPS" (UK),"CHATS"/"HKICL" (HK)
+Local file-based:"BACS"(UK),"CEC" (BE),"EMZ" (GE)
+Validation Rules:
+Mandatory field. 10 alphanumeric characters.
+The value links to the field ‘ClearingID’ in PPT.CLEARING */
+        ClearingID : T24BusinessTypes:ANY required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=2.0, core=true, t24Name=ClearingID)
+/* Indicates the code which identifies the nature of clearing payment.
+Validation Rules:
+No Mandatory field. 20 alphanumeric characters. */
+        ClearingNatureCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=4.0, core=true, t24Name=ClearingNatureCode)
+/* Indicates the Return Code (reason) for rejection Clearing.
+Validation Rules:
+Mandatory field. 20 alphanumeric characters. */
+        ClearingReturnCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=5.0, core=true, t24Name=ClearingReturnCode)
+/* Indicates the company ID for which the record is created.
+Example : BNK,GB1
+Validation Rules:
+Mandatory field. 3 alphanumeric characters.
+The value links to the field ‘CompanyID’ in PPT.COMPANY */
+        CompanyID : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+/* Specifies the date until which the record is to be considered as active for payments processing.Post this date, the record will be set as Inactive by the payments hub.
+Validation Rules:
+Mandatory field. 11 characters DATE format */
+        EndDateClearingReturnCode : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=9.0, core=true, t24Name=EndDateClearingReturnCode)
+/* Indicates the system date and time when the entry was created or modified.
+Validation Rules:
+17 characters Date Time format.
+It need to be displayed as DD MMM YYYY HH:MM:SS.sss.
+Example: 12 JAN 2015 12:34:25.123
+The value is not editable by the user. */
+        EntryDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=13.0, core=true, t24Name=EntryDateTime, mask="RDDDD DD  DD ##:##:##.###")
+/* Indicates the user that created or modified the entry.
+Validation Rules:
+30 alphanumeric characters.
+The value is not editable by the user. */
+        EntryUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=12.0, core=true, t24Name=EntryUserID)
+        /* Unique ID generated by the payments hub in order to identify each record in the application. */
+        ID -> PP_DirectDebitGUI:PPT_CLEARINGRETURNCODE PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+/* Indicates Message Payment Type for the clearing.
+Validation Rules:
+10 alphanumeric characters. */
+        MessagePaymentType : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=7.0, core=true, t24Name=MessagePaymentType)
+/* Record Activation Code generated for the record by the payment's hub.
+Possible values:
+N - Not active
+A - Active
+H - History
+F - Future
+C - Not active future
+Validation Rules:
+19 alphanumeric characters.
+The value is not editable by the user. */
+        RACClearingReturnCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=10.0, core=true, t24Name=RACClearingReturnCode)
+/* Record Status Code generated for the record by the payments hub.
+Possible values:
+L - Live
+U - Unapproved
+R - Reversed
+Validation Rules:
+1 alphanumeric character.
+The value is not editable by the user. */
+        RSCClearingReturnCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=11.0, core=true, t24Name=RSCClearingReturnCode)
+/* Describes return code  of the clearing payment.
+Validation Rules:
+128 alphanumeric characters. */
+        ReturnCodeDescription : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=128, sysNumber=8.0, core=true, t24Name=ReturnCodeDescription)
+/* Indicates the level of the respective clearing reason code: F – File, B - Bulk and T - Transaction.
+Validation Rules:
+Mandatory field. 1 alphanumeric character */
+        ReturnCodeLevel : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=18.0, core=true, t24Name=ReturnCodeLevel)
+/* Indicates STP (N value) or NON-STP (Y value) for each clearing reason code.
+Validation Rules:
+Mandatory field. 1 alphanumeric character */
+        RouteToException : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=16.0, core=true, t24Name=RouteToException)
+/* Specifies the date from which the record is to be considered as active for payments processing.
+Validation Rules:
+Start Date can't be lesser than the current business date.
+If nothing is input, this field will be defaulted with the current business date. */
+        StartDateClearingReturnCode : T24BusinessTypes:D required
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=6.0, core=true, t24Name=StartDateClearingReturnCode)
+/* Indicates the transaction type of the clearing: CT, DD, RT, RF.
+Validation Rules:
+Mandatory field. 2 alphanumeric characters */
+        TransactionType : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=17.0, core=true, t24Name=TransactionType)
+    }
+/* This screen is used to authorise or reject the payments, inputted or amended through PP.DIRECT.DEBIT screen.
+A record authorised in this screen will create or amend or reverse a record in store table, PPT.AUTHDIRECTDEBIT
+All the fields except RejectDescription are 'No Input' fields. */
+    PP_AUTH_DIRECT_DEBIT
+        @i18n:Description (en="")
+        @t24:i (t24Name=PP.AUTH.DIRECT.DEBIT, nonStop=true, level=I, type=W, allowedFunctions="C I L P Q R S V", localRefAllowed=false)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=71.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=72.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=68.0, core=true, t24Name=AUTHORISER)
+/* Indicates if warnings are accepted or not by the operator.
+
+Possible values:
+Y - Yes. Warnings are acceptable.
+N - No. Warnings are not acceptable.
+
+Validation Rules:
+If warnings are present and shown on the screen, user should accept the warnings to proceed with the payment input. */
+        AcceptWarning : PP_DirectDebitGUI:PP_AUTH_DIRECT_DEBIT__AcceptWarning
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=53.0, core=true, t24Name=AcceptWarning)
+/* Used for internal purpose. using this value can process the payment like Authorise, Reject etc..
+
+Possible Values:
+V - Validate
+S - Submit
+A - Authorize
+R - Reject
+C - Cancel
+B - Return
+
+No Input field */
+        Action : PP_DirectDebitGUI:PP_AUTH_DIRECT_DEBIT__Action
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=57.0, core=true, t24Name=Action)
+/* Indicates additional information relating to the payment instruction which the operator can specify.
+Validation Rules:
+No Input field */
+        AdditionalText : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=80, sysNumber=43.0, core=true, t24Name=AdditionalText, isTextarea=true)
+/* Shows the Audit details of the payment from the 1st life cycle of payment process to current step. Defaulted from POR.HISTORYLOG.
+
+Show each record in the PaymentOrder.HistoryLog as a separate line on the screen listed in chronological order. Each line contains the History Time Stamp, Event Type and Event Description (each value is delimited/separated on the screen from the other values to improve readability). The first activity in the life-cycle of the payment is shown on the top of the audit trail. If the operator scrolls down he will see the events closer to the current time. This forces the operator to go through the entire audit trail.
+Validation Rules:
+
+No Input field */
+        AuditTrail : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=44.0, core=true, t24Name=AuditTrail, isTextarea=true)
+        /* Unique ID generated by the payments hub in order to identify each record in the application. */
+        CAPTURE_ID -> PP_DirectDebitGUI:PP_AUTH_DIRECT_DEBIT PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=CAPTURE.ID)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=69.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=65.0, core=true, t24Name=CURR.NO)
+/* Indicates cancel description filled by the operator when the operator cancels the payment from the screen.
+
+Validation Rules:
+1. Mandatory when Operator is cancel the payment.
+2. Input Not allowed if action is not Cancel. */
+        CancelDescription : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=256, sysNumber=58.0, core=true, t24Name=CancelDescription)
+/* Indicates type of charges. TAG 71A from the payment. default from the POR.TRANSACTION.
+
+Possible Values:
+BEN
+SHA
+OUR
+
+No Input field */
+        ChargeOption : PP_DirectDebitGUI:PP_AUTH_DIRECT_DEBIT__ChargeOption
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=6.0, core=true, t24Name=ChargeOption)
+/* Indicates Type of Cheque. e.g:SB, CURR etc..
+Defaults from POR.TRANSACTION.
+
+NOTE: It is part of Cheque Debit Screen not using in Direct Debit screen.
+
+No Input field */
+        ChequeType : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=46.0, core=true, t24Name=ChequeType)
+/* Code identifying the nature of clearing payment. Defaulted from POR.TRANSACTION (updated from Mapping Service)
+
+Validation Rules:
+No Input field */
+        ClearingNatureCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=20, sysNumber=13.0, core=true, t24Name=ClearingNatureCode)
+/* Desired Processing date.Defaulted from POR.BACS table.
+
+In case of Cheque Debit screen it can defaulted from POR.BACS or POR.HKCLG depends on the Originationg Source of POR.TRANSACTION.
+
+Validation Rules:
+No Input field */
+        ClearingProcessingDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=N, maxLength=11, sysNumber=10.0, core=true, t24Name=ClearingProcessingDate)
+/* Indicates Payee’s Bank branch code
+Defaulted from POR.HKCLG table
+
+NOTE: It is part of Cheque Debit Screen not using in Direct Debit screen.
+
+Validation Rules:
+No Input field */
+        CollectingMemberBranchCode : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=3, sysNumber=50.0, core=true, t24Name=CollectingMemberBranchCode)
+/* Indicates Payee’s Bank code
+Defaulted from POR.HKCLG table
+
+NOTE: It is part of Cheque Debit Screen not using in Direct Debit screen.
+
+Validation Rules:
+No Input field */
+        CollectingMemberClearingCode : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=3, sysNumber=49.0, core=true, t24Name=CollectingMemberClearingCode)
+/* originating sorting code Payee’s Bank.
+Defaulted from POR.BACS table
+
+NOTE: It is part of Cheque Debit Screen not using in Direct Debit screen.
+
+Validation Rules:
+No Input field */
+        CollectingMemberSortingCode : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=6, sysNumber=48.0, core=true, t24Name=CollectingMemberSortingCode)
+/* Indicates to which company Credit Account belongs. It is defaulted from POR.TRANSACTION.
+
+Validation Rules:
+No Input field */
+        CreditAccountCompany : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=29.0, core=true, t24Name=CreditAccountCompany)
+/* Indicates Currency Code of the Credit Account. defaulted from POR.TRANSACTION.
+
+Validation Rules:
+No Input field */
+        CreditAccountCurrency : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=31.0, core=true, t24Name=CreditAccountCurrency)
+/* Indicates Credit Account customer information. eg. name & street address1
+Defaulted from POR.TRANSACTION.
+
+Validation Rules:
+No Input field */
+        CreditAccountInformationLine1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=32.0, core=true, t24Name=CreditAccountInformationLine1)
+/* Indicates Credit Account customer information. eg. street address2
+Defaulted from POR.TRANSACTION.
+
+No Input field */
+        CreditAccountInformationLine2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=33.0, core=true, t24Name=CreditAccountInformationLine2)
+/* Indicates Credit Account customer information. eg. street address3
+Defaulted from POR.TRANSACTION.
+
+No Input field */
+        CreditAccountInformationLine3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=34.0, core=true, t24Name=CreditAccountInformationLine3)
+/* Indicates Credit Account customer information. eg. street address4
+Defaulted from POR.TRANSACTION.
+
+No Input field */
+        CreditAccountInformationLine4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=35.0, core=true, t24Name=CreditAccountInformationLine4)
+/* Indicates to which Account transfer the funds. defaulted from POR.TRANSACTION.
+
+No Input field */
+        CreditAccountNumber : T24BusinessTypes:ACCA
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=30.0, core=true, t24Name=CreditAccountNumber)
+        CreditInstruction : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=128, sysNumber=62.0, core=true, t24Name=CreditInstruction)
+/* Idicates credit value date of the payment. defaulted from POR.TRANSACTION.
+1. IF the CreditValueDate is filled (in the database - POR.TRANSACTION), THEN map it to the Credit Value Date field on the screen
+2. IF the CreditValueDate is not filled (in the database - POR.TRANSACTION), THEN map the RequestedCreditValueDate (in the database - POR.TRANSACTION) to the Credit Value Date field on the screen
+
+No Input field */
+        CreditValueDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=N, maxLength=11, sysNumber=36.0, core=true, t24Name=CreditValueDate)
+/* Indicates Credit value date overwritten by the Operator.
+
+Possible Values:
+"Y" - Overwritten
+" " - Not Overwritten
+
+IF the value in the POR.TRANSACTION equals "Y", THEN the field on the screen is imposed/checked as well, otherwise leave the field on the screen empty.
+
+No Input field */
+        CreditValueDateImposedFlag : PP_DirectDebitGUI:PP_AUTH_DIRECT_DEBIT__CreditValueDateImposedFlag
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=37.0, core=true, t24Name=CreditValueDateImposedFlag)
+        DATE_TIME -> byValue PP_DirectDebitGUI:PP_AUTH_DIRECT_DEBIT__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=70.0, core=true, t24Name=DEPT.CODE)
+/* Indicates Debit Account Company. Defaulted from POR.TRANSACTION.
+
+No Input field */
+        DebitAccountCompany : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=17.0, core=true, t24Name=DebitAccountCompany)
+/* Indicates currency of Debit Account from the payment. defaulted from POR.TRANSACTION.
+
+No Input field */
+        DebitAccountCurrency : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=20.0, core=true, t24Name=DebitAccountCurrency)
+/* Indicates Debit Account customer information. eg. name & street address1
+Defaults from POR.TRANSACTION.
+
+No Input field */
+        DebitAccountInformationLine1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=21.0, core=true, t24Name=DebitAccountInformationLine1)
+/* Indicates Debit Account customer information. eg. street address2.
+Defaults from POR.TRANSACTION.
+
+No Input field */
+        DebitAccountInformationLine2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=22.0, core=true, t24Name=DebitAccountInformationLine2)
+/* Indicates Debit Account customer information. eg. street address3
+Defaults from POR.TRANSACTION.
+
+No Input field */
+        DebitAccountInformationLine3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=23.0, core=true, t24Name=DebitAccountInformationLine3)
+/* Indicates Debit Account customer information. eg. street address4.
+Defaulted from POR.TRANSACTION.
+
+No Input field */
+        DebitAccountInformationLine4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=24.0, core=true, t24Name=DebitAccountInformationLine4)
+/* Indicates Debit Account of the payment. defaulted from POR.TRANSACTION.
+
+No Input field */
+        DebitAccountNumber : T24BusinessTypes:ACCA
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=DebitAccountNumber)
+/* Indcates Debit Main Account is overwritten by the operator.
+Possible values:
+"Y" - Overwritten
+" " - Not overwritten
+
+IF the value in the database (POR.TRANSACTION) equals "Y", THEN the field on the screen is imposed otherwise empty.
+
+No Input field */
+        DebitAccountNumberImposedFlag : PP_DirectDebitGUI:PP_AUTH_DIRECT_DEBIT__DebitAccountNumberImposedFlag
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=19.0, core=true, t24Name=DebitAccountNumberImposedFlag)
+        DebitInstruction : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=128, sysNumber=61.0, core=true, t24Name=DebitInstruction)
+/* Indicates Debit Value Date of the payment. defaulted from POR.TRANSACTION.
+
+No Input field */
+        DebitValueDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=N, maxLength=11, sysNumber=25.0, core=true, t24Name=DebitValueDate)
+/* Indicates Debit Value date is Overwritten by the Operator.
+
+Possible values:
+"Y" - Overwritten
+" " - Not Overwritten
+
+IF the value in the database equals "Y", THEN the field on the screen should be imposed/checked as well, otherwise leave the field on the screen empty.
+
+No Input field */
+        DebitValueDateImposedFlag : PP_DirectDebitGUI:PP_AUTH_DIRECT_DEBIT__DebitValueDateImposedFlag
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=26.0, core=true, t24Name=DebitValueDateImposedFlag)
+/* Indicates type of payment Direction. eg.Incoming or outgoing.
+Possibe values:
+I - Incoming
+O - Outgoing
+B - Book tramsfer
+R - Redirect
+
+Defaulted from POR.TRANSACTION
+
+No Input field */
+        Direction : PP_DirectDebitGUI:PP_AUTH_DIRECT_DEBIT__Direction
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=4.0, core=true, t24Name=Direction)
+/* Currently not in use. reserved for future use.
+
+No Input field */
+        FatalError : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=56.0, core=true, t24Name=FatalError)
+        FunctionalError -> byValue PP_DirectDebitGUI:PP_AUTH_DIRECT_DEBIT__FunctionalError *
+            @t24:i (t24Name=FunctionalError)
+        INPUTTER -> byValue PP_DirectDebitGUI:PP_AUTH_DIRECT_DEBIT__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* Indicates type of message for the payment. e.g: 101, 102 etc...
+Defaulted from POR.TRANSACTION.
+
+No Input field */
+        IncomingMessageType : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=10, sysNumber=3.0, core=true, t24Name=IncomingMessageType)
+        Information -> byValue PP_DirectDebitGUI:PP_AUTH_DIRECT_DEBIT__Information *
+            @t24:i (t24Name=Information)
+/* Allowed 1 character (Alphanumeric)
+Y (YES) or N (NO)
+
+No Input field */
+        MandateApproved : PP_DirectDebitGUI:PP_AUTH_DIRECT_DEBIT__MandateApproved
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=60.0, core=true, t24Name=MandateApproved)
+        OVERRIDE -> byValue PP_DirectDebitGUI:PP_AUTH_DIRECT_DEBIT__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+/* Free Text Field.
+
+Operator can key in the ID of AC.FUNDS.AUTHORISATION table, if the funds were pre-authorized. (Pre Authorization Key)
+
+Defaulted from POR.TRANSACTION
+
+No Input field */
+        PreAuthorizationNumber : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=18, sysNumber=7.0, core=true, t24Name=PreAuthorizationNumber)
+/* Indicates the company ID for the current company as defined in PPT_Company. Eg BNK,GB1
+Defaulted from POR.TRANSACTION
+
+No Input field */
+        ProcessingCompany : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=8.0, core=true, t24Name=ProcessingCompany)
+/* Indicates the desired processing date. Defaulted from POR.TRANSACTION
+
+No Input field */
+        ProcessingDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=N, maxLength=11, sysNumber=9.0, core=true, t24Name=ProcessingDate)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=64.0, core=true, t24Name=RECORD.STATUS)
+/* Reference Number(Cheque Number). Defaulted from POR.BACS / POR.HKCLG.
+
+NOTE: It is part of Cheque Debit Screen not using in Direct Debit screen.
+
+No Input field */
+        ReceivedChequeNumber : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=45.0, core=true, t24Name=ReceivedChequeNumber)
+/* Indicates originating account number. Defaulted from POR.BACS
+
+No Input field */
+        ReceivedCreditorAccount : T24BusinessTypes:ACCA
+            @t24:i (align=L, inputBehaviour=N, maxLength=8, sysNumber=38.0, core=true, t24Name=ReceivedCreditorAccount)
+/* Remitters name (originating a/c name abbreviated).
+Defaulted from POR.BACS
+
+No Input field */
+        ReceivedCreditorName : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=18, sysNumber=39.0, core=true, t24Name=ReceivedCreditorName)
+/* Indicates destination a/c number. Defaulted from POR.BACS
+
+No Input field */
+        ReceivedDebtorAccount : T24BusinessTypes:ACCA
+            @t24:i (align=L, inputBehaviour=N, maxLength=8, sysNumber=27.0, core=true, t24Name=ReceivedDebtorAccount)
+/* Indicates destination account name. Defaulted from POR.BACS
+
+No Input field */
+        ReceivedDebtorName : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=18, sysNumber=28.0, core=true, t24Name=ReceivedDebtorName)
+/* Destination a/c number (Payer’s a/c number). Defaulted from POR.BACS.
+
+NOTE: It is part of Cheque Debit Screen not using in Direct Debit screen.
+
+No Input field */
+        ReceivedDrawerAccount : T24BusinessTypes:ACCA
+            @t24:i (align=L, inputBehaviour=N, maxLength=8, sysNumber=51.0, core=true, t24Name=ReceivedDrawerAccount)
+/* File name appended with current business date. Defaulted from POR.BACS.
+
+No Input field */
+        ReceivedFileReference : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=50, sysNumber=12.0, core=true, t24Name=ReceivedFileReference)
+/* Indicates service user’s reference. Defaulted from POR.BACS
+
+No Input field */
+        ReceivedMandateID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=18, sysNumber=11.0, core=true, t24Name=ReceivedMandateID)
+/* Reject Description is filled by Operator when Operator reject the Payment.
+
+Validation Rules:
+1. Mandatory when Operator is reject the payment.
+2. No Input if Action is not reject. */
+        RejectDescription : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=256, sysNumber=59.0, core=true, t24Name=RejectDescription)
+/* Indicates the clearing return code of the POR.TRANSACTION. RetuncodeDescription is updated using Return code from the table PPT_ClearingNatureCode.
+
+NOTE: Currently not using this field. reserved for future.
+
+No Input field */
+        ReturnCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=41.0, core=true, t24Name=ReturnCode)
+/* Indicates Description of the ReturnCode.RetuncodeDescription is updated using Return code from the table PPT_ClearingNatureCode.
+
+NOTE: Currently not using this field. reserved for future.
+
+No Input field */
+        ReturnCodeDescription : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=128, sysNumber=42.0, core=true, t24Name=ReturnCodeDescription)
+/* Indicates originating sorting code. Defaulted from POR.BACS
+
+No Input field */
+        SortingCodeCreditorBank : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=16.0, core=true, t24Name=SortingCodeCreditorBank)
+/* This field will contain the actual channel through which the payment was
+originated.This will be stored in the payment file during Mapping
+eg : Access Online , Access Direct , Order entry,BACS,FPS etc The SourceCode will be present in the message that comes from Payment Router
+So components that have logic based on the actual source - should use this field
+eg :
+1)Input field in Product Determination Table
+2) For order entry payments we do not have to determine the debit account as it is already entered by the operator
+
+No Input field */
+        Source : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=10, sysNumber=2.0, core=true, t24Name=Source)
+/* Indicates Tag 32A from the payment - Amount. defaulted from the POR.TRANSACTION
+
+No Input field */
+        TransactionAmount : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=N, maxLength=11, sysNumber=15.0, core=true, t24Name=TransactionAmount, typeModifiers="14PP8")
+/* Indicates Operator can overwrite the transaction amount if it flag set 'Y' (YES).
+
+NOTE: It is part of Cheque Debit Screen not using in Direct Debit screen.
+
+No Input field */
+        TransactionAmountImposedFlag : PP_DirectDebitGUI:PP_AUTH_DIRECT_DEBIT__TransactionAmountImposedFlag
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=47.0, core=true, t24Name=TransactionAmountImposedFlag)
+/* 3 digits currency code of the payment. Tag 32A from the payment and defaulted from POR.TRANSACTION.
+
+No Input field */
+        TransactionCurrency : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=14.0, core=true, t24Name=TransactionCurrency)
+/* Denotes a unique ID generated by the payments hub upon generating a payment order. 16 alphanumeric characters. Defaulted from POR.TRANSACTION.
+
+No Input field. */
+        TransactionReferenceNumber : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=1.0, core=true, t24Name=TransactionReferenceNumber)
+/* Indicates type of payment transafer (CTRBTRIndicator)
+Bank Transfer (B) - payment transfer on behalf of bank.
+Customer Transfer (C) - payment transfer on behalf of customer.
+Defaulted from POR.TRANSACTION
+
+No Input field */
+        TransferType : PP_DirectDebitGUI:PP_AUTH_DIRECT_DEBIT__TransferType
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=5.0, core=true, t24Name=TransferType)
+/* Indicate that fee processing must be skipped. Yes or No field. It is defaulted from the POR.TRANSACTION.IF the value in the POR.TRANSACTION equals "D", THEN the field on the screen is checked (Yes), otherwise leave the field on the screen empty.
+
+No Input field */
+        WaiveDebitCharges : PP_DirectDebitGUI:PP_AUTH_DIRECT_DEBIT__WaiveDebitCharges
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=40.0, core=true, t24Name=WaiveDebitCharges)
+        Warning -> byValue PP_DirectDebitGUI:PP_AUTH_DIRECT_DEBIT__Warning *
+            @t24:i (t24Name=Warning)
+    }
+    PP_AUTH_DIRECT_DEBIT__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=67.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    PP_AUTH_DIRECT_DEBIT__FunctionalError
+    {
+/* Holds the functional errors generated by the payment process from the beging of the payment life cyle.
+
+No Input field */
+        FunctionalError : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=N, maxLength=300, sysNumber=55.0, core=true, t24Name=FunctionalError)
+    }
+    PP_AUTH_DIRECT_DEBIT__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=66.0, core=true, t24Name=INPUTTER)
+    }
+    PP_AUTH_DIRECT_DEBIT__Information
+    {
+/* Holds the informational errors generated by the payment process from the beging of the payment life cyle.
+
+No Input field */
+        Information : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=N, maxLength=300, sysNumber=52.0, core=true, t24Name=Information)
+    }
+    PP_AUTH_DIRECT_DEBIT__OVERRIDE
+    {
+        /* Contains all the override messages which the user agreed to during Input. During the validation of a transaction, the system may provide the user with a series of screen override messages to indicate an anomaly. */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=63.0, core=true, t24Name=OVERRIDE)
+    }
+    PP_AUTH_DIRECT_DEBIT__Warning
+    {
+/* Holds the errors of type W (Warnings) generated by the payment process from the beging of the payment life cyle.
+
+No Input field */
+        Warning : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=N, maxLength=300, sysNumber=54.0, core=true, t24Name=Warning)
+    }
+/* This screen is used to define clearing return codes of clearing based on company in the payments hub.
+A record authorised in this screen will create or amend or delete a record in store table, PPT.CLEARINGRETURNCODE */
+    PP_CLEARING_RETURNCODE
+        @i18n:Description (en="")
+        @t24:i (t24Name=PP.CLEARING.RETURNCODE, nonStop=true, level=I, type=U, additionalInfo=HLD, allowedFunctions="A C D E I L P Q R S", localRefAllowed=false)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=26.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=27.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=23.0, core=true, t24Name=AUTHORISER)
+/* Used for internal purpose. Value of this field determines values of fields, 'RAC' and 'RSC'
+Possible values:
+N - New
+M - Modified
+R -  Reverse
+This field can hold upto 1 alphanumeric character and the value is not editable by the user. */
+        Action : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=14.0, core=true, t24Name=Action)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=24.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=20.0, core=true, t24Name=CURR.NO)
+/* Denotes the currency of the clearing account number.
+Validation Rules:
+Mandatory field. 3 alphanumeric characters. Value links to field 'CurrencyCode' in PPT.CURRENCY table. */
+        ClearingCurrency : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=3.0, core=true, t24Name=ClearingCurrency)
+/* Specifies the name of the clearing in the payments hub.
+Example :
+Global TRX-based: "TARGET2"
+Global file-based: "EBA"
+Local TRX-based: "FPS" (UK), "CHAPS" (UK),"CHATS"/"HKICL" (HK)
+Local file-based:"BACS"(UK),"CEC" (BE),"EMZ" (GE)
+Validation Rules:
+Mandatory field. 10 alphanumeric characters.
+The value links to the field ‘ClearingID’ in PPT.CLEARING */
+        ClearingID : T24BusinessTypes:ANY required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=2.0, core=true, t24Name=ClearingID)
+/* Indicates the code which identifies the nature of clearing payment.
+Validation Rules:
+No Mandatory field. 20 alphanumeric characters. */
+        ClearingNatureCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=4.0, core=true, t24Name=ClearingNatureCode)
+/* Indicates the Return Code (reason) for rejection Clearing.
+Validation Rules:
+Mandatory field. 20 alphanumeric characters. */
+        ClearingReturnCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=5.0, core=true, t24Name=ClearingReturnCode)
+/* Indicates the company ID for which the record is created.
+Example : BNK,GB1
+Validation Rules:
+Mandatory field. 3 alphanumeric characters.
+The value links to the field ‘CompanyID’ in PPT.COMPANY */
+        CompanyID -> PP_StaticDataGUI:PP_COMPANY required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, businessType=A, t24Name=CompanyID)
+/* Used for internal purpose.Holds the ID of the current live record of store table.
+This field can hold upto 65 alphanumeric characters and the value is not editable by the user. */
+        CurrentID : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=65, sysNumber=13.0, core=true, t24Name=CurrentID)
+        DATE_TIME -> byValue PP_DirectDebitGUI:PP_CLEARING_RETURNCODE__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=25.0, core=true, t24Name=DEPT.CODE)
+/* Specifies the date until which the record is to be considered as active for payments processing.Post this date, the record will be set as Inactive by the payments hub.
+Validation Rules:
+Mandatory field. 11 characters DATE format */
+        EndDateClearingReturnCode : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=9.0, core=true, t24Name=EndDateClearingReturnCode)
+        /* Unique ID generated by the payments hub in order to identify each record in the application. */
+        ID -> PP_DirectDebitGUI:PP_CLEARING_RETURNCODE PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+        INPUTTER -> byValue PP_DirectDebitGUI:PP_CLEARING_RETURNCODE__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* Indicates Message Payment Type for the clearing.
+Validation Rules:
+10 alphanumeric characters. */
+        MessagePaymentType : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=7.0, core=true, t24Name=MessagePaymentType)
+        OVERRIDE -> byValue PP_DirectDebitGUI:PP_CLEARING_RETURNCODE__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+/* Used for internal purpose. Holds the ID of the previous live record of store table.
+This field can hold upto 65 alphanumeric characters and the value is not editable by the user. */
+        OldID : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=65, sysNumber=12.0, core=true, t24Name=OldID, onchangeBehaviour=HOT.FIELD)
+/* Record Activation Code generated for the record by the payment's hub.
+Possible values:
+N - Not active
+A - Active
+H - History
+F - Future
+C - Not active future
+Validation Rules:
+19 alphanumeric characters.
+The value is not editable by the user. */
+        RAC : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=10.0, core=true, t24Name=RAC)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=19.0, core=true, t24Name=RECORD.STATUS)
+/* Record Status Code generated for the record by the payments hub.
+Possible values:
+L - Live
+U - Unapproved
+R - Reversed
+Validation Rules:
+1 alphanumeric character.
+The value is not editable by the user. */
+        RSC : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=11.0, core=true, t24Name=RSC)
+/* Describes return code  of the clearing payment.
+Validation Rules:
+128 alphanumeric characters. */
+        ReturnCodeDescription : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=128, sysNumber=8.0, core=true, t24Name=ReturnCodeDescription)
+/* Indicates the level of the respective clearing reason code: F – File, B - Bulk and T - Transaction.
+Validation Rules:
+Mandatory field. 1 alphanumeric character */
+        ReturnCodeLevel : PP_DirectDebitGUI:PP_CLEARING_RETURNCODE__ReturnCodeLevel required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=17.0, core=true, t24Name=ReturnCodeLevel)
+/* Indicates STP (N value) or NON-STP (Y value) for each clearing reason code.
+Validation Rules:
+Mandatory field. 1 alphanumeric character */
+        RouteToException : PP_DirectDebitGUI:PP_CLEARING_RETURNCODE__RouteToException required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=15.0, core=true, t24Name=RouteToException)
+/* Specifies the date from which the record is to be considered as active for payments processing.
+Validation Rules:
+Mandatory field. 11 characters DATE format */
+        StartDateClearingReturnCode : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=6.0, core=true, t24Name=StartDateClearingReturnCode)
+/* Indicates the transaction type of the clearing: CT, DD, RT, RF.
+Validation Rules:
+Mandatory field. 2 alphanumeric characters */
+        TransactionType : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=16.0, core=true, t24Name=TransactionType)
+    }
+    PP_CLEARING_RETURNCODE__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=22.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    PP_CLEARING_RETURNCODE__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=21.0, core=true, t24Name=INPUTTER)
+    }
+    PP_CLEARING_RETURNCODE__OVERRIDE
+    {
+        /* Contains all the override messages which the user agreed to during Input. During the validation of a transaction, the system may provide the user with a series of screen override messages to indicate an anomaly. */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=OVERRIDE)
+    }
+    /* This screen is used to manually submit Direct Debit payments in the payments hub. Once the payment is committed, a record is created in POR.TRANSACTION with status as 335. */
+    PP_DIRECT_DEBIT
+        @i18n:Description (en="")
+        @t24:i (t24Name=PP.DIRECT.DEBIT, nonStop=true, level=I, type=W, allowedFunctions="C I L P Q R S V", localRefAllowed=false)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=71.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=72.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=68.0, core=true, t24Name=AUTHORISER)
+/* Indicates if warnings are accepted or not by the operator.
+
+Possible values:
+Y - Yes. Warnings are acceptable.
+N - No. Warnings are not acceptable.
+
+Validation Rules:
+If warnings are present and shown on the screen, user should accept the warnings to proceed with the payment input. */
+        AcceptWarning : PP_DirectDebitGUI:PP_DIRECT_DEBIT__AcceptWarning
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=53.0, core=true, t24Name=AcceptWarning)
+/* Used for internal purpose. using this value can process the payment like validate,sumbit, cancel etc.
+
+Possible Values:
+V - Validate
+S - Submit
+A - Authorize
+R - Reject
+C - Cancel
+B - Return
+
+No Input field */
+        Action : PP_DirectDebitGUI:PP_DIRECT_DEBIT__Action
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=57.0, core=true, t24Name=Action)
+        /* Indicates additional information relating to the payment instruction which the operator can specify. */
+        AdditionalText : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=80, sysNumber=43.0, core=true, t24Name=AdditionalText, isTextarea=true)
+/* Shows the Audit details of the payment from the 1st life cycle of payment process to current step. Defaulted from POR.HISTORYLOG.
+
+Show each record in the PaymentOrder.HistoryLog as a separate line on the screen listed in chronological order. Each line contains the History Time Stamp, Event Type and Event Description (each value is delimited/separated on the screen from the other values to improve readability). The first activity in the life-cycle of the payment is shown on the top of the audit trail. If the operator scrolls down he will see the events closer to the current time. This forces the operator to go through the entire audit trail.
+Validation Rules:
+
+No Input field */
+        AuditTrail : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=44.0, core=true, t24Name=AuditTrail, isTextarea=true)
+        /* Unique ID generated by the payments hub in order to identify each record in the application. */
+        CAPTURE_ID -> PP_DirectDebitGUI:PP_DIRECT_DEBIT PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=CAPTURE.ID)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=69.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=65.0, core=true, t24Name=CURR.NO)
+/* Indicates cancel description filled by the operator when the operator cancels the payment from the screen.
+
+Validation Rules:
+1. Mandatory when Operator is cancel the payment.
+2. Input Not allowed if action is not Cancel */
+        CancelDescription : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=256, sysNumber=58.0, core=true, t24Name=CancelDescription)
+/* Indicates type of charge. TAG 71A from the payment. default from the POR.TRANSACTION.
+
+Possible Values:
+BEN
+SHA
+OUR
+Validation Rules:
+No Input field */
+        ChargeOption : PP_DirectDebitGUI:PP_DIRECT_DEBIT__ChargeOption
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=6.0, core=true, t24Name=ChargeOption)
+/* Indicates Type of Cheque. e.g:SB, CURR etc..
+Defaults from POR.TRANSACTION.Valid Cheque type from PPT.CLEARINGNATURECODE table.
+
+NOTE: It is part of Cheque Debit Screen not using in Direct Debit screen.
+Validation Rules:
+No Input field */
+        ChequeType : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=46.0, core=true, t24Name=ChequeType)
+/* Code identifying the nature of clearing payment. Defaulted from POR.TRANSACTION (updated from Mapping Service)
+Validation Rules:
+No Input field */
+        ClearingNatureCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=20, sysNumber=13.0, core=true, t24Name=ClearingNatureCode)
+/* Indicates the desired processing date for the clearing.Defaulted from POR.BACS table.
+
+In case of Cheque Debit screen it can defaulted from POR.BACS or POR.HKCLG depends on the Originationg Source of POR.TRANSACTION.
+Validation Rules:
+No Input field */
+        ClearingProcessingDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=N, maxLength=11, sysNumber=10.0, core=true, t24Name=ClearingProcessingDate)
+/* Indicates Payee’s Bank branch code
+Defaulted from POR.HKCLG table
+NOTE: It is part of Cheque Debit Screen not using in Direct Debit screen.
+
+Validation Rules:
+No Input field */
+        CollectingMemberBranchCode : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=3, sysNumber=50.0, core=true, t24Name=CollectingMemberBranchCode)
+/* Indicates Payee’s Bank code
+Defaulted from POR.HKCLG table
+
+NOTE: It is part of Cheque Debit Screen not using in Direct Debit screen.
+
+No Input field */
+        CollectingMemberClearingCode : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=3, sysNumber=49.0, core=true, t24Name=CollectingMemberClearingCode)
+/* originating sorting code Payee’s Bank.
+Defaulted from POR.BACS table
+
+NOTE: It is part of Cheque Debit Screen not using in Direct Debit screen.
+
+Validation Rules:
+No Input field */
+        CollectingMemberSortingCode : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=6, sysNumber=48.0, core=true, t24Name=CollectingMemberSortingCode)
+/* Indicates to which company Credit Account belongs. It is defaulted from POR.TRANSACTION.
+
+Validation Rules:
+No Input field */
+        CreditAccountCompany : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=29.0, core=true, t24Name=CreditAccountCompany)
+/* Indicates Currency Code of the Credit Account. defaulted from POR.TRANSACTION.
+
+Validation Rules:
+No Input field */
+        CreditAccountCurrency : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=31.0, core=true, t24Name=CreditAccountCurrency)
+/* Indicates Credit Account customer information. eg. name & street address1
+Defaulted from POR.TRANSACTION.
+
+Validation Rules:
+No Input field */
+        CreditAccountInformationLine1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=32.0, core=true, t24Name=CreditAccountInformationLine1)
+/* Indicates Credit Account customer information. eg. street address2
+Defaulted from POR.TRANSACTION.
+
+Validation Rules:
+No Input field */
+        CreditAccountInformationLine2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=33.0, core=true, t24Name=CreditAccountInformationLine2)
+/* Indicates Credit Account customer information. eg. street address3
+Defaulted from POR.TRANSACTION.
+
+No Input field */
+        CreditAccountInformationLine3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=34.0, core=true, t24Name=CreditAccountInformationLine3)
+/* Indicates Credit Account customer information. eg. street address4
+Defaulted from POR.TRANSACTION.
+
+Validation Rules:
+No Input field */
+        CreditAccountInformationLine4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=35.0, core=true, t24Name=CreditAccountInformationLine4)
+/* Indicates to which Account transfer the funds. defaulted from POR.TRANSACTION.
+
+Validation Rules:
+1.Credit Account Number is mandatory */
+        CreditAccountNumber : T24BusinessTypes:ACCA
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=30.0, core=true, t24Name=CreditAccountNumber)
+        CreditInstruction : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=128, sysNumber=62.0, core=true, t24Name=CreditInstruction)
+/* Indicates credit value date of the payment. defaulted from POR.TRANSACTION.
+
+1. IF the CreditValueDate is filled (in the database - POR.TRANSACTION), THEN map it to the Credit Value Date field on the screen
+2. IF the CreditValueDate is not filled (in the database - POR.TRANSACTION), THEN map the RequestedCreditValueDate (in the database - POR.TRANSACTION) to the Credit Value Date field on the screen
+
+Validation Rules:
+1.Credit Value Date is mandatory
+2.Credit Value Date cannot be a weekend
+3.Credit Value Date must not lie before Debit Value Date */
+        CreditValueDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=36.0, core=true, t24Name=CreditValueDate)
+/* Indicates Credit value date overwritten by the Operator.
+
+Possible Values:
+"Y" - Overwritten
+" " - Not Overwritten
+
+IF the value in the POR.TRANSACTION equals "Y", THEN the field on the screen is imposed/checked as well, otherwise leave the field on the screen empty.
+
+Validation Rules:
+1. Credit Value Date Imposed Flag is mandatory */
+        CreditValueDateImposedFlag : PP_DirectDebitGUI:PP_DIRECT_DEBIT__CreditValueDateImposedFlag
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=37.0, core=true, t24Name=CreditValueDateImposedFlag)
+        DATE_TIME -> byValue PP_DirectDebitGUI:PP_DIRECT_DEBIT__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=70.0, core=true, t24Name=DEPT.CODE)
+/* Indicates Debit Account Company. Defaulted from POR.TRANSACTION.
+
+Validation Rules:
+No Input field */
+        DebitAccountCompany : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=17.0, core=true, t24Name=DebitAccountCompany)
+/* Indicates currency of Debit Account from the payment. defaulted from POR.TRANSACTION.
+
+Validation Rules:
+1. Valid Currency code from the Currency table (PPT.CURRENCY) of the specified company.
+2. If Currency code on the screen is different from data base (POR.TRANSACTION) then Debit Account Number Imposed flag should be imposed. */
+        DebitAccountCurrency : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=20.0, core=true, t24Name=DebitAccountCurrency)
+/* Indicates Debit Account customer information. eg. name & street address1
+Defaults from POR.TRANSACTION.
+
+Validation Rules:
+No Input field */
+        DebitAccountInformationLine1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=21.0, core=true, t24Name=DebitAccountInformationLine1)
+/* Indicates Debit Account customer information. eg. street address2.
+Defaults from POR.TRANSACTION.
+
+Validation Rules:
+No Input field */
+        DebitAccountInformationLine2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=22.0, core=true, t24Name=DebitAccountInformationLine2)
+/* Indicates Debit Account customer information. eg. street address3
+Defaults from POR.TRANSACTION.
+
+Validation Rules:
+No Input field */
+        DebitAccountInformationLine3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=23.0, core=true, t24Name=DebitAccountInformationLine3)
+/* Indicates Debit Account customer information. eg. street address4.
+Defaulted from POR.TRANSACTION.
+
+Validation Rules:
+No Input field */
+        DebitAccountInformationLine4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=24.0, core=true, t24Name=DebitAccountInformationLine4)
+/* Indicates Debit Account of the payment. defaulted from POR.TRANSACTION.
+
+Validation Rules:
+1.Debit Account Number is mandatory
+2.If Debit Account is modified (if it is not same as in POR.TRANSACTION) then Debit Account Number Imposed flag should be imposed. */
+        DebitAccountNumber : T24BusinessTypes:ACCA
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=18.0, core=true, t24Name=DebitAccountNumber)
+/* Indcates Debit Main Account is overwritten by the operator.
+Possible values:
+"Y" - Overwritten
+" " - Not overwritten
+
+Validation Rules:
+1.IF the value in the database (POR.TRANSACTION) equals "Y", THEN the field on the screen should be imposed */
+        DebitAccountNumberImposedFlag : PP_DirectDebitGUI:PP_DIRECT_DEBIT__DebitAccountNumberImposedFlag
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=19.0, core=true, t24Name=DebitAccountNumberImposedFlag)
+        DebitInstruction : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=128, sysNumber=61.0, core=true, t24Name=DebitInstruction)
+/* Indicates Debit Value Date of the payment. defaulted from POR.TRANSACTION.
+
+Validation Rules:
+1.Debit Value Date cannot be a weekend
+2.If Debit Value Date flag is imposed then Debit Values date is mandatory */
+        DebitValueDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=25.0, core=true, t24Name=DebitValueDate)
+/* Indicates Debit Value date is Overwritten by the Operator.
+
+Possible values:
+"Y" - Overwritten
+" " - Not Overwritten
+
+IF the value in the database equals "Y", THEN the field on the screen should be imposed/checked as well, otherwise leave the field on the screen empty. */
+        DebitValueDateImposedFlag : PP_DirectDebitGUI:PP_DIRECT_DEBIT__DebitValueDateImposedFlag
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=26.0, core=true, t24Name=DebitValueDateImposedFlag)
+/* Indicates type of payment Direction. eg.Incoming or outgoing.
+Possible values:
+I - Incoming
+O - Outgoing
+B - Book tramsfer
+R - Redirect
+
+Defaulted from POR.TRANSACTION
+
+No Input field */
+        Direction : PP_DirectDebitGUI:PP_DIRECT_DEBIT__Direction
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=4.0, core=true, t24Name=Direction)
+/* Currently not in use. reserved for future use.
+
+Validation Rules:
+No Input field */
+        FatalError : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=56.0, core=true, t24Name=FatalError)
+        FunctionalError -> byValue PP_DirectDebitGUI:PP_DIRECT_DEBIT__FunctionalError *
+            @t24:i (t24Name=FunctionalError)
+        INPUTTER -> byValue PP_DirectDebitGUI:PP_DIRECT_DEBIT__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* Indicates type of message for the payment. e.g: 101, 102 etc...
+Defaulted from POR.TRANSACTION.
+
+No Input field */
+        IncomingMessageType : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=10, sysNumber=3.0, core=true, t24Name=IncomingMessageType)
+        Information -> byValue PP_DirectDebitGUI:PP_DIRECT_DEBIT__Information *
+            @t24:i (t24Name=Information)
+/* Allowed 1 character (Alphanumeric)
+Y (YES) or N (NO)
+
+Validation Rules:
+1. Mandate Approved button is mandatory upon selecting a Submit action. */
+        MandateApproved : PP_DirectDebitGUI:PP_DIRECT_DEBIT__MandateApproved
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=60.0, core=true, t24Name=MandateApproved)
+        OVERRIDE -> byValue PP_DirectDebitGUI:PP_DIRECT_DEBIT__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+/* Free Text Field.
+
+Operator can key in the ID of AC.FUNDS.AUTHORISATION table, if the funds were pre-authorized. (Pre Authorization Key)
+
+Validation Rules:
+1.Pre-Authorization Number must not be present if Debit Account Number is not imposed */
+        PreAuthorizationNumber : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=18, sysNumber=7.0, core=true, t24Name=PreAuthorizationNumber)
+/* Indicates the company ID for the current company as defined in PPT_Company. Eg BNK,GB1
+Defaulted from POR.TRANSACTION
+Validation Rules:
+No Input field */
+        ProcessingCompany : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=8.0, core=true, t24Name=ProcessingCompany)
+/* Indicates the desired processing date. Defaulted from POR.TRANSACTION
+
+Validation Rules:
+No Input field */
+        ProcessingDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=N, maxLength=11, sysNumber=9.0, core=true, t24Name=ProcessingDate)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=64.0, core=true, t24Name=RECORD.STATUS)
+/* Reference Number(Cheque Number). Defaulted from POR.BACS / POR.HKCLG.
+
+NOTE: It is part of Cheque Debit Screen not using in Direct Debit screen.
+
+Validation Rules:
+No Input field */
+        ReceivedChequeNumber : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=45.0, core=true, t24Name=ReceivedChequeNumber)
+/* Indicates originating account number. Defaulted from POR.BACS
+
+Validation Rules:
+No Input field */
+        ReceivedCreditorAccount : T24BusinessTypes:ACCA
+            @t24:i (align=L, inputBehaviour=N, maxLength=8, sysNumber=38.0, core=true, t24Name=ReceivedCreditorAccount)
+/* Remitters name (originating a/c name abbreviated).
+Defaulted from POR.BACS
+
+Validation Rules:
+No Input field */
+        ReceivedCreditorName : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=18, sysNumber=39.0, core=true, t24Name=ReceivedCreditorName)
+/* Indicates destination a/c number. Defaulted from POR.BACS
+
+Validation Rules:
+No Input field */
+        ReceivedDebtorAccount : T24BusinessTypes:ACCA
+            @t24:i (align=L, inputBehaviour=N, maxLength=8, sysNumber=27.0, core=true, t24Name=ReceivedDebtorAccount)
+/* Indicates destination account name. Defaulted from POR.BACS
+
+Validation Rules:
+No Input field */
+        ReceivedDebtorName : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=18, sysNumber=28.0, core=true, t24Name=ReceivedDebtorName)
+/* Destination a/c number (Payer’s a/c number). Defaulted from POR.BACS.
+
+NOTE: It is part of Cheque Debit Screen not using in Direct Debit screen.
+
+Validation Rules:
+No Input field */
+        ReceivedDrawerAccount : T24BusinessTypes:ACCA
+            @t24:i (align=L, inputBehaviour=N, maxLength=8, sysNumber=51.0, core=true, t24Name=ReceivedDrawerAccount)
+/* File name appended with current business date. Defaulted from POR.BACS.
+
+Validation Rules:
+No Input field */
+        ReceivedFileReference : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=50, sysNumber=12.0, core=true, t24Name=ReceivedFileReference)
+/* Indicates service user’s reference. Defaulted from POR.BACS
+
+Validation Rules:
+No Input field */
+        ReceivedMandateID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=18, sysNumber=11.0, core=true, t24Name=ReceivedMandateID)
+/* Reject Description is filled by Operator when Operator reject the Payment.
+
+Validation Rules:
+No Input if Action is not reject. */
+        RejectDescription : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=256, sysNumber=59.0, core=true, t24Name=RejectDescription)
+/* Indicates the clearing return code of the POR.TRANSACTION. RetuncodeDescription is updated using Return code from the table PPT_ClearingNatureCode.
+
+NOTE: Currently not using this field. reserved for future.
+
+Validation Rules:
+
+1. value shouls not be present in ReturnCode field (since it is not using currently). */
+        ReturnCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=41.0, core=true, t24Name=ReturnCode, onchangeBehaviour=HOT.VALIDATE)
+/* Indicates Description of the ReturnCode.RetuncodeDescription is updated using Return code from the table PPT_ClearingNatureCode.
+
+Validation Rules:
+NOTE: Currently not using this field. reserved for future.
+
+No Input field */
+        ReturnCodeDescription : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=128, sysNumber=42.0, core=true, t24Name=ReturnCodeDescription)
+/* Indicates originating sorting code. Defaulted from POR.BACS
+
+Validation Rules:
+No Input field */
+        SortingCodeCreditorBank : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=16.0, core=true, t24Name=SortingCodeCreditorBank)
+/* This field will contain the actual channel through which the payment was
+originated.This will be stored in the payment file during Mapping
+eg : Access Online , Access Direct , Order entry,BACS,FPS etc The SourceCode will be present in the message that comes from Payment Router
+So components that have logic based on the actual source - should use this field
+eg :
+1)Input field in Product Determination Table
+2) For order entry payments we do not have to determine the debit account as it is already entered by the operator
+
+Validation Rules:
+No Input field */
+        Source : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=10, sysNumber=2.0, core=true, t24Name=Source)
+/* Indicates Tag 32A from the payment - Amount. defaulted from the POR.TRANSACTION
+
+Validation Rules:
+No Input field */
+        TransactionAmount : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=N, maxLength=11, sysNumber=15.0, core=true, t24Name=TransactionAmount, typeModifiers="14PP8")
+/* Indicates Operator can overwrite the transaction amount if it flag set 'Y' (YES).
+
+Validation Rules:
+NOTE: It is part of Cheque Debit Screen not using in Direct Debit screen.
+No Input field */
+        TransactionAmountImposedFlag : PP_DirectDebitGUI:PP_DIRECT_DEBIT__TransactionAmountImposedFlag
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=47.0, core=true, t24Name=TransactionAmountImposedFlag)
+/* 3 digits currency code of the payment. Tag 32A from the payment and defaulted from POR.TRANSACTION.
+
+Validation Rules:
+No Input field */
+        TransactionCurrency : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=14.0, core=true, t24Name=TransactionCurrency)
+/* Denotes a unique ID generated by the payments hub upon generating a payment order. 16 alphanumeric characters. Defaulted from POR.TRANSACTION.
+
+Validation Rules:
+No Input field. */
+        TransactionReferenceNumber : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=1.0, core=true, t24Name=TransactionReferenceNumber)
+/* Indicates type of payment transafer (CTRBTRIndicator)
+Bank Transfer (B) - payment transfer on behalf of bank.
+Customer Transfer (C) - payment transfer on behalf of customer.
+Defaulted from POR.TRANSACTION
+
+Validation Rules:
+No Input field */
+        TransferType : PP_DirectDebitGUI:PP_DIRECT_DEBIT__TransferType
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=5.0, core=true, t24Name=TransferType)
+        /* Indicate that fee processing must be skipped. Yes or No field. It is defaulted from the POR.TRANSACTION.IF the value in the POR.TRANSACTION equals "D", THEN the field on the screen is checked (Yes), otherwise leave the field on the screen empty. */
+        WaiveDebitCharges : PP_DirectDebitGUI:PP_DIRECT_DEBIT__WaiveDebitCharges
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=40.0, core=true, t24Name=WaiveDebitCharges)
+        Warning -> byValue PP_DirectDebitGUI:PP_DIRECT_DEBIT__Warning *
+            @t24:i (t24Name=Warning)
+    }
+    PP_DIRECT_DEBIT__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=67.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    PP_DIRECT_DEBIT__FunctionalError
+    {
+/* Holds the functional errors generated by the payment process from the beging of the payment life cyle.
+
+Validation Rules:
+No Input field */
+        FunctionalError : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=N, maxLength=300, sysNumber=55.0, core=true, t24Name=FunctionalError)
+    }
+    PP_DIRECT_DEBIT__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=66.0, core=true, t24Name=INPUTTER)
+    }
+    PP_DIRECT_DEBIT__Information
+    {
+/* Holds the informational errors generated by the payment process from the beging of the payment life cyle.
+
+No Input field */
+        Information : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=N, maxLength=300, sysNumber=52.0, core=true, t24Name=Information)
+    }
+    PP_DIRECT_DEBIT__OVERRIDE
+    {
+        /* Contains all the override messages which the user agreed to during Input. During the validation of a transaction, the system may provide the user with a series of screen override messages to indicate an anomaly. */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=63.0, core=true, t24Name=OVERRIDE)
+    }
+    PP_DIRECT_DEBIT__Warning
+    {
+/* Holds the errors of type W (Warnings) generated by the payment process from the beging of the payment life cyle.
+
+Validation Rules:
+No Input field */
+        Warning : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=N, maxLength=300, sysNumber=54.0, core=true, t24Name=Warning)
+    }
+}
+Enumerations {
+    PP_AUTH_DIRECT_DEBIT__AcceptWarning : mml:string
+        NULL=NULL
+        YES=YES
+    PP_AUTH_DIRECT_DEBIT__Action : mml:string
+        A=A
+        NULL=NULL
+        R=R
+    PP_AUTH_DIRECT_DEBIT__ChargeOption : mml:string
+        BEN=BEN
+        NULL=NULL
+        OUR=OUR
+        SHA=SHA
+    PP_AUTH_DIRECT_DEBIT__CreditValueDateImposedFlag : mml:string
+        NULL=NULL
+        YES=YES
+    PP_AUTH_DIRECT_DEBIT__DebitAccountNumberImposedFlag : mml:string
+        NULL=NULL
+        YES=YES
+    PP_AUTH_DIRECT_DEBIT__DebitValueDateImposedFlag : mml:string
+        NULL=NULL
+        YES=YES
+    PP_AUTH_DIRECT_DEBIT__Direction : mml:string
+        B=B
+        I=I
+        NULL=NULL
+        O=O
+        R=R
+    PP_AUTH_DIRECT_DEBIT__MandateApproved : mml:string
+        NULL=NULL
+        YES=YES
+    PP_AUTH_DIRECT_DEBIT__TransactionAmountImposedFlag : mml:string
+        NULL=NULL
+        YES=YES
+    PP_AUTH_DIRECT_DEBIT__TransferType : mml:string
+        B=B
+        C=C
+        NULL=NULL
+    PP_AUTH_DIRECT_DEBIT__WaiveDebitCharges : mml:string
+        NULL=NULL
+        YES=YES
+    PP_CLEARING_RETURNCODE__ReturnCodeLevel : mml:string
+        B=B
+        F=F
+        NULL=NULL
+        T=T
+    PP_CLEARING_RETURNCODE__RouteToException : mml:string
+        N=N
+        NULL=NULL
+        Y=Y
+    PP_DIRECT_DEBIT__AcceptWarning : mml:string
+        NULL=NULL
+        YES=YES
+    PP_DIRECT_DEBIT__Action : mml:string
+        B=B
+        C=C
+        NULL=NULL
+        S=S
+        V=V
+    PP_DIRECT_DEBIT__ChargeOption : mml:string
+        BEN=BEN
+        NULL=NULL
+        OUR=OUR
+        SHA=SHA
+    PP_DIRECT_DEBIT__CreditValueDateImposedFlag : mml:string
+        NULL=NULL
+        YES=YES
+    PP_DIRECT_DEBIT__DebitAccountNumberImposedFlag : mml:string
+        NULL=NULL
+        YES=YES
+    PP_DIRECT_DEBIT__DebitValueDateImposedFlag : mml:string
+        NULL=NULL
+        YES=YES
+    PP_DIRECT_DEBIT__Direction : mml:string
+        B=B
+        I=I
+        NULL=NULL
+        O=O
+        R=R
+    PP_DIRECT_DEBIT__MandateApproved : mml:string
+        NULL=NULL
+        YES=YES
+    PP_DIRECT_DEBIT__TransactionAmountImposedFlag : mml:string
+        NULL=NULL
+        YES=YES
+    PP_DIRECT_DEBIT__TransferType : mml:string
+        B=B
+        C=C
+        NULL=NULL
+    PP_DIRECT_DEBIT__WaiveDebitCharges : mml:string
+        NULL=NULL
+        YES=YES
+}

@@ -1,0 +1,1151 @@
+# UTF-8
+/* Accounting and Consolidation for General Ledger */
+Domain RE_Consolidation
+    @t24:i (module=RE)
+    @java:Package (value=com.temenos.t24.datamodel.re.re_consolidation)
+namespace "http://www.temenos.com/t24/RE_Consolidation"
+metamodelVersion 1.30.6
+Classes {
+    ACCOUNT_ACT
+        @i18n:Description (en="")
+        @t24:i (t24Name=ACCOUNT.ACT, level=F, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        ACCT_HIST_NO : T24BusinessTypes:ANY PK required
+            @t24:i (align=L, inputBehaviour=N, maxLength=25, sysNumber=0.0, core=true, t24Name=ACCT.HIST.NO)
+        CHANGE_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Change Date")
+            @i18n:Tooltip (en="Date on which the arrangement would change")
+            @t24:i (align=R, inputBehaviour=N, maxLength=11, sysNumber=1.0, core=true, t24Name=CHANGE.DATE)
+    }
+    CONSOLIDATE_ASST_LIAB
+        @i18n:Description (en="")
+        @t24:i (t24Name=CONSOLIDATE.ASST.LIAB, level=F, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 2 characters may be entered. */
+        APPLIC_ID : T24BusinessTypes:A
+            @i18n:Label (en="Application Id")
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=1.0, core=true, t24Name=APPLIC.ID)
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 65 characters may be entered. */
+        CONSOL_KEY -> RE_Consolidation:CONSOLIDATE_ASST_LIAB PK required
+            @i18n:Label (en="Consol Key")
+            @t24:i (align=L, inputBehaviour=I, maxLength=85, sysNumber=0.0, core=true, businessType=ANY, t24Name=CONSOL.KEY)
+/* Standard T24 currency field.
+Validation Rules:
+A maximum of 3 characters may be entered.
+Must be the key to a valid entry on the CURRENCY file. */
+        CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en=Ccy)
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=4.0, core=true, businessType=CCY, t24Name=CURRENCY)
+/* Standard T24 numeric field.
+Validation Rules:
+A maximum of 1 characters may be entered.
+Must be the key to a valid entry on the CURRENCY.MARKET file. */
+        CURRENCY_MARKET -> ST_CurrencyConfig:CURRENCY_MARKET
+            @i18n:Label (en=Market)
+            @t24:i (align=R, inputBehaviour=I, maxLength=1, sysNumber=2.0, core=true, t24Name=CURRENCY.MARKET)
+/* Standard T24 date field.
+Validation Rules:
+A maximum of 11 characters may be entered. */
+        DATE_LAST_UPDATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=17.0, core=true, t24Name=DATE.LAST.UPDATE)
+        K_CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en=Ccy)
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=4.0, core=false, businessType=CCY, t24Name=K.CURRENCY)
+        K_TYPE -> byValue RE_Consolidation:CONSOLIDATE_ASST_LIAB__K_TYPE *
+            @t24:i (t24Name=K.TYPE)
+/* Validation Rules:
+A maximum of 2 characters may be entered.
+Must be the key to a valid entry on the FX.POS.TYPE file. */
+        POSITION_TYPE -> RE_Config:FX_POS_TYPE
+            @i18n:Label (en="Position Type")
+            @i18n:Tooltip (en="Position Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=3.0, core=true, businessType=SSS, t24Name=POSITION.TYPE)
+        TOTAL_BAL -> byValue RE_Consolidation:CONSOLIDATE_ASST_LIAB__TOTAL_BAL *
+            @t24:i (t24Name=TOTAL.BAL)
+        TOTAL_LCL_BAL -> byValue RE_Consolidation:CONSOLIDATE_ASST_LIAB__TOTAL_LCL_BAL *
+            @t24:i (t24Name=TOTAL.LCL.BAL)
+        TYPE -> byValue RE_Consolidation:CONSOLIDATE_ASST_LIAB__TYPE *
+            @t24:i (t24Name=TYPE)
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_1 : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=5.0, core=true, t24Name=VARIABLE.1)
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_10 : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=14.0, core=true, t24Name=VARIABLE.10)
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_11 : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=15.0, core=true, t24Name=VARIABLE.11)
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_12 : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=16.0, core=true, t24Name=VARIABLE.12)
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_2 : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=6.0, core=true, t24Name=VARIABLE.2)
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_3 : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=7.0, core=true, t24Name=VARIABLE.3)
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_4 : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=8.0, core=true, t24Name=VARIABLE.4)
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_5 : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=9.0, core=true, t24Name=VARIABLE.5)
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_6 : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=10.0, core=true, t24Name=VARIABLE.6)
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_7 : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=11.0, core=true, t24Name=VARIABLE.7)
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_8 : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=12.0, core=true, t24Name=VARIABLE.8)
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_9 : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=13.0, core=true, t24Name=VARIABLE.9)
+    }
+    CONSOLIDATE_ASST_LIAB__K_TYPE
+    {
+        K_TYPE : T24BusinessTypes:A
+            @i18n:Label (en=Type)
+            @t24:i (align=L, inputBehaviour=N, maxLength=10, sysNumber=18.0, core=false, t24Name=K.TYPE)
+    }
+    CONSOLIDATE_ASST_LIAB__TOTAL_BAL
+    {
+        TOTAL_BAL : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, core=false, t24Name=TOTAL.BAL, genOperation="BALANCE+DEBIT.MOVEMENT+CREDIT.MOVEMENT")
+    }
+    CONSOLIDATE_ASST_LIAB__TOTAL_LCL_BAL
+    {
+        TOTAL_LCL_BAL : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=N, maxLength=19, core=false, t24Name=TOTAL.LCL.BAL, genOperation="LOCAL.BALANCE+LOCAL.DEBIT.MVE+LOCAL.CREDT.MVE")
+    }
+    CONSOLIDATE_ASST_LIAB__TYPE
+    {
+/* Fields TYPE to  form a related multi value set.
+Validation Rules:
+A maximum of 19 characters may be entered. */
+        BALANCE : T24BusinessTypes:AMT
+            @i18n:Label (en=Balance)
+            @i18n:Tooltip (en="Indicates the current Balance of the Product")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=19.0, core=true, t24Name=BALANCE, typeModifiers="4")
+/* Fields TYPE to  form a related multi value set.
+Validation Rules:
+A maximum of 19 characters may be entered. */
+        CREDIT_MOVEMENT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=21.0, core=true, t24Name=CREDIT.MOVEMENT, typeModifiers="4")
+/* Fields TYPE to  form a related multi value set.
+Validation Rules:
+A maximum of 19 characters may be entered. */
+        DEBIT_MOVEMENT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=20.0, core=true, t24Name=DEBIT.MOVEMENT, typeModifiers="4")
+/* Fields TYPE to  form a related multi value set.
+Validation Rules:
+A maximum of 19 characters may be entered. */
+        LOCAL_BALANCE : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=22.0, core=true, t24Name=LOCAL.BALANCE, typeModifiers="USD")
+/* Fields TYPE to  form a related multi value set.
+Validation Rules:
+A maximum of 19 characters may be entered. */
+        LOCAL_CREDT_MVE : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=24.0, core=true, t24Name=LOCAL.CREDT.MVE, typeModifiers="USD")
+/* Fields TYPE to  form a related multi value set.
+Validation Rules:
+A maximum of 19 characters may be entered. */
+        LOCAL_DEBIT_MVE : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=23.0, core=true, t24Name=LOCAL.DEBIT.MVE, typeModifiers="USD")
+        MAT_DATE -> byValue RE_Consolidation:CONSOLIDATE_ASST_LIAB__TYPE__MAT_DATE *
+            @t24:i (t24Name=MAT.DATE)
+/* Fields TYPE to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 10 characters may be entered. */
+        TYPE : T24BusinessTypes:A
+            @i18n:Label (en=Type)
+            @i18n:Tooltip (en=Type)
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=18.0, core=true, t24Name=TYPE)
+    }
+    CONSOLIDATE_ASST_LIAB__TYPE__MAT_DATE
+    {
+/* Fields TYPE to  form a related multi value set. Standard T24 numeric field.
+Validation Rules:
+A maximum of 3 characters may be entered. */
+        INTER_KEY : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=29.0, core=true, t24Name=INTER.KEY)
+/* Fields TYPE to  form a related multi value set. Standard T24 rate field.
+Validation Rules:
+A maximum of 11 characters may be entered. */
+        INTER_RATE : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=28.0, core=true, t24Name=INTER.RATE)
+/* Fields TYPE to  form a related multi value set.
+Validation Rules:
+A maximum of 12 characters may be entered. */
+        INTER_SPREAD : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=30.0, core=true, t24Name=INTER.SPREAD, typeModifiers=-)
+/* Fields TYPE to  form a related multi value set.
+Validation Rules:
+A maximum of 11 characters may be entered. */
+        MAT_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Maturity Date")
+            @i18n:Tooltip (en="Indicates maturity date ")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=25.0, core=true, t24Name=MAT.DATE, typeModifiers=DAYS)
+/* Fields TYPE to  form a related multi value set. Standard T24 date field.
+Validation Rules:
+A maximum of 11 characters may be entered. */
+        REPAY_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Repay Date")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=27.0, core=true, t24Name=REPAY.DATE)
+/* Fields TYPE to  form a related multi value set.
+Validation Rules:
+A maximum of 19 characters may be entered. */
+        SCHD_AMOUNT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=31.0, core=true, t24Name=SCHD.AMOUNT, typeModifiers="4")
+/* Fields TYPE to  form a related multi value set.
+Validation Rules:
+A maximum of 19 characters may be entered. */
+        SCHD_LCL_AMT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=32.0, core=true, t24Name=SCHD.LCL.AMT, typeModifiers="USD")
+/* Fields TYPE to  form a related multi value set. Standard T24 date field.
+Validation Rules:
+A maximum of 11 characters may be entered. */
+        VALUE_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Value Date")
+            @i18n:Tooltip (en="Indicates the Value date of the Contract")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=26.0, core=true, t24Name=VALUE.DATE)
+    }
+    CONSOLIDATE_PRFT_LOSS
+        @i18n:Description (en="")
+        @t24:i (t24Name=CONSOLIDATE.PRFT.LOSS, level=F, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 2 characters may be entered. */
+        APPLIC_ID : T24BusinessTypes:ANY
+            @i18n:Label (en="Application Id")
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=1.0, core=true, t24Name=APPLIC.ID)
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 65 characters may be entered. */
+        CONSOL_KEY -> RE_Consolidation:CONSOLIDATE_PRFT_LOSS PK required
+            @i18n:Label (en="Consol Key")
+            @t24:i (align=L, inputBehaviour=I, maxLength=85, sysNumber=0.0, core=true, businessType=ANY, t24Name=CONSOL.KEY)
+        CURRENCY -> byValue RE_Consolidation:CONSOLIDATE_PRFT_LOSS__CURRENCY *
+            @t24:i (t24Name=CURRENCY)
+/* Standard T24 date field.
+Validation Rules:
+A maximum of 11 characters may be entered. */
+        DATE_LAST_UPDATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=14.0, core=true, t24Name=DATE.LAST.UPDATE)
+        K_CURRENCY -> byValue RE_Consolidation:CONSOLIDATE_PRFT_LOSS__K_CURRENCY *
+            @t24:i (t24Name=K.CURRENCY)
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_1 : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=2.0, core=true, t24Name=VARIABLE.1)
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_10 : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=11.0, core=true, t24Name=VARIABLE.10)
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_11 : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=12.0, core=true, t24Name=VARIABLE.11)
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_12 : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=13.0, core=true, t24Name=VARIABLE.12)
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_2 : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=3.0, core=true, t24Name=VARIABLE.2)
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_3 : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=4.0, core=true, t24Name=VARIABLE.3)
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_4 : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=5.0, core=true, t24Name=VARIABLE.4)
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_5 : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=6.0, core=true, t24Name=VARIABLE.5)
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_6 : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=7.0, core=true, t24Name=VARIABLE.6)
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_7 : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=8.0, core=true, t24Name=VARIABLE.7)
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_8 : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=9.0, core=true, t24Name=VARIABLE.8)
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_9 : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=10.0, core=true, t24Name=VARIABLE.9)
+    }
+    CONSOLIDATE_PRFT_LOSS__CURRENCY
+    {
+/* Fields CURRENCY to  form a related multi value set.
+Validation Rules:
+A maximum of 19 characters may be entered. */
+        BALANCE : T24BusinessTypes:AMT
+            @i18n:Label (en=Balance)
+            @i18n:Tooltip (en="Indicates the current Balance of the Product")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=16.0, core=true, t24Name=BALANCE, typeModifiers="USD")
+/* Fields CURRENCY to  form a related multi value set.
+Validation Rules:
+A maximum of 19 characters may be entered. */
+        BALANCE_YTD : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=22.0, core=true, t24Name=BALANCE.YTD, typeModifiers="USD")
+/* Fields CURRENCY to  form a related multi value set.
+Validation Rules:
+A maximum of 19 characters may be entered. */
+        CCY_BALANCE : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=19.0, core=true, t24Name=CCY.BALANCE, typeModifiers="15.X")
+/* Fields CURRENCY to  form a related multi value set.
+Validation Rules:
+A maximum of 19 characters may be entered. */
+        CCY_BALANCE_YTD : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=23.0, core=true, t24Name=CCY.BALANCE.YTD, typeModifiers="15.X")
+/* Fields CURRENCY to  form a related multi value set.
+Validation Rules:
+A maximum of 19 characters may be entered. */
+        CCY_CREDT_MVE : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=21.0, core=true, t24Name=CCY.CREDT.MVE, typeModifiers="15.X")
+/* Fields CURRENCY to  form a related multi value set.
+Validation Rules:
+A maximum of 19 characters may be entered. */
+        CCY_DEBIT_MVE : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=20.0, core=true, t24Name=CCY.DEBIT.MVE, typeModifiers="15.X")
+/* Fields CURRENCY to  form a related multi value set.
+Validation Rules:
+A maximum of 19 characters may be entered. */
+        CREDIT_MOVEMENT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=18.0, core=true, t24Name=CREDIT.MOVEMENT, typeModifiers="USD")
+/* Fields CURRENCY to  form a related multi value set. Standard T24 currency field.
+Validation Rules:
+A maximum of 3 characters may be entered.
+Must be the key to a valid entry on the CURRENCY file. */
+        CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en=Ccy)
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=15.0, core=true, businessType=CCY, t24Name=CURRENCY)
+/* Fields CURRENCY to  form a related multi value set.
+Validation Rules:
+A maximum of 19 characters may be entered. */
+        DEBIT_MOVEMENT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=17.0, core=true, t24Name=DEBIT.MOVEMENT, typeModifiers="USD")
+    }
+    CONSOLIDATE_PRFT_LOSS__K_CURRENCY
+    {
+        K_CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en=Ccy)
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=15.0, core=false, businessType=CCY, t24Name=K.CURRENCY)
+    }
+    RE_CONSOL_ASSET_LINE
+        @i18n:Description (en="")
+        @t24:i (t24Name=RE.CONSOL.ASSET.LINE, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        KEY_VARIABLE_1 -> RE_Consolidation:RE_CONSOL_ASSET_LINE PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=KEY.VARIABLE.1)
+        K_CURRENCY -> byValue RE_Consolidation:RE_CONSOL_ASSET_LINE__K_CURRENCY *
+            @t24:i (t24Name=K.CURRENCY)
+        K_TYPE -> byValue RE_Consolidation:RE_CONSOL_ASSET_LINE__K_TYPE *
+            @t24:i (t24Name=K.TYPE)
+        VARIABLE_1 -> byValue RE_Consolidation:RE_CONSOL_ASSET_LINE__VARIABLE_1 *
+            @t24:i (t24Name=VARIABLE.1)
+    }
+    RE_CONSOL_ASSET_LINE__K_CURRENCY
+    {
+        K_CURRENCY : T24BusinessTypes:CCY
+            @i18n:Label (en=Ccy)
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=14.0, core=false, t24Name=K.CURRENCY)
+    }
+    RE_CONSOL_ASSET_LINE__K_TYPE
+    {
+        K_TYPE : T24BusinessTypes:A
+            @i18n:Label (en=Type)
+            @t24:i (align=L, inputBehaviour=N, maxLength=7, sysNumber=13.0, core=false, t24Name=K.TYPE)
+    }
+    RE_CONSOL_ASSET_LINE__VARIABLE_1
+    {
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 2 characters may be entered. */
+        APPLIC_ID : T24BusinessTypes:A
+            @i18n:Label (en="Application Id")
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=17.0, core=true, t24Name=APPLIC.ID)
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 numeric field.
+Validation Rules:
+A maximum of 1 characters may be entered. */
+        CCY_MARKET : T24BusinessTypes:N
+            @i18n:Label (en="Ccy Market")
+            @t24:i (align=R, inputBehaviour=I, maxLength=1, sysNumber=16.0, core=true, t24Name=CCY.MARKET)
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 currency field.
+Validation Rules:
+A maximum of 3 characters may be entered. */
+        CURRENCY : T24BusinessTypes:CCY
+            @i18n:Label (en=Ccy)
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=14.0, core=true, t24Name=CURRENCY)
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 2 characters may be entered. */
+        POS_TYPE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=15.0, core=true, t24Name=POS.TYPE)
+        REPORT_NAME -> byValue RE_Consolidation:RE_CONSOL_ASSET_LINE__VARIABLE_1__REPORT_NAME *
+            @t24:i (t24Name=REPORT.NAME)
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 7 characters may be entered. */
+        TYPE : T24BusinessTypes:A
+            @i18n:Label (en=Type)
+            @i18n:Tooltip (en=Type)
+            @t24:i (align=L, inputBehaviour=I, maxLength=7, sysNumber=13.0, core=true, t24Name=TYPE)
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, t24Name=VARIABLE.1)
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_10 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=10.0, core=true, t24Name=VARIABLE.10)
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_11 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=11.0, core=true, t24Name=VARIABLE.11)
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_12 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=12.0, core=true, t24Name=VARIABLE.12)
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=2.0, core=true, t24Name=VARIABLE.2)
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=3.0, core=true, t24Name=VARIABLE.3)
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=4.0, core=true, t24Name=VARIABLE.4)
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=5.0, core=true, t24Name=VARIABLE.5)
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=6.0, core=true, t24Name=VARIABLE.6)
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=7.0, core=true, t24Name=VARIABLE.7)
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_8 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=8.0, core=true, t24Name=VARIABLE.8)
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_9 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=9.0, core=true, t24Name=VARIABLE.9)
+    }
+    RE_CONSOL_ASSET_LINE__VARIABLE_1__REPORT_NAME
+    {
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 4 characters may be entered. */
+        MAT_DATE_RAN : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=20.0, core=true, t24Name=MAT.DATE.RAN)
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 numeric field.
+Validation Rules:
+A maximum of 4 characters may be entered. */
+        REPORT_LINE : T24BusinessTypes:N
+            @i18n:Label (en="Report Line")
+            @i18n:Tooltip (en="@(20,0)Report Lines")
+            @t24:i (align=R, inputBehaviour=I, maxLength=4, sysNumber=19.0, core=true, t24Name=REPORT.LINE)
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 10 characters may be entered. */
+        REPORT_NAME : T24BusinessTypes:A
+            @i18n:Label (en="Report Name")
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=18.0, core=true, t24Name=REPORT.NAME)
+    }
+    RE_CONSOL_BONDS
+        @i18n:Description (en="")
+        @t24:i (t24Name=RE.CONSOL.BONDS, level=F, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        CONSOL_KEY -> RE_Consolidation:RE_CONSOL_BONDS PK required
+            @i18n:Label (en="Consol Key")
+            @t24:i (align=L, inputBehaviour=I, maxLength=65, sysNumber=0.0, core=true, businessType=ANY, t24Name=CONSOL.KEY)
+        SECURITY_CODE -> byValue RE_Consolidation:RE_CONSOL_BONDS__SECURITY_CODE *
+            @t24:i (t24Name=SECURITY.CODE)
+    }
+    RE_CONSOL_BONDS__SECURITY_CODE
+    {
+        SECURITY_CODE : T24BusinessTypes:N
+            @i18n:Label (en="Security No")
+            @i18n:Tooltip (en="Indicates a valid Security")
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=1.0, core=true, t24Name=SECURITY.CODE)
+    }
+    RE_CONSOL_CONTRACT
+        @i18n:Description (en="")
+        @t24:i (t24Name=RE.CONSOL.CONTRACT, level=F, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        APPL_ID -> byValue RE_Consolidation:RE_CONSOL_CONTRACT__APPL_ID *
+            @t24:i (t24Name=APPL.ID)
+        CONSOL_KEY -> RE_Consolidation:RE_CONSOL_CONTRACT PK required
+            @i18n:Label (en="Consol Key")
+            @t24:i (align=L, inputBehaviour=I, maxLength=85, sysNumber=0.0, core=true, businessType=ANY, t24Name=CONSOL.KEY)
+    }
+    RE_CONSOL_CONTRACT__APPL_ID
+    {
+        APPL_ID : T24BusinessTypes:ANY required
+            @i18n:Label (en="Application Id")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, t24Name=APPL.ID)
+    }
+/* This application is a concat file to view the GROUP.ACCRUAL.BALANCES records against the CONSOL.KEY
+Validation Rules */
+    RE_CONSOL_IC
+        @i18n:Description (en="")
+        @t24:i (t24Name=RE.CONSOL.IC, level=F, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* This field holds the CRF key
+Validation Rules:
+
+Up to 65 characters */
+        CONSOL_KEY -> RE_Consolidation:RE_CONSOL_IC PK required
+            @i18n:Label (en="Consol Key")
+            @t24:i (align=L, inputBehaviour=I, maxLength=65, sysNumber=0.0, core=true, businessType=ANY, t24Name=CONSOL.KEY)
+        RECORD_ID -> byValue RE_Consolidation:RE_CONSOL_IC__RECORD_ID *
+            @t24:i (t24Name=RECORD.ID)
+    }
+    RE_CONSOL_IC__RECORD_ID
+    {
+/* This field holds the key to the GROUP.ACCRUAL.BALANCES record
+Validation Rules:
+
+Must be a valid key */
+        RECORD_ID -> IC_GroupAccrual:GROUP_ACCRUAL_BALANCES required
+            @i18n:Label (en="Record Id")
+            @t24:i (align=R, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, t24Name=RECORD.ID)
+    }
+    RE_CONSOL_PROFIT
+        @i18n:Description (en="")
+        @t24:i (t24Name=RE.CONSOL.PROFIT, level=F, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        CONSOL_KEY -> RE_Consolidation:RE_CONSOL_PROFIT PK required
+            @i18n:Label (en="Consol Key")
+            @t24:i (align=L, inputBehaviour=I, maxLength=98, sysNumber=0.0, core=true, businessType=ANY, t24Name=CONSOL.KEY)
+        ENTRY_NO -> byValue RE_Consolidation:RE_CONSOL_PROFIT__ENTRY_NO *
+            @t24:i (t24Name=ENTRY.NO)
+    }
+    RE_CONSOL_PROFIT_LINE
+        @i18n:Description (en="")
+        @t24:i (t24Name=RE.CONSOL.PROFIT.LINE, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        KEY_VARIABLE_1 -> RE_Consolidation:RE_CONSOL_PROFIT_LINE PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=KEY.VARIABLE.1)
+        K_CURRENCY -> byValue RE_Consolidation:RE_CONSOL_PROFIT_LINE__K_CURRENCY *
+            @t24:i (t24Name=K.CURRENCY)
+        VARIABLE_1 -> byValue RE_Consolidation:RE_CONSOL_PROFIT_LINE__VARIABLE_1 *
+            @t24:i (t24Name=VARIABLE.1)
+    }
+    RE_CONSOL_PROFIT_LINE__K_CURRENCY
+    {
+        K_CURRENCY : T24BusinessTypes:CCY
+            @i18n:Label (en=Ccy)
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=13.0, core=false, t24Name=K.CURRENCY)
+    }
+    RE_CONSOL_PROFIT_LINE__VARIABLE_1
+    {
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 2 characters may be entered. */
+        APPLIC_ID : T24BusinessTypes:A
+            @i18n:Label (en="Application Id")
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=14.0, core=true, t24Name=APPLIC.ID)
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 currency field.
+Validation Rules:
+A maximum of 3 characters may be entered. */
+        CURRENCY : T24BusinessTypes:CCY
+            @i18n:Label (en=Ccy)
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=13.0, core=true, t24Name=CURRENCY)
+        REPORT_NAME -> byValue RE_Consolidation:RE_CONSOL_PROFIT_LINE__VARIABLE_1__REPORT_NAME *
+            @t24:i (t24Name=REPORT.NAME)
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, t24Name=VARIABLE.1)
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_10 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=10.0, core=true, t24Name=VARIABLE.10)
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_11 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=11.0, core=true, t24Name=VARIABLE.11)
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_12 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=12.0, core=true, t24Name=VARIABLE.12)
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=2.0, core=true, t24Name=VARIABLE.2)
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=3.0, core=true, t24Name=VARIABLE.3)
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=4.0, core=true, t24Name=VARIABLE.4)
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=5.0, core=true, t24Name=VARIABLE.5)
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=6.0, core=true, t24Name=VARIABLE.6)
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=7.0, core=true, t24Name=VARIABLE.7)
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_8 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=8.0, core=true, t24Name=VARIABLE.8)
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 35 characters may be entered. */
+        VARIABLE_9 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=9.0, core=true, t24Name=VARIABLE.9)
+    }
+    RE_CONSOL_PROFIT_LINE__VARIABLE_1__REPORT_NAME
+    {
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 6 characters may be entered. */
+        PROFIT_SIGN : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=17.0, core=true, t24Name=PROFIT.SIGN)
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 numeric field.
+Validation Rules:
+A maximum of 4 characters may be entered. */
+        REPORT_LINE : T24BusinessTypes:N
+            @i18n:Label (en="Report Line")
+            @i18n:Tooltip (en="@(20,0)Report Lines")
+            @t24:i (align=R, inputBehaviour=I, maxLength=4, sysNumber=16.0, core=true, t24Name=REPORT.LINE)
+/* Fields VARIABLE.1 to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 10 characters may be entered. */
+        REPORT_NAME : T24BusinessTypes:A
+            @i18n:Label (en="Report Name")
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=15.0, core=true, t24Name=REPORT.NAME)
+    }
+    RE_CONSOL_PROFIT__ENTRY_NO
+    {
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 25 characters may be entered. */
+        ENTRY_NO : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=1.0, core=true, t24Name=ENTRY.NO)
+    }
+/* This application is used to print the balance details of the base deals for specified report lines.
+The functions (I)nput, (C)opy, (L)ist, (P)rint, (R)eversal, (S)ee and (V)erify are available.
+The functions (I)nput and (C)opy are used to load the records into the file.
+The (V)erify function is used to print the report lines. */
+    RE_STAT_BAL_REC
+        @i18n:Description (en="")
+        @t24:i (t24Name=RE.STAT.BAL.REC, level=I, type=W, allowedFunctions="C I L P Q R S V", localRefAllowed=false)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=12.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=13.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=9.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=10.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=6.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue RE_Consolidation:RE_STAT_BAL_REC__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=11.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue RE_Consolidation:RE_STAT_BAL_REC__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        INPUTTER -> byValue RE_Consolidation:RE_STAT_BAL_REC__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* Identifies the different records in this file.
+Validation Rules:
+1-14 SWIFT characters. Mandatory input. */
+        KEY -> RE_Consolidation:RE_STAT_BAL_REC PK required
+            @i18n:Label (en=Key)
+            @i18n:Tooltip (en="Indicates th transaction key")
+            @t24:i (align=L, inputBehaviour=I, maxLength=14, sysNumber=0.0, core=true, businessType=S, t24Name=KEY)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=5.0, core=true, t24Name=RECORD.STATUS)
+        REPORT_NAME -> byValue RE_Consolidation:RE_STAT_BAL_REC__REPORT_NAME *
+            @t24:i (t24Name=REPORT.NAME)
+    }
+    RE_STAT_BAL_REC__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=8.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    RE_STAT_BAL_REC__DESCRIPTION
+    {
+/* Used for notes.
+This field is used for entering notes and is not used anywhere else.
+Validation Rules:
+Up to 35 alphanumeric characters. Multivalue field. Optional input. */
+        DESCRIPTION : T24BusinessTypes:A
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    RE_STAT_BAL_REC__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=7.0, core=true, t24Name=INPUTTER)
+    }
+    RE_STAT_BAL_REC__REPORT_NAME
+    {
+        LINE_NO_ST -> byValue RE_Consolidation:RE_STAT_BAL_REC__REPORT_NAME__LINE_NO_ST *
+            @t24:i (t24Name=LINE.NO.ST)
+/* Identifies the report for which the lines are to be printed.
+Validation Rules:
+3 - 21 SWIFT characters. Multivalue field associated with fields 3.1 and 4.1. Mandatory input.
+Must be an ID of a header record in RE.STAT.REPORT.HEAD. */
+        REPORT_NAME -> RE_Config:RE_STAT_REPORT_HEAD required
+            @i18n:Label (en="Report Name")
+            @t24:i (align=L, inputBehaviour=I, maxLength=21, sysNumber=2.0, core=true, businessType=A, t24Name=REPORT.NAME)
+    }
+    RE_STAT_BAL_REC__REPORT_NAME__LINE_NO_ST
+    {
+/* Identifies the last line number to be printed.
+Line number 9999 represents the last available line for the report.
+If specific line numbers required then this field should be left blank.
+Validation Rules:
+1 - 4 numeric characters. Sub valued field associated with field 3.1.1 and multivalue field associated with field 2.1.
+If not specified as 9999 then must be present in RE.STAT.REP.LINE as part of the report specified in REPORT NAME (Field 2.1). */
+        LINE_NO_END : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=4, sysNumber=4.0, core=true, t24Name=LINE.NO.END)
+/* Identifies the first line number to be printed.
+Line number 0001 represents first available line for the report.
+If specific line numbers required then this field should have the line numbers required while LINE NO END (Field 4.1.1) is left null.
+Validation Rules:
+1 - 4 numeric characters. Mandatory input. Sub valued field associated with field 4.1.1 and multivalue field associated with field 2.1
+If not specified as 0001 then must be present in RE.STAT.REP.LINE as part of the report specified in REPORT NAME (Field 2.1). */
+        LINE_NO_ST : T24BusinessTypes:N required
+            @t24:i (align=R, inputBehaviour=I, maxLength=4, sysNumber=3.0, core=true, t24Name=LINE.NO.ST)
+    }
+    RE_STAT_LINE_CONT
+        @i18n:Description (en="")
+        @t24:i (t24Name=RE.STAT.LINE.CONT, level=F, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* Standard T24 numeric field.
+Validation Rules:
+A maximum of 4 characters may be entered. */
+        ASSET_OPP_LINE : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=4, sysNumber=9.0, core=true, t24Name=ASSET.OPP.LINE)
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 6 characters may be entered. */
+        ASSET_SIGN : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=8.0, core=true, t24Name=ASSET.SIGN)
+        ASST_CONSOL_KEY -> byValue RE_Consolidation:RE_STAT_LINE_CONT__ASST_CONSOL_KEY *
+            @t24:i (t24Name=ASST.CONSOL.KEY)
+        DESC -> byValue RE_Consolidation:RE_STAT_LINE_CONT__DESC *
+            @t24:i (t24Name=DESC)
+        K_DESC -> byValue RE_Consolidation:RE_STAT_LINE_CONT__K_DESC *
+            @t24:i (t24Name=K.DESC)
+        K_TYPE : RE_Consolidation:RE_STAT_LINE_CONT__K_TYPE
+            @i18n:Label (en=Type)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=1.0, core=false, t24Name=K.TYPE)
+        PRFT_CONSOL_KEY -> byValue RE_Consolidation:RE_STAT_LINE_CONT__PRFT_CONSOL_KEY *
+            @t24:i (t24Name=PRFT.CONSOL.KEY)
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 6 characters may be entered. */
+        PROFIT_LINE_SIGN : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=10.0, core=true, t24Name=PROFIT.LINE.SIGN)
+/* Standard T24 numeric field.
+Validation Rules:
+A maximum of 4 characters may be entered. */
+        PROFIT_OPP_LINE : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=4, sysNumber=11.0, core=true, t24Name=PROFIT.OPP.LINE)
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 3 characters may be entered. */
+        PROFIT_PERIOD : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=12.0, core=true, t24Name=PROFIT.PERIOD)
+        RECV_PERIOD -> byValue RE_Consolidation:RE_STAT_LINE_CONT__RECV_PERIOD *
+            @t24:i (t24Name=RECV.PERIOD)
+/* Validation Rules:
+Mandatory input.
+A maximum of 14 characters may be entered. */
+        REP_NAME_LINE_NO -> RE_Consolidation:RE_STAT_LINE_CONT PK required
+            @i18n:Label (en="Line Number")
+            @t24:i (align=L, inputBehaviour=I, maxLength=34, sysNumber=0.0, core=true, businessType=LINE, t24Name=REP.NAME.LINE.NO)
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 3 characters may be entered. */
+        SPACE_AFTER : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=7.0, core=true, t24Name=SPACE.AFTER)
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 3 characters may be entered. */
+        SPACE_BEFORE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=6.0, core=true, t24Name=SPACE.BEFORE)
+/* Validation Rules:
+A maximum of 2 characters may be entered.
+The following values are permitted:       Y      NO */
+        SUPRESSION : RE_Consolidation:RE_STAT_LINE_CONT__SUPRESSION
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=5.0, core=true, t24Name=SUPRESSION)
+        TOTAL_ACCUM -> byValue RE_Consolidation:RE_STAT_LINE_CONT__TOTAL_ACCUM *
+            @t24:i (t24Name=TOTAL.ACCUM)
+/* Standard T24 numeric field.
+Validation Rules:
+A maximum of 1 characters may be entered. */
+        TOTAL_PRINT : T24BusinessTypes:N
+            @i18n:Label (en="Total Print")
+            @t24:i (align=R, inputBehaviour=I, maxLength=1, sysNumber=3.0, core=true, t24Name=TOTAL.PRINT)
+/* Validation Rules:
+Mandatory input.
+A maximum of 11 characters may be entered.
+The following values are permitted:       HEADING      TOTAL      DETAIL */
+        TYPE : RE_Consolidation:RE_STAT_LINE_CONT__TYPE required
+            @i18n:Label (en=Type)
+            @i18n:Tooltip (en=Type)
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=1.0, core=true, t24Name=TYPE)
+    }
+    RE_STAT_LINE_CONT__ASST_CONSOL_KEY
+    {
+        ASSET_TYPE -> byValue RE_Consolidation:RE_STAT_LINE_CONT__ASST_CONSOL_KEY__ASSET_TYPE *
+            @t24:i (t24Name=ASSET.TYPE)
+/* Fields ASST.CONSOL.KEY to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 65 characters may be entered. */
+        ASST_CONSOL_KEY : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=85, sysNumber=15.0, core=true, t24Name=ASST.CONSOL.KEY)
+    }
+    RE_STAT_LINE_CONT__ASST_CONSOL_KEY__ASSET_TYPE
+    {
+/* Fields ASST.CONSOL.KEY to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 12 characters may be entered. */
+        ASSET_TYPE : T24BusinessTypes:A
+            @i18n:Label (en="Asset Type")
+            @i18n:Tooltip (en="Indicates the asset type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=12, sysNumber=16.0, core=true, t24Name=ASSET.TYPE)
+/* Fields ASST.CONSOL.KEY to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 4 characters may be entered. */
+        MAT_RANGE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=17.0, core=true, t24Name=MAT.RANGE)
+    }
+    RE_STAT_LINE_CONT__DESC
+    {
+        DESC -> byValue RE_Consolidation:RE_STAT_LINE_CONT__DESC__DESC *
+            @t24:i (t24Name=DESC)
+    }
+    RE_STAT_LINE_CONT__DESC__DESC
+    {
+        DESC : T24BusinessTypes:A
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=2.0, core=true, t24Name=DESC)
+    }
+    RE_STAT_LINE_CONT__K_DESC
+    {
+        fieldname -> byValue RE_Consolidation:RE_STAT_LINE_CONT__K_DESC__fieldname *
+    }
+    RE_STAT_LINE_CONT__K_DESC__fieldname
+    {
+        K_DESC : T24BusinessTypes:A
+            @i18n:Label (en=Description)
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, multiLanguage=true, sysNumber=2.0, core=false, t24Name=K.DESC)
+    }
+    RE_STAT_LINE_CONT__PRFT_CONSOL_KEY
+    {
+/* Fields PRFT.CONSOL.KEY to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 65 characters may be entered. */
+        PRFT_CONSOL_KEY : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=85, sysNumber=18.0, core=true, t24Name=PRFT.CONSOL.KEY)
+        PROFIT_CCY -> byValue RE_Consolidation:RE_STAT_LINE_CONT__PRFT_CONSOL_KEY__PROFIT_CCY *
+            @t24:i (t24Name=PROFIT.CCY)
+    }
+    RE_STAT_LINE_CONT__PRFT_CONSOL_KEY__PROFIT_CCY
+    {
+/* Fields PRFT.CONSOL.KEY to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 3 characters may be entered. */
+        PROFIT_CCY : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=19.0, core=true, t24Name=PROFIT.CCY)
+/* Fields PRFT.CONSOL.KEY to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 6 characters may be entered. */
+        PROFIT_SIGN : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=20.0, core=true, t24Name=PROFIT.SIGN)
+    }
+    RE_STAT_LINE_CONT__RECV_PERIOD
+    {
+/* Fields RECV.PERIOD to  form a related multi value set. Standard T24 numeric field.
+Validation Rules:
+A maximum of 4 characters may be entered. */
+        RECV_LINE_NO : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=4, sysNumber=14.0, core=true, t24Name=RECV.LINE.NO)
+/* Fields RECV.PERIOD to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 3 characters may be entered. */
+        RECV_PERIOD : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=13.0, core=true, t24Name=RECV.PERIOD)
+    }
+    RE_STAT_LINE_CONT__TOTAL_ACCUM
+    {
+/* This is a multi valued field. Standard T24 numeric field.
+Validation Rules:
+A maximum of 1 characters may be entered. */
+        TOTAL_ACCUM : T24BusinessTypes:N
+            @i18n:Label (en=Accumulator)
+            @t24:i (align=R, inputBehaviour=I, maxLength=1, sysNumber=4.0, core=true, t24Name=TOTAL.ACCUM)
+    }
+    STATIC_CHANGE_TODAY
+        @i18n:Description (en="")
+        @t24:i (t24Name=STATIC.CHANGE.TODAY, level=F, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        CONTRACT_ACCT_OFFICER : T24BusinessTypes:DAO
+            @t24:i (align=R, inputBehaviour=I, maxLength=5, sysNumber=20.0, core=true, t24Name=CONTRACT.ACCT.OFFICER)
+        CONTRACT_DEPT_CODE : T24BusinessTypes:DAO
+            @t24:i (align=R, inputBehaviour=I, maxLength=5, sysNumber=21.0, core=true, t24Name=CONTRACT.DEPT.CODE)
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 25 characters may be entered. */
+        CONTRACT_NO -> RE_Consolidation:STATIC_CHANGE_TODAY PK required
+            @i18n:Label (en="Contract No")
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=0.0, core=true, businessType=A, t24Name=CONTRACT.NO)
+/* Description:
+It will be populated from application while updating this file to trigger generic static changes processing and this field value will later be updated in EB.CONTRACT.BALANCES.
+
+Validation rules:
+• No input field -Updated by system */
+        CONTRACT_VALUE_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=19.0, core=true, t24Name=CONTRACT.VALUE.DATE)
+        SYSTEM_ID -> byValue RE_Consolidation:STATIC_CHANGE_TODAY__SYSTEM_ID *
+            @t24:i (t24Name=SYSTEM.ID)
+    }
+    STATIC_CHANGE_TODAY__SYSTEM_ID
+    {
+/* Fields SYSTEM.ID to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 3 characters may be entered. */
+        CRF_TXN_CODE : T24BusinessTypes:A
+            @i18n:Label (en="CRF Txn Code")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=16.0, core=true, t24Name=CRF.TXN.CODE)
+/* Fields SYSTEM.ID to  form a related multi value set. Standard T24 currency field.
+Validation Rules:
+A maximum of 3 characters may be entered. */
+        CURRENCY : T24BusinessTypes:CCY
+            @i18n:Label (en=Ccy)
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=11.0, core=true, t24Name=CURRENCY)
+/* Fields SYSTEM.ID to  form a related multi value set. Standard T24 numeric field.
+Validation Rules:
+A maximum of 1 characters may be entered. */
+        CURRENCY_MARKET : T24BusinessTypes:N
+            @i18n:Label (en=Market)
+            @t24:i (align=R, inputBehaviour=I, maxLength=1, sysNumber=12.0, core=true, t24Name=CURRENCY.MARKET)
+/* Fields SYSTEM.ID to  form a related multi value set. Standard T24 customer field.
+Validation Rules:
+A maximum of 10 characters may be entered. */
+        CUSTOMER : T24BusinessTypes:CUS
+            @i18n:Label (en=Customer)
+            @i18n:Tooltip (en="Customer Liability")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=10.0, core=true, t24Name=CUSTOMER)
+/* Fields SYSTEM.ID to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 2 characters may be entered. */
+        INTEREST_BASIS : T24BusinessTypes:A
+            @i18n:Label (en="Interest Basis")
+            @i18n:Tooltip (en="Indicates the interest day basis")
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=15.0, core=true, t24Name=INTEREST.BASIS)
+/* Fields SYSTEM.ID to  form a related multi value set. Standard T24 numeric field.
+Validation Rules:
+A maximum of 4 characters may be entered. */
+        INTEREST_KEY : T24BusinessTypes:N
+            @i18n:Label (en="Interest Key")
+            @i18n:Tooltip (en="Indicates key to apply floating rate of interest")
+            @t24:i (align=R, inputBehaviour=I, maxLength=4, sysNumber=14.0, core=true, t24Name=INTEREST.KEY)
+/* Fields SYSTEM.ID to  form a related multi value set. Standard T24 numeric field.
+Validation Rules:
+A maximum of 011 characters may be entered. */
+        INTEREST_RATE : T24BusinessTypes:N
+            @i18n:Label (en="Interest Rate")
+            @i18n:Tooltip (en="Indicates interest rate")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=13.0, core=true, t24Name=INTEREST.RATE)
+/* Fields SYSTEM.ID to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 65 characters may be entered. */
+        NEW_CONSOL_KEY : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=65, sysNumber=3.0, core=true, t24Name=NEW.CONSOL.KEY)
+/* Fields SYSTEM.ID to  form a related multi value set. Standard T24 numeric field.
+Validation Rules:
+A maximum of 5 characters may be entered. */
+        NEW_PRODCAT : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=5, sysNumber=18.0, core=true, t24Name=NEW.PRODCAT)
+/* Fields SYSTEM.ID to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 65 characters may be entered. */
+        OLD_CONSOL_KEY : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=65, sysNumber=2.0, core=true, t24Name=OLD.CONSOL.KEY)
+/* Fields SYSTEM.ID to  form a related multi value set. Standard T24 numeric field.
+Validation Rules:
+A maximum of 5 characters may be entered. */
+        OLD_PRODCAT : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=5, sysNumber=17.0, core=true, t24Name=OLD.PRODCAT)
+        OLD_TYPE -> byValue RE_Consolidation:STATIC_CHANGE_TODAY__SYSTEM_ID__OLD_TYPE *
+            @t24:i (t24Name=OLD.TYPE)
+/* Fields SYSTEM.ID to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 2 characters may be entered. */
+        PRODUCT : T24BusinessTypes:A
+            @i18n:Label (en=Product)
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=9.0, core=true, t24Name=PRODUCT)
+/* Fields SYSTEM.ID to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 3 characters may be entered. */
+        SYSTEM_ID : T24BusinessTypes:A
+            @i18n:Label (en="System id")
+            @i18n:Tooltip (en="Shows the system id")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=SYSTEM.ID)
+/* Fields SYSTEM.ID to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 25 characters may be entered. */
+        TXN_REF : T24BusinessTypes:A
+            @i18n:Label (en="Transaction Ref")
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=8.0, core=true, t24Name=TXN.REF)
+    }
+    STATIC_CHANGE_TODAY__SYSTEM_ID__OLD_TYPE
+    {
+/* Fields SYSTEM.ID to  form a related multi value set. Standard T24 date field.
+Validation Rules:
+A maximum of 11 characters may be entered. */
+        NEW_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=7.0, core=true, t24Name=NEW.DATE)
+/* Fields SYSTEM.ID to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 12 characters may be entered. */
+        NEW_TYPE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=12, sysNumber=5.0, core=true, t24Name=NEW.TYPE)
+/* Fields SYSTEM.ID to  form a related multi value set. Standard T24 date field.
+Validation Rules:
+A maximum of 11 characters may be entered. */
+        OLD_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=6.0, core=true, t24Name=OLD.DATE)
+/* Fields SYSTEM.ID to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 12 characters may be entered. */
+        OLD_TYPE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=12, sysNumber=4.0, core=true, t24Name=OLD.TYPE)
+    }
+}
+Enumerations {
+    RE_STAT_LINE_CONT__K_TYPE : mml:string
+        DETAIL=DETAIL
+        HEADING=HEADING
+        TOTAL=TOTAL
+    RE_STAT_LINE_CONT__SUPRESSION : mml:string
+        NO=NO
+        Y=Y
+    RE_STAT_LINE_CONT__TYPE : mml:string
+        DETAIL=DETAIL
+        HEADING=HEADING
+        TOTAL=TOTAL
+}

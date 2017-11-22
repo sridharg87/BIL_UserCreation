@@ -1,0 +1,852 @@
+# UTF-8
+/* Payment Framework */
+Domain PP_PaymentFrameworkService
+    @t24:i (module=PP)
+    @java:Package (value=com.temenos.t24.datamodel.pp.pp_paymentframeworkservice)
+namespace "http://www.temenos.com/t24/PP_PaymentFrameworkService"
+metamodelVersion 1.30.6
+Classes {
+    POR_CHILD_CONCAT
+        @i18n:Description (en="")
+        @t24:i (t24Name=POR.CHILD.CONCAT, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        DE_SENT_MSG -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__DE_SENT_MSG *
+            @t24:i (t24Name=DE.SENT.MSG)
+        ID -> PP_PaymentFrameworkService:POR_CHILD_CONCAT PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+        POR_ACCOUNTINFO -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__POR_ACCOUNTINFO *
+            @t24:i (t24Name=POR.ACCOUNTINFO)
+        POR_ACH -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__POR_ACH *
+            @t24:i (t24Name=POR.ACH)
+        POR_ADDITIONALINF -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__POR_ADDITIONALINF *
+            @t24:i (t24Name=POR.ADDITIONALINF)
+        POR_ADVICE -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__POR_ADVICE *
+            @t24:i (t24Name=POR.ADVICE)
+        POR_APPLIEDFEE -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__POR_APPLIEDFEE *
+            @t24:i (t24Name=POR.APPLIEDFEE)
+        POR_AUTOREPAIRPARTYENRICH -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__POR_AUTOREPAIRPARTYENRICH *
+            @t24:i (t24Name=POR.AUTOREPAIRPARTYENRICH)
+        POR_AUTOREPAIRRETURNEDCD -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__POR_AUTOREPAIRRETURNEDCD *
+            @t24:i (t24Name=POR.AUTOREPAIRRETURNEDCD)
+        POR_BACS -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__POR_BACS *
+            @t24:i (t24Name=POR.BACS)
+        POR_BALANCECHECKRESPONSE -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__POR_BALANCECHECKRESPONSE *
+            @t24:i (t24Name=POR.BALANCECHECKRESPONSE)
+        POR_CLIENTCONDITIONS -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__POR_CLIENTCONDITIONS *
+            @t24:i (t24Name=POR.CLIENTCONDITIONS)
+        POR_COVERINF -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__POR_COVERINF *
+            @t24:i (t24Name=POR.COVERINF)
+        POR_CREDITBANKCONDITIONS -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__POR_CREDITBANKCONDITIONS *
+            @t24:i (t24Name=POR.CREDITBANKCONDITIONS)
+        POR_DEBITAUTHINFO -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__POR_DEBITAUTHINFO *
+            @t24:i (t24Name=POR.DEBITAUTHINFO)
+        POR_DEBITBANKCONDITIONS -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__POR_DEBITBANKCONDITIONS *
+            @t24:i (t24Name=POR.DEBITBANKCONDITIONS)
+        POR_EMAILCONFIRMATIONS -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__POR_EMAILCONFIRMATIONS *
+            @t24:i (t24Name=POR.EMAILCONFIRMATIONS)
+        POR_ERRORFLAGS -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__POR_ERRORFLAGS *
+            @t24:i (t24Name=POR.ERRORFLAGS)
+        POR_HISTORYLOG -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__POR_HISTORYLOG *
+            @t24:i (t24Name=POR.HISTORYLOG)
+        POR_HKCLG -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__POR_HKCLG *
+            @t24:i (t24Name=POR.HKCLG)
+        POR_INFORMATION -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__POR_INFORMATION *
+            @t24:i (t24Name=POR.INFORMATION)
+        POR_OUTBOUNDINFO -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__POR_OUTBOUNDINFO *
+            @t24:i (t24Name=POR.OUTBOUNDINFO)
+        POR_PARTYCREDIT -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__POR_PARTYCREDIT *
+            @t24:i (t24Name=POR.PARTYCREDIT)
+        POR_PARTYDEBIT -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__POR_PARTYDEBIT *
+            @t24:i (t24Name=POR.PARTYDEBIT)
+        POR_PAYMENTSTATUSCODE -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__POR_PAYMENTSTATUSCODE *
+            @t24:i (t24Name=POR.PAYMENTSTATUSCODE)
+        POR_PHONECONFIRMATIONS -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__POR_PHONECONFIRMATIONS *
+            @t24:i (t24Name=POR.PHONECONFIRMATIONS)
+        POR_POSTADVICES -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__POR_POSTADVICES *
+            @t24:i (t24Name=POR.POSTADVICES)
+        POR_POSTCONFIRMATIONS -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__POR_POSTCONFIRMATIONS *
+            @t24:i (t24Name=POR.POSTCONFIRMATIONS)
+        POR_POSTINGLINE -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__POR_POSTINGLINE *
+            @t24:i (t24Name=POR.POSTINGLINE)
+        POR_SCREENINGREQUESTS -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__POR_SCREENINGREQUESTS *
+            @t24:i (t24Name=POR.SCREENINGREQUESTS)
+        POR_SMSCONFIRMATIONS -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__POR_SMSCONFIRMATIONS *
+            @t24:i (t24Name=POR.SMSCONFIRMATIONS)
+        POR_STATEMENTLINE -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__POR_STATEMENTLINE *
+            @t24:i (t24Name=POR.STATEMENTLINE)
+        POR_SWIFTCONFIRMATIONS -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__POR_SWIFTCONFIRMATIONS *
+            @t24:i (t24Name=POR.SWIFTCONFIRMATIONS)
+        PPT_AUTOREPAIRLOG -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__PPT_AUTOREPAIRLOG *
+            @t24:i (t24Name=PPT.AUTOREPAIRLOG)
+        PPT_BATCHFILESTORE -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__PPT_BATCHFILESTORE *
+            @t24:i (t24Name=PPT.BATCHFILESTORE)
+        PPT_CLAIMSSECTION -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__PPT_CLAIMSSECTION *
+            @t24:i (t24Name=PPT.CLAIMSSECTION)
+        PPT_RISKFILTEROUTPUT -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__PPT_RISKFILTEROUTPUT *
+            @t24:i (t24Name=PPT.RISKFILTEROUTPUT)
+        PRM_BLOB -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__PRM_BLOB *
+            @t24:i (t24Name=PRM.BLOB)
+        PSM_BLOB -> byValue PP_PaymentFrameworkService:POR_CHILD_CONCAT__PSM_BLOB *
+            @t24:i (t24Name=PSM.BLOB)
+        RESERVED01 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=42.0, core=true, t24Name=RESERVED01)
+        RESERVED02 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=41.0, core=true, t24Name=RESERVED02)
+        RESERVED03 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=40.0, core=true, t24Name=RESERVED03)
+        RESERVED04 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=39.0, core=true, t24Name=RESERVED04)
+    }
+    POR_CHILD_CONCAT__DE_SENT_MSG
+    {
+        DE_SENT_MSG : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=25.0, core=true, t24Name=DE.SENT.MSG)
+    }
+    POR_CHILD_CONCAT__POR_ACCOUNTINFO
+    {
+        POR_ACCOUNTINFO : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=11.0, core=true, t24Name=POR.ACCOUNTINFO)
+    }
+    POR_CHILD_CONCAT__POR_ACH
+    {
+        POR_ACH : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=38.0, core=true, t24Name=POR.ACH)
+    }
+    POR_CHILD_CONCAT__POR_ADDITIONALINF
+    {
+        POR_ADDITIONALINF : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=8.0, core=true, t24Name=POR.ADDITIONALINF)
+    }
+    POR_CHILD_CONCAT__POR_ADVICE
+    {
+        POR_ADVICE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=2.0, core=true, t24Name=POR.ADVICE)
+    }
+    POR_CHILD_CONCAT__POR_APPLIEDFEE
+    {
+        POR_APPLIEDFEE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=3.0, core=true, t24Name=POR.APPLIEDFEE)
+    }
+    POR_CHILD_CONCAT__POR_AUTOREPAIRPARTYENRICH
+    {
+        POR_AUTOREPAIRPARTYENRICH : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=17.0, core=true, t24Name=POR.AUTOREPAIRPARTYENRICH)
+    }
+    POR_CHILD_CONCAT__POR_AUTOREPAIRRETURNEDCD
+    {
+        POR_AUTOREPAIRRETURNEDCD : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=18.0, core=true, t24Name=POR.AUTOREPAIRRETURNEDCD)
+    }
+    POR_CHILD_CONCAT__POR_BACS
+    {
+        POR_BACS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=19.0, core=true, t24Name=POR.BACS)
+    }
+    POR_CHILD_CONCAT__POR_BALANCECHECKRESPONSE
+    {
+        POR_BALANCECHECKRESPONSE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=20.0, core=true, t24Name=POR.BALANCECHECKRESPONSE)
+    }
+    POR_CHILD_CONCAT__POR_CLIENTCONDITIONS
+    {
+        POR_CLIENTCONDITIONS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=12.0, core=true, t24Name=POR.CLIENTCONDITIONS)
+    }
+    POR_CHILD_CONCAT__POR_COVERINF
+    {
+        POR_COVERINF : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=21.0, core=true, t24Name=POR.COVERINF)
+    }
+    POR_CHILD_CONCAT__POR_CREDITBANKCONDITIONS
+    {
+        POR_CREDITBANKCONDITIONS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=16.0, core=true, t24Name=POR.CREDITBANKCONDITIONS)
+    }
+    POR_CHILD_CONCAT__POR_DEBITAUTHINFO
+    {
+        POR_DEBITAUTHINFO : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=22.0, core=true, t24Name=POR.DEBITAUTHINFO)
+    }
+    POR_CHILD_CONCAT__POR_DEBITBANKCONDITIONS
+    {
+        POR_DEBITBANKCONDITIONS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=10.0, core=true, t24Name=POR.DEBITBANKCONDITIONS)
+    }
+    POR_CHILD_CONCAT__POR_EMAILCONFIRMATIONS
+    {
+        POR_EMAILCONFIRMATIONS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=36.0, core=true, t24Name=POR.EMAILCONFIRMATIONS)
+    }
+    POR_CHILD_CONCAT__POR_ERRORFLAGS
+    {
+        POR_ERRORFLAGS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=1.0, core=true, t24Name=POR.ERRORFLAGS)
+    }
+    POR_CHILD_CONCAT__POR_HISTORYLOG
+    {
+        POR_HISTORYLOG : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=23.0, core=true, t24Name=POR.HISTORYLOG)
+    }
+    POR_CHILD_CONCAT__POR_HKCLG
+    {
+        POR_HKCLG : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=24.0, core=true, t24Name=POR.HKCLG)
+    }
+    POR_CHILD_CONCAT__POR_INFORMATION
+    {
+        POR_INFORMATION : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=13.0, core=true, t24Name=POR.INFORMATION)
+    }
+    POR_CHILD_CONCAT__POR_OUTBOUNDINFO
+    {
+        POR_OUTBOUNDINFO : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=9.0, core=true, t24Name=POR.OUTBOUNDINFO)
+    }
+    POR_CHILD_CONCAT__POR_PARTYCREDIT
+    {
+        POR_PARTYCREDIT : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=14.0, core=true, t24Name=POR.PARTYCREDIT)
+    }
+    POR_CHILD_CONCAT__POR_PARTYDEBIT
+    {
+        POR_PARTYDEBIT : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=15.0, core=true, t24Name=POR.PARTYDEBIT)
+    }
+    POR_CHILD_CONCAT__POR_PAYMENTSTATUSCODE
+    {
+        POR_PAYMENTSTATUSCODE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=33.0, core=true, t24Name=POR.PAYMENTSTATUSCODE)
+    }
+    POR_CHILD_CONCAT__POR_PHONECONFIRMATIONS
+    {
+        POR_PHONECONFIRMATIONS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=4.0, core=true, t24Name=POR.PHONECONFIRMATIONS)
+    }
+    POR_CHILD_CONCAT__POR_POSTADVICES
+    {
+        POR_POSTADVICES : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=34.0, core=true, t24Name=POR.POSTADVICES)
+    }
+    POR_CHILD_CONCAT__POR_POSTCONFIRMATIONS
+    {
+        POR_POSTCONFIRMATIONS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=5.0, core=true, t24Name=POR.POSTCONFIRMATIONS)
+    }
+    POR_CHILD_CONCAT__POR_POSTINGLINE
+    {
+        POR_POSTINGLINE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=6.0, core=true, t24Name=POR.POSTINGLINE)
+    }
+    POR_CHILD_CONCAT__POR_SCREENINGREQUESTS
+    {
+        POR_SCREENINGREQUESTS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=37.0, core=true, t24Name=POR.SCREENINGREQUESTS)
+    }
+    POR_CHILD_CONCAT__POR_SMSCONFIRMATIONS
+    {
+        POR_SMSCONFIRMATIONS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=35.0, core=true, t24Name=POR.SMSCONFIRMATIONS)
+    }
+    POR_CHILD_CONCAT__POR_STATEMENTLINE
+    {
+        POR_STATEMENTLINE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=26.0, core=true, t24Name=POR.STATEMENTLINE)
+    }
+    POR_CHILD_CONCAT__POR_SWIFTCONFIRMATIONS
+    {
+        POR_SWIFTCONFIRMATIONS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=7.0, core=true, t24Name=POR.SWIFTCONFIRMATIONS)
+    }
+    POR_CHILD_CONCAT__PPT_AUTOREPAIRLOG
+    {
+        PPT_AUTOREPAIRLOG : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=27.0, core=true, t24Name=PPT.AUTOREPAIRLOG)
+    }
+    POR_CHILD_CONCAT__PPT_BATCHFILESTORE
+    {
+        PPT_BATCHFILESTORE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=28.0, core=true, t24Name=PPT.BATCHFILESTORE)
+    }
+    POR_CHILD_CONCAT__PPT_CLAIMSSECTION
+    {
+        PPT_CLAIMSSECTION : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=29.0, core=true, t24Name=PPT.CLAIMSSECTION)
+    }
+    POR_CHILD_CONCAT__PPT_RISKFILTEROUTPUT
+    {
+        PPT_RISKFILTEROUTPUT : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=30.0, core=true, t24Name=PPT.RISKFILTEROUTPUT)
+    }
+    POR_CHILD_CONCAT__PRM_BLOB
+    {
+        PRM_BLOB : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=31.0, core=true, t24Name=PRM.BLOB)
+    }
+    POR_CHILD_CONCAT__PSM_BLOB
+    {
+        PSM_BLOB : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=32.0, core=true, t24Name=PSM.BLOB)
+    }
+    /* The table will be used to store errors on transactions. */
+    POR_ERRORFLAGS
+        @i18n:Description (en="")
+        @t24:i (t24Name=POR.ERRORFLAGS, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* Indicates whether the error is Active or Inactive
+Validation Rules:
+1 character
+Possible values: Y/N. */
+        ActiveFlag : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=7.0, core=true, t24Name=ActiveFlag)
+/* Additional Information provided by components within the Payment Engine.
+Validation Rules:
+128 characters */
+        AdditionalInformation : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=128, sysNumber=6.0, core=true, t24Name=AdditionalInformation)
+/* Indicates  the company ID for which the record is created.
+Example: BNK,GB1.
+Validation Rules:
+3 alphanumeric characters
+The value links to the field CompanyID of PPT.COMPANY table. */
+        CompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+/* Indicates the error code.
+Validation Rules:
+10 characters (Mandatory Input)
+The value links to the field ErrorCode of PPT.ERRORCODE table. */
+        ErrorCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=4.0, core=true, t24Name=ErrorCode)
+/* Timestamp of the time Error/Warning/Info occurred in the Component.
+Validation Rules:
+17 characters Date Time format.
+It need to be displayed as DD MMM YYYY HH:MM:SS.sss.
+Example: 12 JAN 2015 12:34:25.123
+The value is not editable by the user. */
+        ErrorTimestamp : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=3.0, core=true, t24Name=ErrorTimestamp, mask="RDDDD DD  DD ##:##:##.###")
+/* Indicates the type of the error.
+Validation Rules:
+1 character
+To be retrieved from Company Specific Error Type Table.
+Possible values:
+F - Functional error
+I - Information
+W - Warning */
+        ErrorType : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=5.0, core=true, t24Name=ErrorType)
+/* Denotes the unique ID generated by the payments hub upon generating a payment order.
+Validation Rules:
+Mandatory field; 16 alphanumeric characters. */
+        FTNumber : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=2.0, core=true, t24Name=FTNumber)
+/* Unique ID.
+255 alphanumeric characters. */
+        ID -> PP_PaymentFrameworkService:POR_ERRORFLAGS PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+/* Indicates the process that updated the Non-STP Flag tables.
+Example: STP, OE, RPR WFM (STP, Order Entry, Repair, WorkFlowManager)
+Validation Rules:
+50 characters */
+        OriginatedBy : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=8.0, core=true, t24Name=OriginatedBy)
+    }
+    /* The purpose of this table is to store history log details of a payment. */
+    POR_HISTORYLOG
+        @i18n:Description (en="")
+        @t24:i (t24Name=POR.HISTORYLOG, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* Indicates  the company ID for which the record is created.
+Example: BNK,GB1.
+Validation Rules:
+3 alphanumeric characters
+The value links to the field CompanyID of PPT.COMPANY table. */
+        CompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+/* Denotes the unique ID generated by the payments hub upon generating a payment order.
+Validation Rules:
+Mandatory field; 16 alphanumeric characters. */
+        FTNumber : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=2.0, core=true, t24Name=FTNumber)
+        HistoryTimestamp -> byValue PP_PaymentFrameworkService:POR_HISTORYLOG__HistoryTimestamp *
+            @t24:i (t24Name=HistoryTimestamp)
+/* Unique ID.
+255 alphanumeric characters. */
+        ID -> PP_PaymentFrameworkService:POR_HISTORYLOG PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+    }
+    POR_HISTORYLOG__HistoryTimestamp
+    {
+/* Additional Information provided by components within the Payment Engine in order to detail the event logged.
+Validation Rules:
+128 characters */
+        AdditionalInformation : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=128, sysNumber=7.0, core=true, t24Name=AdditionalInformation)
+/* Indicates the Error Code of the event that is logged.
+Validation Rules:
+10 characters
+The value links to the field ErrorCode of PPT.ERRORCODE table. */
+        ErrorCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=6.0, core=true, t24Name=ErrorCode)
+/* Indicates the description of the event that is logged.
+This is a free format text field.
+Validation Rules:
+200 characters */
+        EventDescription : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=200, sysNumber=5.0, core=true, t24Name=EventDescription)
+/* Indicates the type of the event that is logged.
+Validation Rules:
+3 characters
+Possible values:
+ERR - Error
+WAR - Warning
+INF - Informational */
+        EventType : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=4.0, core=true, t24Name=EventType)
+/* Timestamp of the issue that is logged.
+Validation Rules:
+17 characters Date Time format.
+It need to be displayed as DD MMM YYYY HH:MM:SS.sss.
+Example: 12 JAN 2015 12:34:25.123
+The value is not editable by the user. */
+        HistoryTimestamp : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=3.0, core=true, t24Name=HistoryTimestamp, mask="RDDDD DD  DD ##:##:##.###")
+    }
+    /* The purpose of this table is to contain the current status of a payment that is processed in TPS. */
+    POR_PAYMENTCURRENTSTATUS
+        @i18n:Description (en="")
+        @t24:i (t24Name=POR.PAYMENTCURRENTSTATUS, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* Indicates  the company ID for which the record is created.
+Example: BNK,GB1.
+Validation Rules:
+3 alphanumeric characters
+The value links to the field CompanyID of PPT.COMPANY table. */
+        CompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+/* Indicates the value of the Error Flag for the payment.
+Validation Rules:
+1 character
+Possible values: Y/(blank). */
+        ErrorFlag : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=6.0, core=true, t24Name=ErrorFlag)
+/* Denotes the unique ID generated by the payments hub upon generating a payment order.
+Validation Rules:
+Mandatory field; 16 alphanumeric characters. */
+        FTNumber : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=2.0, core=true, t24Name=FTNumber)
+/* Unique ID.
+255 alphanumeric characters. */
+        ID -> PP_PaymentFrameworkService:POR_PAYMENTCURRENTSTATUS PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+/* Payment Status Code ID.
+Validation Rules:
+65 characters */
+        PmtStatusCodeID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=65, sysNumber=4.0, core=true, t24Name=PmtStatusCodeID)
+/* Status Code of the payment.
+Validation Rules:
+3 characters
+The value links to the field statusCode of PPT.STATUSCODE table. */
+        StatusCode : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=3.0, core=true, t24Name=StatusCode, typeModifiers="0")
+/* Timestamp of the record.
+Validation Rules:
+17 characters Date Time format.
+It need to be displayed as DD MMM YYYY HH:MM:SS.sss.
+Example: 12 JAN 2015 12:34:25.123
+The value is not editable by the user. */
+        Timestamp : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=5.0, core=true, t24Name=Timestamp, mask="RDDDD DD  DD ##:##:##.###")
+    }
+/* This table is used to store the statement entries before and after reversal of the payment.
+The EntryId's are stored during the original payment processing and the same will referred to while reversing the respecting payment */
+    POR_PAYMENTFLOWDETAILS
+        @i18n:Description (en="")
+        @t24:i (t24Name=POR.PAYMENTFLOWDETAILS, nonStop=true, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* Indicates if the Mandate is authorised or not.
+Possible values:
+Y – Mandate was authorised
+N – Mandate was unauthorised */
+        AuthorisedMandate : PP_PaymentFrameworkService:POR_PAYMENTFLOWDETAILS__AuthorisedMandate
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=10.0, core=true, t24Name=AuthorisedMandate)
+/* This field indicates whether the parent has to be held at fees till the fees of all the children are calculated.
+Possible values: Y, N or blank.
+N or blank - means that if no error is present for the parent when it is finalised then the children will be released at this moment.
+Y – means that the children will be released after fees have been calculated for the parent transaction.
+Example: For pain.008 (DDI) will be N or blank. */
+        BatchFeeHoldIndicator : PP_PaymentFrameworkService:POR_PAYMENTFLOWDETAILS__BatchFeeHoldIndicator
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=6.0, core=true, t24Name=BatchFeeHoldIndicator)
+        ChgReservationAmount : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=17, sysNumber=12.0, core=true, t24Name=ChgReservationAmount)
+        ChgReservationKey : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=18, sysNumber=17.0, core=true, t24Name=ChgReservationKey)
+        ChgReservationReqDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=16.0, core=true, t24Name=ChgReservationReqDate)
+/* Indicates for which clearing the non-working days must be looked up for the payment during dates calculation.
+This field is an output of light weight and medium weight product tables.
+This is required for DD Clearing Batch parent and batch child that are book payments but the settlement date
+must be calculated taking into consideration the clearing business date through which the child payments would be settled through. */
+        ClearingHoliday : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=8.0, core=true, t24Name=ClearingHoliday)
+        /* Indicates  the Processing company of the transaction. */
+        CompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+        DebitInstructAmount : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=17, sysNumber=19.0, core=true, t24Name=DebitInstructAmount)
+        EntryIDs -> byValue PP_PaymentFrameworkService:POR_PAYMENTFLOWDETAILS__EntryIDs *
+            @t24:i (t24Name=EntryIDs)
+        /* Denotes the Unique Transaction Reference of the transaction. */
+        FTNumber : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=2.0, core=true, t24Name=FTNumber)
+        /* The ID will be in the form of CompanyID-FTNumber of the transaction. */
+        ID -> PP_PaymentFrameworkService:POR_PAYMENTFLOWDETAILS PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+/* Indicates if the Mandate was auto registered in the DD management system or not.
+Possible values:
+Y – Mandate was auto registered.
+blank – Mandate was not auto registered. */
+        MandateAutoRegistered : PP_PaymentFrameworkService:POR_PAYMENTFLOWDETAILS__MandateAutoRegistered
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=11.0, core=true, t24Name=MandateAutoRegistered)
+        ReservationDebitChgAccCmpID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=13.0, core=true, t24Name=ReservationDebitChgAccCmpID)
+        ReservationDebitChgAccCurrCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=15.0, core=true, t24Name=ReservationDebitChgAccCurrCode)
+        ReservationDebitChgAccount : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=14.0, core=true, t24Name=ReservationDebitChgAccount)
+/* Indicates if the Return or Reject was Originated by the Bank or by the Debtor (Customer).
+Possible values:
+B – Return/Reject originated by the Bank
+D – Return/Reject originated by the Debtor
+empty - Payment was STP returned/rejected. */
+        RetRejOriginatedBy : PP_PaymentFrameworkService:POR_PAYMENTFLOWDETAILS__RetRejOriginatedBy
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=9.0, core=true, t24Name=RetRejOriginatedBy)
+        ReversalEntryIDs -> byValue PP_PaymentFrameworkService:POR_PAYMENTFLOWDETAILS__ReversalEntryIDs *
+            @t24:i (t24Name=ReversalEntryIDs)
+        /* It indicates the status from which the payment is reversed. */
+        ReversedFrom : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=7, sysNumber=3.0, core=true, t24Name=ReversedFrom, typeModifiers="0")
+        RiskFilterConditionId -> byValue PP_PaymentFrameworkService:POR_PAYMENTFLOWDETAILS__RiskFilterConditionId *
+            @t24:i (t24Name=RiskFilterConditionId)
+/* Indicates whether the payment is post settled or pre settled.
+This field is an output of light weight and medium weight product tables.
+This is required to decide which dates API needs to be invoked for a direct debit instruction. This field can be left blank for non DDI payments. */
+        SettlementType : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=7.0, core=true, t24Name=SettlementType)
+    }
+    POR_PAYMENTFLOWDETAILS__EntryIDs
+    {
+        /* Holds the accounting entry Ids generated in T24 corresponding to the posting line. */
+        EntryIDs : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=90, sysNumber=4.0, core=true, t24Name=EntryIDs)
+    }
+    POR_PAYMENTFLOWDETAILS__ReversalEntryIDs
+    {
+        /* Holds the accounting entry Ids generated in T24 corresponding reversal of the original entry Ids. */
+        ReversalEntryIDs : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=90, sysNumber=5.0, core=true, t24Name=ReversalEntryIDs)
+    }
+    POR_PAYMENTFLOWDETAILS__RiskFilterConditionId
+    {
+        RiskFilterConditionId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=18.0, core=true, t24Name=RiskFilterConditionId)
+    }
+    /* The purpose of this table is to keep a track of all the intermediate statuses of a payment from the time when it was received in TPS and the time when it was completed. */
+    POR_PAYMENTSTATUSCODE
+        @i18n:Description (en="")
+        @t24:i (t24Name=POR.PAYMENTSTATUSCODE, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* Indicates  the company ID for which the record is created.
+Example: BNK,GB1.
+Validation Rules:
+3 alphanumeric characters
+The value links to the field CompanyID of PPT.COMPANY table. */
+        CompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+/* Denotes the unique ID generated by the payments hub upon generating a payment order.
+Validation Rules:
+Mandatory field; 16 alphanumeric characters. */
+        FTNumber : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=2.0, core=true, t24Name=FTNumber)
+/* Unique ID.
+255 alphanumeric characters. */
+        ID -> PP_PaymentFrameworkService:POR_PAYMENTSTATUSCODE PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+/* Indicates the process ID of the process that is (currently) processing the transaction.
+It is used to monitor the payment processes.
+Validation Rules:
+10 characters */
+        ProcessID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=9.0, core=true, t24Name=ProcessID)
+/* Indicates if the payment was processed or not.
+Validation Rules:
+1 character
+Possible values: Y/(blank). */
+        ProcessedIndicator : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=5.0, core=true, t24Name=ProcessedIndicator)
+/* Indicates the Specific Weight Code of the payment determined as per the configuration from PPL.SPECIFICWEIGHT table.
+Validation Rules:
+3 characters */
+        SpecificWeightCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=8.0, core=true, t24Name=SpecificWeightCode)
+/* Status Code of the payment.
+Validation Rules:
+3 characters
+The value links to the field statusCode of PPT.STATUSCODE table. */
+        StatusCode : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=4.0, core=true, t24Name=StatusCode, typeModifiers="0")
+/* This attribute indicates wheter this entry has been reported to the Track and Trace system.
+Validation Rules:
+1 character */
+        TTIndicator : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=6.0, core=true, t24Name=TTIndicator)
+/* Timestamp of the record.
+Validation Rules:
+17 characters Date Time format.
+It need to be displayed as DD MMM YYYY HH:MM:SS.sss.
+Example: 12 JAN 2015 12:34:25.123
+The value is not editable by the user. */
+        Timestamp : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=3.0, core=true, t24Name=Timestamp, mask="RDDDD DD  DD ##:##:##.###")
+/* Indicates the weight of a payment that is used by Payment Flow Manager to prioritise payments based on weight.
+Validation Rules:
+1 character
+Possible values:
+H - High
+M - Medium
+L - Light */
+        WeightCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=7.0, core=true, t24Name=WeightCode)
+    }
+/* The purpose of this table is to store all technical errors which are also logged in PPT.HistoryLog table.
+This is because the PPT.HistoryLog contains also warnings and informative messages, and in order to avoid perfomance issues, the techinical errors will be accessed from this PPT.ErrorLog table. */
+    PPT_ERRORLOG
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPT.ERRORLOG, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* Additional Information provided by components in order to detail the event logged.
+Validation Rules:
+256 characters */
+        AdditionalInformation : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=256, sysNumber=9.0, core=true, t24Name=AdditionalInformation)
+/* Indicates  the company ID for which the record is created.
+Example: BNK,GB1.
+Validation Rules:
+3 alphanumeric characters (Mandatory Input)
+The value links to the field CompanyID of PPT.COMPANY table. */
+        CompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+/* Indicates the Date when the technical error was logged.
+11 characters Date
+It need to be displayed as DD MMM YYYY. */
+        Date : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=2.0, core=true, t24Name=Date)
+/* Indicates the Error Code of the event that is logged.
+Validation Rules:
+10 characters
+The value links to the field ErrorCode of PPT.ERRORCODE table. */
+        ErrorCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=8.0, core=true, t24Name=ErrorCode)
+/* Description of the event (warning/error etc.)
+This is a free format text field. Usually it is filled when there is no error code.
+200 characters */
+        EventDescription : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=200, sysNumber=7.0, core=true, t24Name=EventDescription)
+/* Indicates the type of the event that is logged.
+3 characters
+Possible values:
+ERR - Error */
+        EventType : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=6.0, core=true, t24Name=EventType)
+/* Unique ID generated using AUTO.ID.START.
+255 alphanumeric characters. */
+        ID -> PP_PaymentFrameworkService:PPT_ERRORLOG PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+/* Name of the program/procedure/script etc. that runs in error.
+255 alphanumeric characters. */
+        JobName : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=4.0, core=true, t24Name=JobName)
+/* Name of the program that logs an event.
+1-255 characters */
+        ProgramName : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=5.0, core=true, t24Name=ProgramName)
+/* Timestamp of the record.
+Validation Rules:
+17 characters Date Time format.
+It need to be displayed as DD MMM YYYY HH:MM:SS.sss.
+Example: 12 JAN 2015 12:34:25.123
+The value is not editable by the user. */
+        Timestamp : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=3.0, core=true, t24Name=Timestamp, mask="RDDDD DD  DD ##:##:##.###")
+    }
+    /* The purpose of this is to store all technical/functional/warning/informational errors which are currently logged by TPS components. */
+    PPT_HISTORYLOG
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPT.HISTORYLOG, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* Additional Information provided by components in order to detail the event logged.
+Validation Rules:
+256 characters */
+        AdditionalInformation : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=256, sysNumber=8.0, core=true, t24Name=AdditionalInformation)
+/* Indicates  the company ID for which the record is created.
+Example: BNK,GB1.
+Validation Rules:
+3 alphanumeric characters (Mandatory Input)
+The value links to the field CompanyID of PPT.COMPANY table. */
+        CompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+/* Indicates the Error Code of the event that is logged.
+Validation Rules:
+10 characters
+The value links to the field ErrorCode of PPT.ERRORCODE table. */
+        ErrorCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=7.0, core=true, t24Name=ErrorCode)
+/* Description of the event (warning/error etc.)
+This is a free format text field. Usually it is filled when there is no error code present.
+200 characters */
+        EventDescription : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=200, sysNumber=6.0, core=true, t24Name=EventDescription)
+/* Indicates the type of the event that is logged.
+3 characters
+Possible values:
+ERR - Error
+WAR - Warning
+INF - Informational */
+        EventType : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=5.0, core=true, t24Name=EventType)
+/* Unique ID generated using AUTO.ID.START.
+255 alphanumeric characters. */
+        ID -> PP_PaymentFrameworkService:PPT_HISTORYLOG PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+/* Name of the program/procedure/script etc. that runs in error.
+255 alphanumeric characters. */
+        JobName : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=3.0, core=true, t24Name=JobName)
+/* Name of the program that logs an event.
+1-255 characters */
+        ProgramName : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=4.0, core=true, t24Name=ProgramName)
+/* Timestamp of the record.
+Validation Rules:
+17 characters Date Time format.
+It need to be displayed as DD MMM YYYY HH:MM:SS.sss.
+Example: 12 JAN 2015 12:34:25.123
+The value is not editable by the user. */
+        Timestamp : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=2.0, core=true, t24Name=Timestamp, mask="RDDDD DD  DD ##:##:##.###")
+    }
+    PPT_STATIC_TRACKER
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPT.STATIC.TRACKER, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        ID -> PP_PaymentFrameworkService:PPT_STATIC_TRACKER PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+        TimeStampDetails : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=1.0, core=true, t24Name=TimeStampDetails)
+    }
+    /* The purpose of this table is to configure information that is used in TPS process. */
+    TPS_INTERNAL_CONFIGS
+        @i18n:Description (en="")
+        @t24:i (t24Name=TPS.INTERNAL.CONFIGS, level=I, type=U, allowedFunctions="A C D E I L P Q R S", localRefAllowed=false)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=9.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=10.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=6.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=7.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=3.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue PP_PaymentFrameworkService:TPS_INTERNAL_CONFIGS__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=8.0, core=true, t24Name=DEPT.CODE)
+/* 255 alphanumeric characters.
+Examples:
+1. RESET.METHODS.ID - the record with this ID will contain all the methods that are used by SOD and EOD to activate and de-active static data.
+2. TPS.TABLES.ID - the record with this ID will contain all the TPS tables names that should be imported in INSIGHT application.
+3. SODEOD.MANDATORY.JOBS - the record with this ID will contain all the SOD and EOD jobs that are mandatory to be run.
+4. etc. */
+        ID -> PP_PaymentFrameworkService:TPS_INTERNAL_CONFIGS PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+        INPUTTER -> byValue PP_PaymentFrameworkService:TPS_INTERNAL_CONFIGS__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=2.0, core=true, t24Name=RECORD.STATUS)
+        VALUE -> byValue PP_PaymentFrameworkService:TPS_INTERNAL_CONFIGS__VALUE *
+            @t24:i (t24Name=VALUE)
+    }
+    TPS_INTERNAL_CONFIGS__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=5.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    TPS_INTERNAL_CONFIGS__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=4.0, core=true, t24Name=INPUTTER)
+    }
+    TPS_INTERNAL_CONFIGS__VALUE
+    {
+/* Indicates the names of the routines that should be invoked, the jobs that should be skipped/run, the names of the services that should be started/stopped, etc.
+This is a multivalue field and each value will have 60 alphanumeric characters. */
+        VALUE : T24BusinessTypes:A
+            @i18n:Label (en=Value)
+            @i18n:Tooltip (en=Value)
+            @t24:i (align=L, inputBehaviour=I, maxLength=60, sysNumber=1.0, core=true, t24Name=VALUE)
+    }
+}
+Enumerations {
+    POR_PAYMENTFLOWDETAILS__AuthorisedMandate : mml:string
+        N=N
+        NULL=NULL
+        Y=Y
+    POR_PAYMENTFLOWDETAILS__BatchFeeHoldIndicator : mml:string
+        N=N
+        NULL=NULL
+        Y=Y
+    POR_PAYMENTFLOWDETAILS__MandateAutoRegistered : mml:string
+        NULL=NULL
+        Y=Y
+    POR_PAYMENTFLOWDETAILS__RetRejOriginatedBy : mml:string
+        B=B
+        D=D
+        NULL=NULL
+}

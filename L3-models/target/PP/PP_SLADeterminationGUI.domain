@@ -1,0 +1,214 @@
+# UTF-8
+/* SLA Determination GUI */
+Domain PP_SLADeterminationGUI
+    @t24:i (module=PP)
+    @java:Package (value=com.temenos.t24.datamodel.pp.pp_sladeterminationgui)
+namespace "http://www.temenos.com/t24/PP_SLADeterminationGUI"
+metamodelVersion 1.30.6
+Classes {
+    /* This table is used to maintain various Service Level Agreement with correspondent banks  for each company. The SLA are defined based on the message priority, Code word, code word and the message tag in which the code word are specified. This SLA impacts the Credit and Debit bank conditions and bank charges of a payment. */
+    PPT_SLAPERCODEWORD
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPT.SLAPERCODEWORD, nonStop=true, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        ApprovedDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=15.0, core=true, t24Name=ApprovedDateTime, mask="RDDDD DD  DD ##:##:##.###")
+        ApproverUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=14.0, core=true, t24Name=ApproverUserID)
+/* This fields specifies the code words that are either bilaterally agreed with the counterparty bank or the swift standard code words.
+The characters in the field should comply with Swift standard character set. This can also have *. The default value is * */
+        CodeWord : T24BusinessTypes:SWI required
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=3.0, core=true, t24Name=CodeWord)
+/* This field specifies the tag in which the codeword and code word text present should present in the payment message. Different siwft tags are represented as below
+Possible values:
+INSBNK - Tag23E
+INSSDR - Tag72
+TIMIND - Tag13C
+REGREP - Tag77B
+This can also have *. The default value is * */
+        CodeWordTag : T24BusinessTypes:SWI required
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=4.0, core=true, t24Name=CodeWordTag)
+        /* This field defines the description of the code word tagged. */
+        CodeWordText : T24BusinessTypes:SWI required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=5.0, core=true, t24Name=CodeWordText)
+/* Indicates the company ID for which the record is created.
+Example : BNK,GB1
+Validation Rules:
+3 alphanumeric characters.
+The value links to the field ‘CompanyID’ in PPT.COMPANY */
+        CompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+        /* Specifies the date until which the record is to be considered as active for payments processing.Post this date, the record will be set as Inactive by the payments hub. */
+        EndDateSLAPerCodeWord : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=9.0, core=true, t24Name=EndDateSLAPerCodeWord)
+        EntryDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=13.0, core=true, t24Name=EntryDateTime, mask="RDDDD DD  DD ##:##:##.###")
+        EntryUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=12.0, core=true, t24Name=EntryUserID)
+        ID -> PP_SLADeterminationGUI:PPT_SLAPERCODEWORD PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+        /* TThis fields specifies the message priority for which the SLA is defined. This can also have *. The default value is * */
+        MessagePriority : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=2.0, core=true, t24Name=MessagePriority)
+/* Record Activation Code generated for the record by the payment's hub.
+Possible values:
+N - Not active
+A - Active
+H-YYYYMMDDHHMMSSsss - History. Where: YYYY - year, MM - month, DD - day, HH - hour, MM - minutes, SS - seconds and sss - miliseconds
+F - Future
+C - Not active future
+Validation Rules:
+19 alphanumeric characters. */
+        RACSLAPerCodeWord : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=10.0, core=true, t24Name=RACSLAPerCodeWord)
+/* Record Status Code generated for the record by the payments hub.
+Possible values:
+L - Live
+U - Unapproved
+R - Reversed
+MF - Modified future
+Validation Rules:
+1 alphanumeric character. */
+        RSCSLAPerCodeWord : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=11.0, core=true, t24Name=RSCSLAPerCodeWord)
+/* This fields specifies the rank of the SLA defined for a set of message priority, Code word, code word and tag.
+SLA for a payment will be determined for exact value present in the payment or the default value (*).
+When this results more than one SLAs then final SAL is determined based on the Ranking of the SLA.
+Lowest value in the Priority field will be considered as highest priority.
+The ranking of a SLA should be unique across the company.
+This is a mandatory fields and valid values are 1 to 999 */
+        Ranking : T24BusinessTypes:R required
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=6.0, core=true, t24Name=Ranking)
+/* This fields specifies the ID of the SLA of the set of message priority, Code word, code word and tag in a company.
+This field value will be update as SLA for a payment in payment order transaction.
+This is a mandatory field.
+Same SLAID can be set to different combination of message priority, Code word, code word and tag.
+This field can hold upto 65 alphanumeric characters and the value is not editable by the user. */
+        SLAID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=8.0, core=true, t24Name=SLAID)
+        /* Specifies the date from which the record is to be considered as active for payments processing. */
+        StartDateSLAPerCodeWord : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=7.0, core=true, t24Name=StartDateSLAPerCodeWord)
+    }
+    /* This screen is used to maintain various Service Level Agreement with correspondent banks  for each company. The SLA are defined based on the message priority, Code word, code word and the message tag in which the code word are specified. This SLA impacts the Credit and Debit bank conditions and bank charges of a payment.The information from the screen will be stored in PPT.SLAPERCODEWORD table */
+    PP_SLA_PER_CODEWORD
+        @i18n:Description (en="")
+        @t24:i (additionalInfo=HLD, t24Name=PP.SLA.PER.CODEWORD, nonStop=true, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=23.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=24.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=20.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=21.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=17.0, core=true, t24Name=CURR.NO)
+        CompanyID -> PP_SLADeterminationGUI:PP_SLA_PER_CODEWORD PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=12, sysNumber=0.0, core=true, businessType=ANY, t24Name=CompanyID)
+        DATE_TIME -> byValue PP_SLADeterminationGUI:PP_SLA_PER_CODEWORD__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=22.0, core=true, t24Name=DEPT.CODE)
+        /* Specifies the date until which the record is to be considered as active for payments processing.Post this date, the record will be set as Inactive by the payments hub. */
+        EndDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=8.0, core=true, t24Name=EndDate)
+        INPUTTER -> byValue PP_SLADeterminationGUI:PP_SLA_PER_CODEWORD__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        MessagePriority -> byValue PP_SLADeterminationGUI:PP_SLA_PER_CODEWORD__MessagePriority *
+            @t24:i (t24Name=MessagePriority)
+        OVERRIDE -> byValue PP_SLADeterminationGUI:PP_SLA_PER_CODEWORD__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=16.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED.1)
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=11.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=RESERVED.5)
+/* Specifies the date from which the record is to be considered as active for payments processing.
+Validation Rules:
+No Input Field
+If the start date is given in ID then the start date gets populated from the id
+Or else start date gets populated from the field startdate in the table PP.COMPANY */
+        StartDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=N, maxLength=11, sysNumber=7.0, core=true, t24Name=StartDate)
+    }
+    PP_SLA_PER_CODEWORD__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=19.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    PP_SLA_PER_CODEWORD__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=18.0, core=true, t24Name=INPUTTER)
+    }
+    PP_SLA_PER_CODEWORD__MessagePriority
+    {
+/* This fields specifies the code words that are either bilaterally agreed with the counterparty bank or the swift standard code words.
+The characters in the field should comply with Swift standard character set. This can also have *. The default value is * */
+        CodeWord : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=2.0, core=true, t24Name=CodeWord)
+/* This field specifies the tag in which the codeword and code word text present should present in the payment message. Different siwft tags are represented as below
+Possible values:
+INSBNK - Tag23E
+INSSDR - Tag72
+TIMIND - Tag13C
+REGREP - Tag77B
+This can also have *. The default value is * */
+        CodeWordTag : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=3.0, core=true, t24Name=CodeWordTag)
+        /* This field defines the description of the code word tagged. */
+        CodeWordText : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=4.0, core=true, t24Name=CodeWordText)
+        /* TThis fields specifies the message priority for which the SLA is defined. This can also have *. The default value is * */
+        MessagePriority : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=MessagePriority)
+/* This fields specifies the rank of the SLA defined for a set of message priority, Code word, code word and tag.
+SLA for a payment will be determined for exact value present in the payment or the default value (*).
+When this results more than one SLAs then final SAL is determined based on the Ranking of the SLA.
+Lowest value in the Priority field will be considered as highest priority.
+The ranking of a SLA should be unique across the company.
+This is a mandatory fields and valid values are 1 to 999 */
+        Ranking : T24BusinessTypes:R required
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=5.0, core=true, t24Name=Ranking)
+/* This fields specifies the ID of the SLA of the set of message priority, Code word, code word and tag in a company.
+This field value will be update as SLA for a payment in payment order transaction.
+This is a mandatory field.
+Same SLAID can be set to different combination of message priority, Code word, code word and tag.
+This field can hold upto 65 alphanumeric characters and the value is not editable by the user. */
+        SLAID : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=6.0, core=true, t24Name=SLAID)
+    }
+    PP_SLA_PER_CODEWORD__OVERRIDE
+    {
+        /* Contains all the override messages which the user agreed to during Input. During the validation of a transaction, the system may provide the user with a series of screen override messages to indicate an anomaly. */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=OVERRIDE)
+    }
+}

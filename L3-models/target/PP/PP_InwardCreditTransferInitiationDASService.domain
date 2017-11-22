@@ -1,0 +1,1545 @@
+# UTF-8
+/* InwardCreditTransferInitiation */
+Domain PP_InwardCreditTransferInitiationDASService
+    @t24:i (module=PP)
+    @java:Package (value=com.temenos.t24.datamodel.pp.pp_inwardcredittransferinitiationdasservice)
+namespace "http://www.temenos.com/t24/PP_InwardCreditTransferInitiationDASService"
+metamodelVersion 1.30.6
+Classes {
+    /* This table payment table to store payment related details. Each payment is identified by FTNumber. */
+    POR_CREDITTRANSFERINITIATION
+        @i18n:Description (en="")
+        @t24:i (t24Name=POR.CREDITTRANSFERINITIATION, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* Company ID that needs to process the payment.
+Example : BNK,GB1
+Validation Rules:
+3 alphanumeric characters.
+The value links to the field 'CompanyID' in PPT.COMPANY */
+        CompanyID : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+        /* FTNumber to identify the records related to one payment. */
+        FTNumber : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=2.0, core=true, t24Name=FTNumber)
+        ID -> PP_InwardCreditTransferInitiationDASService:POR_CREDITTRANSFERINITIATION PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+        /* Currency of the debtor account. */
+        PmtInfDbtAccCcy : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=4.0, core=true, t24Name=PmtInfDbtAccCcy)
+        /* Identification of a member of a clearing system. Example: National ID can be set here */
+        PmtInfDbtAgFinIdCgSysMemId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=7.0, core=true, t24Name=PmtInfDbtAgFinIdCgSysMemId)
+        /* Information used to identify the debtor agent as a member within a clearing system. This is the identification of a clearing system, in a coded form as published in an external list. */
+        PmtInfDbtAgFinIdCgSysMemIdCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=5.0, core=true, t24Name=PmtInfDbtAgFinIdCgSysMemIdCd)
+        /* Identification code for a clearing system, that has not yet been identified in the list of clearing systems. */
+        PmtInfDbtAgFinIdCgSysMemIdProp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=6.0, core=true, t24Name=PmtInfDbtAgFinIdCgSysMemIdProp)
+        /* Debtor agent address type. Example of values: ADDR (Postal), PBOX (POBox), HOME (Residential), BIZZ (Business), MLTO (MailTo), DLVY (DeliveryTo) */
+        PmtInfDbtAgFinInstIdPostAddTp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=8.0, core=true, t24Name=PmtInfDbtAgFinInstIdPostAddTp)
+        /* Debtor address type. Example of values: ADDR (Postal), PBOX (POBox), HOME (Residential), BIZZ (Business), MLTO (MailTo), DLVY (DeliveryTo). */
+        PmtInfDbtPostAddTp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=3.0, core=true, t24Name=PmtInfDbtPostAddTp)
+        /* Specifies which party/parties will bear the charges associated with the processing of the payment transaction. Example of values, DEBT (borne by debtor), CRED (borne by creditor), SHAR (shared), SLEV (following service level agreement). */
+        TrxChargeBearer : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=15.0, core=true, t24Name=TrxChargeBearer)
+        TrxChargeWaiver : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=16.0, core=true, t24Name=TrxChargeWaiver)
+        /* Entity that assigns the identification. */
+        TrxCrdAccIdOthIssuer : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=50.0, core=true, t24Name=TrxCrdAccIdOthIssuer)
+        /* Name of the identification scheme, in a coded form as published in an external list. */
+        TrxCrdAccIdOthSchNmCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=48.0, core=true, t24Name=TrxCrdAccIdOthSchNmCd)
+        /* Name of the identification scheme, in a free text form. */
+        TrxCrdAccIdOthSchNmProp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=49.0, core=true, t24Name=TrxCrdAccIdOthSchNmProp)
+        /* Identification of a member of a clearing system. Example: National ID can be set here */
+        TrxCrdAgFinIdCgSysMemId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=24.0, core=true, t24Name=TrxCrdAgFinIdCgSysMemId)
+        /* Information used to identify the creditor agent as a member within a clearing system. This is the identification of a clearing system, in a coded form as published in an external list. */
+        TrxCrdAgFinIdCgSysMemIdCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=22.0, core=true, t24Name=TrxCrdAgFinIdCgSysMemIdCd)
+        /* Identification code for a clearing system, that has not yet been identified in the list of clearing systems. */
+        TrxCrdAgFinIdCgSysMemIdProp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=23.0, core=true, t24Name=TrxCrdAgFinIdCgSysMemIdProp)
+        /* Name by which the creditor agent is known and which is usually used to identify that agent. */
+        TrxCrdAgFinIdNm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=140, sysNumber=25.0, core=true, t24Name=TrxCrdAgFinIdNm)
+        /* Creditor agent address type. Example of values: ADDR (Postal), PBOX (POBox), HOME (Residential), BIZZ (Business), MLTO (MailTo), DLVY (DeliveryTo). */
+        TrxCrdAgFinIdPostAddTp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=26.0, core=true, t24Name=TrxCrdAgFinIdPostAddTp)
+        /* Creditor contact details - email address. */
+        TrxCrdContactDetEmailAdd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2048, sysNumber=46.0, core=true, t24Name=TrxCrdContactDetEmailAdd)
+        /* Creditor contact details - fax number. */
+        TrxCrdContactDetFaxNr : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=45.0, core=true, t24Name=TrxCrdContactDetFaxNr)
+        /* Creditor contact details - mobile number. */
+        TrxCrdContactDetMobileNr : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=44.0, core=true, t24Name=TrxCrdContactDetMobileNr)
+        /* Creditor contact details - name. */
+        TrxCrdContactDetNm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=140, sysNumber=42.0, core=true, t24Name=TrxCrdContactDetNm)
+        /* Creditor contact details - name prefix. Example of values: DOCT (Doctor), MIST (Mister), MISS (Miss), MADM (Madam). */
+        TrxCrdContactDetNmPrefix : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=41.0, core=true, t24Name=TrxCrdContactDetNmPrefix)
+        /* Creditor contact details - in another free format. */
+        TrxCrdContactDetOth : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=47.0, core=true, t24Name=TrxCrdContactDetOth)
+        /* Creditor contact details - phone number. */
+        TrxCrdContactDetPhoneNr : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=43.0, core=true, t24Name=TrxCrdContactDetPhoneNr)
+        /* Country of the creditor (the place of a person's home or the country from which the affairs of a company are directed). ISO Standard. */
+        TrxCrdCtryOfResidence : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=40.0, core=true, t24Name=TrxCrdCtryOfResidence)
+        /* Creditor address building number (on a street). */
+        TrxCrdPostAddBuildingNr : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=31.0, core=true, t24Name=TrxCrdPostAddBuildingNr)
+        /* Creditor address county / state / region. */
+        TrxCrdPostAddCtrySubDiv : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=34.0, core=true, t24Name=TrxCrdPostAddCtrySubDiv)
+        /* Creditor address department. Identification of a division of a large organisation or building. */
+        TrxCrdPostAddDep : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=28.0, core=true, t24Name=TrxCrdPostAddDep)
+        /* Information that locates and identifies a specific address, as defined by postal services, pre-sented in free format text. */
+        TrxCrdPostAddLine3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=35.0, core=true, t24Name=TrxCrdPostAddLine3)
+        /* Information that locates and identifies a specific address, as defined by postal services, pre-sented in free format text. */
+        TrxCrdPostAddLine4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=36.0, core=true, t24Name=TrxCrdPostAddLine4)
+        /* Information that locates and identifies a specific address, as defined by postal services, pre-sented in free format text. */
+        TrxCrdPostAddLine5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=37.0, core=true, t24Name=TrxCrdPostAddLine5)
+        /* Information that locates and identifies a specific address, as defined by postal services, pre-sented in free format text. */
+        TrxCrdPostAddLine6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=38.0, core=true, t24Name=TrxCrdPostAddLine6)
+        /* Information that locates and identifies a specific address, as defined by postal services, pre-sented in free format text. */
+        TrxCrdPostAddLine7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=39.0, core=true, t24Name=TrxCrdPostAddLine7)
+        /* Creditor address postal code. */
+        TrxCrdPostAddPostCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=32.0, core=true, t24Name=TrxCrdPostAddPostCd)
+        /* Creditor address street name. */
+        TrxCrdPostAddStreetNm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=30.0, core=true, t24Name=TrxCrdPostAddStreetNm)
+        /* Creditor address sub-department. Identification of a sub-division of a large organisation or building. */
+        TrxCrdPostAddSubDep : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=29.0, core=true, t24Name=TrxCrdPostAddSubDep)
+        /* Creditor address town name. */
+        TrxCrdPostAddTownNm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=33.0, core=true, t24Name=TrxCrdPostAddTownNm)
+        /* Creditor address type. Example of values: ADDR (Postal), PBOX (POBox), HOME (Residential), BIZZ (Business), MLTO (MailTo), DLVY (DeliveryTo). */
+        TrxCrdPostAddTp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=27.0, core=true, t24Name=TrxCrdPostAddTp)
+        /* Specifies the currency of the to be transferred amount, which is different from the currency of the debtor's account. */
+        TrxEqAmCcyOfTransfer : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=9.0, core=true, t24Name=TrxEqAmCcyOfTransfer)
+        /* Unique and unambiguous reference to the foreign exchange contract agreed between the initiating party/creditor and the debtor agent. */
+        TrxFxRateInfContractId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=12.0, core=true, t24Name=TrxFxRateInfContractId)
+        TrxFxRateInfRateSpread : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=14.0, core=true, t24Name=TrxFxRateInfRateSpread)
+        /* Specifies the type used to complete the currency exchange. Example of values: SPOT, SALE, AGRD */
+        TrxFxRateInfRateTp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=11.0, core=true, t24Name=TrxFxRateInfRateTp)
+        TrxFxRateInfTreasuryRate : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=13.0, core=true, t24Name=TrxFxRateInfTreasuryRate)
+        /* Provides details on the currency exchange rate and contract. This is the currency in which the rate of exchange is expressed in a currency exchange. In the example 1GBP = xxxCUR, the unit currency is GBP. */
+        TrxFxRateInfUnitCcy : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=10.0, core=true, t24Name=TrxFxRateInfUnitCcy)
+        /* Identification of a member of a clearing system. Example: National ID can be set here */
+        TrxItmAg1FinIdCgSysMemId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=19.0, core=true, t24Name=TrxItmAg1FinIdCgSysMemId)
+        /* Information used to identify the intermediary agent as a member within a clearing system. This is the identification of a clearing system, in a coded form as published in an external list. */
+        TrxItmAg1FinIdCgSysMemIdCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=17.0, core=true, t24Name=TrxItmAg1FinIdCgSysMemIdCd)
+        /* Identification code for a clearing system, that has not yet been identified in the list of clearing systems. */
+        TrxItmAg1FinIdCgSysMemIdProp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=18.0, core=true, t24Name=TrxItmAg1FinIdCgSysMemIdProp)
+        /* Name by which the intermediary agent is known and which is usually used to identify that agent. */
+        TrxItmAg1FinIdNm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=140, sysNumber=20.0, core=true, t24Name=TrxItmAg1FinIdNm)
+        /* Intermediary agent address type. Example of values: ADDR (Postal), PBOX (POBox), HOME (Residential), BIZZ (Business), MLTO (MailTo), DLVY (DeliveryTo). */
+        TrxItmAg1FinIdPostAddTp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=21.0, core=true, t24Name=TrxItmAg1FinIdPostAddTp)
+        TrxRegRepDbCrRepInd -> byValue PP_InwardCreditTransferInitiationDASService:POR_CREDITTRANSFERINITIATION__TrxRegRepDbCrRepInd *
+            @t24:i (t24Name=TrxRegRepDbCrRepInd)
+    }
+    POR_CREDITTRANSFERINITIATION__TrxRegRepDbCrRepInd
+    {
+        /* Country of the entity that requires the regulatory reporting information. */
+        TrxRegRepAuthorityCtry : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=53.0, core=true, t24Name=TrxRegRepAuthorityCtry)
+        /* Name of the entity requiring the regulatory reporting information. */
+        TrxRegRepAuthorityNm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=140, sysNumber=52.0, core=true, t24Name=TrxRegRepAuthorityNm)
+        /* Identifies whether the regulatory reporting information applies to the debit side, to the credit side or to both debit and credit sides of the transaction.Example of values: CRED, DEBT, BOTH */
+        TrxRegRepDbCrRepInd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=51.0, core=true, t24Name=TrxRegRepDbCrRepInd)
+        /* Amount of money to be reported for regulatory and statutory requirements. */
+        TrxRegRepDetAm : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=58.0, core=true, t24Name=TrxRegRepDetAm)
+        /* Currency of the regulatory reporting amount. */
+        TrxRegRepDetAmCcy : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=59.0, core=true, t24Name=TrxRegRepDetAmCcy)
+        /* Specifies the nature, purpose, and reason for the transaction to be reported for regulatory and statutory requirements in a coded form. */
+        TrxRegRepDetCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=57.0, core=true, t24Name=TrxRegRepDetCd)
+        /* Country related to the specified type of regulatory reporting details. ISO Standard. */
+        TrxRegRepDetCtry : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=56.0, core=true, t24Name=TrxRegRepDetCtry)
+        /* Date related to the specified type of regulatory reporting details. */
+        TrxRegRepDetDt : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=55.0, core=true, t24Name=TrxRegRepDetDt)
+        TrxRegRepDetInfText -> byValue PP_InwardCreditTransferInitiationDASService:POR_CREDITTRANSFERINITIATION__TrxRegRepDbCrRepInd__TrxRegRepDetInfText *
+            @t24:i (t24Name=TrxRegRepDetInfText)
+        /* Specifies the type of the information supplied in the regulatory reporting details. */
+        TrxRegRepDetTp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=54.0, core=true, t24Name=TrxRegRepDetTp)
+    }
+    POR_CREDITTRANSFERINITIATION__TrxRegRepDbCrRepInd__TrxRegRepDetInfText
+    {
+        /* Additional details that cater for specific domestic regulatory requirements. */
+        TrxRegRepDetInfText : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=60.0, core=true, t24Name=TrxRegRepDetInfText)
+    }
+/* This table is a generic table
+Each record can be identified by unique record id */
+    POR_REMITTANCEINFSTRUCTURED
+        @i18n:Description (en="")
+        @t24:i (t24Name=POR.REMITTANCEINFSTRUCTURED, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* Company ID that needs to process the payment.
+Example : BNK,GB1
+Validation Rules:
+3 alphanumeric characters.
+The value links to the field 'CompanyID' in PPT.COMPANY */
+        CompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+        /* FTNumber to identify the records related to one payment. */
+        FTNumber : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=2.0, core=true, t24Name=FTNumber)
+        ID -> PP_InwardCreditTransferInitiationDASService:POR_REMITTANCEINFSTRUCTURED PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+        RefDocInfTpCdOrPropCd -> byValue PP_InwardCreditTransferInitiationDASService:POR_REMITTANCEINFSTRUCTURED__RefDocInfTpCdOrPropCd *
+            @t24:i (t24Name=RefDocInfTpCdOrPropCd)
+    }
+    POR_REMITTANCEINFSTRUCTURED__RefDocInfTpCdOrPropCd
+    {
+        /* Additional information, in free text form, to complement the structured remittance information. */
+        AdRemittanceInf1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=140, sysNumber=107.0, core=true, t24Name=AdRemittanceInf1)
+        /* Additional information, in free text form, to complement the structured remittance information. */
+        AdRemittanceInf2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=140, sysNumber=108.0, core=true, t24Name=AdRemittanceInf2)
+        /* Additional information, in free text form, to complement the structured remittance information. */
+        AdRemittanceInf3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=140, sysNumber=109.0, core=true, t24Name=AdRemittanceInf3)
+        /* Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction. If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money. If the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification. */
+        CrdRefInfRef : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=30.0, core=true, t24Name=CrdRefInfRef)
+        /* Reference information provided by the creditor to allow the identification of the underlying documents - Type of creditor reference, in a coded form. Example of values: RADM (Remittance Advice Message), RPIN (RelatedPaymentInstruction), FXDR (Foreign Exchange Deal Reference), DISP (Dispatch Advice), PUOR (Purchase Order), SCOR (Structured Communication Reference). */
+        CrdRefInfTpCdOrPropCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=27.0, core=true, t24Name=CrdRefInfTpCdOrPropCd)
+        /* Creditor reference type, in a proprietary form. */
+        CrdRefInfTpCdOrPropProp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=28.0, core=true, t24Name=CrdRefInfTpCdOrPropProp)
+        /* Entity that assigns the credit reference type. */
+        CrdRefInfTpIssuer : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=29.0, core=true, t24Name=CrdRefInfTpIssuer)
+        /* Invoicee contact details - email address. */
+        InveContactDetEmailAdd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2048, sysNumber=105.0, core=true, t24Name=InveContactDetEmailAdd)
+        /* Invoicee contact details - fax number. */
+        InveContactDetFaxNr : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=104.0, core=true, t24Name=InveContactDetFaxNr)
+        /* Invoicee contact details - mobile number. */
+        InveContactDetMobileNr : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=103.0, core=true, t24Name=InveContactDetMobileNr)
+        /* Invoicee contact details - name. */
+        InveContactDetNm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=140, sysNumber=101.0, core=true, t24Name=InveContactDetNm)
+        /* Invoicee contact details - name prefix. Example of values: DOCT (Doctor), MIST (Mister), MISS (Miss), MADM (Madam). */
+        InveContactDetNmPrefix : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=100.0, core=true, t24Name=InveContactDetNmPrefix)
+        /* Invoicee contact details - in another free format. */
+        InveContactDetOth : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=106.0, core=true, t24Name=InveContactDetOth)
+        /* Invoicee contact details - phone number. */
+        InveContactDetPhoneNr : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=102.0, core=true, t24Name=InveContactDetPhoneNr)
+        /* Country of the invoicee (the place of a person's home or the country from which the affairs of a company are directed). ISO Standard. */
+        InveCtryOfResidence : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=99.0, core=true, t24Name=InveCtryOfResidence)
+        /* Invoicee identification as a BIC */
+        InveIdOrgIdAnyBIC : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=86.0, core=true, t24Name=InveIdOrgIdAnyBIC)
+        InveIdOrgIdOthId -> byValue PP_InwardCreditTransferInitiationDASService:POR_REMITTANCEINFSTRUCTURED__RefDocInfTpCdOrPropCd__InveIdOrgIdOthId *
+            @t24:i (t24Name=InveIdOrgIdOthId)
+        /* Private identification of the invoicee - birth date. */
+        InveIdPrvIdDtPlOfBrBrDt : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=91.0, core=true, t24Name=InveIdPrvIdDtPlOfBrBrDt)
+        /* Private identification of the invoicee - city where the person is born. */
+        InveIdPrvIdDtPlOfBrCityOfBr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=93.0, core=true, t24Name=InveIdPrvIdDtPlOfBrCityOfBr)
+        /* Private identification of the invoicee - country where the person is born. ISO Standard. */
+        InveIdPrvIdDtPlOfBrCtryOfBr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=94.0, core=true, t24Name=InveIdPrvIdDtPlOfBrCtryOfBr)
+        /* Private identification of the invoicee - province where the person is born. */
+        InveIdPrvIdDtPlOfBrProvOfBr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=92.0, core=true, t24Name=InveIdPrvIdDtPlOfBrProvOfBr)
+        InveIdPrvIdOthId -> byValue PP_InwardCreditTransferInitiationDASService:POR_REMITTANCEINFSTRUCTURED__RefDocInfTpCdOrPropCd__InveIdPrvIdOthId *
+            @t24:i (t24Name=InveIdPrvIdOthId)
+        /* Invoicee is the party to whom an invoice is issued, when it is different from the debtor or ultimate debtor. This holds the Invoicee name. */
+        InveNm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=140, sysNumber=69.0, core=true, t24Name=InveNm)
+        /* Invoicee address building number (on a street). */
+        InvePostAddBuildingNr : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=74.0, core=true, t24Name=InvePostAddBuildingNr)
+        /* Invoicee address country. ISO standard. */
+        InvePostAddCtry : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=78.0, core=true, t24Name=InvePostAddCtry)
+        /* Invoicee address county / state / region. */
+        InvePostAddCtrySubDiv : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=77.0, core=true, t24Name=InvePostAddCtrySubDiv)
+        /* Invoicee address department. Identification of a division of a large organisation or building. */
+        InvePostAddDep : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=71.0, core=true, t24Name=InvePostAddDep)
+        /* Information that locates and identifies a specific address, as defined by postal services, pre-sented in free format text. */
+        InvePostAddLine1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=79.0, core=true, t24Name=InvePostAddLine1)
+        /* Information that locates and identifies a specific address, as defined by postal services, pre-sented in free format text. */
+        InvePostAddLine2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=80.0, core=true, t24Name=InvePostAddLine2)
+        /* Information that locates and identifies a specific address, as defined by postal services, pre-sented in free format text. */
+        InvePostAddLine3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=81.0, core=true, t24Name=InvePostAddLine3)
+        /* Information that locates and identifies a specific address, as defined by postal services, pre-sented in free format text. */
+        InvePostAddLine4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=82.0, core=true, t24Name=InvePostAddLine4)
+        /* Information that locates and identifies a specific address, as defined by postal services, pre-sented in free format text. */
+        InvePostAddLine5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=83.0, core=true, t24Name=InvePostAddLine5)
+        /* Information that locates and identifies a specific address, as defined by postal services, pre-sented in free format text. */
+        InvePostAddLine6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=84.0, core=true, t24Name=InvePostAddLine6)
+        /* Information that locates and identifies a specific address, as defined by postal services, pre-sented in free format text. */
+        InvePostAddLine7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=85.0, core=true, t24Name=InvePostAddLine7)
+        /* Invoicee address postal code. */
+        InvePostAddPostCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=75.0, core=true, t24Name=InvePostAddPostCd)
+        /* Invoicee address street name. */
+        InvePostAddStreetNm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=73.0, core=true, t24Name=InvePostAddStreetNm)
+        /* Invoicee address sub-department. Identification of a sub-division of a large organisation or building. */
+        InvePostAddSubDep : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=72.0, core=true, t24Name=InvePostAddSubDep)
+        /* Invoicee address town name. */
+        InvePostAddTownNm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=76.0, core=true, t24Name=InvePostAddTownNm)
+        /* Invoicee address type. Example of values: ADDR (Postal), PBOX (POBox), HOME (Residential), BIZZ (Business), MLTO (MailTo), DLVY (DeliveryTo). */
+        InvePostAddTp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=70.0, core=true, t24Name=InvePostAddTp)
+        /* Invoicer contact details - email address. */
+        InvrContactDetEmailAdd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2048, sysNumber=67.0, core=true, t24Name=InvrContactDetEmailAdd)
+        /* Invoicer contact details - fax number. */
+        InvrContactDetFaxNr : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=66.0, core=true, t24Name=InvrContactDetFaxNr)
+        /* Invoicer contact details - mobile number. */
+        InvrContactDetMobileNr : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=65.0, core=true, t24Name=InvrContactDetMobileNr)
+        /* Invoicer contact details - name. */
+        InvrContactDetNm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=140, sysNumber=63.0, core=true, t24Name=InvrContactDetNm)
+        /* Invoicer contact details - name prefix. Example of values: DOCT (Doctor), MIST (Mister), MISS (Miss), MADM (Madam). */
+        InvrContactDetNmPrefix : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=62.0, core=true, t24Name=InvrContactDetNmPrefix)
+        /* Invoicer contact details - in another free format. */
+        InvrContactDetOth : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=68.0, core=true, t24Name=InvrContactDetOth)
+        /* Invoicer contact details - phone number. */
+        InvrContactDetPhoneNr : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=64.0, core=true, t24Name=InvrContactDetPhoneNr)
+        /* Country of the invoicer (the place of a person's home or the country from which the affairs of a company are directed). ISO Standard. */
+        InvrCtryOfResidence : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=61.0, core=true, t24Name=InvrCtryOfResidence)
+        /* Invoicer identification as a BIC */
+        InvrIdOrgIdAnyBIC : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=48.0, core=true, t24Name=InvrIdOrgIdAnyBIC)
+        InvrIdOrgIdOthId -> byValue PP_InwardCreditTransferInitiationDASService:POR_REMITTANCEINFSTRUCTURED__RefDocInfTpCdOrPropCd__InvrIdOrgIdOthId *
+            @t24:i (t24Name=InvrIdOrgIdOthId)
+        /* Private identification of the invoicer - birth date. */
+        InvrIdPrvIdDtPlOfBrBrDt : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=53.0, core=true, t24Name=InvrIdPrvIdDtPlOfBrBrDt)
+        /* Private identification of the invoicer - city where the person is born. */
+        InvrIdPrvIdDtPlOfBrCityOfBr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=55.0, core=true, t24Name=InvrIdPrvIdDtPlOfBrCityOfBr)
+        /* Private identification of the invoicer - country where the person is born. ISO Standard. */
+        InvrIdPrvIdDtPlOfBrCtryOfBr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=56.0, core=true, t24Name=InvrIdPrvIdDtPlOfBrCtryOfBr)
+        /* Private identification of the invoicer - province where the person is born. */
+        InvrIdPrvIdDtPlOfBrProvOfBr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=54.0, core=true, t24Name=InvrIdPrvIdDtPlOfBrProvOfBr)
+        InvrIdPrvIdOthId -> byValue PP_InwardCreditTransferInitiationDASService:POR_REMITTANCEINFSTRUCTURED__RefDocInfTpCdOrPropCd__InvrIdPrvIdOthId *
+            @t24:i (t24Name=InvrIdPrvIdOthId)
+        /* Invoicer is the organisation issuing the invoice, when it is different from the creditor or ultimate creditor. This holds the invoicer name. */
+        InvrNm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=140, sysNumber=31.0, core=true, t24Name=InvrNm)
+        /* Invoicer address building number (on a street). */
+        InvrPostAddBuildingNr : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=36.0, core=true, t24Name=InvrPostAddBuildingNr)
+        /* Invoicer address country. ISO standard. */
+        InvrPostAddCtry : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=40.0, core=true, t24Name=InvrPostAddCtry)
+        /* Invoicer address county / state / region. */
+        InvrPostAddCtrySubDiv : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=39.0, core=true, t24Name=InvrPostAddCtrySubDiv)
+        /* Invoicer address department. Identification of a division of a large organisation or building. */
+        InvrPostAddDep : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=33.0, core=true, t24Name=InvrPostAddDep)
+        /* Information that locates and identifies a specific address, as defined by postal services, pre-sented in free format text. */
+        InvrPostAddLine1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=41.0, core=true, t24Name=InvrPostAddLine1)
+        /* Information that locates and identifies a specific address, as defined by postal services, pre-sented in free format text. */
+        InvrPostAddLine2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=42.0, core=true, t24Name=InvrPostAddLine2)
+        /* Information that locates and identifies a specific address, as defined by postal services, pre-sented in free format text. */
+        InvrPostAddLine3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=43.0, core=true, t24Name=InvrPostAddLine3)
+        /* Information that locates and identifies a specific address, as defined by postal services, pre-sented in free format text. */
+        InvrPostAddLine4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=44.0, core=true, t24Name=InvrPostAddLine4)
+        /* Information that locates and identifies a specific address, as defined by postal services, pre-sented in free format text. */
+        InvrPostAddLine5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=45.0, core=true, t24Name=InvrPostAddLine5)
+        /* Information that locates and identifies a specific address, as defined by postal services, pre-sented in free format text. */
+        InvrPostAddLine6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=46.0, core=true, t24Name=InvrPostAddLine6)
+        /* Information that locates and identifies a specific address, as defined by postal services, pre-sented in free format text. */
+        InvrPostAddLine7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=47.0, core=true, t24Name=InvrPostAddLine7)
+        /* Invoicer address postal code. */
+        InvrPostAddPostCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=37.0, core=true, t24Name=InvrPostAddPostCd)
+        /* Invoicer address street name. */
+        InvrPostAddStreetNm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=35.0, core=true, t24Name=InvrPostAddStreetNm)
+        /* Invoicer address sub-department. Identification of a sub-division of a large organisation or building. */
+        InvrPostAddSubDep : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=34.0, core=true, t24Name=InvrPostAddSubDep)
+        /* Invoicer address town name. */
+        InvrPostAddTownNm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=38.0, core=true, t24Name=InvrPostAddTownNm)
+        /* Invoicer address type. Example of values: ADDR (Postal), PBOX (POBox), HOME (Residential), BIZZ (Business), MLTO (MailTo), DLVY (DeliveryTo). */
+        InvrPostAddTp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=32.0, core=true, t24Name=InvrPostAddTp)
+        RefDocAmAdjAmRsnAm -> byValue PP_InwardCreditTransferInitiationDASService:POR_REMITTANCEINFSTRUCTURED__RefDocInfTpCdOrPropCd__RefDocAmAdjAmRsnAm *
+            @t24:i (t24Name=RefDocAmAdjAmRsnAm)
+        /* Details on the amounts of the referred document - Amount specified for the referred document is the amount of a credit note. */
+        RefDocAmCrNoteAm : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=14.0, core=true, t24Name=RefDocAmCrNoteAm, typeModifiers="5")
+        /* Details on the amounts of the referred document - Currency of the credit note amount. */
+        RefDocAmCrNoteAmCcy : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=15.0, core=true, t24Name=RefDocAmCrNoteAmCcy)
+        RefDocAmDiscApplAmTpCd -> byValue PP_InwardCreditTransferInitiationDASService:POR_REMITTANCEINFSTRUCTURED__RefDocInfTpCdOrPropCd__RefDocAmDiscApplAmTpCd *
+            @t24:i (t24Name=RefDocAmDiscApplAmTpCd)
+        /* Details on the amounts of the referred document - Amount specified is the exact amount due and payable to the creditor. */
+        RefDocAmDuePayableAm : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=8.0, core=true, t24Name=RefDocAmDuePayableAm, typeModifiers="5")
+        /* Details on the amounts of the referred document - Currency of the payable amount. */
+        RefDocAmDuePayableAmCcy : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=9.0, core=true, t24Name=RefDocAmDuePayableAmCcy)
+        /* Details on the amounts of the referred document - Amount of money remitted for the referred document. */
+        RefDocAmRemittedAm : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=25.0, core=true, t24Name=RefDocAmRemittedAm, typeModifiers="5")
+        /* Details on the amounts of the referred document - Currency of the remitted amount. */
+        RefDocAmRemittedAmCcy : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=26.0, core=true, t24Name=RefDocAmRemittedAmCcy)
+        RefDocAmTaxAmTpCd -> byValue PP_InwardCreditTransferInitiationDASService:POR_REMITTANCEINFSTRUCTURED__RefDocInfTpCdOrPropCd__RefDocAmTaxAmTpCd *
+            @t24:i (t24Name=RefDocAmTaxAmTpCd)
+        RefDocInfTpCdOrPropCd -> byValue PP_InwardCreditTransferInitiationDASService:POR_REMITTANCEINFSTRUCTURED__RefDocInfTpCdOrPropCd__RefDocInfTpCdOrPropCd *
+            @t24:i (t24Name=RefDocInfTpCdOrPropCd)
+    }
+    POR_REMITTANCEINFSTRUCTURED__RefDocInfTpCdOrPropCd__InveIdOrgIdOthId
+    {
+        /* Identification assigned by an institution. */
+        InveIdOrgIdOthId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=87.0, core=true, t24Name=InveIdOrgIdOthId)
+        /* Entity that assigns the identification. */
+        InveIdOrgIdOthIssuer : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=90.0, core=true, t24Name=InveIdOrgIdOthIssuer)
+        /* Name of the identification scheme, in a coded form as published in an external list. */
+        InveIdOrgIdOthSchNmCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=88.0, core=true, t24Name=InveIdOrgIdOthSchNmCd)
+        /* Name of the identification scheme, in a free text form. */
+        InveIdOrgIdOthSchNmProp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=89.0, core=true, t24Name=InveIdOrgIdOthSchNmProp)
+    }
+    POR_REMITTANCEINFSTRUCTURED__RefDocInfTpCdOrPropCd__InveIdPrvIdOthId
+    {
+        /* Unique and unambiguous identification of a person. */
+        InveIdPrvIdOthId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=95.0, core=true, t24Name=InveIdPrvIdOthId)
+        /* Entity that assigns the identification. */
+        InveIdPrvIdOthIssuer : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=98.0, core=true, t24Name=InveIdPrvIdOthIssuer)
+        /* Name of the identification scheme, in a coded form as published in an external list. */
+        InveIdPrvIdOthSchNmCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=96.0, core=true, t24Name=InveIdPrvIdOthSchNmCd)
+        /* Name of the identification scheme, in a free text form. */
+        InveIdPrvIdOthSchNmProp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=97.0, core=true, t24Name=InveIdPrvIdOthSchNmProp)
+    }
+    POR_REMITTANCEINFSTRUCTURED__RefDocInfTpCdOrPropCd__InvrIdOrgIdOthId
+    {
+        /* Identification assigned by an institution. */
+        InvrIdOrgIdOthId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=49.0, core=true, t24Name=InvrIdOrgIdOthId)
+        /* Entity that assigns the identification. */
+        InvrIdOrgIdOthIssuer : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=52.0, core=true, t24Name=InvrIdOrgIdOthIssuer)
+        /* Name of the identification scheme, in a coded form as published in an external list. */
+        InvrIdOrgIdOthSchNmCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=50.0, core=true, t24Name=InvrIdOrgIdOthSchNmCd)
+        /* Name of the identification scheme, in a free text form. */
+        InvrIdOrgIdOthSchNmProp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=51.0, core=true, t24Name=InvrIdOrgIdOthSchNmProp)
+    }
+    POR_REMITTANCEINFSTRUCTURED__RefDocInfTpCdOrPropCd__InvrIdPrvIdOthId
+    {
+        /* Unique and unambiguous identification of a person. */
+        InvrIdPrvIdOthId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=57.0, core=true, t24Name=InvrIdPrvIdOthId)
+        /* Entity that assigns the identification. */
+        InvrIdPrvIdOthIssuer : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=60.0, core=true, t24Name=InvrIdPrvIdOthIssuer)
+        /* Name of the identification scheme, in a coded form as published in an external list. */
+        InvrIdPrvIdOthSchNmCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=58.0, core=true, t24Name=InvrIdPrvIdOthSchNmCd)
+        /* Name of the identification scheme, in a free text form. */
+        InvrIdPrvIdOthSchNmProp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=59.0, core=true, t24Name=InvrIdPrvIdOthSchNmProp)
+    }
+    POR_REMITTANCEINFSTRUCTURED__RefDocInfTpCdOrPropCd__RefDocAmAdjAmRsnAm
+    {
+        /* Details on the amounts of the referred document - Provides further details on the document adjustment. */
+        RefDocAmAdjAmRsnAdInf : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=140, sysNumber=24.0, core=true, t24Name=RefDocAmAdjAmRsnAdInf)
+        /* Details on the amounts of the referred document - Amount of money of the document adjustment. */
+        RefDocAmAdjAmRsnAm : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=20.0, core=true, t24Name=RefDocAmAdjAmRsnAm, typeModifiers="5")
+        /* Details on the amounts of the referred document - Currency of the adjustment amount. */
+        RefDocAmAdjAmRsnAmCcy : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=21.0, core=true, t24Name=RefDocAmAdjAmRsnAmCcy)
+        /* Details on the amounts of the referred document - Specifies whether the adjustment must be substracted or added to the total amount. Example of values: CRDT (Credit), DBIT (Debit). */
+        RefDocAmAdjAmRsnCrDbInd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=22.0, core=true, t24Name=RefDocAmAdjAmRsnCrDbInd)
+        /* Details on the amounts of the referred document - Specifies the reason for the adjustment. */
+        RefDocAmAdjAmRsnRsn : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=23.0, core=true, t24Name=RefDocAmAdjAmRsnRsn)
+    }
+    POR_REMITTANCEINFSTRUCTURED__RefDocInfTpCdOrPropCd__RefDocAmDiscApplAmTpCd
+    {
+        /* Details on the amounts of the referred document - Amount of money, which has been typed. */
+        RefDocAmDiscApplAmAm : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=12.0, core=true, t24Name=RefDocAmDiscApplAmAm, typeModifiers="5")
+        /* Details on the amounts of the referred document - Currency of the amount discount. */
+        RefDocAmDiscApplAmAmCcy : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=13.0, core=true, t24Name=RefDocAmDiscApplAmAmCcy)
+        /* Details on the amounts of the referred document - Specifies the amount type, in a coded form. */
+        RefDocAmDiscApplAmTpCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=10.0, core=true, t24Name=RefDocAmDiscApplAmTpCd)
+        /* Details on the amounts of the referred document - Specifies the amount type, in a free-text form. */
+        RefDocAmDiscApplAmTpProp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=11.0, core=true, t24Name=RefDocAmDiscApplAmTpProp)
+    }
+    POR_REMITTANCEINFSTRUCTURED__RefDocInfTpCdOrPropCd__RefDocAmTaxAmTpCd
+    {
+        /* Details on the amounts of the referred document - Amount of money, which has been typed. */
+        RefDocAmTaxAmAm : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=18.0, core=true, t24Name=RefDocAmTaxAmAm, typeModifiers="5")
+        /* Details on the amounts of the referred document - Currency of the amount discount. */
+        RefDocAmTaxAmAmCcy : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=19.0, core=true, t24Name=RefDocAmTaxAmAmCcy)
+        /* Details on the amounts of the referred document - Specifies the amount type, in a coded form. */
+        RefDocAmTaxAmTpCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=16.0, core=true, t24Name=RefDocAmTaxAmTpCd)
+        /* Details on the amounts of the referred document - Specifies the amount type, in a free-text form. */
+        RefDocAmTaxAmTpProp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=17.0, core=true, t24Name=RefDocAmTaxAmTpProp)
+    }
+    POR_REMITTANCEINFSTRUCTURED__RefDocInfTpCdOrPropCd__RefDocInfTpCdOrPropCd
+    {
+        /* Unique and unambiguous identification of the referred document. */
+        RefDocInfNr : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=6.0, core=true, t24Name=RefDocInfNr)
+        /* Date associated with the referred document. */
+        RefDocInfRelatedDt : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=7.0, core=true, t24Name=RefDocInfRelatedDt)
+        /* Specifies the type of referred document - document type in a coded form. Example of values: MSIN (Metered Service Invoice), CNFA (Credit Note Related to Financial Adjustment), DNFA (Debit Note Related to Financial Adjustment), CINV (Commercial Invoice), CREN (Credit Note), DEBN (Debit Note), HIRI (Hire Invoice), SBIN (Self Billed Invoice), CMCN (Commercial Contract), SOAC (Statement of Account), DISP (Dispatch Advice), BOLD (Bill of Landing), VCHR (Voucher), AROI (Accounte Receivable Open Item), TSUT (Trade Services Utility Transaction). */
+        RefDocInfTpCdOrPropCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=3.0, core=true, t24Name=RefDocInfTpCdOrPropCd)
+        /* Specifies the type of referred document - Proprietary identification of the type of the remittance document. */
+        RefDocInfTpCdOrPropProp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=4.0, core=true, t24Name=RefDocInfTpCdOrPropProp)
+        /* Specifies the type of referred document - Identification of the issuer of the reference document type. */
+        RefDocInfTpIssuer : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=5.0, core=true, t24Name=RefDocInfTpIssuer)
+    }
+/* Generic image of an inward credit transfer initiation
+One record in this table equals to one incoming credit transfer initiation received in the system. */
+    PP_IN_CREDIT_TRANSFER_INITIATION
+        @i18n:Description (en="")
+        @t24:i (t24Name=PP.IN.CREDIT.TRANSFER.INITIATION, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        /* Unique reference of the bulk to which the transaction belongs to */
+        BulkRefIncoming : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=2.0, core=true, t24Name=BulkRefIncoming)
+        /* Unique reference of the file to which the transaction belongs to */
+        FileRefIncoming : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=1.0, core=true, t24Name=FileRefIncoming)
+        /* This field is the unique ID of the table. It has the prefix PPICI. */
+        ID -> PP_InwardCreditTransferInitiationDASService:PP_IN_CREDIT_TRANSFER_INITIATION PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+        /* Unique reference of the transaction, as received. */
+        MessageRefIncoming : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=3.0, core=true, t24Name=MessageRefIncoming)
+        /* Counter of a transaction within a bulk. */
+        PaymentNumber : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=9, sysNumber=277.0, core=true, t24Name=PaymentNumber)
+        /* Identifies whether a single entry per individual transaction or a batch entry for the sum of the amounts of all transactions within the group of a message is requested. Values: Y/N. */
+        PmtInfBatchBooking : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=12.0, core=true, t24Name=PmtInfBatchBooking)
+        /* Currency of the debtor account. */
+        PmtInfDbtAccCcy : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=38.0, core=true, t24Name=PmtInfDbtAccCcy)
+        /* Specifies the unique identification of the debtor account as assigned by the account servicer. Unambiguous identification of the account of the debtor to which a debit entry will be made as a result of the transaction. ISO Standard. */
+        PmtInfDbtAccIdIBAN : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=36.0, core=true, t24Name=PmtInfDbtAccIdIBAN)
+        /* Unique identification of the debtor account in another format. */
+        PmtInfDbtAccIdOthId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=34, sysNumber=37.0, core=true, t24Name=PmtInfDbtAccIdOthId)
+        /* Debtor Agent is the financial institution servicing an account for the debtor. This is the debtor agent expressed in BIC. */
+        PmtInfDbtAgFinIdBICFI : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=39.0, core=true, t24Name=PmtInfDbtAgFinIdBICFI)
+        /* Identification of a member of a clearing system. Example: National ID can be set here */
+        PmtInfDbtAgFinIdCgSysMemId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=42.0, core=true, t24Name=PmtInfDbtAgFinIdCgSysMemId)
+        /* Information used to identify the debtor agent as a member within a clearing system. This is the identification of a clearing system, in a coded form as published in an external list. */
+        PmtInfDbtAgFinIdCgSysMemIdCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=40.0, core=true, t24Name=PmtInfDbtAgFinIdCgSysMemIdCd)
+        /* Identification code for a clearing system, that has not yet been identified in the list of clearing systems. */
+        PmtInfDbtAgFinIdCgSysMemIdProp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=41.0, core=true, t24Name=PmtInfDbtAgFinIdCgSysMemIdProp)
+        /* Name by which the debtor agent is known and which is usually used to identify that agent. */
+        PmtInfDbtAgFinIdNm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=140, sysNumber=43.0, core=true, t24Name=PmtInfDbtAgFinIdNm)
+        /* Other identification of the debtor agent. */
+        PmtInfDbtAgFinIdOthId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=46.0, core=true, t24Name=PmtInfDbtAgFinIdOthId)
+        /* Adress of the debtor agent, in free format. */
+        PmtInfDbtAgFinIdPostAddLine1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=45.0, core=true, t24Name=PmtInfDbtAgFinIdPostAddLine1)
+        /* Debtor agent address type. Example of values: ADDR (Postal), PBOX (POBox), HOME (Residential), BIZZ (Business), MLTO (MailTo), DLVY (DeliveryTo). */
+        PmtInfDbtAgFinIdPostAddTp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=44.0, core=true, t24Name=PmtInfDbtAgFinIdPostAddTp)
+        /* Unique identification of the debtor organisation, in BIC format. ISO Standard. */
+        PmtInfDbtIdOrgIdAnyBIC : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=23.0, core=true, t24Name=PmtInfDbtIdOrgIdAnyBIC)
+        PmtInfDbtIdOrgIdOthId -> byValue PP_InwardCreditTransferInitiationDASService:PP_IN_CREDIT_TRANSFER_INITIATION__PmtInfDbtIdOrgIdOthId *
+            @t24:i (t24Name=PmtInfDbtIdOrgIdOthId)
+        /* Debtor birth date. */
+        PmtInfDbtIdPrvIdDtPlOfBrBrDt : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=28.0, core=true, t24Name=PmtInfDbtIdPrvIdDtPlOfBrBrDt)
+        /* Debtor city of birth. */
+        PmtInfDbtIdPrvIdDtPlOfBrCityBr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=30.0, core=true, t24Name=PmtInfDbtIdPrvIdDtPlOfBrCityBr)
+        /* Debtor country of birth. ISO standard. */
+        PmtInfDbtIdPrvIdDtPlOfBrCtryBr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=31.0, core=true, t24Name=PmtInfDbtIdPrvIdDtPlOfBrCtryBr)
+        /* Debtor province of birth. */
+        PmtInfDbtIdPrvIdDtPlOfBrPvOfBr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=29.0, core=true, t24Name=PmtInfDbtIdPrvIdDtPlOfBrPvOfBr)
+        PmtInfDbtIdPrvIdOthId -> byValue PP_InwardCreditTransferInitiationDASService:PP_IN_CREDIT_TRANSFER_INITIATION__PmtInfDbtIdPrvIdOthId *
+            @t24:i (t24Name=PmtInfDbtIdPrvIdOthId)
+        /* Debtor is the party that owes an amount of money to the (ultimate) creditor. This field holds the debtor name. */
+        PmtInfDbtNm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=140, sysNumber=18.0, core=true, t24Name=PmtInfDbtNm)
+        /* Debtor country address. ISO standard. */
+        PmtInfDbtPostAddCtry : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=20.0, core=true, t24Name=PmtInfDbtPostAddCtry)
+        /* Information that locates and identifies a specific address, as defined by postal services, pre-sented in free format text. */
+        PmtInfDbtPostAddLine1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=21.0, core=true, t24Name=PmtInfDbtPostAddLine1)
+        /* Information that locates and identifies a specific address, as defined by postal services, pre-sented in free format text. */
+        PmtInfDbtPostAddLine2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=22.0, core=true, t24Name=PmtInfDbtPostAddLine2)
+        /* Debtor address type. Example of values: ADDR (Postal), PBOX (POBox), HOME (Residential), BIZZ (Business), MLTO (MailTo), DLVY (DeliveryTo) */
+        PmtInfDbtPostAddTp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=19.0, core=true, t24Name=PmtInfDbtPostAddTp)
+        /* Specifies the means of payment that will be used to move the amount of money. Example of values: CHK (Cheque), TRF (Credit Transfer), TRA (Transfer Advice). For now, only limited to accept TRF. This will be used to determine the clearing transaction type. */
+        PmtInfPmtMethod : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=11.0, core=true, t24Name=PmtInfPmtMethod)
+        /* Indicates the high level purpose of the instruction, as it was put at bulk level (in pain.001). This field is a code as published in an external list. */
+        PmtInfPmtTpInfCatPurpCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=15.0, core=true, t24Name=PmtInfPmtTpInfCatPurpCd)
+        /* Indicates the high level purpose of the instruction, but in a proprietary form. */
+        PmtInfPmtTpInfCatPurpProp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=16.0, core=true, t24Name=PmtInfPmtTpInfCatPurpProp)
+        /* Indicator of the urgency or order of importance that the instructing party would like the instructed party to apply to the processing of the instruction. */
+        PmtInfPmtTpInfInstrPri : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=13.0, core=true, t24Name=PmtInfPmtTpInfInstrPri)
+        /* Used to specify a local instrument, local clearing option and/or further qualify the service or service level, in a coded form. */
+        PmtInfPmtTpInfLocalInsmtCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=279.0, core=true, t24Name=PmtInfPmtTpInfLocalInsmtCd)
+        /* Used to specify a local instrument, local clearing option and/or further qualify the service or service level, in a proprietary form. */
+        PmtInfPmtTpInfLocalInsmtProp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=280.0, core=true, t24Name=PmtInfPmtTpInfLocalInsmtProp)
+        /* Indicates the agreement or rules under which the transaction should be processed. Example of values: "SEPA", "POPS", etc. This will be used to determine clearing nature code. */
+        PmtInfPmtTpInfSrvLvCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=14.0, core=true, t24Name=PmtInfPmtTpInfSrvLvCd)
+        /* Indicates the agreement under which or rules under which the transaction should be processed, in a proprietary form. */
+        PmtInfPmtTpInfSrvLvProp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=278.0, core=true, t24Name=PmtInfPmtTpInfSrvLvProp)
+        /* Date at which the initiating party requests the clearing agent to process the payment. */
+        PmtInfReqExecDt : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=17.0, core=true, t24Name=PmtInfReqExecDt)
+        RefDocInfTpCdOrPropCd -> byValue PP_InwardCreditTransferInitiationDASService:PP_IN_CREDIT_TRANSFER_INITIATION__RefDocInfTpCdOrPropCd *
+            @t24:i (t24Name=RefDocInfTpCdOrPropCd)
+        TPSTrxBankInstrInfText -> byValue PP_InwardCreditTransferInitiationDASService:PP_IN_CREDIT_TRANSFER_INITIATION__TPSTrxBankInstrInfText *
+            @t24:i (t24Name=TPSTrxBankInstrInfText)
+/* Indicates if the transaction is part of a batch - as a parent transaction (debtor) or a child transaction (creditor). Values:
+- "P" - parent
+- "C" - child */
+        TPSTrxBatchInd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=9.0, core=true, t24Name=TPSTrxBatchInd)
+        /* Charges to be skipped. Not present in pain.001 files. */
+        TPSTrxChargeWaiver : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=65.0, core=true, t24Name=TPSTrxChargeWaiver)
+/* TPS Company ID that needs to process the payment.
+Example: BNK, GB1 */
+        TPSTrxCompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=4.0, core=true, t24Name=TPSTrxCompanyID)
+        /* If present, imposed for TPS. Not present in pain.001 files. */
+        TPSTrxCrValueDt : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=52.0, core=true, t24Name=TPSTrxCrValueDt)
+        /* If present, imposed for TPS. Not present in pain.001 files. */
+        TPSTrxDbValueDt : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=51.0, core=true, t24Name=TPSTrxDbValueDt)
+        /* Format of the message that came in with the payment. */
+        TPSTrxFileMessageFormat : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=7.0, core=true, t24Name=TPSTrxFileMessageFormat)
+        /* Spread rate applied to the FX. Not present in pain.001 files. */
+        TPSTrxFxRateInfRateSpread : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=63.0, core=true, t24Name=TPSTrxFxRateInfRateSpread)
+        /* Exchange rate is imposed by treasury. Not present in pain.001 files. */
+        TPSTrxFxRateInfTreasuryRate : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=62.0, core=true, t24Name=TPSTrxFxRateInfTreasuryRate, typeModifiers="10")
+/* Extracted from the PP.INPUT.FILE from FileMessageFormat or BulkFormat or provided directly in the payment instruction.
+Example: will contain the value “pain.001” or "pacs.008". */
+        TPSTrxIncomingMessageTp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=8.0, core=true, t24Name=TPSTrxIncomingMessageTp)
+        /* Channel on which the payment came. */
+        TPSTrxOriginatingChannel : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=5.0, core=true, t24Name=TPSTrxOriginatingChannel)
+        /* Source that initiated the payment. */
+        TPSTrxOriginatingSource : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=6.0, core=true, t24Name=TPSTrxOriginatingSource)
+        TPSTrxSndrToRcvrInfText -> byValue PP_InwardCreditTransferInitiationDASService:PP_IN_CREDIT_TRANSFER_INITIATION__TPSTrxSndrToRcvrInfText *
+            @t24:i (t24Name=TPSTrxSndrToRcvrInfText)
+/* Indicates if the transaction is a bank transfer or a client transfer. Values:
+- "B" - bank
+- "C" - client */
+        TPSTrxTransferTp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=10.0, core=true, t24Name=TPSTrxTransferTp)
+        /* Amount of money to be moved between the debtor and creditor, before deduction of charges, expressed in the currency as ordered by the initiating party. */
+        TrxAm : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=53.0, core=true, t24Name=TrxAm, typeModifiers="5")
+        /* Currency of the transaction amount. */
+        TrxAmCcy : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=54.0, core=true, t24Name=TrxAmCcy)
+        /* Specifies which party/parties will bear the charges associated with the processing of the payment transaction. Example of values, DEBT (borne by debtor), CRED (borne by creditor), SHAR (shared), SLEV (following service level agreement). */
+        TrxChargeBearer : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=64.0, core=true, t24Name=TrxChargeBearer)
+        /* Unambiguous identification of the account of the creditor to which a credit entry will be posted as a result of the payment transaction. IBAN ISO Standard. In TPS: Creditor IBAN Account will be mapped to POR_PartyCredit (“BENFCY”). */
+        TrxCrdAccIdIBAN : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=138.0, core=true, t24Name=TrxCrdAccIdIBAN)
+        /* Unique identification of an account, as assigned by the account servicer, using an identification scheme. This is the identification assigned by an institution. */
+        TrxCrdAccIdOthId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=34, sysNumber=139.0, core=true, t24Name=TrxCrdAccIdOthId)
+        /* Entity that assigns the identification. */
+        TrxCrdAccIdOthIssuer : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=142.0, core=true, t24Name=TrxCrdAccIdOthIssuer)
+        /* Name of the identification scheme, in a coded form as published in an external list. */
+        TrxCrdAccIdOthSchNmCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=140.0, core=true, t24Name=TrxCrdAccIdOthSchNmCd)
+        /* Name of the identification scheme, in a free text form. */
+        TrxCrdAccIdOthSchNmProp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=141.0, core=true, t24Name=TrxCrdAccIdOthSchNmProp)
+        /* Account of the creditor agent as IBAN. ISO standard. */
+        TrxCrdAgAccIdIBAN : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=98.0, core=true, t24Name=TrxCrdAgAccIdIBAN)
+        /* Account of the creditor agent in a different format. */
+        TrxCrdAgAccIdOthId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=34, sysNumber=99.0, core=true, t24Name=TrxCrdAgAccIdOthId)
+        /* Creditor Agent is the financial institution servicing an account for the creditor. This is the BIC identification of the creditor agent. In TPS: Creditor Agent will be mapped to POR_PartyCredit (“ACWINS”). */
+        TrxCrdAgFinIdBICFI : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=90.0, core=true, t24Name=TrxCrdAgFinIdBICFI)
+        /* Identification of a member of a clearing system. Example: National ID can be set here */
+        TrxCrdAgFinIdCgSysMemId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=93.0, core=true, t24Name=TrxCrdAgFinIdCgSysMemId)
+        /* Information used to identify the creditor agent as a member within a clearing system. This is the identification of a clearing system, in a coded form as published in an external list. */
+        TrxCrdAgFinIdCgSysMemIdCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=91.0, core=true, t24Name=TrxCrdAgFinIdCgSysMemIdCd)
+        /* Identification code for a clearing system, that has not yet been identified in the list of clearing systems. */
+        TrxCrdAgFinIdCgSysMemIdProp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=92.0, core=true, t24Name=TrxCrdAgFinIdCgSysMemIdProp)
+        /* Name by which the creditor agent is known and which is usually used to identify that agent. */
+        TrxCrdAgFinIdNm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=140, sysNumber=94.0, core=true, t24Name=TrxCrdAgFinIdNm)
+        /* Other identification of the creditor agent. */
+        TrxCrdAgFinIdOthId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=97.0, core=true, t24Name=TrxCrdAgFinIdOthId)
+        /* Adress of the creditor agent, in free format. */
+        TrxCrdAgFinIdPostAddLine1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=96.0, core=true, t24Name=TrxCrdAgFinIdPostAddLine1)
+        /* Creditor agent address type. Example of values: ADDR (Postal), PBOX (POBox), HOME (Residential), BIZZ (Business), MLTO (MailTo), DLVY (DeliveryTo). */
+        TrxCrdAgFinIdPostAddTp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=95.0, core=true, t24Name=TrxCrdAgFinIdPostAddTp)
+        /* Creditor contact details - email address. */
+        TrxCrdContactDetEmailAdd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2048, sysNumber=136.0, core=true, t24Name=TrxCrdContactDetEmailAdd)
+        /* Creditor contact details - fax number. */
+        TrxCrdContactDetFaxNr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=135.0, core=true, t24Name=TrxCrdContactDetFaxNr)
+        /* Creditor contact details - mobile number. */
+        TrxCrdContactDetMobileNr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=134.0, core=true, t24Name=TrxCrdContactDetMobileNr)
+        /* Creditor contact details - name. */
+        TrxCrdContactDetNm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=140, sysNumber=132.0, core=true, t24Name=TrxCrdContactDetNm)
+        /* Creditor contact details - name prefix. Example of values: DOCT (Doctor), MIST (Mister), MISS (Miss), MADM (Madam). */
+        TrxCrdContactDetNmPrefix : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=131.0, core=true, t24Name=TrxCrdContactDetNmPrefix)
+        /* Creditor contact details - in another free format. */
+        TrxCrdContactDetOth : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=137.0, core=true, t24Name=TrxCrdContactDetOth)
+        /* Creditor contact details - phone number. */
+        TrxCrdContactDetPhoneNr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=133.0, core=true, t24Name=TrxCrdContactDetPhoneNr)
+        /* Country of the creditor (the place of a person's home or the country from which the affairs of a company are directed). ISO Standard. */
+        TrxCrdCtryOfResidence : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=130.0, core=true, t24Name=TrxCrdCtryOfResidence)
+        /* Identification of the creditor as a BIC. */
+        TrxCrdIdOrgIdAnyBIC : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=117.0, core=true, t24Name=TrxCrdIdOrgIdAnyBIC)
+        TrxCrdIdOrgIdOthId -> byValue PP_InwardCreditTransferInitiationDASService:PP_IN_CREDIT_TRANSFER_INITIATION__TrxCrdIdOrgIdOthId *
+            @t24:i (t24Name=TrxCrdIdOrgIdOthId)
+        /* Creditor birth date. */
+        TrxCrdIdPrvIdDtPlOfBrBrDt : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=122.0, core=true, t24Name=TrxCrdIdPrvIdDtPlOfBrBrDt)
+        /* Creditor city of birth. */
+        TrxCrdIdPrvIdDtPlOfBrCityOfBr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=124.0, core=true, t24Name=TrxCrdIdPrvIdDtPlOfBrCityOfBr)
+        /* Creditor country of birth. ISO standard. */
+        TrxCrdIdPrvIdDtPlOfBrCtryOfBr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=125.0, core=true, t24Name=TrxCrdIdPrvIdDtPlOfBrCtryOfBr)
+        /* Creditor province of birth. */
+        TrxCrdIdPrvIdDtPlOfBrProvOfBr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=123.0, core=true, t24Name=TrxCrdIdPrvIdDtPlOfBrProvOfBr)
+        TrxCrdIdPrvIdOthId -> byValue PP_InwardCreditTransferInitiationDASService:PP_IN_CREDIT_TRANSFER_INITIATION__TrxCrdIdPrvIdOthId *
+            @t24:i (t24Name=TrxCrdIdPrvIdOthId)
+        /* The creditor is the party to which an amount of money is due. This holds the creditor name. */
+        TrxCrdNm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=140, sysNumber=100.0, core=true, t24Name=TrxCrdNm)
+        /* Creditor address building number (on a street). */
+        TrxCrdPostAddBuildingNr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=105.0, core=true, t24Name=TrxCrdPostAddBuildingNr)
+        /* Creditor address country. ISO standard. */
+        TrxCrdPostAddCtry : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=109.0, core=true, t24Name=TrxCrdPostAddCtry)
+        /* Creditor address county / state / region. */
+        TrxCrdPostAddCtrySubDiv : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=108.0, core=true, t24Name=TrxCrdPostAddCtrySubDiv)
+        /* Creditor address department. Identification of a division of a large organisation or building. */
+        TrxCrdPostAddDep : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=102.0, core=true, t24Name=TrxCrdPostAddDep)
+        /* Information that locates and identifies a specific address, as defined by postal services, pre-sented in free format text. */
+        TrxCrdPostAddLine1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=110.0, core=true, t24Name=TrxCrdPostAddLine1)
+        TrxCrdPostAddLine2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=111.0, core=true, t24Name=TrxCrdPostAddLine2)
+        TrxCrdPostAddLine3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=112.0, core=true, t24Name=TrxCrdPostAddLine3)
+        TrxCrdPostAddLine4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=113.0, core=true, t24Name=TrxCrdPostAddLine4)
+        TrxCrdPostAddLine5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=114.0, core=true, t24Name=TrxCrdPostAddLine5)
+        TrxCrdPostAddLine6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=115.0, core=true, t24Name=TrxCrdPostAddLine6)
+        TrxCrdPostAddLine7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=116.0, core=true, t24Name=TrxCrdPostAddLine7)
+        /* Creditor address postal code. */
+        TrxCrdPostAddPostCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=106.0, core=true, t24Name=TrxCrdPostAddPostCd)
+        /* Creditor address street name. */
+        TrxCrdPostAddStreetNm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=104.0, core=true, t24Name=TrxCrdPostAddStreetNm)
+        /* Creditor address sub-department. Identification of a sub-division of a large organisation or building. */
+        TrxCrdPostAddSubDep : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=103.0, core=true, t24Name=TrxCrdPostAddSubDep)
+        /* Creditor address town name. */
+        TrxCrdPostAddTownNm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=107.0, core=true, t24Name=TrxCrdPostAddTownNm)
+        /* Creditor address type. Example of values: ADDR (Postal), PBOX (POBox), HOME (Residential), BIZZ (Business), MLTO (MailTo), DLVY (DeliveryTo). */
+        TrxCrdPostAddTp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=101.0, core=true, t24Name=TrxCrdPostAddTp)
+        /* Amount of money to be moved between debtor and creditor, before deduction of charges, expressed in the currency of the debtor's account, and to be moved in a different currency. The first agent will convert the equivalent amount into the amount to be moved. */
+        TrxEqAm : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=55.0, core=true, t24Name=TrxEqAm, typeModifiers="5")
+        /* Currency of the equivalent amount. */
+        TrxEqAmCcy : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=56.0, core=true, t24Name=TrxEqAmCcy)
+        /* Specifies the currency of the to be transferred amount, which is different from the currency of the debtor's account. */
+        TrxEqAmCcyOfTransfer : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=57.0, core=true, t24Name=TrxEqAmCcyOfTransfer)
+        /* Unique and unambiguous reference to the foreign exchange contract agreed between the initiating party/creditor and the debtor agent. */
+        TrxFxRateInfContractId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=61.0, core=true, t24Name=TrxFxRateInfContractId)
+        /* The factor used for conversion of an amount from one currency to another. This reflects the price at which one currency was bought with another currency. 11 digits, out of which 10 are fraction digits. Example: 0.789 */
+        TrxFxRateInfFxRate : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=59.0, core=true, t24Name=TrxFxRateInfFxRate, typeModifiers="10")
+        /* Specifies the type used to complete the currency exchange. Example of values: SPOT, SALE, AGRD */
+        TrxFxRateInfRateTp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=60.0, core=true, t24Name=TrxFxRateInfRateTp)
+        /* Provides details on the currency exchange rate and contract. This is the currency in which the rate of exchange is expressed in a currency exchange. In the example 1GBP = xxxCUR, the unit currency is GBP. */
+        TrxFxRateInfUnitCcy : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=58.0, core=true, t24Name=TrxFxRateInfUnitCcy)
+        /* Account of the intermediary agent as IBAN. ISO standard. */
+        TrxItmAg1AccIdIBAN : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=88.0, core=true, t24Name=TrxItmAg1AccIdIBAN)
+        /* Account of the intermediary agent in another format. */
+        TrxItmAg1AccIdOthId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=34, sysNumber=89.0, core=true, t24Name=TrxItmAg1AccIdOthId)
+        /* This is the agent between the debtor's agent and the creditor's agent. This field holds the indetification of the intermediary agent, in BIC format. In TPS: Intermediary Agent will be mapped to POR_PartyCredit (“INTINS”). */
+        TrxItmAg1FinIdBICFI : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=80.0, core=true, t24Name=TrxItmAg1FinIdBICFI)
+        /* Identification of a member of a clearing system. Example: National ID can be set here */
+        TrxItmAg1FinIdCgSysMemId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=83.0, core=true, t24Name=TrxItmAg1FinIdCgSysMemId)
+        /* Information used to identify the intermediary agent as a member within a clearing system. This is the identification of a clearing system, in a coded form as published in an external list. */
+        TrxItmAg1FinIdCgSysMemIdCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=81.0, core=true, t24Name=TrxItmAg1FinIdCgSysMemIdCd)
+        /* Identification code for a clearing system, that has not yet been identified in the list of clearing systems. */
+        TrxItmAg1FinIdCgSysMemIdProp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=82.0, core=true, t24Name=TrxItmAg1FinIdCgSysMemIdProp)
+        /* Name by which the intermediary agent is known and which is usually used to identify that agent. */
+        TrxItmAg1FinIdNm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=140, sysNumber=84.0, core=true, t24Name=TrxItmAg1FinIdNm)
+        /* Other identification of the intermediary agent. */
+        TrxItmAg1FinIdOthId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=87.0, core=true, t24Name=TrxItmAg1FinIdOthId)
+        /* Adress of the intermediary agent, in free format. */
+        TrxItmAg1FinIdPostAddLine1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=86.0, core=true, t24Name=TrxItmAg1FinIdPostAddLine1)
+        /* Intermediary agent address type. Example of values: ADDR (Postal), PBOX (POBox), HOME (Residential), BIZZ (Business), MLTO (MailTo), DLVY (DeliveryTo). */
+        TrxItmAg1FinIdPostAddTp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=85.0, core=true, t24Name=TrxItmAg1FinIdPostAddTp)
+        /* Unique identification assigned by the initiating party to unumbiguously identify the transaction. This identification is passed on, unchanged, throughout the entire end-to-end chain. The end-to-end identification can be used for reconciliation or to link tasks relating to the transaction. It can be included in several messages related to the transaction. */
+        TrxPmtIdEndToEndId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=48.0, core=true, t24Name=TrxPmtIdEndToEndId)
+        /* Unique identification as assigned by an instructing party for an instructed party to unambiguously identify the instruction. The instruction identification is a point to point reference that can be used between the instructing party and the instructed party to refer to the individual instruction. It can be included in several messages related to the instruction. */
+        TrxPmtIdInstrId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=47.0, core=true, t24Name=TrxPmtIdInstrId)
+        /* Underlying reason for the payment transaction, as published in an external purpose code list. */
+        TrxPurpCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=157.0, core=true, t24Name=TrxPurpCd)
+        /* Purpose, in a proprietary form. */
+        TrxPurpProp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=158.0, core=true, t24Name=TrxPurpProp)
+        TrxRegRepDbCrRepInd -> byValue PP_InwardCreditTransferInitiationDASService:PP_IN_CREDIT_TRANSFER_INITIATION__TrxRegRepDbCrRepInd *
+            @t24:i (t24Name=TrxRegRepDbCrRepInd)
+        TrxRemInfUnstrText -> byValue PP_InwardCreditTransferInitiationDASService:PP_IN_CREDIT_TRANSFER_INITIATION__TrxRemInfUnstrText *
+            @t24:i (t24Name=TrxRemInfUnstrText)
+        /* Ultimate Creditor identified by a BIC. ISO Standard. */
+        TrxUltCrdIdOrgIdAnyBIC : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=144.0, core=true, t24Name=TrxUltCrdIdOrgIdAnyBIC)
+        TrxUltCrdIdOrgIdOthId -> byValue PP_InwardCreditTransferInitiationDASService:PP_IN_CREDIT_TRANSFER_INITIATION__TrxUltCrdIdOrgIdOthId *
+            @t24:i (t24Name=TrxUltCrdIdOrgIdOthId)
+        /* Ultimate creditor birth date. */
+        TrxUltCrdIdPrvIdDtPlOfBrBrDt : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=149.0, core=true, t24Name=TrxUltCrdIdPrvIdDtPlOfBrBrDt)
+        /* Ultimate creditor city of birth. */
+        TrxUltCrdIdPrvIdDtPlOfBrCityBr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=151.0, core=true, t24Name=TrxUltCrdIdPrvIdDtPlOfBrCityBr)
+        /* Ultimate creditor country of birth. ISO standard. */
+        TrxUltCrdIdPrvIdDtPlOfBrCtryBr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=152.0, core=true, t24Name=TrxUltCrdIdPrvIdDtPlOfBrCtryBr)
+        /* Ultimate creditor province of birth. */
+        TrxUltCrdIdPrvIdDtPlOfBrPvOfBr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=150.0, core=true, t24Name=TrxUltCrdIdPrvIdDtPlOfBrPvOfBr)
+        TrxUltCrdIdPrvIdOthId -> byValue PP_InwardCreditTransferInitiationDASService:PP_IN_CREDIT_TRANSFER_INITIATION__TrxUltCrdIdPrvIdOthId *
+            @t24:i (t24Name=TrxUltCrdIdPrvIdOthId)
+        /* Ultimate creditor is the ultimate party to which an amount of money is due. This holds the ultimate creditor name. */
+        TrxUltCrdNm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=140, sysNumber=143.0, core=true, t24Name=TrxUltCrdNm)
+        /* Ultimate Debtor identified by a BIC. ISO Standard. */
+        TrxUltDbtIdOrgIdAnyBIC : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=67.0, core=true, t24Name=TrxUltDbtIdOrgIdAnyBIC)
+        TrxUltDbtIdOrgIdOthId -> byValue PP_InwardCreditTransferInitiationDASService:PP_IN_CREDIT_TRANSFER_INITIATION__TrxUltDbtIdOrgIdOthId *
+            @t24:i (t24Name=TrxUltDbtIdOrgIdOthId)
+        /* Ultimate debtor birth date. */
+        TrxUltDbtIdPrvIdDtPlOfBrBrDt : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=72.0, core=true, t24Name=TrxUltDbtIdPrvIdDtPlOfBrBrDt)
+        /* Ultimate debtor city of birth. */
+        TrxUltDbtIdPrvIdDtPlOfBrCityBr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=74.0, core=true, t24Name=TrxUltDbtIdPrvIdDtPlOfBrCityBr)
+        /* Ultimate debtor country of birth. ISO standard. */
+        TrxUltDbtIdPrvIdDtPlOfBrCtryBr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=75.0, core=true, t24Name=TrxUltDbtIdPrvIdDtPlOfBrCtryBr)
+        /* Ultimate debtor province of birth. */
+        TrxUltDbtIdPrvIdDtPlOfBrPvOfBr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=73.0, core=true, t24Name=TrxUltDbtIdPrvIdDtPlOfBrPvOfBr)
+        TrxUltDbtIdPrvIdOthId -> byValue PP_InwardCreditTransferInitiationDASService:PP_IN_CREDIT_TRANSFER_INITIATION__TrxUltDbtIdPrvIdOthId *
+            @t24:i (t24Name=TrxUltDbtIdPrvIdOthId)
+        /* Ultimate Debtor is the ultimate party that owes an amount of money to the (ultimate) creditor. This holds the ultimate debtor name. */
+        TrxUltDbtNm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=140, sysNumber=66.0, core=true, t24Name=TrxUltDbtNm)
+    }
+    PP_IN_CREDIT_TRANSFER_INITIATION__PmtInfDbtIdOrgIdOthId
+    {
+        /* Identification assigned by an institution. */
+        PmtInfDbtIdOrgIdOthId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=24.0, core=true, t24Name=PmtInfDbtIdOrgIdOthId)
+        /* Entity that assigned the unique private identification of the debtor */
+        PmtInfDbtIdOrgIdOthIssuer : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=27.0, core=true, t24Name=PmtInfDbtIdOrgIdOthIssuer)
+        /* Code of the institution that assigned the unique private identification of the debtor. */
+        PmtInfDbtIdOrgIdSchNmCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=25.0, core=true, t24Name=PmtInfDbtIdOrgIdSchNmCd)
+        /* Identification of the institution that assigned the unique private identification of the debtor, in a proprietary form. */
+        PmtInfDbtIdOrgIdSchNmProp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=26.0, core=true, t24Name=PmtInfDbtIdOrgIdSchNmProp)
+    }
+    PP_IN_CREDIT_TRANSFER_INITIATION__PmtInfDbtIdPrvIdOthId
+    {
+        /* Unique private identification of the debtor, as assigned by an institution, using an identification scheme. */
+        PmtInfDbtIdPrvIdOthId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=32.0, core=true, t24Name=PmtInfDbtIdPrvIdOthId)
+        PmtInfDbtIdPrvIdOthIssur : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=35.0, core=true, t24Name=PmtInfDbtIdPrvIdOthIssur)
+        /* Code of the institution that assigned the unique private identification of the debtor. */
+        PmtInfDbtIdPrvIdOthSchNmCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=33.0, core=true, t24Name=PmtInfDbtIdPrvIdOthSchNmCd)
+        /* Identification of the institution that assigned the unique private identification of the debtor, in a proprietary form. */
+        PmtInfDbtIdPrvIdOthSchNmPro : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=34.0, core=true, t24Name=PmtInfDbtIdPrvIdOthSchNmPro)
+    }
+    PP_IN_CREDIT_TRANSFER_INITIATION__RefDocInfTpCdOrPropCd
+    {
+        /* Additional information, in free text form, to complement the structured remittance information. */
+        AdRemittanceInf1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=140, sysNumber=274.0, core=true, t24Name=AdRemittanceInf1)
+        AdRemittanceInf2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=140, sysNumber=275.0, core=true, t24Name=AdRemittanceInf2)
+        AdRemittanceInf3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=140, sysNumber=276.0, core=true, t24Name=AdRemittanceInf3)
+        /* Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction. If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money. If the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification. */
+        CrdRefInfRef : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=197.0, core=true, t24Name=CrdRefInfRef)
+        /* Reference information provided by the creditor to allow the identification of the underlying documents - Type of creditor reference, in a coded form. Example of values: RADM (Remittance Advice Message), RPIN (RelatedPaymentInstruction), FXDR (Foreign Exchange Deal Reference), DISP (Dispatch Advice), PUOR (Purchase Order), SCOR (Structured Communication Reference). */
+        CrdRefInfTpCdOrPropCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=194.0, core=true, t24Name=CrdRefInfTpCdOrPropCd)
+        /* Creditor reference type, in a proprietary form. */
+        CrdRefInfTpCdOrPropProp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=195.0, core=true, t24Name=CrdRefInfTpCdOrPropProp)
+        /* Entity that assigns the credit reference type. */
+        CrdRefInfTpIssuer : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=196.0, core=true, t24Name=CrdRefInfTpIssuer)
+        /* Invoicee contact details - email address. */
+        InveContactDetEmailAdd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2048, sysNumber=272.0, core=true, t24Name=InveContactDetEmailAdd)
+        /* Invoicee contact details - fax number. */
+        InveContactDetFaxNr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=271.0, core=true, t24Name=InveContactDetFaxNr)
+        /* Invoicee contact details - mobile number. */
+        InveContactDetMobileNr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=270.0, core=true, t24Name=InveContactDetMobileNr)
+        /* Invoicee contact details - name. */
+        InveContactDetNm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=140, sysNumber=268.0, core=true, t24Name=InveContactDetNm)
+        /* Invoicee contact details - name prefix. Example of values: DOCT (Doctor), MIST (Mister), MISS (Miss), MADM (Madam). */
+        InveContactDetNmPrefix : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=267.0, core=true, t24Name=InveContactDetNmPrefix)
+        /* Invoicee contact details - in another free format. */
+        InveContactDetOth : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=273.0, core=true, t24Name=InveContactDetOth)
+        /* Invoicee contact details - phone number. */
+        InveContactDetPhoneNr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=269.0, core=true, t24Name=InveContactDetPhoneNr)
+        /* Country of the invoicee (the place of a person's home or the country from which the affairs of a company are directed). ISO Standard. */
+        InveCtryOfResidence : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=266.0, core=true, t24Name=InveCtryOfResidence)
+        /* Invoicee identification as a BIC */
+        InveIdOrgIdAnyBIC : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=253.0, core=true, t24Name=InveIdOrgIdAnyBIC)
+        InveIdOrgIdOthId -> byValue PP_InwardCreditTransferInitiationDASService:PP_IN_CREDIT_TRANSFER_INITIATION__RefDocInfTpCdOrPropCd__InveIdOrgIdOthId *
+            @t24:i (t24Name=InveIdOrgIdOthId)
+        /* Private identification of the invoicee - birth date. */
+        InveIdPrvIdDtPlOfBrBrDt : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=258.0, core=true, t24Name=InveIdPrvIdDtPlOfBrBrDt)
+        /* Private identification of the invoicee - city where the person is born. */
+        InveIdPrvIdDtPlOfBrCityOfBr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=260.0, core=true, t24Name=InveIdPrvIdDtPlOfBrCityOfBr)
+        /* Private identification of the invoicee - country where the person is born. ISO Standard. */
+        InveIdPrvIdDtPlOfBrCtryOfBr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=261.0, core=true, t24Name=InveIdPrvIdDtPlOfBrCtryOfBr)
+        /* Private identification of the invoicee - province where the person is born. */
+        InveIdPrvIdDtPlOfBrProvOfBr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=259.0, core=true, t24Name=InveIdPrvIdDtPlOfBrProvOfBr)
+        InveIdPrvIdOthId -> byValue PP_InwardCreditTransferInitiationDASService:PP_IN_CREDIT_TRANSFER_INITIATION__RefDocInfTpCdOrPropCd__InveIdPrvIdOthId *
+            @t24:i (t24Name=InveIdPrvIdOthId)
+        /* Invoicee is the party to whom an invoice is issued, when it is different from the debtor or ultimate debtor. This holds the Invoicee name. */
+        InveNm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=140, sysNumber=236.0, core=true, t24Name=InveNm)
+        /* Invoicee address building number (on a street). */
+        InvePostAddBuildingNr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=241.0, core=true, t24Name=InvePostAddBuildingNr)
+        /* Invoicee address country. ISO standard. */
+        InvePostAddCtry : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=245.0, core=true, t24Name=InvePostAddCtry)
+        /* Invoicee address county / state / region. */
+        InvePostAddCtrySubDiv : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=244.0, core=true, t24Name=InvePostAddCtrySubDiv)
+        /* Invoicee address department. Identification of a division of a large organisation or building. */
+        InvePostAddDep : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=238.0, core=true, t24Name=InvePostAddDep)
+        /* Information that locates and identifies a specific address, as defined by postal services, pre-sented in free format text. */
+        InvePostAddLine1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=246.0, core=true, t24Name=InvePostAddLine1)
+        InvePostAddLine2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=247.0, core=true, t24Name=InvePostAddLine2)
+        InvePostAddLine3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=248.0, core=true, t24Name=InvePostAddLine3)
+        InvePostAddLine4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=249.0, core=true, t24Name=InvePostAddLine4)
+        InvePostAddLine5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=250.0, core=true, t24Name=InvePostAddLine5)
+        InvePostAddLine6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=251.0, core=true, t24Name=InvePostAddLine6)
+        InvePostAddLine7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=252.0, core=true, t24Name=InvePostAddLine7)
+        /* Invoicee address postal code. */
+        InvePostAddPostCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=242.0, core=true, t24Name=InvePostAddPostCd)
+        /* Invoicee address street name. */
+        InvePostAddStreetNm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=240.0, core=true, t24Name=InvePostAddStreetNm)
+        /* Invoicee address sub-department. Identification of a sub-division of a large organisation or building. */
+        InvePostAddSubDep : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=239.0, core=true, t24Name=InvePostAddSubDep)
+        /* Invoicee address town name. */
+        InvePostAddTownNm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=243.0, core=true, t24Name=InvePostAddTownNm)
+        /* Invoicee address type. Example of values: ADDR (Postal), PBOX (POBox), HOME (Residential), BIZZ (Business), MLTO (MailTo), DLVY (DeliveryTo). */
+        InvePostAddTp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=237.0, core=true, t24Name=InvePostAddTp)
+        /* Invoicer contact details - email address. */
+        InvrContactDetEmailAdd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2048, sysNumber=234.0, core=true, t24Name=InvrContactDetEmailAdd)
+        /* Invoicer contact details - fax number. */
+        InvrContactDetFaxNr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=233.0, core=true, t24Name=InvrContactDetFaxNr)
+        /* Invoicer contact details - mobile number. */
+        InvrContactDetMobileNr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=232.0, core=true, t24Name=InvrContactDetMobileNr)
+        /* Invoicer contact details - name. */
+        InvrContactDetNm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=140, sysNumber=230.0, core=true, t24Name=InvrContactDetNm)
+        /* Invoicer contact details - name prefix. Example of values: DOCT (Doctor), MIST (Mister), MISS (Miss), MADM (Madam). */
+        InvrContactDetNmPrefix : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=229.0, core=true, t24Name=InvrContactDetNmPrefix)
+        /* Invoicer contact details - in another free format. */
+        InvrContactDetOth : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=235.0, core=true, t24Name=InvrContactDetOth)
+        /* Invoicer contact details - phone number. */
+        InvrContactDetPhoneNr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=231.0, core=true, t24Name=InvrContactDetPhoneNr)
+        /* Country of the invoicer (the place of a person's home or the country from which the affairs of a company are directed). ISO Standard. */
+        InvrCtryOfResidence : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=228.0, core=true, t24Name=InvrCtryOfResidence)
+        /* Invoicer identification as a BIC */
+        InvrIdOrgIdAnyBIC : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=215.0, core=true, t24Name=InvrIdOrgIdAnyBIC)
+        InvrIdOrgIdOthId -> byValue PP_InwardCreditTransferInitiationDASService:PP_IN_CREDIT_TRANSFER_INITIATION__RefDocInfTpCdOrPropCd__InvrIdOrgIdOthId *
+            @t24:i (t24Name=InvrIdOrgIdOthId)
+        /* Private identification of the invoicer - birth date. */
+        InvrIdPrvIdDtPlOfBrBrDt : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=220.0, core=true, t24Name=InvrIdPrvIdDtPlOfBrBrDt)
+        /* Private identification of the invoicer - city where the person is born. */
+        InvrIdPrvIdDtPlOfBrCityOfBr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=222.0, core=true, t24Name=InvrIdPrvIdDtPlOfBrCityOfBr)
+        /* Private identification of the invoicer - country where the person is born. ISO Standard. */
+        InvrIdPrvIdDtPlOfBrCtryOfBr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=223.0, core=true, t24Name=InvrIdPrvIdDtPlOfBrCtryOfBr)
+        /* Private identification of the invoicer - province where the person is born. */
+        InvrIdPrvIdDtPlOfBrProvOfBr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=221.0, core=true, t24Name=InvrIdPrvIdDtPlOfBrProvOfBr)
+        InvrIdPrvIdOthId -> byValue PP_InwardCreditTransferInitiationDASService:PP_IN_CREDIT_TRANSFER_INITIATION__RefDocInfTpCdOrPropCd__InvrIdPrvIdOthId *
+            @t24:i (t24Name=InvrIdPrvIdOthId)
+        /* Invoicer is the organisation issuing the invoice, when it is different from the creditor or ultimate creditor. This holds the invoicer name. */
+        InvrNm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=140, sysNumber=198.0, core=true, t24Name=InvrNm)
+        /* Invoicer address building number (on a street). */
+        InvrPostAddBuildingNr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=203.0, core=true, t24Name=InvrPostAddBuildingNr)
+        /* Invoicer address country. ISO standard. */
+        InvrPostAddCtry : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=207.0, core=true, t24Name=InvrPostAddCtry)
+        /* Invoicer address county / state / region. */
+        InvrPostAddCtrySubDiv : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=206.0, core=true, t24Name=InvrPostAddCtrySubDiv)
+        /* Invoicer address department. Identification of a division of a large organisation or building. */
+        InvrPostAddDep : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=200.0, core=true, t24Name=InvrPostAddDep)
+        /* Information that locates and identifies a specific address, as defined by postal services, pre-sented in free format text. */
+        InvrPostAddLine1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=208.0, core=true, t24Name=InvrPostAddLine1)
+        InvrPostAddLine2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=209.0, core=true, t24Name=InvrPostAddLine2)
+        InvrPostAddLine3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=210.0, core=true, t24Name=InvrPostAddLine3)
+        InvrPostAddLine4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=211.0, core=true, t24Name=InvrPostAddLine4)
+        InvrPostAddLine5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=212.0, core=true, t24Name=InvrPostAddLine5)
+        InvrPostAddLine6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=213.0, core=true, t24Name=InvrPostAddLine6)
+        InvrPostAddLine7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=214.0, core=true, t24Name=InvrPostAddLine7)
+        /* Invoicer address postal code. */
+        InvrPostAddPostCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=204.0, core=true, t24Name=InvrPostAddPostCd)
+        /* Invoicer address street name. */
+        InvrPostAddStreetNm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=202.0, core=true, t24Name=InvrPostAddStreetNm)
+        /* Invoicer address sub-department. Identification of a sub-division of a large organisation or building. */
+        InvrPostAddSubDep : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=201.0, core=true, t24Name=InvrPostAddSubDep)
+        /* Invoicer address town name. */
+        InvrPostAddTownNm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=205.0, core=true, t24Name=InvrPostAddTownNm)
+        /* Invoicer address type. Example of values: ADDR (Postal), PBOX (POBox), HOME (Residential), BIZZ (Business), MLTO (MailTo), DLVY (DeliveryTo). */
+        InvrPostAddTp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=199.0, core=true, t24Name=InvrPostAddTp)
+        RefDocAmAdjAmRsnAm -> byValue PP_InwardCreditTransferInitiationDASService:PP_IN_CREDIT_TRANSFER_INITIATION__RefDocInfTpCdOrPropCd__RefDocAmAdjAmRsnAm *
+            @t24:i (t24Name=RefDocAmAdjAmRsnAm)
+        /* Details on the amounts of the referred document - Amount specified for the referred document is the amount of a credit note. */
+        RefDocAmCrNoteAm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=181.0, core=true, t24Name=RefDocAmCrNoteAm)
+        /* Details on the amounts of the referred document - Currency of the credit note amount. */
+        RefDocAmCrNoteAmCcy : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=182.0, core=true, t24Name=RefDocAmCrNoteAmCcy)
+        RefDocAmDiscApplAmTpCd -> byValue PP_InwardCreditTransferInitiationDASService:PP_IN_CREDIT_TRANSFER_INITIATION__RefDocInfTpCdOrPropCd__RefDocAmDiscApplAmTpCd *
+            @t24:i (t24Name=RefDocAmDiscApplAmTpCd)
+        /* Details on the amounts of the referred document - Amount specified is the exact amount due and payable to the creditor. */
+        RefDocAmDuePayableAm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=175.0, core=true, t24Name=RefDocAmDuePayableAm)
+        /* Details on the amounts of the referred document - Currency of the payable amount. */
+        RefDocAmDuePayableAmCcy : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=176.0, core=true, t24Name=RefDocAmDuePayableAmCcy)
+        /* Details on the amounts of the referred document - Amount of money remitted for the referred document. */
+        RefDocAmRemittedAm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=192.0, core=true, t24Name=RefDocAmRemittedAm)
+        /* Details on the amounts of the referred document - Currency of the remitted amount. */
+        RefDocAmRemittedAmCcy : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=193.0, core=true, t24Name=RefDocAmRemittedAmCcy)
+        RefDocAmTaxAmTpCd -> byValue PP_InwardCreditTransferInitiationDASService:PP_IN_CREDIT_TRANSFER_INITIATION__RefDocInfTpCdOrPropCd__RefDocAmTaxAmTpCd *
+            @t24:i (t24Name=RefDocAmTaxAmTpCd)
+        RefDocInfTpCdOrPropCd -> byValue PP_InwardCreditTransferInitiationDASService:PP_IN_CREDIT_TRANSFER_INITIATION__RefDocInfTpCdOrPropCd__RefDocInfTpCdOrPropCd *
+            @t24:i (t24Name=RefDocInfTpCdOrPropCd)
+    }
+    PP_IN_CREDIT_TRANSFER_INITIATION__RefDocInfTpCdOrPropCd__InveIdOrgIdOthId
+    {
+        /* Identification assigned by an institution. */
+        InveIdOrgIdOthId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=254.0, core=true, t24Name=InveIdOrgIdOthId)
+        /* Entity that assigns the identification. */
+        InveIdOrgIdOthIssuer : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=257.0, core=true, t24Name=InveIdOrgIdOthIssuer)
+        /* Name of the identification scheme, in a coded form as published in an external list. */
+        InveIdOrgIdOthSchNmCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=255.0, core=true, t24Name=InveIdOrgIdOthSchNmCd)
+        /* Name of the identification scheme, in a free text form. */
+        InveIdOrgIdOthSchNmProp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=256.0, core=true, t24Name=InveIdOrgIdOthSchNmProp)
+    }
+    PP_IN_CREDIT_TRANSFER_INITIATION__RefDocInfTpCdOrPropCd__InveIdPrvIdOthId
+    {
+        /* Unique and unambiguous identification of a person. */
+        InveIdPrvIdOthId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=262.0, core=true, t24Name=InveIdPrvIdOthId)
+        /* Entity that assigns the identification. */
+        InveIdPrvIdOthIssuer : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=265.0, core=true, t24Name=InveIdPrvIdOthIssuer)
+        /* Name of the identification scheme, in a coded form as published in an external list. */
+        InveIdPrvIdOthSchNmCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=263.0, core=true, t24Name=InveIdPrvIdOthSchNmCd)
+        /* Name of the identification scheme, in a free text form. */
+        InveIdPrvIdOthSchNmProp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=264.0, core=true, t24Name=InveIdPrvIdOthSchNmProp)
+    }
+    PP_IN_CREDIT_TRANSFER_INITIATION__RefDocInfTpCdOrPropCd__InvrIdOrgIdOthId
+    {
+        /* Identification assigned by an institution. */
+        InvrIdOrgIdOthId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=216.0, core=true, t24Name=InvrIdOrgIdOthId)
+        /* Entity that assigns the identification. */
+        InvrIdOrgIdOthIssuer : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=219.0, core=true, t24Name=InvrIdOrgIdOthIssuer)
+        /* Name of the identification scheme, in a coded form as published in an external list. */
+        InvrIdOrgIdOthSchNmCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=217.0, core=true, t24Name=InvrIdOrgIdOthSchNmCd)
+        /* Name of the identification scheme, in a free text form. */
+        InvrIdOrgIdOthSchNmProp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=218.0, core=true, t24Name=InvrIdOrgIdOthSchNmProp)
+    }
+    PP_IN_CREDIT_TRANSFER_INITIATION__RefDocInfTpCdOrPropCd__InvrIdPrvIdOthId
+    {
+        /* Unique and unambiguous identification of a person. */
+        InvrIdPrvIdOthId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=224.0, core=true, t24Name=InvrIdPrvIdOthId)
+        /* Entity that assigns the identification. */
+        InvrIdPrvIdOthIssuer : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=227.0, core=true, t24Name=InvrIdPrvIdOthIssuer)
+        /* Name of the identification scheme, in a coded form as published in an external list. */
+        InvrIdPrvIdOthSchNmCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=225.0, core=true, t24Name=InvrIdPrvIdOthSchNmCd)
+        /* Name of the identification scheme, in a free text form. */
+        InvrIdPrvIdOthSchNmProp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=226.0, core=true, t24Name=InvrIdPrvIdOthSchNmProp)
+    }
+    PP_IN_CREDIT_TRANSFER_INITIATION__RefDocInfTpCdOrPropCd__RefDocAmAdjAmRsnAm
+    {
+        /* Details on the amounts of the referred document - Provides further details on the document adjustment. */
+        RefDocAmAdjAmRsnAdInf : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=140, sysNumber=191.0, core=true, t24Name=RefDocAmAdjAmRsnAdInf)
+        /* Details on the amounts of the referred document - Amount of money of the document adjustment. */
+        RefDocAmAdjAmRsnAm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=187.0, core=true, t24Name=RefDocAmAdjAmRsnAm)
+        /* Details on the amounts of the referred document - Currency of the adjustment amount. */
+        RefDocAmAdjAmRsnAmCcy : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=188.0, core=true, t24Name=RefDocAmAdjAmRsnAmCcy)
+        /* Details on the amounts of the referred document - Specifies whether the adjustment must be substracted or added to the total amount. Example of values: CRDT (Credit), DBIT (Debit). */
+        RefDocAmAdjAmRsnCrDbInd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=189.0, core=true, t24Name=RefDocAmAdjAmRsnCrDbInd)
+        /* Details on the amounts of the referred document - Specifies the reason for the adjustment. */
+        RefDocAmAdjAmRsnRsn : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=190.0, core=true, t24Name=RefDocAmAdjAmRsnRsn)
+    }
+    PP_IN_CREDIT_TRANSFER_INITIATION__RefDocInfTpCdOrPropCd__RefDocAmDiscApplAmTpCd
+    {
+        /* Details on the amounts of the referred document - Amount of money, which has been typed. */
+        RefDocAmDiscApplAmAm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=179.0, core=true, t24Name=RefDocAmDiscApplAmAm)
+        /* Details on the amounts of the referred document - Currency of the amount discount. */
+        RefDocAmDiscApplAmAmCcy : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=180.0, core=true, t24Name=RefDocAmDiscApplAmAmCcy)
+        /* Details on the amounts of the referred document - Specifies the amount type, in a coded form. */
+        RefDocAmDiscApplAmTpCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=177.0, core=true, t24Name=RefDocAmDiscApplAmTpCd)
+        /* Details on the amounts of the referred document - Specifies the amount type, in a free-text form. */
+        RefDocAmDiscApplAmTpProp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=178.0, core=true, t24Name=RefDocAmDiscApplAmTpProp)
+    }
+    PP_IN_CREDIT_TRANSFER_INITIATION__RefDocInfTpCdOrPropCd__RefDocAmTaxAmTpCd
+    {
+        /* Details on the amounts of the referred document - Amount of money, which has been typed. */
+        RefDocAmTaxAmAm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=185.0, core=true, t24Name=RefDocAmTaxAmAm)
+        /* Details on the amounts of the referred document - Currency of the amount discount. */
+        RefDocAmTaxAmAmCcy : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=186.0, core=true, t24Name=RefDocAmTaxAmAmCcy)
+        /* Details on the amounts of the referred document - Specifies the amount type, in a coded form. */
+        RefDocAmTaxAmTpCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=183.0, core=true, t24Name=RefDocAmTaxAmTpCd)
+        /* Details on the amounts of the referred document - Specifies the amount type, in a free-text form. */
+        RefDocAmTaxAmTpProp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=184.0, core=true, t24Name=RefDocAmTaxAmTpProp)
+    }
+    PP_IN_CREDIT_TRANSFER_INITIATION__RefDocInfTpCdOrPropCd__RefDocInfTpCdOrPropCd
+    {
+        /* Unique and unambiguous identification of the referred document. */
+        RefDocInfNr : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=173.0, core=true, t24Name=RefDocInfNr)
+        /* Date associated with the referred document. */
+        RefDocInfRelatedDt : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=174.0, core=true, t24Name=RefDocInfRelatedDt)
+        /* Specifies the type of referred document - document type in a coded form. Example of values: MSIN (Metered Service Invoice), CNFA (Credit Note Related to Financial Adjustment), DNFA (Debit Note Related to Financial Adjustment), CINV (Commercial Invoice), CREN (Credit Note), DEBN (Debit Note), HIRI (Hire Invoice), SBIN (Self Billed Invoice), CMCN (Commercial Contract), SOAC (Statement of Account), DISP (Dispatch Advice), BOLD (Bill of Landing), VCHR (Voucher), AROI (Accounte Receivable Open Item), TSUT (Trade Services Utility Transaction). */
+        RefDocInfTpCdOrPropCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=170.0, core=true, t24Name=RefDocInfTpCdOrPropCd)
+        /* Specifies the type of referred document - Proprietary identification of the type of the remittance document. */
+        RefDocInfTpCdOrPropProp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=171.0, core=true, t24Name=RefDocInfTpCdOrPropProp)
+        /* Specifies the type of referred document - Identification of the issuer of the reference document type. */
+        RefDocInfTpIssuer : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=172.0, core=true, t24Name=RefDocInfTpIssuer)
+    }
+    PP_IN_CREDIT_TRANSFER_INITIATION__TPSTrxBankInstrInfText
+    {
+        /* Information for the receiving institution (bank) to process the payment (as bilaterally agreed). */
+        TPSTrxBankInstrInfText : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=50.0, core=true, t24Name=TPSTrxBankInstrInfText)
+    }
+    PP_IN_CREDIT_TRANSFER_INITIATION__TPSTrxSndrToRcvrInfText
+    {
+        /* Information exchanged between ordering institution (bank) and beneficiary institution (bank). */
+        TPSTrxSndrToRcvrInfText : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=49.0, core=true, t24Name=TPSTrxSndrToRcvrInfText)
+    }
+    PP_IN_CREDIT_TRANSFER_INITIATION__TrxCrdIdOrgIdOthId
+    {
+        /* Identification assigned by an institution. */
+        TrxCrdIdOrgIdOthId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=118.0, core=true, t24Name=TrxCrdIdOrgIdOthId)
+        /* Entity that assigns the identification. */
+        TrxCrdIdOrgIdOthIssuer : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=121.0, core=true, t24Name=TrxCrdIdOrgIdOthIssuer)
+        /* Name of the identification scheme, in a coded form as published in an external list. */
+        TrxCrdIdOrgIdOthSchNmCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=119.0, core=true, t24Name=TrxCrdIdOrgIdOthSchNmCd)
+        /* Name of the identification scheme, in a free text form. */
+        TrxCrdIdOrgIdOthSchNmProp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=120.0, core=true, t24Name=TrxCrdIdOrgIdOthSchNmProp)
+    }
+    PP_IN_CREDIT_TRANSFER_INITIATION__TrxCrdIdPrvIdOthId
+    {
+        /* Private identification of the creditor in another format. Unique identification of a person, as assigned by an institution, using an identification scheme. Unique and unambiguous identification of a person. */
+        TrxCrdIdPrvIdOthId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=126.0, core=true, t24Name=TrxCrdIdPrvIdOthId)
+        /* Entity that assigned the unique private identification of the creditor. */
+        TrxCrdIdPrvIdOthIssuer : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=129.0, core=true, t24Name=TrxCrdIdPrvIdOthIssuer)
+        /* Code of the institution that assigned the unique private identification of the creditor. */
+        TrxCrdIdPrvIdOthSchNmCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=127.0, core=true, t24Name=TrxCrdIdPrvIdOthSchNmCd)
+        /* Identification of the institution that assigned the unique private identification of the creditor, in a proprietary form. */
+        TrxCrdIdPrvIdOthSchNmProp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=128.0, core=true, t24Name=TrxCrdIdPrvIdOthSchNmProp)
+    }
+    PP_IN_CREDIT_TRANSFER_INITIATION__TrxRegRepDbCrRepInd
+    {
+        /* Country of the entity that requires the regulatory reporting information. */
+        TrxRegRepAuthorityCtry : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=161.0, core=true, t24Name=TrxRegRepAuthorityCtry)
+        /* Name of the entity requiring the regulatory reporting information. */
+        TrxRegRepAuthorityNm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=140, sysNumber=160.0, core=true, t24Name=TrxRegRepAuthorityNm)
+        /* Identifies whether the regulatory reporting information applies to the debit side, to the credit side or to both debit and credit sides of the transaction.Example of values: CRED, DEBT, BOTH */
+        TrxRegRepDbCrRepInd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=159.0, core=true, t24Name=TrxRegRepDbCrRepInd)
+        /* Amount of money to be reported for regulatory and statutory requirements. */
+        TrxRegRepDetAm : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=166.0, core=true, t24Name=TrxRegRepDetAm, typeModifiers="5")
+        /* Currency of the regulatory reporting amount. */
+        TrxRegRepDetAmCcy : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=167.0, core=true, t24Name=TrxRegRepDetAmCcy)
+        /* Specifies the nature, purpose, and reason for the transaction to be reported for regulatory and statutory requirements in a coded form. */
+        TrxRegRepDetCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=165.0, core=true, t24Name=TrxRegRepDetCd)
+        /* Country related to the specified type of regulatory reporting details. ISO Standard. */
+        TrxRegRepDetCtry : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=164.0, core=true, t24Name=TrxRegRepDetCtry)
+        /* Date related to the specified type of regulatory reporting details. */
+        TrxRegRepDetDt : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=163.0, core=true, t24Name=TrxRegRepDetDt)
+        TrxRegRepDetInfText -> byValue PP_InwardCreditTransferInitiationDASService:PP_IN_CREDIT_TRANSFER_INITIATION__TrxRegRepDbCrRepInd__TrxRegRepDetInfText *
+            @t24:i (t24Name=TrxRegRepDetInfText)
+        /* Specifies the type of the information supplied in the regulatory reporting details. */
+        TrxRegRepDetTp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=162.0, core=true, t24Name=TrxRegRepDetTp)
+    }
+    PP_IN_CREDIT_TRANSFER_INITIATION__TrxRegRepDbCrRepInd__TrxRegRepDetInfText
+    {
+        /* Additional details that cater for specific domestic regulatory requirements. */
+        TrxRegRepDetInfText : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=168.0, core=true, t24Name=TrxRegRepDetInfText)
+    }
+    PP_IN_CREDIT_TRANSFER_INITIATION__TrxRemInfUnstrText
+    {
+/* Remittance information is information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.
+This is the remittance information in an unstructured form. */
+        TrxRemInfUnstrText : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=140, sysNumber=169.0, core=true, t24Name=TrxRemInfUnstrText)
+    }
+    PP_IN_CREDIT_TRANSFER_INITIATION__TrxUltCrdIdOrgIdOthId
+    {
+        /* Unique identification of the ultimate creditor organisation, as assigned by an institution, using an identification scheme. */
+        TrxUltCrdIdOrgIdOthId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=145.0, core=true, t24Name=TrxUltCrdIdOrgIdOthId)
+        /* Institution that assigned the unique identification of the ultimate creditor organisation. */
+        TrxUltCrdIdOrgIdOthIssuer : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=148.0, core=true, t24Name=TrxUltCrdIdOrgIdOthIssuer)
+        /* Unique identification code of the scheme name that assigns an identification to the ultimate creditor organisation. */
+        TrxUltCrdIdOrgIdOthSchNmCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=146.0, core=true, t24Name=TrxUltCrdIdOrgIdOthSchNmCd)
+        /* Unique identification of the scheme name that assigns an identification to the ultimate creditor organisation, in a proprietary form. */
+        TrxUltCrdIdOrgIdOthSchNmPro : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=147.0, core=true, t24Name=TrxUltCrdIdOrgIdOthSchNmPro)
+    }
+    PP_IN_CREDIT_TRANSFER_INITIATION__TrxUltCrdIdPrvIdOthId
+    {
+        /* Unique private identification of the ultimate creditor, as assigned by an institution, using an identification scheme. */
+        TrxUltCrdIdPrvIdOthId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=153.0, core=true, t24Name=TrxUltCrdIdPrvIdOthId)
+        /* Entity that assigned the unique private identification of the ultimate creditor. */
+        TrxUltCrdIdPrvIdOthIssuer : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=156.0, core=true, t24Name=TrxUltCrdIdPrvIdOthIssuer)
+        /* Code of the institution that assigned the unique private identification of the ultimate creditor. */
+        TrxUltCrdIdPrvIdOthSchNmCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=154.0, core=true, t24Name=TrxUltCrdIdPrvIdOthSchNmCd)
+        /* Identification of the institution that assigned the unique private identification of the ultimate creditor, in a proprietary form. */
+        TrxUltCrdIdPrvIdOthSchNmPro : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=155.0, core=true, t24Name=TrxUltCrdIdPrvIdOthSchNmPro)
+    }
+    PP_IN_CREDIT_TRANSFER_INITIATION__TrxUltDbtIdOrgIdOthId
+    {
+        /* Unique identification of the ultimate debtor organisation, as assigned by an institution, using an identification scheme. */
+        TrxUltDbtIdOrgIdOthId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=68.0, core=true, t24Name=TrxUltDbtIdOrgIdOthId)
+        /* Institution that assigned the unique identification of the ultimate debtor organisation. */
+        TrxUltDbtIdOrgIdOthIssuer : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=71.0, core=true, t24Name=TrxUltDbtIdOrgIdOthIssuer)
+        /* Unique identification code of the scheme name that assigns an identification to the ultimate debtor organisation. */
+        TrxUltDbtIdOrgIdOthSchNmCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=69.0, core=true, t24Name=TrxUltDbtIdOrgIdOthSchNmCd)
+        /* Unique identification of the scheme name that assigns an identification to the ultimate debtor organisation, in a proprietary form. */
+        TrxUltDbtIdOrgIdOthSchNmPro : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=70.0, core=true, t24Name=TrxUltDbtIdOrgIdOthSchNmPro)
+    }
+    PP_IN_CREDIT_TRANSFER_INITIATION__TrxUltDbtIdPrvIdOthId
+    {
+        /* Unique private identification of the ultimate debtor, as assigned by an institution, using an identification scheme. */
+        TrxUltDbtIdPrvIdOthId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=76.0, core=true, t24Name=TrxUltDbtIdPrvIdOthId)
+        /* Entity that assigned the unique private identification of the ultimate debtor. */
+        TrxUltDbtIdPrvIdOthIssuer : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=79.0, core=true, t24Name=TrxUltDbtIdPrvIdOthIssuer)
+        /* Code of the institution that assigned the unique private identification of the ultimate debtor. */
+        TrxUltDbtIdPrvIdOthSchNmCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=77.0, core=true, t24Name=TrxUltDbtIdPrvIdOthSchNmCd)
+        /* Identification of the institution that assigned the unique private identification of the ultimate debtor, in a proprietary form. */
+        TrxUltDbtIdPrvIdOthSchNmPro : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=78.0, core=true, t24Name=TrxUltDbtIdPrvIdOthSchNmPro)
+    }
+}

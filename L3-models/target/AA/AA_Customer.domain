@@ -1,0 +1,2548 @@
+# UTF-8
+/* Customer Processing for Arrangement Architecture */
+Domain AA_Customer
+    @t24:i (module=AA)
+    @java:Package (value=com.temenos.t24.datamodel.aa.aa_customer)
+namespace "http://www.temenos.com/t24/AA_Customer"
+metamodelVersion 1.30.6
+Classes {
+    /* The CUSTOMER Property Class is used by all products to specify all of the involved parties of an arrangement.  Each T24 product defined and processed in AA will have a single CUSTOMER Property defined. */
+    AA_ARR_CUSTOMER
+        @i18n:Description (en="")
+        @t24:i (t24Name=AA.ARR.CUSTOMER, nonStop=true, level=F, type=H, allowedFunctions="A C D E I L Q R S", localRefAllowed=true)
+    {
+        ACTION -> byValue AA_Customer:AA_ARR_CUSTOMER__ACTION *
+            @t24:i (t24Name=ACTION)
+/* The activity that caused this arrangement property to be updated.
+The activity is taken from the underlying AA.ARRANGEMENT.ACTIVITY request that caused the record to be modified */
+        ACTIVITY : T24BusinessTypes:A required
+            @i18n:Label (en=Activity)
+            @i18n:Tooltip (en=Activity)
+            @t24:i (align=L, inputBehaviour=I, maxLength=80, sysNumber=1.0, core=true, t24Name=ACTIVITY)
+/* The key to the arrangement property condition. The key is comprised of the following components (delimited by a "-"):
+Arrangement Id
+Property name>
+Effective Date */
+        ARRANGEMENT_KEY -> AA_Customer:AA_ARR_CUSTOMER PK required
+            @i18n:Label (en=Arrangement)
+            @i18n:Tooltip (en=Arrangement)
+            @t24:i (align=L, inputBehaviour=I, maxLength=80, sysNumber=0.0, core=true, businessType=ANY, t24Name=ARRANGEMENT.KEY)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=68.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=69.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=65.0, core=true, t24Name=AUTHORISER)
+        CHANGED_FIELDS -> byValue AA_Customer:AA_ARR_CUSTOMER__CHANGED_FIELDS *
+            @t24:i (t24Name=CHANGED.FIELDS)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=66.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=62.0, core=true, t24Name=CURR.NO)
+        CUSTOMER -> byValue AA_Customer:AA_ARR_CUSTOMER__CUSTOMER *
+            @t24:i (t24Name=CUSTOMER)
+        DATE_TIME -> byValue AA_Customer:AA_ARR_CUSTOMER__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+/* Optional field - Allowed Values are RESETTING and NON-RESETTING.
+
+RESETTING - During any Renewal Activities (for eg : change.product, rollover or reset) the property conditions will be reset from the product.
+
+NON-RESETTING - During any Renewal Activities property conditions will be maintained from the Arrangement level.
+
+Leaving the field blank sets NON-RESETTING as the default option.
+
+Not used in Arrangement/Sim level. */
+        DEFAULT_ATTR_OPTION : AA_Customer:AA_ARR_CUSTOMER__DEFAULT_ATTR_OPTION
+            @i18n:Label (en="Default Attribute")
+            @i18n:Tooltip (en="Default Attribute")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=39.0, core=true, t24Name=DEFAULT.ATTR.OPTION)
+        /* Not used for arrangement level conditions */
+        DEFAULT_NEGOTIABLE : AA_Customer:AA_ARR_CUSTOMER__DEFAULT_NEGOTIABLE
+            @i18n:Label (en="Default Negotiable")
+            @i18n:Tooltip (en="Default Negotiable")
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=40.0, core=true, t24Name=DEFAULT.NEGOTIABLE)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=67.0, core=true, t24Name=DEPT.CODE)
+/* Contains the arrangement number, extracted from the first component of the id
+System updated field no input allowed */
+        ID_COMP_1 : T24BusinessTypes:A
+            @i18n:Label (en="Arrangement Id")
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=51.0, core=true, t24Name=ID.COMP.1)
+/* Contains the name of the property that this arrangement level condition relates to
+Name is defined in AA.PRORERTY table
+System maintained field no input allowed */
+        ID_COMP_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=52.0, core=true, t24Name=ID.COMP.2)
+/* Contains the Effective Date of this property condition
+System updated field no input allowed */
+        ID_COMP_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=30, sysNumber=53.0, core=true, t24Name=ID.COMP.3)
+/* Reserved for future use
+System field no input allowed */
+        ID_COMP_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=54.0, core=true, t24Name=ID.COMP.4)
+/* Reserved for future use
+System field no input allowed */
+        ID_COMP_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=55.0, core=true, t24Name=ID.COMP.5)
+/* Reserved for future use
+System field no input allowed */
+        ID_COMP_6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=56.0, core=true, t24Name=ID.COMP.6)
+        INPUTTER -> byValue AA_Customer:AA_ARR_CUSTOMER__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        NEGOTIATED_FLDS -> byValue AA_Customer:AA_ARR_CUSTOMER__NEGOTIATED_FLDS *
+            @t24:i (t24Name=NEGOTIATED.FLDS)
+        NR_ATTRIBUTE -> byValue AA_Customer:AA_ARR_CUSTOMER__NR_ATTRIBUTE *
+            @t24:i (t24Name=NR.ATTRIBUTE)
+        OTHER_PARTY -> byValue AA_Customer:AA_ARR_CUSTOMER__OTHER_PARTY *
+            @t24:i (t24Name=OTHER.PARTY)
+        OVERRIDE -> byValue AA_Customer:AA_ARR_CUSTOMER__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        OWNING_COMPANY -> byValue AA_Customer:AA_ARR_CUSTOMER__OWNING_COMPANY *
+            @t24:i (t24Name=OWNING.COMPANY)
+        PR_ATTRIBUTE -> byValue AA_Customer:AA_ARR_CUSTOMER__PR_ATTRIBUTE *
+            @t24:i (t24Name=PR.ATTRIBUTE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=61.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED2_ID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=57.0, core=true, t24Name=RESERVED2.ID)
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=20.0, core=true, t24Name=RESERVED.1)
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=19.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=17.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.6)
+        STMT_NOS -> byValue AA_Customer:AA_ARR_CUSTOMER__STMT_NOS *
+            @t24:i (t24Name=STMT.NOS)
+        /* System field - reserved for future use */
+        SYS_RESERVE1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=38.0, core=true, t24Name=SYS.RESERVE1)
+        /* System field - reserved for future use */
+        SYS_RESERVE2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=37.0, core=true, t24Name=SYS.RESERVE2)
+        /* System field - reserved for future use */
+        SYS_RESERVE3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=36.0, core=true, t24Name=SYS.RESERVE3)
+        /* System field - reserved for future use */
+        SYS_RESERVE4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=35.0, core=true, t24Name=SYS.RESERVE4)
+        /* System field - reserved for future use */
+        SYS_RESERVE6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=33.0, core=true, t24Name=SYS.RESERVE6, mvSvExpansionAccess=NOEXPAND)
+        /* System field - reserved for future use */
+        SYS_RESERVE7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=32.0, core=true, t24Name=SYS.RESERVE7, mvSvExpansionAccess=NOEXPAND)
+/* This field denotes the target classic product of the given property class
+
+The already existing T24 products are mapped using AA infrastructure
+These are called classic products
+These products are mapped to different property classes */
+        TARGET_PRODUCT : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=58.0, core=true, t24Name=TARGET.PRODUCT)
+    }
+    AA_ARR_CUSTOMER__ACTION
+    {
+/* The activity that caused this arrangement property to be updated.
+The activity is taken from the underlying AA.ARRANGEMENT.ACTIVITY request that caused the record to be modified */
+        ACTION : T24BusinessTypes:A required
+            @i18n:Label (en=Action)
+            @i18n:Tooltip (en=Action)
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=2.0, core=true, t24Name=ACTION)
+    }
+    AA_ARR_CUSTOMER__CHANGED_FIELDS
+    {
+        /* No input and multi value field lists all fields that have been negotiated for each dated version of the property. For a subsequently dated property, the attributes listed in this field will appear in "Negotiated.Fields" and only newly negotiated fields will appear on "Changed.Fields" */
+        CHANGED_FIELDS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=19, sysNumber=49.0, core=true, t24Name=CHANGED.FIELDS)
+    }
+    AA_ARR_CUSTOMER__CUSTOMER
+    {
+/* This field denotes the customer(s) of the Arrangement contract. Defaulted from
+
+Associated multi-value field with Customer role, Delivery required, Tax liability %, GL and Limit allocation.
+
+Validation rules
+1 -6 numeric character customer number. or 3 - 10 alphanumeric character customer mnemonic. (mandatory input)
+Must be either a valid customer number or customer mnemonic of a customer on the CUSTOMER file. */
+        CUSTOMER -> ST_Customer:CUSTOMER
+            @i18n:Label (en=Customer)
+            @i18n:Tooltip (en="Customer Liability")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=3.0, core=true, businessType=CUS, t24Name=CUSTOMER)
+/* Associated with CUSTOMER field. Denotes the role of the customer in the Arrangement.
+Each customer of an arrangement must have a role specified.  The role assigned to a customer describes the responsibilities and rights of the customer in the arrangement.
+
+
+Validation rules
+Mandatory input. If not input by the user, defaulted with the system created role """"Owner"""".
+Must be a valid record in AA.CUSTOMER.ROLE table. */
+        CUSTOMER_ROLE -> AA_Customer:AA_CUSTOMER_ROLE
+            @i18n:Label (en=Role)
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=4.0, core=true, businessType=A, t24Name=CUSTOMER.ROLE)
+        /* Reserved for Future use. */
+        DELIVERY_REQD : AA_Customer:AA_ARR_CUSTOMER__CUSTOMER__DELIVERY_REQD
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=8.0, core=true, t24Name=DELIVERY.REQD)
+/* This field indicates the ownership percentage of the customer in the arrangement with respect to GL reporting.  Customer in the associated field will be used for balance sheet reporting purposes.
+Associated with CUSTOMER field.
+
+Validation rules
+Must be equal to 100% and definition can be done only for one customer who is also the limit customer.
+Sum of the percentage cannot be more than 100% */
+        GL_ALLOC_PERC : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=7.0, core=true, t24Name=GL.ALLOC.PERC)
+/* This field indicates the ownership percentage of the customer in the arrangement with respect to limit liability.  Limit will be checked for the customer for whom this field is defined.
+Associated with CUSTOMER field.
+Validation rules
+Must be equal to 100% and definition can be done only for one customer who is also the limit customer.
+Sum of the percentage cannot be more than 100%. */
+        LIMIT_ALLOC_PERC : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=6.0, core=true, t24Name=LIMIT.ALLOC.PERC)
+        RESERVED_7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=11.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=RESERVED.9)
+/* This field indicates the ownership percentage of the customer in the arrangement with respect to tax liability.  Based on the percentage defined for each customer, income will be split and tax will be calculated using the respective tax percentage of each customer and the income split.
+
+Example:
+Customer 1 – 50%
+Customer 2 – 50%
+Interest capitalization amount: $1000.
+Tax percentage for Customer 1 is 10% and for Customer 2 is 0% (since the customer is minor).
+Now the Tax will be calculated by applying 10% on $500 and 0% on $500. So the net tax amount will $50 for which tax accounting will be raised.
+
+Associated with CUSTOMER field.
+Validation rules
+* Must be equal or less than 100%.
+* Sum of the percentage cannot be more than 100%. */
+        TAX_LIABILITY_PERC : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=5.0, core=true, t24Name=TAX.LIABILITY.PERC)
+    }
+    AA_ARR_CUSTOMER__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=64.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    AA_ARR_CUSTOMER__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=63.0, core=true, t24Name=INPUTTER)
+    }
+    AA_ARR_CUSTOMER__NEGOTIATED_FLDS
+    {
+/* No input and multi value field that lists the attributes on the arrangement property record that have been fixed and/or negotiated. These are stored when the arrangement level record is committed. When the arrangement level record is next used all items in the NEGOTIATED.FIELDS list will be maintained
+Once an attribute has been fixed or negotiated it will remain in negotiated field list on all subsequent dated versions of the property. */
+        NEGOTIATED_FLDS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=19, sysNumber=50.0, core=true, t24Name=NEGOTIATED.FLDS)
+    }
+    AA_ARR_CUSTOMER__NR_ATTRIBUTE
+    {
+/* System field - not used for arrangement conditions
+
+
+System Field NoINPUT allowed - */
+        NR_ATTRIBUTE : T24BusinessTypes:A
+            @i18n:Label (en="Negotiable Attribute")
+            @i18n:Tooltip (en="Negotiable Attribute")
+            @t24:i (align=L, inputBehaviour=N, maxLength=25, sysNumber=41.0, core=true, t24Name=NR.ATTRIBUTE)
+        NR_OPTIONS -> byValue AA_Customer:AA_ARR_CUSTOMER__NR_ATTRIBUTE__NR_OPTIONS *
+            @t24:i (t24Name=NR.OPTIONS)
+        /* System Field - Reserved for future use */
+        NR_RESERVED1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=44.0, core=true, t24Name=NR.RESERVED1)
+        /* System Field - Reserved for future use */
+        NR_RESERVED2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=43.0, core=true, t24Name=NR.RESERVED2)
+/* Not used for Arrangement Conditions
+
+
+
+Input not allowed */
+        NR_STD_COMP -> AA_Rules:EB_STANDARD_COMPARISON
+            @i18n:Label (en="Negotiable Standard Comp")
+            @i18n:Tooltip (en="Negotiable Standard Comp")
+            @t24:i (align=L, inputBehaviour=N, maxLength=25, sysNumber=45.0, core=true, businessType=A, t24Name=NR.STD.COMP)
+        NR_TYPE -> byValue AA_Customer:AA_ARR_CUSTOMER__NR_ATTRIBUTE__NR_TYPE *
+            @t24:i (t24Name=NR.TYPE)
+    }
+    AA_ARR_CUSTOMER__NR_ATTRIBUTE__NR_OPTIONS
+    {
+/* System field - not used for arrangement conditions
+
+
+System Field NoINPUT allowed - */
+        NR_OPTIONS : AA_Customer:AA_ARR_CUSTOMER__NR_ATTRIBUTE__NR_OPTIONS__NR_OPTIONS
+            @i18n:Label (en="Negotiable Options")
+            @i18n:Tooltip (en="Negotiable Options")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=42.0, core=true, t24Name=NR.OPTIONS)
+    }
+    AA_ARR_CUSTOMER__NR_ATTRIBUTE__NR_TYPE
+    {
+/* System field - not used for arrangement conditions
+
+
+System Field NoINPUT allowed - */
+        NR_MESSAGE : AA_Customer:AA_ARR_CUSTOMER__NR_ATTRIBUTE__NR_TYPE__NR_MESSAGE
+            @i18n:Label (en="Negotiable Message")
+            @i18n:Tooltip (en="Negotiable Message")
+            @t24:i (align=L, inputBehaviour=N, maxLength=10, sysNumber=48.0, core=true, t24Name=NR.MESSAGE)
+/* System field - not used for arrangement conditions
+
+
+System Field NoINPUT allowed - */
+        NR_TYPE -> AA_Rules:EB_COMPARISON_TYPE
+            @i18n:Label (en="Negotiable Type")
+            @i18n:Tooltip (en="Negotiable Type")
+            @t24:i (align=L, inputBehaviour=N, maxLength=25, sysNumber=46.0, core=true, businessType=A, t24Name=NR.TYPE)
+/* System field - not used for arrangement conditions
+
+
+System Field NoINPUT allowed - */
+        NR_VALUE : T24BusinessTypes:ANY
+            @i18n:Label (en="Negotiable Value")
+            @i18n:Tooltip (en="Negotiable Value")
+            @t24:i (align=L, inputBehaviour=N, maxLength=60, sysNumber=47.0, core=true, t24Name=NR.VALUE)
+    }
+    AA_ARR_CUSTOMER__OTHER_PARTY
+    {
+        NOTES -> byValue AA_Customer:AA_ARR_CUSTOMER__OTHER_PARTY__NOTES *
+            @t24:i (t24Name=NOTES)
+/* Other parties who are not legal owners of the arrangement may also be specified.All owners and any other parties must exist on the T24 CUSTOMER file.
+
+This field is part of a multi value set of fields with Role and Notes fields. */
+        OTHER_PARTY -> ST_Customer:CUSTOMER
+            @i18n:Label (en="Other Party")
+            @i18n:Tooltip (en="Other Party")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=13.0, core=true, businessType=CUS, t24Name=OTHER.PARTY)
+/* Each additional party must have a role specified.  The roles are user defined and specified in EB.LOOKUP.
+
+The role assigned to an additional party describes responsibilities and rights of the additional party in the arrangement. An addtional party may have poweer of attorney, signatory or an auditor role for example. */
+        ROLE : AA_Customer:AA_ARR_CUSTOMER__OTHER_PARTY__ROLE
+            @i18n:Label (en="Role ")
+            @i18n:Tooltip (en="Indicates the role of additional party")
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=14.0, core=true, t24Name=ROLE)
+    }
+    AA_ARR_CUSTOMER__OTHER_PARTY__NOTES
+    {
+        /* A user may enter any notes relating to each party. */
+        NOTES : T24BusinessTypes:A
+            @i18n:Label (en=Notes)
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=15.0, core=true, t24Name=NOTES, isTextarea=true)
+    }
+    AA_ARR_CUSTOMER__OVERRIDE
+    {
+        /* Standard Override field containing override messages generated by amendments to this property */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=60.0, core=true, t24Name=OVERRIDE)
+    }
+    AA_ARR_CUSTOMER__OWNING_COMPANY
+    {
+/* This field is used to capture the T24 Company(ies) that own the Product Condition record. There is no functionality attached to this field and can be used only for access control through SMS verification.
+
+The input in this field must be a valid record in company table and should belong to current financial group.
+
+This is a multi value field. Input in this field is optional. */
+        OWNING_COMPANY -> ST_CompanyCreation:COMPANY
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=34.0, core=true, businessType=AAPRODUCT, t24Name=OWNING.COMPANY, typeModifiers=COMPANY, mvSvExpansionAccess=NOEXPAND)
+    }
+    AA_ARR_CUSTOMER__PR_ATTRIBUTE
+    {
+/* This field denotes the application method that needs to be applied to the periodic rule charges.
+Allowed values are
+Due - The periodic rule charges are made due
+Capitalise - The periodic rule charges are capitalised
+Not inputtable at arrangement level */
+        PR_APP_METHOD : AA_Customer:AA_ARR_CUSTOMER__PR_ATTRIBUTE__PR_APP_METHOD
+            @i18n:Label (en="Periodic Application Method")
+            @i18n:Tooltip (en="Periodic Application Method")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=30.0, core=true, t24Name=PR.APP.METHOD, mvSvExpansionAccess=NOEXPAND)
+/* This field denotes the application period for the given periodic rule charges.
+The periodic rule charges will be applied at the end of the period. If the value defined is zero, then the charges are applied immediately.
+Standard T24 period field.
+Not inputtable at arrangement level */
+        PR_APP_PERIOD : T24BusinessTypes:PERIOD
+            @i18n:Label (en="Periodic Application Period")
+            @i18n:Tooltip (en="Periodic Application Period")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=31.0, core=true, t24Name=PR.APP.PERIOD, mvSvExpansionAccess=NOEXPAND)
+/* These are set of Attributes which define the names of the rule, which will be applied on certain attributes of property classes over a period of time
+
+
+Input must be a valid record from AA.PERIODIC.ATTRIBUTE */
+        PR_ATTRIBUTE -> AA_Rules:AA_PERIODIC_ATTRIBUTE
+            @i18n:Label (en="Periodic Attribute")
+            @i18n:Tooltip (en="Periodic Attribute")
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=22.0, core=true, businessType=A, t24Name=PR.ATTRIBUTE, mvSvExpansionAccess=NOEXPAND)
+/* Not used for arrangement level conditions
+
+
+Input not allowed. */
+        PR_BRK_CHARGE -> AA_ProductFramework:AA_PROPERTY
+            @i18n:Label (en="Periodic Break Charge")
+            @i18n:Tooltip (en="Periodic Break Charge")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=26.0, core=true, businessType=A, t24Name=PR.BRK.CHARGE, mvSvExpansionAccess=NOEXPAND)
+/* Based on the PR.BRK.RES option selected, this will hold either an OVERRIDE or EB.ERROR id. By default the ids will be picked from the associated EB.COMPARISON.TYPE record. If CAP or FLOOR values are given, then the underlying AA.PERIODIC.ATTRIBUTE.CLASS should have this type defined in it
+
+
+Input must be a valid OVERRIDE ID or EB.ERROR ID */
+        PR_BRK_MSG : T24BusinessTypes:ANY
+            @i18n:Label (en="Periodic Break Message")
+            @i18n:Tooltip (en="Periodic Break Message")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=25.0, core=true, t24Name=PR.BRK.MSG, mvSvExpansionAccess=NOEXPAND)
+/* When a rule is broken what action needs to be taken is defined here. Currently, the various options available are
+
+Error block further processing
+Override Give an override
+Information  Record details only
+CAP the rule value is to be used as a CAP if the rule is broken
+FLOOR the rule value is to be used as a FLOOR if the rule is broken
+
+
+Should be one of the above valid options */
+        PR_BRK_RES : AA_Customer:AA_ARR_CUSTOMER__PR_ATTRIBUTE__PR_BRK_RES
+            @i18n:Label (en="Periodic Break Restrcition")
+            @i18n:Tooltip (en="Periodic Break Restrcition")
+            @t24:i (align=L, inputBehaviour=N, maxLength=13, sysNumber=24.0, core=true, t24Name=PR.BRK.RES, mvSvExpansionAccess=NOEXPAND)
+        PR_RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=29.0, core=true, t24Name=PR.RESERVED.1, mvSvExpansionAccess=NOEXPAND)
+        PR_RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=28.0, core=true, t24Name=PR.RESERVED.2, mvSvExpansionAccess=NOEXPAND)
+        PR_RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=27.0, core=true, t24Name=PR.RESERVED.3, mvSvExpansionAccess=NOEXPAND)
+/* This is the actual rule value, which will be applied on certain attributes of the property classes over a period of time.
+
+
+Input must be a valid data type defined in the corresponding
+AA.PERIODIC.ATTRIBUTE.CLASS record. */
+        PR_VALUE : T24BusinessTypes:A
+            @i18n:Label (en="Periodic Value")
+            @i18n:Tooltip (en="Periodic Value")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=23.0, core=true, t24Name=PR.VALUE, mvSvExpansionAccess=NOEXPAND)
+    }
+    AA_ARR_CUSTOMER__STMT_NOS
+    {
+        /* Contains the key to the accounting entries raised by the activity being applied to this arrangement property */
+        STMT_NOS : T24BusinessTypes:N
+            @i18n:Label (en="Stmt Nos")
+            @i18n:Tooltip (en="Stmt Nos")
+            @t24:i (align=R, inputBehaviour=N, maxLength=20, sysNumber=59.0, core=true, t24Name=STMT.NOS)
+    }
+    /* This application enables users to define the customer roles and their characteristics that can be assigned to a customer of an Arrangement. */
+    AA_CUSTOMER_ROLE
+        @i18n:Description (en="")
+        @t24:i (t24Name=AA.CUSTOMER.ROLE, level=I, type=H, allowedFunctions="A C D E I L Q R S", localRefAllowed=false)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=25.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=26.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=22.0, core=true, t24Name=AUTHORISER)
+/* This field indicates whether the customer(s) pertaining to the role is a beneficial owner of the arrangement.
+The Beneficial owner is a legal owner of the arrangement and is the responsible customer for the contract with the bank.
+Options: Yes or No */
+        BENEFICIAL_OWNER : AA_Customer:AA_CUSTOMER_ROLE__BENEFICIAL_OWNER
+            @i18n:Label (en="Beneficial Owner")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=2.0, core=true, t24Name=BENEFICIAL.OWNER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=23.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=19.0, core=true, t24Name=CURR.NO)
+        /* Name of the role that would be used to reference the role of the customer(s) in an arrangement. */
+        CUSTOMER_ROLE -> AA_Customer:AA_CUSTOMER_ROLE PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=0.0, core=true, businessType=A, t24Name=CUSTOMER.ROLE)
+        DATE_TIME -> byValue AA_Customer:AA_CUSTOMER_ROLE__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+/* Defines whether the customer associated with the role receives standard delivery messages from T24.
+
+Options: Yes or No */
+        DELIVERY_CUSTOMER : AA_Customer:AA_CUSTOMER_ROLE__DELIVERY_CUSTOMER
+            @i18n:Label (en="Deliver Customer")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=11.0, core=true, t24Name=DELIVERY.CUSTOMER)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=24.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue AA_Customer:AA_CUSTOMER_ROLE__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+/* Defines whether the customer associated with the role be used to drive the composition of GL key.
+
+Options: Yes or No
+
+Validation rules
+Must be Yes if the Beneficial Owner field is set to Yes. */
+        GL_CUSTOMER : AA_Customer:AA_CUSTOMER_ROLE__GL_CUSTOMER
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=8.0, core=true, t24Name=GL.CUSTOMER)
+        /* Reserved for Future use. */
+        GL_MAX_PERCENT : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=N, maxLength=12, sysNumber=10.0, core=true, t24Name=GL.MAX.PERCENT)
+        /* Reserved for Future use. */
+        GL_MIN_PERCENT : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=N, maxLength=12, sysNumber=9.0, core=true, t24Name=GL.MIN.PERCENT)
+        INPUTTER -> byValue AA_Customer:AA_CUSTOMER_ROLE__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* Defines whether the customer associated with the role requires a limit.
+Options: Yes or No
+Validation rules
+Must be Yes if the Beneficial Owner field is set to Yes. */
+        LIMIT_CUSTOMER : AA_Customer:AA_CUSTOMER_ROLE__LIMIT_CUSTOMER
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=5.0, core=true, t24Name=LIMIT.CUSTOMER)
+        /* Reserved for Future use. */
+        MAX_LIMIT_LIAB_PERC : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=N, maxLength=12, sysNumber=7.0, core=true, t24Name=MAX.LIMIT.LIAB.PERC)
+/* Defines the maximum tax liability percentage for this role.
+
+Validation rules
+Valid percentage equal or less than 100% */
+        MAX_TAX_LIAB_PERC : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=4.0, core=true, t24Name=MAX.TAX.LIAB.PERC)
+        /* Reserved for Future use. */
+        MIN_LIMIT_LIAB_PERC : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=N, maxLength=12, sysNumber=6.0, core=true, t24Name=MIN.LIMIT.LIAB.PERC)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=18.0, core=true, t24Name=RECORD.STATUS)
+        /* This field indicates whether, relationship pricing arrangements pertaining to the customer(s) with this role are to be considered while ascertaining and assigning the best possible relationship pricing arrangement to the financial arrangement. */
+        REL_PRICING_AVAIL : AA_Customer:AA_CUSTOMER_ROLE__REL_PRICING_AVAIL
+            @i18n:Label (en="Relationship Pricing Customer")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=12.0, core=true, t24Name=REL.PRICING.AVAIL)
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=12, sysNumber=17.0, core=true, t24Name=RESERVED.1)
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=12, sysNumber=16.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=12, sysNumber=15.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=12, sysNumber=14.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=12, sysNumber=13.0, core=true, t24Name=RESERVED.5)
+/* Defines whether the customer associated with the role is tax liable.
+Options: Yes or No */
+        TAXABLE : AA_Customer:AA_CUSTOMER_ROLE__TAXABLE
+            @i18n:Label (en="Taxable Customer")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=3.0, core=true, t24Name=TAXABLE)
+    }
+    AA_CUSTOMER_ROLE__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=21.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    AA_CUSTOMER_ROLE__DESCRIPTION
+    {
+/* Description of the customer role and is used for enrichment.
+
+Validation rules
+This is a mandatory field. */
+        DESCRIPTION : T24BusinessTypes:S required
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    AA_CUSTOMER_ROLE__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=20.0, core=true, t24Name=INPUTTER)
+    }
+    /* The CUSTOMER Property Class is used by all products to specify all of the involved parties of an arrangement.  Each T24 product defined and processed in AA will have a single CUSTOMER Property defined. */
+    AA_PRD_CAT_CUSTOMER
+        @i18n:Description (en="")
+        @t24:i (t24Name=AA.PRD.CAT.CUSTOMER, nonStop=true, level=I, type=W, allowedFunctions="L Q S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=68.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=69.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=65.0, core=true, t24Name=AUTHORISER)
+        CHANGED_FIELDS -> byValue AA_Customer:AA_PRD_CAT_CUSTOMER__CHANGED_FIELDS *
+            @t24:i (t24Name=CHANGED.FIELDS)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=66.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=62.0, core=true, t24Name=CURR.NO)
+        CUSTOMER -> byValue AA_Customer:AA_PRD_CAT_CUSTOMER__CUSTOMER *
+            @t24:i (t24Name=CUSTOMER)
+        DATE_TIME -> byValue AA_Customer:AA_PRD_CAT_CUSTOMER__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+/* Optional field - Allowed Values are RESETTING and NON-RESETTING.
+
+RESETTING - During any Renewal Activities (for eg : change.product, rollover or reset) the property conditions will be reset from the product.
+
+NON-RESETTING - During any Renewal Activities property conditions will be maintained from the Arrangement level.
+
+Leaving the field blank sets NON-RESETTING as the default option. */
+        DEFAULT_ATTR_OPTION : AA_Customer:AA_PRD_CAT_CUSTOMER__DEFAULT_ATTR_OPTION
+            @i18n:Label (en="Default Attribute")
+            @i18n:Tooltip (en="Default Attribute")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=39.0, core=true, t24Name=DEFAULT.ATTR.OPTION)
+/* Defines whether all attributes (fields) can be negotiable or not.
+
+
+This field is Mandatory
+Valid options are YES and NO */
+        DEFAULT_NEGOTIABLE : AA_Customer:AA_PRD_CAT_CUSTOMER__DEFAULT_NEGOTIABLE required
+            @i18n:Label (en="Default Negotiable")
+            @i18n:Tooltip (en="Default Negotiable")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=40.0, core=true, t24Name=DEFAULT.NEGOTIABLE)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=67.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue AA_Customer:AA_PRD_CAT_CUSTOMER__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        FULL_DESCRIPTION : T24BusinessTypes:TEXT
+            @t24:i (align=L, inputBehaviour=I, maxLength=100, sysNumber=2.0, core=true, t24Name=FULL.DESCRIPTION)
+/* Contains the arrangement number, extracted from the first component of the id
+Not applicable at product level
+System updated field no input allowed */
+        ID_COMP_1 : T24BusinessTypes:A
+            @i18n:Label (en="Arrangement Id")
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=51.0, core=true, t24Name=ID.COMP.1)
+/* The action that was triggered on the arrangement property
+The action is taken from ACTIVITY.CLASS record of the underlying AA.ARRANGEMENT.ACTIVITY request that caused the record to be modified. */
+        ID_COMP_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=52.0, core=true, t24Name=ID.COMP.2)
+/* Contains the effective date of the property condition
+Not applicable at product level
+System updated field no input allowed */
+        ID_COMP_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=30, sysNumber=53.0, core=true, t24Name=ID.COMP.3)
+/* Reserved for future use
+Not applicable at product level
+System field no input allowed */
+        ID_COMP_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=54.0, core=true, t24Name=ID.COMP.4)
+/* Reserved for future use
+Not applicable at product level
+System field no input allowed */
+        ID_COMP_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=55.0, core=true, t24Name=ID.COMP.5)
+/* Reserved for future use
+Not applicable at product level
+System field no input allowed */
+        ID_COMP_6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=56.0, core=true, t24Name=ID.COMP.6)
+        INPUTTER -> byValue AA_Customer:AA_PRD_CAT_CUSTOMER__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        NEGOTIATED_FLDS -> byValue AA_Customer:AA_PRD_CAT_CUSTOMER__NEGOTIATED_FLDS *
+            @t24:i (t24Name=NEGOTIATED.FLDS)
+        NR_ATTRIBUTE -> byValue AA_Customer:AA_PRD_CAT_CUSTOMER__NR_ATTRIBUTE *
+            @t24:i (t24Name=NR.ATTRIBUTE)
+        OTHER_PARTY -> byValue AA_Customer:AA_PRD_CAT_CUSTOMER__OTHER_PARTY *
+            @t24:i (t24Name=OTHER.PARTY)
+        OVERRIDE -> byValue AA_Customer:AA_PRD_CAT_CUSTOMER__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        OWNING_COMPANY -> byValue AA_Customer:AA_PRD_CAT_CUSTOMER__OWNING_COMPANY *
+            @t24:i (t24Name=OWNING.COMPANY)
+/* This field represents the key to the product level conditions of a property class
+This field basically has three components separated by a hyphen
+Condition id
+Currency - if the property class is currency based. By default takes up local currency
+Effective date - if the property class is dated */
+        PRODUCT_KEY -> AA_Customer:AA_PRD_CAT_CUSTOMER PK required
+            @i18n:Label (en="Product Key")
+            @i18n:Tooltip (en="Product Key")
+            @t24:i (align=L, inputBehaviour=I, maxLength=80, sysNumber=0.0, core=true, businessType=ANY, t24Name=PRODUCT.KEY)
+        PR_ATTRIBUTE -> byValue AA_Customer:AA_PRD_CAT_CUSTOMER__PR_ATTRIBUTE *
+            @t24:i (t24Name=PR.ATTRIBUTE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=61.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED2_ID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=57.0, core=true, t24Name=RESERVED2.ID)
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=20.0, core=true, t24Name=RESERVED.1)
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=19.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=17.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.6)
+        STMT_NOS -> byValue AA_Customer:AA_PRD_CAT_CUSTOMER__STMT_NOS *
+            @t24:i (t24Name=STMT.NOS)
+        /* System field - reserved for future use */
+        SYS_RESERVE1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=38.0, core=true, t24Name=SYS.RESERVE1)
+        /* System field - reserved for future use */
+        SYS_RESERVE2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=37.0, core=true, t24Name=SYS.RESERVE2)
+        /* System field - reserved for future use */
+        SYS_RESERVE3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=36.0, core=true, t24Name=SYS.RESERVE3)
+        /* System field - reserved for future use */
+        SYS_RESERVE4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=35.0, core=true, t24Name=SYS.RESERVE4)
+        /* System field - reserved for future use */
+        SYS_RESERVE6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=33.0, core=true, t24Name=SYS.RESERVE6)
+        /* System field - reserved for future use */
+        SYS_RESERVE7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=32.0, core=true, t24Name=SYS.RESERVE7)
+/* This field denotes the target classic product of the given property class
+
+The already existing T24 products are mapped using AA infrastructure
+These are called classic products
+These products are mapped to different property classes */
+        TARGET_PRODUCT : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=58.0, core=true, t24Name=TARGET.PRODUCT)
+    }
+    AA_PRD_CAT_CUSTOMER__CHANGED_FIELDS
+    {
+        /* No input and multi value field - lists all fields that have been negotiated for each dated version of the property. For a subsequently dated property, the attributes listed in this field will appear in "Negotiated.Fields" and only newly negotiated fields will appear on "Changed.Fields" */
+        CHANGED_FIELDS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=19, sysNumber=49.0, core=true, t24Name=CHANGED.FIELDS)
+    }
+    AA_PRD_CAT_CUSTOMER__CUSTOMER
+    {
+/* This field denotes the customer(s) of the Arrangement contract. Defaulted from
+
+Associated multi-value field with Customer role, Delivery required, Tax liability %, GL and Limit allocation.
+
+Validation rules
+1 -6 numeric character customer number. or 3 - 10 alphanumeric character customer mnemonic. (mandatory input)
+Must be either a valid customer number or customer mnemonic of a customer on the CUSTOMER file. */
+        CUSTOMER -> ST_Customer:CUSTOMER
+            @i18n:Label (en=Customer)
+            @i18n:Tooltip (en="Customer Liability")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=3.0, core=true, businessType=CUS, t24Name=CUSTOMER)
+/* Associated with CUSTOMER field. Denotes the role of the customer in the Arrangement.
+Each customer of an arrangement must have a role specified.  The role assigned to a customer describes the responsibilities and rights of the customer in the arrangement.
+
+
+Validation rules
+Mandatory input. If not input by the user, defaulted with the system created role """"Owner"""".
+Must be a valid record in AA.CUSTOMER.ROLE table. */
+        CUSTOMER_ROLE -> AA_Customer:AA_CUSTOMER_ROLE
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=4.0, core=true, businessType=A, t24Name=CUSTOMER.ROLE)
+        /* Reserved for Future use. */
+        DELIVERY_REQD : AA_Customer:AA_PRD_CAT_CUSTOMER__CUSTOMER__DELIVERY_REQD
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=8.0, core=true, t24Name=DELIVERY.REQD)
+/* This field indicates the ownership percentage of the customer in the arrangement with respect to GL reporting.  Customer in the associated field will be used for balance sheet reporting purposes.
+Associated with CUSTOMER field.
+
+Validation rules
+Must be equal to 100% and definition can be done only for one customer who is also the limit customer.
+Sum of the percentage cannot be more than 100% */
+        GL_ALLOC_PERC : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=7.0, core=true, t24Name=GL.ALLOC.PERC)
+/* This field indicates the ownership percentage of the customer in the arrangement with respect to limit liability.  Limit will be checked for the customer for whom this field is defined.
+Associated with CUSTOMER field.
+Validation rules
+Must be equal to 100% and definition can be done only for one customer who is also the limit customer.
+Sum of the percentage cannot be more than 100%. */
+        LIMIT_ALLOC_PERC : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=6.0, core=true, t24Name=LIMIT.ALLOC.PERC)
+        RESERVED_7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=11.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=RESERVED.9)
+/* This field indicates the ownership percentage of the customer in the arrangement with respect to tax liability.  Based on the percentage defined for each customer, income will be split and tax will be calculated using the respective tax percentage of each customer and the income split.
+
+Example:
+Customer 1 – 50%
+Customer 2 – 50%
+Interest capitalization amount: $1000.
+Tax percentage for Customer 1 is 10% and for Customer 2 is 0% (since the customer is minor).
+Now the Tax will be calculated by applying 10% on $500 and 0% on $500. So the net tax amount will $50 for which tax accounting will be raised.
+
+Associated with CUSTOMER field.
+Validation rules
+* Must be equal or less than 100%.
+* Sum of the percentage cannot be more than 100% */
+        TAX_LIABILITY_PERC : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=5.0, core=true, t24Name=TAX.LIABILITY.PERC)
+    }
+    AA_PRD_CAT_CUSTOMER__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=64.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    AA_PRD_CAT_CUSTOMER__DESCRIPTION
+    {
+/* Describes this condition record and is used for enrichment.
+
+This field can be expanded to allow the User to enter the Description of the property condition in various languages. Each expansion of the field will correspond to a new Language as defined in the LANGUAGE table (Ref: GENERAL TABLES), and will indicate to the User the Language in which the Description must be entered.
+
+
+Up to 35 type A (alphanumeric) characters */
+        DESCRIPTION : T24BusinessTypes:ANY required
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    AA_PRD_CAT_CUSTOMER__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=63.0, core=true, t24Name=INPUTTER)
+    }
+    AA_PRD_CAT_CUSTOMER__NEGOTIATED_FLDS
+    {
+/* No input and multi value field that lists the attributes on the arrangement property record that have been fixed and/or negotiated. These are stored when the arrangement level record is committed. When the arrangement level record is next used all items in the NEGOTIATED.FIELDS list will be maintained.
+Once an attribute has been fixed or negotiated it will remain in negotiated field list on all subsequent dated versions of the property. */
+        NEGOTIATED_FLDS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=19, sysNumber=50.0, core=true, t24Name=NEGOTIATED.FLDS)
+    }
+    AA_PRD_CAT_CUSTOMER__NR_ATTRIBUTE
+    {
+/* Defines which individual attribute (field) has the negotiation rules defined in fields "Nr.Negotiable" through to "Nr.Message"
+
+
+Must be a valid field name within this property
+This field is part of a multi value set */
+        NR_ATTRIBUTE : T24BusinessTypes:A
+            @i18n:Label (en="Negotiable Attribute")
+            @i18n:Tooltip (en="Negotiable Attribute")
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=41.0, core=true, t24Name=NR.ATTRIBUTE)
+        NR_OPTIONS -> byValue AA_Customer:AA_PRD_CAT_CUSTOMER__NR_ATTRIBUTE__NR_OPTIONS *
+            @t24:i (t24Name=NR.OPTIONS)
+        /* System Field - Reserved for future use */
+        NR_RESERVED1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=44.0, core=true, t24Name=NR.RESERVED1)
+        /* System Field - Reserved for future use */
+        NR_RESERVED2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=43.0, core=true, t24Name=NR.RESERVED2)
+/* It is possible to define negotiation rules in EB.COMPARISON.TYPE.
+
+
+
+Input must be a valid record from EB.STANDARD.COMPARISON */
+        NR_STD_COMP -> AA_Rules:EB_STANDARD_COMPARISON
+            @i18n:Label (en="Negotiable Standard Comp")
+            @i18n:Tooltip (en="Negotiable Standard Comp")
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=45.0, core=true, businessType=A, t24Name=NR.STD.COMP)
+        NR_TYPE -> byValue AA_Customer:AA_PRD_CAT_CUSTOMER__NR_ATTRIBUTE__NR_TYPE *
+            @t24:i (t24Name=NR.TYPE)
+    }
+    AA_PRD_CAT_CUSTOMER__NR_ATTRIBUTE__NR_OPTIONS
+    {
+/* Defines named values to indicate if an option applies to the associated NR.ATTRIBUTE. More than one option can be associated with the NR.ATTRIBUTE, with certain restrictions.
+
+
+Valid Inputs are NEGOTIABLE, NON-NEGOTIABLE, OVERRIDE, FIX-VALUE, MANDATORY as described below: -
+
+NEGOTIABLE
+The value of NEGOTIABLE will indicate that the associated NR.ATTRIBUTE can be negotiated at the arrangement level.
+
+NON-NEGOTIABLE
+The value of NON-NEGOTIABLE will indicate that the associated NR.ATTRIBUTE cannot be negotiated at the arrangement level. Both NEGOTIABLE and NON-NEGOTIABLE cannot be defined together
+
+OVERRIDE
+Specifies if a default override message should be generated if the default attribute is amended at the arrangement level. If OVERRIDE is not specified, no override will be generated.
+
+FIX-VALUE
+Specified if the field value is to be fixed at the arrangement level. If FIX-VALUE is not specified the field value will vary with the changes to the underlying product condition.
+
+MANDATORY
+Specifies if the attribute is mandatory for this product condition. Can only be specified where the attribute is not defined as mandatory in the property class. */
+        NR_OPTIONS : AA_Customer:AA_PRD_CAT_CUSTOMER__NR_ATTRIBUTE__NR_OPTIONS__NR_OPTIONS
+            @i18n:Label (en="Negotiable Options")
+            @i18n:Tooltip (en="Negotiable Options")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=42.0, core=true, t24Name=NR.OPTIONS)
+    }
+    AA_PRD_CAT_CUSTOMER__NR_ATTRIBUTE__NR_TYPE
+    {
+/* This field indicates whether to raise error or override message when rule is broken
+Allows only two values ERROR or OVERRIDE
+ERROR - error message is raised
+OVERRIDE - Override message is generated */
+        NR_MESSAGE : AA_Customer:AA_PRD_CAT_CUSTOMER__NR_ATTRIBUTE__NR_TYPE__NR_MESSAGE
+            @i18n:Label (en="Negotiable Message")
+            @i18n:Tooltip (en="Negotiable Message")
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=48.0, core=true, t24Name=NR.MESSAGE)
+/* Defines the negotiation rule that is linked to the field defined in "Nr.Attribute". If an attribute has a negotiation rule linked to it (in associated fields NR.TYPE, NR.VALUE and NR.MESSAGE) the attribute must be defined as negotiable.
+It is possible to define more than one negotiation rule for an attribute
+
+
+Input must be a valid record from EB.COMPARISON.TYPE
+This is a multi value set of fields */
+        NR_TYPE -> AA_Rules:EB_COMPARISON_TYPE
+            @i18n:Label (en="Negotiable Type")
+            @i18n:Tooltip (en="Negotiable Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=46.0, core=true, businessType=A, t24Name=NR.TYPE)
+        /* Defines the value that links to the rule in field "Nr.Type" */
+        NR_VALUE : T24BusinessTypes:ANY
+            @i18n:Label (en="Negotiable Value")
+            @i18n:Tooltip (en="Negotiable Value")
+            @t24:i (align=L, inputBehaviour=I, maxLength=60, sysNumber=47.0, core=true, t24Name=NR.VALUE)
+    }
+    AA_PRD_CAT_CUSTOMER__OTHER_PARTY
+    {
+        NOTES -> byValue AA_Customer:AA_PRD_CAT_CUSTOMER__OTHER_PARTY__NOTES *
+            @t24:i (t24Name=NOTES)
+/* Other parties who are not legal owners of the arrangement may also be specified. All owners and any other parties must exist on the T24 CUSTOMER file.
+
+This field is part of a multi value set of fields with Role and Notes fields. */
+        OTHER_PARTY -> ST_Customer:CUSTOMER
+            @i18n:Label (en="Other Party")
+            @i18n:Tooltip (en="Other Party")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=13.0, core=true, businessType=CUS, t24Name=OTHER.PARTY)
+/* Each additional party must have a role specified.  The roles are user defined and specified in EB.LOOKUP.
+
+The role assigned to an additional party describes responsibilities and rights of the additional party in the arrangement. An additional party may have power of attorney, signatory or an auditor role for example. */
+        ROLE : AA_Customer:AA_PRD_CAT_CUSTOMER__OTHER_PARTY__ROLE
+            @i18n:Label (en=Role)
+            @i18n:Tooltip (en=Role)
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=14.0, core=true, t24Name=ROLE)
+    }
+    AA_PRD_CAT_CUSTOMER__OTHER_PARTY__NOTES
+    {
+        /* A user may enter any notes relating to each party. */
+        NOTES : T24BusinessTypes:A
+            @i18n:Label (en=Notes)
+            @i18n:Tooltip (en=Notes)
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=15.0, core=true, t24Name=NOTES, isTextarea=true)
+    }
+    AA_PRD_CAT_CUSTOMER__OVERRIDE
+    {
+        /* Standard Override field containing override messages generated by amendments to this property */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=60.0, core=true, t24Name=OVERRIDE)
+    }
+    AA_PRD_CAT_CUSTOMER__OWNING_COMPANY
+    {
+/* This field is used to capture the T24 Company(ies) that own the Product Condition record. There is no functionality attached to this field and can be used only for access control through SMS verification.
+
+The input in this field must be a valid record in company table and should belong to current financial group.
+
+This is a multi value field. Input in this field is optional. */
+        OWNING_COMPANY -> ST_CompanyCreation:COMPANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=34.0, core=true, businessType=AAPRODUCT, t24Name=OWNING.COMPANY, typeModifiers=COMPANY)
+    }
+    AA_PRD_CAT_CUSTOMER__PR_ATTRIBUTE
+    {
+/* This field denotes the application method that needs to be applied to the periodic rule charges.
+Allowed values are
+Due - The periodic rule charges are made due
+Capitalise - The periodic rule charges are capitalised */
+        PR_APP_METHOD : AA_Customer:AA_PRD_CAT_CUSTOMER__PR_ATTRIBUTE__PR_APP_METHOD
+            @i18n:Label (en="Periodic Application Method")
+            @i18n:Tooltip (en="Periodic Application Method")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=30.0, core=true, t24Name=PR.APP.METHOD)
+/* This field denotes the application period for the given periodic rule charges.
+The periodic rule charges will be applied at the end of the period. If the value defined is zero, then the charges are applied immediately.
+Standard T24 period field. */
+        PR_APP_PERIOD : T24BusinessTypes:PERIOD
+            @i18n:Label (en="Periodic Application Period")
+            @i18n:Tooltip (en="Periodic Application Period")
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=31.0, core=true, t24Name=PR.APP.PERIOD)
+/* These are set of Attributes which define the names of the rule, which will be applied on certain attributes of property classes over a period of time.
+
+
+Input must be a valid record from AA.PERIODIC.ATTRIBUTE */
+        PR_ATTRIBUTE -> AA_Rules:AA_PERIODIC_ATTRIBUTE
+            @i18n:Label (en="Periodic Attribute")
+            @i18n:Tooltip (en="Periodic Attribute")
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=22.0, core=true, businessType=A, t24Name=PR.ATTRIBUTE)
+/* Charge can be collected when the periodic rule is broken
+This field denotes the charge property. The property and its condition is
+defined the product designer and validated during publishing
+
+
+Valid charge property */
+        PR_BRK_CHARGE -> AA_ProductFramework:AA_PROPERTY
+            @i18n:Label (en="Periodic Break Charge")
+            @i18n:Tooltip (en="Periodic Break Charge")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=26.0, core=true, businessType=A, t24Name=PR.BRK.CHARGE)
+/* Based on the PR.BRK.RES option selected, this will hold either an OVERRIDE or EB.ERROR id. By default the ids will be picked from the associated EB.COMPARISON.TYPE record. If CAP or FLOOR values are given, then the underlying AA.PERIODIC.ATTRIBUTE.CLASS should have this type defined in it.
+
+
+Input must be a valid OVERRIDE ID or EB.ERROR ID. */
+        PR_BRK_MSG : T24BusinessTypes:ANY
+            @i18n:Label (en="Periodic Break Message")
+            @i18n:Tooltip (en="Periodic Break Message")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=25.0, core=true, t24Name=PR.BRK.MSG)
+/* When a rule is broken what action needs to be taken is defined here. Currently, the various options available are
+
+Error block further processing
+Override Give an override
+Information  Record details only
+CAP the rule value is to be used as a CAP if the rule is broken
+FLOOR the rule value is to be used as a FLOOR if the rule is broken
+
+
+Should be one of the above valid options */
+        PR_BRK_RES : AA_Customer:AA_PRD_CAT_CUSTOMER__PR_ATTRIBUTE__PR_BRK_RES
+            @i18n:Label (en="Periodic Break Restrcition")
+            @i18n:Tooltip (en="Periodic Break Restrcition")
+            @t24:i (align=L, inputBehaviour=I, maxLength=13, sysNumber=24.0, core=true, t24Name=PR.BRK.RES)
+        PR_RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=29.0, core=true, t24Name=PR.RESERVED.1)
+        PR_RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=28.0, core=true, t24Name=PR.RESERVED.2)
+        PR_RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=27.0, core=true, t24Name=PR.RESERVED.3)
+/* This is the actual rule value, which will be applied on certain attributes of the property classes over a period of time.
+
+
+Input must be a valid data type defined in the corresponding
+AA.PERIODIC.ATTRIBUTE.CLASS record. */
+        PR_VALUE : T24BusinessTypes:A
+            @i18n:Label (en="Periodic Value")
+            @i18n:Tooltip (en="Periodic Value")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=23.0, core=true, t24Name=PR.VALUE)
+    }
+    AA_PRD_CAT_CUSTOMER__STMT_NOS
+    {
+        /* System field - not used for property conditions */
+        STMT_NOS : T24BusinessTypes:N
+            @i18n:Label (en="Stmt Nos")
+            @i18n:Tooltip (en="Stmt Nos")
+            @t24:i (align=R, inputBehaviour=N, maxLength=20, sysNumber=59.0, core=true, t24Name=STMT.NOS)
+    }
+    /* The CUSTOMER Property Class is used by all products to specify all of the involved parties of an arrangement.  Each T24 product defined and processed in AA will have a single CUSTOMER Property defined. */
+    AA_PRD_DES_CUSTOMER
+        @i18n:Description (en="")
+        @t24:i (t24Name=AA.PRD.DES.CUSTOMER, nonStop=true, level=I, type=H, allowedFunctions="A C D E I L Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=68.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=69.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=65.0, core=true, t24Name=AUTHORISER)
+        CHANGED_FIELDS -> byValue AA_Customer:AA_PRD_DES_CUSTOMER__CHANGED_FIELDS *
+            @t24:i (t24Name=CHANGED.FIELDS)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=66.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=62.0, core=true, t24Name=CURR.NO)
+        CUSTOMER -> byValue AA_Customer:AA_PRD_DES_CUSTOMER__CUSTOMER *
+            @t24:i (t24Name=CUSTOMER)
+        DATE_TIME -> byValue AA_Customer:AA_PRD_DES_CUSTOMER__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+/* Optional field - Allowed Values are RESETTING and NON-RESETTING.
+
+RESETTING - During any Renewal Activities (for eg : change.product, rollover or reset) the property conditions will be reset from the product.
+
+NON-RESETTING - During any Renewal Activities property conditions will be maintained from the Arrangement level.
+
+Leaving the field blank sets NON-RESETTING as the default option. */
+        DEFAULT_ATTR_OPTION : AA_Customer:AA_PRD_DES_CUSTOMER__DEFAULT_ATTR_OPTION
+            @i18n:Label (en="Default Attribute Option")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=39.0, core=true, t24Name=DEFAULT.ATTR.OPTION)
+/* Defines whether all attributes (fields) can be negotiable or not.
+
+
+This field is Mandatory
+Valid options are YES and NO */
+        DEFAULT_NEGOTIABLE : AA_Customer:AA_PRD_DES_CUSTOMER__DEFAULT_NEGOTIABLE required
+            @i18n:Label (en="Default Negotiable")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=40.0, core=true, t24Name=DEFAULT.NEGOTIABLE)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=67.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue AA_Customer:AA_PRD_DES_CUSTOMER__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        FULL_DESCRIPTION : T24BusinessTypes:TEXT
+            @t24:i (align=L, inputBehaviour=I, maxLength=100, sysNumber=2.0, core=true, t24Name=FULL.DESCRIPTION)
+/* Contains the arrangement number, extracted from the first component of the id
+Not applicable at product level
+System updated field no input allowed */
+        ID_COMP_1 : T24BusinessTypes:A
+            @i18n:Label (en="Arrangement Id")
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=51.0, core=true, t24Name=ID.COMP.1)
+/* The action that was triggered on the arrangement property
+The action is taken from ACTIVITY.CLASS record of the underlying AA.ARRANGEMENT.ACTIVITY request that caused the record to be modified. */
+        ID_COMP_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=52.0, core=true, t24Name=ID.COMP.2)
+/* Contains the effective date of the property condition
+Not applicable at product level
+System updated field no input allowed */
+        ID_COMP_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=30, sysNumber=53.0, core=true, t24Name=ID.COMP.3)
+/* Reserved for future use
+Not applicable at product level
+System field no input allowed */
+        ID_COMP_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=54.0, core=true, t24Name=ID.COMP.4)
+/* Reserved for future use
+Not applicable at product level
+System field no input allowed */
+        ID_COMP_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=55.0, core=true, t24Name=ID.COMP.5)
+/* Reserved for future use
+Not applicable at product level
+System field no input allowed */
+        ID_COMP_6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=56.0, core=true, t24Name=ID.COMP.6)
+        INPUTTER -> byValue AA_Customer:AA_PRD_DES_CUSTOMER__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        NEGOTIATED_FLDS -> byValue AA_Customer:AA_PRD_DES_CUSTOMER__NEGOTIATED_FLDS *
+            @t24:i (t24Name=NEGOTIATED.FLDS)
+        NR_ATTRIBUTE -> byValue AA_Customer:AA_PRD_DES_CUSTOMER__NR_ATTRIBUTE *
+            @t24:i (t24Name=NR.ATTRIBUTE)
+        OTHER_PARTY -> byValue AA_Customer:AA_PRD_DES_CUSTOMER__OTHER_PARTY *
+            @t24:i (t24Name=OTHER.PARTY)
+        OVERRIDE -> byValue AA_Customer:AA_PRD_DES_CUSTOMER__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        OWNING_COMPANY -> byValue AA_Customer:AA_PRD_DES_CUSTOMER__OWNING_COMPANY *
+            @t24:i (t24Name=OWNING.COMPANY)
+/* This field represents the key to the product level conditions of a property class
+This field basically has three components separated by a hyphen
+Condition id
+Currency - if the property class is currency based. By default takes up local currency
+Effective date - if the property class is dated */
+        PRODUCT_KEY -> AA_Customer:AA_PRD_DES_CUSTOMER PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=80, sysNumber=0.0, core=true, businessType=ANY, t24Name=PRODUCT.KEY)
+        PR_ATTRIBUTE -> byValue AA_Customer:AA_PRD_DES_CUSTOMER__PR_ATTRIBUTE *
+            @t24:i (t24Name=PR.ATTRIBUTE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=61.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED2_ID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=57.0, core=true, t24Name=RESERVED2.ID)
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=20.0, core=true, t24Name=RESERVED.1)
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=19.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=17.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.6)
+        STMT_NOS -> byValue AA_Customer:AA_PRD_DES_CUSTOMER__STMT_NOS *
+            @t24:i (t24Name=STMT.NOS)
+        /* System field - reserved for future use */
+        SYS_RESERVE1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=38.0, core=true, t24Name=SYS.RESERVE1)
+        /* System field - reserved for future use */
+        SYS_RESERVE2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=37.0, core=true, t24Name=SYS.RESERVE2)
+        /* System field - reserved for future use */
+        SYS_RESERVE3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=36.0, core=true, t24Name=SYS.RESERVE3)
+        /* System field - reserved for future use */
+        SYS_RESERVE4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=35.0, core=true, t24Name=SYS.RESERVE4)
+        /* System field - reserved for future use */
+        SYS_RESERVE6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=33.0, core=true, t24Name=SYS.RESERVE6)
+        /* System field - reserved for future use */
+        SYS_RESERVE7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=32.0, core=true, t24Name=SYS.RESERVE7)
+/* This field denotes the target classic product of the given property class
+
+The already existing T24 products are mapped using AA infrastructure
+These are called classic products
+These products are mapped to different property classes */
+        TARGET_PRODUCT : T24BusinessTypes:A
+            @i18n:Label (en="Target Classic Product")
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=58.0, core=true, t24Name=TARGET.PRODUCT)
+    }
+    AA_PRD_DES_CUSTOMER__CHANGED_FIELDS
+    {
+        /* No input and multi value field - lists all fields that have been negotiated for each dated version of the property. For a subsequently dated property, the attributes listed in this field will appear in "Negotiated.Fields" and only newly negotiated fields will appear on "Changed.Fields" */
+        CHANGED_FIELDS : T24BusinessTypes:A
+            @i18n:Label (en="Fields That Have Been Negotiated For The Property")
+            @t24:i (align=L, inputBehaviour=N, maxLength=19, sysNumber=49.0, core=true, t24Name=CHANGED.FIELDS)
+    }
+    AA_PRD_DES_CUSTOMER__CUSTOMER
+    {
+/* "This field denotes the customer(s) of the Arrangement contract. Defaulted from
+
+Associated multi-value field with Customer role, Delivery required, Tax liability %, GL and Limit allocation.
+
+Validation rules
+1 -6 numeric character customer number. or 3 - 10 alphanumeric character customer mnemonic. (mandatory input)
+Must be either a valid customer number or customer mnemonic of a customer on the CUSTOMER file." */
+        CUSTOMER -> ST_Customer:CUSTOMER
+            @i18n:Label (en=Customer)
+            @i18n:Tooltip (en="Customer Liability")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=3.0, core=true, businessType=CUS, t24Name=CUSTOMER)
+/* Associated with CUSTOMER field. Denotes the role of the customer in the Arrangement.
+Each customer of an arrangement must have a role specified.  The role assigned to a customer describes the responsibilities and rights of the customer in the arrangement.
+
+
+Validation rules
+Mandatory input. If not input by the user, defaulted with the system created role ""Owner"".
+Must be a valid record in AA.CUSTOMER.ROLE table. */
+        CUSTOMER_ROLE -> AA_Customer:AA_CUSTOMER_ROLE
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=4.0, core=true, businessType=A, t24Name=CUSTOMER.ROLE)
+        /* Reserved for Future use. */
+        DELIVERY_REQD : AA_Customer:AA_PRD_DES_CUSTOMER__CUSTOMER__DELIVERY_REQD
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=8.0, core=true, t24Name=DELIVERY.REQD)
+/* This field indicates the ownership percentage of the customer in the arrangement with respect to GL reporting.  Customer in the associated field will be used for balance sheet reporting purposes.
+Associated with CUSTOMER field.
+
+Validation rules
+Must be equal to 100% and definition can be done only for one customer who is also the limit customer.
+Sum of the percentage cannot be more than 100% */
+        GL_ALLOC_PERC : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=7.0, core=true, t24Name=GL.ALLOC.PERC)
+/* This field indicates the ownership percentage of the customer in the arrangement with respect to limit liability.  Limit will be checked for the customer for whom this field is defined.
+Associated with CUSTOMER field.
+Validation rules
+Must be equal to 100% and definition can be done only for one customer who is also the limit customer.
+Sum of the percentage cannot be more than 100%. */
+        LIMIT_ALLOC_PERC : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=6.0, core=true, t24Name=LIMIT.ALLOC.PERC)
+        RESERVED_7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=11.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=RESERVED.9)
+/* This field indicates the ownership percentage of the customer in the arrangement with respect to tax liability.  Based on the percentage defined for each customer, income will be split and tax will be calculated using the respective tax percentage of each customer and the income split.
+
+Example:
+Customer 1 – 50%
+Customer 2 – 50%
+Interest capitalization amount: $1000.
+Tax percentage for Customer 1 is 10% and for Customer 2 is 0% (since the customer is minor).
+Now the Tax will be calculated by applying 10% on $500 and 0% on $500. So the net tax amount will $50 for which tax accounting will be raised.
+
+Associated with CUSTOMER field.
+Validation rules
+* Must be equal or less than 100%.
+* Sum of the percentage cannot be more than 100% */
+        TAX_LIABILITY_PERC : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=5.0, core=true, t24Name=TAX.LIABILITY.PERC)
+    }
+    AA_PRD_DES_CUSTOMER__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=64.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    AA_PRD_DES_CUSTOMER__DESCRIPTION
+    {
+/* Describes this condition record and is used for enrichment.
+
+This field can be expanded to allow the User to enter the Description of the property condition in various languages. Each expansion of the field will correspond to a new Language as defined in the LANGUAGE table (Ref: GENERAL TABLES), and will indicate to the User the Language in which the Description must be entered.
+
+
+Up to 35 type A (alphanumeric) characters */
+        DESCRIPTION : T24BusinessTypes:ANY required
+            @i18n:Label (en="Describes This Condition Record And Is Used For Enrichment")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    AA_PRD_DES_CUSTOMER__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=63.0, core=true, t24Name=INPUTTER)
+    }
+    AA_PRD_DES_CUSTOMER__NEGOTIATED_FLDS
+    {
+/* No input and multi value field that lists the attributes on the arrangement property record that have been fixed and/or negotiated. These are stored when the arrangement level record is committed. When the arrangement level record is next used all items in the NEGOTIATED.FIELDS list will be maintained.
+Once an attribute has been fixed or negotiated it will remain in negotiated field list on all subsequent dated versions of the property. */
+        NEGOTIATED_FLDS : T24BusinessTypes:A
+            @i18n:Label (en="Negotiated Attributes On Property")
+            @t24:i (align=L, inputBehaviour=N, maxLength=19, sysNumber=50.0, core=true, t24Name=NEGOTIATED.FLDS)
+    }
+    AA_PRD_DES_CUSTOMER__NR_ATTRIBUTE
+    {
+/* Defines which individual attribute (field) has the negotiation rules defined in fields "Nr.Negotiable" through to "Nr.Message"
+
+
+Must be a valid field name within this property
+This field is part of a multi value set */
+        NR_ATTRIBUTE : T24BusinessTypes:A
+            @i18n:Label (en="Negotiable Attribute")
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=41.0, core=true, t24Name=NR.ATTRIBUTE)
+        NR_OPTIONS -> byValue AA_Customer:AA_PRD_DES_CUSTOMER__NR_ATTRIBUTE__NR_OPTIONS *
+            @t24:i (t24Name=NR.OPTIONS)
+        /* System Field - Reserved for future use */
+        NR_RESERVED1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=44.0, core=true, t24Name=NR.RESERVED1)
+        /* System Field - Reserved for future use */
+        NR_RESERVED2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=43.0, core=true, t24Name=NR.RESERVED2)
+/* It is possible to define negotiation rules in EB.COMPARISON.TYPE.
+
+
+
+Input must be a valid record from EB.STANDARD.COMPARISON */
+        NR_STD_COMP -> AA_Rules:EB_STANDARD_COMPARISON
+            @i18n:Label (en="Negotiable Standard Comparison")
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=45.0, core=true, businessType=A, t24Name=NR.STD.COMP)
+        NR_TYPE -> byValue AA_Customer:AA_PRD_DES_CUSTOMER__NR_ATTRIBUTE__NR_TYPE *
+            @t24:i (t24Name=NR.TYPE)
+    }
+    AA_PRD_DES_CUSTOMER__NR_ATTRIBUTE__NR_OPTIONS
+    {
+/* Defines named values to indicate if an option applies to the associated NR.ATTRIBUTE. More than one option can be associated with the NR.ATTRIBUTE, with certain restrictions.
+
+
+Valid Inputs are NEGOTIABLE, NON-NEGOTIABLE, OVERRIDE, FIX-VALUE, MANDATORY as described below: -
+
+NEGOTIABLE
+The value of NEGOTIABLE will indicate that the associated NR.ATTRIBUTE can be negotiated at the arrangement level.
+
+NON-NEGOTIABLE
+The value of NON-NEGOTIABLE will indicate that the associated NR.ATTRIBUTE cannot be negotiated at the arrangement level. Both NEGOTIABLE and NON-NEGOTIABLE cannot be defined together
+
+OVERRIDE
+Specifies if a default override message should be generated if the default attribute is amended at the arrangement level. If OVERRIDE is not specified, no override will be generated.
+
+FIX-VALUE
+Specified if the field value is to be fixed at the arrangement level. If FIX-VALUE is not specified the field value will vary with the changes to the underlying product condition.
+
+MANDATORY
+Specifies if the attribute is mandatory for this product condition. Can only be specified where the attribute is not defined as mandatory in the property class. */
+        NR_OPTIONS : AA_Customer:AA_PRD_DES_CUSTOMER__NR_ATTRIBUTE__NR_OPTIONS__NR_OPTIONS
+            @i18n:Label (en="Negotiable Options")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=42.0, core=true, t24Name=NR.OPTIONS)
+    }
+    AA_PRD_DES_CUSTOMER__NR_ATTRIBUTE__NR_TYPE
+    {
+/* This field indicates whether to raise error or override message when rule is broken
+Allows only two values ERROR or OVERRIDE
+ERROR - error message is raised
+OVERRIDE - Override message is generated */
+        NR_MESSAGE : AA_Customer:AA_PRD_DES_CUSTOMER__NR_ATTRIBUTE__NR_TYPE__NR_MESSAGE
+            @i18n:Label (en="Negotiable Message")
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=48.0, core=true, t24Name=NR.MESSAGE)
+/* Defines the negotiation rule that is linked to the field defined in "Nr.Attribute". If an attribute has a negotiation rule linked to it (in associated fields NR.TYPE, NR.VALUE and NR.MESSAGE) the attribute must be defined as negotiable.
+It is possible to define more than one negotiation rule for an attribute
+
+
+Input must be a valid record from EB.COMPARISON.TYPE
+This is a multi value set of fields */
+        NR_TYPE -> AA_Rules:EB_COMPARISON_TYPE
+            @i18n:Label (en="Negotiable Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=46.0, core=true, businessType=A, t24Name=NR.TYPE)
+        /* Defines the value that links to the rule in field "Nr.Type" */
+        NR_VALUE : T24BusinessTypes:ANY
+            @i18n:Label (en="Negotiable Value")
+            @t24:i (align=L, inputBehaviour=I, maxLength=60, sysNumber=47.0, core=true, t24Name=NR.VALUE)
+    }
+    AA_PRD_DES_CUSTOMER__OTHER_PARTY
+    {
+        NOTES -> byValue AA_Customer:AA_PRD_DES_CUSTOMER__OTHER_PARTY__NOTES *
+            @t24:i (t24Name=NOTES)
+/* Other parties who are not legal owners of the arrangement may also be specified. All owners and any other parties must exist on the T24 CUSTOMER file.
+
+This field is part of a multi value set of fields with Role and Notes fields. */
+        OTHER_PARTY -> ST_Customer:CUSTOMER
+            @i18n:Label (en="Other Party")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=13.0, core=true, businessType=CUS, t24Name=OTHER.PARTY)
+/* Each additional party must have a role specified.  The roles are user defined and specified in EB.LOOKUP.
+
+The role assigned to an additional party describes responsibilities and rights of the additional party in the arrangement. An additional party may have power of attorney, signatory or an auditor role for example. */
+        ROLE : AA_Customer:AA_PRD_DES_CUSTOMER__OTHER_PARTY__ROLE
+            @i18n:Label (en="Additional Party\'S Role")
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=14.0, core=true, t24Name=ROLE)
+    }
+    AA_PRD_DES_CUSTOMER__OTHER_PARTY__NOTES
+    {
+        /* A user may enter any notes relating to each party. */
+        NOTES : T24BusinessTypes:A
+            @i18n:Label (en=Notes)
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=15.0, core=true, t24Name=NOTES, isTextarea=true)
+    }
+    AA_PRD_DES_CUSTOMER__OVERRIDE
+    {
+        /* Standard Override field containing override messages generated by amendments to this property */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=60.0, core=true, t24Name=OVERRIDE)
+    }
+    AA_PRD_DES_CUSTOMER__OWNING_COMPANY
+    {
+/* This field is used to capture the T24 Company(ies) that own the Product Condition record. There is no functionality attached to this field and can be used only for access control through SMS verification.
+
+The input in this field must be a valid record in company table and should belong to current financial group.
+
+This is a multi value field. Input in this field is optional. */
+        OWNING_COMPANY -> ST_CompanyCreation:COMPANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=34.0, core=true, businessType=AAPRODUCT, t24Name=OWNING.COMPANY, typeModifiers=COMPANY)
+    }
+    AA_PRD_DES_CUSTOMER__PR_ATTRIBUTE
+    {
+/* This field denotes the application method that needs to be applied to the periodic rule charges.
+Allowed values are
+Due - The periodic rule charges are made due
+Capitalise - The periodic rule charges are capitalised */
+        PR_APP_METHOD : AA_Customer:AA_PRD_DES_CUSTOMER__PR_ATTRIBUTE__PR_APP_METHOD
+            @i18n:Label (en="Periodic Attribute Method")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=30.0, core=true, t24Name=PR.APP.METHOD)
+/* This field denotes the application period for the given periodic rule charges.
+The periodic rule charges will be applied at the end of the period. If the value defined is zero, then the charges are applied immediately.
+Standard T24 period field. */
+        PR_APP_PERIOD : T24BusinessTypes:PERIOD
+            @i18n:Label (en="Periodic Attribute Period")
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=31.0, core=true, t24Name=PR.APP.PERIOD)
+/* These are set of Attributes which define the names of the rule, which will be applied on certain attributes of property classes over a period of time.
+
+
+Input must be a valid record from AA.PERIODIC.ATTRIBUTE */
+        PR_ATTRIBUTE -> AA_Rules:AA_PERIODIC_ATTRIBUTE
+            @i18n:Label (en="Periodic Attribute")
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=22.0, core=true, businessType=A, t24Name=PR.ATTRIBUTE)
+/* Charge can be collected when the periodic rule is broken
+This field denotes the charge property. The property and its condition is
+defined the product designer and validated during publishing
+
+
+Valid charge property */
+        PR_BRK_CHARGE -> AA_ProductFramework:AA_PROPERTY
+            @i18n:Label (en="Attribute Break Charge")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=26.0, core=true, businessType=A, t24Name=PR.BRK.CHARGE)
+/* Based on the PR.BRK.RES option selected, this will hold either an OVERRIDE or EB.ERROR id. By default the ids will be picked from the associated EB.COMPARISON.TYPE record. If CAP or FLOOR values are given, then the underlying AA.PERIODIC.ATTRIBUTE.CLASS should have this type defined in it.
+
+
+Input must be a valid OVERRIDE ID or EB.ERROR ID. */
+        PR_BRK_MSG : T24BusinessTypes:ANY
+            @i18n:Label (en="Attribute Break Message")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=25.0, core=true, t24Name=PR.BRK.MSG)
+/* When a rule is broken what action needs to be taken is defined here. Currently, the various options available are
+
+Error block further processing
+Override Give an override
+Information  Record details only
+CAP the rule value is to be used as a CAP if the rule is broken
+FLOOR the rule value is to be used as a FLOOR if the rule is broken
+
+
+Should be one of the above valid options */
+        PR_BRK_RES : AA_Customer:AA_PRD_DES_CUSTOMER__PR_ATTRIBUTE__PR_BRK_RES
+            @i18n:Label (en="Action On Rule Break")
+            @t24:i (align=L, inputBehaviour=I, maxLength=13, sysNumber=24.0, core=true, t24Name=PR.BRK.RES)
+        PR_RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=29.0, core=true, t24Name=PR.RESERVED.1)
+        PR_RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=28.0, core=true, t24Name=PR.RESERVED.2)
+        PR_RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=27.0, core=true, t24Name=PR.RESERVED.3)
+/* This is the actual rule value, which will be applied on certain attributes of the property classes over a period of time.
+
+
+Input must be a valid data type defined in the corresponding
+AA.PERIODIC.ATTRIBUTE.CLASS record. */
+        PR_VALUE : T24BusinessTypes:A
+            @i18n:Label (en="Attribute Value")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=23.0, core=true, t24Name=PR.VALUE)
+    }
+    AA_PRD_DES_CUSTOMER__STMT_NOS
+    {
+        /* System field - not used for property conditions */
+        STMT_NOS : T24BusinessTypes:N
+            @i18n:Label (en="Stmt Nos")
+            @i18n:Tooltip (en="Stmt Nos")
+            @t24:i (align=R, inputBehaviour=N, maxLength=20, sysNumber=59.0, core=true, t24Name=STMT.NOS)
+    }
+    /* The CUSTOMER Property Class is used by all products to specify all of the involved parties of an arrangement.  Each T24 product defined and processed in AA will have a single CUSTOMER Property defined. */
+    AA_PRD_PRF_CUSTOMER
+        @i18n:Description (en="")
+        @t24:i (t24Name=AA.PRD.PRF.CUSTOMER, nonStop=true, level=I, type=W, allowedFunctions="L Q S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=68.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=69.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=65.0, core=true, t24Name=AUTHORISER)
+        CHANGED_FIELDS -> byValue AA_Customer:AA_PRD_PRF_CUSTOMER__CHANGED_FIELDS *
+            @t24:i (t24Name=CHANGED.FIELDS)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=66.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=62.0, core=true, t24Name=CURR.NO)
+        CUSTOMER -> byValue AA_Customer:AA_PRD_PRF_CUSTOMER__CUSTOMER *
+            @t24:i (t24Name=CUSTOMER)
+        DATE_TIME -> byValue AA_Customer:AA_PRD_PRF_CUSTOMER__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+/* Optional field - Allowed Values are RESETTING and NON-RESETTING.
+
+RESETTING - During any Renewal Activities (for eg : change.product, rollover or reset) the property conditions will be reset from the product.
+
+NON-RESETTING - During any Renewal Activities property conditions will be maintained from the Arrangement level.
+
+Leaving the field blank sets NON-RESETTING as the default option. */
+        DEFAULT_ATTR_OPTION : AA_Customer:AA_PRD_PRF_CUSTOMER__DEFAULT_ATTR_OPTION
+            @i18n:Label (en="Default Attribute Option")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=39.0, core=true, t24Name=DEFAULT.ATTR.OPTION)
+/* Defines whether all attributes (fields) can be negotiable or not.
+
+
+This field is Mandatory
+Valid options are YES and NO */
+        DEFAULT_NEGOTIABLE : AA_Customer:AA_PRD_PRF_CUSTOMER__DEFAULT_NEGOTIABLE required
+            @i18n:Label (en="Default Negotiable")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=40.0, core=true, t24Name=DEFAULT.NEGOTIABLE)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=67.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue AA_Customer:AA_PRD_PRF_CUSTOMER__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        FULL_DESCRIPTION : T24BusinessTypes:TEXT
+            @t24:i (align=L, inputBehaviour=I, maxLength=100, sysNumber=2.0, core=true, t24Name=FULL.DESCRIPTION)
+/* Contains the arrangement number, extracted from the first component of the id
+Not applicable at product level
+System updated field no input allowed */
+        ID_COMP_1 : T24BusinessTypes:A
+            @i18n:Label (en="Arrangement Id")
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=51.0, core=true, t24Name=ID.COMP.1)
+/* The action that was triggered on the arrangement property
+The action is taken from ACTIVITY.CLASS record of the underlying AA.ARRANGEMENT.ACTIVITY request that caused the record to be modified. */
+        ID_COMP_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=52.0, core=true, t24Name=ID.COMP.2)
+/* Contains the effective date of the property condition
+Not applicable at product level
+System updated field no input allowed */
+        ID_COMP_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=30, sysNumber=53.0, core=true, t24Name=ID.COMP.3)
+/* Reserved for future use
+Not applicable at product level
+System field no input allowed */
+        ID_COMP_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=54.0, core=true, t24Name=ID.COMP.4)
+/* Reserved for future use
+Not applicable at product level
+System field no input allowed */
+        ID_COMP_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=55.0, core=true, t24Name=ID.COMP.5)
+/* Reserved for future use
+Not applicable at product level
+System field no input allowed */
+        ID_COMP_6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=56.0, core=true, t24Name=ID.COMP.6)
+        INPUTTER -> byValue AA_Customer:AA_PRD_PRF_CUSTOMER__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        NEGOTIATED_FLDS -> byValue AA_Customer:AA_PRD_PRF_CUSTOMER__NEGOTIATED_FLDS *
+            @t24:i (t24Name=NEGOTIATED.FLDS)
+        NR_ATTRIBUTE -> byValue AA_Customer:AA_PRD_PRF_CUSTOMER__NR_ATTRIBUTE *
+            @t24:i (t24Name=NR.ATTRIBUTE)
+        OTHER_PARTY -> byValue AA_Customer:AA_PRD_PRF_CUSTOMER__OTHER_PARTY *
+            @t24:i (t24Name=OTHER.PARTY)
+        OVERRIDE -> byValue AA_Customer:AA_PRD_PRF_CUSTOMER__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        OWNING_COMPANY -> byValue AA_Customer:AA_PRD_PRF_CUSTOMER__OWNING_COMPANY *
+            @t24:i (t24Name=OWNING.COMPANY)
+/* This field represents the key to the product level conditions of a property class
+This field basically has three components separated by a hyphen
+Condition id
+Currency - if the property class is currency based. By default takes up local currency
+Effective date - if the property class is dated */
+        PRODUCT_KEY -> AA_Customer:AA_PRD_PRF_CUSTOMER PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=80, sysNumber=0.0, core=true, businessType=ANY, t24Name=PRODUCT.KEY)
+        PR_ATTRIBUTE -> byValue AA_Customer:AA_PRD_PRF_CUSTOMER__PR_ATTRIBUTE *
+            @t24:i (t24Name=PR.ATTRIBUTE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=61.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED2_ID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=57.0, core=true, t24Name=RESERVED2.ID)
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=20.0, core=true, t24Name=RESERVED.1)
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=19.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=17.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.6)
+        STMT_NOS -> byValue AA_Customer:AA_PRD_PRF_CUSTOMER__STMT_NOS *
+            @t24:i (t24Name=STMT.NOS)
+        /* System field - reserved for future use */
+        SYS_RESERVE1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=38.0, core=true, t24Name=SYS.RESERVE1)
+        /* System field - reserved for future use */
+        SYS_RESERVE2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=37.0, core=true, t24Name=SYS.RESERVE2)
+        /* System field - reserved for future use */
+        SYS_RESERVE3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=36.0, core=true, t24Name=SYS.RESERVE3)
+        /* System field - reserved for future use */
+        SYS_RESERVE4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=35.0, core=true, t24Name=SYS.RESERVE4)
+        /* System field - reserved for future use */
+        SYS_RESERVE6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=33.0, core=true, t24Name=SYS.RESERVE6)
+        /* System field - reserved for future use */
+        SYS_RESERVE7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=32.0, core=true, t24Name=SYS.RESERVE7)
+/* This field denotes the target classic product of the given property class
+
+The already existing T24 products are mapped using AA infrastructure
+These are called classic products
+These products are mapped to different property clases */
+        TARGET_PRODUCT : T24BusinessTypes:A
+            @i18n:Label (en="Target Classic Product")
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=58.0, core=true, t24Name=TARGET.PRODUCT)
+    }
+    AA_PRD_PRF_CUSTOMER__CHANGED_FIELDS
+    {
+        /* No input and multi value field - lists all fields that have been negotiated for each dated version of the property. For a subsequently dated property, the attributes listed in this field will appear in "Negotiated.Fields" and only newly negotiated fields will appear on "Changed.Fields" */
+        CHANGED_FIELDS : T24BusinessTypes:A
+            @i18n:Label (en="Fields That Have Been Negotiated For The Property")
+            @t24:i (align=L, inputBehaviour=N, maxLength=19, sysNumber=49.0, core=true, t24Name=CHANGED.FIELDS)
+    }
+    AA_PRD_PRF_CUSTOMER__CUSTOMER
+    {
+/* This field denotes the customer(s) of the Arrangement contract. Defaulted from
+
+Associated multi-value field with Customer role, Delivery required, Tax liability %, GL and Limit allocation.
+
+Validation rules
+1 -6 numeric character customer number. or 3 - 10 alphanumeric character customer mnemonic. (mandatory input)
+Must be either a valid customer number or customer mnemonic of a customer on the CUSTOMER file. */
+        CUSTOMER -> ST_Customer:CUSTOMER
+            @i18n:Label (en=Customer)
+            @i18n:Tooltip (en="Customer Liability")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=3.0, core=true, businessType=CUS, t24Name=CUSTOMER)
+/* Associated with CUSTOMER field. Denotes the role of the customer in the Arrangement.
+Each customer of an arrangement must have a role specified.  The role assigned to a customer describes the responsibilities and rights of the customer in the arrangement.
+
+
+Validation rules
+Mandatory input. If not input by the user, defaulted with the system created role ""Owner"".
+Must be a valid record in AA.CUSTOMER.ROLE table. */
+        CUSTOMER_ROLE -> AA_Customer:AA_CUSTOMER_ROLE
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=4.0, core=true, businessType=A, t24Name=CUSTOMER.ROLE)
+        /* Reserved for Future use. */
+        DELIVERY_REQD : AA_Customer:AA_PRD_PRF_CUSTOMER__CUSTOMER__DELIVERY_REQD
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=8.0, core=true, t24Name=DELIVERY.REQD)
+/* This field indicates the ownership percentage of the customer in the arrangement with respect to GL reporting.  Customer in the associated field will be used for balance sheet reporting purposes.
+Associated with CUSTOMER field.
+
+Validation rules
+Must be equal to 100% and definition can be done only for one customer who is also the limit customer.
+Sum of the percentage cannot be more than 100% */
+        GL_ALLOC_PERC : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=7.0, core=true, t24Name=GL.ALLOC.PERC)
+/* This field indicates the ownership percentage of the customer in the arrangement with respect to limit liability.  Limit will be checked for the customer for whom this field is defined.
+Associated with CUSTOMER field.
+Validation rules
+Must be equal to 100% and definition can be done only for one customer who is also the limit customer.
+Sum of the percentage cannot be more than 100%. */
+        LIMIT_ALLOC_PERC : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=6.0, core=true, t24Name=LIMIT.ALLOC.PERC)
+        RESERVED_7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=11.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=RESERVED.9)
+/* This field indicates the ownership percentage of the customer in the arrangement with respect to tax liability.  Based on the percentage defined for each customer, income will be split and tax will be calculated using the respective tax percentage of each customer and the income split.
+
+Example:
+Customer 1 – 50%
+Customer 2 – 50%
+Interest capitalization amount: $1000.
+Tax percentage for Customer 1 is 10% and for Customer 2 is 0% (since the customer is minor).
+Now the Tax will be calculated by applying 10% on $500 and 0% on $500. So the net tax amount will $50 for which tax accounting will be raised.
+
+Associated with CUSTOMER field.
+Validation rules
+* Must be equal or less than 100%.
+* Sum of the percentage cannot be more than 100% */
+        TAX_LIABILITY_PERC : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=5.0, core=true, t24Name=TAX.LIABILITY.PERC)
+    }
+    AA_PRD_PRF_CUSTOMER__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=64.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    AA_PRD_PRF_CUSTOMER__DESCRIPTION
+    {
+/* Describes this condition record and is used for enrichment.
+
+This field can be expanded to allow the User to enter the Description of the property condition in various languages. Each expansion of the field will correspond to a new Language as defined in the LANGUAGE table (Ref: GENERAL TABLES), and will indicate to the User the Language in which the Description must be entered.
+
+
+Up to 35 type A (alphanumeric) characters */
+        DESCRIPTION : T24BusinessTypes:ANY required
+            @i18n:Label (en="Describes This Condition Record And Is Used For Enrichment")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    AA_PRD_PRF_CUSTOMER__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=63.0, core=true, t24Name=INPUTTER)
+    }
+    AA_PRD_PRF_CUSTOMER__NEGOTIATED_FLDS
+    {
+/* No input and multi value field that lists the attributes on the arrangement property record that have been fixed and/or negotiated. These are stored when the arrangement level record is committed. When the arrangement level record is next used all items in the NEGOTIATED.FIELDS list will be maintained.
+Once an attribute has been fixed or negotiated it will remain in negotiated field list on all subsequent dated versions of the property. */
+        NEGOTIATED_FLDS : T24BusinessTypes:A
+            @i18n:Label (en="Negotiated Attributes On Property")
+            @t24:i (align=L, inputBehaviour=N, maxLength=19, sysNumber=50.0, core=true, t24Name=NEGOTIATED.FLDS)
+    }
+    AA_PRD_PRF_CUSTOMER__NR_ATTRIBUTE
+    {
+/* Defines which individual attribute (field) has the negotiation rules defined in fields "Nr.Negotiable" through to "Nr.Message"
+
+
+Must be a valid field name within this property
+This field is part of a multi value set */
+        NR_ATTRIBUTE : T24BusinessTypes:A
+            @i18n:Label (en="Negotiable Attribute")
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=41.0, core=true, t24Name=NR.ATTRIBUTE)
+        NR_OPTIONS -> byValue AA_Customer:AA_PRD_PRF_CUSTOMER__NR_ATTRIBUTE__NR_OPTIONS *
+            @t24:i (t24Name=NR.OPTIONS)
+        /* System Field - Reserved for future use */
+        NR_RESERVED1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=44.0, core=true, t24Name=NR.RESERVED1)
+        /* System Field - Reserved for future use */
+        NR_RESERVED2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=43.0, core=true, t24Name=NR.RESERVED2)
+/* It is possible to define negotiation rules in EB.COMPARISON.TYPE.
+
+
+
+Input must be a valid record from EB.STANDARD.COMPARISON */
+        NR_STD_COMP -> AA_Rules:EB_STANDARD_COMPARISON
+            @i18n:Label (en="Negotiable Standard Comparison")
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=45.0, core=true, businessType=A, t24Name=NR.STD.COMP)
+        NR_TYPE -> byValue AA_Customer:AA_PRD_PRF_CUSTOMER__NR_ATTRIBUTE__NR_TYPE *
+            @t24:i (t24Name=NR.TYPE)
+    }
+    AA_PRD_PRF_CUSTOMER__NR_ATTRIBUTE__NR_OPTIONS
+    {
+/* Defines named values to indicate if an option applies to the associated NR.ATTRIBUTE. More than one option can be associated with the NR.ATTRIBUTE, with certain restrictions.
+
+
+Valid Inputs are NEGOTIABLE, NON-NEGOTIABLE, OVERRIDE, FIX-VALUE, MANDATORY as described below: -
+
+NEGOTIABLE
+The value of NEGOTIABLE will indicate that the associated NR.ATTRIBUTE can be negotiated at the arrangement level.
+
+NON-NEGOTIABLE
+The value of NON-NEGOTIABLE will indicate that the associated NR.ATTRIBUTE cannot be negotiated at the arrangement level. Both NEGOTIABLE and NON-NEGOTIABLE cannot be defined together
+
+OVERRIDE
+Specifies if a default override message should be generated if the default attribute is amended at the arrangement level. If OVERRIDE is not specified, no override will be generated.
+
+FIX-VALUE
+Specified if the field value is to be fixed at the arrangement level. If FIX-VALUE is not specified the field value will vary with the changes to the underlying product condition.
+
+MANDATORY
+Specifies if the attribute is mandatory for this product condition. Can only be specified where the attribute is not defined as mandatory in the property class. */
+        NR_OPTIONS : AA_Customer:AA_PRD_PRF_CUSTOMER__NR_ATTRIBUTE__NR_OPTIONS__NR_OPTIONS
+            @i18n:Label (en="Negotiable Options")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=42.0, core=true, t24Name=NR.OPTIONS)
+    }
+    AA_PRD_PRF_CUSTOMER__NR_ATTRIBUTE__NR_TYPE
+    {
+/* This field indicates whether to raise error or override message when rule is broken
+Allows only two values ERROR or OVERRIDE
+ERROR - error message is raised
+OVERRIDE - Override message is generated */
+        NR_MESSAGE : AA_Customer:AA_PRD_PRF_CUSTOMER__NR_ATTRIBUTE__NR_TYPE__NR_MESSAGE
+            @i18n:Label (en="Negotiable Message")
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=48.0, core=true, t24Name=NR.MESSAGE)
+/* Defines the negotiation rule that is linked to the field defined in "Nr.Attribute". If an attribute has a negotiation rule linked to it (in associated fields NR.TYPE, NR.VALUE and NR.MESSAGE) the attribute must be defined as negotiable.
+It is possible to define more than one negotiation rule for an attribute
+
+
+Input must be a valid record from EB.COMPARISON.TYPE
+This is a multi-value set of fields */
+        NR_TYPE -> AA_Rules:EB_COMPARISON_TYPE
+            @i18n:Label (en="Negotiable Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=46.0, core=true, businessType=A, t24Name=NR.TYPE)
+        /* Defines the value that links to the rule in field "Nr.Type" */
+        NR_VALUE : T24BusinessTypes:ANY
+            @i18n:Label (en="Negotiable Value")
+            @t24:i (align=L, inputBehaviour=I, maxLength=60, sysNumber=47.0, core=true, t24Name=NR.VALUE)
+    }
+    AA_PRD_PRF_CUSTOMER__OTHER_PARTY
+    {
+        NOTES -> byValue AA_Customer:AA_PRD_PRF_CUSTOMER__OTHER_PARTY__NOTES *
+            @t24:i (t24Name=NOTES)
+/* Other parties who are not legal owners of the arrangement may also be specified. All owners and any other parties must exist on the T24 CUSTOMER file.
+
+This field is part of a multi value set of fields with Role and Notes fields. */
+        OTHER_PARTY -> ST_Customer:CUSTOMER
+            @i18n:Label (en="Other Party")
+            @i18n:Tooltip (en="Other parties not legal owners of the arrangement ")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=13.0, core=true, businessType=CUS, t24Name=OTHER.PARTY)
+/* Each additional party must have a role specified.  The roles are user defined and specified in EB.LOOKUP.
+
+The role assigned to an additional party describes responsibilities and rights of the additional party in the arrangement. An additional party may have power of attorney, signatory or an auditor role for example. */
+        ROLE : AA_Customer:AA_PRD_PRF_CUSTOMER__OTHER_PARTY__ROLE
+            @i18n:Label (en="Additional Party\'S Role")
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=14.0, core=true, t24Name=ROLE)
+    }
+    AA_PRD_PRF_CUSTOMER__OTHER_PARTY__NOTES
+    {
+        /* A user may enter any notes relating to each party. */
+        NOTES : T24BusinessTypes:A
+            @i18n:Label (en=Notes)
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=15.0, core=true, t24Name=NOTES, isTextarea=true)
+    }
+    AA_PRD_PRF_CUSTOMER__OVERRIDE
+    {
+        /* Standard Override field containing override messages generated by amendments to this property */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=60.0, core=true, t24Name=OVERRIDE)
+    }
+    AA_PRD_PRF_CUSTOMER__OWNING_COMPANY
+    {
+/* This field is used to capture the T24 Company(ies) that own the Product Condition record. There is no functionality attached to this field and can be used only for access control through SMS verification.
+
+The input in this field must be a valid record in company table and should belong to current financial group.
+
+This is a multi value field. Input in this field is optional. */
+        OWNING_COMPANY -> ST_CompanyCreation:COMPANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=34.0, core=true, businessType=AAPRODUCT, t24Name=OWNING.COMPANY, typeModifiers=COMPANY)
+    }
+    AA_PRD_PRF_CUSTOMER__PR_ATTRIBUTE
+    {
+/* This field denotes the application method that needs to be applied to the periodic rule charges.
+Allowed values are
+Due - The periodic rule charges are made due
+Capitalise - The periodic rule charges are capitalised */
+        PR_APP_METHOD : AA_Customer:AA_PRD_PRF_CUSTOMER__PR_ATTRIBUTE__PR_APP_METHOD
+            @i18n:Label (en="Periodic Attribute Method")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=30.0, core=true, t24Name=PR.APP.METHOD)
+/* This field denotes the application period for the given periodic rule charges.
+The periodic rule charges will be applied at the end of the period. If the value defined is zero, then the charges are applied immediately.
+Standard T24 period field. */
+        PR_APP_PERIOD : T24BusinessTypes:PERIOD
+            @i18n:Label (en="Periodic Attribute Period")
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=31.0, core=true, t24Name=PR.APP.PERIOD)
+/* These are set of Attributes which define the names of the rule, which will be applied on certain attributes of property classes over a period of time.
+
+
+Input must be a valid record from AA.PERIODIC.ATTRIBUTE */
+        PR_ATTRIBUTE -> AA_Rules:AA_PERIODIC_ATTRIBUTE
+            @i18n:Label (en="Periodic Attribute")
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=22.0, core=true, businessType=A, t24Name=PR.ATTRIBUTE)
+/* Charge can be collected when the periodic rule is broken
+This field denotes the charge property. The property and its condition is
+defined the product designer and validated during publishing
+
+
+Valid charge property */
+        PR_BRK_CHARGE -> AA_ProductFramework:AA_PROPERTY
+            @i18n:Label (en="Attribute Break Charge")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=26.0, core=true, businessType=A, t24Name=PR.BRK.CHARGE)
+/* Based on the PR.BRK.RES option selected, this will hold either an OVERRIDE or EB.ERROR id. By default the ids will be picked from the associated EB.COMPARISON.TYPE record. If CAP or FLOOR values are given, then the underlying AA.PERIODIC.ATTRIBUTE.CLASS should have this type defined in it.
+
+
+Input must be a valid OVERRIDE ID or EB.ERROR ID. */
+        PR_BRK_MSG : T24BusinessTypes:ANY
+            @i18n:Label (en="Attribute Break Message")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=25.0, core=true, t24Name=PR.BRK.MSG)
+/* When a rule is broken what action needs to be taken is defined here. Currently, the various options available are
+
+Error block further processing
+Override Give an override
+Information  Record details only
+CAP the rule value is to be used as a CAP if the rule is broken
+FLOOR the rule value is to be used as a FLOOR if the rule is broken
+
+
+Should be one of the above valid options */
+        PR_BRK_RES : AA_Customer:AA_PRD_PRF_CUSTOMER__PR_ATTRIBUTE__PR_BRK_RES
+            @i18n:Label (en="Action On Rule Break")
+            @t24:i (align=L, inputBehaviour=I, maxLength=13, sysNumber=24.0, core=true, t24Name=PR.BRK.RES)
+        PR_RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=29.0, core=true, t24Name=PR.RESERVED.1)
+        PR_RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=28.0, core=true, t24Name=PR.RESERVED.2)
+        PR_RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=27.0, core=true, t24Name=PR.RESERVED.3)
+/* This is the actual rule value, which will be applied on certain attributes of the property classes over a period of time.
+
+
+Input must be a valid data type defined in the corresponding
+AA.PERIODIC.ATTRIBUTE.CLASS record. */
+        PR_VALUE : T24BusinessTypes:A
+            @i18n:Label (en="Attribute Value")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=23.0, core=true, t24Name=PR.VALUE)
+    }
+    AA_PRD_PRF_CUSTOMER__STMT_NOS
+    {
+        /* System field - not used for property conditions */
+        STMT_NOS : T24BusinessTypes:N
+            @i18n:Label (en="Stmt Nos")
+            @i18n:Tooltip (en="Stmt Nos")
+            @t24:i (align=R, inputBehaviour=N, maxLength=20, sysNumber=59.0, core=true, t24Name=STMT.NOS)
+    }
+    /* The CUSTOMER Property Class is used by all products to specify all of the involved parties of an arrangement.  Each T24 product defined and processed in AA will have a single CUSTOMER Property defined. */
+    AA_SIM_CUSTOMER
+        @i18n:Description (en="")
+        @t24:i (t24Name=AA.SIM.CUSTOMER, nonStop=true, level=F, type=H, allowedFunctions="A C D E I L Q R S", localRefAllowed=true)
+    {
+        ACTION -> byValue AA_Customer:AA_SIM_CUSTOMER__ACTION *
+            @t24:i (t24Name=ACTION)
+/* The activity that caused this arrangement property to be updated.
+The activity is taken from the underlying AA.ARRANGEMENT.ACTIVITY request that caused the record to be modified */
+        ACTIVITY : T24BusinessTypes:A required
+            @i18n:Label (en=Activity)
+            @t24:i (align=L, inputBehaviour=I, maxLength=80, sysNumber=1.0, core=true, t24Name=ACTIVITY)
+/* The key to the arrangement property condition. The key is comprised of the following components (delimited by a "-"):
+Arrangement Id
+Property name>
+Effective Date */
+        ARRANGEMENT_KEY -> AA_Customer:AA_SIM_CUSTOMER PK required
+            @i18n:Label (en="Arrangement Key")
+            @t24:i (align=L, inputBehaviour=I, maxLength=80, sysNumber=0.0, core=true, businessType=ANY, t24Name=ARRANGEMENT.KEY)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=68.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=69.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=65.0, core=true, t24Name=AUTHORISER)
+        CHANGED_FIELDS -> byValue AA_Customer:AA_SIM_CUSTOMER__CHANGED_FIELDS *
+            @t24:i (t24Name=CHANGED.FIELDS)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=66.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=62.0, core=true, t24Name=CURR.NO)
+        CUSTOMER -> byValue AA_Customer:AA_SIM_CUSTOMER__CUSTOMER *
+            @t24:i (t24Name=CUSTOMER)
+        DATE_TIME -> byValue AA_Customer:AA_SIM_CUSTOMER__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+/* Optional field - Allowed Values are RESETTING and NON-RESETTING.
+
+RESETTING - During any Renewal Activities (for eg : change.product, rollover or reset) the property conditions will be reset from the product.
+
+NON-RESETTING - During any Renewal Activities property conditions will be maintained from the Arrangement level.
+
+Not used in Arrangement/Sim level.
+
+Leaving the field blank sets NON-RESETTING as the default option. */
+        DEFAULT_ATTR_OPTION : AA_Customer:AA_SIM_CUSTOMER__DEFAULT_ATTR_OPTION
+            @i18n:Label (en="Default Attribute Options")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=39.0, core=true, t24Name=DEFAULT.ATTR.OPTION)
+        /* Not used for arrangement level conditions */
+        DEFAULT_NEGOTIABLE : AA_Customer:AA_SIM_CUSTOMER__DEFAULT_NEGOTIABLE
+            @i18n:Label (en="Default Negotiable")
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=40.0, core=true, t24Name=DEFAULT.NEGOTIABLE)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Department Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=67.0, core=true, t24Name=DEPT.CODE)
+/* Contains the arrangement number, extracted from the first component of the id
+System updated field no input allowed */
+        ID_COMP_1 : T24BusinessTypes:A
+            @i18n:Label (en="Arrangement Id")
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=51.0, core=true, t24Name=ID.COMP.1)
+/* Contains the name of the property that this arrangement level condition relates to
+Name is defined in AA.PRORERTY table
+System maintained field no input allowed */
+        ID_COMP_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=52.0, core=true, t24Name=ID.COMP.2)
+/* Contains the Effective Date of this property condition
+System updated field no input allowed */
+        ID_COMP_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=30, sysNumber=53.0, core=true, t24Name=ID.COMP.3)
+/* Reserved for future use
+System field no input allowed */
+        ID_COMP_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=54.0, core=true, t24Name=ID.COMP.4)
+/* Reserved for future use
+System field no input allowed */
+        ID_COMP_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=55.0, core=true, t24Name=ID.COMP.5)
+/* Reserved for future use
+System field no input allowed */
+        ID_COMP_6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=56.0, core=true, t24Name=ID.COMP.6)
+        INPUTTER -> byValue AA_Customer:AA_SIM_CUSTOMER__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        NEGOTIATED_FLDS -> byValue AA_Customer:AA_SIM_CUSTOMER__NEGOTIATED_FLDS *
+            @t24:i (t24Name=NEGOTIATED.FLDS)
+        NR_ATTRIBUTE -> byValue AA_Customer:AA_SIM_CUSTOMER__NR_ATTRIBUTE *
+            @t24:i (t24Name=NR.ATTRIBUTE)
+        OTHER_PARTY -> byValue AA_Customer:AA_SIM_CUSTOMER__OTHER_PARTY *
+            @t24:i (t24Name=OTHER.PARTY)
+        OVERRIDE -> byValue AA_Customer:AA_SIM_CUSTOMER__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        OWNING_COMPANY -> byValue AA_Customer:AA_SIM_CUSTOMER__OWNING_COMPANY *
+            @t24:i (t24Name=OWNING.COMPANY)
+        PR_ATTRIBUTE -> byValue AA_Customer:AA_SIM_CUSTOMER__PR_ATTRIBUTE *
+            @t24:i (t24Name=PR.ATTRIBUTE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=61.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED2_ID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=57.0, core=true, t24Name=RESERVED2.ID)
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=20.0, core=true, t24Name=RESERVED.1)
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=19.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=17.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.6)
+        STMT_NOS -> byValue AA_Customer:AA_SIM_CUSTOMER__STMT_NOS *
+            @t24:i (t24Name=STMT.NOS)
+        /* System field - reserved for future use */
+        SYS_RESERVE1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=38.0, core=true, t24Name=SYS.RESERVE1)
+        /* System field - reserved for future use */
+        SYS_RESERVE2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=37.0, core=true, t24Name=SYS.RESERVE2)
+        /* System field - reserved for future use */
+        SYS_RESERVE3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=36.0, core=true, t24Name=SYS.RESERVE3)
+        /* System field - reserved for future use */
+        SYS_RESERVE4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=35.0, core=true, t24Name=SYS.RESERVE4)
+        /* System field - reserved for future use */
+        SYS_RESERVE6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=33.0, core=true, t24Name=SYS.RESERVE6, mvSvExpansionAccess=NOEXPAND)
+        /* System field - reserved for future use */
+        SYS_RESERVE7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=32.0, core=true, t24Name=SYS.RESERVE7, mvSvExpansionAccess=NOEXPAND)
+/* This field denotes the target classic product of the given property class
+
+The already existing T24 products are mapped using AA infrastructure
+These are called classic products
+These products are mapped to different property classes */
+        TARGET_PRODUCT : T24BusinessTypes:A
+            @i18n:Label (en="Target Product")
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=58.0, core=true, t24Name=TARGET.PRODUCT)
+    }
+    AA_SIM_CUSTOMER__ACTION
+    {
+/* The activity that caused this arrangement property to be updated.
+The activity is taken from the underlying AA.ARRANGEMENT.ACTIVITY request that caused the record to be modified */
+        ACTION : T24BusinessTypes:A required
+            @i18n:Label (en=Action)
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=2.0, core=true, t24Name=ACTION)
+    }
+    AA_SIM_CUSTOMER__CHANGED_FIELDS
+    {
+        /* No input and multi value field lists all fields that have been negotiated for each dated version of the property. For a subsequently dated property, the attributes listed in this field will appear in "Negotiated.Fields" and only newly negotiated fields will appear on "Changed.Fields" */
+        CHANGED_FIELDS : T24BusinessTypes:A
+            @i18n:Label (en="Negotiated Fields")
+            @t24:i (align=L, inputBehaviour=N, maxLength=19, sysNumber=49.0, core=true, t24Name=CHANGED.FIELDS)
+    }
+    AA_SIM_CUSTOMER__CUSTOMER
+    {
+/* This field denotes the customer(s) of the Arrangement contract. Defaulted from
+
+Associated multi-value field with Customer role, Delivery required, Tax liability %, GL and Limit allocation.
+
+Validation rules
+1 -6 numeric character customer number. or 3 - 10 alphanumeric character customer mnemonic. (mandatory input)
+Must be either a valid customer number or customer mnemonic of a customer on the CUSTOMER file. */
+        CUSTOMER -> ST_Customer:CUSTOMER
+            @i18n:Label (en=Customer)
+            @i18n:Tooltip (en="Customer Liability")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=3.0, core=true, businessType=CUS, t24Name=CUSTOMER)
+/* Associated with CUSTOMER field. Denotes the role of the customer in the Arrangement.
+Each customer of an arrangement must have a role specified.  The role assigned to a customer describes the responsibilities and rights of the customer in the arrangement.
+
+
+Validation rules
+Mandatory input. If not input by the user, defaulted with the system created role """"Owner"""".
+Must be a valid record in AA.CUSTOMER.ROLE table. */
+        CUSTOMER_ROLE -> AA_Customer:AA_CUSTOMER_ROLE
+            @i18n:Label (en=Role)
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=4.0, core=true, businessType=A, t24Name=CUSTOMER.ROLE)
+        /* Reserved for Future use. */
+        DELIVERY_REQD : AA_Customer:AA_SIM_CUSTOMER__CUSTOMER__DELIVERY_REQD
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=8.0, core=true, t24Name=DELIVERY.REQD)
+/* This field indicates the ownership percentage of the customer in the arrangement with respect to GL reporting.  Customer in the associated field will be used for balance sheet reporting purposes.
+Associated with CUSTOMER field.
+
+Validation rules
+Must be equal to 100% and definition can be done only for one customer who is also the limit customer.
+Sum of the percentage cannot be more than 100% */
+        GL_ALLOC_PERC : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=7.0, core=true, t24Name=GL.ALLOC.PERC)
+        LIMIT_ALLOC_PERC : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=6.0, core=true, t24Name=LIMIT.ALLOC.PERC)
+        RESERVED_7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=11.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=RESERVED.9)
+/* This field indicates the ownership percentage of the customer in the arrangement with respect to tax liability.  Based on the percentage defined for each customer, income will be split and tax will be calculated using the respective tax percentage of each customer and the income split.
+
+Example:
+Customer 1 – 50%
+Customer 2 – 50%
+Interest capitalization amount: $1000.
+Tax percentage for Customer 1 is 10% and for Customer 2 is 0% (since the customer is minor).
+Now the Tax will be calculated by applying 10% on $500 and 0% on $500. So the net tax amount will $50 for which tax accounting will be raised.
+
+Associated with CUSTOMER field.
+Validation rules
+* Must be equal or less than 100%.
+* Sum of the percentage cannot be more than 100%. */
+        TAX_LIABILITY_PERC : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=12, sysNumber=5.0, core=true, t24Name=TAX.LIABILITY.PERC)
+    }
+    AA_SIM_CUSTOMER__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=64.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    AA_SIM_CUSTOMER__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=63.0, core=true, t24Name=INPUTTER)
+    }
+    AA_SIM_CUSTOMER__NEGOTIATED_FLDS
+    {
+/* No input and multi value field that lists the attributes on the arrangement property record that have been fixed and/or negotiated. These are stored when the arrangement level record is committed. When the arrangement level record is next used all items in the NEGOTIATED.FIELDS list will be maintained
+Once an attribute has been fixed or negotiated it will remain in negotiated field list on all subsequent dated versions of the property. */
+        NEGOTIATED_FLDS : T24BusinessTypes:A
+            @i18n:Label (en="Negotiated Fields")
+            @t24:i (align=L, inputBehaviour=N, maxLength=19, sysNumber=50.0, core=true, t24Name=NEGOTIATED.FLDS)
+    }
+    AA_SIM_CUSTOMER__NR_ATTRIBUTE
+    {
+/* System field - not used for arrangement conditions
+
+
+System Field NoINPUT allowed - */
+        NR_ATTRIBUTE : T24BusinessTypes:A
+            @i18n:Label (en=Attribute)
+            @t24:i (align=L, inputBehaviour=N, maxLength=25, sysNumber=41.0, core=true, t24Name=NR.ATTRIBUTE)
+        NR_OPTIONS -> byValue AA_Customer:AA_SIM_CUSTOMER__NR_ATTRIBUTE__NR_OPTIONS *
+            @t24:i (t24Name=NR.OPTIONS)
+        /* System Field - Reserved for future use */
+        NR_RESERVED1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=44.0, core=true, t24Name=NR.RESERVED1)
+        /* System Field - Reserved for future use */
+        NR_RESERVED2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=43.0, core=true, t24Name=NR.RESERVED2)
+/* Not used for Arrangement Conditions
+
+
+
+Input not allowed */
+        NR_STD_COMP -> AA_Rules:EB_STANDARD_COMPARISON
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=25, sysNumber=45.0, core=true, businessType=A, t24Name=NR.STD.COMP)
+        NR_TYPE -> byValue AA_Customer:AA_SIM_CUSTOMER__NR_ATTRIBUTE__NR_TYPE *
+            @t24:i (t24Name=NR.TYPE)
+    }
+    AA_SIM_CUSTOMER__NR_ATTRIBUTE__NR_OPTIONS
+    {
+/* System field - not used for arrangement conditions
+
+
+System Field NoINPUT allowed - */
+        NR_OPTIONS : AA_Customer:AA_SIM_CUSTOMER__NR_ATTRIBUTE__NR_OPTIONS__NR_OPTIONS
+            @i18n:Label (en=Options)
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=42.0, core=true, t24Name=NR.OPTIONS)
+    }
+    AA_SIM_CUSTOMER__NR_ATTRIBUTE__NR_TYPE
+    {
+/* System field - not used for arrangement conditions
+
+
+System Field NoINPUT allowed - */
+        NR_MESSAGE : AA_Customer:AA_SIM_CUSTOMER__NR_ATTRIBUTE__NR_TYPE__NR_MESSAGE
+            @i18n:Label (en=Message)
+            @t24:i (align=L, inputBehaviour=N, maxLength=10, sysNumber=48.0, core=true, t24Name=NR.MESSAGE)
+/* System field - not used for arrangement conditions
+
+
+System Field NoINPUT allowed - */
+        NR_TYPE -> AA_Rules:EB_COMPARISON_TYPE
+            @i18n:Label (en=Type)
+            @t24:i (align=L, inputBehaviour=N, maxLength=25, sysNumber=46.0, core=true, businessType=A, t24Name=NR.TYPE)
+/* System field - not used for arrangement conditions
+
+
+System Field NoINPUT allowed - */
+        NR_VALUE : T24BusinessTypes:ANY
+            @i18n:Label (en=Value)
+            @t24:i (align=L, inputBehaviour=N, maxLength=60, sysNumber=47.0, core=true, t24Name=NR.VALUE)
+    }
+    AA_SIM_CUSTOMER__OTHER_PARTY
+    {
+        NOTES -> byValue AA_Customer:AA_SIM_CUSTOMER__OTHER_PARTY__NOTES *
+            @t24:i (t24Name=NOTES)
+/* Other parties who are not legal owners of the arrangement may also be specified. All owners and any other parties must exist on the T24 CUSTOMER file.
+
+This field is part of a multi value set of fields with Role and Notes fields. */
+        OTHER_PARTY -> ST_Customer:CUSTOMER
+            @i18n:Label (en="Other Party")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=13.0, core=true, businessType=CUS, t24Name=OTHER.PARTY)
+/* Each additional party must have a role specified.  The roles are user defined and specified in EB.LOOKUP.
+
+The role assigned to an additional party describes responsibilities and rights of the additional party in the arrangement. An additional party may have power of attorney, signatory or an auditor role for example. */
+        ROLE : AA_Customer:AA_SIM_CUSTOMER__OTHER_PARTY__ROLE
+            @i18n:Label (en=Role)
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=14.0, core=true, t24Name=ROLE)
+    }
+    AA_SIM_CUSTOMER__OTHER_PARTY__NOTES
+    {
+        /* A user may enter any notes relating to each party. */
+        NOTES : T24BusinessTypes:A
+            @i18n:Label (en=Notes)
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=15.0, core=true, t24Name=NOTES, isTextarea=true)
+    }
+    AA_SIM_CUSTOMER__OVERRIDE
+    {
+        /* Standard Override field containing override messages generated by amendments to this property */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=60.0, core=true, t24Name=OVERRIDE)
+    }
+    AA_SIM_CUSTOMER__OWNING_COMPANY
+    {
+/* This field is used to capture the T24 Company(ies) that own the Product Condition record. There is no functionality attached to this field and can be used only for access control through SMS verification.
+
+The input in this field must be a valid record in company table and should belong to current financial group.
+
+This is a multi value field. Input in this field is optional. */
+        OWNING_COMPANY -> ST_CompanyCreation:COMPANY
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=34.0, core=true, businessType=AAPRODUCT, t24Name=OWNING.COMPANY, typeModifiers=COMPANY, mvSvExpansionAccess=NOEXPAND)
+    }
+    AA_SIM_CUSTOMER__PR_ATTRIBUTE
+    {
+/* This field denotes the application method that needs to be applied to the periodic rule charges.
+Allowed values are
+Due - The periodic rule charges are made due
+Capitalise - The periodic rule charges are capitalised
+Not inputtable at arrangement level */
+        PR_APP_METHOD : AA_Customer:AA_SIM_CUSTOMER__PR_ATTRIBUTE__PR_APP_METHOD
+            @i18n:Label (en="Application Method")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=30.0, core=true, t24Name=PR.APP.METHOD, mvSvExpansionAccess=NOEXPAND)
+/* This field denotes the application period for the given periodic rule charges.
+The periodic rule charges will be applied at the end of the period. If the value defined is zero, then the charges are applied immediately.
+Standard T24 period field.
+Not inputtable at arrangement level */
+        PR_APP_PERIOD : T24BusinessTypes:PERIOD
+            @i18n:Label (en=Period)
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=31.0, core=true, t24Name=PR.APP.PERIOD, mvSvExpansionAccess=NOEXPAND)
+/* These are set of Attributes which define the names of the rule, which will be applied on certain attributes of property classes over a period of time
+
+
+Input must be a valid record from AA.PERIODIC.ATTRIBUTE */
+        PR_ATTRIBUTE -> AA_Rules:AA_PERIODIC_ATTRIBUTE
+            @i18n:Label (en=Attribute)
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=22.0, core=true, businessType=A, t24Name=PR.ATTRIBUTE, mvSvExpansionAccess=NOEXPAND)
+/* Not used for arrangement level conditions
+
+
+Input not allowed. */
+        PR_BRK_CHARGE -> AA_ProductFramework:AA_PROPERTY
+            @i18n:Label (en=Charge)
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=26.0, core=true, businessType=A, t24Name=PR.BRK.CHARGE, mvSvExpansionAccess=NOEXPAND)
+/* Based on the PR.BRK.RES option selected, this will hold either an OVERRIDE or EB.ERROR id. By default the ids will be picked from the associated EB.COMPARISON.TYPE record. If CAP or FLOOR values are given, then the underlying AA.PERIODIC.ATTRIBUTE.CLASS should have this type defined in it
+
+
+Input must be a valid OVERRIDE ID or EB.ERROR ID */
+        PR_BRK_MSG : T24BusinessTypes:ANY
+            @i18n:Label (en=Message)
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=25.0, core=true, t24Name=PR.BRK.MSG, mvSvExpansionAccess=NOEXPAND)
+/* When a rule is broken what action needs to be taken is defined here. Currently, the various options available are
+
+Error block further processing
+Override Give an override
+Information  Record details only
+CAP the rule value is to be used as a CAP if the rule is broken
+FLOOR the rule value is to be used as a FLOOR if the rule is broken
+
+
+Should be one of the above valid options */
+        PR_BRK_RES : AA_Customer:AA_SIM_CUSTOMER__PR_ATTRIBUTE__PR_BRK_RES
+            @i18n:Label (en=Action)
+            @t24:i (align=L, inputBehaviour=N, maxLength=13, sysNumber=24.0, core=true, t24Name=PR.BRK.RES, mvSvExpansionAccess=NOEXPAND)
+        PR_RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=29.0, core=true, t24Name=PR.RESERVED.1, mvSvExpansionAccess=NOEXPAND)
+        PR_RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=28.0, core=true, t24Name=PR.RESERVED.2, mvSvExpansionAccess=NOEXPAND)
+        PR_RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=27.0, core=true, t24Name=PR.RESERVED.3, mvSvExpansionAccess=NOEXPAND)
+/* This is the actual rule value, which will be applied on certain attributes of the property classes over a period of time.
+
+
+Input must be a valid data type defined in the corresponding
+AA.PERIODIC.ATTRIBUTE.CLASS record. */
+        PR_VALUE : T24BusinessTypes:A
+            @i18n:Label (en=Value)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=23.0, core=true, t24Name=PR.VALUE, mvSvExpansionAccess=NOEXPAND)
+    }
+    AA_SIM_CUSTOMER__STMT_NOS
+    {
+        /* Contains the key to the accounting entries raised by the activity being applied to this arrangement property */
+        STMT_NOS : T24BusinessTypes:N
+            @i18n:Label (en="Statement Number")
+            @t24:i (align=R, inputBehaviour=N, maxLength=20, sysNumber=59.0, core=true, t24Name=STMT.NOS)
+    }
+}
+Enumerations {
+    AA_ARR_CUSTOMER__CUSTOMER__DELIVERY_REQD : mml:string
+        YES=YES
+    AA_ARR_CUSTOMER__DEFAULT_ATTR_OPTION : mml:string
+        NON__RESETTING=NON-RESETTING
+        RESETTING=RESETTING
+    AA_ARR_CUSTOMER__DEFAULT_NEGOTIABLE : mml:string
+        NO=NO
+        YES=YES
+    AA_ARR_CUSTOMER__NR_ATTRIBUTE__NR_OPTIONS__NR_OPTIONS : mml:string
+        FIX__VALUE=FIX-VALUE
+        MANDATORY=MANDATORY
+        NEGOTIABLE=NEGOTIABLE
+        NON__NEGOTIABLE=NON-NEGOTIABLE
+        NON__RESETTING=NON-RESETTING
+        OVERRIDE=OVERRIDE
+        RESETTING=RESETTING
+    AA_ARR_CUSTOMER__NR_ATTRIBUTE__NR_TYPE__NR_MESSAGE : mml:string
+        ERROR=ERROR
+        OVERRIDE=OVERRIDE
+    AA_ARR_CUSTOMER__OTHER_PARTY__ROLE : mml:string
+        CO=CO
+        CO__SIGNER=CO-SIGNER
+        GUARANTOR=GUARANTOR
+        INDEMNATOR=INDEMNATOR
+        POWER_OF_ATTORNEY=POWER.OF.ATTORNEY
+    AA_ARR_CUSTOMER__PR_ATTRIBUTE__PR_APP_METHOD : mml:string
+        CAPITALISE=CAPITALISE
+        DEFER=DEFER
+        DUE=DUE
+    AA_ARR_CUSTOMER__PR_ATTRIBUTE__PR_BRK_RES : mml:string
+        CAP=CAP
+        ERROR=ERROR
+        FLOOR=FLOOR
+        INFORMATION=INFORMATION
+        OVERRIDE=OVERRIDE
+    AA_CUSTOMER_ROLE__BENEFICIAL_OWNER : mml:string
+        YES=YES
+    AA_CUSTOMER_ROLE__DELIVERY_CUSTOMER : mml:string
+        YES=YES
+    AA_CUSTOMER_ROLE__GL_CUSTOMER : mml:string
+        YES=YES
+    AA_CUSTOMER_ROLE__LIMIT_CUSTOMER : mml:string
+        YES=YES
+    AA_CUSTOMER_ROLE__REL_PRICING_AVAIL : mml:string
+        YES=YES
+    AA_CUSTOMER_ROLE__TAXABLE : mml:string
+        YES=YES
+    AA_PRD_CAT_CUSTOMER__CUSTOMER__DELIVERY_REQD : mml:string
+        YES=YES
+    AA_PRD_CAT_CUSTOMER__DEFAULT_ATTR_OPTION : mml:string
+        NON__RESETTING=NON-RESETTING
+        RESETTING=RESETTING
+    AA_PRD_CAT_CUSTOMER__DEFAULT_NEGOTIABLE : mml:string
+        NO=NO
+        YES=YES
+    AA_PRD_CAT_CUSTOMER__NR_ATTRIBUTE__NR_OPTIONS__NR_OPTIONS : mml:string
+        FIX__VALUE=FIX-VALUE
+        MANDATORY=MANDATORY
+        NEGOTIABLE=NEGOTIABLE
+        NON__NEGOTIABLE=NON-NEGOTIABLE
+        NON__RESETTING=NON-RESETTING
+        OVERRIDE=OVERRIDE
+        RESETTING=RESETTING
+    AA_PRD_CAT_CUSTOMER__NR_ATTRIBUTE__NR_TYPE__NR_MESSAGE : mml:string
+        ERROR=ERROR
+        OVERRIDE=OVERRIDE
+    AA_PRD_CAT_CUSTOMER__OTHER_PARTY__ROLE : mml:string
+        CO=CO
+        CO__SIGNER=CO-SIGNER
+        GUARANTOR=GUARANTOR
+        INDEMNATOR=INDEMNATOR
+        POWER_OF_ATTORNEY=POWER.OF.ATTORNEY
+    AA_PRD_CAT_CUSTOMER__PR_ATTRIBUTE__PR_APP_METHOD : mml:string
+        CAPITALISE=CAPITALISE
+        DEFER=DEFER
+        DUE=DUE
+    AA_PRD_CAT_CUSTOMER__PR_ATTRIBUTE__PR_BRK_RES : mml:string
+        CAP=CAP
+        ERROR=ERROR
+        FLOOR=FLOOR
+        INFORMATION=INFORMATION
+        OVERRIDE=OVERRIDE
+    AA_PRD_DES_CUSTOMER__CUSTOMER__DELIVERY_REQD : mml:string
+        YES=YES
+    AA_PRD_DES_CUSTOMER__DEFAULT_ATTR_OPTION : mml:string
+        NON__RESETTING=NON-RESETTING
+        RESETTING=RESETTING
+    AA_PRD_DES_CUSTOMER__DEFAULT_NEGOTIABLE : mml:string
+        NO=NO
+        YES=YES
+    AA_PRD_DES_CUSTOMER__NR_ATTRIBUTE__NR_OPTIONS__NR_OPTIONS : mml:string
+        FIX__VALUE=FIX-VALUE
+        MANDATORY=MANDATORY
+        NEGOTIABLE=NEGOTIABLE
+        NON__NEGOTIABLE=NON-NEGOTIABLE
+        NON__RESETTING=NON-RESETTING
+        OVERRIDE=OVERRIDE
+        RESETTING=RESETTING
+    AA_PRD_DES_CUSTOMER__NR_ATTRIBUTE__NR_TYPE__NR_MESSAGE : mml:string
+        ERROR=ERROR
+        OVERRIDE=OVERRIDE
+    AA_PRD_DES_CUSTOMER__OTHER_PARTY__ROLE : mml:string
+        CO=CO
+        CO__SIGNER=CO-SIGNER
+        GUARANTOR=GUARANTOR
+        INDEMNATOR=INDEMNATOR
+        POWER_OF_ATTORNEY=POWER.OF.ATTORNEY
+    AA_PRD_DES_CUSTOMER__PR_ATTRIBUTE__PR_APP_METHOD : mml:string
+        CAPITALISE=CAPITALISE
+        DEFER=DEFER
+        DUE=DUE
+    AA_PRD_DES_CUSTOMER__PR_ATTRIBUTE__PR_BRK_RES : mml:string
+        CAP=CAP
+        ERROR=ERROR
+        FLOOR=FLOOR
+        INFORMATION=INFORMATION
+        OVERRIDE=OVERRIDE
+    AA_PRD_PRF_CUSTOMER__CUSTOMER__DELIVERY_REQD : mml:string
+        YES=YES
+    AA_PRD_PRF_CUSTOMER__DEFAULT_ATTR_OPTION : mml:string
+        NON__RESETTING=NON-RESETTING
+        RESETTING=RESETTING
+    AA_PRD_PRF_CUSTOMER__DEFAULT_NEGOTIABLE : mml:string
+        NO=NO
+        YES=YES
+    AA_PRD_PRF_CUSTOMER__NR_ATTRIBUTE__NR_OPTIONS__NR_OPTIONS : mml:string
+        FIX__VALUE=FIX-VALUE
+        MANDATORY=MANDATORY
+        NEGOTIABLE=NEGOTIABLE
+        NON__NEGOTIABLE=NON-NEGOTIABLE
+        NON__RESETTING=NON-RESETTING
+        OVERRIDE=OVERRIDE
+        RESETTING=RESETTING
+    AA_PRD_PRF_CUSTOMER__NR_ATTRIBUTE__NR_TYPE__NR_MESSAGE : mml:string
+        ERROR=ERROR
+        OVERRIDE=OVERRIDE
+    AA_PRD_PRF_CUSTOMER__OTHER_PARTY__ROLE : mml:string
+        CO=CO
+        CO__SIGNER=CO-SIGNER
+        GUARANTOR=GUARANTOR
+        INDEMNATOR=INDEMNATOR
+        POWER_OF_ATTORNEY=POWER.OF.ATTORNEY
+    AA_PRD_PRF_CUSTOMER__PR_ATTRIBUTE__PR_APP_METHOD : mml:string
+        CAPITALISE=CAPITALISE
+        DEFER=DEFER
+        DUE=DUE
+    AA_PRD_PRF_CUSTOMER__PR_ATTRIBUTE__PR_BRK_RES : mml:string
+        CAP=CAP
+        ERROR=ERROR
+        FLOOR=FLOOR
+        INFORMATION=INFORMATION
+        OVERRIDE=OVERRIDE
+    AA_SIM_CUSTOMER__CUSTOMER__DELIVERY_REQD : mml:string
+        YES=YES
+    AA_SIM_CUSTOMER__DEFAULT_ATTR_OPTION : mml:string
+        NON__RESETTING=NON-RESETTING
+        RESETTING=RESETTING
+    AA_SIM_CUSTOMER__DEFAULT_NEGOTIABLE : mml:string
+        NO=NO
+        YES=YES
+    AA_SIM_CUSTOMER__NR_ATTRIBUTE__NR_OPTIONS__NR_OPTIONS : mml:string
+        FIX__VALUE=FIX-VALUE
+        MANDATORY=MANDATORY
+        NEGOTIABLE=NEGOTIABLE
+        NON__NEGOTIABLE=NON-NEGOTIABLE
+        NON__RESETTING=NON-RESETTING
+        OVERRIDE=OVERRIDE
+        RESETTING=RESETTING
+    AA_SIM_CUSTOMER__NR_ATTRIBUTE__NR_TYPE__NR_MESSAGE : mml:string
+        ERROR=ERROR
+        OVERRIDE=OVERRIDE
+    AA_SIM_CUSTOMER__OTHER_PARTY__ROLE : mml:string
+        CO=CO
+        CO__SIGNER=CO-SIGNER
+        GUARANTOR=GUARANTOR
+        INDEMNATOR=INDEMNATOR
+        POWER_OF_ATTORNEY=POWER.OF.ATTORNEY
+    AA_SIM_CUSTOMER__PR_ATTRIBUTE__PR_APP_METHOD : mml:string
+        CAPITALISE=CAPITALISE
+        DEFER=DEFER
+        DUE=DUE
+    AA_SIM_CUSTOMER__PR_ATTRIBUTE__PR_BRK_RES : mml:string
+        CAP=CAP
+        ERROR=ERROR
+        FLOOR=FLOOR
+        INFORMATION=INFORMATION
+        OVERRIDE=OVERRIDE
+}

@@ -1,0 +1,118 @@
+# UTF-8
+/* Claims */
+Domain PP_ClaimsService
+    @t24:i (module=PP)
+    @java:Package (value=com.temenos.t24.datamodel.pp.pp_claimsservice)
+namespace "http://www.temenos.com/t24/PP_ClaimsService"
+metamodelVersion 1.30.6
+Classes {
+/* This table is owned by the claims component.
+All claims that cannot be processed directly as part of the payment transaction are  inserted in this table by the  Fees component as  new claim records.
+Processed claims  are  regularly  removed  from  this  table  and  archived.
+Only  records  with  Claim  Status  „P‟  can  be selected for processing by the intra-day and end-of-day processes. */
+    PPT_CLAIMSSECTION
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPT.CLAIMSSECTION, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        /* The BIC where the generated claim is to be sent. */
+        ClaimBIC : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=24.0, core=true, t24Name=ClaimBIC)
+/* The date when the claim record has been cancelled.
+This  is  the  date  when  the  Related  Payment  Status field gets status "C". */
+        ClaimCancellationDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=10.0, core=true, t24Name=ClaimCancellationDate)
+        /* The details of claim calculation.Added by Fees module */
+        ClaimDetails : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=200, sysNumber=11.0, core=true, t24Name=ClaimDetails)
+/* The  date  when  the  claim  record  was  selected  for processing and when it is sent to the mapper.
+This is the date when the Claim Status field gets status "G". */
+        ClaimGenerationDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=7.0, core=true, t24Name=ClaimGenerationDate)
+        /* Unique reference for claim record. Auto-assigned by claim section table */
+        ClaimId : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=2.0, core=true, t24Name=ClaimId)
+/* The  date  since  the  claim  record  is  pending.
+This  is the date when the Claim status field gets status "P". */
+        ClaimPendingDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=8.0, core=true, t24Name=ClaimPendingDate)
+/* The date when the claim record has been  processed and  is  set  by  payment  generation.
+This is the date when the Claim Status field gets status „R‟. */
+        ClaimProcessingDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=9.0, core=true, t24Name=ClaimProcessingDate)
+/* This field indicates if the claim record can be selected for processing. This field is only set for records for which the Related Payment Status value is „R‟.
+Values are:
+(P)ending: These records can be selected for claims processing. This is the default status for all records for which the Related Payment Status value is "R".
+(G)enerated: This indicates that the claim record has been sent to the mapper for processing. This is set by the end-of-day or the intra-day process of the Claims component.
+P(R)ocessed: This is an end status that indicates that the records have been successfully processed.This is set by the SWIFT OUT component */
+        ClaimStatus : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=18.0, core=true, t24Name=ClaimStatus)
+/* Populated by Fee component from the bank claims control table.
+This field specifies the preference of the sender's correspondent bank for Claims through Loro/Nostro (Debit method) or through MT 191 */
+        ClaimType : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=23.0, core=true, t24Name=ClaimType)
+        /* The  outstanding  amount  that  needs  to  be  paid  by sender bank. Added by Fees module */
+        Claimamount : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=17, sysNumber=5.0, core=true, t24Name=Claimamount, typeModifiers="3")
+/* The date set for periodic claims by the fee component.
+All the claims with the due date of equal to or less than current date will be picked up for processing */
+        ClaimsDueDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=21.0, core=true, t24Name=ClaimsDueDate)
+/* Holds 3 character currency code of expected P&L account number.
+Validation Rules:
+Defaulted to the value set in field, 'CurrencyCode' */
+        CompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+        /* This  is  the  sending  bank‟s  BIC..  Added  by  Fees module */
+        CorrespondentBIC : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=4.0, core=true, t24Name=CorrespondentBIC)
+        /* This is set by Fees component for the count claims by reading the BankClaims Control Table for count Trigger. */
+        CountTrigger : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=2, sysNumber=20.0, core=true, t24Name=CountTrigger)
+/* Holds 3 character Company Code of expected P&L account number.
+Validation Rules:
+Defaulted to the value set in field, 'CompanyCode' */
+        ID -> PP_ClaimsService:PPT_CLAIMSSECTION PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+        /* This is the message type of the payment which triggered this claim entry. */
+        IncomingMessageType : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=12.0, core=true, t24Name=IncomingMessageType)
+/* Populated by Fee component from the bank claims control table.
+This field specifies the preference of the sender's correspondent bank for individual or group claims */
+        IndividualGroupIndicator : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=22.0, core=true, t24Name=IndividualGroupIndicator)
+        /* The  ordering  institution  of  the  related  payment transaction,if  this  ordering  institution  is  different from the sender correspondent bank. */
+        OrderingInstitution : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=140, sysNumber=6.0, core=true, t24Name=OrderingInstitution)
+        /* FTNumber  of  the  original  payment  for  which  the claim is being sent */
+        RelatedFTNumber : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=3.0, core=true, t24Name=RelatedFTNumber)
+/* This field indicates the status of the transaction on which the claim request has been raised.
+Values are:
+(R)eady for processing: End status that indicates that the Claim record can be picked for processing
+(C)ancelled: End status that indicates that payment transaction has been cancelled.
+(P)ending: Indicates that the related payment transaction has not been completed as yet.
+"P" is the default status for this field and it is updated to "R" or "C" by the SWIFT OUT and Repair components respectively based on the most recent status of the payment transaction. */
+        RelatedPaymentStatus : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=17.0, core=true, t24Name=RelatedPaymentStatus)
+/* Transaction Reference of the payment which has generated the claim request.
+Added by Fees module from tag 20 of the incoming message. */
+        RelatedReferenceNumber : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=13.0, core=true, t24Name=RelatedReferenceNumber)
+        /* This is the date as requested in the original payment (e.g. 32A date). */
+        RelatedRequestedCrValueDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=14.0, core=true, t24Name=RelatedRequestedCrValueDate)
+        /* This is the transaction amount of the original payment */
+        RelatedTransactionAmount : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=17, sysNumber=16.0, core=true, t24Name=RelatedTransactionAmount, typeModifiers="3")
+        /* Specifies the date until which the record is to be considered as active for payments processing. Post this date, the record will be set as Inactive by the payments hub. */
+        RelatedTransactionCurrency : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=15.0, core=true, t24Name=RelatedTransactionCurrency)
+/* A unique reference number for all claim settlement transactions sent to the mapper.For individual claims, this is unique for each claim id.
+For grouped claims,the settlement id is same for each claim record that is grouped together.
+This field will also be filled by the end-of-day claim process once the grouping of claims is done. */
+        SettlementId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=19.0, core=true, t24Name=SettlementId)
+    }
+}

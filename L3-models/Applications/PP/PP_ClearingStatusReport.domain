@@ -1,0 +1,106 @@
+# UTF-8
+/* Clearing Status Report */
+Domain PP_ClearingStatusReport
+    @t24:i (module=PP)
+    @java:Package (value=com.temenos.t24.datamodel.pp.pp_clearingstatusreport)
+namespace "http://www.temenos.com/t24/PP_ClearingStatusReport"
+metamodelVersion 1.30.6
+Classes {
+/* Generic image of an inward clearing status report
+One record in this table equals to one incoming clearing status report per transaction received in the system. */
+    PP_CLEARING_STATUS_REPORT
+        @i18n:Description (en="")
+        @t24:i (t24Name=PP.CLEARING.STATUS.REPORT, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        /* Unique reference of the bulk (as received) to which the transaction belongs to. */
+        BulkReferenceIncoming : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=2.0, core=true, t24Name=BulkReferenceIncoming)
+        /* Unique reference of the file (as received) to which the transaction belongs to. */
+        FileReferenceIncoming : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=1.0, core=true, t24Name=FileReferenceIncoming)
+        /* This field is the unique ID of the table. It has the prefix PPCSR. */
+        ID -> PP_ClearingStatusReport:PP_CLEARING_STATUS_REPORT PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+        /* Unique reference of the transaction (as received). */
+        MessageReferenceIncoming : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=3.0, core=true, t24Name=MessageReferenceIncoming)
+        /* Elements to identify the original transaction: financial institution servicing an account for the creditor, identified as BIC. */
+        OrglCrdAgBICFI : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=25.0, core=true, t24Name=OrglCrdAgBICFI)
+        /* Elements to identify the original transaction: identification of the creditor's financial institution, as a member within a clearing system. */
+        OrglCrdAgCgSysMemId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=28.0, core=true, t24Name=OrglCrdAgCgSysMemId)
+        /* Elements to identify the original transaction: clearing system in coded form in which the creditor's financial institution is part. */
+        OrglCrdAgCgSysMemIdCgSysIdCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=26.0, core=true, t24Name=OrglCrdAgCgSysMemIdCgSysIdCd)
+        /* Elements to identify the original transaction: clearing system in proprietary form in which the creditor's financial institution is part. */
+        OrglCrdAgCgSysMemIdCgSysIdProp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=27.0, core=true, t24Name=OrglCrdAgCgSysMemIdCgSysIdProp)
+        /* Elements to identify the original transaction: financial institution servicing an account for the debtor, identified as BIC. */
+        OrglDbtAgBICFI : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=21.0, core=true, t24Name=OrglDbtAgBICFI)
+        /* Elements to identify the original transaction: identification of the debtor's financial institution, as a member within a clearing system. */
+        OrglDbtAgCgSysMemId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=24.0, core=true, t24Name=OrglDbtAgCgSysMemId)
+        /* Elements to identify the original transaction: clearing system in coded form in which the debtor's financial institution is part. */
+        OrglDbtAgCgSysMemIdCgSysIdCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=22.0, core=true, t24Name=OrglDbtAgCgSysMemIdCgSysIdCd)
+        /* Elements to identify the original transaction: clearing system in proprietary form in which the debtor's financial institution is part. */
+        OrglDbtAgCgSysMemIdCgSysIdProp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=23.0, core=true, t24Name=OrglDbtAgCgSysMemIdCgSysIdProp)
+        /* Unique identification, as assigned by the original initiating party, to unambiguously identify the original transaction. */
+        OrglEndToEndId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=6.0, core=true, t24Name=OrglEndToEndId)
+        /* Unique identification, as assigned by the original instructing party for the original instructed party, to unambiguously identify the original instruction. */
+        OrglInstrId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=5.0, core=true, t24Name=OrglInstrId)
+        /* Elements to identify the original transaction: amount of money moved between the instructing agent and the instructed agent. */
+        OrglItbkSttlAm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=18.0, core=true, t24Name=OrglItbkSttlAm)
+        /* Elements to identify the original transaction: currency of the interbank settlement amount. */
+        OrglItbkSttlAmCcy : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=19.0, core=true, t24Name=OrglItbkSttlAmCcy)
+        /* Elements to identify the original transaction: date on which the amount of money ceases to be available to the agent that owes it and when the amount of money becomes available to the agent to which it is due. */
+        OrglItbkSttlDt : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=20.0, core=true, t24Name=OrglItbkSttlDt)
+        /* Unique identification, as assigned by the original first instructing agent, to unambiguously identify the transaction. */
+        OrglTrxId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=7.0, core=true, t24Name=OrglTrxId)
+        /* Unique identification, as assigned by an instructing party for an instructed party, to unambiguously identify the reported status. */
+        StsId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=4.0, core=true, t24Name=StsId)
+        /* Further details on the status reason. */
+        StsRsnInfAdInf : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=105, sysNumber=17.0, core=true, t24Name=StsRsnInfAdInf)
+        /* Identification of the party that issues the status as a BIC. */
+        StsRsnInfOrgnIdOrgIdBIC : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=140, sysNumber=13.0, core=true, t24Name=StsRsnInfOrgnIdOrgIdBIC)
+        /* Identification of the party that issues the status as a form other than BIC. */
+        StsRsnInfOrgnIdOrgIdOthId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=14.0, core=true, t24Name=StsRsnInfOrgnIdOrgIdOthId)
+        /* Name by which a party is known and which is usually used to identify that party. */
+        StsRsnInfOrgnName : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=12.0, core=true, t24Name=StsRsnInfOrgnName)
+        /* Reason of the status report in a coded form. */
+        StsRsnInfRsnCd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=15.0, core=true, t24Name=StsRsnInfRsnCd)
+        /* Reason of the status report in a proprietary form. */
+        StsRsnInfRsnProp : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=16.0, core=true, t24Name=StsRsnInfRsnProp)
+/* Specifies the status of the transaction cancellation request.
+Can take the values: RJCT (cancellation request is rejected), ACCP (cancellation request is accepted) or PNDG (cancellation request is pending). */
+        TrxSts : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=8.0, core=true, t24Name=TrxSts)
+        /* Transaction charges to be paid by the charge bearer. */
+        TrxStsChgsInfAm : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=9.0, core=true, t24Name=TrxStsChgsInfAm)
+        /* Currency of transaction charges to be paid by the charge bearer. */
+        TrxStsChgsInfCcy : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=10.0, core=true, t24Name=TrxStsChgsInfCcy)
+        /* Code allocated to a financial institution by the ISO 9362 Registration Authority as described in ISO 9362 "Banking - Banking telecommunication messages - Business identifier code (BIC)". */
+        TrxStsChgsInfPartyFinInstIdBIC : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=140, sysNumber=11.0, core=true, t24Name=TrxStsChgsInfPartyFinInstIdBIC)
+    }
+}

@@ -1,0 +1,1558 @@
+# UTF-8
+/* Framework for Multi Tenant Admin Console */
+Domain MT_Framework
+    @t24:i (module=MT)
+    @java:Package (value=com.temenos.t24.datamodel.mt.mt_framework)
+namespace "http://www.temenos.com/t24/MT_Framework"
+metamodelVersion 1.30.6
+Classes {
+/* This is the generic table used to replicate T24 table records (for configuration, parameter, etc.) from Master system to Tenant system(s) in Multi-Tenant architecture.
+Authorization of this table with OPERATION.MODE = EXECUTE will generate event(s) in XML format to the out queue via Integration Framework and external tools (like an ESB) can be used to route these messages into respective tenant(s). */
+    MT_REPLICATE_CONSOLE
+        @i18n:Description (en="")
+        @t24:i (t24Name=MT.REPLICATE.CONSOLE, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=34.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=35.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=31.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=32.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=28.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue MT_Framework:MT_REPLICATE_CONSOLE__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=33.0, core=true, t24Name=DEPT.CODE)
+        INPUTTER -> byValue MT_Framework:MT_REPLICATE_CONSOLE__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* Specifies the number of events generated (or to be generated) during MT.REPLICATE.CONSOLE authorisation.
+This field gets updated during validation stage of MT.REPLICATE.CONSOLE in advance if there is no error identified.
+Value gets cleared when this console record opened for amendment or further processing.
+Validation Rules:
+Allowed maximum of 35 characters
+System updated field */
+        MESSAGE_COUNT : T24BusinessTypes:N
+            @i18n:Label (en="Message Count")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=11.0, core=true, t24Name=MESSAGE.COUNT)
+/* Specifies the pgm version for the TABLE.NAME version (suffix of version id) can be used in OFS message formed during MT.REPLICATE.CONSOLE authorisation which will be part of generated event XML.
+For example ACCOUNT.PARAMETER,CHECK is a valid version in the tenant system, then the suffix after comma is the value to be used for OFS.PGM.VERSION.
+The MT Administrator must ensure the value is the correct suffix of valid version in the tenant system.
+Validation Rules:
+Maximum of 35 characters allowed/
+Takes precedence over the OFS.PGM.VERSION given in MT.TENANT table */
+        OFS_PGM_VERSION : T24BusinessTypes:A
+            @i18n:Label (en="Version suffix")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=9.0, core=true, t24Name=OFS.PGM.VERSION)
+/* Specifies the mode of operation for which the MT.REPLICATE.CONSOLE is being used. Only a positive value of EXECUTE will allow the generation of messages, and as a safety mechanism an override will also be given to ensure the correct mode has been used.
+Validation Rules:
+Acceptable values are:
+1. MAINTAIN :-  Indicates the MT.REPLICATE.CONSOLE record is being created or maintained and no event generation will happen.
+2. EXECUTE :- Indicates the MT.REPLICATE.CONSOLE record authorisation can proceed with event generation.
+3. Blank   :- Treated the same as MAINTAIN.
+8 characters. */
+        OPERATION_MODE : MT_Framework:MT_REPLICATE_CONSOLE__OPERATION_MODE
+            @i18n:Label (en="Operation Mode")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=10.0, core=true, t24Name=OPERATION.MODE)
+        OVERRIDE -> byValue MT_Framework:MT_REPLICATE_CONSOLE__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+/* Used to specify a customised MT system parameter record to override the message format values from DEFAULT parameter record or being defaulted by system.
+Validation Rules:
+Maximum of 35 characters allowed.
+Must be a valid entry in MT.SYSTEM.PARAMETER table */
+        PARAM_ID -> MT_Framework:MT_SYSTEM_PARAMETER
+            @i18n:Label (en="Parameter Id")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=8.0, core=true, businessType=A, t24Name=PARAM.ID)
+/* Specifies the status of current console process.
+This field gets updated during validation stage of MT.REPLICATE.CONSOLE in advance if there is no error identified.
+Value gets cleared when this console record opened up for amendment or further process.
+Validation Rules:
+System updated values are:
+1. VAL   - indicates that the console has been created and event not planned for event generation.
+2. SENT  - indicates that the console process has been completed and event also generated via integration framework.
+Allowed maximum of 35 characters
+System generated field. */
+        PROCESS_STATUS : T24BusinessTypes:A
+            @i18n:Label (en="Process Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=PROCESS.STATUS)
+/* Specifies the valid record in master system for the TABLE.NAME value.
+Validation Rules:
+Valid values are:
+Valid entry in t24 table given in TABLE.NAME field
+Allowed maximum of 50 characters
+Mandatory field */
+        RECORD_ID : T24BusinessTypes:ANY required
+            @i18n:Label (en="Record Id")
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=2.0, core=true, t24Name=RECORD.ID)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=27.0, core=true, t24Name=RECORD.STATUS)
+/* Unique reference to identify replicate console record.
+Validation Rules:
+Allowed maximum of 50 characters. */
+        REP_CONSOLE_ID -> MT_Framework:MT_REPLICATE_CONSOLE PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=0.0, core=true, businessType=A, t24Name=REP.CONSOLE.ID)
+/* Specifies the type of request for which the MT.REPLICATE.CONSOLE is being created. The OFS message will be constructed either for:
+1. Full record creation or replacement in tenant system.
+2. Amendment of an existing record in tenant system.
+Validation Rules:
+
+Valid values are:
+FULL or blank :- Indicates the MT.REPLICATE.CONSOLE record is being created in the master system to perform full record creation or replacement in the tenant system, hence the OFS message will be formed for the full record of TABLE.NAME read with RECORD.ID in master system.
+UPDATE :- Indicates the MT.REPLICATE.CONSOLE record is to do an amendment or update of an existing record in the tenant system.
+The UPDATE.FIELDS is mandatory if REQUEST.TYPE=UPDATE. */
+        REQUEST_TYPE : MT_Framework:MT_REPLICATE_CONSOLE__REQUEST_TYPE
+            @i18n:Label (en="Request Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=15.0, core=true, t24Name=REQUEST.TYPE)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=24.0, core=true, t24Name=RESERVED.1)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=23.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=22.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=21.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=20.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=19.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=17.0, core=true, t24Name=RESERVED.8)
+/* Specifies the valid T24 table name for which the data record need to be replicated from master to tenant.
+Validation Rules:
+Valid entry in PGM.FILE (valid application)
+Allowed maximum of 40 characters
+Mandatory field */
+        TABLE_NAME -> EB_SystemTables:PGM_FILE required
+            @i18n:Label (en="Table Name")
+            @t24:i (align=L, inputBehaviour=I, maxLength=40, sysNumber=1.0, core=true, businessType=ANY, t24Name=TABLE.NAME)
+/* Specifies the company id from tenant for which the record being replicated from master, this is applicable where a single tenant is defined as the recipient (not for tenant group setup).
+The MT Administrator must ensure that the company id of tenant is correct..
+Validation Rules:
+Maximum of 9 characters allowed.
+Input allowed only when TENANT.ID given (not available if TENANT.GROUP has value). */
+        TARGET_COMPANY_ID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=6.0, core=true, t24Name=TARGET.COMPANY.ID)
+/* This field is to define the target record id for the record being replicated to tenant system.
+For UPDATE request type, it is expected to have same id as RECORD.ID value
+Though it is expected that the data record to be sent will be the RECORD.ID from the Master system, it is also possible to export the record with a different target id only for request type is FULL or blank.  If this is set then the record created or replaced at the tenant system will have the TARGET.RECORD.ID but the content of the RECORD.ID data.
+Validation Rules:
+Allowed maximum of 50 characters
+For REQUEST.TYPE = UPDATE, a. The value defaulted from RECORD.ID , b.Cannot have different target id than RECORD.ID value
+For other REQUEST.TYPE, it is expected to input target id in the valid format for an application given in TABLE.NAME field. */
+        TARGET_RECORD_ID : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=5.0, core=true, t24Name=TARGET.RECORD.ID)
+/* Specifies the number of active tenants involved in current console process for which the event generation will or has already occur(red).
+This field gets updated during validation stage of MT.REPLICATE.CONSOLE in advance if there is no error identified.
+Value gets cleared when this console record opened for amendment or further processing.
+Validation Rules:
+Allowed maximum of 35 characters
+System generated field */
+        TENANT_COUNT : T24BusinessTypes:N
+            @i18n:Label (en="Tenant Count")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=TENANT.COUNT)
+/* This field is to define valid tenant group for which the record from master need to be replicated.
+The generic tenant group record (TENANT.GROUP.LEVEL = GENERIC) only can be allowed.
+Validation Rules:
+Allowed maximum of 35 characters
+Valid entry in MT.TENANT.GROUP table
+Mandatory if no TENANT.ID given */
+        TENANT_GROUP -> MT_Framework:MT_TENANT_GROUP
+            @i18n:Label (en="Tenant Group")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=4.0, core=true, businessType=A, t24Name=TENANT.GROUP)
+/* This field is to define valid tenant id for which the record from master need to be replicated.
+The tenant id can be acceptable only when the tenant type group matches with the TENANT.TYPE.CHECK given in this replicate console
+Validation Rules:
+Valid entry in MT.TENANT table.
+Mandatory if no TENANT.GROUP given
+Allowed maximum of 35 characters. */
+        TENANT_ID -> MT_Framework:MT_TENANT
+            @i18n:Label (en="Tenant Id")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=3.0, core=true, businessType=A, t24Name=TENANT.ID)
+        TENANT_LIST -> byValue MT_Framework:MT_REPLICATE_CONSOLE__TENANT_LIST *
+            @t24:i (t24Name=TENANT.LIST)
+/* This field is used as a safety check to help eliminate human error in executing the message build process. The user must enter the destination system type (LIVE or NON-LIVE) this will be checked against TENANT.TYPE.GROUP (from MT.TENANT.TYPE of MT.TENANT) or TENANT.GROUP.TYPE(from MT.TENANT.GROUP) values of respective tenants to make sure that the data replication is targeted for the correct type of tenants.
+Validation Rules:
+Acceptable values are:
+1. LIVE - Indicates the t24 instance(tenant system) used as LIVE or PRODUCTION.
+2. NON-LIVE - Indicates the t24 instance(tenant system) used for other purpose like DEMO, UAT, TRAINING etc. */
+        TENANT_TYPE_CHECK : MT_Framework:MT_REPLICATE_CONSOLE__TENANT_TYPE_CHECK
+            @i18n:Label (en="Tenant Type Check")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=7.0, core=true, t24Name=TENANT.TYPE.CHECK)
+        UPDATE_FIELDS -> byValue MT_Framework:MT_REPLICATE_CONSOLE__UPDATE_FIELDS *
+            @t24:i (t24Name=UPDATE.FIELDS)
+    }
+    MT_REPLICATE_CONSOLE__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=30.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    MT_REPLICATE_CONSOLE__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=29.0, core=true, t24Name=INPUTTER)
+    }
+    MT_REPLICATE_CONSOLE__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=26.0, core=true, t24Name=OVERRIDE)
+    }
+    MT_REPLICATE_CONSOLE__TENANT_LIST
+    {
+/* Specifies the list of active tenants involved in current console process for which the event generation will or has already occur(red). The tenant name will be shown as enrichment.
+This gets updated during the validation stage of MT.REPLICATE.CONSOLE if there is no error identified.
+Values are cleared when this console record is opened for amendment or further processing.
+Validation Rules:
+Allowed maximum of 35 characters
+System generated field */
+        TENANT_LIST -> MT_Framework:MT_TENANT
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, businessType=A, t24Name=TENANT.LIST)
+    }
+    MT_REPLICATE_CONSOLE__UPDATE_FIELDS
+    {
+/* Used to specify the valid field name(s) from the application entered in TABLE.NAME field.
+The event xml generated will have an OFS message with just these fields instead of the full record.
+
+Validation Rules:
+Value allowed only for REQUEST.TYPE=UPDATE.
+Allows only the standard fields of an application which are eligible for input.
+Fields which are not allowed, though may exist in the standard selection record:
+a. NOINPUT and EXTERN fields
+b. Key fields (ID type fields)
+c. Fields with type S, P , I ,J etc. which are not real fields for input in application page.
+
+When expandable (Multi-value or sub-value type ) fields are entered in UPDATE.FIELDS, an override message will be given. An override class for this can be set-up, if required, to keep control of the impact of updating these fields.
+Since this table is used to manage tables on tenant systems which should not be updated by the tenants themselves it is expected that the format and content of the tenant records are known.
+However, in the event that the tables have been modified locally then only a full record replacement will give the same value as the master record. Updating multi-value or sub-value fields, where the tenant record has those fields modified locally, may not result in an exact duplication on the tenant record. For this reason an override is given to remind (or prevent) such an update. */
+        UPDATE_FIELDS : T24BusinessTypes:A
+            @i18n:Label (en="Update Fields")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=16.0, core=true, t24Name=UPDATE.FIELDS)
+    }
+/* The parameter table for Multi Tenant Administration processing.
+This parameter table specifies the message emit type, by which the message(xml) formation can be configured as INDIVIDUAL messages(multiple emit).
+The table can also control the style of the message(s) that are generated and which OFS source is used to process the emitted message(s).
+During MT Console table authorisation:
+1. OPERATION.MODE = EXECUTE will emit messages (xml) according to the setup in this parameter table.
+2. OPERATION.MODE = MAINTAIN will not emit any.
+3. When there is no PARAM.ID defined in console table, system will take DEFAULT parameter record released as part of MT module.
+4. When there is no PARAM.ID and also no entry in parameter table (no live record, may be in unauthorized stage), the default message settings used are: message emit type = INDIVIDUAL, message type = QUEUE and OFS.SOURCE=TENANT.PROCESS.
+5. Each message will contain the tenant id which can be used by an ESB (or other messaging systems) to route messages to the respective tenants.
+6. With the QUEUE based message production an OFS payload (for use with the external system) will have a prefix of the tenant id and be embedded in the emitted XML message.
+7. With the TOPIC based message production an OFS payload (for use with the external system) will have a prefix of the topic and the tenant id and be embedded in the emitted XML message. */
+    MT_SYSTEM_PARAMETER
+        @i18n:Description (en="")
+        @t24:i (t24Name=MT.SYSTEM.PARAMETER, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=false)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=23.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=24.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=20.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=21.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=17.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue MT_Framework:MT_SYSTEM_PARAMETER__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=22.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue MT_Framework:MT_SYSTEM_PARAMETER__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        INPUTTER -> byValue MT_Framework:MT_SYSTEM_PARAMETER__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* This field is to define the message emission type, by which the message(xml) formation can be defined as INDIVIDUAL messages(multi emit) during MT console table authorisation.
+Validation Rules:
+Accepted value:  INDIVIDUAL :- One event emit will happen for each tenant.    If the SERVICE.COMP.MNE field in MT.TSA.SERVICE.CONSOLE has more than one value, then several event messages will be created in the single xml emitted. Mandatory field. */
+        MSG_EMIT_TYPE : MT_Framework:MT_SYSTEM_PARAMETER__MSG_EMIT_TYPE required
+            @i18n:Label (en="Message Emit Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=2.0, core=true, t24Name=MSG.EMIT.TYPE)
+/* This field contains the style of the message(s) to be generated.
+Validation Rules:
+Accepted values are:  1. QUEUE :- Signifies that the message should contain an embedded OFS payload, that can be passed through with minimal intervention from the external tools. A QUEUE based message will have tenant id as the prefix to the OFS payload. The emitted message is still XML format.  2. TOPIC :- Signifies that the message should contain an embedded OFS payload, that can be passed through with minimal intervention from the external tools. A TOPIC based message will have both the topic and the tenant id as the prefix to the OFS payload. The emitted message is still XML format. This TOPIC prefix value will be considered as a target directory/queue in an external system where the messages can be placed for further processing. */
+        MSG_TYPE : MT_Framework:MT_SYSTEM_PARAMETER__MSG_TYPE
+            @i18n:Label (en="Message Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=3.0, core=true, t24Name=MSG.TYPE)
+/* Unique reference to identify the parameter table for MT Admin console process.
+Validation Rules:
+Maximum of 35 alphanumeric characters allowed */
+        MT_PARAM_ID -> MT_Framework:MT_SYSTEM_PARAMETER PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=MT.PARAM.ID)
+/* This field can be used to define the OFS.SOURCE id required to process emitted message(s).
+Validation Rules:
+Maximum of 35 characters allowed.
+Must be a valid entry in OFS.SOURCE table.
+Mandatory field */
+        OFS_SOURCE -> EB_Interface:OFS_SOURCE required
+            @i18n:Label (en="OFS Source")
+            @i18n:Tooltip (en="The OFS Source record ID")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=5.0, core=true, businessType=A, t24Name=OFS.SOURCE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=16.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=6.0, core=true, t24Name=RESERVED.10)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=11.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=7.0, core=true, t24Name=RESERVED.9)
+/* This field can have the topic prefix value for the topic message type defined in MSG.TYPE field.
+This value will be prefixed to the ofs payload (along with tenant id) which will be part of the output xml.
+Validation Rules:
+Maximum of 35 characters allowed
+Value permitted only when MSG.TYPE = TOPIC.
+This field is mandatory if MSG.TYPE = TOPIC. */
+        TOPIC_PREFIX : T24BusinessTypes:A
+            @i18n:Label (en="Topic Prefix")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=4.0, core=true, t24Name=TOPIC.PREFIX)
+    }
+    MT_SYSTEM_PARAMETER__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=19.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    MT_SYSTEM_PARAMETER__DESCRIPTION
+    {
+/* Specifies the description/nature of usage of the parameter record for the MT Admin Console process.
+Validation Rules:
+Maximum of 50 alphanumeric characters allowed. Mandatory field */
+        DESCRIPTION : T24BusinessTypes:A required
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    MT_SYSTEM_PARAMETER__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=18.0, core=true, t24Name=INPUTTER)
+    }
+/* This is the table in which the tenant details can be maintained.
+Important fields and their usage during event generation:
+TENANT.TYPE :- Used during TENANT.TYPE.CHECK validation (before authorisation) with the help of TENANT.TYPE.GROUP value from MT.TENANT.TYPE table.
+TENANT.CONTACT :- The tenant contact details extracted and populated as part of event xml so that an ESB can extract the details and use them whenever required to send notifications to tenants via email or mobile etc
+TENANT.STATUS :- Used to identify the status of tenant (and to do a quick de-activate) and event can be generated only for active tenants.
+LEAD.COMPANY, LEAD.COMP.MNE, LEAD.COMP.GROUP :- Used to define lead company details (id, group, mnemonic) of a tenant, this is used in validating such values given in other MT tables for that tenant.
+LINK.COMPANY , LINK.COMP.MNE :- Used to define branch company details (id , mnemonic) of each lead companies given in LEAD.XXX.XXX fields. This is used in validating such values given in other MT tables for that tenant.
+OFS.USR.TSA.SERVICE :- User sign-on name required for OFS message (user part) formed during MT.TSA.SERVICE.CONSOLE table event generation.
+OFS.USR.REPLICATE :- User sign-on name required for OFS message (user part) formed during MT.REPLCIATE.CONSOLE table event generation.
+OFS.PGM.VERSION :- Version suffix (pgm version) required for OFS(header) message formed during MT.TSA.SERVICE.CONSOLE as well as MT.REPLICATE.CONSOLE table's event generation.
+The OFS.PGM.VERSION given in MT.REPLICATE.CONSOLE will take precedence */
+    MT_TENANT
+        @i18n:Description (en="")
+        @t24:i (t24Name=MT.TENANT, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=44.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=45.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=41.0, core=true, t24Name=AUTHORISER)
+/* Specifies a unique identification or reference for each institution so that the list of tenants systems belonging to that institution can be identified.
+Validation Rules:
+Maximum of 35 characters allowed.
+Mandatory field */
+        BANK_REFERENCE_CODE : T24BusinessTypes:A required
+            @i18n:Label (en="Bank Reference Code")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=2.0, core=true, t24Name=BANK.REFERENCE.CODE)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=42.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=38.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue MT_Framework:MT_TENANT__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=43.0, core=true, t24Name=DEPT.CODE)
+        INPUTTER -> byValue MT_Framework:MT_TENANT__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        LEAD_COMPANY -> byValue MT_Framework:MT_TENANT__LEAD_COMPANY *
+            @t24:i (t24Name=LEAD.COMPANY)
+/* Version suffix (pgm version) required for OFS(header) message formed during MT.TSA.SERVICE.CONSOLE and MT.REPLICATE.CONSOLE table event generation.
+Validation Rules:
+Maximum of 35 characters allowed.
+The OFS.PGM.VERSION set in MT.REPLICATE.CONSOLE will take precedence.
+Optional input. By default zero authoriser(0) will be used in OFS messages sent. */
+        OFS_PGM_VERSION : T24BusinessTypes:A
+            @i18n:Label (en="Version suffix")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=19.0, core=true, t24Name=OFS.PGM.VERSION)
+/* Defines the User sign-on name to be used for OFS message(s)for MT.REPLICATE.CONSOLE table event generation.
+The MT Administrator must ensure it is a valid sign-on name in the tenant system.
+Validation Rules:
+Maximum of 35 characters allowed.
+Mandatory field */
+        OFS_USR_REPLICATE : T24BusinessTypes:A required
+            @i18n:Label (en="Generic Sign on User")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=18.0, core=true, t24Name=OFS.USR.REPLICATE)
+/* Defines the User sign-on name to be used for OFS message(s)for MT.TSA.SERVICE.CONSOLE table event generation.
+The MT Administrator must ensure it is a valid sign-on name in the tenant system.
+Validation Rules:
+Maximum of 35 characters allowed.
+Mandatory field */
+        OFS_USR_TSA_SERVICE : T24BusinessTypes:A required
+            @i18n:Label (en="TSA.SERVICE Sign on user")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=17.0, core=true, t24Name=OFS.USR.TSA.SERVICE)
+        OVERRIDE -> byValue MT_Framework:MT_TENANT__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=37.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=34.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=25.0, core=true, t24Name=RESERVED.10)
+        RESERVED_11 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=24.0, core=true, t24Name=RESERVED.11)
+        RESERVED_12 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=23.0, core=true, t24Name=RESERVED.12)
+        RESERVED_13 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=22.0, core=true, t24Name=RESERVED.13)
+        RESERVED_14 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=21.0, core=true, t24Name=RESERVED.14)
+        RESERVED_15 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=20.0, core=true, t24Name=RESERVED.15)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=33.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=32.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=31.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=30.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=29.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=28.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=27.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=26.0, core=true, t24Name=RESERVED.9)
+        TENANT_CONTACT -> byValue MT_Framework:MT_TENANT__TENANT_CONTACT *
+            @t24:i (t24Name=TENANT.CONTACT)
+/* Unique reference to identify each tenants
+Validation Rules:
+Maximum of 35 characters allowed.
+Id prefixed with value MT followed by julian date and then sequence number
+For example MTJJJJJNNNNN
+MT - id prefix
+JJJJJ - Julian date
+NNNNN - Sequence number */
+        TENANT_ID -> MT_Framework:MT_TENANT PK required
+            @i18n:Label (en="Tenant Id")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=TENANT.ID)
+/* Specifies the name of the tenant.
+Validation Rules:
+Maximum of 35 characters allowed.
+Mandatory field */
+        TENANT_NAME : T24BusinessTypes:A required
+            @i18n:Label (en="Tenant Name")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, t24Name=TENANT.NAME)
+/* The status of tenant based on which the master system is permitted or not allowed to send messages to them.
+Validation Rules:
+Acceptable values are:
+1. ACTIVATED :- indicates the tenant system is activated and can receive messages
+2. DEACTIVATED :- indicates the tenant system is deactivated messages are not to be sent.
+                3. Blank, acts the same as DEACTIVATED option. */
+        TENANT_STATUS : MT_Framework:MT_TENANT__TENANT_STATUS
+            @i18n:Label (en="Tenant Status")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=4.0, core=true, t24Name=TENANT.STATUS)
+/* This field defines the type of tenant system e.g. LIVE, DEMO, TRAINING, UAT etc.
+Validation Rules:
+must be a valid entry in MT.TENANT.TYPE table.
+Maximum of 35 characters allowed.
+Mandatory field */
+        TENANT_TYPE -> MT_Framework:MT_TENANT_TYPE required
+            @i18n:Label (en="Tenant Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=3.0, core=true, businessType=A, t24Name=TENANT.TYPE)
+    }
+/* This table is used to automate the removal of a deactivated tenant's data from all the associated MT tables.
+A valid tenant id must be used as key for this table, so that the tenant related data can be discovered in the MT tables and populated to the fields of MT.TENANT.CLEANUP table.
+The OPERATION.MODE field is used to define what action is to be performed.
+Options are 1. REPORT - Allowed for both activated and deactivated tenant. 2.REMOVE - Possible only for a deactivated tenant.
+The record id of MT tables which are associated with subject tenant will get populated to the relevant fields of MT.TENANT.CLEANUP table including unauthorised tenant data.
+In case any unauthorised tenant data exists, then this application will invoke a warning message during REPORT mode to alert the MT operator to a potential risk situation.
+Further proceeding to commit / authorising of such a record with REMOVE mode will stop the current process by showing error message.
+Before the successful initiation of removal process (tenant is deactivated and there is no unauthorised data for this tenant), the warning message displayed to the MT operator to indicate that this tenant related data will be removed or updated.
+Any new arrival of MT table records relevant to subject tenant also will get populated to the fields of existing MT.TENANT.CLEANUP record when it is applicable and taken for further processing.
+After successful removal process, changing of respective MT.TENANT.CLEANUP record is not advisable and system will prompt error message. */
+    MT_TENANT_CLEANUP
+        @i18n:Description (en="")
+        @t24:i (t24Name=MT.TENANT.CLEANUP, level=I, type=H, allowedFunctions="A D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=35.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=36.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=32.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=33.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=29.0, core=true, t24Name=CURR.NO)
+/* Indicates the presence of data, related to the tenant id, which is eligible for removal.
+Validation Rules:
+Noinput Field. System generated values are: YES  - Set when data associated to the tenant is found. Or if the MT.TENANT is the only data and this is set as de-activated.NO - Set when no data associated to the tenant is found. Or if the MT.TENANT is the only data and this is set as activated (Records for tenants who have an activated status cannot be removed by this process).
+Note - data can be removed only if MT.TENANT is deactivated. Data presence check is made for any status or mode. */
+        DATA_PRESENT : T24BusinessTypes:A
+            @i18n:Label (en="Data Present")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=6.0, core=true, t24Name=DATA.PRESENT)
+        DATE_TIME -> byValue MT_Framework:MT_TENANT_CLEANUP__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=34.0, core=true, t24Name=DEPT.CODE)
+        INPUTTER -> byValue MT_Framework:MT_TENANT_CLEANUP__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* The date when the report or removal process was last run.
+Validation Rules:
+Noinput field. System populates the processing date.  Display format: DD MMM YYYY, for e.g: 11 MAY 2015 */
+        LAST_RUN_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Last Run Date")
+            @t24:i (align=R, inputBehaviour=N, maxLength=11, sysNumber=15.0, core=true, t24Name=LAST.RUN.DATE)
+/* Mode of operation based on which the MT operator can either; just view report of tenant data before removal or can effect the removal operation.
+Validation Rules:
+Acceptable values are:
+1. REPORT - used to view report of tenant data before removal process by populating it into the MT.TENANT.CLEANUP table fields. Mode possible for both activated and deactivated tenants
+2. REMOVE - used to remove or update MT tables records which are associated with subject tenant (off-boarded). Mode Possible only for deactivated tenants.
+Mode change not allowed after successful remove operation (MT.TENANT.CLEANUP record authorized with REMOVE mode). */
+        OPERATION_MODE : MT_Framework:MT_TENANT_CLEANUP__OPERATION_MODE required
+            @i18n:Label (en="Operation Mode")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, t24Name=OPERATION.MODE)
+        OVERRIDE -> byValue MT_Framework:MT_TENANT_CLEANUP__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=28.0, core=true, t24Name=RECORD.STATUS)
+        REPLICATE_CONSOLE_RECS -> byValue MT_Framework:MT_TENANT_CLEANUP__REPLICATE_CONSOLE_RECS *
+            @t24:i (t24Name=REPLICATE.CONSOLE.RECS)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=25.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=RESERVED.10)
+        RESERVED_11 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=RESERVED.11)
+        RESERVED_12 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED.12)
+        RESERVED_13 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.13)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=24.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=23.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=22.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=21.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=20.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=19.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=17.0, core=true, t24Name=RESERVED.9)
+        SERVICE_CONSOLE_RECS -> byValue MT_Framework:MT_TENANT_CLEANUP__SERVICE_CONSOLE_RECS *
+            @t24:i (t24Name=SERVICE.CONSOLE.RECS)
+/* Unique reference to identify each tenants entry in MT.TENANT.CLEANUP table. The id is not validated directly against the MT.TENANT table as this would prevent the record being accessed later.
+However, when entered the id is used to populate the actual MT.TENANT id and name in the TENANT.ID and TENANT.NAME fields which validates it and also allows display of the information once MT.TENANT has been reversed.
+Validation Rules:
+Acceptable values are:
+Maximum of 35 characters allowed.
+Id should prefix with 'MT' and should be a valid format of tenant id.
+Required manual input of valid tenant id to proceed report or removal process.
+Should allow to access existing MT.TENANT.CLEANUP record of the tenant even after the successful removal operation (MT.TENANT record reversed). */
+        TENANT_CLEANUP_ID -> MT_Framework:MT_TENANT_CLEANUP PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=TENANT.CLEANUP.ID)
+        TENANT_CONTACTS -> byValue MT_Framework:MT_TENANT_CLEANUP__TENANT_CONTACTS *
+            @t24:i (t24Name=TENANT.CONTACTS)
+        TENANT_GROUPS -> byValue MT_Framework:MT_TENANT_CLEANUP__TENANT_GROUPS *
+            @t24:i (t24Name=TENANT.GROUPS)
+/* This represents the tenant id being processed, for the report or removal process being performed.
+Validation Rules:
+Noinput field. Value gets populated from TENANT.CLEANUP.ID (Key field of MT.TENANT.CLEANUP table).  Must be a valid entry in MT.TENANT table - unless the tenant has been removed previously. */
+        TENANT_ID : T24BusinessTypes:A
+            @i18n:Label (en="Tenant Id")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=2.0, core=true, t24Name=TENANT.ID)
+/* Gives a visual confirmation of the name of the tenant.
+Validation Rules:
+Value gets populated from MT.TENANT table record of subject tenant.
+Noinput field */
+        TENANT_NAME : T24BusinessTypes:A
+            @i18n:Label (en="Tenant Name")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=3.0, core=true, t24Name=TENANT.NAME)
+/* Gives a visual confirmation of the status of the tenant being off-boarded. A report run can be made on an active tenant but only a deactivated tenant can be removed by this process.
+Validation Rules:
+Noinput field. Value gets populated from MT.TENANT table record of subject tenant.  Values are:  1. ACTIVATED - for activated tenant only OPERATION.MODE allowed is REPORT.  2. DEACTIVATED - for deactivated tenant both REMOVE and REPORT mode is allowed. */
+        TENANT_STATUS : T24BusinessTypes:A
+            @i18n:Label (en="Tenant Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=5.0, core=true, t24Name=TENANT.STATUS)
+/* Gives a visual confirmation of the type of tenant system e.g. LIVE, DEMO, TRAINING, UAT etc.
+Validation Rules:
+Value gets populated from MT.TENANT table record of subject tenant.
+Noinput field */
+        TENANT_TYPE : T24BusinessTypes:A
+            @i18n:Label (en="Tenant Type")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=4.0, core=true, t24Name=TENANT.TYPE)
+        UNAUTH_RECS -> byValue MT_Framework:MT_TENANT_CLEANUP__UNAUTH_RECS *
+            @t24:i (t24Name=UNAUTH.RECS)
+    }
+    MT_TENANT_CLEANUP__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=31.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    MT_TENANT_CLEANUP__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=30.0, core=true, t24Name=INPUTTER)
+    }
+    MT_TENANT_CLEANUP__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=27.0, core=true, t24Name=OVERRIDE)
+    }
+    MT_TENANT_CLEANUP__REPLICATE_CONSOLE_RECS
+    {
+/* The id(s) of MT.REPLICATE.CONSOLE record(s) which are associated with subject tenant being off-boarded and marked for removal.
+At validation or authorisation the associated records are always checked in case new data has been added since the last report or remove was attempted.
+During MT.TENANT.CLEANUP record authorisation (using REMOVE mode), any replicate console record(s) used solely by the tenant will get reversed. Any records shared by other tenants will be amended.
+If the replicate console record uses a tenant group and the tenant being off boarded is the only member of that group, both the tenant group and replicate console records will be reversed.
+Validation Rules:
+System populates data to this field for any mode or status.  Noinput field. */
+        REPLICATE_CONSOLE_RECS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=50, sysNumber=9.0, core=true, t24Name=REPLICATE.CONSOLE.RECS)
+    }
+    MT_TENANT_CLEANUP__SERVICE_CONSOLE_RECS
+    {
+/* The id(s) of MT.T24.SERVICE.CONSOLE record(s) which are associated with subject tenant being off-boarded and marked for removal.
+At validation or authorisation the associated records are always checked in case new data has been added since the last report or remove was attempted.
+During MT.TENANT.CLEANUP record authorisation (using REMOVE mode), any service console record(s) used solely by the tenant will get reversed. Any records shared by other tenants will be amended.
+If the service console record uses a tenant group and the tenant being off boarded is the only member of that group, both the tenant group and service console records will be reversed.
+Validation Rules:
+System populates data to this field for any mode or status.  Noinput field. */
+        SERVICE_CONSOLE_RECS : T24BusinessTypes:A
+            @i18n:Label (en="Service Console")
+            @t24:i (align=L, inputBehaviour=N, maxLength=50, sysNumber=8.0, core=true, t24Name=SERVICE.CONSOLE.RECS)
+    }
+    MT_TENANT_CLEANUP__TENANT_CONTACTS
+    {
+/* The id(s) of MT.TENANT.CONTACT record(s) from subject tenant's MT.TENANT record not used by other tenants.
+MT.TENANT.CLEANUP record authorisation (using REMOVE mode), will effect the reversal of these tenant contact record(s).
+At validation and authorisation the associated records are always checked in case new data has been added since the last report or remove was attempted.
+Validation Rules:
+System populates data to this field for any mode or status.  Noinput field. */
+        TENANT_CONTACTS : T24BusinessTypes:A
+            @i18n:Label (en="Tenant Contacts")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=TENANT.CONTACTS)
+    }
+    MT_TENANT_CLEANUP__TENANT_GROUPS
+    {
+/* The id(s) of MT.TENANT.GROUP record(s) which are associated with subject tenant being off-boarded and marked for removal.
+At validation or authorisation the associated records are always checked in case new data has been added since the last report or remove was attempted.
+The tenant group record(s) will get reversed, if used only by subject tenant, when authorising MT.TENANT.CLEANUP with OPERATION.MODE as REMOVE
+If other tenants share a tenant group then the record is amended, the subject tenant will be removed from tenant group.
+Validation Rules:
+System populates data to this field for any mode or status.  Noinput field. */
+        TENANT_GROUPS : T24BusinessTypes:A
+            @i18n:Label (en="Tenant Groups")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=7.0, core=true, t24Name=TENANT.GROUPS)
+    }
+    MT_TENANT_CLEANUP__UNAUTH_RECS
+    {
+/* If there are any unauthorized records, in any of the tables associated with subject tenant (being off boarded), in system they will be listed here.
+As any unauthorised changes could impact the removal or change of records the user must delete or authorise any records shown before an automated removal can take place.
+MT tables are : MT.TENANT.CONTACT, MT.TSA.SERVICE.CONSOLE, MT.REPLICATE.CONSOLE, MT.TENANT.GROUP and MT.TENANT.
+Validation Rules:
+Noinput field. System populates data to this field for any mode or status.  With the value in this field, system cannot allow this application to proceed with removal process by considering potential risk on both live and unauthorised data. */
+        UNAUTH_RECS : T24BusinessTypes:ANY
+            @i18n:Label (en="Tenant Unauth Data")
+            @t24:i (align=L, inputBehaviour=N, maxLength=80, sysNumber=11.0, core=true, t24Name=UNAUTH.RECS)
+    }
+    /* This is the table where the tenant contact details can be maintained and same can be used in MT.TENANT table. */
+    MT_TENANT_CONTACT
+        @i18n:Description (en="")
+        @t24:i (t24Name=MT.TENANT.CONTACT, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=25.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=26.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=22.0, core=true, t24Name=AUTHORISER)
+/* Specifies the name of the contact point
+Validation Rules:
+Maximum of 35 alphanumerics allowed
+Mandatory field */
+        CONTACT_NAME : T24BusinessTypes:A required
+            @i18n:Label (en="Contact Name")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=2.0, core=true, t24Name=CONTACT.NAME)
+        CONTACT_TYPE -> byValue MT_Framework:MT_TENANT_CONTACT__CONTACT_TYPE *
+            @t24:i (t24Name=CONTACT.TYPE)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=23.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=19.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue MT_Framework:MT_TENANT_CONTACT__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=24.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue MT_Framework:MT_TENANT_CONTACT__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+/* This field can contain official Email address of the tenant contact point
+Validation Rules:
+Maximum of 50 characters allowed. */
+        EMAIL : T24BusinessTypes:ANY
+            @i18n:Label (en="Email Address")
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=5.0, core=true, t24Name=EMAIL)
+        INPUTTER -> byValue MT_Framework:MT_TENANT_CONTACT__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* This field can contain land line number of the tenant contact point
+Validation Rules:
+Allowed maximum of 17 characters */
+        LANDLINE : T24BusinessTypes:A
+            @i18n:Label (en="Landline Number")
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=4.0, core=true, t24Name=LANDLINE)
+/* This field will contain mobile number of the tenant contact
+Validation Rules:
+Maximum of 17 characters allowed . */
+        MOBILE_NUMBER : T24BusinessTypes:A
+            @i18n:Label (en="Mobile Number")
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=3.0, core=true, t24Name=MOBILE.NUMBER)
+        OVERRIDE -> byValue MT_Framework:MT_TENANT_CONTACT__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=18.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=RESERVED.1)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=11.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=RESERVED.8)
+/* Unique reference to identify each tenant contact.
+Validation Rules:
+Maximum of 35 alphanumerics allowed. */
+        TENANT_CONTACT_ID -> MT_Framework:MT_TENANT_CONTACT PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=TENANT.CONTACT.ID)
+    }
+    MT_TENANT_CONTACT__CONTACT_TYPE
+    {
+/* This field can contain other user definable contact details.
+The fields CONTACT.TYPE and CONTACT.DETAILS are associated multivalue fields
+For example:
+CONTACT.TYPE = SKYPE ; CONTACT.DETAILS = john.skype.work etc
+Validation Rules:
+Maximum of 35 characters allowed.
+Cannot be blank if CONTACT.TYPE is populated. */
+        CONTACT_DETAILS : T24BusinessTypes:ANY
+            @i18n:Label (en="Contact Details")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=7.0, core=true, t24Name=CONTACT.DETAILS)
+/* This field can contain the type of contact to define other contacts of the tenant.
+The fields CONTACT.TYPE and CONTACT.DETAILS are associated multi value fields
+Validation Rules:
+Maximum of 35 characters allowed.
+Cannot be blank if CONTACT.DETAILS is populated. */
+        CONTACT_TYPE : T24BusinessTypes:ANY
+            @i18n:Label (en="Contact Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=6.0, core=true, t24Name=CONTACT.TYPE)
+    }
+    MT_TENANT_CONTACT__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=21.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    MT_TENANT_CONTACT__DESCRIPTION
+    {
+/* Specifies the description of tenant contact.
+Validation Rules:
+Maximum of 50 alphanumerics allowed.
+Mandatory field */
+        DESCRIPTION : T24BusinessTypes:A required
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    MT_TENANT_CONTACT__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=20.0, core=true, t24Name=INPUTTER)
+    }
+    MT_TENANT_CONTACT__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=17.0, core=true, t24Name=OVERRIDE)
+    }
+/* This table is to define tenant grouping, according to the tenant type and purpose of grouping. The tenant group level can be one of three basic settings:
+1. COB
+2. SERVICE
+3. GENERIC.
+For the COB settings, each tenant has options which dictate how their TSA.SERVICE id for the COB is composed. The COB.STYLE, COMPANY.GROUP and COMPANY.ID fields are used to create a style such as COB, COB-companygroupid or COB-companyid during event generation via MT.TSA.SERVICE.CONSOLE table.
+For the SERVICE setup, the TSA.SERVICE name from the MT.TSA.SERVICE.CONSOLE table will be prefixed with the value of SERVICE.COMP.MNE with '/' as delimiter so that a record id such as BNK/SERVICENAME can be used for one tenant in the group and BR2/SERVICENAME for another.
+The GENERIC setup, is used to create tenant groups for the MT.REPLICATE.CONSOLE.
+In addition to the TENANT.GROUP.LEVEL which controls the processing content we also have a TENANT.GROUP.TYPE, this is to allow the distinction of which tenants are running LIVE and which are not (NON-LIVE). When handling a large number of tenants, some of them are testing or setting up a new configuration whilst the others are live and in production, it would be quite a common to expect the test systems to ask for a COB to be run at odd times and even several times a day. Considering the impact of a live production tenant being selected and their COB was started instead of their test system we need to ensure their is enough control to prevent this type of error occurring.
+To this effect we have a control field on both the MT.TSA.SERVICE.CONSOLE and MT.REPLICATE.CONSOLE tables so the operator must decide whether the tenant or group they have selected is a LIVE or NON-LIVE status. A second warning is given when the records are authorised and set to issue the event commands in the form of an override.
+So in summary this table controls the settings for a group of tenants with a similar type (LIVE or NON-LIVE) and allows for settings to control COB, Service and replicate t24 table records (like configuration or parameter records).
+To allow the type of group to be self evident the id of this table has been left flexible enough for the user to establish a suitable naming convention (no restricted id format).
+So as an example only for illustration a record id called LIVE-EASTCOAST-COB could be set to group together the settings for all the banks on the east coast who are live. */
+    MT_TENANT_GROUP
+        @i18n:Description (en="")
+        @t24:i (t24Name=MT.TENANT.GROUP, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=28.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=29.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=25.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=26.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=22.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue MT_Framework:MT_TENANT_GROUP__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=27.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue MT_Framework:MT_TENANT_GROUP__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        INPUTTER -> byValue MT_Framework:MT_TENANT_GROUP__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        OVERRIDE -> byValue MT_Framework:MT_TENANT_GROUP__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=21.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=RESERVED.10)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=17.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=11.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=RESERVED.9)
+/* Unique reference to identify tenant group record. To allow the type of group to be self evident the id of this table has been left flexible enough for the user to establish a suitable naming convention.
+Validation Rules:
+Maximum of 35 characters allowed. */
+        TENANT_GROUP_ID -> MT_Framework:MT_TENANT_GROUP PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=TENANT.GROUP.ID)
+/* This field is to define the level of tenant grouping. Whether the grouping is for COB settings or Service or a generic group for replicating t24 table records.
+Validation Rules:
+Acceptable values are:
+1. COB :- indicates the COB level tenant grouping which can be used in MT.TSA.SERVICE.CONSOLE designed to run COB for group of tenants.
+2. SERVICE :- indicates the SERVICE level tenant grouping which can be used in MT.TSA.SERVICE.CONSOLE designed to run SERVICE for group of tenants.
+3. GENERIC :- indicates the generic tenant grouping which can be used in MT.REPLICATE.CONSOLE designed to replicate table content for group of tenants.
+If this field has value but no COB or Service related fields given, then this tenant grouping can be considered for standard COB or Service.
+Mandatory field */
+        TENANT_GROUP_LEVEL : MT_Framework:MT_TENANT_GROUP__TENANT_GROUP_LEVEL required
+            @i18n:Label (en="Tenant Group Usage")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=3.0, core=true, t24Name=TENANT.GROUP.LEVEL)
+/* Defines the type of tenant grouping, either LIVE or NON-LIVE tenant(s) grouping. This value will be used by the MT.REPLICATE.CONSOLE and MT.TSA.SERVICE.CONSOLE for a safety check (when trying to execute COB or Service or replicating table record in tenant system) to ensure that the correct group has been selected.
+Validation Rules:
+Acceptable values are:
+1. LIVE - Indicates LIVE tenant grouping.
+2. NON-LIVE - indicates grouping of non-live tenants such as DEMO, TRAINING, UAT etc.
+Mandatory field. */
+        TENANT_GROUP_TYPE : MT_Framework:MT_TENANT_GROUP__TENANT_GROUP_TYPE required
+            @i18n:Label (en="1_R14m 1405311102 1_R14m GB0010001")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=2.0, core=true, t24Name=TENANT.GROUP.TYPE)
+        TENANT_ID -> byValue MT_Framework:MT_TENANT_GROUP__TENANT_ID *
+            @t24:i (t24Name=TENANT.ID)
+    }
+    MT_TENANT_GROUP__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=24.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    MT_TENANT_GROUP__DESCRIPTION
+    {
+/* Used to provide a narrative or explanation of the groups usage.
+For example to indicate the group is a set of time zone related institutions.
+Validation Rules:
+maximum of 50 alphanumerics allowed.
+Mandatory field */
+        DESCRIPTION : T24BusinessTypes:A required
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    MT_TENANT_GROUP__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=23.0, core=true, t24Name=INPUTTER)
+    }
+    MT_TENANT_GROUP__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=20.0, core=true, t24Name=OVERRIDE)
+    }
+    MT_TENANT_GROUP__TENANT_ID
+    {
+/* Defines the  COB style for each tenant in the group.
+This value will be used during MT.TSA.SERVICE.CONSOLE authorization stage to decide on TSA service id.
+Validation Rules:
+Acceptable values are:
+1. STANDARD :-  denotes standard COB
+2. COMPANY.GROUP :-  denotes company group level COB, requires input in COMPANY.GROUP.ID field.
+3. COMPANY  :-  denotes company specific COB, requires input in COMPANY.ID field.
+Input allowed only for COB level tenant grouping (TENANT.GROUP.LEVEL = COB).
+This field is mandatory if COMPANY.GROUP.ID or COMPANY.ID are set and when TENANT.GROUP.LEVEL is COB. */
+        COB_STYLE : MT_Framework:MT_TENANT_GROUP__TENANT_ID__COB_STYLE
+            @i18n:Label (en="COB Style")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=5.0, core=true, t24Name=COB.STYLE)
+/* Defines the company group id for each tenant in group which requires company group level COB.
+Validation Rules:
+Allowed maximum of 3 characters.
+Input allowed only for:
+1. COB level tenant grouping (TENANT.GROUP.LEVEL=COB).
+2. COB.STYLE = COMPANY.GROUP (with this setup COMPANY.GROUP.ID become mandatory field).
+Must be a valid company group from MT.TENANT table field LEAD.COMP.GROUP. */
+        COMPANY_GROUP_ID : T24BusinessTypes:N
+            @i18n:Label (en="Company Group Id")
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=6.0, core=true, t24Name=COMPANY.GROUP.ID)
+/* Defines the company id for each tenant in the group which requires company level COB.
+Validation Rules:
+Maximum of 11 characters allowed.
+Input allowed only for:
+1. COB level tenant grouping (TENANT.GROUP.LEVEL=COB).
+2. COB.STYLE = COMPANY (with this setup COMPANY.ID become mandatory field).
+Must be a valid company id from MT.TENANT table fields such as LEAD.COMPANY or LINK.COMPANY. */
+        COMPANY_ID : T24BusinessTypes:A
+            @i18n:Label (en="Company Id")
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=7.0, core=true, t24Name=COMPANY.ID)
+        SERVICE_COMP_MNE -> byValue MT_Framework:MT_TENANT_GROUP__TENANT_ID__SERVICE_COMP_MNE *
+            @t24:i (t24Name=SERVICE.COMP.MNE)
+/* Defines a valid tenant id as part of the group.
+The TENANT.ID , COB.STYLE, COMPANY.GROUP.ID, COMPANY.ID and SERVICE.COMP.MNE fields are associated multi-value set.
+Only a LIVE type tenant can be added to a LIVE type group; and of course NON-LIVE tenant for a NON-LIVE group.
+Validation Rules:
+Must be valid entry in MT.TENANT table.
+The TENAT.GROUP.TYPE must equate to the TENANT.TYPE.GROUP (from TENANT.TYPE) of that tenant  (LIVE or NON-LIVE).
+Maximum of 35 characters allowed.
+Mandatory field. */
+        TENANT_ID -> MT_Framework:MT_TENANT required
+            @i18n:Label (en="Tenant Id")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=4.0, core=true, businessType=A, t24Name=TENANT.ID)
+    }
+    MT_TENANT_GROUP__TENANT_ID__SERVICE_COMP_MNE
+    {
+/* Defines the service company mnemonic for each tenant in a service level tenant group.
+Validation Rules:
+Minimum and maximum allowed character is 3.
+Input allowed for service level tenant grouping (TENANT.GROUP.LEVEL = SERVICE).
+Valid company mnemonic from MT.TENANT table fields such as LEAD.COMP.MNE or LINK.COMP.MNE. */
+        SERVICE_COMP_MNE : T24BusinessTypes:MNE
+            @i18n:Label (en="Service Company Mne")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=8.0, core=true, t24Name=SERVICE.COMP.MNE)
+    }
+    /* This is the table in which the list of tenant types can be defined */
+    MT_TENANT_TYPE
+        @i18n:Description (en="")
+        @t24:i (t24Name=MT.TENANT.TYPE, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=17.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=18.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=14.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=15.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=11.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue MT_Framework:MT_TENANT_TYPE__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=16.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue MT_Framework:MT_TENANT_TYPE__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        INPUTTER -> byValue MT_Framework:MT_TENANT_TYPE__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        OVERRIDE -> byValue MT_Framework:MT_TENANT_TYPE__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=10.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=7.0, core=true, t24Name=RESERVED.1)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=6.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=5.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=4.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=3.0, core=true, t24Name=RESERVED.5)
+/* Unique reference to indentify each tenant type.
+The tenant type name can be decided based on usage/type of t24instance for e.g DEMO, LIVE(PRODUCTION), TRAINING, UAT etc
+Validation Rules:
+Maximum of 35 alphanumerics allowed. */
+        TENANT_TYPE -> MT_Framework:MT_TENANT_TYPE PK required
+            @i18n:Label (en="Tenant Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=TENANT.TYPE)
+/* Specifies the group under which the tenant type can be categorized
+Valid values are:
+1. LIVE - Indicates the t24 instance(tenant system) used is a LIVE or PRODUCTION system.
+2. NON-LIVE - Indicates the t24 instance(tenant system) is used for other purposes like DEMO, UAT, TRAINING etc. */
+        TENANT_TYPE_GROUP : MT_Framework:MT_TENANT_TYPE__TENANT_TYPE_GROUP required
+            @i18n:Label (en="Tenant Type Group")
+            @t24:i (align=L, inputBehaviour=F, maxLength=35, sysNumber=2.0, core=true, t24Name=TENANT.TYPE.GROUP)
+    }
+    MT_TENANT_TYPE__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=13.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    MT_TENANT_TYPE__DESCRIPTION
+    {
+/* Specifies the description of the tenant type.
+Validation Rules:
+Maximum of 50 alphanumerics allowed.
+Mandatory field */
+        DESCRIPTION : T24BusinessTypes:A required
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    MT_TENANT_TYPE__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=12.0, core=true, t24Name=INPUTTER)
+    }
+    MT_TENANT_TYPE__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=OVERRIDE)
+    }
+    MT_TENANT__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=40.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    MT_TENANT__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=39.0, core=true, t24Name=INPUTTER)
+    }
+    MT_TENANT__LEAD_COMPANY
+    {
+/* Defines a valid lead company(s) from tenant system.
+The MT Administrator must ensure it is a valid lead company id for the tenant.
+Validation Rules:
+Follows generic company id format
+For example AANNNNNNN - first 2 digits alphabetic, last 7 digits are numeric. */
+        LEAD_COMPANY : T24BusinessTypes:A required
+            @i18n:Label (en="Lead Company")
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=6.0, core=true, t24Name=LEAD.COMPANY)
+/* Defines a valid company group of the LEAD.COMPANY from a tenant system.
+The MT Administrator must ensure it is a valid id of the corresponding company group of that lead company.
+Validation Rules:
+Maximum of 3 numeric characters */
+        LEAD_COMP_GROUP : T24BusinessTypes:N
+            @i18n:Label (en="Lead Company Group")
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=8.0, core=true, t24Name=LEAD.COMP.GROUP)
+/* Defines a valid company mnemonic of that LEAD.COMPANY from tenant system.
+The MT Administrator must ensure it is a valid mnemonic for the corresponding lead company.
+Validation Rules:
+Minimum and maximum allowed character is 3 */
+        LEAD_COMP_MNE : T24BusinessTypes:MNE required
+            @i18n:Label (en="Lead Company Mne")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=7.0, core=true, t24Name=LEAD.COMP.MNE)
+        LINK_COMPANY -> byValue MT_Framework:MT_TENANT__LEAD_COMPANY__LINK_COMPANY *
+            @t24:i (t24Name=LINK.COMPANY)
+        RESERVED_19 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=11.0, core=true, t24Name=RESERVED.19)
+        RESERVED_20 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=RESERVED.20)
+        RESERVED_21 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=RESERVED.21)
+    }
+    MT_TENANT__LEAD_COMPANY__LINK_COMPANY
+    {
+/* This is the field to define branch company id from tenant system for every lead company defined in LEAD.COMPANY field.
+The MT Administrator must ensure it is a valid id of the corresponding branch company of that lead company from the tenant system.
+Validation Rules:
+Follows generic company id format
+For example AANNNNNNN where first 2 digits alphabetic, last 7 digits are numeric. */
+        LINK_COMPANY : T24BusinessTypes:A
+            @i18n:Label (en="Link Company")
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=12.0, core=true, t24Name=LINK.COMPANY)
+/* Defines a branch company mnemonic of every branch company given in LINK.COMPANY field.
+The MT Administrator must ensure it is a valid id of a corresponding company mnemonic of that branch company from the tenant system.
+Validation Rules:
+Minimum and maximum allowed character is 3 */
+        LINK_COMP_MNE : T24BusinessTypes:MNE
+            @i18n:Label (en="Link Company Mne")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=13.0, core=true, t24Name=LINK.COMP.MNE)
+        RESERVED_16 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=RESERVED.16)
+        RESERVED_17 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=RESERVED.17)
+        RESERVED_18 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=RESERVED.18)
+    }
+    MT_TENANT__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=36.0, core=true, t24Name=OVERRIDE)
+    }
+    MT_TENANT__TENANT_CONTACT
+    {
+/* Specifies a tenant contact id.
+Validation Rules:
+Maximum of 35 characters allowed.
+Must be a valid entry in MT.TENANT.CONTACT table */
+        TENANT_CONTACT -> MT_Framework:MT_TENANT_CONTACT
+            @i18n:Label (en="Tenant Contact")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=5.0, core=true, businessType=A, t24Name=TENANT.CONTACT)
+    }
+/* This is the table in which the COB or Service in tenant system can be controled from the Master - in a Multi-Tenant architecture.
+On authorisation of a record in this table (with OPERATION.MODE set to EXECUTE) one or more events are generated. These are xml based and are sent using the Integration Framework infrastructure. From the IF.EVENTS.INTERFACE.TABLE these event based messages can be taken by (or sent to) external tools (such as an ESB) which can then transform and route them to the respective tenant(s). */
+    MT_TSA_SERVICE_CONSOLE
+        @i18n:Description (en="")
+        @t24:i (t24Name=MT.TSA.SERVICE.CONSOLE, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=35.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=36.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=32.0, core=true, t24Name=AUTHORISER)
+/* This is the field to define the permissible COB styles, this setting is used to decide the TSA.SERVICE id format to handle a COB for single tenant during event generation via MT.TSA.SERVICE.CONSOLE authorisation.
+Validation Rules:
+Acceptable values are:
+1. STANDARD :-  denotes standard COB
+2. COMPANY.GROUP :-  denotes company group level COB, requires input in COMPANY.GROUP.ID field.
+3. COMPANY  :-  denotes company specific COB, requires input in COMPANY.ID field.
+Input allowed only for single TENANT.ID setup and not for TENANT.GROUP setup.
+Mandatory if either COMPANY.GROUP.ID or COMPANY.ID has value (and TSA.SERVICE.ID = COB). */
+        COB_STYLE : MT_Framework:MT_TSA_SERVICE_CONSOLE__COB_STYLE
+            @i18n:Label (en="COB Style")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=5.0, core=true, t24Name=COB.STYLE)
+/* This is the field to define company group id for a tenant (in current console) which requires company group level COB.
+Validation Rules:
+Maximum of 3 characters allowed.
+Input allowed for COB.STYLE = COMPANY.GROUP when TSA.SERVICE.ID = COB and TENANT.ID given.
+Must be a valid company group in the field LEAD.COMP.GROUP of MT.TENANT table.
+Input allowed only for TENANT.ID setup and not for TENANT.GROUP setup. */
+        COMPANY_GROUP_ID : T24BusinessTypes:N
+            @i18n:Label (en="Company Group Id")
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=6.0, core=true, t24Name=COMPANY.GROUP.ID)
+/* This is the field to define company id for each tenant (in current console) which requires company level COB
+Validation Rules:
+Maximum of 11 characters allowed.
+Input allowed for COB.STYLE = COMPANY when TSA.SERVICE.ID = COB and TENANT.ID given
+Must be a valid company id from MT.TENANT table fields such as LEAD.COMPANY or LINK.COMPANY
+Input allowed only for TENANT.ID setup and not for TENANT.GROUP setup */
+        COMPANY_ID : T24BusinessTypes:A
+            @i18n:Label (en="Company Id")
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=7.0, core=true, t24Name=COMPANY.ID)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=33.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=29.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue MT_Framework:MT_TSA_SERVICE_CONSOLE__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=34.0, core=true, t24Name=DEPT.CODE)
+        INPUTTER -> byValue MT_Framework:MT_TSA_SERVICE_CONSOLE__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* Specifies the number of events generated (or to be generated) during MT.TSA.SERVICE.CONSOLE authorisation.
+This field gets updated during validation stage of MT.TSA.SERVICE.CONSOLE in advance if there is no error identified.
+Value gets cleared when this console record opened for amendment or further processing.
+Validation Rules:
+Allowed maximum of 35 characters
+System updated field */
+        MESSAGE_COUNT : T24BusinessTypes:N
+            @i18n:Label (en="Message Count")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=MESSAGE.COUNT)
+/* Specifies the mode of operation for which the MT.TSA.SERVICE.CONSOLE is being used. Only a positive value of EXECUTE will allow the generation of messages, and as a safety mechanism an override will also be given to ensure the correct mode has been used.
+Validation Rules:
+Acceptable values are:
+1. MAINTAIN :-  Indicates the MT.TSA.SERVICE.CONSOLE record is being created or maintained and no event generation will happen.
+2. EXECUTE :- Indicates the MT.TSA.SERVICE.CONSOLE record authorisation can proceed with event generation.
+3. Blank - which is treated similar as MAINTAIN option. */
+        OPERATION_MODE : MT_Framework:MT_TSA_SERVICE_CONSOLE__OPERATION_MODE
+            @i18n:Label (en="Operation Mode")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=11.0, core=true, t24Name=OPERATION.MODE)
+        OVERRIDE -> byValue MT_Framework:MT_TSA_SERVICE_CONSOLE__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+/* Used to specify a customised MT system parameter record to override the message format values from DEFAULT parameter record or being defaulted by system.
+Validation Rules:
+Maximum of 35 characters allowed.
+Must be a valid entry in MT.SYSTEM.PARAMETER table */
+        PARAM_ID -> MT_Framework:MT_SYSTEM_PARAMETER
+            @i18n:Label (en="Parameter Id")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=10.0, core=true, businessType=A, t24Name=PARAM.ID)
+/* Specifies the status of current console process.
+This field gets updated during validation stage of MT.TSA.SERVICE.CONSOLE in advance if there is no error identified.
+Value gets cleared when this console record opened up for amendment or further process.
+Validation Rules:
+System updated values are:
+1. VAL   - indicates that the console has been created and event not planned for event generation.
+2. SENT  - indicates that the console process has been completed and event also generated via integration framework.
+Allowed maximum of 35 characters
+System generated field. */
+        PROCESS_STATUS : T24BusinessTypes:A
+            @i18n:Label (en="Process Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=PROCESS.STATUS)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=28.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=25.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=RESERVED.10)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=24.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=23.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=22.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=21.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=20.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=19.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=17.0, core=true, t24Name=RESERVED.9)
+/* Specifies the service control value to pass to the COB or Service in the tenant(s) system.
+Validation Rules:
+Acceptable values are :
+START - The COB or Service is ready to start and can be initiated.
+STOP - The COB or Service has to be stopped. If running it will be terminated.
+AUTO - If  AUTO is specified, then the service is ready for initiation and does not require manual input of START. The service will be available for starting and can be stopped at the end of the process.
+Mandatory field */
+        SERVICE_CONTROL : MT_Framework:MT_TSA_SERVICE_CONSOLE__SERVICE_CONTROL required
+            @i18n:Label (en="Service Control")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=2.0, core=true, t24Name=SERVICE.CONTROL)
+/* Specifies the number of active tenants involved in current console process for which the event generation will or has already occur(red).
+This field gets updated during validation stage of MT.TSA.SERVICE.CONSOLE in advance if there is no error identified.
+Value gets cleared when this console record opened for amendment or further processing.
+Validation Rules:
+Allowed maximum of 35 characters
+System generated field */
+        TENANT_COUNT : T24BusinessTypes:N
+            @i18n:Label (en="Tenant Count")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=TENANT.COUNT)
+/* This field used to select the tenant group which provides expanded tenant details for the service or COB to be processed. Since all the tenants is a group to have a common type LIVE or NON-LIVE, the TENANT.TYPE.CHECK field is checked against the group type so administrator can know that they initating a service or COB for that type of group.
+Validation Rules:
+Maximum of 35 characters allowed.
+If TENANT.GROUP.LEVEL field from TENANT.GROUP is COB, the COB related fields in MT.TSA.SERVICE.CONSOLE cannot be used
+If TENANT.GROUP.LEVEL field from TENANT.GROUP is SERVICE, the service related fields in MT.TSA.SERVICE.CONSOLE cannot be used.
+If TENANT.GROUP.LEVEL field from TENANT.GROUP is GENERIC, then that TENANT.GROUP id itself (only for MT.REPLICATE.CONSOLE) cannot be used in MT.TSA.SERVICE.CONSOLE.
+Must be a valid entry in MT.TENANT.GROUP table.
+Mandatory if no TENANT.ID is used. */
+        TENANT_GROUP -> MT_Framework:MT_TENANT_GROUP
+            @i18n:Label (en="Tenant Group")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=8.0, core=true, businessType=A, t24Name=TENANT.GROUP)
+        TENANT_ID -> byValue MT_Framework:MT_TSA_SERVICE_CONSOLE__TENANT_ID *
+            @t24:i (t24Name=TENANT.ID)
+        TENANT_LIST -> byValue MT_Framework:MT_TSA_SERVICE_CONSOLE__TENANT_LIST *
+            @t24:i (t24Name=TENANT.LIST)
+/* This field is used as a safety check to help eliminate human error in executing the message build process. The user must enter the destination system type (LIVE or NON-LIVE) this will be checked against TENANT.TYPE.GROUP (from MT.TENANT.TYPE of MT.TENANT) or TENANT.GROUP.TYPE(from MT.TENANT.GROUP) values of respective tenants to make sure that the event generation is targeted for the correct type of tenants.
+Validation Rules:
+Acceptable values are:
+1. LIVE - Indicates the t24 instance(tenant system) used as LIVE or PRODUCTION.
+2. NON-LIVE - Indicates the t24 instance(tenant system) used for other purpose like DEMO, UAT, TRAINING etc. */
+        TENANT_TYPE_CHECK : MT_Framework:MT_TSA_SERVICE_CONSOLE__TENANT_TYPE_CHECK
+            @i18n:Label (en="Tenant Type Check")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=9.0, core=true, t24Name=TENANT.TYPE.CHECK)
+/* Unique reference to identify the MT.TSA.SERVICE.CONSOLE record. The naming convention is flexible and allows for meaningful names to be used which match the purpose of the records.
+Validation Rules:
+Allowed maximum of 50 alphanumerics. */
+        TSA_CONSOLE_ID -> MT_Framework:MT_TSA_SERVICE_CONSOLE PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=0.0, core=true, businessType=A, t24Name=TSA.CONSOLE.ID)
+/* Specifies the TSA.SERVICE id, which can be used to control whether the current console record is to handle COB or Service.
+This can be used to form final TSA.SERVICE.ID based on COB or service related fields in same console or from tenant group record.
+COB styles generated can be:
+1. COB-companyGroupId :- If COB.STYLE = COMPANY.GROUP and COMPANY.GROUP.ID has value.
+2. COB-companyId   :- If COB.STYLE = COMPANY and COMPANY.ID has value.
+3. COB  :- Standard COB If COB.STYLE = STANDARD or if no value given in COB related fields in this console.
+Other TSA.SERVICE styles generated can be:
+1. Any TSA.SERVICE (ServiceName without company mnemonic) e.g. GROUP.SERVICE.NAME
+2. Any TSA.SERVICE (ServiceName with company mnemonic prefix) e.g. BNK/SERVICE.NAME
+Validation Rules:
+Allowed values are:
+1. The literal value of COB.
+2. A valid TSA.SERVICE name in tenant with no company mnemonic prefix.
+Maximum of 50 characters allowed.
+Mandatory field */
+        TSA_SERVICE_ID : T24BusinessTypes:ANY required
+            @i18n:Label (en="TSA Service Id")
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=1.0, core=true, t24Name=TSA.SERVICE.ID)
+    }
+    MT_TSA_SERVICE_CONSOLE__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=31.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    MT_TSA_SERVICE_CONSOLE__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=30.0, core=true, t24Name=INPUTTER)
+    }
+    MT_TSA_SERVICE_CONSOLE__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=27.0, core=true, t24Name=OVERRIDE)
+    }
+    MT_TSA_SERVICE_CONSOLE__TENANT_ID
+    {
+        SERVICE_COMP_MNE -> byValue MT_Framework:MT_TSA_SERVICE_CONSOLE__TENANT_ID__SERVICE_COMP_MNE *
+            @t24:i (t24Name=SERVICE.COMP.MNE)
+/* This represents the tenant id(s) for the service or COB being processed.
+The field is multi-valued to allow a list of tenants that will run the same service, with the exception of the 'COB' (that special service can be controlled by using a pre-configured MT.TENANT.GROUP). The COB details needed to be entered for each tenant on this record would be impractical and is best controlled at a group level.
+For a service (other than COB) the associated SERVICE.COMP.MNE will be used to provide the correct runtime value for the service, For example if the same service needs to be run as BNK/SERVICENAME for the first tenant and CO3/SERVICENAME for another tenant then the concatenation of the SERVICE.COMP.MNE/TSA.SERVICE.ID will achieve that.
+Validation Rules:
+Must be a valid entry in MT.TENANT table.
+Tenant must have the same group type set in TENANT.TYPE.CHECK field
+Mandatory if no TENANT.GROUP is used.
+Multi-values only allowed if TSA.SERVICE.ID is not COB.
+Maximum of 35 characters allowed. */
+        TENANT_ID -> MT_Framework:MT_TENANT
+            @i18n:Label (en="Tenant Id")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=3.0, core=true, businessType=A, t24Name=TENANT.ID)
+    }
+    MT_TSA_SERVICE_CONSOLE__TENANT_ID__SERVICE_COMP_MNE
+    {
+/* Specifies the company mnemonic of the service to be run.
+For a service (other than COB) the associated SERVICE.COMP.MNE will be used to provide the correct runtime value for the service. For example if the same service needs to be run as BNK/SERVICENAME for the first tenant and GB1/SERVICENAME for another tenant then the concatenation of the SERVICE.COMP.MNE/TSA.SERVICE.ID will achieve that.
+Validation Rules:
+Input not allowed when ,
+1. TENANT.GROUP field is set.
+2. TSA.SERVICE.ID is COB.
+Minimum and Maximum of 3 characters allowed.
+Must be a valid company mnemonic from MT.TENANT table (LEAD.COMP.MNE or LINK.COMP.MNE). */
+        SERVICE_COMP_MNE : T24BusinessTypes:MNE
+            @i18n:Label (en="Service Company Mne")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=4.0, core=true, t24Name=SERVICE.COMP.MNE)
+    }
+    MT_TSA_SERVICE_CONSOLE__TENANT_LIST
+    {
+/* Specifies the list of active tenants involved in current console process for which the event generation will or has already occur(red). The tenant name will be shown as enrichment.
+This gets updated during the validation stage of MT.TSA.SERVICE.CONSOLE if there is no error identified.
+Values are cleared when this console record is opened for amendment or further processing.
+Validation Rules:
+Allowed maximum of 35 characters
+System generated field */
+        TENANT_LIST -> MT_Framework:MT_TENANT
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, businessType=A, t24Name=TENANT.LIST)
+    }
+}
+Enumerations {
+    MT_REPLICATE_CONSOLE__OPERATION_MODE : mml:string
+        EXECUTE=EXECUTE
+        MAINTAIN=MAINTAIN
+        NULL=NULL
+    MT_REPLICATE_CONSOLE__REQUEST_TYPE : mml:string
+        FULL=FULL
+        NULL=NULL
+        UPDATE=UPDATE
+    MT_REPLICATE_CONSOLE__TENANT_TYPE_CHECK : mml:string
+        LIVE=LIVE
+        NON__LIVE=NON-LIVE
+        NULL=NULL
+    MT_SYSTEM_PARAMETER__MSG_EMIT_TYPE : mml:string
+        INDIVIDUAL=INDIVIDUAL
+    MT_SYSTEM_PARAMETER__MSG_TYPE : mml:string
+        NULL=NULL
+        QUEUE=QUEUE
+        TOPIC=TOPIC
+    MT_TENANT_CLEANUP__OPERATION_MODE : mml:string
+        NULL=NULL
+        REMOVE=REMOVE
+        REPORT=REPORT
+    MT_TENANT_GROUP__TENANT_GROUP_LEVEL : mml:string
+        COB=COB
+        GENERIC=GENERIC
+        SERVICE=SERVICE
+    MT_TENANT_GROUP__TENANT_GROUP_TYPE : mml:string
+        LIVE=LIVE
+        NON__LIVE=NON-LIVE
+    MT_TENANT_GROUP__TENANT_ID__COB_STYLE : mml:string
+        COMPANY=COMPANY
+        COMPANY_GROUP=COMPANY.GROUP
+        NULL=NULL
+        STANDARD=STANDARD
+    MT_TENANT_TYPE__TENANT_TYPE_GROUP : mml:string
+        LIVE=LIVE
+        NON__LIVE=NON-LIVE
+    MT_TENANT__TENANT_STATUS : mml:string
+        ACTIVATED=ACTIVATED
+        DEACTIVATED=DEACTIVATED
+        NULL=NULL
+    MT_TSA_SERVICE_CONSOLE__COB_STYLE : mml:string
+        COMPANY=COMPANY
+        COMPANY_GROUP=COMPANY.GROUP
+        NULL=NULL
+        STANDARD=STANDARD
+    MT_TSA_SERVICE_CONSOLE__OPERATION_MODE : mml:string
+        EXECUTE=EXECUTE
+        MAINTAIN=MAINTAIN
+        NULL=NULL
+    MT_TSA_SERVICE_CONSOLE__SERVICE_CONTROL : mml:string
+        AUTO=AUTO
+        START=START
+        STOP=STOP
+    MT_TSA_SERVICE_CONSOLE__TENANT_TYPE_CHECK : mml:string
+        LIVE=LIVE
+        NON__LIVE=NON-LIVE
+        NULL=NULL
+}

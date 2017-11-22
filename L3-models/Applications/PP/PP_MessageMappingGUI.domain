@@ -1,0 +1,409 @@
+# UTF-8
+/* Message Mapping GUI */
+Domain PP_MessageMappingGUI
+    @t24:i (module=PP)
+    @java:Package (value=com.temenos.t24.datamodel.pp.pp_messagemappinggui)
+namespace "http://www.temenos.com/t24/PP_MessageMappingGUI"
+metamodelVersion 1.30.6
+Classes {
+/* This screen is used to define different message payment types in the payments hub.
+A record authorised in this screen will create or amend or reverse a record in store table, PPT.MSGPAYMENTTYPE */
+    PPT_MSGPAYMENTTYPE
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPT.MSGPAYMENTTYPE, nonStop=true, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        /* The date and time when the current record is approved. */
+        ApprovedDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=8.0, core=true, t24Name=ApprovedDateTime, mask="RDDDD DD  DD ##:##:##.###")
+        /* Username of the user who approved the current record. */
+        ApproverUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=7.0, core=true, t24Name=ApproverUserID)
+        /* The date and time when the current record is create/modifed. */
+        EntryDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=6.0, core=true, t24Name=EntryDateTime, mask="RDDDD DD  DD ##:##:##.###")
+        /* Username of the user who created/modified the current record. */
+        EntryUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=5.0, core=true, t24Name=EntryUserID)
+/* Unique identifier for Message Payment Type enttity.
+Validation Rules:
+i) 35 Alphanumeric characters. */
+        ID -> PP_MessageMappingGUI:PPT_MSGPAYMENTTYPE PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+/* Indicates the name of the message payment type.
+
+Examples:
+101 - Request for Transfer – SWIFT MT
+103 - Customer Credit Transfer –SWIFT MT
+202 - Bank Transfer – SWIFT
+BACSCT - BACS Credit Transfer
+BACSDD - BACS Direct Debit
+HKCLGCD - HKICL Cheques debit
+OT33 - Standing Order - Outward Faster Payment.
+OT06 - Standing Order - Outward CHAPS payment.
+SAL - Salary Batch
+NOR - Normal (non-salary) Batch
+BACSCC - BACS Cheques Credit
+BACSCD - BACS Cheques Debit
+HKCLGCDST - HKICL Cheques debit Settlement
+BACSCTST - BACS Credit Transfer Settlement
+BACSDDST - BACS Direct Debit Settlement
+BACSCCST - BACS Cheques Credit Settlement
+BACSCDST - BACS Cheques Debit Settlement
+ATABE - Account to Account Transfer Belgium – Payment Router
+ATADE - Account to Account Transfer Germany – Payment Router
+ATAGB - Account to Account Transfer UK – Payment Router
+MT103 - Request for Transfer – Payment Router
+MT103-OTHER - Request for Transfer – Payment Router
+MT103-U-INT - Urgent Request for Transfer – Payment Router
+
+Validation Rules:
+Mandatory input.1-10 alphanumeric characters. */
+        MessagePaymentType : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=1.0, core=true, t24Name=MessagePaymentType)
+/* Description of the Payment Message Type.
+Validation Rules:
+i) 1-128 Alphanumeric characters. (Mandatory input) */
+        MessagePaymentTypeDescription : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=128, sysNumber=2.0, core=true, t24Name=MessagePaymentTypeDescription)
+/* Ability to select a Product in Order Entry
+Yes - Product can be selected in Order Entry screen
+No - Product cannot be selected in Order Entry screen */
+        OrderEntryFlag : PP_MessageMappingGUI:PPT_MSGPAYMENTTYPE__OrderEntryFlag
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=9.0, core=true, t24Name=OrderEntryFlag)
+        RACMessagePaymentType : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=3.0, core=true, t24Name=RACMessagePaymentType)
+        RSCMessagePaymentType : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=4.0, core=true, t24Name=RSCMessagePaymentType)
+    }
+    /* This screen is used to configure parameters for Message Mapping process in payments hub. This application follows T24 Standard and it will be of History Type application. */
+    PP_MSGMAPPINGPARAMETER
+        @i18n:Description (en="")
+        @t24:i (t24Name=PP.MSGMAPPINGPARAMETER, nonStop=true, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=18.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=19.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=15.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=16.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=12.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue PP_MessageMappingGUI:PP_MSGMAPPINGPARAMETER__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=17.0, core=true, t24Name=DEPT.CODE)
+/* API to be used to debulk a clearing/batch message.
+Validation Rules:
+255 alphanumeric characters. */
+        DebulkAPI : T24BusinessTypes:A
+            @i18n:Label (en=DebulkAPI)
+            @i18n:Tooltip (en=DebulkAPI)
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=1.0, core=true, t24Name=DebulkAPI)
+/* ID should be in the format of ChannelName and MessageFormat seperated by "."
+For Ex: "SWIFT.103", "SWIFT.191"
+Validation Rules:
+255 Any characters.
+ChannelName specifies the format of the Channel in PP.CHANNEL. 10 alphabetic characters.
+MessageFormat specifies the format of the message as defined in PPT.MSGFORMAT. 20 alphanumeric characters. */
+        ID -> PP_MessageMappingGUI:PP_MSGMAPPINGPARAMETER PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=45, sysNumber=0.0, core=true, businessType=ANY, t24Name=ID)
+        INPUTTER -> byValue PP_MessageMappingGUI:PP_MSGMAPPINGPARAMETER__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* API to be used to map a payment file to payment order.
+Validation Rules:
+Mandatory field. 255 alphanumeric characters. */
+        MappingAPI : T24BusinessTypes:A required
+            @i18n:Label (en=MappingAPI)
+            @i18n:Tooltip (en=MappingAPI)
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=2.0, core=true, t24Name=MappingAPI)
+        OVERRIDE -> byValue PP_MessageMappingGUI:PP_MSGMAPPINGPARAMETER__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=11.0, core=true, t24Name=RECORD.STATUS)
+        /* Standard T24 String. No Input Field */
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=RESERVED.1)
+        /* Standard T24 String. No Input Field */
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=7.0, core=true, t24Name=RESERVED.2)
+        /* Standard T24 String. No Input Field */
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=6.0, core=true, t24Name=RESERVED.3)
+        /* Standard T24 String. No Input Field */
+        RESERVED_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=5.0, core=true, t24Name=RESERVED.4)
+        /* Standard T24 String. No Input Field */
+        RESERVED_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=4.0, core=true, t24Name=RESERVED.5)
+/* API to copy the "Received Source" to "Originating Source" and make
+bank specific changes to the "Originating Source".
+Validation Rules:
+255 alphanumeric characters. */
+        SourceTypeAPI : T24BusinessTypes:A
+            @i18n:Label (en=SourceTypeAPI)
+            @i18n:Tooltip (en=SourceTypeAPI)
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=3.0, core=true, t24Name=SourceTypeAPI)
+    }
+    PP_MSGMAPPINGPARAMETER__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=14.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    PP_MSGMAPPINGPARAMETER__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=13.0, core=true, t24Name=INPUTTER)
+    }
+    PP_MSGMAPPINGPARAMETER__OVERRIDE
+    {
+        /* Contains all the override messages which the user agreed to during Input. During the validation of a transaction, the system may provide the user with a series of screen override messages to indicate an anomaly. */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=OVERRIDE)
+    }
+/* This screen is used to define different message payment types in the payments hub.
+This is Non dated and INT type of classification.
+This application follows T24 Standard and it will be of History Type application. */
+    PP_MSGPAYMENTTYPE
+        @i18n:Description (en="")
+        @t24:i (additionalInfo=HLD, t24Name=PP.MSGPAYMENTTYPE, nonStop=true, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=17.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=18.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=14.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=15.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=11.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue PP_MessageMappingGUI:PP_MSGPAYMENTTYPE__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=16.0, core=true, t24Name=DEPT.CODE)
+        INPUTTER -> byValue PP_MessageMappingGUI:PP_MSGPAYMENTTYPE__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* Indicates the name of the message payment type and it unique identifier for Message Payment Type entity.
+
+Examples:
+101 - Request for Transfer – SWIFT MT
+103 - Customer Credit Transfer –SWIFT MT
+202 - Bank Transfer – SWIFT
+BACSCT - BACS Credit Transfer
+BACSDD - BACS Direct Debit
+HKCLGCD - HKICL Cheques debit
+OT33 - Standing Order - Outward Faster Payment.
+OT06 - Standing Order - Outward CHAPS payment.
+SAL - Salary Batch
+NOR - Normal (non-salary) Batch
+BACSCC - BACS Cheques Credit
+BACSCD - BACS Cheques Debit
+HKCLGCDST - HKICL Cheques debit Settlement
+BACSCTST - BACS Credit Transfer Settlement
+BACSDDST - BACS Direct Debit Settlement
+BACSCCST - BACS Cheques Credit Settlement
+BACSCDST - BACS Cheques Debit Settlement
+ATABE - Account to Account Transfer Belgium – Payment Router
+ATADE - Account to Account Transfer Germany – Payment Router
+ATAGB - Account to Account Transfer UK – Payment Router
+MT103 - Request for Transfer – Payment Router
+MT103-OTHER - Request for Transfer – Payment Router
+MT103-U-INT - Urgent Request for Transfer – Payment Router
+
+Validation Rules:
+1-10 alphanumeric characters. */
+        MessagePaymentType -> PP_MessageMappingGUI:PP_MSGPAYMENTTYPE PK required
+            @i18n:Label (en=MessagePaymentType)
+            @i18n:Tooltip (en=MessagePaymentType)
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=0.0, core=true, businessType=A, t24Name=MessagePaymentType)
+        MessagePaymentTypeDescription -> byValue PP_MessageMappingGUI:PP_MSGPAYMENTTYPE__MessagePaymentTypeDescription *
+            @t24:i (t24Name=MessagePaymentTypeDescription)
+        OVERRIDE -> byValue PP_MessageMappingGUI:PP_MSGPAYMENTTYPE__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+/* This field will allow users to configure MessageTypes which are allowed in the Manual Order Entry screen.
+These flag signifies if the message type can be selected for an Order Entry Payment. */
+        OrderEntryFlag : PP_MessageMappingGUI:PP_MSGPAYMENTTYPE__OrderEntryFlag
+            @i18n:Label (en=OrderEntryFlag)
+            @i18n:Tooltip (en=OrderEntryFlag)
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=2.0, core=true, t24Name=OrderEntryFlag)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=10.0, core=true, t24Name=RECORD.STATUS)
+        /* Standard T24 String. No Input Field */
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=7.0, core=true, t24Name=RESERVED.1)
+        /* Standard T24 String. No Input Field */
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=6.0, core=true, t24Name=RESERVED.2)
+        /* Standard T24 String. No Input Field */
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=5.0, core=true, t24Name=RESERVED.3)
+        /* Standard T24 String. No Input Field */
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=4.0, core=true, t24Name=RESERVED.4)
+        /* Standard T24 String. No Input Field */
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=3.0, core=true, t24Name=RESERVED.5)
+    }
+/* This screen is used to define many-to-many relation between Message Payment Type and Channels used in the payments hub.
+A record authorised in this screen will create or amend or reverse a record in store table, PPT.MSGPAYMENTTYPECHANNEL */
+    PP_MSGPAYMENTTYPECHANNEL
+        @i18n:Description (en="")
+        @t24:i (t24Name=PP.MSGPAYMENTTYPECHANNEL, nonStop=true, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=16.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=17.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=13.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=14.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=10.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue PP_MessageMappingGUI:PP_MSGPAYMENTTYPECHANNEL__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=15.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue PP_MessageMappingGUI:PP_MSGPAYMENTTYPECHANNEL__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+/* Unique identifier for the entity Payment Message Type Channel.
+Validation Rules:
+i) 35 Alphanumeric characters. */
+        ID -> PP_MessageMappingGUI:PP_MSGPAYMENTTYPECHANNEL PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=45, sysNumber=0.0, core=true, businessType=ANY, t24Name=ID)
+        INPUTTER -> byValue PP_MessageMappingGUI:PP_MSGPAYMENTTYPECHANNEL__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        OVERRIDE -> byValue PP_MessageMappingGUI:PP_MSGPAYMENTTYPECHANNEL__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=9.0, core=true, t24Name=RECORD.STATUS)
+        /* Standard T24 String. No Input Field */
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=6.0, core=true, t24Name=RESERVED.1)
+        /* Standard T24 String. No Input Field */
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=5.0, core=true, t24Name=RESERVED.2)
+        /* Standard T24 String. No Input Field */
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=4.0, core=true, t24Name=RESERVED.3)
+        /* Standard T24 String. No Input Field */
+        RESERVED_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=3.0, core=true, t24Name=RESERVED.4)
+        /* Standard T24 String. No Input Field */
+        RESERVED_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=2.0, core=true, t24Name=RESERVED.5)
+    }
+    PP_MSGPAYMENTTYPECHANNEL__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=12.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    PP_MSGPAYMENTTYPECHANNEL__DESCRIPTION
+    {
+        DESCRIPTION : T24BusinessTypes:A required
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    PP_MSGPAYMENTTYPECHANNEL__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=11.0, core=true, t24Name=INPUTTER)
+    }
+    PP_MSGPAYMENTTYPECHANNEL__OVERRIDE
+    {
+        /* Contains all the override messages which the user agreed to during Input. During the validation of a transaction, the system may provide the user with a series of screen override messages to indicate an anomaly. */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=OVERRIDE)
+    }
+    PP_MSGPAYMENTTYPE__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=13.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    PP_MSGPAYMENTTYPE__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=12.0, core=true, t24Name=INPUTTER)
+    }
+    PP_MSGPAYMENTTYPE__MessagePaymentTypeDescription
+    {
+/* Description of the Payment Message Type.
+Validation Rules:
+1-128 Alphanumeric characters. (Mandatory input) */
+        MessagePaymentTypeDescription : T24BusinessTypes:A required
+            @i18n:Label (en=MessagePaymentTypeDescription)
+            @i18n:Tooltip (en=MessagePaymentTypeDescription)
+            @t24:i (align=L, inputBehaviour=I, maxLength=128, multiLanguage=true, sysNumber=1.0, core=true, t24Name=MessagePaymentTypeDescription)
+    }
+    PP_MSGPAYMENTTYPE__OVERRIDE
+    {
+        /* Contains all the override messages which the user agreed to during Input. During the validation of a transaction, the system may provide the user with a series of screen override messages to indicate an anomaly. */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=OVERRIDE)
+    }
+}
+Enumerations {
+    PPT_MSGPAYMENTTYPE__OrderEntryFlag : mml:string
+        NULL=NULL
+        YES=YES
+    PP_MSGPAYMENTTYPE__OrderEntryFlag : mml:string
+        NULL=NULL
+        YES=YES
+}

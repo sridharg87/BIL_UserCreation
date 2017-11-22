@@ -1,0 +1,354 @@
+# UTF-8
+/* Balance Aggregatation for FATCA */
+Domain FA_BalanceAggregation
+    @t24:i (module=FA)
+    @java:Package (value=com.temenos.t24.datamodel.fa.fa_balanceaggregation)
+namespace "http://www.temenos.com/t24/FA_BalanceAggregation"
+metamodelVersion 1.30.6
+Classes {
+/* This table contains aggregated balances of a customer. The positions are considered from 'AC' 'LD' 'MM' and 'SC' module.
+This is a live file and customer number is the ID of the table and hence the aggregated balance will be created for each customer. */
+    FATCA_AGGREGATE_BALANCES
+        @i18n:Description (en="")
+        @t24:i (t24Name=FATCA.AGGREGATE.BALANCES, level=F, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        ACCOUNT_OFFICER : T24BusinessTypes:N
+            @i18n:Label (en="Account Officer")
+            @i18n:Tooltip (en="Indicates Account Officer responsible")
+            @t24:i (align=L, inputBehaviour=N, maxLength=10, core=false, t24Name=ACCOUNT.OFFICER, genOperation="@ID>CUSTOMER>ACCOUNT.OFFICER")
+        ACC_PORT_NUMBER -> byValue FA_BalanceAggregation:FATCA_AGGREGATE_BALANCES__ACC_PORT_NUMBER *
+            @t24:i (t24Name=ACC.PORT.NUMBER)
+        /* EXEMPT IND/ EXEMPT ENT/HIGH VALUE (will be updated as exempt if both TOT.ACC.BAL.DEPO and TOT.ACC.BAL.CUST is less than $50000 for individual and $250000 for entities and high value if sum of both these exceeds $ 1 million). */
+        BALANCE_STATUS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=18.0, core=true, t24Name=BALANCE.STATUS)
+        /* This field stores the CUSTOMER.STATUS of the customer. This field is defaulted from CUSTOMER application. */
+        CUSTOMER_STATUS : T24BusinessTypes:N
+            @i18n:Label (en="Customer status")
+            @t24:i (align=R, inputBehaviour=I, maxLength=4, sysNumber=4.0, core=true, t24Name=CUSTOMER.STATUS)
+        /* The field will be updated as CUSTOMER or ACCOUNT based on relationship level defined in FATCA.AGGREGATION.PARAMETER. */
+        CUSTOMER_TYPE : T24BusinessTypes:AAA
+            @i18n:Label (en="Customer Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=12, sysNumber=1.0, core=true, t24Name=CUSTOMER.TYPE)
+        /* ID of the application, Customer number will be the ID of the application. */
+        FATCA_CUST_ID -> FA_BalanceAggregation:FATCA_AGGREGATE_BALANCES PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=0.0, core=true, businessType=A, t24Name=FATCA.CUST.ID)
+        /* This field says whether the customer is an individual or an entity. The value in this field is arrived based on the selection criteria given for customer in FATCA.AGGREGATION.PARAMETER. */
+        INDIV_ENTITY : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=17.0, core=true, t24Name=INDIV.ENTITY)
+        /* This field stores the INDUSTRY of the customer. This field is defaulted from CUSTOMER application. */
+        INDUSTRY : T24BusinessTypes:N
+            @i18n:Label (en=Industry)
+            @i18n:Tooltip (en="Indicates the Industry")
+            @t24:i (align=R, inputBehaviour=I, maxLength=4, sysNumber=3.0, core=true, t24Name=INDUSTRY)
+        RELATED_CUSTOMER -> byValue FA_BalanceAggregation:FATCA_AGGREGATE_BALANCES__RELATED_CUSTOMER *
+            @t24:i (t24Name=RELATED.CUSTOMER)
+        /* This field stores the SECTOR of the customer. This field is defaulted from CUSTOMER application. */
+        SECTOR : T24BusinessTypes:N
+            @i18n:Label (en=Sector)
+            @i18n:Tooltip (en="Indicates the sector")
+            @t24:i (align=R, inputBehaviour=I, maxLength=4, sysNumber=2.0, core=true, t24Name=SECTOR)
+        /* USD equivalent of total custody balance. */
+        TOT_ACC_BAL_CUST : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=16.0, core=true, t24Name=TOT.ACC.BAL.CUST)
+        /* USD equivalent of total depository balance. */
+        TOT_ACC_BAL_DEPO : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=15.0, core=true, t24Name=TOT.ACC.BAL.DEPO)
+    }
+    FATCA_AGGREGATE_BALANCES__ACC_PORT_NUMBER
+    {
+/* The field will be updated as Depository or Custody. It will be Custody if portfolio balance (including account linked to a portfolio) is reported else the field will be updated as Depository.
+This is based on the account or portfolio in ACC PORT NUMBER field above. */
+        ACCOUNT_TYPE : T24BusinessTypes:A
+            @i18n:Label (en="Account Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=8.0, core=true, t24Name=ACCOUNT.TYPE)
+        /* Balance of the account or contract in ACC.PORT.CCY. This field will not have a value, if ACC.PORT.NUMBER holds a portfolio. */
+        ACC_BALANCE : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=12.0, core=true, t24Name=ACC.BALANCE)
+        /* USD equivalent of the position is stored here. */
+        ACC_BAL_USD : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=14.0, core=true, t24Name=ACC.BAL.USD)
+        /* Exchange rate of ACC.PORT.CCY against 'USD' is stored in this.field. This field will not have a value, if ACC.PORT.NUMBER holds a portfolio. */
+        ACC_EXCH_RATE : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=13.0, core=true, t24Name=ACC.EXCH.RATE)
+        /* Currency in which the account or the contract has position. This field will not have a value, if ACC.PORT.NUMBER holds a portfolio. */
+        ACC_PORT_CCY : T24BusinessTypes:CCY
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=11.0, core=true, t24Name=ACC.PORT.CCY)
+/* This field will have any one of the below values
+I.   Account number
+II.  Portfolio number
+III. MM contract ID
+IV.  LD contract ID
+Fields starting from ACC.PORT.NUMBER to ACC.BAL.USD are associated fields.
+Each muti value set will hold the balance details of each ACCOUNT/MM Contract/LD Contract linked to the customer.
+When this field holds a portfolio number, all the security position of the portfolio will be aggregated in a single multi value set. */
+        ACC_PORT_NUMBER : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=7.0, core=true, t24Name=ACC.PORT.NUMBER)
+/* Relationship maintained by the RELATED.CUSTOMER with the parent customer.
+This field will have value only when aggregation is done at ACCOUNT level. i.e. based on the value in CUSTOMER.TYPE
+This field is associated with JOINT.OWNER. */
+        JNT_OWNER_REL_CODE : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=10.0, core=true, t24Name=JNT.OWNER.REL.CODE)
+/* This field will store related customers, provided the relationship with the parent customer is defined in FATCA.AGGREGATION.PARAMETER.
+This field will have value only when aggregation is done at ACCOUNT level. i.e. based on the value in CUSTOMER.TYPE
+This field is associated with JNT.OWNER.REL.CODE. */
+        JOINT_OWNER : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=9.0, core=true, t24Name=JOINT.OWNER)
+    }
+    FATCA_AGGREGATE_BALANCES__RELATED_CUSTOMER
+    {
+/* This field will store related customers, provided the relationship with the parent customer is defined in FATCA.AGGREGATION.PARAMETER.
+This field will have value only when aggregation is done at CUSTOMER level. i.e. based on the value in CUSTOMER.TYPE
+This field is associated with RELATION.CODE. */
+        RELATED_CUSTOMER : T24BusinessTypes:CUS
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=5.0, core=true, t24Name=RELATED.CUSTOMER)
+/* Relationship maintained by the RELATED.CUSTOMER with the parent customer.
+This field will have value only when aggregation is done at CUSTOMER level. i.e. based on the value in CUSTOMER.TYPE
+This field is associated with RELATED.CUSTOMER. */
+        RELATION_CODE : T24BusinessTypes:N
+            @i18n:Label (en="Relation code")
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=6.0, core=true, t24Name=RELATION.CODE)
+    }
+/* FATCA.AGGREGATION.PARAMETER is used to specify the high level parameters governing the balance aggregation.
+One record must be created for each company running the FATCA module. */
+    FATCA_AGGREGATION_PARAMETER
+        @i18n:Description (en="")
+        @t24:i (t24Name=FATCA.AGGREGATION.PARAMETER, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+/* A local routine can be attached here which will be called during balance aggregation batch jobs.
+This routine will take two arguments, first argument is the customer number second one is FATCA.AGGREGATE.BALANCE record.
+This routine can be used to consider additional positions for balance aggregation.
+Customer number is the input argument and FATCA aggregate balance record is both input/output argument. */
+        ACCT_AGGR_RTN : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=11.0, core=true, t24Name=ACCT.AGGR.RTN)
+/* This field represents the file which will be selected for balance aggregation processing.
+If FCSI is chosen then balance will be aggregated for customers having FCSI record.
+If REPORTABLE.STATUS is chosen balance will be aggregated only for the customers with FCSI, Who is having their FATCA.STATUS as defined in REPORTING.PARAMETER.
+If nothing is selected then balance will be aggregated as usual for all customers.
+Validation Rules:
+Input allowed: FCSI or REPORTABLE.STATUS. */
+        AGGR_BAL_FILE : FA_BalanceAggregation:FATCA_AGGREGATION_PARAMETER__AGGR_BAL_FILE
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=12.0, core=true, t24Name=AGGR.BAL.FILE)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=32.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=33.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=29.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=30.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=26.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue FA_BalanceAggregation:FATCA_AGGREGATION_PARAMETER__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=31.0, core=true, t24Name=DEPT.CODE)
+        ENT_CUST_FIELD -> byValue FA_BalanceAggregation:FATCA_AGGREGATION_PARAMETER__ENT_CUST_FIELD *
+            @t24:i (t24Name=ENT.CUST.FIELD)
+        EXCLD_FOR_ACCT_AGG -> byValue FA_BalanceAggregation:FATCA_AGGREGATION_PARAMETER__EXCLD_FOR_ACCT_AGG *
+            @t24:i (t24Name=EXCLD.FOR.ACCT.AGG)
+/* The FATCA aggregation parameter is defined for each company. The ID to the parameter record must exist as a valid company code on the company file.
+Validation Rules:
+Up to 11 alphanumeric characters (company id). */
+        FATCA_AGG_PARAM_ID -> FA_BalanceAggregation:FATCA_AGGREGATION_PARAMETER PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=0.0, core=true, businessType=COM, t24Name=FATCA.AGG.PARAM.ID, mask="R##-###-####")
+        INPUTTER -> byValue FA_BalanceAggregation:FATCA_AGGREGATION_PARAMETER__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        OVERRIDE -> byValue FA_BalanceAggregation:FATCA_AGGREGATION_PARAMETER__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=25.0, core=true, t24Name=RECORD.STATUS)
+        RELATION_CODE -> byValue FA_BalanceAggregation:FATCA_AGGREGATION_PARAMETER__RELATION_CODE *
+            @t24:i (t24Name=RELATION.CODE)
+/* As per the FATCA regulation, the balance of pre-existing accounts needs to be determined taking into account all the accounts/portfolios held by the client including the joint accounts.
+In the case of joint accounts, the entire balance of the joint account will be attributed to all the joint holders.
+In T24, the relationship can be defined at Customer Level (CUSTOMER) or account level (ACCOUNT).
+If the relationships are defined at customer level in T24 CUSTOMER, the field has to be set as CUSTOMER.
+It will be assumed that all the accounts are jointly held and the balance of all the accounts will be attributed to all the joint holders.
+However, if the field is set to ACCOUNT, the relationships will be checked at individual account level and only the balances of accounts that are held jointly will be attributed to all the joint holders.
+Validation Rules:
+Input allowed: CUSTOMER or ACCOUNT. */
+        RELATION_LEVEL : FA_BalanceAggregation:FATCA_AGGREGATION_PARAMETER__RELATION_LEVEL
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=1.0, core=true, t24Name=RELATION.LEVEL)
+        RESERVED_01 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=22.0, core=true, t24Name=RESERVED.01)
+        RESERVED_02 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=21.0, core=true, t24Name=RESERVED.02)
+        RESERVED_03 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=20.0, core=true, t24Name=RESERVED.03)
+        RESERVED_04 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=19.0, core=true, t24Name=RESERVED.04)
+        RESERVED_05 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=RESERVED.05)
+        RESERVED_06 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=17.0, core=true, t24Name=RESERVED.06)
+        RESERVED_07 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=RESERVED.07)
+        RESERVED_08 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=RESERVED.08)
+        RESERVED_09 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=RESERVED.09)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED.10)
+        ROLE_TYPE -> byValue FA_BalanceAggregation:FATCA_AGGREGATION_PARAMETER__ROLE_TYPE *
+            @t24:i (t24Name=ROLE.TYPE)
+        SAM_FIELD -> byValue FA_BalanceAggregation:FATCA_AGGREGATION_PARAMETER__SAM_FIELD *
+            @t24:i (t24Name=SAM.FIELD)
+    }
+    FATCA_AGGREGATION_PARAMETER__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=28.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    FATCA_AGGREGATION_PARAMETER__ENT_CUST_FIELD
+    {
+/* Valid fields from CUSTOMER are accepted. Fields from ENT.CUST.FIELD to ENT.CUST.OPERAND are associative multi value fields.
+Each multi value set of the selection criteria will be considered with 'OR' condition.
+The minimum balance requirements for individuals (less than $50000) and entities (less than $250000) are different.
+The fields ENT.CUST.FIELD to ENT.CUST.VAL will be used to identify Customers who are to be classified as legal entities (Corporates).
+If the ENT.CUST.FIELD is set to 'INDUSTRY', the operand as 'EQ' and the ENT.CUST.VAL is '3200', any customer with the industry code set as '3200' will be considered a legal entity.
+All other customers will be considered 'Individuals'.
+Validation Rules:
+Local reference fields, I-Descriptors and J-Descriptors are not allowed.
+ENT.CUST.FIELD, ENT.CUST.OPERAND and ENT.CUST.VALUE fields are interdependent, all must be populated or blank. */
+        ENT_CUST_FIELD : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=8.0, core=true, t24Name=ENT.CUST.FIELD)
+/* This field accepts the operands 'EQ' 'NE'.
+Validation Rules:
+ENT.CUST.FIELD, ENT.CUST.OPERAND and ENT.CUST.VALUE fields are interdependent, all must be populated or blank. */
+        ENT_CUST_OPERAND : FA_BalanceAggregation:FATCA_AGGREGATION_PARAMETER__ENT_CUST_FIELD__ENT_CUST_OPERAND
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=9.0, core=true, t24Name=ENT.CUST.OPERAND)
+        ENT_CUST_VALUE -> byValue FA_BalanceAggregation:FATCA_AGGREGATION_PARAMETER__ENT_CUST_FIELD__ENT_CUST_VALUE *
+            @t24:i (t24Name=ENT.CUST.VALUE)
+    }
+    FATCA_AGGREGATION_PARAMETER__ENT_CUST_FIELD__ENT_CUST_VALUE
+    {
+/* Contains the value to be compared to the CUSTOMER field.
+Each sub value of this field will be considered with 'AND' condition.
+Validation Rules:
+ENT.CUST.FIELD, ENT.CUST.OPERAND and ENT.CUST.VALUE fields are interdependent, all must be populated or blank. */
+        ENT_CUST_VALUE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=10.0, core=true, t24Name=ENT.CUST.VALUE)
+    }
+    FATCA_AGGREGATION_PARAMETER__EXCLD_FOR_ACCT_AGG
+    {
+/* The field (multi-valued) is used to specify the categories of accounts/deposits that need to be excluded from the aggregation process.
+Any account of this category (not linked to a portfolio) will be excluded while determining the aggregate balance.
+Validation Rules:
+Should be a valid ID from CATEGORY table */
+        EXCLD_FOR_ACCT_AGG -> ST_Config:CATEGORY
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=3.0, core=true, businessType=CAT, t24Name=EXCLD.FOR.ACCT.AGG)
+    }
+    FATCA_AGGREGATION_PARAMETER__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=27.0, core=true, t24Name=INPUTTER)
+    }
+    FATCA_AGGREGATION_PARAMETER__OVERRIDE
+    {
+/* This is a multi valued field.
+Contains details of any override applicable to this record.
+Validation Rules:
+A maximum of 35 characters may be entered. This is a NOINPUT field. */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=24.0, core=true, t24Name=OVERRIDE)
+    }
+    FATCA_AGGREGATION_PARAMETER__RELATION_CODE
+    {
+/* A number of relationships for a customer can be defined in T24. However, only certain relationships (Joint Owner, Same Owner, beneficial ownership, etc.) will have a bearing on the aggregated balance calculation.
+The relation codes, that need to be considered for aggregating the balances, need to be specified in this field.
+For example, if Customer 100291 has the following relationships defined:
+Relation Code: 9 Joint Owners
+Relation Customer: 100292
+Relation Code: 7 Signatory
+Relation Customer: 100295
+
+In T24, for 100292, the reverse relationship code of 99 (based on RELATION table set-up) will automatically be updated.
+Relation Code: 99 Joint
+Relation Customer: 100291
+If both relation codes 9 and 99 are defined in Relation Code field, the aggregate balance for Customer 100291 will be arrived at by consolidating the balances of all accounts/deposits, positions, etc. held by both customers 100291 and 100292.
+The balance of 100292 will be the sum of all holdings/account balances of 100292 and 100291. If only relation code 9 is defined in parameter, the balance of 100292 will only consider the holdings of 100292 and not that of client 100291.
+The balances of account (if any) held by Customer 100295 will not be considered for aggregation
+Validation Rules:
+Should be a valid ID from RELATION table */
+        RELATION_CODE -> ST_Customer:RELATION
+            @i18n:Label (en="Relation code")
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=2.0, core=true, t24Name=RELATION.CODE)
+    }
+    FATCA_AGGREGATION_PARAMETER__ROLE_TYPE
+    {
+        /* This field is reserved for future use. */
+        ROLE_TYPE : FA_BalanceAggregation:FATCA_AGGREGATION_PARAMETER__ROLE_TYPE__ROLE_TYPE
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=7.0, core=true, t24Name=ROLE.TYPE)
+    }
+    FATCA_AGGREGATION_PARAMETER__SAM_FIELD
+    {
+/* Valid fields from SEC.ACC.MASTER are accepted. Fields from SAM.FIELD to SAM.OPERAND are associative multi value fields.
+Each multi value set of the selection criteria will be considered with 'OR' condition.
+The portfolios selected from this selection criteria are exempted from balance aggregation.
+Validation Rules:
+Local reference fields, I-Descriptors and J-Descriptors are not allowed.
+SAM.FIELD, SAM.OPERAND and SAM.VALUE fields are interdependent, all must be populated or blank. */
+        SAM_FIELD : T24BusinessTypes:A
+            @i18n:Label (en=Sam.Field)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=4.0, core=true, t24Name=SAM.FIELD)
+/* This field accepts the operands 'EQ' 'NE'.
+Validation Rules:
+SAM.FIELD, SAM.OPERAND and SAM.VALUE fields are interdependent, all must be populated or blank. */
+        SAM_OPERAND : FA_BalanceAggregation:FATCA_AGGREGATION_PARAMETER__SAM_FIELD__SAM_OPERAND
+            @i18n:Label (en=Sam.Operand)
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=5.0, core=true, t24Name=SAM.OPERAND)
+        SAM_VALUE -> byValue FA_BalanceAggregation:FATCA_AGGREGATION_PARAMETER__SAM_FIELD__SAM_VALUE *
+            @t24:i (t24Name=SAM.VALUE)
+    }
+    FATCA_AGGREGATION_PARAMETER__SAM_FIELD__SAM_VALUE
+    {
+/* Contains the value to be compared to the SEC.ACC.MASTER field.
+Each sub value of this field will be considered with 'AND' condition.
+Validation Rules:
+SAM.FIELD, SAM.OPERAND and SAM.VALUE fields are interdependent, all must be populated or blank. */
+        SAM_VALUE : T24BusinessTypes:A
+            @i18n:Label (en="Sam Value")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=6.0, core=true, t24Name=SAM.VALUE)
+    }
+}
+Enumerations {
+    FATCA_AGGREGATION_PARAMETER__AGGR_BAL_FILE : mml:string
+        FCSI=FCSI
+        REPORTABLE_STATUS=REPORTABLE.STATUS
+    FATCA_AGGREGATION_PARAMETER__ENT_CUST_FIELD__ENT_CUST_OPERAND : mml:string
+        EQ=EQ
+        NE=NE
+    FATCA_AGGREGATION_PARAMETER__RELATION_LEVEL : mml:string
+        ACCOUNT=ACCOUNT
+        CUSTOMER=CUSTOMER
+    FATCA_AGGREGATION_PARAMETER__ROLE_TYPE__ROLE_TYPE : mml:string
+        ACCOUNT_HOLDER=ACCOUNT.HOLDER
+        AUTHORIZED_SIGNER=AUTHORIZED.SIGNER
+        BENEFICIAL=BENEFICIAL
+        BO_COMPANY=BO.COMPANY
+        CORPORATE_DIRECTOR=CORPORATE.DIRECTOR
+        GENERAL_POA=GENERAL.POA
+        INTERIM_BO=INTERIM.BO
+        JOINT=JOINT
+        LIMITED_POA=LIMITED.POA
+        SUBSTANTIAL=SUBSTANTIAL
+    FATCA_AGGREGATION_PARAMETER__SAM_FIELD__SAM_OPERAND : mml:string
+        EQ=EQ
+        NE=NE
+}

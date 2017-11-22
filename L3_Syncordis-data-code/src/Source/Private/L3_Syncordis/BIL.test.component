@@ -1,0 +1,10 @@
+component BIL.test
+# Component Isolation Definition
+metamodelVersion 1.6
+# -------------------------------------------------
+
+private method TestRtn (
+)
+{
+    jBC: TEST.RTN
+}

@@ -1,0 +1,273 @@
+# UTF-8
+/* Model Configuration for DE */
+Domain DE_ModelBank
+    @t24:i (module=DE)
+    @java:Package (value=com.temenos.t24.datamodel.de.de_modelbank)
+namespace "http://www.temenos.com/t24/DE_ModelBank"
+metamodelVersion 1.30.6
+Classes {
+    DE_O_KEYLIST
+        @i18n:Description (en="")
+        @t24:i (t24Name=DE.O.KEYLIST, level=I, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        UNMAPPED_IDS : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=16, core=false, t24Name=UNMAPPED.IDS, genOperation=0)
+    }
+    FREE_TELEX
+        @i18n:Description (en="")
+        @t24:i (t24Name=FREE.TELEX, level=I, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        ANSWER_BACK : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=20, sysNumber=6.0, core=true, t24Name=ANSWER.BACK)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=20.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:N
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=R, inputBehaviour=N, maxLength=15, sysNumber=21.0, core=true, t24Name=AUDIT.DATE.TIME)
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=20, sysNumber=17.0, core=true, t24Name=AUTHORISER)
+        CO_CODE : T24BusinessTypes:A
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=18.0, core=true, t24Name=CO.CODE)
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=14.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue DE_ModelBank:FREE_TELEX__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DELIVERY_REFS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=20, sysNumber=11.0, core=true, t24Name=DELIVERY.REFS)
+        DEPT_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=19.0, core=true, t24Name=DEPT.CODE)
+        FREE_TELEX_NO : T24BusinessTypes:A PK required
+            @t24:i (align=L, inputBehaviour=N, maxLength=14, sysNumber=0.0, core=true, t24Name=FREE.TELEX.NO, mask="L####-#####-#####")
+        FROM : T24BusinessTypes:A
+            @i18n:Label (en=From)
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=7.0, core=true, t24Name=FROM)
+        INPUTTER -> byValue DE_ModelBank:FREE_TELEX__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        MESSAGE_METHOD : DE_ModelBank:FREE_TELEX__MESSAGE_METHOD
+            @t24:i (align=L, inputBehaviour=N, maxLength=5, sysNumber=1.0, core=true, t24Name=MESSAGE.METHOD)
+        MESSAGE_TYPE : DE_ModelBank:FREE_TELEX__MESSAGE_TYPE
+            @i18n:Label (en="Message Type")
+            @i18n:Tooltip (en="Delivery message types generated for this record")
+            @t24:i (align=R, inputBehaviour=N, maxLength=2, sysNumber=2.0, core=true, t24Name=MESSAGE.TYPE)
+        OUR_REFERENCE : T24BusinessTypes:A
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Our Reference")
+            @t24:i (align=L, inputBehaviour=N, maxLength=18, sysNumber=9.0, core=true, t24Name=OUR.REFERENCE)
+        RECORD_STATUS : T24BusinessTypes:A
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=13.0, core=true, t24Name=RECORD.STATUS)
+        REFERENCE_NO : T24BusinessTypes:A
+            @i18n:Label (en="Reference No")
+            @i18n:Tooltip (en="Unique reference which identifies the transaction")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=REFERENCE.NO)
+        RESERVED1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED1)
+        SHORT_NAME : T24BusinessTypes:A
+            @i18n:Label (en="Short name")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=4.0, core=true, t24Name=SHORT.NAME)
+        TEXT -> byValue DE_ModelBank:FREE_TELEX__TEXT *
+            @t24:i (t24Name=TEXT)
+        TLX_FAX_SWFT_ID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=5.0, core=true, t24Name=TLX.FAX.SWFT.ID)
+        TO : T24BusinessTypes:A
+            @i18n:Label (en=To)
+            @t24:i (align=L, inputBehaviour=N, maxLength=12, sysNumber=3.0, core=true, t24Name=TO)
+    }
+    FREE_TELEX__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:N
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=R, inputBehaviour=N, maxLength=15, sysNumber=16.0, core=true, t24Name=DATE.TIME)
+    }
+    FREE_TELEX__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=20, sysNumber=15.0, core=true, t24Name=INPUTTER)
+    }
+    FREE_TELEX__TEXT
+    {
+        TEXT : T24BusinessTypes:SW
+            @i18n:Label (en="Pre Syndication ID")
+            @t24:i (align=L, inputBehaviour=N, maxLength=50, sysNumber=10.0, core=true, t24Name=TEXT)
+    }
+    NOFILE_DE_I_HIST_DISP
+        @i18n:Description (en="")
+        @t24:i (t24Name=NOFILE.DE.I.HIST.DISP, level=I, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        DEL_ID : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=30, core=false, t24Name=DEL.ID)
+        R_OUT_LIST : T24BusinessTypes:N
+            @t24:i (align=L, inputBehaviour=N, maxLength=1000, core=false, t24Name=R.OUT.LIST, genOperation=E.DE.I.HIST.DISP)
+    }
+    NOFILE_DE_MM_I_HIST
+        @i18n:Description (en="")
+        @t24:i (t24Name=NOFILE.DE.MM.I.HIST, level=I, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        OUT_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=N, maxLength=20, core=false, t24Name=OUT.DATE)
+        REF_NO -> byValue DE_ModelBank:NOFILE_DE_MM_I_HIST__REF_NO *
+            @t24:i (t24Name=REF.NO)
+        R_OUT_LIST : T24BusinessTypes:N
+            @t24:i (align=L, inputBehaviour=N, maxLength=1000, core=false, t24Name=R.OUT.LIST, genOperation=E.DE.MM.I.HIST)
+    }
+    NOFILE_DE_MM_I_HIST__REF_NO
+    {
+        REF_NO : T24BusinessTypes:N
+            @i18n:Label (en="Reference Number")
+            @t24:i (align=L, inputBehaviour=N, core=false, t24Name=REF.NO, genOperation=1)
+    }
+    NOFILE_DE_MM_I_STAT_PRINT
+        @i18n:Description (en="")
+        @t24:i (t24Name=NOFILE.DE.MM.I.STAT.PRINT, level=I, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        PRINT_ID : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=10, core=false, t24Name=PRINT.ID)
+        R_PRINT_LIST : T24BusinessTypes:N
+            @t24:i (align=L, inputBehaviour=N, maxLength=1000, core=false, t24Name=R.PRINT.LIST, genOperation=E.DE.MM.I.STAT.PRINT)
+    }
+    NOFILE_DE_MM_I_STAT_RPTG
+        @i18n:Description (en="")
+        @t24:i (t24Name=NOFILE.DE.MM.I.STAT.RPTG, level=I, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        ID : T24BusinessTypes:N PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=R, inputBehaviour=N, maxLength=500, sysNumber=0.0, core=true, t24Name=ID)
+        R_STAT_LIST : T24BusinessTypes:N
+            @t24:i (align=L, inputBehaviour=N, maxLength=1000, core=false, t24Name=R.STAT.LIST, genOperation=E.DE.MM.I.STAT.RPTG)
+    }
+    NOFILE_DE_MM_O_HIST
+        @i18n:Description (en="")
+        @t24:i (t24Name=NOFILE.DE.MM.O.HIST, level=I, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        OUT_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=N, maxLength=20, core=false, t24Name=OUT.DATE)
+        REF_NO -> byValue DE_ModelBank:NOFILE_DE_MM_O_HIST__REF_NO *
+            @t24:i (t24Name=REF.NO)
+        R_OUT_LIST : T24BusinessTypes:N
+            @t24:i (align=L, inputBehaviour=N, maxLength=1000, core=false, t24Name=R.OUT.LIST, genOperation=E.DE.MM.O.HIST)
+    }
+    NOFILE_DE_MM_O_HIST__REF_NO
+    {
+        REF_NO : T24BusinessTypes:N
+            @i18n:Label (en="Reference Number")
+            @t24:i (align=L, inputBehaviour=N, core=false, t24Name=REF.NO, genOperation=1)
+    }
+    NOFILE_DE_MM_O_STAT_PRINT
+        @i18n:Description (en="")
+        @t24:i (t24Name=NOFILE.DE.MM.O.STAT.PRINT, level=I, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        PRINT_ID : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=10, core=false, t24Name=PRINT.ID)
+        R_PRINT_LIST : T24BusinessTypes:N
+            @t24:i (align=L, inputBehaviour=N, maxLength=1000, core=false, t24Name=R.PRINT.LIST, genOperation=E.DE.MM.O.STAT.PRINT)
+    }
+    NOFILE_DE_MM_O_STAT_RPTG
+        @i18n:Description (en="")
+        @t24:i (t24Name=NOFILE.DE.MM.O.STAT.RPTG, level=I, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        ID : T24BusinessTypes:N PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=R, inputBehaviour=N, maxLength=500, sysNumber=0.0, core=true, t24Name=ID)
+        R_STAT_LIST : T24BusinessTypes:N
+            @t24:i (align=L, inputBehaviour=N, maxLength=1000, core=false, t24Name=R.STAT.LIST, genOperation=E.DE.MM.O.STAT.RPTG)
+    }
+    NOFILE_DE_MM_SYSLOG
+        @i18n:Description (en="")
+        @t24:i (t24Name=NOFILE.DE.MM.SYSLOG, level=I, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        CARRIER : T24BusinessTypes:N
+            @i18n:Label (en=Carrier)
+            @t24:i (align=R, inputBehaviour=N, sysNumber=1.0, core=true, t24Name=CARRIER)
+        OUT_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=N, maxLength=20, core=false, t24Name=OUT.DATE)
+        R_OUT_LIST : T24BusinessTypes:N
+            @t24:i (align=L, inputBehaviour=N, maxLength=1000, core=false, t24Name=R.OUT.LIST, genOperation=E.DE.MM.SYSLOG.DISP)
+    }
+    NOFILE_DE_O_HIST_DISP
+        @i18n:Description (en="")
+        @t24:i (t24Name=NOFILE.DE.O.HIST.DISP, level=I, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        DEL_ID : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=30, core=false, t24Name=DEL.ID)
+        R_OUT_LIST : T24BusinessTypes:N
+            @t24:i (align=L, inputBehaviour=N, maxLength=1000, core=false, t24Name=R.OUT.LIST, genOperation=E.DE.O.HIST.DISP)
+    }
+    NOFILE_DE_SCHEMA
+        @i18n:Description (en="")
+        @t24:i (t24Name=NOFILE.DE.SCHEMA, level=I, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        ID -> byValue DE_ModelBank:NOFILE_DE_SCHEMA__ID *
+            @t24:i (t24Name=ID)
+    }
+    NOFILE_DE_SCHEMA__ID
+    {
+        ID : T24BusinessTypes:N
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, core=false, t24Name=ID, genOperation=E.GET.SCHEMA)
+    }
+    NOFILE_EB_TICKLER_SEND
+        @i18n:Description (en="")
+        @t24:i (t24Name=NOFILE.EB.TICKLER.SEND, level=I, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        ID : T24BusinessTypes:N PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=R, inputBehaviour=N, maxLength=150, sysNumber=0.0, core=true, t24Name=ID)
+        SENDER_ID : T24BusinessTypes:N
+            @i18n:Label (en=From)
+            @t24:i (align=L, inputBehaviour=N, maxLength=150, core=false, t24Name=SENDER.ID, genOperation=E.EB.TICKLER.SEND)
+        TICKLER_DATE : T24BusinessTypes:N
+            @i18n:Label (en="Tickler Date")
+            @t24:i (align=R, inputBehaviour=N, maxLength=150, sysNumber=0.0, core=true, t24Name=TICKLER.DATE)
+    }
+    NOFILE_TCIB_LC_PREVIEW_MSG
+        @i18n:Description (en="")
+        @t24:i (t24Name=NOFILE.TCIB.LC.PREVIEW.MSG, level=I, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        FINAL_ARRAY : T24BusinessTypes:N
+            @t24:i (align=L, inputBehaviour=N, maxLength=500, core=false, t24Name=FINAL.ARRAY, genOperation=TCIB.LC.PREVIEW.MESSAGE)
+        PRV_MSG : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=500, core=false, t24Name=PRV.MSG)
+    }
+    NOFILE_TC_DELIVERY_ADVICE
+        @i18n:Description (en="")
+        @t24:i (t24Name=NOFILE.TC.DELIVERY.ADVICE, level=I, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        RET_DATA : T24BusinessTypes:N
+            @t24:i (align=L, inputBehaviour=N, maxLength=10, core=false, t24Name=RET.DATA, genOperation=E.NOF.TC.DELIVERY.ADVICE)
+        TRANSACTION_REF : T24BusinessTypes:N
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=R, inputBehaviour=N, maxLength=10, core=false, t24Name=TRANSACTION.REF)
+    }
+}
+Enumerations {
+    FREE_TELEX__MESSAGE_METHOD : mml:string
+        FAX=FAX
+        SWIFT=SWIFT
+        TELEX=TELEX
+    FREE_TELEX__MESSAGE_TYPE : mml:string
+        1=1
+        2=2
+        3=3
+        4=4
+        5=5
+        6=6
+        7=7
+        8=8
+        9=9
+}

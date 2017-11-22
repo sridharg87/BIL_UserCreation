@@ -1,0 +1,913 @@
+# UTF-8
+/* Parameter definition for Payment Or */
+Domain PI_Config
+    @t24:i (module=PI)
+    @java:Package (value=com.temenos.t24.datamodel.pi.pi_config)
+namespace "http://www.temenos.com/t24/PI_Config"
+metamodelVersion 1.30.6
+Classes {
+/* Country specific validations are maintained in this application.
+               Details such as IBAN, BIC, Bank Sort code to be allowed or not allowed, Clearing code format for each clearing channel can vary based on Country.
+               These definitions are defined in PAYMENT.ORDER.COUNTRY.RULES */
+    PAYMENT_ORDER_COUNTRY_RULES
+        @i18n:Description (en="")
+        @t24:i (t24Name=PAYMENT.ORDER.COUNTRY.RULES, nonStop=true, level=I, type=H, allowedFunctions="A C D E I L P Q S", localRefAllowed=true)
+    {
+/* The field BENEFICIARY.BIC in a PAYMENT.ORDER transaction done using pay through beneficiary option, can hold value based on configuration of this field.
+Allowed options are either 'Allowed' or 'Not Allowed'. If it is 'Not allowed' and if BIC is defined or Vice the Versa, then error will be thrown
+Validation Rules: Mandatory. By Default 'Not Allowed' will be set */
+        ALLOW_BIC : PI_Config:PAYMENT_ORDER_COUNTRY_RULES__ALLOW_BIC required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=3.0, core=true, t24Name=ALLOW.BIC)
+/* The field BENEFICIARY.IBAN in a PAYMENT.ORDER transaction done using pay through beneficiary option, can hold value based on configuration of this field.
+Allowed options are either 'Allowed' or 'Not Allowed'. If it is 'Not Allowed' and if IBAN is given in payment order or Vice the Versa, then error will be thrown
+Validation Rules: Inputable and mandatory field only if IN is installed. By Default 'Allowed' will be set if IN is installed and country follows rules as per IN.IBAN.STRUCTURE, otherwise defaulted to value 'Not Allowed' */
+        ALLOW_IBAN : PI_Config:PAYMENT_ORDER_COUNTRY_RULES__ALLOW_IBAN required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=2.0, core=true, t24Name=ALLOW.IBAN)
+        ALLOW_PAYMENT_CURRENCY -> byValue PI_Config:PAYMENT_ORDER_COUNTRY_RULES__ALLOW_PAYMENT_CURRENCY *
+            @t24:i (t24Name=ALLOW.PAYMENT.CURRENCY)
+/* The field BEN.BANK.CODE in a PAYMENT.ORDER transaction done using pay through beneficiary option, can hold value based on configuration of this field.
+Allowed options are either 'Allowed' or 'Not Allowed'.  If it is 'Not Allowed' and if bank code is given or Vice the Versa, then error will be thrown
+Validation Rules: Mandatory. By Default 'Not Allowed' will be set */
+        ALLOW_SORT_CODE : PI_Config:PAYMENT_ORDER_COUNTRY_RULES__ALLOW_SORT_CODE required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=4.0, core=true, t24Name=ALLOW.SORT.CODE)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=31.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=32.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=28.0, core=true, t24Name=AUTHORISER)
+        CLEARING_CHANNEL -> byValue PI_Config:PAYMENT_ORDER_COUNTRY_RULES__CLEARING_CHANNEL *
+            @t24:i (t24Name=CLEARING.CHANNEL)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=29.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=25.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue PI_Config:PAYMENT_ORDER_COUNTRY_RULES__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=30.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue PI_Config:PAYMENT_ORDER_COUNTRY_RULES__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+/* ID of the PAYMENT.ORDER.COUNTRY.RULES record which is used to fetch the setup for beneficiary based on specific country
+Validation Rules: Valid country code */
+        ID -> PI_Config:PAYMENT_ORDER_COUNTRY_RULES PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=9, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+        INPUTTER -> byValue PI_Config:PAYMENT_ORDER_COUNTRY_RULES__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        OVERRIDE -> byValue PI_Config:PAYMENT_ORDER_COUNTRY_RULES__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=24.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=21.0, core=true, t24Name=RESERVED.1)
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=20.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=19.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=17.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED.9)
+    }
+    PAYMENT_ORDER_COUNTRY_RULES__ALLOW_PAYMENT_CURRENCY
+    {
+/* Multi value field to hold the list of currencies for which the payment order will be accepted for the country and payment order with any currencies other than one defined will not be allowed.
+When left undefined then payment order will be open for all currencies
+Validation Rules: Optional field. A valid currency code from CURRENCY application */
+        ALLOW_PAYMENT_CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=12.0, core=true, businessType=CCY, t24Name=ALLOW.PAYMENT.CURRENCY)
+    }
+    PAYMENT_ORDER_COUNTRY_RULES__CLEARING_CHANNEL
+    {
+/* Validate clearing code in payment order based on the clearing channel
+Validation Rules: Mandatory if CLEARING.CODE.FORMAT is defined. Null and duplicate values not allowed */
+        CLEARING_CHANNEL : PI_Config:PAYMENT_ORDER_COUNTRY_RULES__CLEARING_CHANNEL__CLEARING_CHANNEL
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=5.0, core=true, t24Name=CLEARING.CHANNEL)
+        CLEARING_CODE_FORMAT : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=6.0, core=true, t24Name=CLEARING.CODE.FORMAT)
+        RESERVED_11 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=11.0, core=true, t24Name=RESERVED.11)
+        RESERVED_12 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=RESERVED.12)
+        RESERVED_13 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=RESERVED.13)
+        RESERVED_14 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=RESERVED.14)
+        RESERVED_15 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=7.0, core=true, t24Name=RESERVED.15)
+    }
+    PAYMENT_ORDER_COUNTRY_RULES__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=27.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    PAYMENT_ORDER_COUNTRY_RULES__DESCRIPTION
+    {
+/* Description about the record
+Validation Rules: */
+        DESCRIPTION : T24BusinessTypes:A
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=65, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    PAYMENT_ORDER_COUNTRY_RULES__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=26.0, core=true, t24Name=INPUTTER)
+    }
+    PAYMENT_ORDER_COUNTRY_RULES__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=23.0, core=true, t24Name=OVERRIDE)
+    }
+    /* Payment Order parameter application describes the features which connects Payment Order and Payment System */
+    PAYMENT_ORDER_PARAMETER
+        @i18n:Description (en="")
+        @t24:i (t24Name=PAYMENT.ORDER.PARAMETER, nonStop=true, level=I, type=H, allowedFunctions="A C D E I L P Q S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=24.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=25.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=21.0, core=true, t24Name=AUTHORISER)
+/* Field containing ID of a local that can be executed to determine whether the connection method to be used is
+-EXTERNAL meaning that a payment order message will be generated through integration framework
+-TPS meaning that the payment order message will be generated directly through TPS
+Validation Rules: A valid record released in EB.API application.Should be defined only when the CONNECTION.METHID is "CONDITIONAL"Routine should accept five arguments as mentioned below
+                   applName - IN with value as "PAYMENT.ORDER", contractId - IN(id of the contract being processed), contractArr -IN(contract being processed), 
+                   connectionType - OUT(TPS OR EXTERNAL to be returned), connectionError -OUT */
+        CONNECTION_API : T24BusinessTypes:HOOK
+            @t24:i (align=L, inputBehaviour=I, maxLength=65, sysNumber=8.0, core=true, t24Name=CONNECTION.API)
+/* Field containing ID of a evaluating rule in the T24 rules engine which will return whether the connection method to be used is
+-EXTERNAL meaning that a payment order message will be generated through integration framework
+-TPS meaning that the payment order message will be generated directly through TPS
+Validation Rules: A valid record released in EB.RULES.VERSION application.Should be defined only when the CONNECTION.METHID is "CONDITIONAL" */
+        CONNECTION_RULE -> EB_RulesEngine:EB_RULE_GATEWAY
+            @t24:i (align=L, inputBehaviour=I, maxLength=65, sysNumber=7.0, core=true, businessType=A, t24Name=CONNECTION.RULE)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=22.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=18.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue PI_Config:PAYMENT_ORDER_PARAMETER__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+/* No. of days that an order will remain in live (in the status defined in the above field) before moving to history
+Validation Rules: nC, nW - n denotes no. of days, C - calendar days, W- working days. It should be in valid format. Default 0 */
+        DAYS_POST_COMPLETION : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=4.0, core=true, t24Name=DAYS.POST.COMPLETION)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=23.0, core=true, t24Name=DEPT.CODE)
+/* Field which holds the EB.MAPPING record that would map any additional fields from payment order table to TPS
+Validation Rules: Should be a valid record from EB.MAPPING.SOURCE */
+        EB_MAPPING_RECORD -> EB_SystemTables:EB_MAPPING_SOURCE
+            @t24:i (align=L, inputBehaviour=I, maxLength=65, sysNumber=6.0, core=true, businessType=A, t24Name=EB.MAPPING.RECORD)
+/* ID of Payment order parameter record
+Validation Rules:1. Valid company code
+                        2. Valid company Mnemonic
+                        3. Lead company
+                        4. Company should not be accounting company, reporting company and consolidation company */
+        ID -> PI_Config:PAYMENT_ORDER_PARAMETER PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=9, sysNumber=0.0, core=true, businessType=COM, t24Name=ID)
+        INPUTTER -> byValue PI_Config:PAYMENT_ORDER_PARAMETER__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* Field to attach any local routine to map any additional fields from payment order table to TPS
+Validation Rules: A valid record released in EB.API application.Routine should accept five arguments as mentioned below
+                   poContractId - IN, poContract - IN, inTpsRec - INOUT(FM separated array in which any required additional payment order fields to be mapped),  Reserved1,Reserved2 */
+        MAPPING_RTN : T24BusinessTypes:HOOK
+            @t24:i (align=L, inputBehaviour=I, maxLength=65, sysNumber=5.0, core=true, t24Name=MAPPING.RTN)
+        OVERRIDE -> byValue PI_Config:PAYMENT_ORDER_PARAMETER__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+/* Define the connection between the Payment system and the Payment order
+External - Send the Payment order details to External Payment System
+TPS - Send the Payment order details to TPS
+Conditional - This can be used in company which has multiple payment system and request forwarded to any of the payment system based on the payment order characteristics.
+Validation Rules: Mandatory field
+To select TPS option PP must be installed in the company
+When set to Conditional any of the fields CONNECTION.RULE or CONNECTION.API to be defined which decides the payment system to which the contract to be sent for processing. */
+        PAYMENT_CONNECTION_METHOD : PI_Config:PAYMENT_ORDER_PARAMETER__PAYMENT_CONNECTION_METHOD required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, t24Name=PAYMENT.CONNECTION.METHOD)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=17.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=RESERVED.1)
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=11.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=3.0, core=true, t24Name=RESERVED.7)
+/* To define if warehouse is required at Payment order level or not. If specified as NO, then the future dated payment orders will be sent for payment system immediately. If set as YES, then the future dated payment orders will be executed only on the SOD of the future date
+If the same field in Product application is defined then that would take priority over the value defined here
+Validation Rules: Optional field, YES or NO are the allowed values. */
+        WAREHOUSE_REQD : PI_Config:PAYMENT_ORDER_PARAMETER__WAREHOUSE_REQD
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=2.0, core=true, t24Name=WAREHOUSE.REQD)
+    }
+    PAYMENT_ORDER_PARAMETER__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=20.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    PAYMENT_ORDER_PARAMETER__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=19.0, core=true, t24Name=INPUTTER)
+    }
+    PAYMENT_ORDER_PARAMETER__OVERRIDE
+    {
+/* This is a multi valued field.
+Contains details of any override applicable to this record.
+Validation Rules:
+A maximum of 35 characters may be entered. This is a NOINPUT field. */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=OVERRIDE)
+    }
+    /* Payment Features that are specific to a product.                Payment Details that are allowed, optional and mandatory are defined based on product in PAYMENT.ORDER.PRODUCT. */
+    PAYMENT_ORDER_PRODUCT
+        @i18n:Description (en="")
+        @t24:i (t24Name=PAYMENT.ORDER.PRODUCT, nonStop=true, level=I, type=H, allowedFunctions="A C D E I L P Q S", localRefAllowed=true)
+    {
+        ADDITIONAL_INFO -> byValue PI_Config:PAYMENT_ORDER_PRODUCT__ADDITIONAL_INFO *
+            @t24:i (t24Name=ADDITIONAL.INFO)
+        ALLOWED_CHARGE_OPTIONS -> byValue PI_Config:PAYMENT_ORDER_PRODUCT__ALLOWED_CHARGE_OPTIONS *
+            @t24:i (t24Name=ALLOWED.CHARGE.OPTIONS)
+        ALLOWED_COUNTRY -> byValue PI_Config:PAYMENT_ORDER_PRODUCT__ALLOWED_COUNTRY *
+            @t24:i (t24Name=ALLOWED.COUNTRY)
+        ALLOWED_ORDERING_CURRENCY -> byValue PI_Config:PAYMENT_ORDER_PRODUCT__ALLOWED_ORDERING_CURRENCY *
+            @t24:i (t24Name=ALLOWED.ORDERING.CURRENCY)
+        ALLOWED_PAYMENT_CCY -> byValue PI_Config:PAYMENT_ORDER_PRODUCT__ALLOWED_PAYMENT_CCY *
+            @t24:i (t24Name=ALLOWED.PAYMENT.CCY)
+/* The field BENEFICIARY.BIC in a PAYMENT.ORDER transaction done using pay through beneficairy option, can hold value based on configuration of this field.
+Allowed options are either 'Mandatory', 'Allowed' or 'Not Allowed'. If it is 'Not allowed' and if BIC is defined or 'Mandatory' and BIC not given, then error will be thrown.
+Validation Rules: Optional field. Allowed or Mandatory for payment through beneficiary. If left undefined then configuration defined in country rules for given beneficiriay country will be taken for consideration. */
+        ALLOW_BIC : PI_Config:PAYMENT_ORDER_PRODUCT__ALLOW_BIC
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=21.0, core=true, t24Name=ALLOW.BIC)
+/* Future processing date allowed or not. If defined as YES, then a payment order can be defined with future processing date (PAYMENT.EXECUTION.DATE field in PAYMENT.ORDER). If defined as NO, then error will be thrown if PROCESSING.DATE is not Today
+Validation Rules:YES_NO.
+Mandatory field */
+        ALLOW_FUTURE_DATE : PI_Config:PAYMENT_ORDER_PRODUCT__ALLOW_FUTURE_DATE required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=9.0, core=true, t24Name=ALLOW.FUTURE.DATE)
+/* To define whether credit and debit can be in different currencies. If defined as YES, then the debit and credit currency (DEBIT.CCY and PAYMENT.CCY fields)in PAYMENT.ORDER can be different
+Validation Rules:YES_NO. Null will be considered as NO. No validations */
+        ALLOW_FX : PI_Config:PAYMENT_ORDER_PRODUCT__ALLOW_FX
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=13.0, core=true, t24Name=ALLOW.FX)
+/* To define whether the fields PAY.REQ.FX.CUST.RATE, PAY.REQ.FX.SPREAD, ORDERING.PAYMENT.FX.CUST.RATE, ORDERING.PAYMENT.FX.SPREAD,PAY.REQ.TREASURY.RATE,ORDERING.PAYMENT.TREASURY.RATE in PAYMENT.ORDER can be defined or not. If set to NO, then the FX rates cannot be defined in PAYMENT.ORDER while doing cross currency transactions
+Validation Rules: YES_NO. YES is allowed only when ALLOW.FX is set. Mandatory when ALLOW.FX is set */
+        ALLOW_FX_RATE : PI_Config:PAYMENT_ORDER_PRODUCT__ALLOW_FX_RATE
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=14.0, core=true, t24Name=ALLOW.FX.RATE)
+/* The field BENEFICIARY.IBAN in a PAYMENT.ORDER transaction done using pay through beneficairy option, can hold value based on configuration of this field.
+Allowed options are either 'Mandatory', 'Allowed' or 'Not Allowed'. If it is 'Not Allowed' and if IBAN is given in payment order or 'Mandatory' and IBAN not given, then error will be thrown.
+Validation Rules: Optional field. Inputtable field only if IN is installed. Allowed or Mandatory for payment through beneficiary. If left undefined then configuration defined in country rules for given beneficiriay country will be taken for consideration. */
+        ALLOW_IBAN : PI_Config:PAYMENT_ORDER_PRODUCT__ALLOW_IBAN
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=20.0, core=true, t24Name=ALLOW.IBAN)
+/* Indicates whether the REQUESTED.AMOUNT and REQUESTED.CURRENCY can be defined in PAYMENT.ORDER or not. If set to NO, then the REQUESTED.AMOUNT is not allowed in PAYMENT.ORDER
+Validation Rules:YES_NO. No validations. Released as NOINPUT in Phase I */
+        ALLOW_REQUESTED_CURRENCY : PI_Config:PAYMENT_ORDER_PRODUCT__ALLOW_REQUESTED_CURRENCY
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=ALLOW.REQUESTED.CURRENCY)
+/* Required credit value date allowed or not. If defined as YES, then required credit value date can be allowed in the payment order. If defined as NO, then error will be thrown if the field has value. If YES is given and in payment order if required credit value date is defined as backdated, then override will be raised. Override will also be raised if the REQUIRED.CREDIT.VALUE.DATE falls before the date calculated based on the float
+Validation Rules:YES_NO. Mandatory */
+        ALLOW_REQUIRED_CREDIT_VALUE : PI_Config:PAYMENT_ORDER_PRODUCT__ALLOW_REQUIRED_CREDIT_VALUE required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=10.0, core=true, t24Name=ALLOW.REQUIRED.CREDIT.VALUE)
+/* The field BEN.BANK.CODE in a PAYMENT.ORDER transaction done using pay through beneficairy option, can hold value based on configuration of this field.
+Allowed options are either 'Mandatory', 'Allowed' or 'Not Allowed'.  If it is 'Not Allowed' and if bank code is given or 'Mandatory' and bank code not given, then error will be thrown.
+Validation Rules:Optional field. Allowed or Mandatory for payment through beneficiary. If left undefined then configuration defined in country rules for given beneficiriay country will be taken for consideration. */
+        ALLOW_SORT_CODE : PI_Config:PAYMENT_ORDER_PRODUCT__ALLOW_SORT_CODE
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=23.0, core=true, t24Name=ALLOW.SORT.CODE)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=68.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=69.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=65.0, core=true, t24Name=AUTHORISER)
+/* Bank code directory against which the bank codes in PAYMENT.ORDER is to be validated
+Validation Rules:No validations. Released as NOINPUT in Phase I */
+        BANK_CODE_DIRECTORY : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=22.0, core=true, t24Name=BANK.CODE.DIRECTORY)
+        CLEARING_CHANNEL -> byValue PI_Config:PAYMENT_ORDER_PRODUCT__CLEARING_CHANNEL *
+            @t24:i (t24Name=CLEARING.CHANNEL)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=66.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=62.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue PI_Config:PAYMENT_ORDER_PRODUCT__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+/* Indicates if the Debit Account is an external account or an account from the same financial company.
+The product when attached to payment order record will have validation to DEBIT.ACCOUNT and DEBIT.IBAN value provided.
+
+The product used with value as 'ALL' in this field will take all type of accounts(External and T24 account).
+
+The product used with value as 'OWN' in this field will take only the accounts belonging to that specific financial company. */
+        DEBIT_ACCOUNT_OPTIONS : PI_Config:PAYMENT_ORDER_PRODUCT__DEBIT_ACCOUNT_OPTIONS
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=50.0, core=true, t24Name=DEBIT.ACCOUNT.OPTIONS)
+/* Default Charger bearer for the product. If charge bearer is not defined in PAYMENT.ORDER, then the default charger bearer to be populated
+Validation Rules: Values allowed are BEN, OUR or SHA.        Must be allowed charge as mentioned in the ALLOWED.CHARGE.OPTIONS field */
+        DEFAULT_CHARGE_OPTION : PI_Config:PAYMENT_ORDER_PRODUCT__DEFAULT_CHARGE_OPTION
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=12.0, core=true, t24Name=DEFAULT.CHARGE.OPTION)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=67.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue PI_Config:PAYMENT_ORDER_PRODUCT__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        DUPLICATE_CHECK -> byValue PI_Config:PAYMENT_ORDER_PRODUCT__DUPLICATE_CHECK *
+            @t24:i (t24Name=DUPLICATE.CHECK)
+/* Defines whether the API should get executed immediately or when moved from warehouse for future dated orders
+Validation Rules:Null_YES. Yes is allowed only when ALLOW.FUTURE.DATE is set to YES and in PAYMENT.ORDER.PARAMETER, WAREHOUSE.REQD is set to Y */
+        FORWARD_API_TRIGGER_STATE : PI_Config:PAYMENT_ORDER_PRODUCT__FORWARD_API_TRIGGER_STATE
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=32.0, core=true, t24Name=FORWARD.API.TRIGGER.STATE)
+/* No. of days taken for execution of the order that involves FX
+Validation Rules: nC, nW - n denotes no. of days 0-9, C - calendar days, W- working days. Allowed only when ALLOW.FX is set */
+        FX_FLOAT : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=16.0, core=true, t24Name=FX.FLOAT)
+/* To define HOLIDAY of which country to be considered. Destination currency - Country code from Credit currency record,holiday record of that countryDestination country - Beneficiary countryDefault - Local country
+Validation Rules:DESTINATION CURRENCY_DESTINATION COUNTRY */
+        HOLIDAY_OPTION : PI_Config:PAYMENT_ORDER_PRODUCT__HOLIDAY_OPTION
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=18.0, core=true, t24Name=HOLIDAY.OPTION)
+/* ID of Payment order Product record
+Validation Rules: Ten digit text. No other validations */
+        ID -> PI_Config:PAYMENT_ORDER_PRODUCT PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+        INPUTTER -> byValue PI_Config:PAYMENT_ORDER_PRODUCT__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* Narrative for the product
+Validation Rules:String of 65 characters */
+        NARRATIVE : T24BusinessTypes:A
+            @i18n:Label (en=Narrative)
+            @i18n:Tooltip (en="Any narrative to be input for user information")
+            @t24:i (align=L, inputBehaviour=I, maxLength=65, sysNumber=34.0, core=true, t24Name=NARRATIVE)
+/* No. of days taken for execution of the order that doesn't involve FX
+Validation Rules: nC, nW - n denotes no. of days 0-9, C - calendar days, W- working days */
+        NON_FX_FLOAT : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=17.0, core=true, t24Name=NON.FX.FLOAT)
+        OVERRIDE -> byValue PI_Config:PAYMENT_ORDER_PRODUCT__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+/* Indicates whether the beneficiary details defaulted from the beneficiary record can be overridden or not
+Validation Rules: Option allowed YES_NO. Default value NO. Allowed only when PAY.THROUGH.BENEFICIARY is set to YES. Released as NOINPUT in Phase I */
+        OVERRIDE_BENEFICIARY : PI_Config:PAYMENT_ORDER_PRODUCT__OVERRIDE_BENEFICIARY
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=5.0, core=true, t24Name=OVERRIDE.BENEFICIARY)
+        PAYMENT_COUNTRY -> byValue PI_Config:PAYMENT_ORDER_PRODUCT__PAYMENT_COUNTRY *
+            @t24:i (t24Name=PAYMENT.COUNTRY)
+/* Group of the payment product being defined. This could be categorized such as "Account to Account Transfers", "Domestic" or "International".
+This is an EB.LOOKUP field where user can customize their own groups and link the product to any of the group's defined.
+Validation Rules:
+Mandatory */
+        PAYMENT_PRODUCT_GROUP : PI_Config:PAYMENT_ORDER_PRODUCT__PAYMENT_PRODUCT_GROUP
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=2.0, core=true, t24Name=PAYMENT.PRODUCT.GROUP)
+/* Indicates whether Payment is done through the Beneficiary
+Validation Rules: Option allowed YES_NO. No validations */
+        PAY_THROUGH_BENEFICIARY : PI_Config:PAYMENT_ORDER_PRODUCT__PAY_THROUGH_BENEFICIARY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=4.0, core=true, t24Name=PAY.THROUGH.BENEFICIARY)
+        PS_MAPPING_RULE -> PI_Config:PI_PS_MAPPING_RULE
+            @t24:i (align=L, inputBehaviour=I, maxLength=65, sysNumber=51.0, core=true, businessType=A, t24Name=PS.MAPPING.RULE)
+/* Rank of the product
+Validation Rules:10 digit free text. Only numbers allowed. No other validations */
+        RANK : T24BusinessTypes:N
+            @i18n:Label (en=Rank)
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=3.0, core=true, t24Name=RANK)
+/* % of tolerance above which exchange rate difference override will be raised. If not specified, then the rate tolerance override will not be raised
+Validation Rules: Allowed only when ALLOW.FX and ALLOW.FX.RATE are set to YES. Value zero should also be allowed. Maximum of two decimal values is allowed */
+        RATE_TOLERANCE_PERCENT : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=5, sysNumber=15.0, core=true, t24Name=RATE.TOLERANCE.PERCENT)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=61.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=58.0, core=true, t24Name=RESERVED.1)
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=57.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=56.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=55.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=54.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=53.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=52.0, core=true, t24Name=RESERVED.7)
+/* API to perform validations specific to a product
+Validation Rules:Valid EB.API record */
+        VALIDATE_API : T24BusinessTypes:HOOK
+            @t24:i (align=L, inputBehaviour=I, maxLength=65, sysNumber=31.0, core=true, t24Name=VALIDATE.API)
+/* To define if warehouse is required at Payment order level or not. If specified as NO, then the future dated payment orders will be sent for payment system immediately. If set as YES, then the future dated payment orders will be executed only on the SOD of the future date
+If defined then value here will be taken prefernce over one defined at the parameter level
+Validation Rules: Optional field, YES or NO are the allowed values. */
+        WAREHOUSE_REQD : PI_Config:PAYMENT_ORDER_PRODUCT__WAREHOUSE_REQD
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=49.0, core=true, t24Name=WAREHOUSE.REQD)
+        WEBLINK : T24BusinessTypes:TEXT
+            @t24:i (align=L, inputBehaviour=I, maxLength=70, sysNumber=36.0, core=true, t24Name=WEBLINK)
+    }
+    PAYMENT_ORDER_PRODUCT__ADDITIONAL_INFO
+    {
+/* Additional information about the product
+Validation Rules:TEXT field. Free text of 120 characters */
+        ADDITIONAL_INFO : T24BusinessTypes:A
+            @i18n:Label (en=Narrative)
+            @t24:i (align=L, inputBehaviour=I, maxLength=120, sysNumber=35.0, core=true, t24Name=ADDITIONAL.INFO)
+    }
+    PAYMENT_ORDER_PRODUCT__ALLOWED_CHARGE_OPTIONS
+    {
+/* Charge bearer options allowed for the product. While doing PAYMENT.ORDER transaction, to determine whether the Charger bearer specified is allowed for the product or not
+Validation Rules: Values allowed are BEN, OUR or SHA.Value should not be duplicated in the multi value set and null multi value not allowed. */
+        ALLOWED_CHARGE_OPTIONS : PI_Config:PAYMENT_ORDER_PRODUCT__ALLOWED_CHARGE_OPTIONS__ALLOWED_CHARGE_OPTIONS
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=11.0, core=true, t24Name=ALLOWED.CHARGE.OPTIONS)
+    }
+    PAYMENT_ORDER_PRODUCT__ALLOWED_COUNTRY
+    {
+/* List of allowed Beneficiary's country codes
+Validation Rules: Valid Country code. Allowed only when PAY.THROUGH.BENEFICIARY is set to YES. Duplicate values not allowed in the multi value set and null multi value not allowed. */
+        ALLOWED_COUNTRY -> ST_Config:COUNTRY
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=19.0, core=true, businessType=A, t24Name=ALLOWED.COUNTRY)
+    }
+    PAYMENT_ORDER_PRODUCT__ALLOWED_ORDERING_CURRENCY
+    {
+/* List of allowed Ordering Currencies. Optional. Null indicates all the currencies
+Validation Rules: Valid currency in T24 Currency table. Value should not be duplicated in the multi value set and null multi value not allowed. */
+        ALLOWED_ORDERING_CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=7.0, core=true, businessType=CCY, t24Name=ALLOWED.ORDERING.CURRENCY)
+    }
+    PAYMENT_ORDER_PRODUCT__ALLOWED_PAYMENT_CCY
+    {
+/* List of allowed Payment Currencies. Optional. Null indicates all the currencies
+Validation Rules: Valid currency in T24 Currency table. Value should not be duplicated in the multi value set and null multi value not allowed. */
+        ALLOWED_PAYMENT_CCY -> ST_CurrencyConfig:CURRENCY
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=6.0, core=true, businessType=CCY, t24Name=ALLOWED.PAYMENT.CCY)
+    }
+    PAYMENT_ORDER_PRODUCT__CLEARING_CHANNEL
+    {
+/* Indicates the clearing channel to be used
+Validation Rules: */
+        CLEARING_CHANNEL : PI_Config:PAYMENT_ORDER_PRODUCT__CLEARING_CHANNEL__CLEARING_CHANNEL
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=24.0, core=true, t24Name=CLEARING.CHANNEL)
+/* Indicates the format of the clearing code based on which the clearing code entered in payment order will be validated
+Validation Rules:Alphanumeric */
+        CLEARING_CODE_FORMAT : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=25.0, core=true, t24Name=CLEARING.CODE.FORMAT)
+        RESERVED_11 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=30.0, core=true, t24Name=RESERVED.11)
+        RESERVED_12 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=29.0, core=true, t24Name=RESERVED.12)
+        RESERVED_13 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=28.0, core=true, t24Name=RESERVED.13)
+        RESERVED_14 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=27.0, core=true, t24Name=RESERVED.14)
+        RESERVED_15 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=26.0, core=true, t24Name=RESERVED.15)
+    }
+    PAYMENT_ORDER_PRODUCT__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=64.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    PAYMENT_ORDER_PRODUCT__DESCRIPTION
+    {
+/* Description about the product. For enrichment in PAYMENT.ORDER
+Validation Rules: Length of 35 characters. Language supportable. Mandatory */
+        DESCRIPTION : T24BusinessTypes:A required
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    PAYMENT_ORDER_PRODUCT__DUPLICATE_CHECK
+    {
+/* To check if the Payment Order transaction is the duplicate of any other transaction
+Validation Rules:Valid record in EB.DUPLICATE.TYPE. Call FT.NULLS.CHK and DUP to avoid null and duplicate values in the multi-value field */
+        DUPLICATE_CHECK -> FT_Contract:EB_DUPLICATE_TYPE
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=33.0, core=true, businessType=A, t24Name=DUPLICATE.CHECK)
+    }
+    PAYMENT_ORDER_PRODUCT__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=63.0, core=true, t24Name=INPUTTER)
+    }
+    PAYMENT_ORDER_PRODUCT__OVERRIDE
+    {
+/* This is a multi valued field.
+Contains details of any override applicable to this record.
+
+A maximum of 35 characters may be entered. This is a NOINPUT field. */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=60.0, core=true, t24Name=OVERRIDE)
+    }
+    PAYMENT_ORDER_PRODUCT__PAYMENT_COUNTRY
+    {
+/* The field BENEFICIARY.IC in a PAYMENT.ORDER transaction done using pay through beneficairy option, can hold value based on configuration of this field.
+Allowed options are either 'Mandatory', 'Allowed' or 'Not Allowed'. If it is 'Not Allowed' and if BIC is given in payment order or 'Mandatory' and BIC not given, then error will be thrown.
+Validation Rules: Optional field. Allowed or Mandatory for payment through beneficiary. If Country rules is present, then  Allowed /Mandatory can be set only if allowed in country rules. */
+        COUNTRY_ALLOW_BIC : PI_Config:PAYMENT_ORDER_PRODUCT__PAYMENT_COUNTRY__COUNTRY_ALLOW_BIC
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=39.0, core=true, t24Name=COUNTRY.ALLOW.BIC)
+/* The field BENEFICIARY.IBAN in a PAYMENT.ORDER transaction done using pay through beneficairy option, can hold value based on configuration of this field.
+Allowed options are either 'Mandatory', 'Allowed' or 'Not Allowed'. If it is 'Not Allowed' and if IBAN is given in payment order or 'Mandatory' and IBAN not given, then error will be thrown.
+Validation Rules: Optional field. Allowed or Mandatory for payment through beneficiary. If Country rules is present, then  Allowed /Mandatory can be set only if allowed in country rules. If Country rules is not present, then all options are possible. */
+        COUNTRY_ALLOW_IBAN : PI_Config:PAYMENT_ORDER_PRODUCT__PAYMENT_COUNTRY__COUNTRY_ALLOW_IBAN
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=38.0, core=true, t24Name=COUNTRY.ALLOW.IBAN)
+        COUNTRY_ALLOW_PMNT_CCY -> byValue PI_Config:PAYMENT_ORDER_PRODUCT__PAYMENT_COUNTRY__COUNTRY_ALLOW_PMNT_CCY *
+            @t24:i (t24Name=COUNTRY.ALLOW.PMNT.CCY)
+/* The field BEN.BANK.CODE in a PAYMENT.ORDER transaction done using pay through beneficairy option, can hold value based on configuration of this field.
+Allowed options are either 'Mandatory', 'Allowed' or 'Not Allowed'. If it is 'Not Allowed' and if bank code is given in payment order or 'Mandatory' and bank code not given, then error will be thrown.
+Validation Rules: Optional field. Allowed or Mandatory for payment through beneficiary. If Country rules is present, then  Allowed /Mandatory can be set only if allowed in country rules. */
+        COUNTRY_ALLOW_SORT_CODE : PI_Config:PAYMENT_ORDER_PRODUCT__PAYMENT_COUNTRY__COUNTRY_ALLOW_SORT_CODE
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=40.0, core=true, t24Name=COUNTRY.ALLOW.SORT.CODE)
+        COUNTRY_CLEARING_CHANNEL -> byValue PI_Config:PAYMENT_ORDER_PRODUCT__PAYMENT_COUNTRY__COUNTRY_CLEARING_CHANNEL *
+            @t24:i (t24Name=COUNTRY.CLEARING.CHANNEL)
+/* Country specific Reserved fields for future use.
+Validation Rules: */
+        COUNTRY_RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=48.0, core=true, t24Name=COUNTRY.RESERVED.1)
+/* Country specific Reserved fields for future use.
+Validation Rules: */
+        COUNTRY_RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=47.0, core=true, t24Name=COUNTRY.RESERVED.2)
+/* Country specific Reserved fields for future use.
+Validation Rules: */
+        COUNTRY_RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=46.0, core=true, t24Name=COUNTRY.RESERVED.3)
+/* Country specific Reserved fields for future use.
+Validation Rules: */
+        COUNTRY_RESERVED_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=45.0, core=true, t24Name=COUNTRY.RESERVED.4)
+/* Country specific Reserved fields for future use.
+Validation Rules: */
+        COUNTRY_RESERVED_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=44.0, core=true, t24Name=COUNTRY.RESERVED.5)
+/* List of country for which below assocaited country based rules can be defined independently, to be used for validating payment order.
+If payment country defined then agreed rules defined here will only be taken for consideration against payment order validation.
+If payment order country is not defined here, then generic rules defined for prodcut will be considered for validation POA.
+If any of the generic fields of payment order is left undefined then rules for validatin POA will be arrived from COUNTRY RULES application
+Validation Rules:Optional field. Valid country code from COUNTRY application. */
+        PAYMENT_COUNTRY -> ST_Config:COUNTRY
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=37.0, core=true, businessType=A, t24Name=PAYMENT.COUNTRY)
+    }
+    PAYMENT_ORDER_PRODUCT__PAYMENT_COUNTRY__COUNTRY_ALLOW_PMNT_CCY
+    {
+/* Multivalue field to hold the list of currencies for which the payment order will be accepted for the country, payment order with any currencies other than one defined will not be allowed.
+Should be one of the currencies allowed in Payment Order Country Rules.If Country rules is not present, then all currencies are possible. When left undefined then payment order will be open for all currencies.
+Validation Rules: Optinal field. A valid currency code from CURRENCY application. */
+        COUNTRY_ALLOW_PMNT_CCY -> ST_CurrencyConfig:CURRENCY
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=41.0, core=true, businessType=CCY, t24Name=COUNTRY.ALLOW.PMNT.CCY)
+    }
+    PAYMENT_ORDER_PRODUCT__PAYMENT_COUNTRY__COUNTRY_CLEARING_CHANNEL
+    {
+/* Indicates the allowed clearing channel to be used for the country. Should be one of the clearing channel as per Payment Order Country rules. If Country rules is not present, then all channels are possible.
+Validation Rules: Valid record from CLEARING.CHANNEL lookup table. */
+        COUNTRY_CLEARING_CHANNEL : PI_Config:PAYMENT_ORDER_PRODUCT__PAYMENT_COUNTRY__COUNTRY_CLEARING_CHANNEL__COUNTRY_CLEARING_CHANNEL
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=42.0, core=true, t24Name=COUNTRY.CLEARING.CHANNEL)
+/* Indicates the format of the clearing code based on which the clearing code entered in payment order will be validated. If not defined for a clearing channel then, value will be defaulted from country rules clearing format.
+Validation Rules: Alphanumeric. Associated with above country clearing channel field. */
+        COUNTRY_CLRG_CODE_FMT : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=43.0, core=true, t24Name=COUNTRY.CLRG.CODE.FMT)
+    }
+    PI_PS_MAPPING_RULE
+        @i18n:Description (en="")
+        @t24:i (t24Name=PI.PS.MAPPING.RULE, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=37.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=38.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=34.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=35.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=31.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue PI_Config:PI_PS_MAPPING_RULE__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=36.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue PI_Config:PI_PS_MAPPING_RULE__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        INPUTTER -> byValue PI_Config:PI_PS_MAPPING_RULE__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        OVERRIDE -> byValue PI_Config:PI_PS_MAPPING_RULE__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        PAYMENT_SYSTEM -> byValue PI_Config:PI_PS_MAPPING_RULE__PAYMENT_SYSTEM *
+            @t24:i (t24Name=PAYMENT.SYSTEM)
+        PI_PS_MAPPING_RULE_ID -> PI_Config:PI_PS_MAPPING_RULE PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=65, sysNumber=0.0, core=true, businessType=A, t24Name=PI.PS.MAPPING.RULE.ID)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=30.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=27.0, core=true, t24Name=RESERVED.1)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=26.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=25.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=24.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=23.0, core=true, t24Name=RESERVED.5)
+    }
+    PI_PS_MAPPING_RULE__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=33.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    PI_PS_MAPPING_RULE__DESCRIPTION
+    {
+        DESCRIPTION : T24BusinessTypes:A
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    PI_PS_MAPPING_RULE__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=32.0, core=true, t24Name=INPUTTER)
+    }
+    PI_PS_MAPPING_RULE__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=29.0, core=true, t24Name=OVERRIDE)
+    }
+    PI_PS_MAPPING_RULE__PAYMENT_SYSTEM
+    {
+        DEFAULT_MAPPING_API : T24BusinessTypes:HOOK
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=16.0, core=true, t24Name=DEFAULT.MAPPING.API)
+        DEFAULT_MAPPING_RECORD -> EB_SystemTables:EB_MAPPING_SOURCE
+            @t24:i (align=L, inputBehaviour=I, maxLength=65, sysNumber=15.0, core=true, businessType=A, t24Name=DEFAULT.MAPPING.RECORD)
+        DEFAULT_RESULT : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=14.0, core=true, t24Name=DEFAULT.RESULT)
+        DEFAULT_VERSION -> EB_Versions:VERSION
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=17.0, core=true, businessType=A, t24Name=DEFAULT.VERSION)
+        PAYMENT_SYSTEM : PI_Config:PI_PS_MAPPING_RULE__PAYMENT_SYSTEM__PAYMENT_SYSTEM
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=2.0, core=true, t24Name=PAYMENT.SYSTEM)
+        PS_MAPPING_RULE -> EB_RulesEngine:EB_RULE_GATEWAY
+            @t24:i (align=L, inputBehaviour=I, maxLength=65, sysNumber=3.0, core=true, businessType=A, t24Name=PS.MAPPING.RULE)
+        PS_MAP_RULE_API : T24BusinessTypes:HOOK
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=4.0, core=true, t24Name=PS.MAP.RULE.API)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=RESERVED.10)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=22.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=21.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=20.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=19.0, core=true, t24Name=RESERVED.9)
+        RESULT_OPTION -> byValue PI_Config:PI_PS_MAPPING_RULE__PAYMENT_SYSTEM__RESULT_OPTION *
+            @t24:i (t24Name=RESULT.OPTION)
+    }
+    PI_PS_MAPPING_RULE__PAYMENT_SYSTEM__RESULT_OPTION
+    {
+        PS_MAPPING_API : T24BusinessTypes:HOOK
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=7.0, core=true, t24Name=PS.MAPPING.API)
+        PS_MAPPING_RECORD -> EB_SystemTables:EB_MAPPING_SOURCE
+            @t24:i (align=L, inputBehaviour=I, maxLength=65, sysNumber=6.0, core=true, businessType=A, t24Name=PS.MAPPING.RECORD)
+        PS_VERSION -> EB_Versions:VERSION
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=8.0, core=true, businessType=A, t24Name=PS.VERSION)
+        RESERVED_11 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED.11)
+        RESERVED_12 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.12)
+        RESERVED_13 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=11.0, core=true, t24Name=RESERVED.13)
+        RESERVED_14 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=RESERVED.14)
+        RESERVED_15 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=RESERVED.15)
+        RESULT_OPTION : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=5.0, core=true, t24Name=RESULT.OPTION)
+    }
+}
+Enumerations {
+    PAYMENT_ORDER_COUNTRY_RULES__ALLOW_BIC : mml:string
+        ALLOWED=ALLOWED
+        NOT_ALLOWED="NOT ALLOWED"
+    PAYMENT_ORDER_COUNTRY_RULES__ALLOW_IBAN : mml:string
+        ALLOWED=ALLOWED
+        NOT_ALLOWED="NOT ALLOWED"
+    PAYMENT_ORDER_COUNTRY_RULES__ALLOW_SORT_CODE : mml:string
+        ALLOWED=ALLOWED
+        NOT_ALLOWED="NOT ALLOWED"
+    PAYMENT_ORDER_COUNTRY_RULES__CLEARING_CHANNEL__CLEARING_CHANNEL : mml:string
+        ATBLZ=ATBLZ
+        AUBSB=AUBSB
+        CHBCC=CHBCC
+        CHSIC=CHSIC
+        CNAPS=CNAPS
+        DEBLZ=DEBLZ
+        ESNCC=ESNCC
+        Fedwire=Fedwire
+        GBDSC=GBDSC
+        GBDSD=GBDSD
+        HKNCC=HKNCC
+        IENCC=IENCC
+        IFSC=IFSC
+        INFSC=INFSC
+        ITNCC=ITNCC
+        NZNCC=NZNCC
+        PLKNR=PLKNR
+        PTNCC=PTNCC
+        RUCBC=RUCBC
+        SGIBG=SGIBG
+        USABA=USABA
+    PAYMENT_ORDER_PARAMETER__PAYMENT_CONNECTION_METHOD : mml:string
+        CONDITIONAL=CONDITIONAL
+        EXTERNAL=EXTERNAL
+        FT=FT
+        TPS=TPS
+    PAYMENT_ORDER_PARAMETER__WAREHOUSE_REQD : mml:string
+        NO=NO
+        YES=YES
+    PAYMENT_ORDER_PRODUCT__ALLOWED_CHARGE_OPTIONS__ALLOWED_CHARGE_OPTIONS : mml:string
+        BEN=BEN
+        OUR=OUR
+        SHA=SHA
+    PAYMENT_ORDER_PRODUCT__ALLOW_BIC : mml:string
+        ALLOWED=ALLOWED
+        MANDATORY=MANDATORY
+        NOT_ALLOWED="NOT ALLOWED"
+    PAYMENT_ORDER_PRODUCT__ALLOW_FUTURE_DATE : mml:string
+        NO=NO
+        YES=YES
+    PAYMENT_ORDER_PRODUCT__ALLOW_FX : mml:string
+        NULL=NULL
+        YES=YES
+    PAYMENT_ORDER_PRODUCT__ALLOW_FX_RATE : mml:string
+        NULL=NULL
+        YES=YES
+    PAYMENT_ORDER_PRODUCT__ALLOW_IBAN : mml:string
+        ALLOWED=ALLOWED
+        MANDATORY=MANDATORY
+        NOT_ALLOWED="NOT ALLOWED"
+    PAYMENT_ORDER_PRODUCT__ALLOW_REQUESTED_CURRENCY : mml:string
+        NO=NO
+        YES=YES
+    PAYMENT_ORDER_PRODUCT__ALLOW_REQUIRED_CREDIT_VALUE : mml:string
+        NO=NO
+        YES=YES
+    PAYMENT_ORDER_PRODUCT__ALLOW_SORT_CODE : mml:string
+        ALLOWED=ALLOWED
+        MANDATORY=MANDATORY
+        NOT_ALLOWED="NOT ALLOWED"
+    PAYMENT_ORDER_PRODUCT__CLEARING_CHANNEL__CLEARING_CHANNEL : mml:string
+        ATBLZ=ATBLZ
+        AUBSB=AUBSB
+        CHBCC=CHBCC
+        CHSIC=CHSIC
+        CNAPS=CNAPS
+        DEBLZ=DEBLZ
+        ESNCC=ESNCC
+        Fedwire=Fedwire
+        GBDSC=GBDSC
+        GBDSD=GBDSD
+        HKNCC=HKNCC
+        IENCC=IENCC
+        IFSC=IFSC
+        INFSC=INFSC
+        ITNCC=ITNCC
+        NZNCC=NZNCC
+        PLKNR=PLKNR
+        PTNCC=PTNCC
+        RUCBC=RUCBC
+        SGIBG=SGIBG
+        USABA=USABA
+    PAYMENT_ORDER_PRODUCT__DEBIT_ACCOUNT_OPTIONS : mml:string
+        ALL=ALL
+        OWN=OWN
+    PAYMENT_ORDER_PRODUCT__DEFAULT_CHARGE_OPTION : mml:string
+        BEN=BEN
+        OUR=OUR
+        SHA=SHA
+    PAYMENT_ORDER_PRODUCT__FORWARD_API_TRIGGER_STATE : mml:string
+        NULL=NULL
+        YES=YES
+    PAYMENT_ORDER_PRODUCT__HOLIDAY_OPTION : mml:string
+        DESTINATION_COUNTRY="DESTINATION COUNTRY"
+        DESTINATION_CURRENCY="DESTINATION CURRENCY"
+    PAYMENT_ORDER_PRODUCT__OVERRIDE_BENEFICIARY : mml:string
+        NULL=NULL
+        YES=YES
+    PAYMENT_ORDER_PRODUCT__PAYMENT_COUNTRY__COUNTRY_ALLOW_BIC : mml:string
+        ALLOWED=ALLOWED
+        MANDATORY=MANDATORY
+        NOT_ALLOWED="NOT ALLOWED"
+    PAYMENT_ORDER_PRODUCT__PAYMENT_COUNTRY__COUNTRY_ALLOW_IBAN : mml:string
+        ALLOWED=ALLOWED
+        MANDATORY=MANDATORY
+        NOT_ALLOWED="NOT ALLOWED"
+    PAYMENT_ORDER_PRODUCT__PAYMENT_COUNTRY__COUNTRY_ALLOW_SORT_CODE : mml:string
+        ALLOWED=ALLOWED
+        MANDATORY=MANDATORY
+        NOT_ALLOWED="NOT ALLOWED"
+    PAYMENT_ORDER_PRODUCT__PAYMENT_COUNTRY__COUNTRY_CLEARING_CHANNEL__COUNTRY_CLEARING_CHANNEL : mml:string
+        ATBLZ=ATBLZ
+        AUBSB=AUBSB
+        CHBCC=CHBCC
+        CHSIC=CHSIC
+        CNAPS=CNAPS
+        DEBLZ=DEBLZ
+        ESNCC=ESNCC
+        Fedwire=Fedwire
+        GBDSC=GBDSC
+        GBDSD=GBDSD
+        HKNCC=HKNCC
+        IENCC=IENCC
+        IFSC=IFSC
+        INFSC=INFSC
+        ITNCC=ITNCC
+        NZNCC=NZNCC
+        PLKNR=PLKNR
+        PTNCC=PTNCC
+        RUCBC=RUCBC
+        SGIBG=SGIBG
+        USABA=USABA
+    PAYMENT_ORDER_PRODUCT__PAYMENT_PRODUCT_GROUP : mml:string
+        ACTRF=ACTRF
+        AP=AP
+        DP=DP
+        IF=IF
+        IP=IP
+    PAYMENT_ORDER_PRODUCT__PAY_THROUGH_BENEFICIARY : mml:string
+        NO=NO
+        YES=YES
+    PAYMENT_ORDER_PRODUCT__WAREHOUSE_REQD : mml:string
+        NO=NO
+        YES=YES
+    PI_PS_MAPPING_RULE__PAYMENT_SYSTEM__PAYMENT_SYSTEM : mml:string
+        EXTERNAL=EXTERNAL
+        FT=FT
+        TPS=TPS
+}

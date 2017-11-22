@@ -1,0 +1,218 @@
+# UTF-8
+/* Posting Scheme */
+Domain PP_PostingSchemeService
+    @t24:i (module=PP)
+    @java:Package (value=com.temenos.t24.datamodel.pp.pp_postingschemeservice)
+namespace "http://www.temenos.com/t24/PP_PostingSchemeService"
+metamodelVersion 1.30.6
+Classes {
+    /* Store records in POR.POSTINGLINE table. */
+    POR_POSTINGLINE
+        @i18n:Description (en="")
+        @t24:i (t24Name=POR.POSTINGLINE, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* Currency code of the account.
+Holds a 3 character unique code which denotes a specific currency used in the system.
+Validation Rules:
+Currency should be a valid entry in Currency Table (PPT.CURRENCY). */
+        AccountCurrency : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=7.0, core=true, t24Name=AccountCurrency)
+/* This is the account to which this entry is posted
+Validation Rules:
+35 characters. */
+        AccountNumber : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=6.0, core=true, t24Name=AccountNumber)
+/* This is the company code of the account which is being debited or credited.
+Validation Rules:
+3 alphanumeric characters.
+The value links to the field 'CompanyID' in PPT.COMPANY */
+        AccountNumberCompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=5.0, core=true, t24Name=AccountNumberCompanyID)
+/* This is the reference number for the account owner and based on statement lines configuration this will be retrieved.
+And in case this is not configured then map it as following:
+If TransactionReferenceIncoming is present then map it
+Else if SendersReferenceIncoming is present then map it
+Else set it as NONREF
+Validation Rules:
+16 alphanumeric characters */
+        AccountOwnerReference : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=19.0, core=true, t24Name=AccountOwnerReference)
+/* Book Code as required for ACU DBU posting
+Validation Rules:
+10 alphanumeric characters */
+        BookCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=25.0, core=true, t24Name=BookCode)
+/* Booking code which should be used inside T24 for this posting entry to identify the type of entry.
+Validation Rules:
+10 alphanumeric characters */
+        BookingCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=16.0, core=true, t24Name=BookingCode)
+/* Booking date for this posting entry.
+Validation Rules:
+11 characters of type DATE */
+        BookingDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=13.0, core=true, t24Name=BookingDate)
+/* In case of principal debit/credit posting or charge debit posting from client account this will be the ClientId of the respective account.
+In case of P and L posting this should the ClientId of the party which is paying the charges.
+If Debit charges (ChargePartyIndicator=D) then it’s Debit Party and if Credit charges (ChargePartyIndicator=C) then it’s credit party.
+Validation Rules:
+34 alphanumeric characters */
+        ClientID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=34, sysNumber=24.0, core=true, t24Name=ClientID)
+/* Indicates the company ID for which the record is created.
+Example : BNK,GB1
+Validation Rules:
+3 alphanumeric characters.
+The value links to the field 'CompanyID' in PPT.COMPANY */
+        CompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+/* When currency conversion is involved (debit account currency is different from credit account currency), this field will denote the market from which the currency rates were applied to arrive at the non-local currency amount.
+Validation Rules:
+2 alphanumeric characters */
+        CurrencyMarket : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=22.0, core=true, t24Name=CurrencyMarket)
+/* This is an optional field and will be populated only if the IntrabranchPostingEnabled flag is Y for the owning company in company properties table.
+Validation Rules:
+15 alphanumeric characters */
+        DealerDesk : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=23.0, core=true, t24Name=DealerDesk)
+/* Department against which payment postings have to be booked to be used by GL later in reporting.
+This shall be populated by AccountOfficer code as returned by account and customer interface (POR_AccountInfo. AccountOfficer) for the account for which this posting line is generated.
+This is optional and will be populated only for customer accounts and not P and L and internal accounts.
+Validation Rules:
+10 alphanumeric characters */
+        DepartmentCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=21.0, core=true, t24Name=DepartmentCode)
+/* Date from which funds are available to the party for withdrawal.
+Validation Rules:
+11 characters of type DATE */
+        ExposureDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=15.0, core=true, t24Name=ExposureDate)
+/* Denotes the unique ID generated by the payments hub upon generating a payment order.
+Validation Rules:
+Mandatory field; 16 characters. */
+        FTNumber : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=2.0, core=true, t24Name=FTNumber)
+        /* Unique ID generated by the payments hub in order to identify each record in the application. */
+        ID -> PP_PostingSchemeService:POR_POSTINGLINE PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+/* Local currency code for the owning bank.
+Holds a 3 character unique code which denotes a specific currency used in the system.
+Validation Rules:
+Currency should be a valid entry in Currency Table (PPT.CURRENCY). */
+        LocalCurrencyCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=12.0, core=true, t24Name=LocalCurrencyCode)
+/* This is an optional output from statement lines and if not defined in statement lines then this must be mapped with FTNumber.
+This should be mapped to OUR.REFERENCE field by posting interface so that T24 can use it for MT940 reporting (Tag61-subtag7).
+Validation Rules:
+16 alphanumeric characters */
+        OurReference : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=18.0, core=true, t24Name=OurReference)
+/* Amount for this posting entry
+Validation Rules:
+17 characters */
+        PostingAmount : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=17, sysNumber=9.0, core=true, t24Name=PostingAmount, typeModifiers="3")
+/* Currency of the above mentioned account.
+Holds a 3 character unique code which denotes a specific currency used in the system.
+Validation Rules:
+Currency should be a valid entry in Currency Table (PPT.CURRENCY). */
+        PostingAmountCurrency : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=10.0, core=true, t24Name=PostingAmountCurrency)
+/* Posting amount converted into local currency equivalent amount.
+Validation Rules:
+17 characters */
+        PostingAmountLocalCurrency : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=17, sysNumber=11.0, core=true, t24Name=PostingAmountLocalCurrency, typeModifiers="3")
+/* Posting Line Debit Credit Ind.; D = Debit Posting, C = Credit Posting
+Validation Rules:
+1 alphanumeric character */
+        PostingLineDebitCreditInd : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=8.0, core=true, t24Name=PostingLineDebitCreditInd)
+/* As there can be multiple posting entries for a payment this will store the sequence of posting line.
+This will be generated as part of posting line generation as execution time only we know the number of posting lines generated.
+Validation Rules:
+Mandatory field; 4 characters. */
+        PostingLineNumber : T24BusinessTypes:N required
+            @t24:i (align=R, inputBehaviour=I, maxLength=4, sysNumber=3.0, core=true, t24Name=PostingLineNumber)
+/* This indicates the type of posting. M – Main/Principal amount debited or credited, C – Charges being debited (for P and L as well), O – OCP posting
+Validation Rules:
+1 alphanumeric character */
+        PostingTypeFlag : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=17.0, core=true, t24Name=PostingTypeFlag)
+/* This is the unique reservation reference number which is returned by T24 when funds are reserved as part of balance check component.
+This may not be present if account being debited is a nostro account.
+The reservation reference assigned by T24 used by both manual approval request and funds reservation.
+Format ACFAjjjjjxxxxxxx
+Validation Rules:
+18 alphanumeric characters */
+        ReservationKey : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=18, sysNumber=4.0, core=true, t24Name=ReservationKey)
+/* Reversal Indicator
+Validation Rules:
+1 alphanumeric character */
+        ReversalIndicator : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=27.0, core=true, t24Name=ReversalIndicator)
+/* This is the SWIFT Transaction Type Code which shall be used for MT940 reporting (Tag 61 – Subtag 6)
+Validation Rules:
+4 alphanumeric characters */
+        SWIFTTransactionTypeCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=26.0, core=true, t24Name=SWIFTTransactionTypeCode)
+/* This field is mapped based on the statement line configuration and can be used by T24 in MT940 reporting (Tag61-subtag 9)
+Validation Rules:
+35 alphanumeric characters */
+        SupplementaryDetails : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=20.0, core=true, t24Name=SupplementaryDetails)
+/* Value date for this posting entry, which could be in future as well.
+Validation Rules:
+11 characters of type DATE */
+        ValueDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=14.0, core=true, t24Name=ValueDate)
+    }
+    /* This table is used to store records in POR.STATEMENTLINE table. */
+    POR_STATEMENTLINE
+        @i18n:Description (en="")
+        @t24:i (t24Name=POR.STATEMENTLINE, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* Indicates the company ID for which the record is created.
+Example : BNK,GB1
+Validation Rules:
+3 alphanumeric characters.
+The value links to the field 'CompanyID' in PPT.COMPANY */
+        CompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+/* Denotes the unique ID generated by the payments hub upon generating a payment order.
+Validation Rules:
+Mandatory field; 16 characters. */
+        FTNumber : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=2.0, core=true, t24Name=FTNumber)
+        /* Unique ID generated by the payments hub in order to identify each record in the application. */
+        ID -> PP_PostingSchemeService:POR_STATEMENTLINE PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+/* This flag will indicate if the following line is a continuation of this line.
+Validation Rules:
+1 alphanumeric character */
+        LineContinuityFlag : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=6.0, core=true, t24Name=LineContinuityFlag)
+/* As there can be multiple posting entries for a payment this will store the sequence of posting line.
+This will be generated as part of posting line generation as execution time only we know the number of posting lines generated.
+Validation Rules:
+Mandatory field; 4 characters. */
+        PostingLineNumber : T24BusinessTypes:N required
+            @t24:i (align=R, inputBehaviour=I, maxLength=4, sysNumber=3.0, core=true, t24Name=PostingLineNumber)
+/* This is formatted output from the Statement Line as per the setup.
+Validation Rules:
+140 characters */
+        StatementLine : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=140, sysNumber=5.0, core=true, t24Name=StatementLine)
+/* As there can be multiple statement entries for a single posting line, this will store the sequence of statement line.
+Validation Rules:
+Mandatory field; 4 characters. */
+        StatementLineNumber : T24BusinessTypes:N required
+            @t24:i (align=R, inputBehaviour=I, maxLength=4, sysNumber=4.0, core=true, t24Name=StatementLineNumber)
+    }
+}

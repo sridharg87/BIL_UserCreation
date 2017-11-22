@@ -1,0 +1,597 @@
+# UTF-8
+/* Report Extraction Processing for General Ledger */
+Domain RE_ReportExtraction
+    @t24:i (module=RE)
+    @java:Package (value=com.temenos.t24.datamodel.re.re_reportextraction)
+namespace "http://www.temenos.com/t24/RE_ReportExtraction"
+metamodelVersion 1.30.6
+Classes {
+    RE_CONTRACT_EXTRACT
+        @i18n:Description (en="")
+        @t24:i (t24Name=RE.CONTRACT.EXTRACT, level=F, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 25 characters may be entered. */
+        APPLICATION : T24BusinessTypes:A
+            @i18n:Label (en=Application)
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=1.0, core=true, t24Name=APPLICATION)
+        CONSOL_IND : RE_ReportExtraction:RE_CONTRACT_EXTRACT__CONSOL_IND
+            @i18n:Label (en="Consolidatn Indicator")
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=26.0, core=true, t24Name=CONSOL.IND)
+        CONSOL_KEY_TYPE -> byValue RE_ReportExtraction:RE_CONTRACT_EXTRACT__CONSOL_KEY_TYPE *
+            @t24:i (t24Name=CONSOL.KEY.TYPE)
+/* Validation Rules:
+A maximum of 40 characters may be entered. */
+        CONTRACT_ID -> RE_ReportExtraction:RE_CONTRACT_EXTRACT PK required
+            @i18n:Label (en="Contract Id")
+            @t24:i (align=L, inputBehaviour=I, maxLength=60, sysNumber=0.0, core=true, businessType=ANY, t24Name=CONTRACT.ID)
+/* Standard T24 date field.
+Validation Rules:
+A maximum of 11 characters may be entered. */
+        DATE_LAST_UPDATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=2.0, core=true, t24Name=DATE.LAST.UPDATE)
+        ENTRY_ID -> byValue RE_ReportExtraction:RE_CONTRACT_EXTRACT__ENTRY_ID *
+            @t24:i (t24Name=ENTRY.ID)
+        POS_CCY -> byValue RE_ReportExtraction:RE_CONTRACT_EXTRACT__POS_CCY *
+            @t24:i (t24Name=POS.CCY)
+/* Validation Rules:
+A maximum of 19 characters may be entered. */
+        TXN_MVMT_TOTAL : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=19.0, core=true, t24Name=TXN.MVMT.TOTAL, typeModifiers="-USD")
+    }
+    RE_CONTRACT_EXTRACT__CONSOL_KEY_TYPE
+    {
+        CET_IDS -> byValue RE_ReportExtraction:RE_CONTRACT_EXTRACT__CONSOL_KEY_TYPE__CET_IDS *
+            @t24:i (t24Name=CET.IDS)
+        CET_LCL_MVT_TOT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=14.0, core=true, t24Name=CET.LCL.MVT.TOT, typeModifiers="-USD")
+/* Fields CONSOL.KEY.TYPE to SPEC.ENT.ID form a related multi value set.
+Validation Rules:
+A maximum of 19 characters may be entered. */
+        CET_MVMT_TOTAL : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=13.0, core=true, t24Name=CET.MVMT.TOTAL, typeModifiers="-4.X")
+/* Fields CONSOL.KEY.TYPE to SPEC.ENT.ID form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 60 characters may be entered. */
+        CONSOL_KEY_TYPE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=60, sysNumber=3.0, core=true, t24Name=CONSOL.KEY.TYPE)
+/* Fields CONSOL.KEY.TYPE to SPEC.ENT.ID form a related multi value set.
+Validation Rules:
+A maximum of 019 characters may be entered. */
+        CONTRACT_BAL : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=11.0, core=true, t24Name=CONTRACT.BAL, typeModifiers="-4.X")
+/* Fields CONSOL.KEY.TYPE to SPEC.ENT.ID form a related multi value set.
+Validation Rules:
+A maximum of 19 characters may be entered. */
+        CREDIT_LCL_MVMT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=8.0, core=true, t24Name=CREDIT.LCL.MVMT, typeModifiers="-USD")
+/* Fields CONSOL.KEY.TYPE to SPEC.ENT.ID form a related multi value set.
+Validation Rules:
+A maximum of 19 characters may be entered. */
+        CREDIT_MVMT : T24BusinessTypes:AMT
+            @i18n:Label (en="Credit Mvmt")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=7.0, core=true, t24Name=CREDIT.MVMT, typeModifiers="-4.X")
+/* Fields CONSOL.KEY.TYPE to SPEC.ENT.ID form a related multi value set. Standard T24 currency field.
+Validation Rules:
+A maximum of 3 characters may be entered.
+Must be the key to a valid entry on the CURRENCY file. */
+        CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en=Ccy)
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=4.0, core=true, businessType=CCY, t24Name=CURRENCY)
+/* Fields CONSOL.KEY.TYPE to SPEC.ENT.ID form a related multi value set.
+Validation Rules:
+A maximum of 19 characters may be entered. */
+        DEBIT_LCL_MVMT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=10.0, core=true, t24Name=DEBIT.LCL.MVMT, typeModifiers="-USD")
+/* Fields CONSOL.KEY.TYPE to SPEC.ENT.ID form a related multi value set.
+Validation Rules:
+A maximum of 19 characters may be entered. */
+        DEBIT_MVMT : T24BusinessTypes:AMT
+            @i18n:Label (en="Debit Movement")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=9.0, core=true, t24Name=DEBIT.MVMT, typeModifiers="-4.X")
+/* Fields CONSOL.KEY.TYPE to SPEC.ENT.ID form a related multi value set.
+Validation Rules:
+A maximum of 19 characters may be entered. */
+        OPEN_BALANCE : T24BusinessTypes:AMT
+            @i18n:Label (en="Opening balance")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=5.0, core=true, t24Name=OPEN.BALANCE, typeModifiers="-4.X")
+/* Fields CONSOL.KEY.TYPE to SPEC.ENT.ID form a related multi value set.
+Validation Rules:
+A maximum of 19 characters may be entered. */
+        OPEN_LCL_BAL : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=6.0, core=true, t24Name=OPEN.LCL.BAL, typeModifiers="-USD")
+/* Fields CONSOL.KEY.TYPE to SPEC.ENT.ID form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 1 characters may be entered. */
+        UNBROKEN_LINK : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=12.0, core=true, t24Name=UNBROKEN.LINK)
+    }
+    RE_CONTRACT_EXTRACT__CONSOL_KEY_TYPE__CET_IDS
+    {
+/* Fields CONSOL.KEY.TYPE to SPEC.ENT.ID form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 25 characters may be entered. */
+        CET_IDS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=15.0, core=true, t24Name=CET.IDS)
+    }
+    RE_CONTRACT_EXTRACT__ENTRY_ID
+    {
+/* Fields ENTRY.ID to  form a related multi value set.
+Validation Rules:
+A maximum of 19 characters may be entered. */
+        AMOUNT_LCY : T24BusinessTypes:AMT
+            @i18n:Label (en="Amount Lcy")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=18.0, core=true, t24Name=AMOUNT.LCY, typeModifiers="-USD")
+/* Fields ENTRY.ID to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 25 characters may be entered. */
+        ENTRY_ID : T24BusinessTypes:A
+            @i18n:Label (en="Entry Id")
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=16.0, core=true, t24Name=ENTRY.ID)
+/* Fields ENTRY.ID to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 1 characters may be entered. */
+        ENTRY_TYPE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=17.0, core=true, t24Name=ENTRY.TYPE)
+    }
+    RE_CONTRACT_EXTRACT__POS_CCY
+    {
+        FCY_ENTRY_ID -> byValue RE_ReportExtraction:RE_CONTRACT_EXTRACT__POS_CCY__FCY_ENTRY_ID *
+            @t24:i (t24Name=FCY.ENTRY.ID)
+/* Fields POS.CCY to  form a related multi value set.
+Validation Rules:
+A maximum of 19 characters may be entered. */
+        FCY_MVMT_TOT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=24.0, core=true, t24Name=FCY.MVMT.TOT, typeModifiers="-20.X")
+/* Fields POS.CCY to  form a related multi value set. Standard T24 currency field.
+Validation Rules:
+A maximum of 3 characters may be entered.
+Must be the key to a valid entry on the CURRENCY file. */
+        POS_CCY -> ST_CurrencyConfig:CURRENCY
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=20.0, core=true, businessType=CCY, t24Name=POS.CCY)
+/* Fields POS.CCY to  form a related multi value set.
+Validation Rules:
+A maximum of 19 characters may be entered. */
+        POS_MVMT_TOTAL : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=25.0, core=true, t24Name=POS.MVMT.TOTAL, typeModifiers="-20.X")
+    }
+    RE_CONTRACT_EXTRACT__POS_CCY__FCY_ENTRY_ID
+    {
+/* Fields POS.CCY to  form a related multi value set.
+Validation Rules:
+A maximum of 19 characters may be entered. */
+        AMOUNT_FCY : T24BusinessTypes:AMT
+            @i18n:Label (en="Amount Fcy")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=23.0, core=true, t24Name=AMOUNT.FCY, typeModifiers="-20.X")
+/* Fields POS.CCY to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 25 characters may be entered. */
+        FCY_ENTRY_ID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=25, sysNumber=21.0, core=true, t24Name=FCY.ENTRY.ID)
+/* Fields POS.CCY to  form a related multi value set. Standard T24 alphanumeric field.
+Validation Rules:
+A maximum of 1 characters may be entered. */
+        FCY_ENT_TYPE : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=22.0, core=true, t24Name=FCY.ENT.TYPE)
+    }
+/* This is a Type W Application to do the Import of CRB data from a database. The record details will have to be setup and a "V"erify function will actually perform the Import process during the Online session.
+The "SYSTEM" record in the file F.RE.TRANSFER.PARAMETER has to be present before running the Export process. */
+    RE_EXPORT_REQUEST
+        @i18n:Description (en="")
+        @t24:i (t24Name=RE.EXPORT.REQUEST, level=I, type=W, allowedFunctions="C I L P Q R S V", localRefAllowed=false)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=14.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=15.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=11.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=12.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CO_TO_EXPORT -> byValue RE_ReportExtraction:RE_EXPORT_REQUEST__CO_TO_EXPORT *
+            @t24:i (t24Name=CO.TO.EXPORT)
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=8.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue RE_ReportExtraction:RE_EXPORT_REQUEST__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=13.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue RE_ReportExtraction:RE_EXPORT_REQUEST__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        INPUTTER -> byValue RE_ReportExtraction:RE_EXPORT_REQUEST__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* This field is reserved for future use.
+This field is reserved for future use.
+Validation Rules:
+No input Rules */
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=7.0, core=true, t24Name=RECORD.STATUS)
+/* Defines the name of the record in this file..
+
+
+Validation Rules:
+3 - 14 Alphanumeric characters. (Mandatory Input)
+3 - 14 Alphanumeric characters. */
+        REQ_NAME -> RE_ReportExtraction:RE_EXPORT_REQUEST PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=14, sysNumber=0.0, core=true, businessType=S, t24Name=REQ.NAME)
+/* This field is reserved for future use.
+This field is reserved for future use.
+Validation Rules:
+No input. Rules */
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=1, sysNumber=6.0, core=true, t24Name=RESERVED.1)
+/* This field is reserved for future use.
+This field is reserved for future use.
+Validation Rules:
+No input. Rules */
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=1, sysNumber=5.0, core=true, t24Name=RESERVED.2)
+/* This is a flag 'Y' or 'N' to specify if the CRB Report lines need to be recalculated immediately after the Import is complete..
+If 'Y' is specified here, the CRB Report lines for the Report Names specified in the file RE.TRANSFER.PARAMETER (field REP.NAMES) will be Recalculated according to the setup in the Import database after the Import of the CRB data is complete.
+It is to be noted that the Recalculation could take quite some time for some databases and care should be taken if 'Y' is specified in this field and 'ALL.COMP' is specified in CO.TO.IMPORT.
+If only the Recalculation is required for a particular company (without the Transfer or Import of the CRB data) the suggested procedure is to sign on to that "Reporting" company and run the Application RE.RECALC.REP.LINES.
+Validation Rules:
+'Y' or 'N' - Default is 'N'. Optional Input.
+Can not be "Y" if field 3 is blank. */
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=1, sysNumber=4.0, core=true, t24Name=RESERVED.3)
+        TRANSFER_CMD -> byValue RE_ReportExtraction:RE_EXPORT_REQUEST__TRANSFER_CMD *
+            @t24:i (t24Name=TRANSFER.CMD)
+    }
+    RE_EXPORT_REQUEST__CO_TO_EXPORT
+    {
+/* The company whose CRB data has to be exported has to be specified here.
+Multi-valued field listing each company for which the CRB data has to be exported.
+The value "ALL.COMP" can be entered in this field so that ALL companies defined in the "SYSTEM" record in RE.TRANSFER.PARAMETER will be used to export the CRB data.
+This field will enable the user to export data from a few of the companies defined on the RE.TRANSFER.PARAMETER file i.e. if the user wants to export the CRB data of only one of the three companies defined in RE.TRANSFER.PARAMETER then that company can be entered in this field.
+Validation Rules:
+
+The 9 digit Company code or the 3 digit company mnemonic         for each of the companies.
+Multi-value field to allow input of more than one Company.         Optional field. If left blank, no action will be taken on         any of the CRB data.
+If a company code is entered here, it will be checked         against RE.TRANSFER.PARAMETER to see if it has been         defined there. */
+        CO_TO_EXPORT : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=9, sysNumber=2.0, core=true, t24Name=CO.TO.EXPORT)
+    }
+    RE_EXPORT_REQUEST__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=10.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    RE_EXPORT_REQUEST__DESCRIPTION
+    {
+/* Used for free format notes, perhaps the explanation of the commands used in the next fields.
+Validation Rules:
+
+3 to 35 alphanumeric characters.
+Multivalued to allow for Language dependent Description.
+Mandatory input. */
+        DESCRIPTION : T24BusinessTypes:A required
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    RE_EXPORT_REQUEST__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=9.0, core=true, t24Name=INPUTTER)
+    }
+    RE_EXPORT_REQUEST__TRANSFER_CMD
+    {
+        TRANSFER_CMD -> byValue RE_ReportExtraction:RE_EXPORT_REQUEST__TRANSFER_CMD__TRANSFER_CMD *
+            @t24:i (t24Name=TRANSFER.CMD)
+    }
+    RE_EXPORT_REQUEST__TRANSFER_CMD__TRANSFER_CMD
+    {
+/* The command used to transfer the CRB data has to be entered in this field.
+This field is Multi- and Sub- valued to enter more than one long transfer command.
+It is it be noted that each Multi value will be treated as a separate executable command. The Sub-value markers will be removed prior to execution of the Transfer command.
+Unix commands MUST be entered in the format SH -c "unix.command" (the double quotes are mandatory). Windows NT uses the format DOS /c [command pathname].
+UniVerse VOC paragraphs or User-written programs can also be entered in this field.
+Validation Rules:
+
+Up to 50 characters.
+Optional Input. Multivalued and sub valued. */
+        TRANSFER_CMD : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=3.0, core=true, t24Name=TRANSFER.CMD)
+    }
+    RE_EXTRACT_PARAMS
+        @i18n:Description (en="")
+        @t24:i (t24Name=RE.EXTRACT.PARAMS, level=I, type=U, allowedFunctions="A C D E I L P Q R S", localRefAllowed=true)
+    {
+        AMOUNT_TYPE : RE_ReportExtraction:RE_EXTRACT_PARAMS__AMOUNT_TYPE required
+            @i18n:Label (en="Amount Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=6.0, core=true, t24Name=AMOUNT.TYPE)
+        ASSET_KEY_POS -> byValue RE_ReportExtraction:RE_EXTRACT_PARAMS__ASSET_KEY_POS *
+            @t24:i (t24Name=ASSET.KEY.POS)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=27.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=28.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=24.0, core=true, t24Name=AUTHORISER)
+        CONSOL_KEY_IN_REC : RE_ReportExtraction:RE_EXTRACT_PARAMS__CONSOL_KEY_IN_REC required
+            @i18n:Label (en="Consol Key In Rec")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=4.0, core=true, t24Name=CONSOL.KEY.IN.REC)
+        CONTRACT_DETAILS : RE_ReportExtraction:RE_EXTRACT_PARAMS__CONTRACT_DETAILS required
+            @i18n:Label (en="Contract Details")
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=7.0, core=true, t24Name=CONTRACT.DETAILS)
+        CONTRT_ZERO_SUPP : RE_ReportExtraction:RE_EXTRACT_PARAMS__CONTRT_ZERO_SUPP
+            @i18n:Label (en="Contrt Zero Supp")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=17.0, core=true, t24Name=CONTRT.ZERO.SUPP)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=25.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CRB_FILE_LEVEL : RE_ReportExtraction:RE_EXTRACT_PARAMS__CRB_FILE_LEVEL
+            @i18n:Label (en="Crb File Level")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=14.0, core=true, t24Name=CRB.FILE.LEVEL)
+        CRB_REPORT : RE_ReportExtraction:RE_EXTRACT_PARAMS__CRB_REPORT
+            @i18n:Label (en="Crb Report")
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=12.0, core=true, t24Name=CRB.REPORT)
+        CSV_FILE_FORMAT : RE_ReportExtraction:RE_EXTRACT_PARAMS__CSV_FILE_FORMAT
+            @i18n:Label (en="Csv File Format")
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=15.0, core=true, t24Name=CSV.FILE.FORMAT)
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=21.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue RE_ReportExtraction:RE_EXTRACT_PARAMS__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=26.0, core=true, t24Name=DEPT.CODE)
+        INCL_PERIOD_END : RE_ReportExtraction:RE_EXTRACT_PARAMS__INCL_PERIOD_END
+            @i18n:Label (en="Incl Period End")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=9.0, core=true, t24Name=INCL.PERIOD.END)
+        INC_CONSOL_DETAIL : RE_ReportExtraction:RE_EXTRACT_PARAMS__INC_CONSOL_DETAIL
+            @i18n:Label (en="Inc Consol Detail")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=8.0, core=true, t24Name=INC.CONSOL.DETAIL)
+        INPUTTER -> byValue RE_ReportExtraction:RE_EXTRACT_PARAMS__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        KEY_FORMAT : RE_ReportExtraction:RE_EXTRACT_PARAMS__KEY_FORMAT required
+            @i18n:Label (en="Key Format")
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=11.0, core=true, t24Name=KEY.FORMAT)
+        MAT_DATE_RANGE -> byValue RE_ReportExtraction:RE_EXTRACT_PARAMS__MAT_DATE_RANGE *
+            @t24:i (t24Name=MAT.DATE.RANGE)
+        OPTIONS -> byValue RE_ReportExtraction:RE_EXTRACT_PARAMS__OPTIONS *
+            @t24:i (t24Name=OPTIONS)
+        OVERRIDE -> byValue RE_ReportExtraction:RE_EXTRACT_PARAMS__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        PL_DETAILS : RE_ReportExtraction:RE_EXTRACT_PARAMS__PL_DETAILS required
+            @i18n:Label (en="Pl Details")
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=10.0, core=true, t24Name=PL.DETAILS)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=20.0, core=true, t24Name=RECORD.STATUS)
+        REPORT_NAME -> RE_ReportExtraction:RE_EXTRACT_PARAMS PK required
+            @i18n:Label (en="Report Name")
+            @t24:i (align=L, inputBehaviour=I, maxLength=21, sysNumber=0.0, core=true, businessType=S, t24Name=REPORT.NAME)
+        REP_LINE_NARR -> byValue RE_ReportExtraction:RE_EXTRACT_PARAMS__REP_LINE_NARR *
+            @t24:i (t24Name=REP.LINE.NARR)
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=RESERVED.2)
+    }
+    RE_EXTRACT_PARAMS__ASSET_KEY_POS
+    {
+        ASSET_KEY_POS : T24BusinessTypes:A
+            @i18n:Label (en="Asset Key Pos")
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=2.0, core=true, t24Name=ASSET.KEY.POS)
+        PROFIT_KEY_POS : T24BusinessTypes:A
+            @i18n:Label (en="Profit Key Pos")
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=3.0, core=true, t24Name=PROFIT.KEY.POS)
+    }
+    RE_EXTRACT_PARAMS__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=23.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    RE_EXTRACT_PARAMS__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=22.0, core=true, t24Name=INPUTTER)
+    }
+    RE_EXTRACT_PARAMS__MAT_DATE_RANGE
+    {
+        MAT_DATE_RANGE : T24BusinessTypes:A
+            @i18n:Label (en="Mat Date Range")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=5.0, core=true, t24Name=MAT.DATE.RANGE)
+    }
+    RE_EXTRACT_PARAMS__OPTIONS
+    {
+        OPTIONS : RE_ReportExtraction:RE_EXTRACT_PARAMS__OPTIONS__OPTIONS
+            @i18n:Label (en=Options)
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=13.0, core=true, t24Name=OPTIONS)
+    }
+    RE_EXTRACT_PARAMS__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=19.0, core=true, t24Name=OVERRIDE)
+    }
+    RE_EXTRACT_PARAMS__REP_LINE_NARR
+    {
+        REP_LINE_NARR : RE_ReportExtraction:RE_EXTRACT_PARAMS__REP_LINE_NARR__REP_LINE_NARR
+            @i18n:Label (en="Rep Line Narr")
+            @t24:i (align=R, inputBehaviour=I, maxLength=1, sysNumber=1.0, core=true, t24Name=REP.LINE.NARR)
+    }
+/* This application is used to load details of the CRF reports that are to be extracted to a disk file in the batch run.
+It is also used to create the  disk file  on-line as at the close of business on the previous working day.
+The functions (I)nput, (C)opy, (L)ist, (P)rint, (R)eversal, (S)ee and (V)erify are available.
+The (I)nput and (C)opy functions are used to load the records to the file.
+The (V)erify function is used to produce the disk file during the on-line day.
+For the creation of the disk file as part of the batch run, the key of the appropriate record is to be entered into the Data field of the SBR.PRINT batch record corresponding to EB.RETURN.EXTRACT job. */
+    RE_RETURN_EXTRACT
+        @i18n:Description (en="")
+        @t24:i (t24Name=RE.RETURN.EXTRACT, level=I, type=W, allowedFunctions="C I L P Q R S V", localRefAllowed=false)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=18.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=19.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=15.0, core=true, t24Name=AUTHORISER)
+/* Denotes whether the dictionary for the extract file is to be automatically built when the extract file is built.
+If this field is set to YES a Standard Selection record will be created / amended with the id of the report file, i.e. RE.CRF.XXXX where XXXX is the name of the RE.EXTRACT.PARAMS record.
+The SYS.FIELDS will be rebuilt in the Standard Selection record if this option is used, therefore any user definitions should be made using the USR fields. */
+        BUILD_DICTIONARY : RE_ReportExtraction:RE_RETURN_EXTRACT__BUILD_DICTIONARY
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=3.0, core=true, t24Name=BUILD.DICTIONARY)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=16.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=12.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue RE_ReportExtraction:RE_RETURN_EXTRACT__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=17.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue RE_ReportExtraction:RE_RETURN_EXTRACT__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+        INPUTTER -> byValue RE_ReportExtraction:RE_RETURN_EXTRACT__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* Validation Rules:
+Mandatory input.
+A maximum of 14 characters may be entered. */
+        KEY -> RE_ReportExtraction:RE_RETURN_EXTRACT PK required
+            @i18n:Label (en=Key)
+            @i18n:Tooltip (en="Indicates th transaction key")
+            @t24:i (align=L, inputBehaviour=I, maxLength=14, sysNumber=0.0, core=true, businessType=S, t24Name=KEY)
+        LINE_NO_ST -> byValue RE_ReportExtraction:RE_RETURN_EXTRACT__LINE_NO_ST *
+            @t24:i (t24Name=LINE.NO.ST)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=11.0, core=true, t24Name=RECORD.STATUS)
+/* This field indicates the report name from which the details are to be extracted and output to the disk file.
+Validation Rules:
+Upto 10 alphanumeric characters. (Mandatory input.)
+Must be a valid report name (should contain a RE.STAT.REPORT.HEAD record).
+Should be a key to a record on the RE.EXTRACT.PARAMS file. */
+        REPORT_NAME -> RE_Config:RE_STAT_REPORT_HEAD required
+            @i18n:Label (en="Report Name")
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=2.0, core=true, businessType=S, t24Name=REPORT.NAME)
+        RESERVED1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=6.0, core=true, t24Name=RESERVED1)
+        RESERVED2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=7.0, core=true, t24Name=RESERVED2)
+        RESERVED3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=8.0, core=true, t24Name=RESERVED3)
+        RESERVED4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=9.0, core=true, t24Name=RESERVED4)
+        RESERVED5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=10.0, core=true, t24Name=RESERVED5)
+    }
+    RE_RETURN_EXTRACT__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=14.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    RE_RETURN_EXTRACT__DESCRIPTION
+    {
+/* Used for format notes.
+This field is provided for entering of notes and not used anywhere else.
+Validation Rules:
+Up to 35 alphanumeric characters. Multi value field associated with language. (Optional input.) */
+        DESCRIPTION : T24BusinessTypes:A required
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    RE_RETURN_EXTRACT__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=13.0, core=true, t24Name=INPUTTER)
+    }
+    RE_RETURN_EXTRACT__LINE_NO_ST
+    {
+        LINE_NO_END : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=4, sysNumber=5.0, core=true, t24Name=LINE.NO.END)
+        LINE_NO_ST : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=4, sysNumber=4.0, core=true, t24Name=LINE.NO.ST)
+    }
+}
+Enumerations {
+    RE_CONTRACT_EXTRACT__CONSOL_IND : mml:string
+        Y=Y
+    RE_EXTRACT_PARAMS__AMOUNT_TYPE : mml:string
+        CLOSING=CLOSING
+        MOVEMENT=MOVEMENT
+    RE_EXTRACT_PARAMS__CONSOL_KEY_IN_REC : mml:string
+        NO=NO
+        YES=YES
+    RE_EXTRACT_PARAMS__CONTRACT_DETAILS : mml:string
+        CONTRACT=CONTRACT
+        NO=NO
+        YES=YES
+    RE_EXTRACT_PARAMS__CONTRT_ZERO_SUPP : mml:string
+        NO=NO
+        YES=YES
+    RE_EXTRACT_PARAMS__CRB_FILE_LEVEL : mml:string
+        FIN=FIN
+        FRP=FRP
+    RE_EXTRACT_PARAMS__CRB_REPORT : mml:string
+        NULL=NULL
+        Y=Y
+    RE_EXTRACT_PARAMS__CSV_FILE_FORMAT : mml:string
+        NULL=NULL
+        Y=Y
+    RE_EXTRACT_PARAMS__INCL_PERIOD_END : mml:string
+        NO=NO
+        YES=YES
+    RE_EXTRACT_PARAMS__INC_CONSOL_DETAIL : mml:string
+        NO=NO
+        YES=YES
+    RE_EXTRACT_PARAMS__KEY_FORMAT : mml:string
+        LINE_IDS=LINE.IDS
+        UNIQUE_KEY=UNIQUE.KEY
+    RE_EXTRACT_PARAMS__OPTIONS__OPTIONS : mml:string
+        AL_NET_CONSOL_KEY=AL.NET.CONSOL.KEY
+        NET_LINE_BAL=NET.LINE.BAL
+        PL_NET_OPP_LINE=PL.NET.OPP.LINE
+    RE_EXTRACT_PARAMS__PL_DETAILS : mml:string
+        DETAIL=DETAIL
+        NO=NO
+        YES=YES
+    RE_EXTRACT_PARAMS__REP_LINE_NARR__REP_LINE_NARR : mml:string
+        0=0
+        1=1
+        2=2
+        3=3
+    RE_RETURN_EXTRACT__BUILD_DICTIONARY : mml:string
+        NO=NO
+        YES=YES
+}

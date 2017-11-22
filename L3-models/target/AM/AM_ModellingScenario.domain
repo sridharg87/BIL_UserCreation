@@ -1,0 +1,1265 @@
+# UTF-8
+/* Scenario information for modelling */
+Domain AM_ModellingScenario
+    @t24:i (module=AM)
+    @java:Package (value=com.temenos.t24.datamodel.am.am_modellingscenario)
+namespace "http://www.temenos.com/t24/AM_ModellingScenario"
+metamodelVersion 1.30.6
+Classes {
+/* Define a scenario by portfolio. Record can be create manually or by rebalance routine. Allow to store data for simulation tool. This file contain three kind of block.
+1 - Security pre-orders. Proposed buying or selling orders. Generate SEC.OPEN.ORDER records on validate (F5) with verify function.
+2 - Forex. Store forex for simulation tools.
+3 - Inflow or Outflow. Store inflow or outflow for simulation tools.
+NOTES:  Fields are named with "SC", "FX", "AC" depending of product plus "A" for active parts of transaction or "P" for passive parts of transaction. */
+    AM_SCENARIO
+        @i18n:Description (en="")
+        @t24:i (t24Name=AM.SCENARIO, level=F, type=W, allowedFunctions="C I L P Q R S V", localRefAllowed=true)
+    {
+        AC_SELECTED -> byValue AM_ModellingScenario:AM_SCENARIO__AC_SELECTED *
+            @t24:i (t24Name=AC.SELECTED)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=77.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=78.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=74.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=75.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+/* Scenario creation date. Updated by automatic proposed orders routines.
+Validation Rules:
+
+No input. */
+        CREATION_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Creation Date")
+            @i18n:Tooltip (en="Creation Date")
+            @t24:i (align=R, inputBehaviour=N, maxLength=11, sysNumber=1.0, core=true, t24Name=CREATION.DATE)
+        /* This field can be set to AUTO or MANUAL. */
+        CREATION_MODE : AM_ModellingScenario:AM_SCENARIO__CREATION_MODE
+            @i18n:Label (en="Creation Mode")
+            @i18n:Tooltip (en="Creation Mode")
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=2.0, core=true, t24Name=CREATION.MODE)
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=71.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue AM_ModellingScenario:AM_SCENARIO__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=76.0, core=true, t24Name=DEPT.CODE)
+        FX_SELECTED -> byValue AM_ModellingScenario:AM_SCENARIO__FX_SELECTED *
+            @t24:i (t24Name=FX.SELECTED)
+        INPUTTER -> byValue AM_ModellingScenario:AM_SCENARIO__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        OVERRIDE -> byValue AM_ModellingScenario:AM_SCENARIO__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=70.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED01 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=67.0, core=true, t24Name=RESERVED01)
+        RESERVED02 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=66.0, core=true, t24Name=RESERVED02)
+        RESERVED03 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=65.0, core=true, t24Name=RESERVED03)
+        RESERVED04 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=52.0, core=true, t24Name=RESERVED04)
+        RESERVED05 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=51.0, core=true, t24Name=RESERVED05)
+        RESERVED06 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=50.0, core=true, t24Name=RESERVED06)
+        RESERVED07 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=32.0, core=true, t24Name=RESERVED07)
+        RESERVED10 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=7.0, core=true, t24Name=RESERVED10)
+        RESERVED11 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=6.0, core=true, t24Name=RESERVED11)
+        RESERVED12 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=5.0, core=true, t24Name=RESERVED12)
+/* The portfolio for which this scenario was created.
+Must be a valid entry in the SEC.ACC.MASTER table. */
+        SAM_CODE -> SC_ScoPortfolioMaintenance:SEC_ACC_MASTER required
+            @i18n:Label (en="Porfolio Code")
+            @t24:i (align=L, inputBehaviour=I, maxLength=18, sysNumber=4.0, core=true, businessType=SAM, t24Name=SAM.CODE)
+/* This field contains the total valuation of a portfolio.
+Validation Rules:
+
+No input field.
+Automatically updated by the AM.REBALANCE routine whenever the rebalance       is launched. */
+        SAM_VALUATION : T24BusinessTypes:AMT
+            @i18n:Label (en="Sam Valuation")
+            @i18n:Tooltip (en="Portfolio Valuation")
+            @t24:i (align=R, inputBehaviour=N, maxLength=18, sysNumber=64.0, core=true, t24Name=SAM.VALUATION)
+/* Keyed on the session number and the portfolio number.
+Example : 7.100053-1
+Validation Rules:
+
+1  42 alphanumeric characters
+Mandatory Input */
+        SCENARIO_CODE -> AM_ModellingScenario:AM_SCENARIO PK required
+            @i18n:Label (en="Scenario Code")
+            @t24:i (align=L, inputBehaviour=I, maxLength=57, sysNumber=0.0, core=true, businessType=A, t24Name=SCENARIO.CODE)
+        SC_SELECTED -> byValue AM_ModellingScenario:AM_SCENARIO__SC_SELECTED *
+            @t24:i (t24Name=SC.SELECTED)
+/* The session number of the user or process that created this record.
+Part of the key to this record. */
+        SESSION : T24BusinessTypes:N
+            @i18n:Label (en=Session)
+            @t24:i (align=R, inputBehaviour=N, maxLength=1, sysNumber=3.0, core=true, t24Name=SESSION)
+    }
+    AM_SCENARIO_FX_ORDER
+        @i18n:Description (en="")
+        @t24:i (t24Name=AM.SCENARIO.FX.ORDER, level=F, type=W, allowedFunctions="C I L P Q R S V", localRefAllowed=false)
+    {
+/* Account code of the selling part of the forex.
+Validation Rules:
+Valid account code. */
+        ACCOUNT_PAY : T24BusinessTypes:ANT
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=9.0, core=true, t24Name=ACCOUNT.PAY)
+/* Account code of the buying part of the forex.
+Validation Rules:
+Valid account code. */
+        ACCOUNT_REC : T24BusinessTypes:ANT
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=12.0, core=true, t24Name=ACCOUNT.REC)
+        /* Contains the amount of the currency being purchased. */
+        AMOUNT_BOUGHT : T24BusinessTypes:AMT
+            @i18n:Label (en="Buy Amount")
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=13.0, core=true, t24Name=AMOUNT.BOUGHT)
+        /* Contains the amount of the currency being sold. */
+        AMOUNT_SOLD : T24BusinessTypes:AMT
+            @i18n:Label (en="Sell Amount")
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=10.0, core=true, t24Name=AMOUNT.SOLD)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=23.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=24.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=20.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=21.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+/* Currency of the buying part of forex.
+Validation Rules:
+Must be the currency of buying account. */
+        CURRENCY_BOUGHT : T24BusinessTypes:CCY
+            @i18n:Label (en="Buy Currency")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=11.0, core=true, t24Name=CURRENCY.BOUGHT)
+/* Currency of the selling part of forex.
+Validation Rules:
+Must be the currency of selling account. */
+        CURRENCY_SOLD : T24BusinessTypes:CCY
+            @i18n:Label (en="Sell Currency")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=8.0, core=true, t24Name=CURRENCY.SOLD)
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=17.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue AM_ModellingScenario:AM_SCENARIO_FX_ORDER__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=22.0, core=true, t24Name=DEPT.CODE)
+/* dentifies the nature of the Forex deal. The application handles two different types:
+- SP = Spot - FW = Forward */
+        FX_DEAL_TYPE : AM_ModellingScenario:AM_SCENARIO_FX_ORDER__FX_DEAL_TYPE
+            @i18n:Label (en="Fx Deal Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=5.0, core=true, t24Name=FX.DEAL.TYPE)
+        /* Identifies the exchange rate between the currency bought and currency sold. */
+        FX_EXCH_RATE : T24BusinessTypes:R
+            @i18n:Label (en="Fx Exch Rate")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=14.0, core=true, t24Name=FX.EXCH.RATE)
+/* Define direction of the forex.
+Validation
+Must be the currency sold or the currency bought */
+        FX_LEAD_CCY : T24BusinessTypes:CCY
+            @i18n:Label (en="Fx Lead Ccy")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=6.0, core=true, t24Name=FX.LEAD.CCY)
+/* Flag Yes/No. Define if block will not be clear by FOREX option in "clear.scenario" process.
+Validation Rules:
+Yes or No (default blank is No) */
+        FX_LOCKED : AM_ModellingScenario:AM_SCENARIO_FX_ORDER__FX_LOCKED
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=4.0, core=true, t24Name=FX.LOCKED)
+        /* Maturity date for the Forex deal. */
+        FX_MATURITY : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=7.0, core=true, t24Name=FX.MATURITY)
+        /* Specifies the operator who is working on a Forex block of the scenario. */
+        FX_OPERATOR : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=3.0, core=true, t24Name=FX.OPERATOR)
+        /* Not Used */
+        FX_ORDER : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=15.0, core=true, t24Name=FX.ORDER)
+/* Flag Yes/No. Define if block will be selected for simulate process.
+Validation Rules:
+Yes or No (default blank is No) */
+        FX_SELECTED : AM_ModellingScenario:AM_SCENARIO_FX_ORDER__FX_SELECTED
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=2.0, core=true, t24Name=FX.SELECTED)
+        INPUTTER -> byValue AM_ModellingScenario:AM_SCENARIO_FX_ORDER__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=16.0, core=true, t24Name=RECORD.STATUS)
+/* The portfolio for which this scenario was created.
+Must be a valid entry in the SEC.ACC.MASTER table. */
+        SAM_CODE -> SC_ScoPortfolioMaintenance:SEC_ACC_MASTER required
+            @i18n:Label (en=Portfolio)
+            @t24:i (align=L, inputBehaviour=I, maxLength=18, sysNumber=1.0, core=true, businessType=S, t24Name=SAM.CODE)
+        /* The key to this record */
+        SCENARIO_FX_ORDER_CODE -> AM_ModellingScenario:AM_SCENARIO_FX_ORDER PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=57, sysNumber=0.0, core=true, businessType=A, t24Name=SCENARIO.FX.ORDER.CODE)
+    }
+    AM_SCENARIO_FX_ORDER__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=19.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    AM_SCENARIO_FX_ORDER__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=18.0, core=true, t24Name=INPUTTER)
+    }
+    AM_SCENARIO_ORDER
+        @i18n:Description (en="")
+        @t24:i (t24Name=AM.SCENARIO.ORDER, level=F, type=W, allowedFunctions="C I L P Q R S V", localRefAllowed=false)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=28.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=29.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=25.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=26.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=22.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue AM_ModellingScenario:AM_SCENARIO_ORDER__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=27.0, core=true, t24Name=DEPT.CODE)
+        INPUTTER -> byValue AM_ModellingScenario:AM_SCENARIO_ORDER__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=21.0, core=true, t24Name=RECORD.STATUS)
+/* The portfolio for which this record was created.
+Must be a valid entry in the SEC.ACC.MASTER table. */
+        SAM_CODE -> SC_ScoPortfolioMaintenance:SEC_ACC_MASTER required
+            @i18n:Label (en=Portfolio)
+            @t24:i (align=L, inputBehaviour=I, maxLength=18, sysNumber=1.0, core=true, businessType=S, t24Name=SAM.CODE)
+        /* This field has value consideration amt + interest amt , if accrued interest field of AM.PARAMETER is INCLUDE .If its EXCLUDE it has only consideration amt . */
+        SCA_AMT_HELD : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=10.0, core=true, t24Name=SCA.AMT.HELD)
+        /* Securities currency */
+        SCA_CURRENCY : T24BusinessTypes:CCY
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=7.0, core=true, t24Name=SCA.CURRENCY)
+        /* Specifies the nominal amount of the security. Store an override if violated securities trading units. */
+        SCA_NOMINAL : T24BusinessTypes:NOMAMT
+            @i18n:Label (en="Sca Nominal")
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=11.0, core=true, t24Name=SCA.NOMINAL)
+        /* Nominal holding by customer in specify portfolio. */
+        SCA_NOM_HELD : T24BusinessTypes:NOMAMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=9.0, core=true, t24Name=SCA.NOM.HELD)
+        /* Price at which the order is created. Default is security master market price. */
+        SCA_PRICE : T24BusinessTypes:R
+            @i18n:Label (en="Sca Price")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=12.0, core=true, t24Name=SCA.PRICE)
+        /* Securities price type. */
+        SCA_PRICE_TYPE : T24BusinessTypes:S
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=8.0, core=true, t24Name=SCA.PRICE.TYPE)
+/* The security to which this multi valued set applies.
+Must be a valid SECURITY.MASTER. */
+        SCA_SECURITY : T24BusinessTypes:SEC
+            @i18n:Label (en=Security)
+            @t24:i (align=L, inputBehaviour=I, maxLength=12, sysNumber=6.0, core=true, t24Name=SCA.SECURITY)
+        /* Amount valuation calculated with market price, securities price type and nominal. */
+        SCA_VALUATION : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=14.0, core=true, t24Name=SCA.VALUATION)
+/* Keyed on the session number and the portfolio number.
+Example : 7.100053-1 */
+        SCENARIO_CODE -> AM_ModellingScenario:AM_SCENARIO_ORDER PK required
+            @i18n:Label (en="Scenario Code")
+            @t24:i (align=L, inputBehaviour=I, maxLength=57, sysNumber=0.0, core=true, businessType=A, t24Name=SCENARIO.CODE)
+/* Specify the account over which the movement of the security in the transaction will be recorded.
+Validation Rules:
+Must be a valid account number of the specify portfolio. */
+        SCP_ACCOUNT : T24BusinessTypes:ANT
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=15.0, core=true, t24Name=SCP.ACCOUNT)
+        /* Account currency */
+        SCP_CURRENCY : T24BusinessTypes:CCY
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=16.0, core=true, t24Name=SCP.CURRENCY)
+        /* Valuation of transaction. */
+        SCP_VALUATION : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=17.0, core=true, t24Name=SCP.VALUATION)
+/* Define direction of orders.
+BUY or SELL */
+        SC_DIRECTION : AM_ModellingScenario:AM_SCENARIO_ORDER__SC_DIRECTION
+            @i18n:Label (en="Sc Direction")
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=5.0, core=true, t24Name=SC.DIRECTION)
+/* Exchange rate for conversion between security currency and settlement currency.
+Validation Rules:
+Rate */
+        SC_EXCH_RATE : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=18.0, core=true, t24Name=SC.EXCH.RATE)
+/* Flag Yes/No. Define if block will not be clear by SELL or BUY option in "clear.scenario" process.
+Validation Rules:
+Yes or No (default blank is No) */
+        SC_LOCKED : AM_ModellingScenario:AM_SCENARIO_ORDER__SC_LOCKED
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=4.0, core=true, t24Name=SC.LOCKED)
+        /* Specifies the operator who is working on a Security block of the scenario. */
+        SC_OPERATOR : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=3.0, core=true, t24Name=SC.OPERATOR)
+/* SEC.OPEN.ORDER identifier.
+Populated when open orders have been generated. */
+        SC_ORDER : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=20.0, core=true, t24Name=SC.ORDER)
+        /* Amount valuation proposed by automatic rebalancing process. */
+        SC_PROPOSED_VAL : T24BusinessTypes:AMT
+            @i18n:Label (en="Sc Proposed Val")
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=13.0, core=true, t24Name=SC.PROPOSED.VAL)
+/* Flag Yes/No. Define if block will be selected for generate order process or simulate process.
+Validation Rules:
+Yes or No (default blank is No) */
+        SC_SELECTED : AM_ModellingScenario:AM_SCENARIO_ORDER__SC_SELECTED
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=2.0, core=true, t24Name=SC.SELECTED)
+        /* A space delimited list of AM.VIOLATION s that apply to this proposed order */
+        SC_VIOLATION : T24BusinessTypes:A
+            @i18n:Label (en="Violation Code")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=19.0, core=true, t24Name=SC.VIOLATION)
+    }
+    AM_SCENARIO_ORDER__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=24.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    AM_SCENARIO_ORDER__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=23.0, core=true, t24Name=INPUTTER)
+    }
+    /* After the generation of orders, all scenarios for which orders have been generated are moved to the AM.SCENARIO.SAVED file and deleted from the AM.SCENARIO file. */
+    AM_SCENARIO_SAVED
+        @i18n:Description (en="")
+        @t24:i (t24Name=AM.SCENARIO.SAVED, level=F, type=L, allowedFunctions="L P S", localRefAllowed=true)
+    {
+        AC_SELECTED -> byValue AM_ModellingScenario:AM_SCENARIO_SAVED__AC_SELECTED *
+            @t24:i (t24Name=AC.SELECTED)
+/* Scenario creation date. Updated by automatic proposed orders routines.
+Validation Rules:
+
+No input. */
+        CREATION_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Creation Date")
+            @t24:i (align=R, inputBehaviour=N, maxLength=11, sysNumber=1.0, core=true, t24Name=CREATION.DATE)
+        /* This field can be set to AUTO or MANUAL. */
+        CREATION_MODE : AM_ModellingScenario:AM_SCENARIO_SAVED__CREATION_MODE
+            @i18n:Label (en="Creation Mode")
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=2.0, core=true, t24Name=CREATION.MODE)
+        FX_SELECTED -> byValue AM_ModellingScenario:AM_SCENARIO_SAVED__FX_SELECTED *
+            @t24:i (t24Name=FX.SELECTED)
+        OVERRIDE -> byValue AM_ModellingScenario:AM_SCENARIO_SAVED__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RESERVED01 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=67.0, core=true, t24Name=RESERVED01)
+        RESERVED02 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=66.0, core=true, t24Name=RESERVED02)
+        RESERVED03 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=65.0, core=true, t24Name=RESERVED03)
+        RESERVED04 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=52.0, core=true, t24Name=RESERVED04)
+        RESERVED05 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=51.0, core=true, t24Name=RESERVED05)
+        RESERVED06 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=50.0, core=true, t24Name=RESERVED06)
+        RESERVED07 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=32.0, core=true, t24Name=RESERVED07)
+        RESERVED10 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=7.0, core=true, t24Name=RESERVED10)
+        RESERVED11 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=6.0, core=true, t24Name=RESERVED11)
+        RESERVED12 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=5.0, core=true, t24Name=RESERVED12)
+/* The portfolio for which this scenario was created.
+Must be a valid entry in the SEC.ACC.MASTER table. */
+        SAM_CODE -> SC_ScoPortfolioMaintenance:SEC_ACC_MASTER required
+            @i18n:Label (en=Portfolio)
+            @t24:i (align=L, inputBehaviour=I, maxLength=18, sysNumber=4.0, core=true, businessType=SAM, t24Name=SAM.CODE)
+/* This field contains the total valuation of a portfolio.
+Validation Rules:
+
+No input field.
+Automatically updated by the AM.REBALANCE routine whenever the rebalance       is launched. */
+        SAM_VALUATION : T24BusinessTypes:AMT
+            @i18n:Label (en=Valuation)
+            @t24:i (align=R, inputBehaviour=N, maxLength=18, sysNumber=64.0, core=true, t24Name=SAM.VALUATION)
+/* Keyed on the session number and the portfolio number.
+Example : 7.100053-1
+Validation Rules:
+
+1  42 alphanumeric characters
+Mandatory Input */
+        SCENARIO_CODE -> AM_ModellingScenario:AM_SCENARIO_SAVED PK required
+            @i18n:Label (en="Scenario Code")
+            @t24:i (align=L, inputBehaviour=I, maxLength=57, sysNumber=0.0, core=true, businessType=A, t24Name=SCENARIO.CODE)
+        SC_SELECTED -> byValue AM_ModellingScenario:AM_SCENARIO_SAVED__SC_SELECTED *
+            @t24:i (t24Name=SC.SELECTED)
+        /* The session number of the user or process that created this record. */
+        SESSION : T24BusinessTypes:N
+            @i18n:Label (en=Session)
+            @t24:i (align=R, inputBehaviour=N, maxLength=1, sysNumber=3.0, core=true, t24Name=SESSION)
+    }
+    AM_SCENARIO_SAVED__AC_SELECTED
+    {
+/* Account involve in the flow.
+Validation Rules:
+
+Must be a valid account of specify portfolio. */
+        ACA_ACCOUNT -> AC_AccountOpening:ACCOUNT
+            @t24:i (align=L, inputBehaviour=I, maxLength=36, sysNumber=58.0, core=true, businessType=ANT, t24Name=ACA.ACCOUNT)
+/* Currency of the account involve in the flow. If set, system will proposed the default account when passing on the account field.
+Validation Rules:
+
+Must be a valid currency. */
+        ACA_CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=57.0, core=true, businessType=CCY, t24Name=ACA.CURRENCY)
+/* Amount of the flow.
+Validation Rules:
+
+Must be a valid amount. Positive numeric. */
+        ACA_VALUATION : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=59.0, core=true, t24Name=ACA.VALUATION, typeModifiers="57.X")
+/* Define direction of the flow.
+Validation Rules:
+
+Mandatory. Inflow/Outflow */
+        AC_DIRECTION : AM_ModellingScenario:AM_SCENARIO_SAVED__AC_SELECTED__AC_DIRECTION
+            @t24:i (align=L, inputBehaviour=I, maxLength=7, sysNumber=56.0, core=true, t24Name=AC.DIRECTION)
+/* Flag Yes/No. Define if block will not be clear by FLOW option in "clear.scenario" process.
+Validation Rules:
+
+Yes or No (default blank is No) */
+        AC_LOCKED : AM_ModellingScenario:AM_SCENARIO_SAVED__AC_SELECTED__AC_LOCKED
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=55.0, core=true, t24Name=AC.LOCKED)
+/* Specifies the operator who is working on an Account block of the scenario.
+Validation Rules:
+
+No input field
+Automatically updated */
+        AC_OPERATOR : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=10, sysNumber=54.0, core=true, t24Name=AC.OPERATOR)
+        /* This field is no longer used. */
+        AC_ORDER : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=63.0, core=true, t24Name=AC.ORDER)
+/* Flag Yes/No. Define if block will be selected for simulate process.
+Validation Rules:
+
+Yes or No (default blank is No) */
+        AC_SELECTED : AM_ModellingScenario:AM_SCENARIO_SAVED__AC_SELECTED__AC_SELECTED
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=53.0, core=true, t24Name=AC.SELECTED)
+        RESERVEDX01 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=62.0, core=true, t24Name=RESERVEDX01)
+        RESERVEDX02 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=61.0, core=true, t24Name=RESERVEDX02)
+        RESERVEDX03 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=60.0, core=true, t24Name=RESERVEDX03)
+    }
+    AM_SCENARIO_SAVED__FX_SELECTED
+    {
+/* Account code of the selling part of the forex.
+Validation Rules:
+
+Valid account code. */
+        ACCOUNT_PAY -> AC_AccountOpening:ACCOUNT
+            @t24:i (align=L, inputBehaviour=I, maxLength=36, sysNumber=40.0, core=true, businessType=ANT, t24Name=ACCOUNT.PAY)
+/* Account code of the buying part of the forex.
+Validation Rules:
+
+Valid account code. */
+        ACCOUNT_REC -> AC_AccountOpening:ACCOUNT
+            @t24:i (align=L, inputBehaviour=I, maxLength=36, sysNumber=43.0, core=true, businessType=ANT, t24Name=ACCOUNT.REC)
+/* Contains the amount of the currency being purchased. If no value is entered, the amount will be calculated automatically by the system as explained in the Details.
+It is important to note that either the amount bought or amount sold must be entered. From this the other value can be calculated in the system's exchange rate routine. This routine can work in a number of ways:
+1. If one amount and the exchange rate are entered, the routine calculates the other amount.
+2. If both amounts are entered, the routine calculates the exchange rate.
+Validation Rules:
+
+Standard T24 amount validation. The actual format depend on the     currency. */
+        AMOUNT_BOUGHT : T24BusinessTypes:AMT
+            @i18n:Label (en="Buy Amount")
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=44.0, core=true, t24Name=AMOUNT.BOUGHT, typeModifiers="42.X")
+/* Contains the amount of the currency being sold. If no value is entered, the amount will be calculated automatically by the system as explained in the Details.
+It is important to note that either the amount bought or amount sold must be entered. From this the other value can be calculated in the system's exchange rate routine. This routine can work in a number of ways:
+1. If one amount and the exchange rate are entered, the routine calculates the other amount.
+2. If both amounts are entered, the routine calculates the exchange rate.
+Validation Rules:
+
+Standard T24 amount validation. The actual format depend on the     currency. */
+        AMOUNT_SOLD : T24BusinessTypes:AMT
+            @i18n:Label (en="Sell Amount")
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=41.0, core=true, t24Name=AMOUNT.SOLD, typeModifiers="39.X")
+/* Currency of the buying part of forex.
+Validation Rules:
+
+Must be the currency of buying account. */
+        CURRENCY_BOUGHT -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en="Buy Currency")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=42.0, core=true, businessType=CCY, t24Name=CURRENCY.BOUGHT)
+/* Currency of the selling part of forex.
+Validation Rules:
+
+Must be the currency of selling account. */
+        CURRENCY_SOLD -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en="Sell Currency")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=39.0, core=true, businessType=CCY, t24Name=CURRENCY.SOLD)
+/* Identifies the nature of the Forex deal. The application handles two different types:
+- SP = Spot  - FW = Forward
+Validation Rules:
+
+2 alpha characters deal type
+Only the above mentioned deal types will be accepted. */
+        FX_DEAL_TYPE : AM_ModellingScenario:AM_SCENARIO_SAVED__FX_SELECTED__FX_DEAL_TYPE
+            @i18n:Label (en="Fx Deal Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=36.0, core=true, t24Name=FX.DEAL.TYPE)
+/* Identifies the exchange rate between the currency bought and currency sold.
+It is important to note that either the amount bought or amount sold must be entered. From this the other value can be calculated in the system's exchange rate routine. This routine can work in a number of ways:
+1. If one amount and the exchange rate are entered, the routine calculates the other amount.
+2. If both amounts are entered, the routine calculates the exchange rate.
+Validation Rules:
+
+Standard T24 rate validation. */
+        FX_EXCH_RATE : T24BusinessTypes:R
+            @i18n:Label (en="Fx Exch Rate")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=45.0, core=true, t24Name=FX.EXCH.RATE)
+/* Define direction of the forex.
+Validation Rules:
+
+Mandatory.
+Must be the currency sold or the currency bought */
+        FX_LEAD_CCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en="Fx Lead Ccy")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=37.0, core=true, businessType=CCY, t24Name=FX.LEAD.CCY)
+/* Flag Yes/No. Define if block will not be clear by FOREX option in "clear.scenario" process.
+Validation Rules:
+
+Yes or No (default blank is No) */
+        FX_LOCKED : AM_ModellingScenario:AM_SCENARIO_SAVED__FX_SELECTED__FX_LOCKED
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=35.0, core=true, t24Name=FX.LOCKED)
+/* Maturity date for the Forex deal.
+Validation Rules:
+
+Standard T24 date */
+        FX_MATURITY : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=38.0, core=true, t24Name=FX.MATURITY)
+/* Specifies the operator who is working on a Forex block of the scenario.
+Validation Rules:
+
+No input field
+Automatically updated */
+        FX_OPERATOR : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=10, sysNumber=34.0, core=true, t24Name=FX.OPERATOR)
+/* Not used.
+Validation Rules:
+
+Rule 1
+Rule 2 */
+        FX_ORDER : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=49.0, core=true, t24Name=FX.ORDER)
+/* Flag Yes/No. Define if block will be selected for simulate process.
+Validation Rules:
+
+Yes or No (default blank is No) */
+        FX_SELECTED : AM_ModellingScenario:AM_SCENARIO_SAVED__FX_SELECTED__FX_SELECTED
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=33.0, core=true, t24Name=FX.SELECTED)
+        RESERVEDX04 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=48.0, core=true, t24Name=RESERVEDX04)
+        RESERVEDX05 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=47.0, core=true, t24Name=RESERVEDX05)
+        RESERVEDX06 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=46.0, core=true, t24Name=RESERVEDX06)
+    }
+    AM_SCENARIO_SAVED__OVERRIDE
+    {
+/* Contains all the Override messages which the user agreed to during Input.
+
+In the event that the user confirms the Override, the full text of the actual Override Message will be stored, for reference purposes only, in this multivalue field. */
+        OVERRIDE : T24BusinessTypes:A
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=69.0, core=true, t24Name=OVERRIDE)
+    }
+    AM_SCENARIO_SAVED__SC_SELECTED
+    {
+/* Defaulted with reason type description from AM.COMPARE application.
+Validation Rules:
+Alphabetic */
+        NOTES : T24BusinessTypes:A
+            @i18n:Label (en=Notes)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=27.0, core=true, t24Name=NOTES)
+/* Accepts a valid ID from AM.REASON.TYPE application.
+Validation Rules:
+Alphabetic */
+        REASON_TYPE -> AM_ModellingConstraints:AM_REASON_TYPE
+            @i18n:Label (en="Reason Type")
+            @i18n:Tooltip (en="Reason Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=28.0, core=true, businessType=A, t24Name=REASON.TYPE)
+        RSN_TYPE_DESC -> byValue AM_ModellingScenario:AM_SCENARIO_SAVED__SC_SELECTED__RSN_TYPE_DESC *
+            @t24:i (t24Name=RSN.TYPE.DESC)
+        /* This field has value consideration amt + interest amt , if accrued interest field of AM.PARAMETER is INCLUDE .If its EXCLUDE  it has only consideration amt . */
+        SCA_AMT_HELD : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=N, maxLength=18, sysNumber=16.0, core=true, t24Name=SCA.AMT.HELD)
+/* Securities currency
+Validation Rules:
+
+No Input. Internally generated */
+        SCA_CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=13.0, core=true, businessType=CCY, t24Name=SCA.CURRENCY)
+/* Specifies the nominal amount of the security. Store an override if violated securities trading units.
+Validation Rules:
+
+Mandatory */
+        SCA_NOMINAL : T24BusinessTypes:NOMAMT
+            @i18n:Label (en="Sca Nominal")
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=17.0, core=true, t24Name=SCA.NOMINAL)
+/* Nominal holding by customer in specify portfolio.
+Validation Rules:
+
+No input. */
+        SCA_NOM_HELD : T24BusinessTypes:NOMAMT
+            @t24:i (align=R, inputBehaviour=N, maxLength=15, sysNumber=15.0, core=true, t24Name=SCA.NOM.HELD)
+/* Price at which the order is created. Default is security master market price.
+Validation Rules:
+
+Mandatory. 1 to 15 numeric characters. */
+        SCA_PRICE : T24BusinessTypes:PRICE
+            @i18n:Label (en="Sca Price")
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=18.0, core=true, t24Name=SCA.PRICE)
+/* Securities price type.
+Validation Rules:
+
+No Input. Internally generated */
+        SCA_PRICE_TYPE -> SC_SctPriceTypeUpdateAndProcessing:PRICE_TYPE
+            @t24:i (align=L, inputBehaviour=N, maxLength=5, sysNumber=14.0, core=true, businessType=S, t24Name=SCA.PRICE.TYPE)
+/* The security to which this multi valued set applies.
+Must be a valid SECURITY.MASTER. */
+        SCA_SECURITY -> SC_ScoSecurityMasterMaintenance:SECURITY_MASTER
+            @i18n:Label (en=Security)
+            @t24:i (align=L, inputBehaviour=I, maxLength=12, sysNumber=12.0, core=true, businessType=SEC, t24Name=SCA.SECURITY)
+/* Amount valuation calculated with market price, securities price type and nominal.
+Validation Rules:
+
+Internally generated. */
+        SCA_VALUATION : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=N, maxLength=18, sysNumber=20.0, core=true, t24Name=SCA.VALUATION, typeModifiers="13.X")
+/* Specify the account over which the movement of the security in the transaction will be recorded.
+Validation Rules:
+
+Must be a valid account number of the specify portfolio. */
+        SCP_ACCOUNT -> AC_AccountOpening:ACCOUNT
+            @t24:i (align=L, inputBehaviour=I, maxLength=36, sysNumber=21.0, core=true, businessType=ANT, t24Name=SCP.ACCOUNT)
+/* Account currency
+Validation Rules:
+
+No Input. Internally generated */
+        SCP_CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=22.0, core=true, businessType=CCY, t24Name=SCP.CURRENCY)
+/* Valuation of transaction.
+Validation Rules:
+
+No input. Internally generated. */
+        SCP_VALUATION : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=N, maxLength=18, sysNumber=23.0, core=true, t24Name=SCP.VALUATION, typeModifiers="22.X")
+/* Define direction of pre-orders.
+Validation Rules:
+
+Mandatory. BUY or SELL */
+        SC_DIRECTION : AM_ModellingScenario:AM_SCENARIO_SAVED__SC_SELECTED__SC_DIRECTION
+            @i18n:Label (en="Sc Direction")
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=11.0, core=true, t24Name=SC.DIRECTION)
+/* Exchange rate for conversion between security currency and settlement currency.
+Validation Rules:
+
+Rate */
+        SC_EXCH_RATE : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=24.0, core=true, t24Name=SC.EXCH.RATE)
+/* Flag Yes/No. Define if block will not be clear by SELL or BUY option in "clear.scenario" process.
+Validation Rules:
+
+Yes or No (default blank is No) */
+        SC_LOCKED : AM_ModellingScenario:AM_SCENARIO_SAVED__SC_SELECTED__SC_LOCKED
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=10.0, core=true, t24Name=SC.LOCKED)
+/* Specifies the operator who is working on a Security block of the scenario.
+Validation Rules:
+
+No input field
+Automatically updated */
+        SC_OPERATOR : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=10, sysNumber=9.0, core=true, t24Name=SC.OPERATOR)
+        SC_ORDER -> byValue AM_ModellingScenario:AM_SCENARIO_SAVED__SC_SELECTED__SC_ORDER *
+            @t24:i (t24Name=SC.ORDER)
+/* Amount valuation proposed by automatic rebalancing process.
+Validation Rules:
+
+Internally generated. */
+        SC_PROPOSED_VAL : T24BusinessTypes:AMT
+            @i18n:Label (en="Sc Proposed Val")
+            @t24:i (align=R, inputBehaviour=N, maxLength=18, sysNumber=19.0, core=true, t24Name=SC.PROPOSED.VAL, typeModifiers="13.X")
+        SC_PROP_NOMINAL : T24BusinessTypes:NOMAMT
+            @t24:i (align=R, inputBehaviour=N, maxLength=15, sysNumber=30.0, core=true, t24Name=SC.PROP.NOMINAL)
+/* Flag Yes/No. Define if block will be selected for generate order process or simulate process.
+Validation Rules:
+
+Yes or No (default blank is No) */
+        SC_SELECTED : AM_ModellingScenario:AM_SCENARIO_SAVED__SC_SELECTED__SC_SELECTED
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=8.0, core=true, t24Name=SC.SELECTED)
+        /* A space delimited list of AM.VIOLATION s that apply to this proposed movement */
+        SC_VIOLATION : T24BusinessTypes:A
+            @i18n:Label (en="Violation Code")
+            @t24:i (align=L, inputBehaviour=N, maxLength=75, sysNumber=25.0, core=true, t24Name=SC.VIOLATION)
+        VIOL_LIST -> byValue AM_ModellingScenario:AM_SCENARIO_SAVED__SC_SELECTED__VIOL_LIST *
+            @t24:i (t24Name=VIOL.LIST)
+    }
+    AM_SCENARIO_SAVED__SC_SELECTED__RSN_TYPE_DESC
+    {
+        RSN_TYPE_DESC : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=31.0, core=true, t24Name=RSN.TYPE.DESC)
+    }
+    AM_SCENARIO_SAVED__SC_SELECTED__SC_ORDER
+    {
+/* SEC.OPEN.ORDER identifier. Populate when generate open orders.
+Validation Rules:
+
+No input. Internally generated. */
+        SC_ORDER : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=29.0, core=true, t24Name=SC.ORDER)
+    }
+    AM_SCENARIO_SAVED__SC_SELECTED__VIOL_LIST
+    {
+        /* This field is no longer used */
+        VIOL_LIST -> AM_ModellingConstraints:AM_VIOLATION
+            @t24:i (align=R, inputBehaviour=N, maxLength=16, sysNumber=26.0, core=true, t24Name=VIOL.LIST)
+    }
+    AM_SCENARIO__AC_SELECTED
+    {
+/* Account involve in the flow.
+Validation Rules:
+
+Must be a valid account of specify portfolio. */
+        ACA_ACCOUNT -> AC_AccountOpening:ACCOUNT
+            @i18n:Label (en=Account)
+            @i18n:Tooltip (en="Account that is involved")
+            @t24:i (align=L, inputBehaviour=I, maxLength=36, sysNumber=58.0, core=true, businessType=ANT, t24Name=ACA.ACCOUNT)
+/* Currency of the account involve in the flow. If set, system will proposed the default account when passing on the account field.
+Validation Rules:
+
+Must be a valid currency. */
+        ACA_CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en="Acct Ccy")
+            @i18n:Tooltip (en="Currency of the Account involved")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=57.0, core=true, businessType=CCY, t24Name=ACA.CURRENCY)
+/* Amount of the flow.
+Validation Rules:
+
+Must be a valid amount. Positive numeric. */
+        ACA_VALUATION : T24BusinessTypes:AMT
+            @i18n:Label (en="Acct Valuation")
+            @i18n:Tooltip (en="Valuation of the Account Involved")
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=59.0, core=true, t24Name=ACA.VALUATION, typeModifiers="57.X")
+/* Define direction of the flow.
+Validation Rules:
+
+Mandatory. Inflow/Outflow */
+        AC_DIRECTION : AM_ModellingScenario:AM_SCENARIO__AC_SELECTED__AC_DIRECTION
+            @i18n:Label (en="Ac Direction")
+            @i18n:Tooltip (en="Direction of the flow - in or out")
+            @t24:i (align=L, inputBehaviour=I, maxLength=7, sysNumber=56.0, core=true, t24Name=AC.DIRECTION)
+/* Flag Yes/No. Define if block will not be clear by FLOW option in "clear.scenario" process.
+Validation Rules:
+
+Yes or No (default blank is No) */
+        AC_LOCKED : AM_ModellingScenario:AM_SCENARIO__AC_SELECTED__AC_LOCKED
+            @i18n:Label (en="Locked?")
+            @i18n:Tooltip (en="Should this block be locked")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=55.0, core=true, t24Name=AC.LOCKED)
+/* Specifies the operator who is working on an Account block of the scenario.
+Validation Rules:
+
+No input field
+Automatically updated */
+        AC_OPERATOR : T24BusinessTypes:A
+            @i18n:Label (en=Operator)
+            @i18n:Tooltip (en="Operator who is working on this Account block")
+            @t24:i (align=L, inputBehaviour=N, maxLength=10, sysNumber=54.0, core=true, t24Name=AC.OPERATOR)
+        /* This field is no longer used. */
+        AC_ORDER : T24BusinessTypes:A
+            @i18n:Label (en=Order)
+            @i18n:Tooltip (en=Order)
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=63.0, core=true, t24Name=AC.ORDER)
+/* Flag Yes/No. Define if block will be selected for simulate process.
+Validation Rules:
+
+Yes or No (default blank is No) */
+        AC_SELECTED : AM_ModellingScenario:AM_SCENARIO__AC_SELECTED__AC_SELECTED
+            @i18n:Label (en="Act Selected")
+            @i18n:Tooltip (en="Account Selected")
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=53.0, core=true, t24Name=AC.SELECTED)
+        RESERVEDX01 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=62.0, core=true, t24Name=RESERVEDX01)
+        RESERVEDX02 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=61.0, core=true, t24Name=RESERVEDX02)
+        RESERVEDX03 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=60.0, core=true, t24Name=RESERVEDX03)
+    }
+    AM_SCENARIO__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=73.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    AM_SCENARIO__FX_SELECTED
+    {
+/* Account code of the selling part of the forex.
+Validation Rules:
+
+Valid account code. */
+        ACCOUNT_PAY -> AC_AccountOpening:ACCOUNT
+            @i18n:Label (en="Account Pay")
+            @i18n:Tooltip (en="Paying account")
+            @t24:i (align=L, inputBehaviour=I, maxLength=36, sysNumber=40.0, core=true, businessType=ANT, t24Name=ACCOUNT.PAY)
+/* Account code of the buying part of the forex.
+Validation Rules:
+
+Valid account code. */
+        ACCOUNT_REC -> AC_AccountOpening:ACCOUNT
+            @i18n:Label (en="Account Rec")
+            @i18n:Tooltip (en="Receiving Account")
+            @t24:i (align=L, inputBehaviour=I, maxLength=36, sysNumber=43.0, core=true, businessType=ANT, t24Name=ACCOUNT.REC)
+/* Contains the amount of the currency being purchased. If no value is entered, the amount will be calculated automatically by the system as explained in the Details.
+It is important to note that either the amount bought or amount sold must be entered. From this the other value can be calculated in the system's exchange rate routine. This routine can work in a number of ways:
+1. If one amount and the exchange rate are entered, the routine calculates the other amount.
+2. If both amounts are entered, the routine calculates the exchange rate.
+Validation Rules:
+
+Standard T24 amount validation. The actual format depend on the     currency. */
+        AMOUNT_BOUGHT : T24BusinessTypes:AMT
+            @i18n:Label (en="Buy Amount")
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=44.0, core=true, t24Name=AMOUNT.BOUGHT, typeModifiers="42.X")
+/* Contains the amount of the currency being sold. If no value is entered, the amount will be calculated automatically by the system as explained in the Details.
+It is important to note that either the amount bought or amount sold must be entered. From this the other value can be calculated in the system's exchange rate routine. This routine can work in a number of ways:
+1. If one amount and the exchange rate are entered, the routine calculates the other amount.
+2. If both amounts are entered, the routine calculates the exchange rate.
+Validation Rules:
+
+Standard T24 amount validation. The actual format depend on the     currency. */
+        AMOUNT_SOLD : T24BusinessTypes:AMT
+            @i18n:Label (en="Sell Amount")
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=41.0, core=true, t24Name=AMOUNT.SOLD, typeModifiers="39.X")
+/* Currency of the buying part of forex.
+Validation Rules:
+
+Must be the currency of buying account. */
+        CURRENCY_BOUGHT -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en="Buy Currency")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=42.0, core=true, businessType=CCY, t24Name=CURRENCY.BOUGHT)
+/* Currency of the selling part of forex.
+Validation Rules:
+
+Must be the currency of selling account. */
+        CURRENCY_SOLD -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en="Sell Currency")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=39.0, core=true, businessType=CCY, t24Name=CURRENCY.SOLD)
+/* Identifies the nature of the Forex deal. The application handles two different types:
+- SP = Spot  - FW = Forward
+Validation Rules:
+
+2 alpha characters deal type
+Only the above mentioned deal types will be accepted. */
+        FX_DEAL_TYPE : AM_ModellingScenario:AM_SCENARIO__FX_SELECTED__FX_DEAL_TYPE
+            @i18n:Label (en="Fx Deal Type")
+            @i18n:Tooltip (en="Fx Deal Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=36.0, core=true, t24Name=FX.DEAL.TYPE)
+/* Identifies the exchange rate between the currency bought and currency sold.
+It is important to note that either the amount bought or amount sold must be entered. From this the other value can be calculated in the system's exchange rate routine. This routine can work in a number of ways:
+1. If one amount and the exchange rate are entered, the routine calculates the other amount.
+2. If both amounts are entered, the routine calculates the exchange rate.
+Validation Rules:
+
+Standard T24 rate validation. */
+        FX_EXCH_RATE : T24BusinessTypes:R
+            @i18n:Label (en="Fx Exch Rate")
+            @i18n:Tooltip (en="Exchange rate used for Forex deals")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=45.0, core=true, t24Name=FX.EXCH.RATE)
+/* Define direction of the forex.
+Validation Rules:
+
+Mandatory.
+Must be the currency sold or the currency bought */
+        FX_LEAD_CCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en="Fx Lead Ccy")
+            @i18n:Tooltip (en="Fx Lead Ccy")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=37.0, core=true, businessType=CCY, t24Name=FX.LEAD.CCY)
+/* Flag Yes/No. Define if block will not be clear by FOREX option in "clear.scenario" process.
+Validation Rules:
+
+Yes or No (default blank is No) */
+        FX_LOCKED : AM_ModellingScenario:AM_SCENARIO__FX_SELECTED__FX_LOCKED
+            @i18n:Label (en="Fx Locked")
+            @i18n:Tooltip (en="If this block must be locked from getting cleared")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=35.0, core=true, t24Name=FX.LOCKED)
+/* Maturity date for the Forex deal.
+Validation Rules:
+
+Standard T24 date */
+        FX_MATURITY : T24BusinessTypes:D
+            @i18n:Label (en="Fx Maturity")
+            @i18n:Tooltip (en="Maturity date of the FX Deal")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=38.0, core=true, t24Name=FX.MATURITY)
+/* Specifies the operator who is working on a Forex block of the scenario.
+Validation Rules:
+
+No input field
+Automatically updated */
+        FX_OPERATOR : T24BusinessTypes:A
+            @i18n:Label (en="Fx Operator")
+            @i18n:Tooltip (en="The User working on this Forex block")
+            @t24:i (align=L, inputBehaviour=N, maxLength=10, sysNumber=34.0, core=true, t24Name=FX.OPERATOR)
+/* Not used.
+Validation Rules:
+
+Rule 1
+Rule 2 */
+        FX_ORDER : T24BusinessTypes:A
+            @i18n:Label (en="Fx Order")
+            @i18n:Tooltip (en="Fx Order")
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=49.0, core=true, t24Name=FX.ORDER)
+/* Flag Yes/No. Define if block will be selected for simulate process.
+Validation Rules:
+
+Yes or No (default blank is No) */
+        FX_SELECTED : AM_ModellingScenario:AM_SCENARIO__FX_SELECTED__FX_SELECTED
+            @i18n:Label (en="Fx Selected")
+            @i18n:Tooltip (en="Forex Trades selected")
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=33.0, core=true, t24Name=FX.SELECTED)
+        RESERVEDX04 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=48.0, core=true, t24Name=RESERVEDX04)
+        RESERVEDX05 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=47.0, core=true, t24Name=RESERVEDX05)
+        RESERVEDX06 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=46.0, core=true, t24Name=RESERVEDX06)
+    }
+    AM_SCENARIO__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=72.0, core=true, t24Name=INPUTTER)
+    }
+    AM_SCENARIO__OVERRIDE
+    {
+/* Contains all the Override messages which the user agreed to during Input.
+
+In the event that the user confirms the Override, the full text of the actual Override Message will be stored, for reference purposes only, in this multivalue field. */
+        OVERRIDE : T24BusinessTypes:A
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=69.0, core=true, t24Name=OVERRIDE)
+    }
+    AM_SCENARIO__SC_SELECTED
+    {
+/* Defaulted with reason type description from AM.COMPARE application.
+Validation Rules:
+Alphabetic */
+        NOTES : T24BusinessTypes:A
+            @i18n:Label (en=Notes)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=27.0, core=true, t24Name=NOTES)
+/* Accepts a valid ID from AM.REASON.TYPE application.
+This field will be defaulted from AM.COMPARE.
+Validation Rules:
+Alphabetic */
+        REASON_TYPE -> AM_ModellingConstraints:AM_REASON_TYPE
+            @i18n:Label (en="Reason Type")
+            @i18n:Tooltip (en="Reason Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=28.0, core=true, businessType=A, t24Name=REASON.TYPE)
+        RSN_TYPE_DESC -> byValue AM_ModellingScenario:AM_SCENARIO__SC_SELECTED__RSN_TYPE_DESC *
+            @t24:i (t24Name=RSN.TYPE.DESC)
+        /* This field has value consideration amt + interest amt , if accrued interest field of AM.PARAMETER is INCLUDE .If its EXCLUDE  it has only consideration amt . */
+        SCA_AMT_HELD : T24BusinessTypes:AMT
+            @i18n:Label (en="Amount Held")
+            @i18n:Tooltip (en="Amount held in the Portfolio")
+            @t24:i (align=R, inputBehaviour=N, maxLength=18, sysNumber=16.0, core=true, t24Name=SCA.AMT.HELD)
+/* Securities currency
+Validation Rules:
+
+No Input. Internally generated */
+        SCA_CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en=Currency)
+            @i18n:Tooltip (en=Currency)
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=13.0, core=true, businessType=CCY, t24Name=SCA.CURRENCY)
+/* Specifies the nominal amount of the security. Store an override if violated securities trading units.
+Validation Rules:
+
+Mandatory */
+        SCA_NOMINAL : T24BusinessTypes:NOMAMT
+            @i18n:Label (en="Nominal ")
+            @i18n:Tooltip (en="Nominals now")
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=17.0, core=true, t24Name=SCA.NOMINAL)
+/* Nominal holding by customer in specify portfolio.
+Validation Rules:
+
+No input. */
+        SCA_NOM_HELD : T24BusinessTypes:NOMAMT
+            @i18n:Label (en="Nominal Held")
+            @i18n:Tooltip (en="Nominals held in the Portfolio")
+            @t24:i (align=R, inputBehaviour=N, maxLength=15, sysNumber=15.0, core=true, t24Name=SCA.NOM.HELD)
+/* Price at which the order is created. Default is security master market price.
+Validation Rules:
+
+Mandatory. 1 to 15 numeric characters. */
+        SCA_PRICE : T24BusinessTypes:PRICE
+            @i18n:Label (en=Price)
+            @i18n:Tooltip (en="Price Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=18.0, core=true, t24Name=SCA.PRICE)
+/* Securities price type.
+Validation Rules:
+
+No Input. Internally generated */
+        SCA_PRICE_TYPE -> SC_SctPriceTypeUpdateAndProcessing:PRICE_TYPE
+            @i18n:Label (en="Price Type")
+            @i18n:Tooltip (en="Price of the Instrument")
+            @t24:i (align=L, inputBehaviour=N, maxLength=5, sysNumber=14.0, core=true, businessType=S, t24Name=SCA.PRICE.TYPE)
+/* The security to which this multi valued set applies.
+Must be a valid SECURITY.MASTER. */
+        SCA_SECURITY -> SC_ScoSecurityMasterMaintenance:SECURITY_MASTER
+            @i18n:Label (en=Security)
+            @t24:i (align=L, inputBehaviour=I, maxLength=12, sysNumber=12.0, core=true, businessType=SEC, t24Name=SCA.SECURITY)
+/* Amount valuation calculated with market price, securities price type and nominal.
+Validation Rules:
+
+Internally generated. */
+        SCA_VALUATION : T24BusinessTypes:AMT
+            @i18n:Label (en=Valuation)
+            @i18n:Tooltip (en=Valuation)
+            @t24:i (align=R, inputBehaviour=N, maxLength=18, sysNumber=20.0, core=true, t24Name=SCA.VALUATION, typeModifiers="13.X")
+/* Specify the account over which the movement of the security in the transaction will be recorded.
+Validation Rules:
+
+Must be a valid account number of the specify portfolio. */
+        SCP_ACCOUNT -> AC_AccountOpening:ACCOUNT
+            @i18n:Label (en=Account)
+            @i18n:Tooltip (en="Account from/to which Security is sold or bought")
+            @t24:i (align=L, inputBehaviour=I, maxLength=36, sysNumber=21.0, core=true, businessType=ANT, t24Name=SCP.ACCOUNT)
+/* Account currency
+Validation Rules:
+
+No Input. Internally generated */
+        SCP_CURRENCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en=Currency)
+            @i18n:Tooltip (en="Currency of the Account")
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=22.0, core=true, businessType=CCY, t24Name=SCP.CURRENCY)
+/* Valuation of transaction.
+Validation Rules:
+
+No input. Internally generated. */
+        SCP_VALUATION : T24BusinessTypes:AMT
+            @i18n:Label (en=Valuation)
+            @i18n:Tooltip (en=Valuation)
+            @t24:i (align=R, inputBehaviour=N, maxLength=18, sysNumber=23.0, core=true, t24Name=SCP.VALUATION, typeModifiers="22.X")
+/* Define direction of pre-orders.
+Validation Rules:
+
+Mandatory. BUY or SELL */
+        SC_DIRECTION : AM_ModellingScenario:AM_SCENARIO__SC_SELECTED__SC_DIRECTION
+            @i18n:Label (en=Direction)
+            @i18n:Tooltip (en="Direction i.e Buy or Sell/In or Out")
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=11.0, core=true, t24Name=SC.DIRECTION)
+/* Exchange rate for conversion between security currency and settlement currency.
+Validation Rules:
+
+Rate */
+        SC_EXCH_RATE : T24BusinessTypes:R
+            @i18n:Label (en="Exchange Rate")
+            @i18n:Tooltip (en="Exchange Rate ")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=24.0, core=true, t24Name=SC.EXCH.RATE)
+/* Flag Yes/No. Define if block will not be clear by SELL or BUY option in "clear.scenario" process.
+Validation Rules:
+
+Yes or No (default blank is No) */
+        SC_LOCKED : AM_ModellingScenario:AM_SCENARIO__SC_SELECTED__SC_LOCKED
+            @i18n:Label (en=Locked)
+            @i18n:Tooltip (en="Is this item Locked from getting cleared")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=10.0, core=true, t24Name=SC.LOCKED)
+/* Specifies the operator who is working on a Security block of the scenario.
+Validation Rules:
+
+No input field
+Automatically updated */
+        SC_OPERATOR : T24BusinessTypes:A
+            @i18n:Label (en=Operator)
+            @i18n:Tooltip (en="User working on this item")
+            @t24:i (align=L, inputBehaviour=N, maxLength=10, sysNumber=9.0, core=true, t24Name=SC.OPERATOR)
+        SC_ORDER -> byValue AM_ModellingScenario:AM_SCENARIO__SC_SELECTED__SC_ORDER *
+            @t24:i (t24Name=SC.ORDER)
+/* Amount valuation proposed by automatic rebalancing process.
+Validation Rules:
+
+Internally generated. */
+        SC_PROPOSED_VAL : T24BusinessTypes:AMT
+            @i18n:Label (en="Proposed Value")
+            @i18n:Tooltip (en="Proposed Value")
+            @t24:i (align=R, inputBehaviour=N, maxLength=18, sysNumber=19.0, core=true, t24Name=SC.PROPOSED.VAL, typeModifiers="13.X")
+        SC_PROP_NOMINAL : T24BusinessTypes:NOMAMT
+            @t24:i (align=R, inputBehaviour=N, maxLength=15, sysNumber=30.0, core=true, t24Name=SC.PROP.NOMINAL)
+/* Flag Yes/No. Define if block will be selected for generate order process or simulate process.
+Validation Rules:
+
+Yes or No (default blank is No) */
+        SC_SELECTED : AM_ModellingScenario:AM_SCENARIO__SC_SELECTED__SC_SELECTED
+            @i18n:Label (en=Selected)
+            @i18n:Tooltip (en="Selected security orders")
+            @t24:i (align=L, inputBehaviour=I, maxLength=8, sysNumber=8.0, core=true, t24Name=SC.SELECTED)
+        /* A space delimited list of AM.VIOLATION s that apply to this proposed movement */
+        SC_VIOLATION : T24BusinessTypes:A
+            @i18n:Label (en="SC Violation")
+            @t24:i (align=L, inputBehaviour=N, maxLength=75, sysNumber=25.0, core=true, t24Name=SC.VIOLATION)
+        VIOL_LIST -> byValue AM_ModellingScenario:AM_SCENARIO__SC_SELECTED__VIOL_LIST *
+            @t24:i (t24Name=VIOL.LIST)
+    }
+    AM_SCENARIO__SC_SELECTED__RSN_TYPE_DESC
+    {
+        RSN_TYPE_DESC : T24BusinessTypes:A
+            @i18n:Label (en="Reason Type Desc")
+            @i18n:Tooltip (en="Reason Type Desc")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=31.0, core=true, t24Name=RSN.TYPE.DESC)
+    }
+    AM_SCENARIO__SC_SELECTED__SC_ORDER
+    {
+/* SEC.OPEN.ORDER identifier. Populate when generate open orders.
+Validation Rules:
+
+No input. Internally generated. */
+        SC_ORDER : T24BusinessTypes:A
+            @i18n:Label (en=Order)
+            @i18n:Tooltip (en="Security Order")
+            @t24:i (align=L, inputBehaviour=N, maxLength=16, sysNumber=29.0, core=true, t24Name=SC.ORDER)
+    }
+    AM_SCENARIO__SC_SELECTED__VIOL_LIST
+    {
+        /* This field is no longer used */
+        VIOL_LIST -> AM_ModellingConstraints:AM_VIOLATION
+            @i18n:Label (en="Violation List")
+            @i18n:Tooltip (en="List of Violations/Restrictions encountered")
+            @t24:i (align=R, inputBehaviour=N, maxLength=16, sysNumber=26.0, core=true, t24Name=VIOL.LIST)
+    }
+}
+Enumerations {
+    AM_SCENARIO_FX_ORDER__FX_DEAL_TYPE : mml:string
+        FW=FW
+        SP=SP
+    AM_SCENARIO_FX_ORDER__FX_LOCKED : mml:string
+        NO=NO
+        YES=YES
+    AM_SCENARIO_FX_ORDER__FX_SELECTED : mml:string
+        NO=NO
+        YES=YES
+    AM_SCENARIO_ORDER__SC_DIRECTION : mml:string
+        BUY=BUY
+        SELL=SELL
+    AM_SCENARIO_ORDER__SC_LOCKED : mml:string
+        NO=NO
+        YES=YES
+    AM_SCENARIO_ORDER__SC_SELECTED : mml:string
+        NO=NO
+        YES=YES
+    AM_SCENARIO_SAVED__AC_SELECTED__AC_DIRECTION : mml:string
+        INFLOW=INFLOW
+        OUTFLOW=OUTFLOW
+    AM_SCENARIO_SAVED__AC_SELECTED__AC_LOCKED : mml:string
+        NO=NO
+        YES=YES
+    AM_SCENARIO_SAVED__AC_SELECTED__AC_SELECTED : mml:string
+        FILTERED=FILTERED
+        NO=NO
+        YES=YES
+    AM_SCENARIO_SAVED__CREATION_MODE : mml:string
+        AUTO=AUTO
+        MANU=MANU
+    AM_SCENARIO_SAVED__FX_SELECTED__FX_DEAL_TYPE : mml:string
+        FW=FW
+        SP=SP
+    AM_SCENARIO_SAVED__FX_SELECTED__FX_LOCKED : mml:string
+        NO=NO
+        YES=YES
+    AM_SCENARIO_SAVED__FX_SELECTED__FX_SELECTED : mml:string
+        FILTERED=FILTERED
+        NO=NO
+        YES=YES
+    AM_SCENARIO_SAVED__SC_SELECTED__SC_DIRECTION : mml:string
+        BUY=BUY
+        SELL=SELL
+    AM_SCENARIO_SAVED__SC_SELECTED__SC_LOCKED : mml:string
+        NO=NO
+        YES=YES
+    AM_SCENARIO_SAVED__SC_SELECTED__SC_SELECTED : mml:string
+        FILTERED=FILTERED
+        NO=NO
+        YES=YES
+    AM_SCENARIO__AC_SELECTED__AC_DIRECTION : mml:string
+        INFLOW=INFLOW
+        OUTFLOW=OUTFLOW
+    AM_SCENARIO__AC_SELECTED__AC_LOCKED : mml:string
+        NO=NO
+        YES=YES
+    AM_SCENARIO__AC_SELECTED__AC_SELECTED : mml:string
+        FILTERED=FILTERED
+        NO=NO
+        YES=YES
+    AM_SCENARIO__CREATION_MODE : mml:string
+        AUTO=AUTO
+        MANU=MANU
+    AM_SCENARIO__FX_SELECTED__FX_DEAL_TYPE : mml:string
+        FW=FW
+        SP=SP
+    AM_SCENARIO__FX_SELECTED__FX_LOCKED : mml:string
+        NO=NO
+        YES=YES
+    AM_SCENARIO__FX_SELECTED__FX_SELECTED : mml:string
+        FILTERED=FILTERED
+        NO=NO
+        YES=YES
+    AM_SCENARIO__SC_SELECTED__SC_DIRECTION : mml:string
+        BUY=BUY
+        SELL=SELL
+    AM_SCENARIO__SC_SELECTED__SC_LOCKED : mml:string
+        NO=NO
+        YES=YES
+    AM_SCENARIO__SC_SELECTED__SC_SELECTED : mml:string
+        FILTERED=FILTERED
+        NO=NO
+        YES=YES
+}

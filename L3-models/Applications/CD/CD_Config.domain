@@ -1,0 +1,229 @@
+# UTF-8
+/* Parameter Definitions for Common Reporting Standards (CRS) */
+Domain CD_Config
+    @t24:i (module=CD)
+    @java:Package (value=com.temenos.t24.datamodel.cd.cd_config)
+namespace "http://www.temenos.com/t24/CD_Config"
+metamodelVersion 1.30.6
+Classes {
+/* CRS.PARAMETER table is used to record the details of the institution’s agreement with the regulation, for example the effective date of the CRS provisions, participating jurisdictions and certain default conditions.
+CRS.PARAMETER is a customer company level parameter table. */
+    CRS_PARAMETER
+        @i18n:Description (en="")
+        @t24:i (t24Name=CRS.PARAMETER, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        ACCOUNT_TYPE -> byValue CD_Config:CRS_PARAMETER__ACCOUNT_TYPE *
+            @t24:i (t24Name=ACCOUNT.TYPE)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=39.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=40.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=36.0, core=true, t24Name=AUTHORISER)
+        AUTO_STATUS_UPDATE : CD_Config:CRS_PARAMETER__AUTO_STATUS_UPDATE
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=11.0, core=true, t24Name=AUTO.STATUS.UPDATE)
+/* Field to decide whether the previous day customer balances should be calculated when the CRS.STATUS is changed to INACTIVE in CRS.CUST.SUPP.INFO table.
+By default system calculates balance aggregation every month end.
+If set as none or previous month, then system uses the default calculated balance.
+Validation rules
+Allowed values are PREVIOUS.MONTH, PREVIOUS.DAY. */
+        CLOSE_REL_BAL_TYP : CD_Config:CRS_PARAMETER__CLOSE_REL_BAL_TYP
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=8.0, core=true, t24Name=CLOSE.REL.BAL.TYP)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=37.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+/* ID is the company code for which the record belongs.
+The CRS.PARAMETER table is a customer level company table. The item id to the parameter record must exist as a valid company code on the company file
+Validation rules
+Up to 11 Alphanumeric characters. Should be a valid Company Code. */
+        CRS_PARAMETER_ID -> CD_Config:CRS_PARAMETER PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=0.0, core=true, businessType=COM, t24Name=CRS.PARAMETER.ID, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=33.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue CD_Config:CRS_PARAMETER__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=38.0, core=true, t24Name=DEPT.CODE)
+/* Field to identify the effective date of the CRS regulation.
+Used to identify the customers as existing or new based on this date.
+Validation rules
+Mandatory field.
+Standard date format -(YYYYMMDD) */
+        EFFECTIVE_DATE : T24BusinessTypes:D required
+            @i18n:Label (en="Effective Date")
+            @i18n:Tooltip (en="Effective date of the transaction")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=1.0, core=true, t24Name=EFFECTIVE.DATE)
+/* The logic to calculate the Indicia required or not along with the reportable jurisdiction will be built into the API that is specified in this field.
+However, if the banks want to use a different logic, then they can plug in their local APIs.
+If no routine is attached here, the INDICIA, REPORTABLE.JUR and CRS.STATUS will not be calculated.
+Validation rules
+Should be a valid EB.API record. */
+        INDICIA_CALC_RTN -> EB_SystemTables:EB_API
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=7.0, core=true, businessType=ANY, t24Name=INDICIA.CALC.RTN)
+/* Field to identify whether the initial balance aggregation process is performed for all the existing customers.
+System will update this field as 'YES', once the initial aggregation is completed.
+Once the field is set, then the subsequent aggregation process will be performed only for the customer having CRS.CUST.SUPP.INFO records.
+Validation rules
+No input field. */
+        INITIAL_AGGR_BUILT : CD_Config:CRS_PARAMETER__INITIAL_AGGR_BUILT
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=INITIAL.AGGR.BUILT)
+        INPUTTER -> byValue CD_Config:CRS_PARAMETER__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        OVERRIDE -> byValue CD_Config:CRS_PARAMETER__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        PARTNG_JURIDICTION -> byValue CD_Config:CRS_PARAMETER__PARTNG_JURIDICTION *
+            @t24:i (t24Name=PARTNG.JURIDICTION)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=32.0, core=true, t24Name=RECORD.STATUS)
+/* Field to specify the currency to be used for Balance aggregation process.
+If no value is specified, system calculates the aggregation balance in local currency of the corresponding company.
+Validation rules
+Should be a valid currency. */
+        REPORTING_CCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en=Currency)
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=9.0, core=true, businessType=CCY, t24Name=REPORTING.CCY)
+        RESERVED_01 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=29.0, core=true, t24Name=RESERVED.01)
+        RESERVED_02 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=28.0, core=true, t24Name=RESERVED.02)
+        RESERVED_03 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=27.0, core=true, t24Name=RESERVED.03)
+        RESERVED_04 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=26.0, core=true, t24Name=RESERVED.04)
+        RESERVED_05 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=25.0, core=true, t24Name=RESERVED.05)
+        RESERVED_06 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=24.0, core=true, t24Name=RESERVED.06)
+        RESERVED_07 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=23.0, core=true, t24Name=RESERVED.07)
+        RESERVED_08 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=22.0, core=true, t24Name=RESERVED.08)
+        RESERVED_09 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=21.0, core=true, t24Name=RESERVED.09)
+    }
+    CRS_PARAMETER__ACCOUNT_TYPE
+    {
+        ACCOUNT_SUB_TYPE -> byValue CD_Config:CRS_PARAMETER__ACCOUNT_TYPE__ACCOUNT_SUB_TYPE *
+            @t24:i (t24Name=ACCOUNT.SUB.TYPE)
+/* Field to specify the different account types which are used for the classification of existing accounts.
+Fields ACCOUNT.TYPE, ACCOUNT.SUB.TYPE, BAL.AMT.AGGR.FROM, BAL.AMT.AGGR.TO, DUE.DILIGENCE.DATE, REPORTING.DATE form an associated multi-value set.
+Validation rules
+Allowed values are NEW.INDIVIDUAL, NEW.ENTITY, PRE-EXISTING.INDIVIDUAL PRE-EXISTING.ENTITY */
+        ACCOUNT_TYPE : CD_Config:CRS_PARAMETER__ACCOUNT_TYPE__ACCOUNT_TYPE
+            @i18n:Label (en="Account Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=12.0, core=true, t24Name=ACCOUNT.TYPE)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=20.0, core=true, t24Name=RESERVED.10)
+        RESERVED_11 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=19.0, core=true, t24Name=RESERVED.11)
+        RESERVED_12 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=RESERVED.12)
+    }
+    CRS_PARAMETER__ACCOUNT_TYPE__ACCOUNT_SUB_TYPE
+    {
+/* Field to specify the further classification of the account type such as HIGH or LOW. Based on this, balance aggregation will be performed.
+Fields ACCOUNT.SUB.TYPE, BAL.AMT.AGGR.FROM, BAL.AMT.AGGR.TO, DUE.DILIGENCE.DATE and REPORTING.DATE form an associate sub-value set.
+Validation rules
+Allowed values are HIGH, LOW.
+Allowed to define only for PRE-EXISTING account types. */
+        ACCOUNT_SUB_TYPE : CD_Config:CRS_PARAMETER__ACCOUNT_TYPE__ACCOUNT_SUB_TYPE__ACCOUNT_SUB_TYPE
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=13.0, core=true, t24Name=ACCOUNT.SUB.TYPE)
+/* Used to hold the lower range of the aggregation amount for the corresponding ACCOUNT.TYPE, which will be used during account classification for the existing accounts.
+Validation rules
+Allowed to define only for PRE-EXISTING account types. */
+        BAL_AMT_AGGR_FROM : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=35, sysNumber=14.0, core=true, t24Name=BAL.AMT.AGGR.FROM)
+/* Used to hold the upper range of the aggregation amount for the corresponding ACCOUNT.TYPE, which will be used during account classification for the existing accounts.
+Validation rules
+Allowed to define only for PRE-EXISTING account types. */
+        BAL_AMT_AGGR_TO : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=35, sysNumber=15.0, core=true, t24Name=BAL.AMT.AGGR.TO)
+/* Field to specify the Due-diligence dates for the account types PRE-EXISTING.INDIVIDUAL.LOW, PRE-EXISTING.INDIVIDUAL.HIGH, PRE-EXISTING.ENTITY.HIGH.
+Flexibility is given to define different Due Diligence Dates as and when Financial Institution residing in a particular jurisdiction comes under the purview of the regulation
+Validation rules
+Standard date and frequency to be given. */
+        DUE_DILIGENCE_DATE : T24BusinessTypes:FQU
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=16.0, core=true, t24Name=DUE.DILIGENCE.DATE, mask="RDDDD DD  DD #####")
+/* Field to specify the Reporting Date for the account types.
+Validation rules
+Allowed to define standard date and frequency. */
+        REPORTING_DATE : T24BusinessTypes:FQU
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=17.0, core=true, t24Name=REPORTING.DATE, mask="RDDDD DD  DD #####")
+    }
+    CRS_PARAMETER__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=35.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    CRS_PARAMETER__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=34.0, core=true, t24Name=INPUTTER)
+    }
+    CRS_PARAMETER__OVERRIDE
+    {
+/* This is a multi valued field.
+Contains details of any override applicable to this record.
+Validation Rules:
+A maximum of 35 characters may be entered. This is a NOINPUT field. */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=31.0, core=true, t24Name=OVERRIDE)
+    }
+    CRS_PARAMETER__PARTNG_JURIDICTION
+    {
+/* Field specifies the countries which are participating with the regulatory requirements.
+Associate multi-value field with the TELEPHONE.CODE field and either both the field values should be present or blank.
+Validation rules
+Should be a valid country present in the T24 COUNTRY table.
+If value is present in this field, then the corresponding country TELEPHONE.CODE is mandatory. */
+        PARTNG_JURIDICTION -> ST_Config:COUNTRY
+            @t24:i (align=L, inputBehaviour=I, maxLength=9, sysNumber=2.0, core=true, businessType=SSS, t24Name=PARTNG.JURIDICTION)
+        RESERVED_13 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=6.0, core=true, t24Name=RESERVED.13)
+        RESERVED_14 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=5.0, core=true, t24Name=RESERVED.14)
+        RESERVED_15 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=4.0, core=true, t24Name=RESERVED.15)
+/* Field to hold the telephone code of the corresponding PARTNG.JURIDICTION.
+Associate multi-value field with the PARTNG.JURIDICTION field and either both the field values should be present or blank.
+Validation rules
+Should start with '+' or '00'.
+If value is present in this field, then the corresponding PARTNG.JURIDICTION country is mandatory. */
+        TELEPHONE_CODE : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=3.0, core=true, t24Name=TELEPHONE.CODE)
+    }
+}
+Enumerations {
+    CRS_PARAMETER__ACCOUNT_TYPE__ACCOUNT_SUB_TYPE__ACCOUNT_SUB_TYPE : mml:string
+        HIGH=HIGH
+        LOW=LOW
+    CRS_PARAMETER__ACCOUNT_TYPE__ACCOUNT_TYPE : mml:string
+        NEW_ENTITY=NEW.ENTITY
+        NEW_INDIVIDUAL=NEW.INDIVIDUAL
+        PRE__EXISTING_ENTITY=PRE-EXISTING.ENTITY
+        PRE__EXISTING_INDIVIDUAL=PRE-EXISTING.INDIVIDUAL
+    CRS_PARAMETER__AUTO_STATUS_UPDATE : mml:string
+        NO=NO
+        YES=YES
+    CRS_PARAMETER__CLOSE_REL_BAL_TYP : mml:string
+        PREVIOUS_DAY=PREVIOUS.DAY
+        PREVIOUS_MONTH=PREVIOUS.MONTH
+    CRS_PARAMETER__INITIAL_AGGR_BUILT : mml:string
+        NULL=NULL
+        YES=YES
+}

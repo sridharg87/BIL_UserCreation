@@ -1,0 +1,913 @@
+# UTF-8
+/* Bank Conditions GUI */
+Domain PP_BankConditionsGUI
+    @t24:i (module=PP)
+    @java:Package (value=com.temenos.t24.datamodel.pp.pp_bankconditionsgui)
+namespace "http://www.temenos.com/t24/PP_BankConditionsGUI"
+metamodelVersion 1.30.6
+Classes {
+    PPL_BANKCONDCHARGEACCOUNT
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPL.BANKCONDCHARGEACCOUNT, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        BankCondChargeID : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, t24Name=BankCondChargeID)
+        BankConditionsID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=2.0, core=true, t24Name=BankConditionsID)
+        ChargeAccountCompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=4.0, core=true, t24Name=ChargeAccountCompanyID)
+        ChargeAccountCurrency : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=6.0, core=true, t24Name=ChargeAccountCurrency)
+        ChargeAccountNumber : T24BusinessTypes:ACCA
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=5.0, core=true, t24Name=ChargeAccountNumber)
+        ID -> PP_BankConditionsGUI:PPL_BANKCONDCHARGEACCOUNT PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+        TransactionCurrency : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=3.0, core=true, t24Name=TransactionCurrency)
+    }
+    PPL_BANKCONDITIONS
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPL.BANKCONDITIONS, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        ApprovedDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=24.0, core=true, t24Name=ApprovedDateTime, mask="RDDDD DD  DD ##:##:##.###")
+        ApproverUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=23.0, core=true, t24Name=ApproverUserID)
+        BTRNonSTPIndicator : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=8.0, core=true, t24Name=BTRNonSTPIndicator)
+        BankConditionsID : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, t24Name=BankConditionsID)
+        CTRNonSTPIndicator : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=7.0, core=true, t24Name=CTRNonSTPIndicator)
+        CompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=2.0, core=true, t24Name=CompanyID)
+        CorrespondentBIC : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=3.0, core=true, t24Name=CorrespondentBIC)
+        CreditInstruction : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=128, sysNumber=10.0, core=true, t24Name=CreditInstruction)
+        CreditStmtFormatName : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=15.0, core=true, t24Name=CreditStmtFormatName)
+        CurrencyCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=5.0, core=true, t24Name=CurrencyCode)
+        DebitInstruction : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=128, sysNumber=9.0, core=true, t24Name=DebitInstruction)
+        DebitStmtFormatName : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=16.0, core=true, t24Name=DebitStmtFormatName)
+        EndDateBankConditions : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=18.0, core=true, t24Name=EndDateBankConditions)
+        EntryDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=22.0, core=true, t24Name=EntryDateTime, mask="RDDDD DD  DD ##:##:##.###")
+        EntryUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=21.0, core=true, t24Name=EntryUserID)
+        FXSpread : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=17.0, core=true, t24Name=FXSpread)
+        ID -> PP_BankConditionsGUI:PPL_BANKCONDITIONS PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+        LanguageID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=14.0, core=true, t24Name=LanguageID)
+        PSDECChargeCompliant : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=13.0, core=true, t24Name=PSDECChargeCompliant)
+        RACBankConditions : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=19.0, core=true, t24Name=RACBankConditions)
+        RSCBankConditions : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=20.0, core=true, t24Name=RSCBankConditions)
+        SLAID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=4.0, core=true, t24Name=SLAID)
+        StartDateBankConditions : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=6.0, core=true, t24Name=StartDateBankConditions)
+        WareHouseFlag : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=11.0, core=true, t24Name=WareHouseFlag)
+        WareHouseReleaseTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=12.0, core=true, t24Name=WareHouseReleaseTime)
+    }
+    PPL_BANKCONDITIONSADVICE
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPL.BANKCONDITIONSADVICE, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        Attention : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=128, sysNumber=19.0, core=true, t24Name=Attention)
+        BICAddress : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=12.0, core=true, t24Name=BICAddress)
+        BankAdviceID : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, t24Name=BankAdviceID)
+        BankConditionsID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=2.0, core=true, t24Name=BankConditionsID)
+        CTRBTRIndicator : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=5.0, core=true, t24Name=CTRBTRIndicator)
+        DebitCreditAdvice : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=4.0, core=true, t24Name=DebitCreditAdvice)
+        DeliveryMethod : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=9.0, core=true, t24Name=DeliveryMethod)
+        EmailID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=256, sysNumber=11.0, core=true, t24Name=EmailID)
+        FaxNumber : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=14.0, core=true, t24Name=FaxNumber)
+        FromAmount : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=20, sysNumber=7.0, core=true, t24Name=FromAmount)
+        ID -> PP_BankConditionsGUI:PPL_BANKCONDITIONSADVICE PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+        InitiatedByOthers : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=6.0, core=true, t24Name=InitiatedByOthers)
+        PostAddress1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=256, sysNumber=16.0, core=true, t24Name=PostAddress1)
+        PostAddress2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=256, sysNumber=17.0, core=true, t24Name=PostAddress2)
+        PostAddress3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=256, sysNumber=18.0, core=true, t24Name=PostAddress3)
+        PostName : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=256, sysNumber=15.0, core=true, t24Name=PostName)
+        SMSNumber : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=13.0, core=true, t24Name=SMSNumber)
+        SequenceNumber : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=7, sysNumber=3.0, core=true, t24Name=SequenceNumber)
+        Telephonenumber : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=10.0, core=true, t24Name=Telephonenumber)
+        ToAmount : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=20, sysNumber=8.0, core=true, t24Name=ToAmount)
+    }
+/* Bank Conditions or Correspondent bank conditions, define the way in which a payment should be processed in the payment engine for a
+correspondent bank. Bank conditions of the correspondent bank involved in the payment will influence mainly Straight through processing of the
+payment in the payment engine. This will also allow customising banks’ charge account, statements and advices.
+The Bank conditions component allows the behaviour of the payment engine to configure at a flexible level where debit or credit party (or both parties) in the payment is a bank. Similar flexibility is provided by the client condition component where one side of the payment or both involves the customer and is used to control the customer processing conditions. Bank and Client conditions are handled by separate components due to the different criteria (input and output parameters) required for banks and customers. */
+    PP_BANK_CONDITIONS
+        @i18n:Description (en="")
+        @t24:i (t24Name=PP.BANK.CONDITIONS, nonStop=true, level=I, type=H, additionalInfo=HLD, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=57.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=58.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=54.0, core=true, t24Name=AUTHORISER)
+/* 1 character allowed to input(alphanumeric).
+Dropdown field having values Y (Yes) and N (No) default Value is N (No).
+This field is only required for GUI validation. It is not stored in database.
+
+Validation Rules:
+1. Mandatory field
+2. If Advice Indicator is set to YES, then at least one Advice detail  should be entered.
+3. In Edit mode, if there is at least one Advice Record, Advice Indicator must be set to YES */
+        AdviceIndicator : PP_BankConditionsGUI:PP_BANK_CONDITIONS__AdviceIndicator required
+            @i18n:Label (en=AdviceIndicator)
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=23.0, core=true, t24Name=AdviceIndicator)
+/* This new indicator will take the following values Y or blank.
+Y indicates the country supports special character set. Blank is default */
+        AllowSpecialCharacterSet : PP_BankConditionsGUI:PP_BANK_CONDITIONS__AllowSpecialCharacterSet
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=42.0, core=true, t24Name=AllowSpecialCharacterSet)
+/* Indicates Payment on behalf of bank (BTR) is STP or NON STP.
+1 character (alphanumeric).
+Possible Values – Y (Yes) or N (No). Default Value is No.
+
+Validation Rules:
+1. Mandatory field */
+        BTRNonSTPIndicator : PP_BankConditionsGUI:PP_BANK_CONDITIONS__BTRNonSTPIndicator required
+            @i18n:Label (en=BTRNonSTPIndicator)
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=8.0, core=true, t24Name=BTRNonSTPIndicator)
+        /* A valid BusinessID */
+        BankConditionsID -> PP_BankConditionsGUI:PP_BANK_CONDITIONS PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=80, sysNumber=0.0, core=true, businessType=ANY, t24Name=BankConditionsID)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=55.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+/* Indicates Payment on behalf of customer is STP or NON STP.
+
+1 character (alphanumeric).
+Possible Values – Y (Yes) or N (No).
+Default Value is No
+
+Validation Rules:
+1. Mandatory Input
+2. If CTRBTRIndicator is 'Yes' then CreditInstruction should be input. */
+        CTRNonSTPIndicator : PP_BankConditionsGUI:PP_BANK_CONDITIONS__CTRNonSTPIndicator required
+            @i18n:Label (en=CTRNonSTPIndicator)
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=6.0, core=true, t24Name=CTRNonSTPIndicator)
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=51.0, core=true, t24Name=CURR.NO)
+/* 1 character (alphanumeric).
+Possible Values – Y (Yes) or N (No).
+Default Value is No. This is to indicate that Bank requires separate charge account or charge accounts for different transaction currency. This field is only required for GUI validation. It is not stored in database.
+
+Validation Rules:
+1. Mandatory field
+2. If charge Account Indicator is set to YES, then at least one charge acount details should be entered.
+3. In Edit mode, if there is at least one Charge Account Record, Charge Account Indicator must be set to YES. */
+        ChargeAccountIndicator : PP_BankConditionsGUI:PP_BANK_CONDITIONS__ChargeAccountIndicator required
+            @i18n:Label (en=ChargeAccountIndicator)
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=18.0, core=true, t24Name=ChargeAccountIndicator)
+/* This field will specify against which code page the special characters have to be validated
+The value inputted by the user in this field will be validated against the ASCII.VAL.TABLE
+STANDARD.SW for LATIN or STANDARD.GR for GREEK */
+        CodePageSet : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=43.0, core=true, t24Name=CodePageSet)
+/* Indicates the company ID for which the record is created.
+Example : BNK,GB1
+Validation Rules:
+Mandatory field
+3 alphanumeric characters.
+NoInput Field
+The value gets autopopulated based on the company that you login */
+        CompanyID : T24BusinessTypes:A
+            @i18n:Label (en=CompanyID)
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+/* 35 characters (alphanumeric).
+BIC can be defined at different levels (BIC 11, 8 , 6, 4 , 2).
+Default value defined as “*”.
+Example
+CITIUS33CH1 ( BIC11)
+CITIUS33 ( BIC8)
+CITIUS
+CITI
+US
+* (default Value)
+No BIC should start with * (Eg. ****US33)
+
+Validation Rules:
+1. Mandatory field
+2. Valid BIC from PPT_BICTable of the selected company
+3. Only the 11/ 8/ 6/ 4 and 2 BIC values are permissible along with the default value ‘*’ */
+        CorrespondentBIC : T24BusinessTypes:A required
+            @i18n:Label (en=CorrespondentBIC)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=2.0, core=true, t24Name=CorrespondentBIC)
+        /* Credit instructions are allowed only if Non STP for CTR is Yes.This field can hold upto 128 alphanumeric characters */
+        CreditInstruction : T24BusinessTypes:A
+            @i18n:Label (en=CreditInstruction)
+            @t24:i (align=L, inputBehaviour=I, maxLength=128, sysNumber=7.0, core=true, t24Name=CreditInstruction)
+/* 15 characters (alphanumeric).
+Optional field.
+
+Validation Rules:
+1. Value should be valid entry in Statement Format table(PPT.STATEMENTFORMAT). */
+        CreditStmtFormatName : T24BusinessTypes:ANY
+            @i18n:Label (en=CreditStmtFormatName)
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=14.0, core=true, t24Name=CreditStmtFormatName)
+/* Holds a 3 character unique code which denotes a specific currency used in the system. It can also be a “*”.
+
+Validation Rules:
+1. Mandatory field
+2. If SLA is * then currency has to be *.
+3. Currency code can only be entered if SLA is entered.
+4. Currency should be a valid entry in Currency Table (PP.CURRENCY). */
+        CurrencyCode : T24BusinessTypes:A required
+            @i18n:Label (en=CurrencyCode)
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=4.0, core=true, t24Name=CurrencyCode)
+        DATE_TIME -> byValue PP_BankConditionsGUI:PP_BANK_CONDITIONS__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=56.0, core=true, t24Name=DEPT.CODE)
+        /* Debit instructions are allowed only if Non STP for BTR is Yes. This field can hold upto 128 alphanumeric characters */
+        DebitInstruction : T24BusinessTypes:A
+            @i18n:Label (en=DebitInstruction)
+            @t24:i (align=L, inputBehaviour=I, maxLength=128, sysNumber=9.0, core=true, t24Name=DebitInstruction)
+/* 15 characters (alphanumeric).
+Value should be valid entry in Statement Format table. It can also be blank */
+        DebitStmtFormatName : T24BusinessTypes:ANY
+            @i18n:Label (en=DebitStmtFormatName)
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=15.0, core=true, t24Name=DebitStmtFormatName)
+/* Specifies the date until which the record is to be considered as active for payments processing.Post this date, the record will be set as Inactive by the payments hub.
+
+Validation Rules:
+1. End Date >= Start Date */
+        EndDate : T24BusinessTypes:D
+            @i18n:Label (en=EndDate)
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=17.0, core=true, t24Name=EndDate)
+/* Providing preferential exchange rate spread when debit / credit accounts are different from to the payment currency.
+
+NOTE: Currently it is not in use reserved for future use. */
+        FXSpread : T24BusinessTypes:N
+            @i18n:Label (en=FXSpread)
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=16.0, core=true, t24Name=FXSpread)
+        INPUTTER -> byValue PP_BankConditionsGUI:PP_BANK_CONDITIONS__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* 2 characters (alphanumeric).
+Valid Entry in Language table (PPT.LANGUAGE). Can be blank. */
+        LanguageID : T24BusinessTypes:A
+            @i18n:Label (en=LanguageID)
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=13.0, core=true, t24Name=LanguageID)
+        LinkID : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=N, maxLength=255, sysNumber=49.0, core=true, t24Name=LinkID)
+        OVERRIDE -> byValue PP_BankConditionsGUI:PP_BANK_CONDITIONS__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+/* 1 character (alphanumeric).
+It is Dropdown field having values Y(Yes) and N(No).
+Default Value  is  No.
+
+NOTE: Currently it is not in use reserved for future use. */
+        PSDECChargeCompliant : PP_BankConditionsGUI:PP_BANK_CONDITIONS__PSDECChargeCompliant required
+            @i18n:Label (en=PSDECChargeCompliant)
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=12.0, core=true, t24Name=PSDECChargeCompliant)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=50.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=46.0, core=true, t24Name=RESERVED.1)
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=45.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=44.0, core=true, t24Name=RESERVED.3)
+/* Indicates Service level agreement with the other bank. 10 characters allowed to input.
+
+Validation Rules:
+1. Mandatory field.
+2. Valid value for this comes from the SLA table or wildcarded * ( Default Value)
+3. If SLA is * then currency has to be *.
+4. Currency code can only be entered if SLA is entered. */
+        SLAID : T24BusinessTypes:A required
+            @i18n:Label (en=SLAID)
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=3.0, core=true, t24Name=SLAID)
+        SequenceNumber -> byValue PP_BankConditionsGUI:PP_BANK_CONDITIONS__SequenceNumber *
+            @t24:i (t24Name=SequenceNumber)
+/* Specifies the date on which the record is to be considered active by the payments hub.
+
+Validation Rules:
+1. Start Date should be > Today and <= End Date */
+        StartDate : T24BusinessTypes:D
+            @i18n:Label (en=StartDate)
+            @t24:i (align=R, inputBehaviour=N, maxLength=11, sysNumber=5.0, core=true, t24Name=StartDate)
+        TransactionCurrency -> byValue PP_BankConditionsGUI:PP_BANK_CONDITIONS__TransactionCurrency *
+            @t24:i (t24Name=TransactionCurrency)
+/* Indicates Payment can be moved to Warehouse or not.
+
+Possible Values:
+Y - Yes
+J - Just in Time (JIT)
+N - No
+
+Default Value is J (JIT) */
+        WareHouseFlag : PP_BankConditionsGUI:PP_BANK_CONDITIONS__WareHouseFlag required
+            @i18n:Label (en=WareHouseFlag)
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=10.0, core=true, t24Name=WareHouseFlag)
+/* Indicates at what time payment to be released from Warehouse.
+
+Time in HH:MM format. Default value is blank.
+
+Validation Rules:
+1.Warehouse release time is allowed only when Warehouse Indicator is set Yes/JIT
+
+NOTE: Currently it is not in use reserved for future use. */
+        WareHouseReleaseTime : T24BusinessTypes:TIME
+            @i18n:Label (en=WareHouseReleaseTime)
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=11.0, core=true, t24Name=WareHouseReleaseTime)
+    }
+    PP_BANK_CONDITIONS_PDS
+        @i18n:Description (en="")
+        @t24:i (t24Name=PP.BANK.CONDITIONS.PDS, nonStop=true, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=57.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=58.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=54.0, core=true, t24Name=AUTHORISER)
+        AdviceIndicator : PP_BankConditionsGUI:PP_BANK_CONDITIONS_PDS__AdviceIndicator required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=23.0, core=true, t24Name=AdviceIndicator)
+        AllowSpecialCharacterSet : PP_BankConditionsGUI:PP_BANK_CONDITIONS_PDS__AllowSpecialCharacterSet
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=42.0, core=true, t24Name=AllowSpecialCharacterSet)
+        BTRNonSTPIndicator : PP_BankConditionsGUI:PP_BANK_CONDITIONS_PDS__BTRNonSTPIndicator required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=8.0, core=true, t24Name=BTRNonSTPIndicator)
+        BankConditionsID -> PP_BankConditionsGUI:PP_BANK_CONDITIONS_PDS PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=80, sysNumber=0.0, core=true, businessType=ANY, t24Name=BankConditionsID)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=55.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CTRNonSTPIndicator : PP_BankConditionsGUI:PP_BANK_CONDITIONS_PDS__CTRNonSTPIndicator required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=6.0, core=true, t24Name=CTRNonSTPIndicator)
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=51.0, core=true, t24Name=CURR.NO)
+        ChargeAccountIndicator : PP_BankConditionsGUI:PP_BANK_CONDITIONS_PDS__ChargeAccountIndicator required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=18.0, core=true, t24Name=ChargeAccountIndicator)
+        CodePageSet : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=43.0, core=true, t24Name=CodePageSet)
+        CompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+        CorrespondentBIC : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=2.0, core=true, t24Name=CorrespondentBIC)
+        CreditInstruction : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=128, sysNumber=7.0, core=true, t24Name=CreditInstruction)
+        CreditStmtFormatName : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=14.0, core=true, t24Name=CreditStmtFormatName)
+        CurrencyCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=4.0, core=true, t24Name=CurrencyCode)
+        DATE_TIME -> byValue PP_BankConditionsGUI:PP_BANK_CONDITIONS_PDS__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=56.0, core=true, t24Name=DEPT.CODE)
+        DebitInstruction : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=128, sysNumber=9.0, core=true, t24Name=DebitInstruction)
+        DebitStmtFormatName : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=15.0, core=true, t24Name=DebitStmtFormatName)
+        EndDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=17.0, core=true, t24Name=EndDate)
+        FXSpread : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=16.0, core=true, t24Name=FXSpread)
+        INPUTTER -> byValue PP_BankConditionsGUI:PP_BANK_CONDITIONS_PDS__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        LanguageID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=13.0, core=true, t24Name=LanguageID)
+        LinkID : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=N, maxLength=255, sysNumber=49.0, core=true, t24Name=LinkID)
+        OVERRIDE -> byValue PP_BankConditionsGUI:PP_BANK_CONDITIONS_PDS__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        PSDECChargeCompliant : PP_BankConditionsGUI:PP_BANK_CONDITIONS_PDS__PSDECChargeCompliant required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=12.0, core=true, t24Name=PSDECChargeCompliant)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=50.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=46.0, core=true, t24Name=RESERVED.1)
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=45.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=44.0, core=true, t24Name=RESERVED.3)
+        SLAID : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=3.0, core=true, t24Name=SLAID)
+        SequenceNumber -> byValue PP_BankConditionsGUI:PP_BANK_CONDITIONS_PDS__SequenceNumber *
+            @t24:i (t24Name=SequenceNumber)
+        StartDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=N, maxLength=11, sysNumber=5.0, core=true, t24Name=StartDate)
+        TransactionCurrency -> byValue PP_BankConditionsGUI:PP_BANK_CONDITIONS_PDS__TransactionCurrency *
+            @t24:i (t24Name=TransactionCurrency)
+        WareHouseFlag : PP_BankConditionsGUI:PP_BANK_CONDITIONS_PDS__WareHouseFlag required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=10.0, core=true, t24Name=WareHouseFlag)
+        WareHouseReleaseTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=11.0, core=true, t24Name=WareHouseReleaseTime)
+    }
+    PP_BANK_CONDITIONS_PDS__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=53.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    PP_BANK_CONDITIONS_PDS__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=52.0, core=true, t24Name=INPUTTER)
+    }
+    PP_BANK_CONDITIONS_PDS__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=48.0, core=true, t24Name=OVERRIDE)
+    }
+    PP_BANK_CONDITIONS_PDS__SequenceNumber
+    {
+        AmountCurreny : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=28.0, core=true, t24Name=AmountCurreny)
+        Attention : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=128, sysNumber=41.0, core=true, t24Name=Attention)
+        BICAddress : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=34.0, core=true, t24Name=BICAddress)
+        CTRBTRIndicator : PP_BankConditionsGUI:PP_BANK_CONDITIONS_PDS__SequenceNumber__CTRBTRIndicator
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=26.0, core=true, t24Name=CTRBTRIndicator)
+        DebitCreditAdvice : PP_BankConditionsGUI:PP_BANK_CONDITIONS_PDS__SequenceNumber__DebitCreditAdvice
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=25.0, core=true, t24Name=DebitCreditAdvice)
+        DeliveryMethod : PP_BankConditionsGUI:PP_BANK_CONDITIONS_PDS__SequenceNumber__DeliveryMethod
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=31.0, core=true, t24Name=DeliveryMethod)
+        EmailID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=256, sysNumber=33.0, core=true, t24Name=EmailID)
+        FaxNumber : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=36.0, core=true, t24Name=FaxNumber)
+        FromAmount : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=20, sysNumber=29.0, core=true, t24Name=FromAmount)
+        InitiatedByOthers : PP_BankConditionsGUI:PP_BANK_CONDITIONS_PDS__SequenceNumber__InitiatedByOthers
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=27.0, core=true, t24Name=InitiatedByOthers)
+        PostAddress1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=256, sysNumber=38.0, core=true, t24Name=PostAddress1)
+        PostAddress2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=256, sysNumber=39.0, core=true, t24Name=PostAddress2)
+        PostAddress3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=256, sysNumber=40.0, core=true, t24Name=PostAddress3)
+        PostName : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=256, sysNumber=37.0, core=true, t24Name=PostName)
+        SMSNumber : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=35.0, core=true, t24Name=SMSNumber)
+        SequenceNumber : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=7, sysNumber=24.0, core=true, t24Name=SequenceNumber)
+        Telephonenumber : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=32.0, core=true, t24Name=Telephonenumber)
+        ToAmount : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=20, sysNumber=30.0, core=true, t24Name=ToAmount)
+    }
+    PP_BANK_CONDITIONS_PDS__TransactionCurrency
+    {
+        ChargeAccountCompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=20.0, core=true, t24Name=ChargeAccountCompanyID)
+        ChargeAccountCurrency : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=22.0, core=true, t24Name=ChargeAccountCurrency)
+        ChargeAccountNumber : T24BusinessTypes:ACCA
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=21.0, core=true, t24Name=ChargeAccountNumber)
+        TransactionCurrency : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=19.0, core=true, t24Name=TransactionCurrency)
+    }
+    PP_BANK_CONDITIONS__BankAdviceID
+    {
+        AmountCurreny : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=31.0, core=true, t24Name=AmountCurreny)
+/* Indicates useful information relating to the delivery methods and the person whom to contact.
+E.g. in case of a Phone confirmation, the attribute can hold information on the name of contact and the preferred contact time and/or the
+language. */
+        Attention : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=128, sysNumber=44.0, core=true, t24Name=Attention)
+/* Allowed 35 Characters Valid BIC. This BIC is related to PPL_BankConditionsAdvice table.
+
+Validation Rules:
+1. Mandatory when Delivery method is Swift.
+2. Not allowed to input if Delivery Method is not SWIFT.
+3. Must be a valid value from BIC table. */
+        BICAddress : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=37.0, core=true, t24Name=BICAddress)
+        BankAdviceID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=26.0, core=true, t24Name=BankAdviceID)
+/* Indicates Customer transfer (CTR) or Bank transfer (BTR).
+1 character (alphanumeric).
+Possible Values - B(BTR) or C (CTR).
+
+Validation Rules:
+1. Mandatory Input if Advice Indicator is 'Yes'
+2. Input not allowed if Advice Indicator is not 'Yes' */
+        CTRBTRIndicator : PP_BankConditionsGUI:PP_BANK_CONDITIONS__BankAdviceID__CTRBTRIndicator
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=29.0, core=true, t24Name=CTRBTRIndicator)
+/* Indicates whether a debit or credit or Charge Advice confirmation needs to be generated. This field is related to PPL_BankConditionsAdvice table.
+2 character (alphanumeric).
+Possible Values - D (Debit) or C (Credit) CH (Charge).
+Note CH will not be allowed for Phase1.
+
+Validation Rules:
+1. Mandatory field if Advice Indicator is 'Yes'
+2. Input not allowed if Advice Indicator is not 'Yes' */
+        DebitCreditAdvice : PP_BankConditionsGUI:PP_BANK_CONDITIONS__BankAdviceID__DebitCreditAdvice
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=28.0, core=true, t24Name=DebitCreditAdvice)
+/* Indicates through which channel advice send to customer. This field is related to PPL_BankConditionsAdvice table.
+
+Possible Values:
+Swift / Post/ Email / Phone / Fax / SMS
+
+Validation Rules:
+1. Mandatory field if Advice Indicator is 'Yes'
+2. Input not allowed if Advice Indicator is not 'Yes' */
+        DeliveryMethod : PP_BankConditionsGUI:PP_BANK_CONDITIONS__BankAdviceID__DeliveryMethod
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=34.0, core=true, t24Name=DeliveryMethod)
+/* Holds Email address to send advices to customer through Email. This field is related to PPL_BankConditionsAdvice table.
+
+256 Characters Alphanumeric with an ‘@’sign.
+
+Validation Rules:
+1. Mandatory field if Advice Indicator is set to 'Yes' and Delivery Method is 'EMAIL'
+2. Not Allowed to input if Advice Indicator is not 'Yes' or Delivery Method is not 'EMAIL' */
+        EmailID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=256, sysNumber=36.0, core=true, t24Name=EmailID)
+/* Holds Fax Machine Number to send advices to customer through FAX. This field is related to PPL_BankConditionsAdvice table.
+
+20 Characters Numerals & special characters (+, -)
+
+Validation Rules:
+1. Mandatory field if Advice Indicator is 'Yes' and Delivery Method is 'FAX'
+2. Not Allowed to input if Advice Indicator is not 'Yes' or Delivery Method is not 'FAX' */
+        FaxNumber : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=39.0, core=true, t24Name=FaxNumber)
+/* 20 Digit Numeric.If the CurrencyCode Field is defined as “*” then From Amount should be made Blank and non-editable. This field is related to PPL_BankConditionsAdvice table.
+
+NOTE: Currently it is not in use. Reserved for future use. */
+        FromAmount : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=20, sysNumber=32.0, core=true, t24Name=FromAmount)
+/* Indicates generates Advices by Bank Conditions or can be initiated by others.This field is related to PPL_BankConditionsAdvice table.
+
+Possible Values:
+Y (Yes), N (No) and B (Both).
+
+Validation Rules:
+1. Mandatory field if Advice Indicator is 'Yes'
+2. Input not allowed if Advice Indicator is not 'Yes' */
+        InitiatedByOthers : PP_BankConditionsGUI:PP_BANK_CONDITIONS__BankAdviceID__InitiatedByOthers
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=30.0, core=true, t24Name=InitiatedByOthers)
+/* Holds the street address1.This field is related to PPL_BankConditionsAdvice table.
+Bank Conditions generate advices and then will send these advices through Postal .
+
+Validation Rules:
+1. Mandatory field if Advice Indicator is 'Yes' and Delivery Method is 'POST'
+2. At least one mail line (PostName or PostAddress1/2/3) should be input if Delivery method is 'POST'
+3. Not Allowed to input if Advice Indicator is not 'Yes' or Delivery Method is not 'FAX' */
+        PostAddress1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=256, sysNumber=41.0, core=true, t24Name=PostAddress1)
+/* Holds the street address2. This field is related to PPL_BankConditionsAdvice table.
+Bank Conditions generate advices and then will send these advices through Postal .
+
+Validation Rules:
+1. Mandatory field if Advice Indicator is 'Yes' and Delivery Method is 'POST'
+2. At least one mail line (PostName or PostAddress1/2/3) should be input if Delivery method is 'POST'
+3. Not Allowed to input if Advice Indicator is not 'Yes' or Delivery Method is not 'FAX' */
+        PostAddress2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=256, sysNumber=42.0, core=true, t24Name=PostAddress2)
+/* Holds the street address3.
+Bank Conditions generate advices and then will send these advices through Postal .
+
+Validation Rules:
+1. Mandatory field if Advice Indicator is 'Yes' and Delivery Method is 'POST'
+2. At least one mail line (PostName or PostAddress1/2/3) should be input if Delivery method is 'POST'
+3. Not Allowed to input if Advice Indicator is not 'Yes' or Delivery Method is not 'FAX' */
+        PostAddress3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=256, sysNumber=43.0, core=true, t24Name=PostAddress3)
+/* Holds the Customer name. This field is related to PPL_BankConditionsAdvice table.
+Bank Conditions generate advices and then will send these advices through Postal .
+
+Validation Rules:
+1. Mandatory field if Advice Indicator is 'Yes' and Delivery Method is 'POST'
+2. At least one mail line (PostName or PostAddress1/2/3) should be input if Delivery method is 'POST'
+3. Not Allowed to input if Advice Indicator is not 'Yes' or Delivery Method is not 'FAX' */
+        PostName : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=256, sysNumber=40.0, core=true, t24Name=PostName)
+/* Holds Phone number to send advices to customer as SMS.This field is related to PPL_BankConditionsAdvice table.
+
+20 Characters Numerals & special characters (+, -)
+
+Validation Rules:
+1. Mandatory field if Advice Indicator is 'Yes' and Delivery Method is 'SMS'
+2. Not Allowed to input if Advice Indicator is not 'Yes' or Delivery Method is not 'SMS' */
+        SMSNumber : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=38.0, core=true, t24Name=SMSNumber)
+/* One bank condition can have more than one Advice. System generated number.This field is related to PPL_BankConditionsAdvice table.
+
+No Input field */
+        SequenceNumber : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=7, sysNumber=27.0, core=true, t24Name=SequenceNumber)
+/* Holds Phone number to get confirmation from the customer while processing payment.This field is related to PPL_BankConditionsAdvice table.
+
+20 Characters Numerals & special characters (+, -)
+
+Validation Rules:
+1. Mandatory field if Advice Indicator is 'Yes' and Delivery Method is 'PHONE'
+2. Not Allowed to input if Advice Indicator is not 'Yes' or Delivery Method is not 'PHONE' */
+        Telephonenumber : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=35.0, core=true, t24Name=Telephonenumber)
+/* 20 Digit Numeric. If the CurrencyCode Field is defined as “*” then To Amount should be made Blank and non-editable.This field is related to PPL_BankConditionsAdvice table.
+
+NOTE: Currently it is not in use reserved for future use. */
+        ToAmount : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=20, sysNumber=33.0, core=true, t24Name=ToAmount)
+    }
+    PP_BANK_CONDITIONS__BankCondChargeID
+    {
+        BankCondChargeID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=20.0, core=true, t24Name=BankCondChargeID)
+/* Indicates Charge Account company code. Valid/allowed values for this would come from the company static table PP.COMPANY. This field is related to PPL_BankCondChargeAccount table.
+
+Validation Rules:
+1. Mandatory to field if Charge Account Indicator is 'Y'
+2. Input not allowed if Charge Account Indicator is not 'Y' */
+        ChargeAccountCompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=22.0, core=true, t24Name=ChargeAccountCompanyID)
+/* Three character currency code of the Charge Account. This field is related to PPL_BankCondChargeAccount table.
+
+Validation Rules:
+1. Mandatory to input if Charge Account Indicator is 'Y'
+2. Input not allowed if Charge Account Indicator is not 'Y' */
+        ChargeAccountCurrency : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=24.0, core=true, t24Name=ChargeAccountCurrency)
+/* Indicates charge account number to the Bank Conditions.This field is related to PPL_BankCondChargeAccount table.
+
+Validation Rules:
+1. Mandatory field if Charge Account Indicator is 'Y'
+2. Input not allowed if Charge Account Indicator is not 'Y' */
+        ChargeAccountNumber : T24BusinessTypes:ACCA
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=23.0, core=true, t24Name=ChargeAccountNumber)
+/* Three character currency code of the Credit Account.This field is related to PPL_BankCondChargeAccount table.
+
+Validation Rules:
+1. If CurrencyCode is defined then this transaction currency must match with that value. */
+        TransactionCurrency : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=21.0, core=true, t24Name=TransactionCurrency)
+    }
+    PP_BANK_CONDITIONS__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=53.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    PP_BANK_CONDITIONS__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=52.0, core=true, t24Name=INPUTTER)
+    }
+    PP_BANK_CONDITIONS__OVERRIDE
+    {
+        /* Contains all the override messages which the user agreed to during Input. During the validation of a transaction, the system may provide the user with a series of screen override messages to indicate an anomaly. */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=48.0, core=true, t24Name=OVERRIDE)
+    }
+    PP_BANK_CONDITIONS__SequenceNumber
+    {
+        AmountCurreny : T24BusinessTypes:A
+            @i18n:Label (en=AmountCurreny)
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=28.0, core=true, t24Name=AmountCurreny)
+        Attention : T24BusinessTypes:A
+            @i18n:Label (en=Attention)
+            @t24:i (align=L, inputBehaviour=I, maxLength=128, sysNumber=41.0, core=true, t24Name=Attention)
+        BICAddress : T24BusinessTypes:A
+            @i18n:Label (en=BICAddress)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=34.0, core=true, t24Name=BICAddress)
+        CTRBTRIndicator : PP_BankConditionsGUI:PP_BANK_CONDITIONS__SequenceNumber__CTRBTRIndicator
+            @i18n:Label (en=CTRBTRIndicator)
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=26.0, core=true, t24Name=CTRBTRIndicator)
+        DebitCreditAdvice : PP_BankConditionsGUI:PP_BANK_CONDITIONS__SequenceNumber__DebitCreditAdvice
+            @i18n:Label (en=DebitCreditAdvice)
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=25.0, core=true, t24Name=DebitCreditAdvice)
+        DeliveryMethod : PP_BankConditionsGUI:PP_BANK_CONDITIONS__SequenceNumber__DeliveryMethod
+            @i18n:Label (en=DeliveryMethod)
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=31.0, core=true, t24Name=DeliveryMethod)
+        EmailID : T24BusinessTypes:A
+            @i18n:Label (en=EmailID)
+            @t24:i (align=L, inputBehaviour=I, maxLength=256, sysNumber=33.0, core=true, t24Name=EmailID)
+        FaxNumber : T24BusinessTypes:A
+            @i18n:Label (en=FaxNumber)
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=36.0, core=true, t24Name=FaxNumber)
+        FromAmount : T24BusinessTypes:AMT
+            @i18n:Label (en=FromAmount)
+            @t24:i (align=R, inputBehaviour=I, maxLength=20, sysNumber=29.0, core=true, t24Name=FromAmount)
+        InitiatedByOthers : PP_BankConditionsGUI:PP_BANK_CONDITIONS__SequenceNumber__InitiatedByOthers
+            @i18n:Label (en=InitiatedByOthers)
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=27.0, core=true, t24Name=InitiatedByOthers)
+        PostAddress1 : T24BusinessTypes:A
+            @i18n:Label (en=PostAddress1)
+            @t24:i (align=L, inputBehaviour=I, maxLength=256, sysNumber=38.0, core=true, t24Name=PostAddress1)
+        PostAddress2 : T24BusinessTypes:A
+            @i18n:Label (en=PostAddress2)
+            @t24:i (align=L, inputBehaviour=I, maxLength=256, sysNumber=39.0, core=true, t24Name=PostAddress2)
+        PostAddress3 : T24BusinessTypes:A
+            @i18n:Label (en=PostAddress3)
+            @t24:i (align=L, inputBehaviour=I, maxLength=256, sysNumber=40.0, core=true, t24Name=PostAddress3)
+        PostName : T24BusinessTypes:A
+            @i18n:Label (en=PostName)
+            @t24:i (align=L, inputBehaviour=I, maxLength=256, sysNumber=37.0, core=true, t24Name=PostName)
+        SMSNumber : T24BusinessTypes:A
+            @i18n:Label (en=SMSNumber)
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=35.0, core=true, t24Name=SMSNumber)
+        SequenceNumber : T24BusinessTypes:N
+            @i18n:Label (en=SequenceNumber)
+            @t24:i (align=R, inputBehaviour=N, maxLength=7, sysNumber=24.0, core=true, t24Name=SequenceNumber)
+        Telephonenumber : T24BusinessTypes:A
+            @i18n:Label (en=Telephonenumber)
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=32.0, core=true, t24Name=Telephonenumber)
+        ToAmount : T24BusinessTypes:AMT
+            @i18n:Label (en=ToAmount)
+            @t24:i (align=R, inputBehaviour=I, maxLength=20, sysNumber=30.0, core=true, t24Name=ToAmount)
+    }
+    PP_BANK_CONDITIONS__TransactionCurrency
+    {
+        ChargeAccountCompanyID : T24BusinessTypes:A
+            @i18n:Label (en=ChargeAccountCompanyID)
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=20.0, core=true, t24Name=ChargeAccountCompanyID)
+        ChargeAccountCurrency : T24BusinessTypes:A
+            @i18n:Label (en=ChargeAccountCurrency)
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=22.0, core=true, t24Name=ChargeAccountCurrency)
+        ChargeAccountNumber : T24BusinessTypes:ACCA
+            @i18n:Label (en=ChargeAccountNumber)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=21.0, core=true, t24Name=ChargeAccountNumber)
+        TransactionCurrency : T24BusinessTypes:A
+            @i18n:Label (en=TransactionCurrency)
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=19.0, core=true, t24Name=TransactionCurrency)
+    }
+}
+Enumerations {
+    PP_BANK_CONDITIONS_PDS__AdviceIndicator : mml:string
+        N=N
+        NULL=NULL
+        Y=Y
+    PP_BANK_CONDITIONS_PDS__AllowSpecialCharacterSet : mml:string
+        N=N
+        NULL=NULL
+        Y=Y
+    PP_BANK_CONDITIONS_PDS__BTRNonSTPIndicator : mml:string
+        N=N
+        NULL=NULL
+        Y=Y
+    PP_BANK_CONDITIONS_PDS__CTRNonSTPIndicator : mml:string
+        N=N
+        NULL=NULL
+        Y=Y
+    PP_BANK_CONDITIONS_PDS__ChargeAccountIndicator : mml:string
+        N=N
+        NULL=NULL
+        Y=Y
+    PP_BANK_CONDITIONS_PDS__PSDECChargeCompliant : mml:string
+        N=N
+        NULL=NULL
+        Y=Y
+    PP_BANK_CONDITIONS_PDS__SequenceNumber__CTRBTRIndicator : mml:string
+        B=B
+        C=C
+    PP_BANK_CONDITIONS_PDS__SequenceNumber__DebitCreditAdvice : mml:string
+        C=C
+        CH=CH
+        D=D
+    PP_BANK_CONDITIONS_PDS__SequenceNumber__DeliveryMethod : mml:string
+        EMAIL=EMAIL
+        FAX=FAX
+        PHONE=PHONE
+        POST=POST
+        SMS=SMS
+        SWIFT=SWIFT
+    PP_BANK_CONDITIONS_PDS__SequenceNumber__InitiatedByOthers : mml:string
+        B=B
+        N=N
+        Y=Y
+    PP_BANK_CONDITIONS_PDS__WareHouseFlag : mml:string
+        J=J
+        N=N
+        NULL=NULL
+        Y=Y
+    PP_BANK_CONDITIONS__AdviceIndicator : mml:string
+        N=N
+        NULL=NULL
+        Y=Y
+    PP_BANK_CONDITIONS__AllowSpecialCharacterSet : mml:string
+        N=N
+        NULL=NULL
+        Y=Y
+    PP_BANK_CONDITIONS__BTRNonSTPIndicator : mml:string
+        N=N
+        NULL=NULL
+        Y=Y
+    PP_BANK_CONDITIONS__BankAdviceID__CTRBTRIndicator : mml:string
+        B=B
+        C=C
+    PP_BANK_CONDITIONS__BankAdviceID__DebitCreditAdvice : mml:string
+        C=C
+        CH=CH
+        D=D
+    PP_BANK_CONDITIONS__BankAdviceID__DeliveryMethod : mml:string
+        EMAIL=EMAIL
+        FAX=FAX
+        PHONE=PHONE
+        POST=POST
+        SMS=SMS
+        SWIFT=SWIFT
+    PP_BANK_CONDITIONS__BankAdviceID__InitiatedByOthers : mml:string
+        B=B
+        N=N
+        Y=Y
+    PP_BANK_CONDITIONS__CTRNonSTPIndicator : mml:string
+        N=N
+        NULL=NULL
+        Y=Y
+    PP_BANK_CONDITIONS__ChargeAccountIndicator : mml:string
+        N=N
+        NULL=NULL
+        Y=Y
+    PP_BANK_CONDITIONS__PSDECChargeCompliant : mml:string
+        N=N
+        NULL=NULL
+        Y=Y
+    PP_BANK_CONDITIONS__SequenceNumber__CTRBTRIndicator : mml:string
+        B=B
+        C=C
+    PP_BANK_CONDITIONS__SequenceNumber__DebitCreditAdvice : mml:string
+        C=C
+        CH=CH
+        D=D
+    PP_BANK_CONDITIONS__SequenceNumber__DeliveryMethod : mml:string
+        EMAIL=EMAIL
+        FAX=FAX
+        PHONE=PHONE
+        POST=POST
+        SMS=SMS
+        SWIFT=SWIFT
+    PP_BANK_CONDITIONS__SequenceNumber__InitiatedByOthers : mml:string
+        B=B
+        N=N
+        Y=Y
+    PP_BANK_CONDITIONS__WareHouseFlag : mml:string
+        J=J
+        N=N
+        NULL=NULL
+        Y=Y
+}

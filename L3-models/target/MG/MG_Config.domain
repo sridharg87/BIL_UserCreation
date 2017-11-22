@@ -1,0 +1,26 @@
+# UTF-8
+Domain MG_Config
+    @t24:i (module=MG)
+    @java:Package (value=com.temenos.t24.datamodel.mg.mg_config)
+namespace "http://www.temenos.com/t24/MG_Config"
+metamodelVersion 1.30.6
+Classes {
+    MG_SCHED_DATES
+        @i18n:Description (en="")
+        @t24:i (t24Name=MG.SCHED.DATES, level=I, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* Standard T24 alphanumeric field.
+Validation Rules:
+Mandatory input.
+A maximum of 17 characters may be entered. */
+        CONTRACT_ID : T24BusinessTypes:A PK required
+            @i18n:Label (en="Contract Id")
+            @t24:i (align=L, inputBehaviour=N, maxLength=17, sysNumber=0.0, core=true, t24Name=CONTRACT.ID)
+/* Standard T24 date field.
+Validation Rules:
+A maximum of 8 characters may be entered. */
+        DATE : T24BusinessTypes:D
+            @i18n:Label (en=Date)
+            @t24:i (align=R, inputBehaviour=N, maxLength=8, sysNumber=1.0, core=true, t24Name=DATE)
+    }
+}

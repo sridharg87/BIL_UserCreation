@@ -1,0 +1,348 @@
+# UTF-8
+/* Customer Identifiaction for CRS Regulatory */
+Domain CD_CustomerIdentification
+    @t24:i (module=CD)
+    @java:Package (value=com.temenos.t24.datamodel.cd.cd_customeridentification)
+namespace "http://www.temenos.com/t24/CD_CustomerIdentification"
+metamodelVersion 1.30.6
+Classes {
+    /* CRS.CUST.SUPP.INFO table holds the supplementary information for a customer related to CRS. The ID of the record will be the Customer number. */
+    CRS_CUST_SUPP_INFO
+        @i18n:Description (en="")
+        @t24:i (t24Name=CRS.CUST.SUPP.INFO, level=C, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        ADDRESS_TYPE -> byValue CD_CustomerIdentification:CRS_CUST_SUPP_INFO__ADDRESS_TYPE *
+            @t24:i (t24Name=ADDRESS.TYPE)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=52.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=53.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=49.0, core=true, t24Name=AUTHORISER)
+/* Field to record the birth/incorporation date of the beneficial owner. In case of Individuals – Date of Birth, in case of Entities – Date of Incorporation.
+If this has been specified in the CUSTOMER table then that will be defaulted from there.
+Validation rules
+Mandatory field.
+If BIRTH.INCORP.DATE is present in the CUSTOMER application, then the date specified in this field should be same with the Customer application. */
+        BIRTH_INCORP_DATE : T24BusinessTypes:D required
+            @i18n:Label (en="Birth Date")
+            @i18n:Tooltip (en="Date of birth or Incorporation ")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=4.0, core=true, t24Name=BIRTH.INCORP.DATE, typeModifiers=1000)
+/* Field to record the place of birth/incorporation place for the beneficial owner. In case of individuals - Place of Birth, in case of entities - Place of incorporation.
+Validation rules
+Mandatory field.
+Must be a valid country code. */
+        BIRTH_INCORP_PLACE -> ST_Config:COUNTRY required
+            @t24:i (align=L, inputBehaviour=I, maxLength=9, sysNumber=5.0, core=true, businessType=SSS, t24Name=BIRTH.INCORP.PLACE)
+/* Descriptive field to record the reason, if the CRS.STATUS populated by the system is changed by the user..
+Validation rules
+Mandatory when the status is changed by the user. */
+        CHANGE_REASON : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=32.0, core=true, t24Name=CHANGE.REASON)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=50.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+/* Field to state whether the customer is an ‘Individual’ or an ‘Entity’.
+If the client is an ‘Entity’, then further granular level classification is required in to the Entity as a Reportable Person Entity as a Passive NFE.
+Validation rules
+Mandatory field.
+Allowed values are Individual, Entity-Reportable Person, Entity-Passive NFE */
+        CRS_CUSTOMER_TYPE : CD_CustomerIdentification:CRS_CUST_SUPP_INFO__CRS_CUSTOMER_TYPE required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, t24Name=CRS.CUSTOMER.TYPE)
+/* The ID will be the CUSTOMER number.
+Validation rules
+Must be a valid record on the Customer table. */
+        CRS_CUST_ID -> CD_CustomerIdentification:CRS_CUST_SUPP_INFO PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=CRS.CUST.ID)
+/* Field to hold the status of the customer as Reportable or Non-reportable.
+User can change the system calculated value only once the system calculated value is populated.
+Validation rules
+Allowed values are Reportable, Non-Reportable and Inactive. */
+        CRS_STATUS : CD_CustomerIdentification:CRS_CUST_SUPP_INFO__CRS_STATUS
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=30.0, core=true, t24Name=CRS.STATUS)
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=46.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue CD_CustomerIdentification:CRS_CUST_SUPP_INFO__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=51.0, core=true, t24Name=DEPT.CODE)
+/* System will populate 'YES' if any of the indicia's are met or else 'NO'.
+Validation rules
+No input field. */
+        INDICIA : CD_CustomerIdentification:CRS_CUST_SUPP_INFO__INDICIA
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=27.0, core=true, t24Name=INDICIA)
+        INPUTTER -> byValue CD_CustomerIdentification:CRS_CUST_SUPP_INFO__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* Field to record whether the KYC checks have been done or not.
+Validation rules
+Allowed values are YES, NO. */
+        KYC_CHECK : CD_CustomerIdentification:CRS_CUST_SUPP_INFO__KYC_CHECK
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=2.0, core=true, t24Name=KYC.CHECK)
+        OVERRIDE -> byValue CD_CustomerIdentification:CRS_CUST_SUPP_INFO__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        POA_HOLDER_COUNTRY -> byValue CD_CustomerIdentification:CRS_CUST_SUPP_INFO__POA_HOLDER_COUNTRY *
+            @t24:i (t24Name=POA.HOLDER.COUNTRY)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=45.0, core=true, t24Name=RECORD.STATUS)
+        REPORTABLE_JUR_RES -> byValue CD_CustomerIdentification:CRS_CUST_SUPP_INFO__REPORTABLE_JUR_RES *
+            @t24:i (t24Name=REPORTABLE.JUR.RES)
+/* Field to record if a waiver document has been received by the Financial Institution from the customer if they want their account information to be Non-Reportable.
+Validation rules
+Allowed values are YES, NO. */
+        REPORT_WAIVER_REC : CD_CustomerIdentification:CRS_CUST_SUPP_INFO__REPORT_WAIVER_REC
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=29.0, core=true, t24Name=REPORT.WAIVER.REC)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=42.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=33.0, core=true, t24Name=RESERVED.10)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=41.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=40.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=39.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=38.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=37.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=36.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=35.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=34.0, core=true, t24Name=RESERVED.9)
+        ROLE_TYPE -> byValue CD_CustomerIdentification:CRS_CUST_SUPP_INFO__ROLE_TYPE *
+            @t24:i (t24Name=ROLE.TYPE)
+/* Field to determine whether the Reporting Financial Institution has obtained a self-certification as part of the account opening documentation to determine Account Holder’s Residence for tax purposes.
+This is mandatory for the customers opening by a Reporting Financial Institution after the Effective date of the regulation
+Validation rules
+Applicable in case of the followings: Pre-existing Entity High,  New Individual Accounts, New Entity Accounts
+Allowed values are YES, NO. */
+        SELF_CERTIFICATION : CD_CustomerIdentification:CRS_CUST_SUPP_INFO__SELF_CERTIFICATION
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=3.0, core=true, t24Name=SELF.CERTIFICATION)
+        STANDING_INSTRUCT -> byValue CD_CustomerIdentification:CRS_CUST_SUPP_INFO__STANDING_INSTRUCT *
+            @t24:i (t24Name=STANDING.INSTRUCT)
+/* Field to hold the date on which the CRS.STATUS is changed to INACTIVE.
+This date is used for calculating the previous day's customer balances.
+Validation rules
+Date can't be less than today's date.
+Mandatory when the status is changed by the user. */
+        STATUS_CHNG_DATE : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=31.0, core=true, t24Name=STATUS.CHNG.DATE, typeModifiers=1000)
+        TAX_RESIDENCE -> byValue CD_CustomerIdentification:CRS_CUST_SUPP_INFO__TAX_RESIDENCE *
+            @t24:i (t24Name=TAX.RESIDENCE)
+        TELEPHONE_NO -> byValue CD_CustomerIdentification:CRS_CUST_SUPP_INFO__TELEPHONE_NO *
+            @t24:i (t24Name=TELEPHONE.NO)
+    }
+    CRS_CUST_SUPP_INFO__ADDRESS_TYPE
+    {
+        ADDRESS_COUNTRY -> byValue CD_CustomerIdentification:CRS_CUST_SUPP_INFO__ADDRESS_TYPE__ADDRESS_COUNTRY *
+            @t24:i (t24Name=ADDRESS.COUNTRY)
+/* This field is associated with the ADDRESS.COUNTRY field and can be multi-valued.
+These fields are in line with Indicia checks for customer address.
+Validation rules
+Allowed values are Mail, Permanent, In Care, Hold Mail, PO Box. */
+        ADDRESS_TYPE : CD_CustomerIdentification:CRS_CUST_SUPP_INFO__ADDRESS_TYPE__ADDRESS_TYPE
+            @i18n:Label (en=Type)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=8.0, core=true, t24Name=ADDRESS.TYPE)
+    }
+    CRS_CUST_SUPP_INFO__ADDRESS_TYPE__ADDRESS_COUNTRY
+    {
+/* Field to specify the country code for the specified address type.
+Validation rules
+Must be a valid country code. */
+        ADDRESS_COUNTRY -> ST_Config:COUNTRY
+            @t24:i (align=L, inputBehaviour=I, maxLength=9, sysNumber=9.0, core=true, businessType=SSS, t24Name=ADDRESS.COUNTRY)
+    }
+    CRS_CUST_SUPP_INFO__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=48.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    CRS_CUST_SUPP_INFO__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=47.0, core=true, t24Name=INPUTTER)
+    }
+    CRS_CUST_SUPP_INFO__OVERRIDE
+    {
+/* This is a multi valued field.
+Contains details of any override applicable to this record.
+Validation Rules:
+A maximum of 35 characters may be entered. This is a NOINPUT field. */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=44.0, core=true, t24Name=OVERRIDE)
+    }
+    CRS_CUST_SUPP_INFO__POA_HOLDER_COUNTRY
+    {
+/* Field to hold the country code for effective power of attorney or signatory authority granted to a person with an address in a Reportable Jurisdiction.
+This field can be multi-valued field and in line with the Indicia checks for the POA holder or signatory authority.
+Validation rules
+Must be a valid country code. */
+        POA_HOLDER_COUNTRY -> ST_Config:COUNTRY
+            @t24:i (align=L, inputBehaviour=I, maxLength=9, sysNumber=13.0, core=true, businessType=SSS, t24Name=POA.HOLDER.COUNTRY)
+    }
+    CRS_CUST_SUPP_INFO__REPORTABLE_JUR_RES
+    {
+/* Field to store the residences of the Participating Jurisdictions after performing residential address check or electronic record search.
+Validation rules
+No input field. */
+        REPORTABLE_JUR_RES -> ST_Config:COUNTRY
+            @t24:i (align=L, inputBehaviour=N, maxLength=9, sysNumber=28.0, core=true, businessType=SSS, t24Name=REPORTABLE.JUR.RES)
+    }
+    CRS_CUST_SUPP_INFO__ROLE_TYPE
+    {
+/* If the customer record exists for the controlling persons, then the ID of the particular customer record has to be specified in this field.
+Validation rules
+Valid customer number */
+        CUSTOMER_ID -> ST_Customer:CUSTOMER
+            @i18n:Label (en="Customer Id")
+            @i18n:Tooltip (en="Identifies the Customer for the transaction.")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=15.0, core=true, businessType=CUS, t24Name=CUSTOMER.ID)
+        CUSTOMER_NAME -> byValue CD_CustomerIdentification:CRS_CUST_SUPP_INFO__ROLE_TYPE__CUSTOMER_NAME *
+            @t24:i (t24Name=CUSTOMER.NAME)
+/* Field to hold the Unique ID reference for the controlling persons specified.
+The value contains two parts, first part should be CRS.CUST.SUPP.INFO ID, separator hyphen “-“, second part with sequence number.
+For example, if the record is being input for customer 100291, the CUSTOMER REFERENCE will be 100291-1 for the first beneficial owner
+Validation rules
+Duplicate values in this field are not allowed. */
+        CUSTOMER_REFERENCE : T24BusinessTypes:ANY
+            @i18n:Label (en="Customer Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=17.0, core=true, t24Name=CUSTOMER.REFERENCE)
+/* Field to specify the Date of Birth of the Controlling person.
+Validation rules
+Mandatory when ROLE.TYPE is defined. */
+        DATE_OF_BIRTH : T24BusinessTypes:D
+            @i18n:Label (en="Date of Birth")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=18.0, core=true, t24Name=DATE.OF.BIRTH, typeModifiers=1000)
+/* Field used to specify the Place of Birth of the Controlling person.
+Validation rules
+Mandatory when ROLE.TYPE is defined. */
+        PLACE_OF_BIRTH -> ST_Config:COUNTRY
+            @t24:i (align=L, inputBehaviour=I, maxLength=9, sysNumber=19.0, core=true, businessType=SSS, t24Name=PLACE.OF.BIRTH)
+        RESERVED_11 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=26.0, core=true, t24Name=RESERVED.11)
+        RESERVED_12 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=25.0, core=true, t24Name=RESERVED.12)
+        RESERVED_13 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=24.0, core=true, t24Name=RESERVED.13)
+        RESERVED_14 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=23.0, core=true, t24Name=RESERVED.14)
+        RESERVED_15 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=22.0, core=true, t24Name=RESERVED.15)
+        ROLE_TYPE -> byValue CD_CustomerIdentification:CRS_CUST_SUPP_INFO__ROLE_TYPE__ROLE_TYPE *
+            @t24:i (t24Name=ROLE.TYPE)
+/* Field used to specify the Tax Residence of the Controlling person.
+Validation rules
+Mandatory when ROLE.TYPE is defined. */
+        RT_TAX_RESIDENCE -> ST_Config:COUNTRY
+            @t24:i (align=L, inputBehaviour=I, maxLength=9, sysNumber=20.0, core=true, businessType=SSS, t24Name=RT.TAX.RESIDENCE)
+        /* Field to specify the Tax Identification of the Controlling person. */
+        TIN : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=21.0, core=true, t24Name=TIN)
+    }
+    CRS_CUST_SUPP_INFO__ROLE_TYPE__CUSTOMER_NAME
+    {
+/* If no customer record exists for the controlling person then name needs to be specified in this field.
+Validation rules
+Multi-lingual field */
+        CUSTOMER_NAME : T24BusinessTypes:ANY
+            @i18n:Label (en="Customer Name")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, multiLanguage=true, sysNumber=16.0, core=true, t24Name=CUSTOMER.NAME)
+    }
+    CRS_CUST_SUPP_INFO__ROLE_TYPE__ROLE_TYPE
+    {
+/* Field to specify the details of the controlling persons of Entity-Passive NFE.
+Allowed to input only when the CUSTOMER.TYPE field is selected as Entity-Passive NFE.
+Validation rules
+Values to be picked from EB.LOOKUP table. */
+        ROLE_TYPE : CD_CustomerIdentification:CRS_CUST_SUPP_INFO__ROLE_TYPE__ROLE_TYPE__ROLE_TYPE
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=14.0, core=true, t24Name=ROLE.TYPE)
+    }
+    CRS_CUST_SUPP_INFO__STANDING_INSTRUCT
+    {
+/* Holds the country codes, if the customer is having Standing Orders instructions.
+System has the logic to identify the Reporting Jurisdiction based on the parameter if standing order instruction has been given in that jurisdiction.
+This field can be multi-valued and in line with Indicia checks for standing order instruction.
+Validation rules
+Must be a valid country code. */
+        STANDING_INSTRUCT -> ST_Config:COUNTRY
+            @t24:i (align=L, inputBehaviour=I, maxLength=9, sysNumber=12.0, core=true, businessType=SSS, t24Name=STANDING.INSTRUCT)
+    }
+    CRS_CUST_SUPP_INFO__TAX_RESIDENCE
+    {
+/* Allows to define the Tax Identification Number (TIN).
+It will be an associated multi-valued field with the TAX.RESIDENCE in case of customers having more than one TIN.
+Validation rules
+Alpha numeric characters are allowed. */
+        TAX_IDENTITY_NO : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=7.0, core=true, t24Name=TAX.IDENTITY.NO)
+/* Field to specify the Tax Residence of the customer based on the self-certification.
+It will be an associated multi-valued field with the TAX.IDENTITY.NO in case of customers having more than one Tax Residence.
+Validation rules
+Mandatory field.
+Must be a valid country code. */
+        TAX_RESIDENCE -> ST_Config:COUNTRY required
+            @t24:i (align=L, inputBehaviour=I, maxLength=9, sysNumber=6.0, core=true, businessType=SSS, t24Name=TAX.RESIDENCE)
+    }
+    CRS_CUST_SUPP_INFO__TELEPHONE_NO
+    {
+/* System populates the country code from the PARTICIPANT.JUD field of CRS.PARAMETER, if the ISD code from TELEPHONE.NO field matches with the TELEPHONE.CODE defined in CRS.PARAMETER.
+Validation rules
+No input field */
+        TELEPHONE_COUNTRY -> ST_Config:COUNTRY
+            @t24:i (align=L, inputBehaviour=I, maxLength=9, sysNumber=11.0, core=true, businessType=SSS, t24Name=TELEPHONE.COUNTRY)
+/* Field to record a valid Telephone Number of the customer.
+This field will be associated with the TELEPHONE.COUNTRY Field.
+These fields are in line with Indicia checks for telephone number.
+Validation rules
+ISD code should be separated with the '-' symbol. */
+        TELEPHONE_NO : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=10.0, core=true, t24Name=TELEPHONE.NO)
+    }
+}
+Enumerations {
+    CRS_CUST_SUPP_INFO__ADDRESS_TYPE__ADDRESS_TYPE : mml:string
+        HOLD_MAIL=HOLD.MAIL
+        INCARE=INCARE
+        MAIL=MAIL
+        PERMANENT=PERMANENT
+        PO_BOX=PO.BOX
+    CRS_CUST_SUPP_INFO__CRS_CUSTOMER_TYPE : mml:string
+        ENTITY__PASSIVE_NFE=ENTITY-PASSIVE.NFE
+        ENTITY__REPORTABLE_PERSON=ENTITY-REPORTABLE.PERSON
+        INDIVIDUAL=INDIVIDUAL
+    CRS_CUST_SUPP_INFO__CRS_STATUS : mml:string
+        INACTIVE=INACTIVE
+        NON__REPORTABLE=NON-REPORTABLE
+        REPORTABLE=REPORTABLE
+    CRS_CUST_SUPP_INFO__INDICIA : mml:string
+        NO=NO
+        YES=YES
+    CRS_CUST_SUPP_INFO__KYC_CHECK : mml:string
+        NO=NO
+        YES=YES
+    CRS_CUST_SUPP_INFO__REPORT_WAIVER_REC : mml:string
+        NO=NO
+        YES=YES
+    CRS_CUST_SUPP_INFO__ROLE_TYPE__ROLE_TYPE__ROLE_TYPE : mml:string
+        CONTROLLING_PERSON=CONTROLLING.PERSON
+    CRS_CUST_SUPP_INFO__SELF_CERTIFICATION : mml:string
+        NO=NO
+        YES=YES
+}

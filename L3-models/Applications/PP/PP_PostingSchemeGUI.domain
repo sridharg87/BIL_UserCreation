@@ -1,0 +1,2701 @@
+# UTF-8
+/* Posting Scheme GUI */
+Domain PP_PostingSchemeGUI
+    @t24:i (module=PP)
+    @java:Package (value=com.temenos.t24.datamodel.pp.pp_postingschemegui)
+namespace "http://www.temenos.com/t24/PP_PostingSchemeGUI"
+metamodelVersion 1.30.6
+Classes {
+    NOFILE_STMT_TOKEN_IDS
+        @i18n:Description (en="")
+        @t24:i (t24Name=NOFILE.STMT.TOKEN.IDS, level=I, type=T, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        GET_COMP_ID : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=5, core=false, t24Name=GET.COMP.ID)
+        RTN : T24BusinessTypes:N
+            @t24:i (align=L, inputBehaviour=N, maxLength=100, core=false, t24Name=RTN, genOperation=PP.STMT.TOKEN.VALUE.RTN)
+    }
+/* This table is used to setup all possible levels of peeling off to determine the Dealer Desk code which influences how T24 identifies the right accounts to be used for intra branch bookings for ACU and DBU.
+PPT.CURRENCYDEALER will be referred only when the field 'IntraBranchPostingEnabled' is set as 'Y' in PPT.COMPANYPROPERTIES. */
+    PPL_CURRENCYDEALER
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPL.CURRENCYDEALER, nonStop=true, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* Indicates the system date and time when the entry was approved.
+Validation Rules:
+17 characters Date Time format.
+It need to be displayed as DD MMM YYYY HH:MM:SS.sss.
+Example: 12 JAN 2015 12:34:25.123
+The value is not editable by the user. */
+        ApprovedDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=14.0, core=true, t24Name=ApprovedDateTime, mask="RDDDD DD  DD ##:##:##.###")
+/* Indicates the name of the user who approved the entry.
+Validation Rules:
+30 alphanumeric characters.
+The value is not editable by the user. */
+        ApproverUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=13.0, core=true, t24Name=ApproverUserID)
+/* Indicates the book to which a customer's account belongs to. This information is returned by the Account & Customer interface and is used to retrieve a record from this table based on standard peeling logic. This is applicable only for client accounts and not for P & L posting.
+Validation Rules:
+Mandatory field. 10 alphanumeric characters. */
+        BookCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=6.0, core=true, t24Name=BookCode)
+/* Indicates the business line to which the customer belong.
+In case of incoming payment this is business line of credit client
+In case of outgoing payment this is business line of debit client
+In case of book payment, depending on whether posting is for debit client or credit client, respective client’s business line shall be used.
+Validation Rules:
+Mandatory field. 3 alphanumeric characters. */
+        BusinessLine : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=5.0, core=true, t24Name=BusinessLine)
+/* Indicates the company ID for which the record is created. Identify the Owning Bank.
+Example : BNK,GB1
+Validation Rules:
+Mandatory field. 3 alphanumeric characters.
+The value links to the field ‘CompanyID’ in PPT.COMPANY */
+        CompanyID : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+/* Indicates the currency for the posting line which will always be same as the account currency.
+Example: If the posting line is for debiting or crediting an USD account then currency1 will be matched with USD. In case posting line is for debiting charges from separate client charge account then it is the currency of client charge account.
+Validation Rules:
+Mandatory field.3 alphanumeric characters.The value links to the field 'CurrencyCode' in PPT.CURRENCY and cannot be the same as field 'Currency2'. */
+        Currency1 : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=3.0, core=true, t24Name=Currency1)
+/* Indicates the currency of the other leg of transaction, which could be different in case of FX payment. That can also influence the Dealer Desk to be used.
+Example: If the posting line is for principal debit then currency2 will be the currency of principal credit account. And in case of posting line
+for debiting charges then this shall be the corresponding Fee currency(which shall be same as P&L account currency).
+Validation Rules:
+Mandatory field. 3 alphanumeric characters.The value links to the field 'CurrencyCode' in PPT.CURRENCY and cannot be the same as field 'Currency1'. */
+        Currency2 : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=4.0, core=true, t24Name=Currency2)
+/* Specifies  the dealer desk code that influences how T24 identifies the right accounts to be used for intra branch bookings for ACU & DBU. This information is supplied as additional details to T24 so that COB can identify the intra branch suspense accounts for the additional bookings.
+Dealer Desk code is the output of this table which will be passed to Posting Interface.
+Validation Rules:
+15 alphanumeric characters */
+        DealerDeskCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=8.0, core=true, t24Name=DealerDeskCode)
+/* Indicates the system date and time when the entry was created or modified.
+Validation Rules:
+17 characters Date Time format.
+It need to be displayed as DD MMM YYYY HH:MM:SS.sss.
+Example: 12 JAN 2015 12:34:25.123
+The value is not editable by the user. */
+        EntryDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=12.0, core=true, t24Name=EntryDateTime, mask="RDDDD DD  DD ##:##:##.###")
+/* Indicates the user that created or modified the entry.
+Validation Rules:
+30 alphanumeric characters.
+The value is not editable by the user. */
+        EntryUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=11.0, core=true, t24Name=EntryUserID)
+/* Unique ID generated by the payments hub in order to identify each record in the application.
+Concatenation of Primary Key Fields (CompanyID, Currency1, Currency2). */
+        ID -> PP_PostingSchemeGUI:PPL_CURRENCYDEALER PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+/* Posting Product from PostingProduct table.
+Validation Rules:
+Mandatory field. 10 alphanumeric characters */
+        PostingProduct : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=7.0, core=true, t24Name=PostingProduct)
+/* Record Activation Code generated for the record by the payment's hub.
+Possible values:
+N - Not active
+A -  Active
+H - History
+F - Future
+C - Not active future
+Validation Rules:
+19 alphanumeric characters.
+The value is not editable by the user. */
+        RACCurrencyDealer : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=9.0, core=true, t24Name=RACCurrencyDealer)
+/* Record Status Code generated for the record by the payments hub.
+Possible values:
+L - Live
+U - Unapproved
+R - Reversed
+Validation Rules:
+1 alphanumeric character.
+The value is not editable by the user. */
+        RSCCurrencyDealer : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=10.0, core=true, t24Name=RSCCurrencyDealer)
+/* Ranking should be unique for each company.
+Validation Rules:
+Mandatory field. 3 characters. */
+        Ranking : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=2.0, core=true, t24Name=Ranking)
+    }
+    PPL_POSTINGLINE
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPL.POSTINGLINE, nonStop=true, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        AccountToken : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=5.0, core=true, t24Name=AccountToken)
+        AmountToken : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=6.0, core=true, t24Name=AmountToken)
+        BookingCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=9.0, core=true, t24Name=BookingCode)
+        BookingDate : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=7.0, core=true, t24Name=BookingDate)
+        ID -> PP_PostingSchemeGUI:PPL_POSTINGLINE PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+        PartyFlag : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=4.0, core=true, t24Name=PartyFlag)
+        PostingLineId : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, t24Name=PostingLineId)
+        PostingSetId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=2.0, core=true, t24Name=PostingSetId)
+        SequenceNumber : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=7, sysNumber=3.0, core=true, t24Name=SequenceNumber)
+        StatementFormat : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=11.0, core=true, t24Name=StatementFormat)
+        SuppressZeroFlag : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=10.0, core=true, t24Name=SuppressZeroFlag)
+        ValueDateToken : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=8.0, core=true, t24Name=ValueDateToken)
+    }
+    PPL_POSTINGSET
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPL.POSTINGSET, nonStop=true, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        ApprovedDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=17.0, core=true, t24Name=ApprovedDateTime, mask="RDDDD DD  DD ##:##:##.###")
+        ApproverUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=16.0, core=true, t24Name=ApproverUserID)
+        ChargePostingDetail : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=7.0, core=true, t24Name=ChargePostingDetail)
+        ChargePostingSeparately : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=6.0, core=true, t24Name=ChargePostingSeparately)
+        CompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=2.0, core=true, t24Name=CompanyID)
+        EndDatePostingSet : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=11.0, core=true, t24Name=EndDatePostingSet)
+        EntryDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=15.0, core=true, t24Name=EntryDateTime, mask="RDDDD DD  DD ##:##:##.###")
+        EntryUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=14.0, core=true, t24Name=EntryUserID)
+        ID -> PP_PostingSchemeGUI:PPL_POSTINGSET PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+        OCPPostingFlag : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=10.0, core=true, t24Name=OCPPostingFlag)
+        PostingProduct : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=3.0, core=true, t24Name=PostingProduct)
+        PostingSetId : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, t24Name=PostingSetId)
+        RACPostingSet : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=12.0, core=true, t24Name=RACPostingSet)
+        RSCPostingSet : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=13.0, core=true, t24Name=RSCPostingSet)
+        Ranking : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=4.0, core=true, t24Name=Ranking)
+        StartDatePostingSet : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=5.0, core=true, t24Name=StartDatePostingSet)
+        VATONPrincipal : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=8.0, core=true, t24Name=VATONPrincipal)
+        VATOnCharge : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=9.0, core=true, t24Name=VATOnCharge)
+    }
+/* This table is used to define account tokens to be used in posting lines in the payments hub.
+The accounts tokens refer to payment related accounts to be debited or credited as part of posting lines. The account could be the main debit, main credit, charges account, and P&L account. */
+    PPT_ACCOUNTTOKEN
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPT.ACCOUNTTOKEN, nonStop=true, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* Specifies the name of the account token to be used in the account token column in PostingLine Table.
+Validation Rules:
+Mandatory field. 20 alphanumeric characters. */
+        AccountToken : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=2.0, core=true, t24Name=AccountToken)
+/* Indicates the system date and time when the entry was approved.
+Validation Rules:
+17 characters Date Time format.
+It need to be displayed as DD MMM YYYY HH:MM:SS.sss.
+Example: 12 JAN 2015 12:34:25.123
+The value is not editable by the user. */
+        ApprovedDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=8.0, core=true, t24Name=ApprovedDateTime, mask="RDDDD DD  DD ##:##:##.###")
+/* Indicates the name of the user who approved the entry.
+Validation Rules:
+30 alphanumeric characters.
+The value is not editable by the user. */
+        ApproverUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=7.0, core=true, t24Name=ApproverUserID)
+/* Indicates the company ID for which the record is created. Identify the Owning Bank.
+Example : BNK,GB1
+Validation Rules:
+Mandatory field. 3 alphanumeric characters.
+The value links to the field ‘CompanyID’ in PPT.COMPANY */
+        CompanyID : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+/* Indicates the system date and time when the entry was created or modified.
+Validation Rules:
+17 characters Date Time format.
+It need to be displayed as DD MMM YYYY HH:MM:SS.sss.
+Example: 12 JAN 2015 12:34:25.123
+The value is not editable by the user. */
+        EntryDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=6.0, core=true, t24Name=EntryDateTime, mask="RDDDD DD  DD ##:##:##.###")
+/* Indicates the user that created or modified the entry.
+Validation Rules:
+30 alphanumeric characters.
+The value is not editable by the user. */
+        EntryUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=5.0, core=true, t24Name=EntryUserID)
+/* Unique ID generated by the payments hub in order to identify each record in the application.
+Concatenation of Primary Key Fields (CompanyID, AccountToken) */
+        ID -> PP_PostingSchemeGUI:PPT_ACCOUNTTOKEN PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=ANY, t24Name=ID)
+/* Record Activation Code generated for the record by the payment's hub.
+Possible values:
+N - Not active
+A -  Active
+H - History
+F - Future
+C - Not active future
+Validation Rules:
+19 alphanumeric characters.
+The value is not editable by the user. */
+        RACAccountToken : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=3.0, core=true, t24Name=RACAccountToken)
+/* Record Status Code generated for the record by the payments hub.
+Possible values:
+L - Live
+U - Unapproved
+R - Reversed
+Validation Rules:
+1 alphanumeric character.
+The value is not editable by the user. */
+        RSCAccountToken : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=4.0, core=true, t24Name=RSCAccountToken)
+    }
+/* This table is used to setup amount tokens used in posting lines generated in payments hub.
+Amount token refers to payment related amount to be debited or credited and also the amount to be displayed as part of the statement lines.
+In case of an outgoing or redirect payment, the transaction amount value can come from different amount tokens depending on the charge option. */
+    PPT_AMOUNTTOKEN
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPT.AMOUNTTOKEN, nonStop=true, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* Specifies the name of the amount token to be used in posting line table and also in statement lines table.
+Validation Rules:
+Mandatory field. 20 alphanumeric characters. */
+        AmountToken : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=2.0, core=true, t24Name=AmountToken)
+/* Indicates the system date and time when the entry was approved.
+Validation Rules:
+17 characters Date Time format.
+It need to be displayed as DD MMM YYYY HH:MM:SS.sss.
+Example: 12 JAN 2015 12:34:25.123
+The value is not editable by the user. */
+        ApprovedDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=8.0, core=true, t24Name=ApprovedDateTime, mask="RDDDD DD  DD ##:##:##.###")
+/* Indicates the name of the user who approved the entry.
+Validation Rules:
+30 alphanumeric characters.
+The value is not editable by the user. */
+        ApproverUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=7.0, core=true, t24Name=ApproverUserID)
+/* Indicates the company ID for which the record is created. Identify the Owning Bank.
+Example : BNK,GB1
+Validation Rules:
+Mandatory field. 3 alphanumeric characters.
+The value links to the field ‘CompanyID’ in PPT.COMPANY */
+        CompanyID : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+/* Indicates the system date and time when the entry was created or modified.
+Validation Rules:
+17 characters Date Time format.
+It need to be displayed as DD MMM YYYY HH:MM:SS.sss.
+Example: 12 JAN 2015 12:34:25.123
+The value is not editable by the user. */
+        EntryDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=6.0, core=true, t24Name=EntryDateTime, mask="RDDDD DD  DD ##:##:##.###")
+/* Indicates the user that created or modified the entry.
+Validation Rules:
+30 alphanumeric characters.
+The value is not editable by the user. */
+        EntryUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=5.0, core=true, t24Name=EntryUserID)
+/* Unique ID generated by the payments hub in order to identify each record in the application.
+Concatenation of Primary Key Fields (CompanyID, AmountToken). */
+        ID -> PP_PostingSchemeGUI:PPT_AMOUNTTOKEN PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=ANY, t24Name=ID)
+/* Record Activation Code generated for the record by the payment's hub.
+Possible values:
+N - Not active
+A -  Active
+H - History
+F - Future
+C - Not active future
+Validation Rules:
+19 alphanumeric characters.
+The value is not editable by the user. */
+        RACAmountToken : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=3.0, core=true, t24Name=RACAmountToken)
+/* Record Status Code generated for the record by the payments hub.
+Possible values:
+L - Live
+U - Unapproved
+R - Reversed
+Validation Rules:
+1 alphanumeric character.
+The value is not editable by the user. */
+        RSCAmountToken : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=4.0, core=true, t24Name=RSCAmountToken)
+    }
+    /* This table is used to define different date tokens to be used for posting entries in the payments hub. The store table is referred for assigning token values to BookingDate,ValueDateToken and StatementTextToken. */
+    PPT_DATETOKEN
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPT.DATETOKEN, nonStop=true, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* Indicates the system date and time when the entry was approved.
+Validation Rules:
+17 characters Date Time format.
+It need to be displayed as DD MMM YYYY HH:MM:SS.sss.
+Example: 12 JAN 2015 12:34:25.123
+The value is not editable by the user. */
+        ApprovedDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=8.0, core=true, t24Name=ApprovedDateTime, mask="RDDDD DD  DD ##:##:##.###")
+/* Indicates the name of the user who approved the entry.
+Validation Rules:
+30 alphanumeric characters.
+The value is not editable by the user. */
+        ApproverUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=7.0, core=true, t24Name=ApproverUserID)
+/* Indicates the company ID for which the record is created.
+Example : BNK,GB1
+Validation Rules:
+Mandatory Field. 3 alphanumeric characters.
+The value links to the field ‘CompanyID’ in PPT.COMPANY */
+        CompanyID : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+/* Specifies the list of Date tokens that can be used in the date token column in posting lines table and also in the statement lines table.
+Validation Rules:
+Mandatory Field. 20 alphabetic characters. */
+        DateToken : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=2.0, core=true, t24Name=DateToken)
+/* Indicates the system date and time when the entry was created or modified.
+Validation Rules:
+17 characters Date Time format.
+It need to be displayed as DD MMM YYYY HH:MM:SS.sss.
+Example: 12 JAN 2015 12:34:25.123
+The value is not editable by the user. */
+        EntryDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=6.0, core=true, t24Name=EntryDateTime, mask="RDDDD DD  DD ##:##:##.###")
+/* Indicates the user that created or modified the entry.
+Validation Rules:
+30 alphanumeric characters.
+The value is not editable by the user. */
+        EntryUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=5.0, core=true, t24Name=EntryUserID)
+/* Unique ID generated by the payments hub in order to identify each record in the application.
+Concatenation of Primary Key Fields (CompanyID, DateToken). */
+        ID -> PP_PostingSchemeGUI:PPT_DATETOKEN PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=ANY, t24Name=ID)
+/* Record Activation Code generated for the record by the payment's hub.
+Possible values:
+N - Not active
+A -  Active
+H - History
+F - Future
+C - Not active future
+Validation Rules:
+19 alphanumeric characters.
+The value is not editable by the user. */
+        RACDateToken : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=3.0, core=true, t24Name=RACDateToken)
+/* Record Status Code generated for the record by the payments hub.
+Possible values:
+L - Live
+U - Unapproved
+R - Reversed
+Validation Rules:
+1 alphanumeric character.
+The value is not editable by the user. */
+        RSCDateToken : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=4.0, core=true, t24Name=RSCDateToken)
+    }
+    /* This table is used to store the details of the account to be debited for the outgoing payment with charges option as OUR(receiving bank 71G) if the sending bank has not sent the sufficient charges. */
+    PPT_INSUFFICIENTOUTBOURCHARGE
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPT.INSUFFICIENTOUTBOURCHARGE, nonStop=true, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        /* Indicates the account number to be used to debit in case the sending bank has not sent sufficient funds. */
+        Account : T24BusinessTypes:ACCA
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=6.0, core=true, t24Name=Account)
+        /* Specifies the company ID of the account number. */
+        AccountCompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=5.0, core=true, t24Name=AccountCompanyID)
+        /* Specifies the currency of the account number. */
+        AccountCurrency : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=7.0, core=true, t24Name=AccountCurrency)
+/* Indicates the type of the account.
+
+Possible Values are
+1) I - Internal Account
+2) N - Nostro Account
+3) PL - Profit & Loss Account
+4) C - Customer Account
+5) V - Vostro Account */
+        AccountType : T24BusinessTypes:AA
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=4.0, core=true, t24Name=AccountType)
+        /* Date and Time when the record was approved in DD MON 2015 HH:MM:SS.MMM format */
+        ApprovedDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=14.0, core=true, t24Name=ApprovedDateTime, mask="RDDDD DD  DD ##:##:##.###")
+        /* User ID of the record approver */
+        ApproverUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=13.0, core=true, t24Name=ApproverUserID)
+/* Indicates the company ID for which the record is created.
+Example : BNK,GB1 */
+        CompanyID : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+        /* Indicates the Currency code of the Fee record. */
+        Currency : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=2.0, core=true, t24Name=Currency)
+        /* Specifies the date until which the record is to be considered as active for payments processing.Post this date, the record will be set as Inactive by the payments hub. */
+        EndDateInsuffOutbOurCharge : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=8.0, core=true, t24Name=EndDateInsuffOutbOurCharge)
+        /* Date and Time when the record was created in DD MON 2015 HH:MM:SS.MMM format */
+        EntryDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=12.0, core=true, t24Name=EntryDateTime, mask="RDDDD DD  DD ##:##:##.###")
+        /* User ID of the record creator */
+        EntryUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=11.0, core=true, t24Name=EntryUserID)
+        /* Unique ID generated by the payments hub in order to identify each record in the application. */
+        ID -> PP_PostingSchemeGUI:PPT_INSUFFICIENTOUTBOURCHARGE PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+/* Record Activation Code generated for the record by the payment's hub.
+Possible values:
+N - Not active
+A - Active
+H - History
+F - Future
+C - Not active future */
+        RACInsufficientOutbOurCharge : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=9.0, core=true, t24Name=RACInsufficientOutbOurCharge)
+/* Record Status Code generated for the record by the payments hub.
+Possible values:
+L - Live
+U - Unapproved
+R - Reversed */
+        RSCInsufficientOutbOurCharge : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=10.0, core=true, t24Name=RSCInsufficientOutbOurCharge)
+        /* Specifies the date from which the record is to be considered as active for payments processing */
+        StartDateInsuffOutbOurCharge : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=3.0, core=true, t24Name=StartDateInsuffOutbOurCharge)
+    }
+    /* This table defines Open Currency Positions that are used in posting when currency conversion is involved. OCP postings are generated by the payment hub. OCP accounts are currency specific. The payment hub picks up the OCP account from the static table based on the currencies involved. */
+    PPT_OCPACCOUNT
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPT.OCPACCOUNT, nonStop=true, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* This field defines the Open Currency Position account for the respective currency pair.
+Validation Rules:
+35 alphanumeric characters. */
+        Account : T24BusinessTypes:ACCA
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=7.0, core=true, t24Name=Account)
+/* This field defines Company code of the respective account.
+Validation Rules:
+3 alphanumeric characters. */
+        AccountCompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=6.0, core=true, t24Name=AccountCompanyID)
+/* This field defines Currency of the OCP account.
+Validation Rules:
+3 alphanumeric characters. */
+        AccountCurrency : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=8.0, core=true, t24Name=AccountCurrency)
+/* Account Type.
+Possible Values:
+C - Client
+N - Nostro
+V - Vostro/Loro
+I - Suspense/Internal
+PL - P&L Account
+Validation Rules:
+20 alphanumeric characters. */
+        AccountType : T24BusinessTypes:AA
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=5.0, core=true, t24Name=AccountType)
+/* Indicates the system date and time when the entry was approved.
+Validation Rules:
+17 characters Date Time format.
+It need to be displayed as DD MMM YYYY HH:MM:SS.sss.
+Example: 12 JAN 2015 12:34:25.123
+The value is not editable by the user. */
+        ApprovedDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=15.0, core=true, t24Name=ApprovedDateTime, mask="RDDDD DD  DD ##:##:##.###")
+/* Indicates the name of the user who approved the entry.
+Validation Rules:
+30 alphanumeric characters.
+The value is not editable by the user. */
+        ApproverUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=14.0, core=true, t24Name=ApproverUserID)
+/* Indicates the company ID for which the record is created. identify the Owning Bank.
+Example : BNK,GB1
+Validation Rules:
+Mandatory field. 3 alphanumeric characters.
+The value links to the field ‘CompanyID’ in PPT.COMPANY */
+        CompanyID : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+/* This field defines Currency 1 of the currency pair for which OCP account is defined.
+Validation Rules:
+Mandatory field. 3 alphanumeric characters.The value links to the field 'CurrencyCode' in PPT.CURRENCY and cannot be the same as field 'Currency2'. */
+        Currency1 : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=2.0, core=true, t24Name=Currency1)
+/* This field defines Currency 2 of the currency pair for which OCP account is defined.
+Validation Rules:
+Mandatory field. 3 alphanumeric characters.The value links to the field 'CurrencyCode' in PPT.CURRENCY and cannot be the same as field 'Currency1'. */
+        Currency2 : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=3.0, core=true, t24Name=Currency2)
+/* Specifies the date until which the record is to be considered as active for payments processing.Post this date, the record will be set as Inactive by the payments hub.
+Validation Rules:
+11 characters DATE format. */
+        EndDateOCPAccount : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=9.0, core=true, t24Name=EndDateOCPAccount)
+/* Indicates the system date and time when the entry was created or modified.
+Validation Rules:
+17 characters Date Time format.
+It need to be displayed as DD MMM YYYY HH:MM:SS.sss.
+Example: 12 JAN 2015 12:34:25.123
+The value is not editable by the user. */
+        EntryDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=13.0, core=true, t24Name=EntryDateTime, mask="RDDDD DD  DD ##:##:##.###")
+/* Indicates the user that created or modified the entry.
+Validation Rules:
+30 alphanumeric characters.
+The value is not editable by the user. */
+        EntryUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=12.0, core=true, t24Name=EntryUserID)
+/* Used for internal purpose.Holds the ID of the current live record of store table.
+Concatenation of Primary Key Fields (CompanyID,Currency1,Currency2 and RAC). */
+        ID -> PP_PostingSchemeGUI:PPT_OCPACCOUNT PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+        RACOCPAccount : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=10.0, core=true, t24Name=RACOCPAccount)
+        RSCOCPAccount : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=11.0, core=true, t24Name=RSCOCPAccount)
+/* Specifies the date from which the record is considered active for payments processing.
+Validation Rules:
+11 characters DATE format. */
+        StartDateOCPAccount : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=4.0, core=true, t24Name=StartDateOCPAccount)
+    }
+    /* This table is used to define posting products to be used while generating posting entries in the payments hub. */
+    PPT_POSTINGPRODUCT
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPT.POSTINGPRODUCT, nonStop=true, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* Indicates the system date and time when the entry was approved.
+Validation Rules:
+17 characters Date Time format.
+It need to be displayed as DD MMM YYYY HH:MM:SS.sss.
+Example: 12 JAN 2015 12:34:25.123
+The value is not editable by the user. */
+        ApprovedDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=9.0, core=true, t24Name=ApprovedDateTime, mask="RDDDD DD  DD ##:##:##.###")
+/* Indicates the name of the user who approved the entry.
+Validation Rules:
+30 alphanumeric characters.
+The value is not editable by the user. */
+        ApproverUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=8.0, core=true, t24Name=ApproverUserID)
+/* Indicates the company ID for which the record is created. Identify the Owning Bank.
+Example : BNK,GB1
+Validation Rules:
+Mandatory field. 3 alphanumeric characters.
+The value links to the field ‘CompanyID’ in PPT.COMPANY */
+        CompanyID : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+/* Describes the posting product.
+Validation Rules:
+256 alphanumeric characters. */
+        Description : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=256, sysNumber=3.0, core=true, t24Name=Description)
+/* Indicates the system date and time when the entry was created or modified.
+Validation Rules:
+17 characters Date Time format.
+It need to be displayed as DD MMM YYYY HH:MM:SS.sss.
+Example: 12 JAN 2015 12:34:25.123
+The value is not editable by the user. */
+        EntryDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=7.0, core=true, t24Name=EntryDateTime, mask="RDDDD DD  DD ##:##:##.###")
+/* Indicates the user that created or modified the entry.
+Validation Rules:
+30 alphanumeric characters.
+The value is not editable by the user. */
+        EntryUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=6.0, core=true, t24Name=EntryUserID)
+/* Unique ID generated by the payments hub in order to identify each record in the application.
+Concatenation of Primary Key Fields (CompanyID, POSTINGPRODUCT). */
+        ID -> PP_PostingSchemeGUI:PPT_POSTINGPRODUCT PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=ANY, t24Name=ID)
+/* Specifies the name of the posting product to be used across applications in the payments hub. This value will be an output of product determination process.
+Validation Rules:
+10 alphanumeric characters. */
+        PostingProduct : T24BusinessTypes:ANY required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=2.0, core=true, t24Name=PostingProduct)
+/* Record Activation Code generated for the record by the payment's hub.
+Possible values:
+N - Not active
+A -  Active
+H - History
+F - Future
+C - Not active future
+Validation Rules:
+19 alphanumeric characters.
+The value is not editable by the user. */
+        RACPostingProduct : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=4.0, core=true, t24Name=RACPostingProduct)
+/* Record Status Code generated for the record by the payments hub.
+Possible values:
+L - Live
+U - Unapproved
+R - Reversed
+Validation Rules:
+1 alphanumeric character.
+The value is not editable by the user. */
+        RSCPostingProduct : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=5.0, core=true, t24Name=RSCPostingProduct)
+    }
+    /* The Statement Format table identifies the statement format id from the Statement format name attached to a particular posting line. */
+    PPT_STATEMENTFORMAT
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPT.STATEMENTFORMAT, nonStop=true, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* Indicates the system date and time when the entry was approved.
+Validation Rules:
+17 characters Date Time format.
+It need to be displayed as DD MMM YYYY HH:MM:SS.sss.
+Example: 12 JAN 2015 12:34:25.123
+The value is not editable by the user. */
+        ApprovedDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=11.0, core=true, t24Name=ApprovedDateTime, mask="RDDDD DD  DD ##:##:##.###")
+/* Indicates the name of the user who approved the entry.
+Validation Rules:
+30 alphanumeric characters.
+The value is not editable by the user. */
+        ApproverUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=10.0, core=true, t24Name=ApproverUserID)
+/* Indicates the company ID for which the record is created.
+Example : BNK,GB1
+Validation Rules:
+Mandatory field. 3 alphanumeric characters.
+The value links to the field ‘CompanyID’ in PPT.COMPANY */
+        CompanyID : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=2.0, core=true, t24Name=CompanyID)
+/* Specifies the date until which the record is to be considered as active for payments processing.Post this date, the record will be set as Inactive by the payments hub.
+Validation Rules:
+11 characters DATE format */
+        EndDateStatementFormat : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=5.0, core=true, t24Name=EndDateStatementFormat)
+/* Indicates the system date and time when the entry was created or modified.
+Validation Rules:
+17 characters Date Time format.
+It need to be displayed as DD MMM YYYY HH:MM:SS.sss.
+Example: 12 JAN 2015 12:34:25.123
+The value is not editable by the user. */
+        EntryDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=9.0, core=true, t24Name=EntryDateTime, mask="RDDDD DD  DD ##:##:##.###")
+/* Indicates the user that created or modified the entry.
+Validation Rules:
+30 alphanumeric characters.
+The value is not editable by the user. */
+        EntryUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=8.0, core=true, t24Name=EntryUserID)
+        /* Unique ID generated by the payments hub in order to identify each record in the application. */
+        ID -> PP_PostingSchemeGUI:PPT_STATEMENTFORMAT PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+/* Record Activation Code generated for the record by the payment's hub.
+Possible values:
+N - Not active
+A - Active
+H-YYYYMMDDHHMMSSsss - History. Where: YYYY - year, MM - month, DD - day, HH - hour, MM - minutes, SS - seconds and sss - miliseconds.
+F - Future
+C - Not active future
+Validation Rules:
+19 alphanumeric characters.
+The value is not editable by the user. */
+        RACStatementFormat : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=6.0, core=true, t24Name=RACStatementFormat)
+/* Record Status Code generated for the record by the payments hub.
+Possible values:
+L - Live
+U - Unapproved
+R - Reversed
+MF - Modified future
+Validation Rules:
+1 alphanumeric character.
+The value is not editable by the user. */
+        RSCStatementFormat : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=7.0, core=true, t24Name=RSCStatementFormat)
+/* Specifies the date from which the record is to be considered as active for payments processing.
+Validation Rules:
+Mandatory field. 11 characters DATE format */
+        StartDateStatementFormat : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=4.0, core=true, t24Name=StartDateStatementFormat)
+/* Unique generated ID used as primary key
+Validation Rules:
+Mandatory field. 35 characters. */
+        StatementFormatID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=1.0, core=true, t24Name=StatementFormatID)
+/* The Statement format name to identify the set of statement lines attached to a
+statement format
+This name is set up by the user using the GUI
+Validation Rules:
+Mandatory field. 30 alphanumeric characters. */
+        StatementFormatName : T24BusinessTypes:ANY required
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=3.0, core=true, t24Name=StatementFormatName)
+    }
+    /* The Statement line table identifies the statement line id from the Statement name attached to a particular posting line. */
+    PPT_STATEMENTLINES
+        @i18n:Description (en="")
+        @t24:i (nonStop=true, t24Name=PPT.STATEMENTLINES, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        EMPTY -> PP_PostingSchemeGUI:PPT_STATEMENTLINES PK required
+            @t24:i (align=R, inputBehaviour=I, maxLength=0, sysNumber=0.0, core=true)
+    }
+/* This table is used to setup statement text tokens in the payments hub. The statement text token refers to the statement text to be displayed as part of the statement lines in posting.
+This store table will be referred for values to field 'StatementTextToken' in PPT.STATEMENTLINES. */
+    PPT_STATEMENTTEXTTOKEN
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPT.STATEMENTTEXTTOKEN, nonStop=true, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* Indicates the system date and time when the entry was approved.
+Validation Rules:
+17 characters Date Time format.
+It need to be displayed as DD MMM YYYY HH:MM:SS.sss.
+Example: 12 JAN 2015 12:34:25.123
+The value is not editable by the user. */
+        ApprovedDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=8.0, core=true, t24Name=ApprovedDateTime, mask="RDDDD DD  DD ##:##:##.###")
+/* Indicates the name of the user who approved the entry.
+Validation Rules:
+30 alphanumeric characters.
+The value is not editable by the user. */
+        ApproverUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=7.0, core=true, t24Name=ApproverUserID)
+/* Indicates the company ID for which the record is created.
+Example : BNK,GB1
+Validation Rules:
+Mandatory field. 3 alphanumeric characters.
+The value links to the field ‘CompanyID’ in PPT.COMPANY */
+        CompanyID : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+/* Indicates the system date and time when the entry was created or modified.
+Validation Rules:
+17 characters Date Time format.
+It need to be displayed as DD MMM YYYY HH:MM:SS.sss.
+Example: 12 JAN 2015 12:34:25.123
+The value is not editable by the user. */
+        EntryDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=6.0, core=true, t24Name=EntryDateTime, mask="RDDDD DD  DD ##:##:##.###")
+/* Indicates the user that created or modified the entry.
+Validation Rules:
+30 alphanumeric characters.
+The value is not editable by the user. */
+        EntryUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=5.0, core=true, t24Name=EntryUserID)
+/* Unique ID generated by the payments hub in order to identify each record in the application.
+Concatenation of Primary Key Fields (CompanyID, StatementTextToken). */
+        ID -> PP_PostingSchemeGUI:PPT_STATEMENTTEXTTOKEN PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=ANY, t24Name=ID)
+        RACStatementTextToken : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=3.0, core=true, t24Name=RACStatementTextToken)
+        RSCStatementTextToken : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=4.0, core=true, t24Name=RSCStatementTextToken)
+/* Specifies the name of the statement text token.
+List of tokens can be used in the statement Text token column in the statement lines Table.
+Validation Rules:
+Mandatory field. 30 alphanumeric characters. */
+        StatementTextToken : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=2.0, core=true, t24Name=StatementTextToken)
+    }
+/* This table is used to specifies the codes which will be used for the Swift Message MT940(Tag61:Subtag6)
+It is linked with booking code(Identified in Payment Order) and once booking code is determined, the corresponding swift transaction type code can be retrieved. */
+    PPT_SWIFTTRANSACTIONTYPECODE
+        @i18n:Description (en="")
+        @t24:i (t24Name=PPT.SWIFTTRANSACTIONTYPECODE, nonStop=true, level=I, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+/* Indicates the system date and time when the entry was approved.
+Validation Rules:
+17 characters Date Time format.
+It need to be displayed as DD MMM YYYY HH:MM:SS.sss.
+Example: 12 JAN 2015 12:34:25.123
+The value is not editable by the user. */
+        ApprovedDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=11.0, core=true, t24Name=ApprovedDateTime, mask="RDDDD DD  DD ##:##:##.###")
+/* Indicates the name of the user who approved the entry.
+Validation Rules:
+30 alphanumeric characters.
+The value is not editable by the user. */
+        ApproverUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=10.0, core=true, t24Name=ApproverUserID)
+/* Holds the booking Code.
+Mandatory field. 1- 10 Alphanumeric characters.
+Value in this field will be checked against the Booking Code in Payment Order. */
+        BookingCode : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=2.0, core=true, t24Name=BookingCode)
+/* Indicates the company ID for which the record is created.
+Example : BNK,GB1
+Validation Rules:
+Mandatory field. 3 alphanumeric characters.
+The value links to the field ‘CompanyID’ in PPT.COMPANY */
+        CompanyID : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+/* Specifies the date until which the record is to be considered as active for payments processing.Post this date, the record will be set as Inactive by the payments hub.
+Validation Rules:
+11 characters DATE format */
+        EndDateSWIFTTranTypeCode : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=5.0, core=true, t24Name=EndDateSWIFTTranTypeCode)
+/* Indicates the system date and time when the entry was created or modified.
+Validation Rules:
+17 characters Date Time format.
+It need to be displayed as DD MMM YYYY HH:MM:SS.sss.
+Example: 12 JAN 2015 12:34:25.123
+The value is not editable by the user. */
+        EntryDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=9.0, core=true, t24Name=EntryDateTime, mask="RDDDD DD  DD ##:##:##.###")
+/* Indicates the user that created or modified the entry.
+Validation Rules:
+30 alphanumeric characters.
+The value is not editable by the user. */
+        EntryUserID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=8.0, core=true, t24Name=EntryUserID)
+/* Unique ID generated by the payments hub in order to identify each record in the application.
+Concatenation of Primary Key Fields (CompanyID,BookingCodeandRAC). */
+        ID -> PP_PostingSchemeGUI:PPT_SWIFTTRANSACTIONTYPECODE PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=255, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+/* Record Activation Code generated for the record by the payment's hub.
+Possible values:
+N - Not active
+A -  Active
+H - History
+F - Future
+C - Not active future
+Validation Rules:
+19 alphanumeric characters.
+The value is not editable by the user. */
+        RACSWIFTTranTypeCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=6.0, core=true, t24Name=RACSWIFTTranTypeCode)
+/* Record Status Code generated for the record by the payments hub.
+Possible values:
+L - Live
+U - Unapproved
+R - Reversed
+Validation Rules:
+1 alphanumeric character.
+The value is not editable by the user. */
+        RSCSWIFTTranTypeCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=7.0, core=true, t24Name=RSCSWIFTTranTypeCode)
+/* Represents the SWIFT Transaction Type Code to be reported in MT940 for Tag 61.
+Validation Rules:
+Mandatory field. 1- 11 Alphanumeric characters. */
+        SWIFTTransactionTypeCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=4.0, core=true, t24Name=SWIFTTransactionTypeCode)
+/* Specifies the date from which the record is to be considered as active for payments processing.
+Validation Rules:
+11 characters DATE format */
+        StartDateSWIFTTranTypeCode : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=3.0, core=true, t24Name=StartDateSWIFTTranTypeCode)
+    }
+/* This screen is used to define account tokens to be used in posting lines in the payments hub.
+The accounts tokens refer to payment related accounts to be debited or credited as part of posting lines. The account could be the main debit, main credit, charges account, and P&L account.
+A record authorised in the screen will create or amend or delete a record in PPT.ACCOUNTTOKEN. */
+    PP_ACCOUNT_TOKEN
+        @i18n:Description (en="")
+        @t24:i (t24Name=PP.ACCOUNT.TOKEN, nonStop=true, level=I, type=U, additionalInfo=HLD, allowedFunctions="A C D E I L P Q R S", localRefAllowed=false)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=16.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=17.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=13.0, core=true, t24Name=AUTHORISER)
+/* Specifies the name of the account token to be used across the payments hub.
+Validation Rules:
+Mandatory field. 20 alphanumeric characters. */
+        AccountToken : T24BusinessTypes:ANY required
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=2.0, core=true, t24Name=AccountToken)
+/* Used for internal purpose. Value of this field determines values of fields, 'RAC' and 'RSC'
+Possible values:
+N - New
+M - Modified
+R -  Reverse
+This field can hold upto 1 alphanumeric character and the value is not editable by the user. */
+        Action : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=7.0, core=true, t24Name=Action)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=14.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=10.0, core=true, t24Name=CURR.NO)
+/* Indicates the company ID for which the record is created.
+Example : BNK,GB1
+Validation Rules:
+3 alphanumeric characters.
+The value links to the field ‘CompanyID’ in PPT.COMPANY */
+        CompanyID : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+/* Used for internal purpose.Holds the ID of the current live record of store table.
+This field can hold upto 65 alphanumeric characters and the value is not editable by the user. */
+        CurrentID : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=65, sysNumber=6.0, core=true, t24Name=CurrentID)
+        DATE_TIME -> byValue PP_PostingSchemeGUI:PP_ACCOUNT_TOKEN__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=15.0, core=true, t24Name=DEPT.CODE)
+        /* Unique ID generated by the payments hub in order to identify each record in the application. */
+        ID -> PP_PostingSchemeGUI:PP_ACCOUNT_TOKEN PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+        INPUTTER -> byValue PP_PostingSchemeGUI:PP_ACCOUNT_TOKEN__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        OVERRIDE -> byValue PP_PostingSchemeGUI:PP_ACCOUNT_TOKEN__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+/* Used for internal purpose. Holds the ID of the previous live record of store table.
+This field can hold upto 65 alphanumeric characters and the value is not editable by the user. */
+        OldID : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=65, sysNumber=5.0, core=true, t24Name=OldID, onchangeBehaviour=HOT.FIELD)
+/* Record Activation Code generated for the record by the payment's hub.
+Possible values:
+N - Not active
+A -  Active
+H - History
+F - Future
+C - Not active future
+Validation Rules:
+19 alphanumeric characters.
+The value is not editable by the user. */
+        RAC : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=3.0, core=true, t24Name=RAC)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=9.0, core=true, t24Name=RECORD.STATUS)
+/* Record Status Code generated for the record by the payments hub.
+Possible values:
+L - Live
+U - Unapproved
+R - Reversed
+Validation Rules:
+1 alphanumeric character.
+The value is not editable by the user. */
+        RSC : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=4.0, core=true, t24Name=RSC)
+    }
+    PP_ACCOUNT_TOKEN__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=12.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    PP_ACCOUNT_TOKEN__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=11.0, core=true, t24Name=INPUTTER)
+    }
+    PP_ACCOUNT_TOKEN__OVERRIDE
+    {
+        /* Contains all the override messages which the user agreed to during Input. During the validation of a transaction, the system may provide the user with a series of screen override messages to indicate an anomaly. */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=OVERRIDE)
+    }
+/* This screen is used to setup amount tokens used in posting lines generated in payments hub.
+Amount token refers to payment related amount to be debited or credited and also the amount to be displayed as part of the statement lines.
+In case of an outgoing or redirect payment, the transaction amount value can come from different amount tokens depending on the charge option. */
+    PP_AMOUNT_TOKEN
+        @i18n:Description (en="")
+        @t24:i (t24Name=PP.AMOUNT.TOKEN, nonStop=true, level=I, type=U, additionalInfo=HLD, allowedFunctions="A C D E I L P Q R S", localRefAllowed=false)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=16.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=17.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=13.0, core=true, t24Name=AUTHORISER)
+/* Used for internal purpose. Value of this field determines values of fields, 'RAC' and 'RSC'
+Possible values:
+N - New
+M - Modified
+R -  Reverse
+This field can hold upto 1 alphanumeric character and the value is not editable by the user. */
+        Action : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=7.0, core=true, t24Name=Action)
+/* Specifies the name of the amount token to be used in posting line table and also in statement lines table.
+Validation Rules:
+Mandatory fields. 20 alphanumeric characters. */
+        AmountToken : T24BusinessTypes:ANY required
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=2.0, core=true, t24Name=AmountToken)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=14.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=10.0, core=true, t24Name=CURR.NO)
+/* Indicates the company ID for which the record is created.
+Example : BNK,GB1
+Validation Rules:
+3 alphanumeric characters.
+The value links to the field ‘CompanyID’ in PPT.COMPANY */
+        CompanyID : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+/* Used for internal purpose.Holds the ID of the current live record of store table.
+This field can hold upto 65 alphanumeric characters and the value is not editable by the user. */
+        CurrentID : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=65, sysNumber=6.0, core=true, t24Name=CurrentID)
+        DATE_TIME -> byValue PP_PostingSchemeGUI:PP_AMOUNT_TOKEN__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=15.0, core=true, t24Name=DEPT.CODE)
+        /* Unique ID generated by the payments hub in order to identify each record in the application. */
+        ID -> PP_PostingSchemeGUI:PP_AMOUNT_TOKEN PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+        INPUTTER -> byValue PP_PostingSchemeGUI:PP_AMOUNT_TOKEN__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        OVERRIDE -> byValue PP_PostingSchemeGUI:PP_AMOUNT_TOKEN__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+/* Used for internal purpose. Holds the ID of the previous live record of store table.
+This field can hold upto 65 alphanumeric characters and the value is not editable by the user. */
+        OldID : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=65, sysNumber=5.0, core=true, t24Name=OldID, onchangeBehaviour=HOT.FIELD)
+/* Record Activation Code generated for the record by the payment's hub.
+Possible values:
+N - Not active
+A -  Active
+H - History
+F - Future
+C - Not active future
+Validation Rules:
+19 alphanumeric characters.
+The value is not editable by the user. */
+        RAC : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=3.0, core=true, t24Name=RAC)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=9.0, core=true, t24Name=RECORD.STATUS)
+/* Record Status Code generated for the record by the payments hub.
+Possible values:
+L - Live
+U - Unapproved
+R - Reversed
+Validation Rules:
+1 alphanumeric character.
+The value is not editable by the user. */
+        RSC : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=4.0, core=true, t24Name=RSC)
+    }
+    PP_AMOUNT_TOKEN__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=12.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    PP_AMOUNT_TOKEN__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=11.0, core=true, t24Name=INPUTTER)
+    }
+    PP_AMOUNT_TOKEN__OVERRIDE
+    {
+        /* Contains all the override messages which the user agreed to during Input. During the validation of a transaction, the system may provide the user with a series of screen override messages to indicate an anomaly. */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=OVERRIDE)
+    }
+/* This screen is used to setup all possible levels of peeling off to determine the Dealer Desk code which influences how T24 identifies the right accounts to be used for intra branch bookings for ACU and DBU.
+A record authorised in this screen will create or amend or delete a record in store table, PPT.CURRENCYDEALER which will be referred only when the field 'IntraBranchPostingEnabled' is set as 'Y' in PP.COMPANY.PROPERTIES. */
+    PP_CURRENCY_DEALER
+        @i18n:Description (en="")
+        @t24:i (additionalInfo=HLD, t24Name=PP.CURRENCY.DEALER, nonStop=true, level=Y, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=22.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=23.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=19.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=20.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=16.0, core=true, t24Name=CURR.NO)
+        CompanyID -> PP_PostingSchemeGUI:PP_CURRENCY_DEALER PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=0.0, core=true, businessType=ANY, t24Name=CompanyID)
+        DATE_TIME -> byValue PP_PostingSchemeGUI:PP_CURRENCY_DEALER__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=21.0, core=true, t24Name=DEPT.CODE)
+        INPUTTER -> byValue PP_PostingSchemeGUI:PP_CURRENCY_DEALER__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        OVERRIDE -> byValue PP_PostingSchemeGUI:PP_CURRENCY_DEALER__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=15.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.1)
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=11.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=RESERVED.5)
+        Ranking -> byValue PP_PostingSchemeGUI:PP_CURRENCY_DEALER__Ranking *
+            @t24:i (t24Name=Ranking)
+    }
+    PP_CURRENCY_DEALER__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=18.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    PP_CURRENCY_DEALER__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=17.0, core=true, t24Name=INPUTTER)
+    }
+    PP_CURRENCY_DEALER__OVERRIDE
+    {
+        /* Contains all the override messages which the user agreed to during Input. During the validation of a transaction, the system may provide the user with a series of screen override messages to indicate an anomaly. */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=OVERRIDE)
+    }
+    PP_CURRENCY_DEALER__Ranking
+    {
+/* Indicates the book to which a customer's account belongs to. This information is returned by the Account & Customer interface and is used to retrieve a record from this table based on standard peeling logic. This is applicable only for client accounts and not for P & L posting.
+Validation Rules:
+Mandatory field. 10 alphanumeric characters. */
+        BookCode : T24BusinessTypes:A required
+            @i18n:Label (en=BookCode)
+            @i18n:Tooltip (en=BookCode)
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=5.0, core=true, t24Name=BookCode)
+/* Indicates the business line to which the customer belong.
+In case of incoming payment this is business line of credit client
+In case of outgoing payment this is business line of debit client
+In case of book payment, depending on whether posting is for debit client or credit client, respective client’s business line shall be used.
+Validation Rules:
+Mandatory field. 3 alphanumeric characters. */
+        BusinessLine : T24BusinessTypes:A required
+            @i18n:Label (en=BusinessLine)
+            @i18n:Tooltip (en=BusinessLine)
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=4.0, core=true, t24Name=BusinessLine)
+/* Indicates the currency for the posting line which will always be same as the account currency.
+Example: If the posting line is for debiting or crediting an USD account then currency1 will be matched with USD. In case posting line is for debiting charges from separate client charge account then it is the currency of client charge account.
+Validation Rules:
+Mandatory field.3 alphanumeric characters.The value links to the field 'CurrencyCode' in PPT.CURRENCY and cannot be the same as field 'Currency2'. */
+        Currency1 : T24BusinessTypes:A required
+            @i18n:Label (en=Currency1)
+            @i18n:Tooltip (en=Currency1)
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=2.0, core=true, t24Name=Currency1)
+/* Indicates the currency of the other leg of transaction, which could be different in case of FX payment. That can also influence the Dealer Desk to be used.
+Example: If the posting line is for principal debit then currency2 will be the currency of principal credit account. And in case of posting line
+for debiting charges then this shall be the corresponding Fee currency(which shall be same as P&L account currency).
+Validation Rules:
+Mandatory field.3 alphanumeric characters.The value links to the field 'CurrencyCode' in PPT.CURRENCY and cannot be the same as field 'Currency1'. */
+        Currency2 : T24BusinessTypes:A required
+            @i18n:Label (en=Currency2)
+            @i18n:Tooltip (en=Currency2)
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=3.0, core=true, t24Name=Currency2)
+/* Specifies  the dealer desk code that influences how T24 identifies the right accounts to be used for intra branch bookings for ACU & DBU. This information is supplied as additional details to T24 so that COB can identify the intra branch suspense accounts for the additional bookings.
+Validation Rules:
+15 alphanumeric characters */
+        DealerDeskCode : T24BusinessTypes:A
+            @i18n:Label (en=DealerDeskCode)
+            @i18n:Tooltip (en=DealerDeskCode)
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=7.0, core=true, t24Name=DealerDeskCode)
+        PostingProduct : T24BusinessTypes:A
+            @i18n:Label (en=PostingProduct)
+            @i18n:Tooltip (en=PostingProduct)
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=6.0, core=true, t24Name=PostingProduct)
+        Ranking : T24BusinessTypes:N
+            @i18n:Label (en=Ranking)
+            @i18n:Tooltip (en=Ranking)
+            @t24:i (align=R, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=Ranking)
+    }
+    /* This screen is used to define different date tokens to be used for posting entries in the payments hub. A record authorised in this screen will create or amend or delete a record in store table, PPT.DATETOKEN. The store table is referred for assigning token values to BookingDate,ValueDateToken and StatementTextToken. */
+    PP_DATE_TOKEN
+        @i18n:Description (en="")
+        @t24:i (t24Name=PP.DATE.TOKEN, nonStop=true, level=I, type=U, additionalInfo=HLD, allowedFunctions="A C D E I L P Q R S", localRefAllowed=false)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=16.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=17.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=13.0, core=true, t24Name=AUTHORISER)
+/* Used for internal purpose. Value of this field determines values of fields, 'RAC' and 'RSC'
+Possible values:
+N - New
+M - Modified
+R -  Reverse
+This field can hold upto 1 alphanumeric character and the value is not editable by the user. */
+        Action : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=7.0, core=true, t24Name=Action)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=14.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=10.0, core=true, t24Name=CURR.NO)
+/* Indicates the company ID for which the record is created.
+Example : BNK,GB1
+Validation Rules:
+3 alphanumeric characters.
+The value links to the field ‘CompanyID’ in PPT.COMPANY */
+        CompanyID : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+/* Used for internal purpose.Holds the ID of the current live record of store table.
+This field can hold upto 65 alphanumeric characters and the value is not editable by the user. */
+        CurrentID : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=65, sysNumber=6.0, core=true, t24Name=CurrentID)
+        DATE_TIME -> byValue PP_PostingSchemeGUI:PP_DATE_TOKEN__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=15.0, core=true, t24Name=DEPT.CODE)
+/* Specifies the list of Date tokens that can be used in the date token column in posting lines table and also in the statement lines table.
+Validation Rules:
+Mandatory Field. 20 alphabetic characters. */
+        DateToken : T24BusinessTypes:ANY required
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=2.0, core=true, t24Name=DateToken)
+        /* Unique ID generated by the payments hub in order to identify each record in the application. */
+        ID -> PP_PostingSchemeGUI:PP_DATE_TOKEN PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+        INPUTTER -> byValue PP_PostingSchemeGUI:PP_DATE_TOKEN__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        OVERRIDE -> byValue PP_PostingSchemeGUI:PP_DATE_TOKEN__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+/* Used for internal purpose. Holds the ID of the previous live record of store table.
+This field can hold upto 65 alphanumeric characters and the value is not editable by the user. */
+        OldID : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=65, sysNumber=5.0, core=true, t24Name=OldID, onchangeBehaviour=HOT.FIELD)
+/* Record Activation Code generated for the record by the payment's hub.
+Possible values:
+N - Not active
+A -  Active
+H - History
+F - Future
+C - Not active future
+Validation Rules:
+19 alphanumeric characters.
+The value is not editable by the user. */
+        RAC : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=3.0, core=true, t24Name=RAC)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=9.0, core=true, t24Name=RECORD.STATUS)
+/* Record Status Code generated for the record by the payments hub.
+Possible values:
+L - Live
+U - Unapproved
+R - Reversed
+Validation Rules:
+1 alphanumeric character.
+The value is not editable by the user. */
+        RSC : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=4.0, core=true, t24Name=RSC)
+    }
+    PP_DATE_TOKEN__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=12.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    PP_DATE_TOKEN__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=11.0, core=true, t24Name=INPUTTER)
+    }
+    PP_DATE_TOKEN__OVERRIDE
+    {
+        /* Contains all the override messages which the user agreed to during Input. During the validation of a transaction, the system may provide the user with a series of screen override messages to indicate an anomaly. */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=OVERRIDE)
+    }
+/* This screen is used to define the details of the account to be debited for the outgoing payment with charges option as OUR(receiving bank 71G) if the sending bank has not sent the sufficient charges.
+This is Non dated and FTD type of classification
+This application follows T24 Standard and it will be of History Type application. */
+    PP_INSUFFOUTB_OUR_CHARGE
+        @i18n:Description (en="")
+        @t24:i (t24Name=PP.INSUFFOUTB.OUR.CHARGE, nonStop=true, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=20.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=21.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=17.0, core=true, t24Name=AUTHORISER)
+/* Indicates the account number to be used to debit in case the sending bank has not sent sufficient funds.
+
+Validation Rules:
+Mandatory Input.
+Should be valid T24 Account. */
+        Account : T24BusinessTypes:ACCA required
+            @i18n:Label (en=Account)
+            @i18n:Tooltip (en=Account)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=4.0, core=true, t24Name=Account)
+/* Specifies the company ID of the account number.
+
+Validation Rules:
+No Input Field.
+Defaulted from the Company ID */
+        AccountCompanyID : T24BusinessTypes:A
+            @i18n:Label (en=AccountCompanyID)
+            @i18n:Tooltip (en=AccountCompanyID)
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=3.0, core=true, t24Name=AccountCompanyID)
+/* Specifies the currency of the account number.
+
+Validation Rules:
+No Input Field.
+Defaulted to Account Currency */
+        AccountCurrency : T24BusinessTypes:A
+            @i18n:Label (en=AccountCurrency)
+            @i18n:Tooltip (en=AccountCurrency)
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=5.0, core=true, t24Name=AccountCurrency)
+/* Indicates the type of the account.
+
+Possible Values are
+1) I  - Internal Account
+2) N  - Nostro Account
+3) PL - Profit & Loss Account
+4) C  - Customer Account
+5) V  - Vostro Account
+
+Validation Rules:
+Mandatory Input. */
+        AccountType : PP_PostingSchemeGUI:PP_INSUFFOUTB_OUR_CHARGE__AccountType required
+            @i18n:Label (en=AccountType)
+            @i18n:Tooltip (en=AccountType)
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=2.0, core=true, t24Name=AccountType)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=18.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=14.0, core=true, t24Name=CURR.NO)
+/* Indicates the FTD company ID for which the record is created.
+It is NOINPUT field. On click of validate button, Company ID gets autopopulated from FTD Company.
+Examples: BNK,GB1
+Validation Rules:
+3 alphanumeric characters. */
+        CompanyID : T24BusinessTypes:A
+            @i18n:Label (en=CompanyID)
+            @i18n:Tooltip (en=CompanyID)
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+/* Indicates the Currency code of the Fee record. And it represents the ID of the application.
+Validation Rules:
+ItShould be a valid currency code from PP.CURRENCY. */
+        Currency -> PP_PostingSchemeGUI:PP_INSUFFOUTB_OUR_CHARGE PK required
+            @i18n:Label (en=Currency)
+            @i18n:Tooltip (en=Currency)
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=0.0, core=true, businessType=CCY, t24Name=Currency)
+        DATE_TIME -> byValue PP_PostingSchemeGUI:PP_INSUFFOUTB_OUR_CHARGE__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=19.0, core=true, t24Name=DEPT.CODE)
+        INPUTTER -> byValue PP_PostingSchemeGUI:PP_INSUFFOUTB_OUR_CHARGE__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        OVERRIDE -> byValue PP_PostingSchemeGUI:PP_INSUFFOUTB_OUR_CHARGE__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=13.0, core=true, t24Name=RECORD.STATUS)
+        /* Standard T24 String. No Input Field */
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=RESERVED.1)
+        /* Standard T24 String. No Input Field */
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=RESERVED.2)
+        /* Standard T24 String. No Input Field */
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=RESERVED.3)
+        /* Standard T24 String. No Input Field */
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=7.0, core=true, t24Name=RESERVED.4)
+        /* Standard T24 String. No Input Field */
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=6.0, core=true, t24Name=RESERVED.5)
+    }
+    PP_INSUFFOUTB_OUR_CHARGE__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=16.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    PP_INSUFFOUTB_OUR_CHARGE__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=15.0, core=true, t24Name=INPUTTER)
+    }
+    PP_INSUFFOUTB_OUR_CHARGE__OVERRIDE
+    {
+        /* Contains all the override messages which the user agreed to during Input. During the validation of a transaction, the system may provide the user with a series of screen override messages to indicate an anomaly. */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=OVERRIDE)
+    }
+    /* This table defines Open Currency Positions that are used in posting when currency conversion is involved. OCP postings are generated by the payment hub. OCP accounts are currency specific. The payment hub picks up the OCP account from the static table based on the currencies involved. */
+    PP_OCP_ACCOUNT
+        @i18n:Description (en="")
+        @t24:i (t24Name=PP.OCP.ACCOUNT, nonStop=true, level=I, type=U, allowedFunctions="A C D E I L P Q R S", localRefAllowed=false)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=23.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=24.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=20.0, core=true, t24Name=AUTHORISER)
+        /* This field defines the Open Currency Position account for the respective currency pair. */
+        Account : T24BusinessTypes:ACCA required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=6.0, core=true, t24Name=Account)
+        /* This field defines Company code of the respective account. */
+        AccountCompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=5.0, core=true, t24Name=AccountCompanyID)
+        /* This field defines Currency of the OCP account. */
+        AccountCurrency : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=7.0, core=true, t24Name=AccountCurrency)
+/* Account Type.
+Possible Values:
+C - Client
+N - Nostro
+V - Vostro/Loro
+I - Suspense/Internal
+PL - P&L Account */
+        AccountType : PP_PostingSchemeGUI:PP_OCP_ACCOUNT__AccountType required
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=4.0, core=true, t24Name=AccountType)
+/* Used for internal purpose. Value of this field determines values of fields, 'RAC' and 'RSC'
+Possible values:
+N - New
+M - Modified
+R -  Reverse
+This field can hold upto 1 alphanumeric character and the value is not editable by the user. */
+        Action : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=14.0, core=true, t24Name=Action)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=21.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=17.0, core=true, t24Name=CURR.NO)
+/* Indicates the company ID for which the record is created.
+Example : BNK,GB1
+Validation Rules:
+3 alphanumeric characters.
+The value links to the field ‘CompanyID’ in PPT.COMPANY */
+        CompanyID -> PP_StaticDataGUI:PP_COMPANY required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, businessType=A, t24Name=CompanyID)
+        /* This field defines Currency 1 of the currency pair for which OCP account is defined. */
+        Currency1 : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=2.0, core=true, t24Name=Currency1)
+        /* This field defines Currency 2 of the currency pair for which OCP account is defined. */
+        Currency2 : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=3.0, core=true, t24Name=Currency2)
+/* Used for internal purpose.Holds the ID of the current live record of store table.
+This field can hold upto 65 alphanumeric characters and the value is not editable by the user. */
+        CurrentID : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=65, sysNumber=13.0, core=true, t24Name=CurrentID)
+        DATE_TIME -> byValue PP_PostingSchemeGUI:PP_OCP_ACCOUNT__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=22.0, core=true, t24Name=DEPT.CODE)
+        /* Specifies the date until which the record is to be considered as active for payments processing.Post this date, the record will be set as Inactive by the payments hub. */
+        EndDateOCPAccount : T24BusinessTypes:D required
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=9.0, core=true, t24Name=EndDateOCPAccount)
+/* Used for internal purpose.Holds the ID of the current live record of store table.
+This field can hold upto 65 alphanumeric characters and the value is not editable by the user. */
+        ID -> PP_PostingSchemeGUI:PP_OCP_ACCOUNT PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+        INPUTTER -> byValue PP_PostingSchemeGUI:PP_OCP_ACCOUNT__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        OVERRIDE -> byValue PP_PostingSchemeGUI:PP_OCP_ACCOUNT__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+/* Used for internal purpose.Holds the ID of the previous live record of store table.
+This field can hold upto 65 alphanumeric characters and the value is not editable by the user. */
+        OldID : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=65, sysNumber=12.0, core=true, t24Name=OldID, onchangeBehaviour=HOT.FIELD)
+/* Record Activation Code generated for the record by the payment's hub.
+Possible values:
+N - Not active
+A -  Active
+H-YYYYMMDDHHMMSSsss - History. Where: YYYY - year, MM - month, DD - day, HH - hour, MM - minutes, SS - seconds and sss - miliseconds.
+F - Future
+C - Not active future
+Validation Rules:
+19 alphanumeric characters.
+The value is not editable by the user. */
+        RAC : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=10.0, core=true, t24Name=RAC)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=16.0, core=true, t24Name=RECORD.STATUS)
+/* Record Status Code generated for the record by the payments hub.
+Possible values:
+L - Live
+U - Unapproved
+R - Reversed
+MF - Modified future
+Validation Rules:
+1 alphanumeric character.
+The value is not editable by the user. */
+        RSC : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=11.0, core=true, t24Name=RSC)
+        /* Specifies the date from which the record is considered active for payments processing. */
+        StartDateOCPAccount : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=8.0, core=true, t24Name=StartDateOCPAccount)
+    }
+    PP_OCP_ACCOUNT__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=19.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    PP_OCP_ACCOUNT__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=18.0, core=true, t24Name=INPUTTER)
+    }
+    PP_OCP_ACCOUNT__OVERRIDE
+    {
+        /* Contains all the override messages which the user agreed to during Input. During the validation of a transaction, the system may provide the user with a series of screen override messages to indicate an anomaly. */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=OVERRIDE)
+    }
+/* This screen is used to define posting products to be used while generating posting entries in the payments hub.
+This is Non dated and FTD type of classification.
+This application follows T24 Standard and it will be of History Type application. */
+    PP_POSTING_PRODUCT
+        @i18n:Description (en="")
+        @t24:i (additionalInfo=HLD, t24Name=PP.POSTING.PRODUCT, nonStop=true, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=17.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=18.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=14.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=15.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=11.0, core=true, t24Name=CURR.NO)
+/* Indicates the FTD company ID for which the record is created.
+It is NOINPUT field. On click of validate button, Company ID gets autopopulated from FTD Company.
+Examples: BNK,GB1
+Validation Rules:
+3 alphanumeric characters. */
+        CompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+        DATE_TIME -> byValue PP_PostingSchemeGUI:PP_POSTING_PRODUCT__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=16.0, core=true, t24Name=DEPT.CODE)
+        Description -> byValue PP_PostingSchemeGUI:PP_POSTING_PRODUCT__Description *
+            @t24:i (t24Name=Description)
+        INPUTTER -> byValue PP_PostingSchemeGUI:PP_POSTING_PRODUCT__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        OVERRIDE -> byValue PP_PostingSchemeGUI:PP_POSTING_PRODUCT__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+/* Specifies the name of the posting product to be used across applications in the payments hub. This value will be an output of product determination process.
+And it represents the ID of the application.
+Validation Rules:
+10 alphanumeric characters. */
+        PostingProduct -> PP_PostingSchemeGUI:PP_POSTING_PRODUCT PK required
+            @i18n:Label (en=PostingProduct)
+            @i18n:Tooltip (en=PostingProduct)
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=0.0, core=true, businessType=ANY, t24Name=PostingProduct)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=10.0, core=true, t24Name=RECORD.STATUS)
+        /* Standard T24 String. No Input Field */
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=7.0, core=true, t24Name=RESERVED.1)
+        /* Standard T24 String. No Input Field */
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=6.0, core=true, t24Name=RESERVED.2)
+        /* Standard T24 String. No Input Field */
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=5.0, core=true, t24Name=RESERVED.3)
+        /* Standard T24 String. No Input Field */
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=4.0, core=true, t24Name=RESERVED.4)
+        /* Standard T24 String. No Input Field */
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=3.0, core=true, t24Name=RESERVED.5)
+    }
+    PP_POSTING_PRODUCT__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=13.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    PP_POSTING_PRODUCT__Description
+    {
+/* Describes the posting product.
+Validation Rules:
+256 alphanumeric characters. */
+        Description : T24BusinessTypes:A
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=256, multiLanguage=true, sysNumber=2.0, core=true, t24Name=Description)
+    }
+    PP_POSTING_PRODUCT__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=12.0, core=true, t24Name=INPUTTER)
+    }
+    PP_POSTING_PRODUCT__OVERRIDE
+    {
+        /* Contains all the override messages which the user agreed to during Input. During the validation of a transaction, the system may provide the user with a series of screen override messages to indicate an anomaly. */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=OVERRIDE)
+    }
+/* This screen is used to define the posting set to be selected based on input criteria of company code, Posting product and set of Payment file
+fields that are updated based on client conditions. */
+    PP_POSTING_SET
+        @i18n:Description (en="")
+        @t24:i (t24Name=PP.POSTING.SET, nonStop=true, level=I, type=H, additionalInfo=HLD, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=35.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=36.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=32.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=33.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=29.0, core=true, t24Name=CURR.NO)
+/* Indicates whether each charge has to be displayed in a separate line or the charges can be summed up and only the summary charge amount needs
+to be displayed.
+Possible values:
+D: The posting set will have a separate posting line for each debit party charges.
+C: The posting set will have a separate posting line for each credit party charges.
+B: The posting set will have a separate posting line for both debit party and credit party charges
+N: The posting set will only have one posting line for all the debit party charges and one posting line for all the credit party charges.
+
+If a side(debit and credit) of the payment has "ChargePostingDetail" set or such a setup is not present but the side has more than one charge excluding the VAT charge, then it indicates that the charges have to be posted in detail for that side of the payment.
+Field should be checked twice (Debit side and Credit Side) */
+        ChargePostingDetail : PP_PostingSchemeGUI:PP_POSTING_SET__ChargePostingDetail required
+            @i18n:Label (en=ChargePostingDetail)
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=6.0, core=true, t24Name=ChargePostingDetail)
+/* Indicate whether the charges have to be posted along with the principal amount or have to be posted separately from the principal amount.
+Possible values:
+D: The Posting Set contains separate posting lines only for the debit side charges.
+C: The Posting Set contains separate posting lines only for the credit side charges.
+B: The Posting Set contains separate posting lines for both debit and credit charges.
+N: The Posting Set will not have separate posting lines for debit and credit charges.
+
+If a side(debit and credit) of the payment has "ChargePostingSeparately" set or such a setup is not present but the side has more than one charge excluding the VAT charge, then it indicates that the charges have to be posted separately from the principal for that side of the payment.
+Field should be checked twice (Debit side and Credit Side) */
+        ChargePostingSeparately : PP_PostingSchemeGUI:PP_POSTING_SET__ChargePostingSeparately required
+            @i18n:Label (en=ChargePostingSeparately)
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=5.0, core=true, t24Name=ChargePostingSeparately)
+/* Indicates the company ID for which the record is created.
+Example : BNK,GB1
+Validation Rules:
+3 alphanumeric characters.
+NoInput Field
+The value gets autopopulated based on the company that you login */
+        CompanyID : T24BusinessTypes:A
+            @i18n:Label (en=CompanyID)
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+        DATE_TIME -> byValue PP_PostingSchemeGUI:PP_POSTING_SET__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=34.0, core=true, t24Name=DEPT.CODE)
+        /* Specifies the date until which the record is to be considered as active for payments processing.Post this date, the record will be set as Inactive by the payments hub. */
+        EndDate : T24BusinessTypes:D
+            @i18n:Label (en=EndDate)
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=10.0, core=true, t24Name=EndDate)
+        INPUTTER -> byValue PP_PostingSchemeGUI:PP_POSTING_SET__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        LinkID : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=N, maxLength=255, sysNumber=27.0, core=true, t24Name=LinkID)
+/* Indicates whether OCP posting entries should be part of the
+posting set.
+Description of the field values are as follows.
+N: The Posting set will not have OCP posting lines
+Y: The Posting set will have OCP posting lines */
+        OCPPostingFlag : PP_PostingSchemeGUI:PP_POSTING_SET__OCPPostingFlag required
+            @i18n:Label (en=OCPPostingFlag)
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=9.0, core=true, t24Name=OCPPostingFlag)
+        OVERRIDE -> byValue PP_PostingSchemeGUI:PP_POSTING_SET__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        PartyFlag -> byValue PP_PostingSchemeGUI:PP_POSTING_SET__PartyFlag *
+            @t24:i (t24Name=PartyFlag)
+/* Posting product attached to the posting set defined.
+Validation Rules:
+Mandatory field. This field must match the posting product retrieved as output from product determination process. */
+        PostingProduct : T24BusinessTypes:ANY required
+            @i18n:Label (en=PostingProduct)
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=2.0, core=true, t24Name=PostingProduct)
+        PostingSetId -> PP_PostingSchemeGUI:PP_POSTING_SET PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=80, sysNumber=0.0, core=true, businessType=ANY, t24Name=PostingSetId)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=28.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=24.0, core=true, t24Name=RESERVED.1)
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=23.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=22.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=21.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=20.0, core=true, t24Name=RESERVED.5)
+/* Specifies the order (sequence) of the record in the application. Based on the value, a record is prioritised in such a way that, it is given higher preference for selection under peeling logic applied in the payments hub.
+Validation Rules:
+Mandatory field. 9 numeric characters. */
+        Ranking : T24BusinessTypes:R required
+            @i18n:Label (en=Ranking)
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=3.0, core=true, t24Name=Ranking)
+        /* Specifies the date from which the record is to be considered as active for payments processing. */
+        StartDate : T24BusinessTypes:D
+            @i18n:Label (en=StartDate)
+            @t24:i (align=R, inputBehaviour=N, maxLength=11, sysNumber=4.0, core=true, t24Name=StartDate)
+/* Possible values:
+D: The Posting Set will have a posting Line for VAT on principal for the debit side only.
+C: The Posting Set will have a posting Line for VAT on principal for the credit side only.
+B: The Posting Set will have a posting Line for VAT on principal for both the sides of the payment (debit and credit).
+N: The Posting Set will not have postinglines for VAT on principal for both the sides of the payment (debit and credit).
+S: The posting set will have posting line for VAT on Principal for both the sides of the payment with a Zero suppress flag set on each side .The Zero suppress flag indicates that if the VAT on Principal amount is 0 , the posting line will not be displayed (suppress it).
+
+If a side of the payment has VATONPrincipal with a value
+other than zero , then that side require the VAT on principal Posting line.
+Field should be checked twice (Debit side and Credit Side)
+
+If the variable is present only on the debit side then the match criteria for this field must be D or S
+If the variable is present only on the credit side then the match criteria for this field must be C or S
+If the variable is present on both the sides then the match criteria for this field must be B or S
+If the variable is not present both the sides then the match criteria for this field must be N or S */
+        VATONPrincipal : PP_PostingSchemeGUI:PP_POSTING_SET__VATONPrincipal required
+            @i18n:Label (en=VATONPrincipal)
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=7.0, core=true, t24Name=VATONPrincipal)
+/* Possible values:
+D: The Posting Set will have a posting Line for VAT on Charges for the debit side only.
+C: The Posting Set will have a posting Line for VAT on Charges for the credit side only.
+B: The Posting Set will have a posting Line for VAT on Charges for both the sides of the payment (debit and credit).
+N: The Posting Set will not have posting lines for VAT on Charges for both the sides of the payment (debit and credit).
+S: The posting set will have posting line for VAT on charges for both the sides of the payment with a Zero suppress flag set on each side .The Zero suppress flag indicates that if the VAT on Charges amount is 0 , do not display the posting line(suppress it).
+
+If a side of the payment contains the field, "VATOnCharge" with a value
+set as "Yes" , then that side require the VAT on charges Posting line.
+Field should be checked twice (Debit side and Credit Side)
+If the field with value "Yes" is present only on the debit side then the match criteria for this field must be D or S
+If the field with value "Yes" is present only on the credit side then the match criteria for this field must be C or S
+If the field with value "Yes" is present on both the sides then the match criteria for this field must be B or S
+If the field is not present both the sides then the match criteria for this field must be N or S */
+        VATOnCharge : PP_PostingSchemeGUI:PP_POSTING_SET__VATOnCharge required
+            @i18n:Label (en=VATOnCharge)
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=8.0, core=true, t24Name=VATOnCharge)
+    }
+    PP_POSTING_SET_PDS
+        @i18n:Description (en="")
+        @t24:i (t24Name=PP.POSTING.SET.PDS, nonStop=true, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=35.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=36.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=32.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=33.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=29.0, core=true, t24Name=CURR.NO)
+        ChargePostingDetail : PP_PostingSchemeGUI:PP_POSTING_SET_PDS__ChargePostingDetail required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=6.0, core=true, t24Name=ChargePostingDetail)
+        ChargePostingSeparately : PP_PostingSchemeGUI:PP_POSTING_SET_PDS__ChargePostingSeparately required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=5.0, core=true, t24Name=ChargePostingSeparately)
+        CompanyID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+        DATE_TIME -> byValue PP_PostingSchemeGUI:PP_POSTING_SET_PDS__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=34.0, core=true, t24Name=DEPT.CODE)
+        EndDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=10.0, core=true, t24Name=EndDate)
+        INPUTTER -> byValue PP_PostingSchemeGUI:PP_POSTING_SET_PDS__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        LinkID : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=N, maxLength=255, sysNumber=27.0, core=true, t24Name=LinkID)
+        OCPPostingFlag : PP_PostingSchemeGUI:PP_POSTING_SET_PDS__OCPPostingFlag required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=9.0, core=true, t24Name=OCPPostingFlag)
+        OVERRIDE -> byValue PP_PostingSchemeGUI:PP_POSTING_SET_PDS__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        PartyFlag -> byValue PP_PostingSchemeGUI:PP_POSTING_SET_PDS__PartyFlag *
+            @t24:i (t24Name=PartyFlag)
+        PostingProduct : T24BusinessTypes:ANY required
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=2.0, core=true, t24Name=PostingProduct)
+        PostingSetId -> PP_PostingSchemeGUI:PP_POSTING_SET_PDS PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=80, sysNumber=0.0, core=true, businessType=ANY, t24Name=PostingSetId)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=28.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=24.0, core=true, t24Name=RESERVED.1)
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=23.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=22.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=21.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=20.0, core=true, t24Name=RESERVED.5)
+        Ranking : T24BusinessTypes:R required
+            @t24:i (align=R, inputBehaviour=I, maxLength=9, sysNumber=3.0, core=true, t24Name=Ranking)
+        StartDate : T24BusinessTypes:D
+            @t24:i (align=R, inputBehaviour=N, maxLength=11, sysNumber=4.0, core=true, t24Name=StartDate)
+        VATONPrincipal : PP_PostingSchemeGUI:PP_POSTING_SET_PDS__VATONPrincipal required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=7.0, core=true, t24Name=VATONPrincipal)
+        VATOnCharge : PP_PostingSchemeGUI:PP_POSTING_SET_PDS__VATOnCharge required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=8.0, core=true, t24Name=VATOnCharge)
+    }
+    PP_POSTING_SET_PDS__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=31.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    PP_POSTING_SET_PDS__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=30.0, core=true, t24Name=INPUTTER)
+    }
+    PP_POSTING_SET_PDS__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=26.0, core=true, t24Name=OVERRIDE)
+    }
+    PP_POSTING_SET_PDS__PartyFlag
+    {
+        AccountToken : T24BusinessTypes:ANY required
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=13.0, core=true, t24Name=AccountToken)
+        AmountToken : T24BusinessTypes:ANY required
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=14.0, core=true, t24Name=AmountToken)
+        BookingCode : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=17.0, core=true, t24Name=BookingCode)
+        BookingDate : T24BusinessTypes:ANY required
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=15.0, core=true, t24Name=BookingDate)
+        PartyFlag : PP_PostingSchemeGUI:PP_POSTING_SET_PDS__PartyFlag__PartyFlag required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=11.0, core=true, t24Name=PartyFlag)
+        SequenceNumber : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=7, sysNumber=12.0, core=true, t24Name=SequenceNumber)
+        StatementFormat : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=19.0, core=true, t24Name=StatementFormat)
+        SuppressZeroFlag : PP_PostingSchemeGUI:PP_POSTING_SET_PDS__PartyFlag__SuppressZeroFlag required
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=18.0, core=true, t24Name=SuppressZeroFlag)
+        ValueDateToken : T24BusinessTypes:ANY required
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=16.0, core=true, t24Name=ValueDateToken)
+    }
+    PP_POSTING_SET__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=31.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    PP_POSTING_SET__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=30.0, core=true, t24Name=INPUTTER)
+    }
+    PP_POSTING_SET__OVERRIDE
+    {
+        /* Contains all the override messages which the user agreed to during Input. During the validation of a transaction, the system may provide the user with a series of screen override messages to indicate an anomaly. */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=26.0, core=true, t24Name=OVERRIDE)
+    }
+    PP_POSTING_SET__PartyFlag
+    {
+/* Indicates the payment related account used in the posting line.
+Validation Rules:
+Mandatory field. 20 alphanumeric characters. Value links to field 'AccountToken' in PP.POSTING.TOKENS. */
+        AccountToken : T24BusinessTypes:ANY required
+            @i18n:Label (en=AccountToken)
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=13.0, core=true, t24Name=AccountToken)
+/* Indicates the payment related amount used in the posting line.
+Validation Rules:
+Mandatory field. 20 alphanumeric characters. Value links to field 'AccountToken' in PP.POSTING.TOKENS. */
+        AmountToken : T24BusinessTypes:ANY required
+            @i18n:Label (en=AmountToken)
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=14.0, core=true, t24Name=AmountToken)
+/* Indicates the overriding booking codes which will supersede the booking codes derived from product determination process in the payments hub.
+Booking codes are usually based on the type of posting. ie. Principal posting, charges posting or VAT posting.
+Validation Rules:
+10 alphanumeric characters. */
+        BookingCode : T24BusinessTypes:A
+            @i18n:Label (en=BookingCode)
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=17.0, core=true, t24Name=BookingCode)
+/* Indicates the date on which the booking was performed in the ledger.
+Validation Rules:
+Mandatory field. 20 alphanumeric characters. Value links to field 'DateToken' in PP.POSTING.TOKENS. */
+        BookingDate : T24BusinessTypes:ANY required
+            @i18n:Label (en=BookingDate)
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=15.0, core=true, t24Name=BookingDate)
+/* Indicates whether the posting line is a debit or a credit posting line . Even for the posting line where charges are taken from a credit party , the party flag for the charge posting in PPL_Posting line will be "D" as the charges are getting debited for the party.
+Possible values:
+D: Debit Party
+C: Credit Party */
+        PartyFlag : PP_PostingSchemeGUI:PP_POSTING_SET__PartyFlag__PartyFlag required
+            @i18n:Label (en=PartyFlag)
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=11.0, core=true, t24Name=PartyFlag)
+/* Specifies the order of the posting lines within the posting set.
+Validation Rules:
+7 numeric characters. Value is not viewable to the user. */
+        SequenceNumber : T24BusinessTypes:N
+            @i18n:Label (en=SequenceNumber)
+            @t24:i (align=R, inputBehaviour=I, maxLength=7, sysNumber=12.0, core=true, t24Name=SequenceNumber)
+/* Indicates the generic statement format attached to the posting line.
+For the principal debit and credit accounts, if the client or bank have
+mentioned a special statement format name in client conditions or Bank
+conditions then statement lines attached to that statement format need to be displayed for the principal posting.
+If the debit side of the payment contains the field DebitStatementFormat or
+credit side contains the field CreditStatementFormat set then it indicates that the side would like to have customised statement lines.
+This field should be checked twice (Debit side and Credit Side) */
+        StatementFormat : T24BusinessTypes:ANY
+            @i18n:Label (en=StatementFormat)
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=19.0, core=true, t24Name=StatementFormat)
+/* Indicates if the posting line has to be displayed if the amount value
+of the amount token result in zero.
+Possible values:
+N: Display the posting line even when the value of amount token is zero.
+Y: Do not display the posting line when the value of amount token is zero */
+        SuppressZeroFlag : PP_PostingSchemeGUI:PP_POSTING_SET__PartyFlag__SuppressZeroFlag required
+            @i18n:Label (en=SuppressZeroFlag)
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=18.0, core=true, t24Name=SuppressZeroFlag)
+/* Indicates the date on which the booking was performed in the ledger.
+Validation Rules:
+Mandatory field. 20 alphanumeric characters. Value links to field 'DateToken' in PP.POSTING.TOKENS. */
+        ValueDateToken : T24BusinessTypes:ANY required
+            @i18n:Label (en=ValueDateToken)
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=16.0, core=true, t24Name=ValueDateToken)
+    }
+/* This screen is used to setup amount, account, date and statement text tokens used in posting lines generated in payments hub.
+This is Non dated and INT type of classification.
+This application follows T24 Standard and it will be of History Type application. */
+    PP_POSTING_TOKENS
+        @i18n:Description (en="")
+        @t24:i (t24Name=PP.POSTING.TOKENS, nonStop=true, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=16.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=17.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=13.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=14.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=10.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue PP_PostingSchemeGUI:PP_POSTING_TOKENS__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=15.0, core=true, t24Name=DEPT.CODE)
+        INPUTTER -> byValue PP_PostingSchemeGUI:PP_POSTING_TOKENS__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        OVERRIDE -> byValue PP_PostingSchemeGUI:PP_POSTING_TOKENS__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=9.0, core=true, t24Name=RECORD.STATUS)
+        /* Standard T24 String. No Input Field */
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=6.0, core=true, t24Name=RESERVED.1)
+        /* Standard T24 String. No Input Field */
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=5.0, core=true, t24Name=RESERVED.2)
+        /* Standard T24 String. No Input Field */
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=4.0, core=true, t24Name=RESERVED.3)
+        /* Standard T24 String. No Input Field */
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=3.0, core=true, t24Name=RESERVED.4)
+        /* Standard T24 String. No Input Field */
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=2.0, core=true, t24Name=RESERVED.5)
+/* Indicated the ID of the application.
+Validation Rules:
+20 alphanumeric characters.
+Possible values: "ACCOUNT", "AMOUNT", "DATE" and "STATEMENTTEXT". */
+        RecordID -> PP_PostingSchemeGUI:PP_POSTING_TOKENS PK required
+            @i18n:Label (en=RecordID)
+            @i18n:Tooltip (en=RecordID)
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=0.0, core=true, businessType=ANY, t24Name=RecordID)
+        Token -> byValue PP_PostingSchemeGUI:PP_POSTING_TOKENS__Token *
+            @t24:i (t24Name=Token)
+    }
+    PP_POSTING_TOKENS__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=12.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    PP_POSTING_TOKENS__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=11.0, core=true, t24Name=INPUTTER)
+    }
+    PP_POSTING_TOKENS__OVERRIDE
+    {
+        /* Contains all the override messages which the user agreed to during Input. During the validation of a transaction, the system may provide the user with a series of screen override messages to indicate an anomaly. */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=OVERRIDE)
+    }
+    PP_POSTING_TOKENS__Token
+    {
+/* Specifies the name of the amount token to be used in posting line table and also in statement lines table.
+Specifies the name of the account token to be used across the payments hub.
+Specifies the list of Date tokens that can be used in the date token column in posting lines table and also in the statement lines table.
+Specifies the name of the statement text token.
+Validation Rules:
+Mandatory fields. 20 alphanumeric characters.Multi value field. */
+        Token : T24BusinessTypes:ANY
+            @i18n:Label (en=Token)
+            @i18n:Tooltip (en=Token)
+            @t24:i (align=L, inputBehaviour=I, maxLength=50, sysNumber=1.0, core=true, t24Name=Token)
+    }
+    /* The Statement Format table identifies the statement format id from the Statement format name attached to a particular posting line. */
+    PP_STATEMENT_FORMAT
+        @i18n:Description (en="")
+        @t24:i (additionalInfo=HLD, t24Name=PP.STATEMENT.FORMAT, nonStop=true, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=26.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=27.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=23.0, core=true, t24Name=AUTHORISER)
+        AuthoriserDateTime : T24BusinessTypes:TIME
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=11.0, core=true, t24Name=AuthoriserDateTime, mask="RDD DD  DD ##:##")
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=24.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=20.0, core=true, t24Name=CURR.NO)
+/* Indicates the company ID for which the record is created.
+Example : BNK,GB1
+Validation Rules:
+Mandatory field
+3 alphanumeric characters.
+The value links to the field ‘CompanyID’ in PPT.COMPANY */
+        CompanyID : T24BusinessTypes:A
+            @i18n:Label (en=CompanyID)
+            @i18n:Tooltip (en=CompanyID)
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=1.0, core=true, t24Name=CompanyID)
+        DATE_TIME -> byValue PP_PostingSchemeGUI:PP_STATEMENT_FORMAT__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=25.0, core=true, t24Name=DEPT.CODE)
+        INPUTTER -> byValue PP_PostingSchemeGUI:PP_STATEMENT_FORMAT__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        OVERRIDE -> byValue PP_PostingSchemeGUI:PP_STATEMENT_FORMAT__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=19.0, core=true, t24Name=RECORD.STATUS)
+        /* Standard T24 field. Reserved for future use */
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=RESERVED.1)
+        /* Standard T24 field. Reserved for future use */
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=RESERVED.2)
+        /* Standard T24 field. Reserved for future use */
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=RESERVED.3)
+        /* Standard T24 field. Reserved for future use */
+        RESERVED_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED.4)
+        /* Standard T24 field. Reserved for future use */
+        RESERVED_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.5)
+        SequenceNumber -> byValue PP_PostingSchemeGUI:PP_STATEMENT_FORMAT__SequenceNumber *
+            @t24:i (t24Name=SequenceNumber)
+        StatementFormatName -> PP_PostingSchemeGUI:PP_STATEMENT_FORMAT PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=75, sysNumber=0.0, core=true, businessType=ANY, t24Name=StatementFormatName)
+    }
+    PP_STATEMENT_FORMAT__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=22.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    PP_STATEMENT_FORMAT__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=21.0, core=true, t24Name=INPUTTER)
+    }
+    PP_STATEMENT_FORMAT__OVERRIDE
+    {
+        /* Contains all the override messages which the user agreed to during Input. During the validation of a transaction, the system may provide the user with a series of screen override messages to indicate an anomaly. */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=OVERRIDE)
+    }
+    PP_STATEMENT_FORMAT__SequenceNumber
+    {
+/* The format in which the amount and rate token value must be displayed
+This is only applicable if Tag61Indicator is not equal to Y */
+        AmountFormat : PP_PostingSchemeGUI:PP_STATEMENT_FORMAT__SequenceNumber__AmountFormat
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=8.0, core=true, t24Name=AmountFormat)
+/* Y: If the token value is blank or 0 , the statement line is not displayed
+N: If the token value is blank or 0 , the statement line will be displayed
+This is only applicable if Tag61Indicator is not equal to Y */
+        CompactLineFlag : PP_PostingSchemeGUI:PP_STATEMENT_FORMAT__SequenceNumber__CompactLineFlag
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=10.0, core=true, t24Name=CompactLineFlag)
+/* Language in which statement line is generated. This can be wild carded (*)
+which will match with any language. */
+        LanguageID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=4.0, core=true, t24Name=LanguageID)
+/* Y: Default Value :Statement Lines exceeding 65 140 characters will be displayed
+in the next line
+N: If a statement line is longer than 65 140 characters , the rest of the
+characters are truncated
+This is only applicable if Tag61Indicator is not equal to Y */
+        LineContinuityFlag : PP_PostingSchemeGUI:PP_STATEMENT_FORMAT__SequenceNumber__LineContinuityFlag
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=9.0, core=true, t24Name=LineContinuityFlag)
+/* Text (as it is) to be displayed in the statement line. This is only applicable if
+Tag61Indicator is not equal to Y */
+        LiteralText : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=5.0, core=true, t24Name=LiteralText)
+/* As a statement format can have multiple statement lines, Sequence Number is
+used to order the statement lines within the statement format .
+In case Tag61Indicator is Y, then this can only have value as Subtag7, Subtag8
+or Subtag9 indicating for which subtag within tag61 this is applicable.
+In all other cases it will be a number and Statement lines should be sorted based
+on this sequence number and sequence number can be edited by operator. */
+        SequenceNumber : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=7, sysNumber=2.0, core=true, t24Name=SequenceNumber)
+/* Start Position of the above token in the statement Line .
+For a statement line with no literal text but only has a token defined and if the
+token value has to be left justified then the value of this field should be 1 in the
+table. This is only applicable if Tag61Indicator is not equal to Y */
+        StartPosition : T24BusinessTypes:N required
+            @t24:i (align=R, inputBehaviour=I, maxLength=2, sysNumber=7.0, core=true, t24Name=StartPosition)
+/* Any token from the following token Tables
+• Amount Token Table
+• Date Token Table
+• Statement Text Token Table */
+        StatementTextToken : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=6.0, core=true, t24Name=StatementTextToken)
+/* This field indicates if the record is applicable for Tag61 mapping in MT940
+statement. If yes, then Sequence field would indicate the Subtag within Tag61
+for which this value is applicable. */
+        Tag61Indicator : PP_PostingSchemeGUI:PP_STATEMENT_FORMAT__SequenceNumber__Tag61Indicator
+            @i18n:Label (en=Tag61Indicator)
+            @i18n:Tooltip (en=Tag61Indicator)
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=3.0, core=true, t24Name=Tag61Indicator)
+    }
+    PP_STATEMENT_FORMAT__Tag61Indicator
+    {
+        AmountFormat : PP_PostingSchemeGUI:PP_STATEMENT_FORMAT__Tag61Indicator__AmountFormat
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=13.0, core=true, t24Name=AmountFormat)
+        CompactLineFlag : PP_PostingSchemeGUI:PP_STATEMENT_FORMAT__Tag61Indicator__CompactLineFlag
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=15.0, core=true, t24Name=CompactLineFlag)
+        LanguageID : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=7.0, core=true, t24Name=LanguageID)
+        LineContinuityFlag : PP_PostingSchemeGUI:PP_STATEMENT_FORMAT__Tag61Indicator__LineContinuityFlag
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=14.0, core=true, t24Name=LineContinuityFlag)
+        LiteralText : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=10.0, core=true, t24Name=LiteralText)
+        SequenceNumber : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=7, sysNumber=9.0, core=true, t24Name=SequenceNumber)
+        StartPosition : T24BusinessTypes:N required
+            @t24:i (align=R, inputBehaviour=I, maxLength=2, sysNumber=12.0, core=true, t24Name=StartPosition)
+        StatementLineId : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=8.0, core=true, t24Name=StatementLineId)
+        StatementTextToken : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=11.0, core=true, t24Name=StatementTextToken)
+        Tag61Indicator : PP_PostingSchemeGUI:PP_STATEMENT_FORMAT__Tag61Indicator__Tag61Indicator
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=6.0, core=true, t24Name=Tag61Indicator)
+    }
+/* This screen is used to setup statement text tokens in the payments hub. The statement text token refers to the statement text to be displayed as part of the statement lines in posting.
+A record authorised in this screen will create or amend or delete a record in store table, PPT.STATEMENTTEXTTOKEN. This store table will be referred for values to field 'StatementTextToken' in PPT.STATEMENTLINES. */
+    PP_STATEMENT_TEXT_TOKEN
+        @i18n:Description (en="")
+        @t24:i (t24Name=PP.STATEMENT.TEXT.TOKEN, nonStop=true, level=I, type=U, additionalInfo=HLD, allowedFunctions="A C D E I L P Q R S", localRefAllowed=false)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=16.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=17.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=13.0, core=true, t24Name=AUTHORISER)
+/* Used for internal purpose. Value of this field determines values of fields, 'RAC' and 'RSC'
+Possible values:
+N - New
+M - Modified
+R -  Reverse
+This field can hold upto 1 alphanumeric character and the value is not editable by the user. */
+        Action : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=7.0, core=true, t24Name=Action)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=14.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=10.0, core=true, t24Name=CURR.NO)
+/* Indicates the company ID for which the record is created.
+Example : BNK,GB1
+Validation Rules:
+3 alphanumeric characters.
+The value links to the field ‘CompanyID’ in PPT.COMPANY */
+        CompanyID : T24BusinessTypes:A required
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=1.0, core=true, t24Name=CompanyID)
+/* Used for internal purpose.Holds the ID of the current live record of store table.
+This field can hold upto 65 alphanumeric characters and the value is not editable by the user. */
+        CurrentID : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=65, sysNumber=6.0, core=true, t24Name=CurrentID)
+        DATE_TIME -> byValue PP_PostingSchemeGUI:PP_STATEMENT_TEXT_TOKEN__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=15.0, core=true, t24Name=DEPT.CODE)
+        /* Unique ID generated by the payments hub in order to identify each record in the application. */
+        ID -> PP_PostingSchemeGUI:PP_STATEMENT_TEXT_TOKEN PK required
+            @i18n:Label (en="Transaction Ref")
+            @i18n:Tooltip (en="Transaction Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=0.0, core=true, businessType=A, t24Name=ID)
+        INPUTTER -> byValue PP_PostingSchemeGUI:PP_STATEMENT_TEXT_TOKEN__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        OVERRIDE -> byValue PP_PostingSchemeGUI:PP_STATEMENT_TEXT_TOKEN__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+/* Used for internal purpose. Holds the ID of the previous live record of store table.
+This field can hold upto 65 alphanumeric characters and the value is not editable by the user. */
+        OldID : T24BusinessTypes:ANY
+            @t24:i (align=L, inputBehaviour=I, maxLength=65, sysNumber=5.0, core=true, t24Name=OldID, onchangeBehaviour=HOT.FIELD)
+/* Record Activation Code generated for the record by the payment's hub.
+Possible values:
+N - Not active
+A -  Active
+H - History
+F - Future
+C - Not active future
+Validation Rules:
+19 alphanumeric characters.
+The value is not editable by the user. */
+        RAC : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=3.0, core=true, t24Name=RAC)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=9.0, core=true, t24Name=RECORD.STATUS)
+/* Record Status Code generated for the record by the payments hub.
+Possible values:
+L - Live
+U - Unapproved
+R - Reversed
+Validation Rules:
+1 alphanumeric character.
+The value is not editable by the user. */
+        RSC : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=4.0, core=true, t24Name=RSC)
+/* Specifies the name of the statement text token.
+Validation Rules:
+Mandatory field. 30 alphanumeric characters. */
+        StatementTextToken : T24BusinessTypes:ANY required
+            @t24:i (align=L, inputBehaviour=I, maxLength=30, sysNumber=2.0, core=true, t24Name=StatementTextToken)
+    }
+    PP_STATEMENT_TEXT_TOKEN__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=12.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    PP_STATEMENT_TEXT_TOKEN__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=11.0, core=true, t24Name=INPUTTER)
+    }
+    PP_STATEMENT_TEXT_TOKEN__OVERRIDE
+    {
+        /* Contains all the override messages which the user agreed to during Input. During the validation of a transaction, the system may provide the user with a series of screen override messages to indicate an anomaly. */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=OVERRIDE)
+    }
+/* This screen is used to specifies the codes which will be used for the Swift Message MT940(Tag61:Subtag6)
+It is linked with booking code(Identified in Payment Order) and once booking code is determined, the corresponding swift transaction type code can be retrieved.
+This is Non dated and INT type of classification
+This application follows T24 Standard and it will be of History Type application. */
+    PP_SWIFT_TRANS_TYPECODE
+        @i18n:Description (en="")
+        @t24:i (additionalInfo=HLD, t24Name=PP.SWIFT.TRANS.TYPECODE, nonStop=true, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=16.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=17.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=13.0, core=true, t24Name=AUTHORISER)
+/* Holds the booking Code. And it represents the ID of the application.
+Validation Rules:
+1- 10 Alphanumeric characters.
+Value in this field will be checked against the Booking Code in Payment Order. */
+        BookingCode -> PP_PostingSchemeGUI:PP_SWIFT_TRANS_TYPECODE PK required
+            @i18n:Label (en=BookingCode)
+            @i18n:Tooltip (en=BookingCode)
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=0.0, core=true, businessType=A, t24Name=BookingCode)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=14.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=10.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue PP_PostingSchemeGUI:PP_SWIFT_TRANS_TYPECODE__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=15.0, core=true, t24Name=DEPT.CODE)
+        INPUTTER -> byValue PP_PostingSchemeGUI:PP_SWIFT_TRANS_TYPECODE__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        OVERRIDE -> byValue PP_PostingSchemeGUI:PP_SWIFT_TRANS_TYPECODE__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=9.0, core=true, t24Name=RECORD.STATUS)
+        /* Standard T24 String. No Input Field */
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=6.0, core=true, t24Name=RESERVED.1)
+        /* Standard T24 String. No Input Field */
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=5.0, core=true, t24Name=RESERVED.2)
+        /* Standard T24 String. No Input Field */
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=4.0, core=true, t24Name=RESERVED.3)
+        /* Standard T24 String. No Input Field */
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=3.0, core=true, t24Name=RESERVED.4)
+        /* Standard T24 String. No Input Field */
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=2.0, core=true, t24Name=RESERVED.5)
+/* Represents the SWIFT Transaction Type Code to be reported in MT940 for Tag 61.
+Validation Rules:
+4 Alphanumeric characters. */
+        SWIFTTransactionTypeCode : T24BusinessTypes:A required
+            @i18n:Label (en=SWIFTTransactionTypeCode)
+            @i18n:Tooltip (en=SWIFTTransactionTypeCode)
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=1.0, core=true, t24Name=SWIFTTransactionTypeCode)
+    }
+    PP_SWIFT_TRANS_TYPECODE__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=12.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    PP_SWIFT_TRANS_TYPECODE__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=11.0, core=true, t24Name=INPUTTER)
+    }
+    PP_SWIFT_TRANS_TYPECODE__OVERRIDE
+    {
+        /* Contains all the override messages which the user agreed to during Input. During the validation of a transaction, the system may provide the user with a series of screen override messages to indicate an anomaly. */
+        OVERRIDE : T24BusinessTypes:N
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=OVERRIDE)
+    }
+}
+Enumerations {
+    PP_INSUFFOUTB_OUR_CHARGE__AccountType : mml:string
+        C=C
+        I=I
+        N=N
+        PL=PL
+        V=V
+    PP_OCP_ACCOUNT__AccountType : mml:string
+        C=C
+        I=I
+        N=N
+        PL=PL
+        V=V
+    PP_POSTING_SET_PDS__ChargePostingDetail : mml:string
+        B=B
+        C=C
+        D=D
+        N=N
+        NULL=NULL
+    PP_POSTING_SET_PDS__ChargePostingSeparately : mml:string
+        B=B
+        C=C
+        D=D
+        N=N
+        NULL=NULL
+    PP_POSTING_SET_PDS__OCPPostingFlag : mml:string
+        N=N
+        Y=Y
+    PP_POSTING_SET_PDS__PartyFlag__PartyFlag : mml:string
+        C=C
+        D=D
+    PP_POSTING_SET_PDS__PartyFlag__SuppressZeroFlag : mml:string
+        N=N
+        Y=Y
+    PP_POSTING_SET_PDS__VATONPrincipal : mml:string
+        B=B
+        C=C
+        D=D
+        N=N
+        NULL=NULL
+        S=S
+    PP_POSTING_SET_PDS__VATOnCharge : mml:string
+        B=B
+        C=C
+        D=D
+        N=N
+        NULL=NULL
+        S=S
+    PP_POSTING_SET__ChargePostingDetail : mml:string
+        B=B
+        C=C
+        D=D
+        N=N
+        NULL=NULL
+    PP_POSTING_SET__ChargePostingSeparately : mml:string
+        B=B
+        C=C
+        D=D
+        N=N
+        NULL=NULL
+    PP_POSTING_SET__OCPPostingFlag : mml:string
+        N=N
+        Y=Y
+    PP_POSTING_SET__PartyFlag__PartyFlag : mml:string
+        C=C
+        D=D
+    PP_POSTING_SET__PartyFlag__SuppressZeroFlag : mml:string
+        N=N
+        Y=Y
+    PP_POSTING_SET__VATONPrincipal : mml:string
+        B=B
+        C=C
+        D=D
+        N=N
+        NULL=NULL
+        S=S
+    PP_POSTING_SET__VATOnCharge : mml:string
+        B=B
+        C=C
+        D=D
+        N=N
+        NULL=NULL
+        S=S
+    PP_STATEMENT_FORMAT__SequenceNumber__AmountFormat : mml:string
+        EU=EU
+        EU__NoSeparator=EU-NoSeparator
+        NULL=NULL
+        NoSeparator=NoSeparator
+        US=US
+        US__NoSeparator=US-NoSeparator
+    PP_STATEMENT_FORMAT__SequenceNumber__CompactLineFlag : mml:string
+        N=N
+        Y=Y
+    PP_STATEMENT_FORMAT__SequenceNumber__LineContinuityFlag : mml:string
+        N=N
+        Y=Y
+    PP_STATEMENT_FORMAT__SequenceNumber__Tag61Indicator : mml:string
+        N=N
+        Y=Y
+    PP_STATEMENT_FORMAT__Tag61Indicator__AmountFormat : mml:string
+        EU=EU
+        EU__NoSeparator=EU-NoSeparator
+        NULL=NULL
+        NoSeparator=NoSeparator
+        US=US
+        US__NoSeparator=US-NoSeparator
+    PP_STATEMENT_FORMAT__Tag61Indicator__CompactLineFlag : mml:string
+        N=N
+        Y=Y
+    PP_STATEMENT_FORMAT__Tag61Indicator__LineContinuityFlag : mml:string
+        N=N
+        Y=Y
+    PP_STATEMENT_FORMAT__Tag61Indicator__Tag61Indicator : mml:string
+        N=N
+        Y=Y
+}

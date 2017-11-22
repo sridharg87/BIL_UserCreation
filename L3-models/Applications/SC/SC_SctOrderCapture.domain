@@ -1,0 +1,1962 @@
+# UTF-8
+/* Order Capture and Processing */
+Domain SC_SctOrderCapture
+    @t24:i (module=SC)
+    @java:Package (value=com.temenos.t24.datamodel.sc.sc_sctordercapture)
+namespace "http://www.temenos.com/t24/SC_SctOrderCapture"
+metamodelVersion 1.30.6
+Classes {
+    SC_OPN_ORD_FILE
+        @i18n:Description (en="")
+        @t24:i (t24Name=SC.OPN.ORD.FILE, level=C, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        /* Net open order nominal. */
+        NET_OPEN_ORD_POS : T24BusinessTypes:NOMAMT
+            @i18n:Label (en="Net Open Ord Position")
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=1.0, core=true, t24Name=NET.OPEN.ORD.POS)
+        /* Order reference number. */
+        REFERENCE_NUMBER -> SC_SctOrderCapture:SC_OPN_ORD_FILE PK required
+            @i18n:Label (en=Reference)
+            @t24:i (align=L, inputBehaviour=I, maxLength=80, sysNumber=0.0, core=true, businessType=S, t24Name=REFERENCE.NUMBER)
+    }
+    SC_ORDER_ROUTING
+        @i18n:Description (en="")
+        @t24:i (t24Name=SC.ORDER.ROUTING, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=26.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=27.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=23.0, core=true, t24Name=AUTHORISER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=24.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=20.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue SC_SctOrderCapture:SC_ORDER_ROUTING__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=25.0, core=true, t24Name=DEPT.CODE)
+        INPUTTER -> byValue SC_SctOrderCapture:SC_ORDER_ROUTING__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        /* The record id, must be SYSTEM */
+        K_SYSTEM : SC_SctOrderCapture:SC_ORDER_ROUTING__K_SYSTEM
+            @t24:i (align=L, inputBehaviour=N, maxLength=6, sysNumber=0.0, core=false, t24Name=K.SYSTEM)
+        OVERRIDE -> byValue SC_SctOrderCapture:SC_ORDER_ROUTING__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=19.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_0 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=1, sysNumber=16.0, core=true, t24Name=RESERVED.0)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=1, sysNumber=15.0, core=true, t24Name=RESERVED.1)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=1, sysNumber=14.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=1, sysNumber=13.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=1, sysNumber=12.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=1, sysNumber=11.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=1, sysNumber=10.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=1, sysNumber=9.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=1, sysNumber=8.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=1, sysNumber=7.0, core=true, t24Name=RESERVED.9)
+        ROUT_COMPANY -> byValue SC_SctOrderCapture:SC_ORDER_ROUTING__ROUT_COMPANY *
+            @t24:i (t24Name=ROUT.COMPANY)
+        /* The record id, must be SYSTEM */
+        SYSTEM : SC_SctOrderCapture:SC_ORDER_ROUTING__SYSTEM PK required
+            @i18n:Label (en=System)
+            @t24:i (align=L, inputBehaviour=I, maxLength=6, sysNumber=0.0, core=true, t24Name=SYSTEM)
+    }
+    SC_ORDER_ROUTING__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=22.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    SC_ORDER_ROUTING__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=21.0, core=true, t24Name=INPUTTER)
+    }
+    SC_ORDER_ROUTING__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:A
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=OVERRIDE)
+    }
+    SC_ORDER_ROUTING__ROUT_COMPANY
+    {
+        APP_FIELD -> byValue SC_SctOrderCapture:SC_ORDER_ROUTING__ROUT_COMPANY__APP_FIELD *
+            @t24:i (t24Name=APP.FIELD)
+/* Routing company to be defaulted in order when portfolio is shared based on conditions specified in fields from APP.FIELD to APP.VALUE
+Validation Rules:
+
+
+A valid COMPANY ID needs to be specified */
+        ROUT_COMPANY -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en="Replicating Co")
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=1.0, core=true, businessType=COM, t24Name=ROUT.COMPANY, mask="R##-###-####")
+/* Field identifying the cross trading (internal) portfolio to be used in a multi company order/execution scenario when portfolio is shared across companies. The value defined here would default in SC.EXE.SEC.ORDERS for the routing company specified.
+Validation Rules: */
+        ROUT_SEC_ACC : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=18, sysNumber=2.0, core=true, t24Name=ROUT.SEC.ACC)
+    }
+    SC_ORDER_ROUTING__ROUT_COMPANY__APP_FIELD
+    {
+/* Delimiter specified for separating set of values in APP.VALUE. Example : *
+Validation Rules: */
+        APP_DELIMIT : SC_SctOrderCapture:SC_ORDER_ROUTING__ROUT_COMPANY__APP_FIELD__APP_DELIMIT
+            @t24:i (align=L, inputBehaviour=I, maxLength=1, sysNumber=5.0, core=true, t24Name=APP.DELIMIT)
+/* SECURITY.MASTER  field based on which the conditions for defaulting of routing company is determined.
+Validation Rules:
+
+
+Must exist as a valid field in SECURITY.MASTER. */
+        APP_FIELD : T24BusinessTypes:A
+            @i18n:Label (en="Application Field")
+            @i18n:Tooltip (en="Indicates field in respective application")
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=3.0, core=true, t24Name=APP.FIELD)
+/* Operand associated with APP.FIELD to construct as selection sentence which will be executed to determine the conditions for defaulting routing company.
+Validation Rules:
+
+
+Input must be one of EQ,LT,NE,LE,GT or GE. */
+        APP_OPERATOR : SC_SctOrderCapture:SC_ORDER_ROUTING__ROUT_COMPANY__APP_FIELD__APP_OPERATOR
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=4.0, core=true, t24Name=APP.OPERATOR)
+/* The field associated with APP.FIELD,APP.DELIMIT and APP.OPERATOR. The value in this field read in conjunction with above three fields would determine whether conditions for defaulting routing company are met.
+Validation Rules: */
+        APP_VALUE : T24BusinessTypes:A
+            @i18n:Label (en="Application Value")
+            @i18n:Tooltip (en="Field values to be used as the selection criteria")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=6.0, core=true, t24Name=APP.VALUE)
+    }
+/* This application is for executing the checks for a set of orders that are part of an order session.
+The orders could be a combination of buy/sell orders, derivatives orders, etc.
+Based on the market values received including the impact of pending/new orders that are part of an order session, T24 will calculate the margin value of the portfolio and update the details in respective fields */
+    SC_ORDER_SESSION
+        @i18n:Description (en="")
+        @t24:i (t24Name=SC.ORDER.SESSION, level=F, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=52.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=53.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=49.0, core=true, t24Name=AUTHORISER)
+        /* Collateral Surplus after considering the new orders from this session.Difference between new margin value and new liability position */
+        COLL_SURPLUS_DEF : T24BusinessTypes:AMT
+            @i18n:Label (en="Coll Surplus Deficit")
+            @i18n:Tooltip (en="Coll Surplus Deficit")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=31.0, core=true, t24Name=COLL.SURPLUS.DEF, typeModifiers=-)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=50.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        /* If Collateral Surplus Deficit is positive,this field will be set to YES.Else,it will be set to NO. */
+        CREDIT_CHECK : SC_SctOrderCapture:SC_ORDER_SESSION__CREDIT_CHECK
+            @i18n:Label (en="Credit Check")
+            @i18n:Tooltip (en="Credit Check")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=32.0, core=true, t24Name=CREDIT.CHECK)
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=46.0, core=true, t24Name=CURR.NO)
+/* Customer to which the PORTFOLIO belongs to.
+Validation Rules
+
+1. Should be a valid CUSTOMER ID */
+        CUSTOMER -> ST_Customer:CUSTOMER
+            @i18n:Label (en=Customer)
+            @i18n:Tooltip (en="Customer Liability")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=1.0, core=true, businessType=CUS, t24Name=CUSTOMER)
+        DATE_TIME -> byValue SC_SctOrderCapture:SC_ORDER_SESSION__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=51.0, core=true, t24Name=DEPT.CODE)
+        /* Collateral Surplus before considering the new orders from this session.Difference between Initial Margin value and intial liabilty position */
+        INIT_COLL_SURPLUS_DEF : T24BusinessTypes:AMT
+            @i18n:Label (en="Init Coll Surplus Deficit")
+            @i18n:Tooltip (en="Init Coll Surplus Deficit")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=27.0, core=true, t24Name=INIT.COLL.SURPLUS.DEF, typeModifiers=-)
+        /* The initial liability value for the portfolio before considering the new orders from this session. */
+        INIT_LIAB_POS : T24BusinessTypes:AMT
+            @i18n:Label (en="Initial Liab Position")
+            @i18n:Tooltip (en="Initial Liab Position")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=26.0, core=true, t24Name=INIT.LIAB.POS, typeModifiers=-)
+        /* The initial margin value for the portfolio before considering the new orders from this session. */
+        INIT_MGN_VALUE : T24BusinessTypes:AMT
+            @i18n:Label (en="Initial Margin Value")
+            @i18n:Tooltip (en="Initial Margin Value")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=25.0, core=true, t24Name=INIT.MGN.VALUE, typeModifiers=-)
+        INIT_MKT_VALUE : T24BusinessTypes:AMT
+            @i18n:Label (en="Initial Market Value")
+            @i18n:Tooltip (en="Initial Market Value")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=24.0, core=true, t24Name=INIT.MKT.VALUE, typeModifiers=-)
+        INPUTTER -> byValue SC_SctOrderCapture:SC_ORDER_SESSION__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        /* The liability value for the portfolio after considering the new orders from this session. */
+        NEW_LIAB_POS : T24BusinessTypes:AMT
+            @i18n:Label (en="New Liab Position")
+            @i18n:Tooltip (en="New Liab Position")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=30.0, core=true, t24Name=NEW.LIAB.POS, typeModifiers=-)
+        /* The margin value for the portfolio after considering the new orders from this session. */
+        NEW_MGN_VALUE : T24BusinessTypes:AMT
+            @i18n:Label (en="New Margin Value")
+            @i18n:Tooltip (en="New Margin Value")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=29.0, core=true, t24Name=NEW.MGN.VALUE, typeModifiers=-)
+        /* The market value for the portfolio after considering the new orders from this session. */
+        NEW_MKT_VALUE : T24BusinessTypes:AMT
+            @i18n:Label (en="New Market Value")
+            @i18n:Tooltip (en="New Market Value")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=28.0, core=true, t24Name=NEW.MKT.VALUE, typeModifiers=-)
+        ORDER_SESSION_ID -> SC_SctOrderCapture:SC_ORDER_SESSION PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=0.0, core=true, businessType=A, t24Name=ORDER.SESSION.ID)
+        OVERRIDE : T24BusinessTypes:A
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=44.0, core=true, t24Name=OVERRIDE)
+/* Portfolio for which checks are to be performed.
+Validation Rules
+
+1. Should be a valid SEC.ACC.MASTER ID
+2. This is a mandatory field. */
+        PORTFOLIO -> SC_ScoPortfolioMaintenance:SEC_ACC_MASTER required
+            @i18n:Label (en=Portfolio)
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=2.0, core=true, businessType=SAM, t24Name=PORTFOLIO)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=45.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED11 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=33.0, core=true, t24Name=RESERVED11)
+        RESERVED12 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=34.0, core=true, t24Name=RESERVED12)
+        RESERVED13 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=35.0, core=true, t24Name=RESERVED13)
+        RESERVED14 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=36.0, core=true, t24Name=RESERVED14)
+        RESERVED15 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=37.0, core=true, t24Name=RESERVED15)
+        RESERVED16 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=38.0, core=true, t24Name=RESERVED16)
+        RESERVED17 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=39.0, core=true, t24Name=RESERVED17)
+        RESERVED18 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=40.0, core=true, t24Name=RESERVED18)
+        RESERVED19 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=41.0, core=true, t24Name=RESERVED19)
+        RESERVED20 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=42.0, core=true, t24Name=RESERVED20)
+        SECURITY_MASTER -> byValue SC_SctOrderCapture:SC_ORDER_SESSION__SECURITY_MASTER *
+            @t24:i (t24Name=SECURITY.MASTER)
+    }
+    SC_ORDER_SESSION__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=48.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    SC_ORDER_SESSION__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=47.0, core=true, t24Name=INPUTTER)
+    }
+    SC_ORDER_SESSION__SECURITY_MASTER
+    {
+/* If the position relates to a  cash account, corresponding account is to be updated.
+Validation Rules
+
+1. Should be a valid ACCOUNT
+2. Only one of SECURITY.MASTER,CONTRACT.MASTER,ACCOUNT,CONTRACT.TYPE must be specified in one multivalue set. */
+        ACCOUNT -> AC_AccountOpening:ACCOUNT
+            @i18n:Label (en=Account)
+            @i18n:Tooltip (en="Identifies the customer account")
+            @t24:i (align=L, inputBehaviour=I, maxLength=36, sysNumber=5.0, core=true, businessType=ANT, t24Name=ACCOUNT)
+/* This is for informatory purpose.
+Validation Rules
+
+1.Should be a valid CURRENCY
+2.Value is allowed only when FX-Forward/FX-Swap Contract type is chosen. */
+        BOUGHT_CCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en="Bought Currency")
+            @i18n:Tooltip (en="Bought Currency")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=9.0, core=true, businessType=CCY, t24Name=BOUGHT.CCY)
+/* If the associated Contract Master is options type, this can be updated.
+Validation Rules
+
+1. Accepts either CALL or PUT
+2.Input allowed only when CONTRACT.MASTER in the corresponding multivalue is not an option type. */
+        CALL_PUT_IND : SC_SctOrderCapture:SC_ORDER_SESSION__SECURITY_MASTER__CALL_PUT_IND
+            @i18n:Label (en="Call Put Indicator")
+            @i18n:Tooltip (en="Call Put Indicator")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=7.0, core=true, t24Name=CALL.PUT.IND)
+/* If the position relates to a futures/option, corresponding Contract Master is to be updated.
+Validation Rules
+
+1. Should be a valid DX.CONTRACT.MASTER ID
+2. Only one of SECURITY.MASTER,CONTRACT.MASTER,ACCOUNT,CONTRACT.TYPE must be specified in one multivalue set. */
+        CONTRACT_MASTER -> DX_Configuration:DX_CONTRACT_MASTER
+            @t24:i (align=L, inputBehaviour=I, maxLength=12, sysNumber=4.0, core=true, businessType=DXCM, t24Name=CONTRACT.MASTER)
+/* If the position related to Loan, Deposit ,FX-Forward/FX-Swap this can be chosen.
+Validation Rules
+
+1. Should be MM or FX-FORWARD or FX-SWAP or Loan
+2. Only one of SECURITY.MASTER,CONTRACT.MASTER,ACCOUNT,CONTRACT.TYPE must be specified in one multivalue set. */
+        CONTRACT_TYPE : SC_SctOrderCapture:SC_ORDER_SESSION__SECURITY_MASTER__CONTRACT_TYPE
+            @i18n:Label (en="Contract Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=6.0, core=true, t24Name=CONTRACT.TYPE)
+        /* Margin value calculated for the associated position will be updated. */
+        MARGIN_VALUE : T24BusinessTypes:AMT
+            @i18n:Label (en="Margin Value")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=13.0, core=true, t24Name=MARGIN.VALUE, typeModifiers=-)
+        /* Market value for the associated position.Negative market value will be considered as liabilty. */
+        MARKET_VALUE : T24BusinessTypes:AMT required
+            @i18n:Label (en="End Market Value")
+            @t24:i (align=R, inputBehaviour=I, maxLength=19, sysNumber=12.0, core=true, t24Name=MARKET.VALUE, typeModifiers=-)
+        /* This is for informatory purpose. */
+        MATURITY : T24BusinessTypes:D
+            @i18n:Label (en=Maturity)
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=8.0, core=true, t24Name=MATURITY)
+        /* Currency in which the market value for the associated position belongs to . */
+        MKT_VALUE_CCY -> ST_CurrencyConfig:CURRENCY required
+            @i18n:Label (en="Market Value Ccy")
+            @i18n:Tooltip (en="Market Value Ccy")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=11.0, core=true, businessType=CCY, t24Name=MKT.VALUE.CCY)
+        RESERVED1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=RESERVED1)
+        RESERVED10 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=23.0, core=true, t24Name=RESERVED10)
+        RESERVED2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=RESERVED2)
+        RESERVED3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=RESERVED3)
+        RESERVED4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=17.0, core=true, t24Name=RESERVED4)
+        RESERVED5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=18.0, core=true, t24Name=RESERVED5)
+        RESERVED6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=19.0, core=true, t24Name=RESERVED6)
+        RESERVED7 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=20.0, core=true, t24Name=RESERVED7)
+        RESERVED8 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=21.0, core=true, t24Name=RESERVED8)
+        RESERVED9 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=22.0, core=true, t24Name=RESERVED9)
+/* If the position relates to a  security account, corresponding Security Master is to be updated.
+Validation Rules
+
+1. Should be a valid SECURITY.MASTER ID
+2. Only one of SECURITY.MASTER,CONTRACT.MASTER,ACCOUNT,CONTRACT.TYPE must be specified in one multivalue set. */
+        SECURITY_MASTER : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=3.0, core=true, t24Name=SECURITY.MASTER)
+/* This is for informatory purpose.
+Validation Rules
+
+1.Should be a valid CURRENCY
+2.Value is allowed only when FX-Forward/FX-Swap Contract type is chosen. */
+        SOLD_CCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en="Sold Currency")
+            @i18n:Tooltip (en="Sold Currency")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=10.0, core=true, businessType=CCY, t24Name=SOLD.CCY)
+    }
+    SC_ORDER_TYPE
+        @i18n:Description (en="")
+        @t24:i (t24Name=SC.ORDER.TYPE, level=I, type=H, allowedFunctions="A C D E H I L P Q R S", localRefAllowed=true)
+    {
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=26.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=27.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=23.0, core=true, t24Name=AUTHORISER)
+/* Input to this field determines whether the order is a cash order or not. In case of Cash orders, input of only cash amount in order is allowed and nominal becomes a no input field
+Validation Rules:
+
+
+YES/NO field. */
+        CASH_ORDER : SC_SctOrderCapture:SC_ORDER_TYPE__CASH_ORDER
+            @i18n:Label (en="Cash Order")
+            @i18n:Tooltip (en="Whether the order is a cash order or not.")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=4.0, core=true, t24Name=CASH.ORDER)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=24.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=20.0, core=true, t24Name=CURR.NO)
+        DATE_TIME -> byValue SC_SctOrderCapture:SC_ORDER_TYPE__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=25.0, core=true, t24Name=DEPT.CODE)
+        DESCRIPTION -> byValue SC_SctOrderCapture:SC_ORDER_TYPE__DESCRIPTION *
+            @t24:i (t24Name=DESCRIPTION)
+/* Field determining whether partial execution of orders with this ORDER TYPE could be partially executed. If this field is set to YES and partial execution of order takes place, an override is raised
+Validation Rules:
+
+
+YES/NO field */
+        FULL_TRADE : SC_SctOrderCapture:SC_ORDER_TYPE__FULL_TRADE
+            @i18n:Label (en="Full Trade")
+            @i18n:Tooltip (en="Determines whether partial execution can be done")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=5.0, core=true, t24Name=FULL.TRADE)
+        INPUTTER -> byValue SC_SctOrderCapture:SC_ORDER_TYPE__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+/* The input in this field determines the type of order which needs to be passed on to the broker. If set to YES, the order would be a Price Order with maximum/ minimum price to be specified and LIMIT PRICE would become mandatory in order
+Validation Rules:
+
+
+YES/NO field */
+        LIMIT_PRICE : SC_SctOrderCapture:SC_ORDER_TYPE__LIMIT_PRICE
+            @i18n:Label (en="Limit Price")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=2.0, core=true, t24Name=LIMIT.PRICE)
+/* Input to this field is allowed only when LIMIT.PRICE is set to YES. This field determines if override needs to be raised when the execution price exceeds the limit price specified in order. If YES, execution price would be checked against LIMIT.PRICE, else no.
+Validation Rules:
+
+
+YES/NO field */
+        LIMIT_PRICE_CHECK : SC_SctOrderCapture:SC_ORDER_TYPE__LIMIT_PRICE_CHECK
+            @i18n:Label (en="Limit Price Check")
+            @i18n:Tooltip (en="Limit Price Check")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=3.0, core=true, t24Name=LIMIT.PRICE.CHECK)
+        /* Record key, 10 character input, must be defined as a valid characters in ASCII.VAL.TABLE application, record STANDARD.S. */
+        ORDER_TYPE -> SC_SctOrderCapture:SC_ORDER_TYPE PK required
+            @i18n:Label (en="Order Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=0.0, core=true, businessType=S, t24Name=ORDER.TYPE)
+        OVERRIDE -> byValue SC_SctOrderCapture:SC_ORDER_TYPE__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=19.0, core=true, t24Name=RECORD.STATUS)
+        RESERVED_1 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=17.0, core=true, t24Name=RESERVED.1)
+        RESERVED_10 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=RESERVED.10)
+        RESERVED_2 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=16.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=15.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=14.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=13.0, core=true, t24Name=RESERVED.5)
+        RESERVED_6 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=12.0, core=true, t24Name=RESERVED.6)
+        RESERVED_7 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=11.0, core=true, t24Name=RESERVED.7)
+        RESERVED_8 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=10.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=9.0, core=true, t24Name=RESERVED.9)
+/* The generic order type to be used in SWIFT Messages.
+Validation Rules:
+
+
+Accepted values are BEST,MARKET,STOP,PRICE and CASH */
+        SWIFT_ORDER_TYPE : SC_SctOrderCapture:SC_ORDER_TYPE__SWIFT_ORDER_TYPE required
+            @i18n:Label (en="Swift Order Type")
+            @i18n:Tooltip (en="Swift Order Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=20, sysNumber=6.0, core=true, t24Name=SWIFT.ORDER.TYPE)
+    }
+    SC_ORDER_TYPE__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=22.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    SC_ORDER_TYPE__DESCRIPTION
+    {
+/* This field may be expanded to allow the user to enter the Description of the ORDER TYPE in various languages. Each expansion of the field will correspond to a new language as defined in the Language table and will indicate to the user the Language in which the Description is to be entered.
+
+
+Validation Rules:
+
+
+
+
+3 to 35 type AA       (alphanumeric, first character must be alpha) characters. Multilanguage       field. (Mandatory input.) */
+        DESCRIPTION : T24BusinessTypes:A required
+            @i18n:Label (en=Description)
+            @i18n:Tooltip (en=Description)
+            @t24:i (align=L, inputBehaviour=I, maxLength=40, multiLanguage=true, sysNumber=1.0, core=true, t24Name=DESCRIPTION)
+    }
+    SC_ORDER_TYPE__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=21.0, core=true, t24Name=INPUTTER)
+    }
+    SC_ORDER_TYPE__OVERRIDE
+    {
+        OVERRIDE : T24BusinessTypes:A
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=L, inputBehaviour=N, maxLength=50, sysNumber=18.0, core=true, t24Name=OVERRIDE)
+    }
+    /* Hold details of the cash  pertaining to an account that is pending against the orders */
+    SC_PEND_BUY_ORDER
+        @i18n:Description (en="")
+        @t24:i (t24Name=SC.PEND.BUY.ORDER, level=F, type=L, allowedFunctions="L P S", localRefAllowed=false)
+    {
+        ORDER_REF -> byValue SC_SctOrderCapture:SC_PEND_BUY_ORDER__ORDER_REF *
+            @t24:i (t24Name=ORDER.REF)
+        RESERVED_1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=8.0, core=true, t24Name=RESERVED.1)
+        RESERVED_2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=7.0, core=true, t24Name=RESERVED.2)
+        RESERVED_3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=6.0, core=true, t24Name=RESERVED.3)
+        RESERVED_4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=5.0, core=true, t24Name=RESERVED.4)
+        RESERVED_5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=4.0, core=true, t24Name=RESERVED.5)
+/* Account number is the id to the file
+Validation Rules:
+A maximum of 19 characters may be entered. */
+        SC_PEND_ID -> SC_SctOrderCapture:SC_PEND_BUY_ORDER PK required
+            @t24:i (align=L, inputBehaviour=I, maxLength=19, sysNumber=0.0, core=true, businessType=ANT, t24Name=SC.PEND.ID)
+    }
+    SC_PEND_BUY_ORDER__ORDER_REF
+    {
+/* Cash pending against the order
+Validation Rules:
+Associated multi value set field
+A maximum of 18 numeric characters may be entered. */
+        CASH : T24BusinessTypes:BMT
+            @i18n:Label (en=Cash)
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=3.0, core=true, t24Name=CASH)
+/* This field holds the nominal involved in the order
+Validation Rules:
+Associated multi value set field
+A maximum of 18 numeric characters may be entered. */
+        NOMINAL : T24BusinessTypes:NOMAMT
+            @i18n:Label (en=Nominal)
+            @i18n:Tooltip (en="No of Units or Amount")
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=2.0, core=true, t24Name=NOMINAL)
+/* This field holds Pending Order reference
+Validation Rules:
+Associated multi value set field
+A maximum of 17 alpha characters may be entered. */
+        ORDER_REF : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=1.0, core=true, t24Name=ORDER.REF)
+    }
+/* The Security Open Order facility is the application to be used for passing Limit Orders and Market instructions between the Portfolio Management Department and the Dealing Department.
+It can be utilised in several different ways.
+1) It can be used by a Banks Dealing Department to store all unexecuted limit orders or ordinary market instructions received from either their Back Office (Securities Administration/Portfolio Management or indeed direct from their Clients.
+2) It can therefore be used as a link between Back Office and Dealers where the Account Officer has received Buy/Sell Instructions from his client and wishes to inform / instruct the Dealer.
+3) It is also conceivable that where a client has direct access via a terminal to his Portfolio account he would use this facility to pass on instructions regarding his positions.
+However used this Sub System will allow the inputter to enter Buy or Sell Instructions against a particular stock at a certain price by a specified date in whatever currency he wishes.
+The authorised Security Open Order creates a Trade Open Order for the Dealer at which level he either partially or completely fills the transaction. When entered this automatically creates a Sec.Trade in Hold Status which ideally the Back Office would pick up and finalise. This Security Trade would contain the original Security Open Order reference number. */
+    SEC_OPEN_ORDER
+        @i18n:Description (en="")
+        @t24:i (t24Name=SEC.OPEN.ORDER, level=F, type=H, additionalInfo="PREVIEW UNP OEU", allowedFunctions="A C D E H I L P Q R S V", localRefAllowed=true)
+    {
+/* Automatic default to the Account Manager as specified for this client at Customer level.
+Validation Rules
+Default is a valid Account Officer ID. (Automatic Default.)
+Must exist as a valid Account Officer record on the Account Officer File. */
+        ACCOUNT_MANAGER -> ST_Config:DEPT_ACCT_OFFICER
+            @t24:i (align=R, inputBehaviour=F, maxLength=10, sysNumber=60.0, core=true, t24Name=ACCOUNT.MANAGER)
+        ACCT_NARRATIVE -> byValue SC_SctOrderCapture:SEC_OPEN_ORDER__ACCT_NARRATIVE *
+            @t24:i (t24Name=ACCT.NARRATIVE)
+        ACTIVITY_CODE -> byValue SC_SctOrderCapture:SEC_OPEN_ORDER__ACTIVITY_CODE *
+            @t24:i (t24Name=ACTIVITY.CODE)
+        /* System populated field, the dealer desk that executed the transaction. */
+        ACT_DEAL_DESK -> SC_Config:SC_DEALER_DESK
+            @t24:i (align=R, inputBehaviour=N, maxLength=10, sysNumber=118.0, core=true, t24Name=ACT.DEAL.DESK)
+        AUDITOR_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Auditor Code")
+            @i18n:Tooltip (en="Auditor Code")
+            @t24:i (align=L, inputBehaviour=E, maxLength=16, sysNumber=160.0, core=true, t24Name=AUDITOR.CODE)
+        AUDIT_DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Audit Date Time")
+            @i18n:Tooltip (en="Date and time when record was audited")
+            @t24:i (align=L, inputBehaviour=E, maxLength=15, sysNumber=161.0, core=true, t24Name=AUDIT.DATE.TIME, mask="RDD DD  DD ##:##")
+        AUTHORISER : T24BusinessTypes:A
+            @i18n:Label (en=Authoriser)
+            @i18n:Tooltip (en="Indicates the User who Authorises the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=157.0, core=true, t24Name=AUTHORISER)
+/* This field is used to specify whether child transactions can be authorised and will be defaulted from AUTH.CHILD.ORDER field of SC.STD.SEC.TRADE only on initial input. In case of subsequent amendments after authorisation, this field has to be manually specified
+Manual amendment is possible. If this field is YES, Parent order should be kept in INAU so that T24 service will authorise both child and parent.
+This field cannot be set as YES if there are no child transactions in exception
+This field will be used in conjunction with ORDER.EXCEP.CHECK field of SC.BULK.TRANS.MATCHING in which case parent will not be
+allowed to authorise if child orders are in exception and Zero authoriser version cannot be used in this case
+This field will also be used in conjunction with BULK.UPDATE field in order to perform bulk update and then authorize parent and child
+Validation Rules
+Allowed values are YES, NO */
+        AUTHORISE_CHILD : SC_SctOrderCapture:SEC_OPEN_ORDER__AUTHORISE_CHILD
+            @i18n:Label (en="Authorise Child")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=138.0, core=true, t24Name=AUTHORISE.CHILD)
+/* To be set to YES if the corresponding SEC.TRADE needs to be authorised automatically.
+If this Field is set to YES and DEAL.STATUS is TRANSMITTED this value will be carried over to Corresponding SC.EXE.SEC.ORDER Record. */
+        AUTHORISE_TRADE : SC_SctOrderCapture:SEC_OPEN_ORDER__AUTHORISE_TRADE
+            @i18n:Label (en="Authorise Trade")
+            @i18n:Tooltip (en="Trade generated to be authorised or not")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=132.0, core=true, t24Name=AUTHORISE.TRADE)
+        BROKER -> byValue SC_SctOrderCapture:SEC_OPEN_ORDER__BROKER *
+            @t24:i (t24Name=BROKER)
+/* This field is used to specify whether bulk update is to be performed from parent to child. This field cannot be input if
+SC.BULK.UPDATE.PARAMETER is not set  for SEC.OPEN.ORDER
+This field can also be used in conjunction with AUTHORISE.CHILD to determine whether transactions are to be authorised after
+performing bulk update. Zero authoriser version cannot be used and transaction should be left in INAU. In order to perform bulk update, all transaction should be in unauthorised status
+Validation Rules
+Allowed value is only YES */
+        BULK_UPDATE : SC_SctOrderCapture:SEC_OPEN_ORDER__BULK_UPDATE
+            @i18n:Label (en="Bulk Update")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=142.0, core=true, t24Name=BULK.UPDATE)
+        CO_CODE -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en=Company)
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=158.0, core=true, businessType=A, t24Name=CO.CODE, mask="R##-###-####")
+        CUM_EX_IND -> byValue SC_SctOrderCapture:SEC_OPEN_ORDER__CUM_EX_IND *
+            @t24:i (t24Name=CUM.EX.IND)
+        CURR_NO : T24BusinessTypes:N
+            @i18n:Label (en="Curr No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=154.0, core=true, t24Name=CURR.NO)
+        CUST_DEPO -> byValue SC_SctOrderCapture:SEC_OPEN_ORDER__CUST_DEPO *
+            @t24:i (t24Name=CUST.DEPO)
+        CUST_NUMBER -> byValue SC_SctOrderCapture:SEC_OPEN_ORDER__CUST_NUMBER *
+            @t24:i (t24Name=CUST.NUMBER)
+        DATE_TIME -> byValue SC_SctOrderCapture:SEC_OPEN_ORDER__DATE_TIME *
+            @t24:i (t24Name=DATE.TIME)
+        DEAL_NARRATIVE -> byValue SC_SctOrderCapture:SEC_OPEN_ORDER__DEAL_NARRATIVE *
+            @t24:i (t24Name=DEAL.NARRATIVE)
+/* Current status of the order.
+
+Validation Rules
+ACCEPTED, REJECTED, TRANSMITTED, OFFICER.TRANS, TRADED (Optional Input),'CANCELLED' AND 'CANCEL.CHILD'.
+When DEAL.STATUS is CANCELLED, Pending executions will be executed and remaining orders will be cancelled. If there are no pending executions, whole order will be cancelled. DEAL.STATUS of CANCEL.CHILD can be set only for parent order and similar processing with deal status CANCELLED will happen for child orders */
+        DEAL_STATUS : SC_SctOrderCapture:SEC_OPEN_ORDER__DEAL_STATUS
+            @i18n:Label (en="Deal Status")
+            @i18n:Tooltip (en="Indicates the status of the deal")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=93.0, core=true, t24Name=DEAL.STATUS)
+        /* System populated field, the dealer desk allocated to the order. */
+        DEF_DEAL_DESK -> SC_Config:SC_DEALER_DESK
+            @t24:i (align=R, inputBehaviour=N, maxLength=10, sysNumber=117.0, core=true, t24Name=DEF.DEAL.DESK)
+/* This field is used to specify whether parent and child transactions are to be deleted. After inputting this field, order
+should be left in INAU so that service will delete the child and parent. Zero authoriser version cannot be used in this case. This field cannot be set as YES if there are no child records in exception
+Validation Rules
+Allowed value is only YES */
+        DELETE_CHILD : SC_SctOrderCapture:SEC_OPEN_ORDER__DELETE_CHILD
+            @i18n:Label (en="Delete Child")
+            @i18n:Tooltip (en="Delete Child Order")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=139.0, core=true, t24Name=DELETE.CHILD)
+/* Stipulates into or out of which Depository Securities should be placed or withdrawn when a Security Transaction is effected.
+Once this Sec.Open.Order has been validated there is an on-line check to verify that sufficient securities are held in the case of a Sale. In the case where insufficient securities exist then an override message will inform the inputter of the fact.
+Validation Rules
+Customer Number or Customer Mnemonic
+Must exist as a valid Customer type DEPOSITORY in the CUSTOMER.SECURITY application.
+Cannot be changed once the order has been TRADED or TRANSMITTED if STP processing is used. */
+        DEPOSITORY -> SC_Config:CUSTOMER_SECURITY
+            @i18n:Label (en=Depository)
+            @i18n:Tooltip (en="Depository the Security to be delivered from/to")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=58.0, core=true, businessType=CUS, t24Name=DEPOSITORY)
+        DEPT_CODE -> ST_Config:DEPT_ACCT_OFFICER
+            @i18n:Label (en="Dept Code")
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, sysNumber=159.0, core=true, t24Name=DEPT.CODE)
+        /* Allowed options are YES,NO and NULL. YES will indicate whether the execution should be flagged for halt. NO will indicate execution should be processed without halt.On setting NULL then system will populate the value for EXE.HLT eithier from CUSTOMER.SERCURITY or SECURITY.MASTER */
+        EXE_HLT : SC_SctOrderCapture:SEC_OPEN_ORDER__EXE_HLT
+            @i18n:Label (en="Halt Execution?")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=136.0, core=true, t24Name=EXE.HLT)
+/* When orders are grouped by SC.GROUP.ORDERS a grouped SEC.OPEN.ORDER is created. This grouped SEC.OPEN.ORDER id is written in this field.
+Validation Rules
+
+No-input system updated field */
+        GROUP_ORDER : T24BusinessTypes:S
+            @i18n:Label (en="Group Order")
+            @i18n:Tooltip (en="Indicates the group order")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=103.0, core=true, t24Name=GROUP.ORDER)
+        INPUTTER -> byValue SC_SctOrderCapture:SEC_OPEN_ORDER__INPUTTER *
+            @t24:i (t24Name=INPUTTER)
+        INTEG_DATA_ITEM -> byValue SC_SctOrderCapture:SEC_OPEN_ORDER__INTEG_DATA_ITEM *
+            @t24:i (t24Name=INTEG.DATA.ITEM)
+        /* Interest counter for the associated security, applicable to shares only. */
+        INT_CTR : T24BusinessTypes:R
+            @i18n:Label (en="Interest Counter")
+            @i18n:Tooltip (en="Interest Counter")
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=119.0, core=true, t24Name=INT.CTR)
+        /* External custodian involved in inhouse dealing. If IN.HOUSE.SEC.ACC is defined, Custodian defined in this field will maintain that portfolio. Custodian defined in this field must be a valid record in CUSTOMER.SECURITY with type as Broker/counterparty. */
+        IN_HOUSE_CUSTODIAN : T24BusinessTypes:S
+            @i18n:Label (en="Inhouse Custodian")
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=130.0, core=true, t24Name=IN.HOUSE.CUSTODIAN)
+        /* Portfolio for which in house dealing transaction is done. External positions will be captured for Portfolio defined in this field. */
+        IN_HOUSE_SEC_ACC -> SC_ScoPortfolioMaintenance:SEC_ACC_MASTER
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=129.0, core=true, businessType=S, t24Name=IN.HOUSE.SEC.ACC)
+/* This field specifies the validity of the Limit, i.e. how long is it to remain in force.
+When field 9 is entered this field becomes Mandatory. The logic being that if a limit price is passed onto the Dealers then they require an expiry date for that Order.
+The validity of that date will depend very much on work and local practices.
+Validation Rules
+Up to 9 type D date characters,(Standard Date format in range 1950 - 2049). (Optional Input) */
+        LIMIT_EXP_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Limit Expiry Date")
+            @i18n:Tooltip (en="Specifies the validity of the Limit")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=56.0, core=true, t24Name=LIMIT.EXP.DATE)
+/* The Price at which the shares are to be bought or sold.
+This can be used in conjunction with field ORDER.TYPE to inform the Dealers of a Limit price to be reached before the transaction should be executed.
+When this value is left blank, with field ORDER.TYPE set to M, it indicates that the securities are to be bought or sold at Market.
+If field ORDER.TYPE is set to P, and this field is entered, then the instructions to the Dealer are to trade, but only, at the price stipulated.
+Validation Rules
+
+1-15 numeric characters (0-6 integers  0-9 decimals) plus a . (Optional Input)
+If this field is entered the following field LIMIT.EXP.DATE becomes Mandatory.
+Dealers will rarely accept open ended Limit instructions as it places a heavy burden on them. */
+        LIMIT_PRICE : T24BusinessTypes:PRICE
+            @i18n:Label (en="Limit Price")
+            @i18n:Tooltip (en="Price at which the shares are to be bought or sold")
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=54.0, core=true, t24Name=LIMIT.PRICE, typeModifiers="9D")
+/* Field used to default the LIMIT.DATE field. Input of GTD, GTM, GTY or GTW allowed. GTD - Order valid until the order date. GTW - Good this week (GTW) orders will be only valid in the week of its placement.(i.e. If Saturday and Sunday are weekends, Expiry date will  be Friday's date but, If Friday is holiday, Expiry date will be Thursday's date.). GTM - Order valid until the end of the month of the order date. GTY - Order valid until the end of the year of the order date.
+Validation Rules
+Valid input GTD, GTM, GTY, GTW (Optional Input)
+Will default to GTD. */
+        LIMIT_TYPE : SC_SctOrderCapture:SEC_OPEN_ORDER__LIMIT_TYPE
+            @i18n:Label (en="Limit Type")
+            @i18n:Tooltip (en="Indicates the Limit Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=55.0, core=true, t24Name=LIMIT.TYPE)
+        LINK_ORDER_NO -> byValue SC_SctOrderCapture:SEC_OPEN_ORDER__LINK_ORDER_NO *
+            @t24:i (t24Name=LINK.ORDER.NO)
+/* Validation Rules
+6 Year and month characters */
+        LIQUIDATION_PERIOD : T24BusinessTypes:YM
+            @t24:i (align=R, inputBehaviour=N, maxLength=6, sysNumber=90.0, core=true, t24Name=LIQUIDATION.PERIOD)
+/* Market type can be Spot (S), Forward (F) or Normal (N)
+Validation Rules
+
+S, N or F (Optional Input) */
+        MARKET_TYPE : SC_SctOrderCapture:SEC_OPEN_ORDER__MARKET_TYPE
+            @i18n:Label (en="Martket Type")
+            @i18n:Tooltip (en="Indicates in which market the Trade has been dealt")
+            @t24:i (align=L, inputBehaviour=I, maxLength=2, sysNumber=92.0, core=true, t24Name=MARKET.TYPE)
+/* Specifies the maturity date of the security. The date is defaulted from the SECURITY.MASTER record and can not be changed.
+For information purposes only.
+N.B - This field is only applicable for Bonds.
+Validation Rules
+
+Up to 9 type D date characters (Standard date format)
+Internally generated field. */
+        MATURITY_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Maturity Date")
+            @i18n:Tooltip (en="Indicates the Maturity Date of the Transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=11, sysNumber=5.0, core=true, t24Name=MATURITY.DATE)
+/* The swift market identifier code is defined in this field
+This field gets defaulted by reading the value in stock exchange in order  and default the MIC from Stock Exchange.
+Validation Rules
+1-4 Alphanumeric input */
+        MKT_IDN_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Mkt Idn Code")
+            @t24:i (align=L, inputBehaviour=I, maxLength=4, sysNumber=141.0, core=true, t24Name=MKT.IDN.CODE)
+/* Identifies the Nominee Company if any with whom or in whose name the securities are registered.
+The Nominee code when entered throughout the Securities Module forms part of the position key used for storing and accessing Clients positions in a specified position.  It is therefore important to note that when and if input initially, when creating a security position, it must be entered when carrying out transactions or administration duties at a later date;  failure to do so might cause misleading warning messages such as Insufficient Stock.
+Validation Rules
+1 - 5 type S (uppercase alpha or numeric) character Nominee code. (Optional Input.) */
+        NOMINEE_CODE -> SC_Config:NOMINEE_CODE
+            @i18n:Label (en="Nominee Code")
+            @i18n:Tooltip (en="Identifies the Nominee Company ")
+            @t24:i (align=L, inputBehaviour=F, maxLength=5, sysNumber=59.0, core=true, businessType=S, t24Name=NOMINEE.CODE)
+/* This field indicates if the order is an order of odd lot or not.
+
+The values allowed are :
+
+- YES : Odd lot order. No check is done for trading unit. But the order is validated against the 3 SECURITY MASTER fields added for odd lot process : ODD.LOT.TRADE, ODD.LOT.BROKER, ODD.LOT.EXCHANGE
+
+- NO : Normal order. The trading unit will be checked. If the number of shares is not divisible by the trading unit of the security, then the order is rejected.
+
+- BLANK : Default equivalent to NO.
+
+Validation Rules */
+        ODD_LOT_ORDER : SC_SctOrderCapture:SEC_OPEN_ORDER__ODD_LOT_ORDER
+            @i18n:Label (en="Odd Lot Order")
+            @i18n:Tooltip (en="Indicates if order is an odd lot order or not")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=104.0, core=true, t24Name=ODD.LOT.ORDER)
+/* Date of the instructions contained within the transaction.
+The date in this field is important since, if a clients instructions are missed, this effectively is the date to which any loss will apply.
+The validation on the ORDER.DATE field in this SEC.OPEN.ORDER application can be controlled to a certain extent by the User. The current versions of this transaction enable this field to contain a date of less than the system date. This is to allow the booking of orders that had been previously agreed but not yet been input into the system, perhaps resulting from the ORDER.BY.CUST application.
+If you wish to INHIBIT input of past order dates, a VERSION routine has been written to ensure that order validation will prevent this field from allowing past dates.
+The name of this VERSION routine is SC.SOO.ORDER.DATE.VAL and to invoke this alternative field validation, you should enter the following into the fields :
+Field :
+VALIDATION.FLD  ORDER.DATE
+VALIDATION.RTN           SC.SOO.ORDER.DATE.VAL
+on all SEC.OPEN.ORDER versions for which you wish to inhibit input of dates in the past and authorise.
+It is also possible for the date to be fed through from the ORDER.BY.CUST application if the SEC.OPEN.ORDER was generated as a result of a successful verification of the underlying ORDER.BY.CUST transaction. Even so, the date will still be subject to the checks described above.
+Validation Rules
+
+No matter whether running under the sub-routine or not, the default date is always the System date.
+Up to 9 type D date characters, (Standard Date Format) Mandatory input.
+Date cannot be less than today if this field is under the control of the sub-routine described above.
+An override will be required if the date input is greater than today whether validation is running under the sub-routine or not. */
+        ORDER_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Order Date")
+            @t24:i (align=R, inputBehaviour=F, maxLength=11, sysNumber=1.0, core=true, t24Name=ORDER.DATE)
+/* System generated.
+Validation Rules
+Up to 14 numeric amounts according to currency (No input field) */
+        ORDER_NOMINAL : T24BusinessTypes:NOMAMT
+            @i18n:Label (en="Order Nominal")
+            @t24:i (align=R, inputBehaviour=N, maxLength=18, sysNumber=89.0, core=true, t24Name=ORDER.NOMINAL)
+/* Unique Code used to identify each separate Security Open Order.
+Only the sequence number nnnnn is required to be input. The Application will automatically generate the prefix (OPODSC) and the first five digits (yyddd) and attach the sequence number.
+The sequence number may be either User entered or System generated using the Automatic numbering application.
+
+Note:     Unless a Version record has been established for the           Security Open Order it requires both an inputter and an           authoriser before it will update the Dealers Trade Open           Order file.
+Validation Rules
+10 Numeric characters prefixed by OPODSC,i.e. OPODSCyydddnnnnn. yy = year (e.g.85 = 1985) ddd = julian date (i.e. 01/jan - 001, 02/jan = 002, 01/feb = 032, etc) nnnnn = transaction sequence number (Mandatory Input)
+Security Open Order Numbers cannot be duplicated. */
+        ORDER_NUMBER -> SC_SctOrderCapture:SEC_OPEN_ORDER PK required
+            @i18n:Label (en="Order No")
+            @t24:i (align=L, inputBehaviour=I, maxLength=17, sysNumber=0.0, core=true, businessType=S, t24Name=ORDER.NUMBER)
+/* Time of the instructions contained within the transactions.
+This field is the time of the order.
+It is possible that the time may have been supplied from the successful verification of an ORDER.BY.CUST transaction, in which case the field will already have been populated. If this was the case, then you may still change the time if so required.
+Validation Rules
+
+Up to 8 Type T Time characters. Optional input. (Default is time the order is input)
+Will default to current time unless a time is input or has been defaulted from an ORDER.BY.CUST transaction
+The time will be recorded in an HH:MM:SS format */
+        ORDER_TIME : T24BusinessTypes:TIME
+            @i18n:Label (en=Time)
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=2.0, core=true, t24Name=ORDER.TIME, typeModifiers=S)
+/* This input details the type of Order being passed to the Dealers. Whether buy or sell at BEST or at MARKET.
+A buy or sell instruction to a dealer with the at Market flag signifies that there is no limit or restriction on the price at which he can execute the transaction. The client or investment manager is happy with the market price.
+Best price indicates that the dealer ought really to shop around for his price as there may be a lot of activity and consequently differing prices to be achieved.
+Price indicates that the price input within field 9 is a minimum or maximum price to be paid or received for the securities stipulated. LIMIT.PRICE is mandatory input for both Price and Stop kind of order types.
+Cash indicates that the customer wants to trade a particular amount of cash in the transaction. The nominal will be calculated from this cash amount  can either be net or gross of charges/commissions. This is controlled by the CASH.CHRGS field.
+The type of order is determined based on the specifications for various order types in SC.ORDER.TYPE file.
+Validation Rules
+
+MUST BE A VALID SC.ORDER.TYPE record */
+        ORDER_TYPE -> SC_SctOrderCapture:SC_ORDER_TYPE required
+            @i18n:Label (en="Order Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=6.0, core=true, businessType=S, t24Name=ORDER.TYPE)
+        OUTSTAND_NOM -> byValue SC_SctOrderCapture:SEC_OPEN_ORDER__OUTSTAND_NOM *
+            @t24:i (t24Name=OUTSTAND.NOM)
+        OVERRIDE -> byValue SC_SctOrderCapture:SEC_OPEN_ORDER__OVERRIDE *
+            @t24:i (t24Name=OVERRIDE)
+/* Allowed value is YES
+This Field is to determine whether the order is a parent order */
+        PARENT : SC_SctOrderCapture:SEC_OPEN_ORDER__PARENT
+            @i18n:Label (en=Parent)
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=133.0, core=true, t24Name=PARENT)
+/* This field will accept  alphanumeric Value
+Unique parent reference that is common for both parent and child orders and will serve as a link. */
+        PARENT_REFERENCE : T24BusinessTypes:ANY
+            @i18n:Label (en="Parent Reference")
+            @t24:i (align=L, inputBehaviour=I, maxLength=40, sysNumber=134.0, core=true, t24Name=PARENT.REFERENCE)
+/* Amount of premium price
+Validation Rules
+
+10 Character amount field */
+        PREMIUM_PRICE : T24BusinessTypes:R
+            @i18n:Label (en="Premium Price")
+            @i18n:Tooltip (en="Premium Price")
+            @t24:i (align=R, inputBehaviour=I, maxLength=16, sysNumber=91.0, core=true, t24Name=PREMIUM.PRICE, typeModifiers="9D")
+        RECORD_STATUS : T24BusinessTypes:STAT
+            @i18n:Label (en="Record Status")
+            @t24:i (align=L, inputBehaviour=N, maxLength=4, sysNumber=153.0, core=true, t24Name=RECORD.STATUS)
+        REFERENCE_NO -> byValue SC_SctOrderCapture:SEC_OPEN_ORDER__REFERENCE_NO *
+            @t24:i (t24Name=REFERENCE.NO)
+        RESERVED07 : T24BusinessTypes:S
+            @t24:i (align=L, inputBehaviour=N, maxLength=0, sysNumber=101.0, core=true, t24Name=RESERVED07)
+        RESERVED1 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=0, sysNumber=151.0, core=true, t24Name=RESERVED1)
+        RESERVED2 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=0, sysNumber=150.0, core=true, t24Name=RESERVED2)
+        RESERVED3 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=0, sysNumber=149.0, core=true, t24Name=RESERVED3)
+        RESERVED4 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=0, sysNumber=148.0, core=true, t24Name=RESERVED4)
+        RESERVED5 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=0, sysNumber=147.0, core=true, t24Name=RESERVED5)
+        RESERVED6 : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=0, sysNumber=146.0, core=true, t24Name=RESERVED6)
+/* Allowed value is YES
+This Field is used to reverse the child transaction */
+        REVERSE_CHILD : SC_SctOrderCapture:SEC_OPEN_ORDER__REVERSE_CHILD
+            @i18n:Label (en="Reverse Child")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=135.0, core=true, t24Name=REVERSE.CHILD)
+        /* Minimum lot using which nominal will be executed. This will be defaulted from ORDER.BY.CUST. Value should be in multiple of trading units and nominal in order should be in multiple of this field */
+        ROUNDING_FACTOR : T24BusinessTypes:DEC
+            @i18n:Label (en="Rounding Factor")
+            @t24:i (align=L, inputBehaviour=I, maxLength=18, sysNumber=140.0, core=true, t24Name=ROUNDING.FACTOR, typeModifiers="6")
+        /* SEC.OPEN.ORDER reference under the routed company */
+        ROUTED_ORDER_REF : T24BusinessTypes:A
+            @i18n:Label (en="Routed Order Reference")
+            @i18n:Tooltip (en="Routed Order Reference")
+            @t24:i (align=L, inputBehaviour=E, maxLength=20, sysNumber=128.0, core=true, t24Name=ROUTED.ORDER.REF)
+        /* Broker reference under the company to which order will be routed */
+        ROUT_BROKER : T24BusinessTypes:CUS
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=127.0, core=true, t24Name=ROUT.BROKER)
+/* The company through which the order needs to be routed. Defaulted based on conditions specified in SC.ORDER.ROUTING.
+Validation Rules
+
+Valid COMPANY to be input. Routing done in cases where portfolios are       shared across companies. */
+        ROUT_COMPANY -> ST_CompanyCreation:COMPANY
+            @i18n:Label (en="Replicating Co")
+            @t24:i (align=L, inputBehaviour=F, maxLength=11, sysNumber=113.0, core=true, businessType=COM, t24Name=ROUT.COMPANY, mask="R##-###-####")
+        /* Portfolio reference under the company to which order will be routed */
+        ROUT_SEC_ACC : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=14, sysNumber=126.0, core=true, t24Name=ROUT.SEC.ACC)
+        SAM_RM -> ST_Config:DEPT_ACCT_OFFICER
+            @t24:i (align=R, inputBehaviour=N, maxLength=4, core=false, businessType=DAO, t24Name=SAM.RM, genOperation="SECURITY.ACCNT>SEC.ACC.MASTER>ACCOUNT.OFFICER")
+/* Indication only of the type of transaction as regards the Broker side of the transaction.
+When transaction code entered at field 6 for the client the system reads the SC.TRANS.TYPE file in which are stored sets of transaction codes and defaults to the reverse code for the Broker side of a particular transaction.
+Validation Rules
+1 - 3 type S (uppercase alpha) character SC.Trans.Name Code. (Automatic Default)
+Must exist as a valid transaction code on the SC.TRANS.NAME file. */
+        SECURITIES_CR_DR : T24BusinessTypes:N
+            @i18n:Label (en="Securities Credit Debit")
+            @i18n:Tooltip (en="Identifies the transaction type on broker side")
+            @t24:i (align=R, inputBehaviour=N, maxLength=10, sysNumber=79.0, core=true, t24Name=SECURITIES.CR.DR)
+/* Identifies the Security number involved in this particular Open Order Transaction.
+Validation Rules
+Security Number, Security Mnemonic or Security alternate index.
+Cannot be changed once the order has been TRADED or TRANSMITTED if STP processing is used. */
+        SECURITY_NO -> SC_ScoSecurityMasterMaintenance:SECURITY_MASTER required
+            @i18n:Label (en="Security No")
+            @i18n:Tooltip (en="Indicates the security code/number")
+            @t24:i (align=L, inputBehaviour=I, maxLength=12, sysNumber=3.0, core=true, businessType=SEC, t24Name=SECURITY.NO, typeModifiers="9102")
+        /* System populated field, identifies the segment allocated to the transaction. */
+        SEGMENT -> SC_Config:SC_DEALER_DESK_SEGMENT
+            @t24:i (align=R, inputBehaviour=N, maxLength=10, sysNumber=116.0, core=true, t24Name=SEGMENT)
+        /* The service reference number if the SEC.OPEN.ORDER record was created through the service. */
+        SERVICE_REF : T24BusinessTypes:A
+            @i18n:Label (en="Bulk Order Id")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=120.0, core=true, t24Name=SERVICE.REF)
+/* This optional field is used to record the STOCK.EXCHANGE in which the order is to be processed.
+It is possible that this field may already be populated from the details recorded in the ORDER.BY.CUST application.
+If this was the case, then it may still be changed if found to be necessary.
+Validation Rules
+
+Must be a valid stock exchange record existing on the STOCK.EXCHANGE file. */
+        STOCK_EXCHANGE -> SC_Config:STOCK_EXCHANGE
+            @i18n:Label (en="Stock Exchange")
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=102.0, core=true, businessType=S, t24Name=STOCK.EXCHANGE)
+        STP_ORDER : SC_SctOrderCapture:SEC_OPEN_ORDER__STP_ORDER
+            @i18n:Label (en="Stp Order")
+            @i18n:Tooltip (en="Stright Through Processing Order")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=131.0, core=true, t24Name=STP.ORDER)
+        /* The thread key if the SEC.OPEN.ORDER was created by the service. */
+        THREAD_KEY : T24BusinessTypes:A
+            @i18n:Label (en="Thread Key")
+            @i18n:Tooltip (en="Holds the thread Key for service based orders")
+            @t24:i (align=L, inputBehaviour=N, maxLength=35, sysNumber=121.0, core=true, t24Name=THREAD.KEY)
+        TRADED_NOM -> byValue SC_SctOrderCapture:SEC_OPEN_ORDER__TRADED_NOM *
+            @t24:i (t24Name=TRADED.NOM)
+/* Specifies the dealer of the trading department for the order. This will get defaulted from the ORDER.BY.CUST.
+
+Validation Rules:
+Should be a valid DEPT.ACCT.OFFICER */
+        TRADER_CODE -> SC_Config:CUSTOMER_SECURITY
+            @t24:i (align=R, inputBehaviour=N, maxLength=10, sysNumber=124.0, core=true, businessType=CUS, t24Name=TRADER.CODE)
+        TRADER_DESC -> byValue SC_SctOrderCapture:SEC_OPEN_ORDER__TRADER_DESC *
+            @t24:i (t24Name=TRADER.DESC)
+/* Specifies the currency in which the transaction will be settled.
+The trade currency is the settlement currency for the Broker involved.  As with the SEC.TRADE application it determines the currency of the account to which the Broker Net amount is posted.  The customer however can be debited in a different currency.
+Validation Rules
+
+3 type CCY (alpha) character currency code. or 1-3 numeric character currency number. (Mandatory Input.) Default value = Price currency as specified within the Security Master record for that particular Security ID.
+Must exist on the CCY file. */
+        TRADE_CCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en="Trade Currency")
+            @i18n:Tooltip (en="Identifies the currency of the transaction")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=9.0, core=true, businessType=CCY, t24Name=TRADE.CCY)
+        /* Allowed options are YES,NO and NULL. YES will indicate whether the execution should be flagged for halt. NO will indicate execution should be processed without halt.On setting NULL then system will populate the value for TRADE.HLT eithier from CUSTOMER.SERCURITY or SECURITY.MASTER */
+        TRADE_HLT : SC_SctOrderCapture:SEC_OPEN_ORDER__TRADE_HLT
+            @i18n:Label (en="Halt Trade?")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=137.0, core=true, t24Name=TRADE.HLT)
+/* Indicates whether the Customer is placing an order to buy or sell.
+The transaction code is user defined for convenience and adaptability to cover all eventualities within the Securitys Module  From Coupon Payments to Redemptions and Capital Increase Type updates. Within the Open Order application it is suggested that the same codes as for the Sec.Trade application i.e. For A purchase of securities SPR and for a Sale SSL be used.
+Validation Rules
+1-3 type S (uppercase alpha) character Sc.Trans.Name. (Mandatory Input.)
+Must be a valid code on the SC.TRANS.NAME file. */
+        TRANSACTION_CODE -> SC_Config:SC_TRANS_NAME required
+            @i18n:Label (en="Transaction Code")
+            @i18n:Tooltip (en="Indicates whether it is a Buy or Sell Order")
+            @t24:i (align=L, inputBehaviour=F, maxLength=3, sysNumber=8.0, core=true, businessType=S, t24Name=TRANSACTION.CODE)
+/* The Open Order can be used by the Portfolio Manager to process Buy or Sell instructions for Bonds or shares traded on either the Spot market or on the Forward market.
+It is at this level that the Portfolio Manager instructs the Dealers that the order he is giving relates to a particular transaction. This then determines the transaction that will be created when the deal has been executed. i.e.  S will generate a SEC.TRADE
+Validation Rules
+
+It will accept S and its valid. Where S = SEC.TRADE. */
+        TYPE_OF_TRADE : SC_SctOrderCapture:SEC_OPEN_ORDER__TYPE_OF_TRADE
+            @i18n:Label (en="Trade Type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=9, sysNumber=7.0, core=true, t24Name=TYPE.OF.TRADE)
+/* The field gets defaulted, from the UPFRONT.SEC field in SECURITY.MASTER, for Credit transactions. If this field is set, the position will be created for this security.
+/Validation Rules:
+This field is a NOCHANGE field */
+        UPFRONT_SEC -> SC_ScoSecurityMasterMaintenance:SECURITY_MASTER
+            @i18n:Label (en="Upfront Security")
+            @t24:i (align=L, inputBehaviour=F, maxLength=12, sysNumber=143.0, core=true, businessType=SEC, t24Name=UPFRONT.SEC)
+/* Records the date on which the trade is to be effected.
+The value date for any transaction can vary from 1 day to 1 month depending on the security being traded and the stock exchange at which it is being traded.
+A default value date can be defaulted by using the facility within the STOCK.EXCHANGE table.Here the user can define the number of Business or Calendar days between the trade and value date of any particular Stock Exchange.
+In STOCK.EXCHANGE table, user can also specify the settlement basis as FIXED. In this case, a calendar (STK.EXCH.CALENDAR) is maintained for the Stock Exchange and for a Year. A settlement day can be defined for a period for a particular Stock Exchange and Year.
+The value date specified here would be carried forward to the order execution and would be used as the value date of the trade
+N.B Care should be taken when and if using this facility.
+
+Validation Rules
+
+Up to 9 type D date characters */
+        VALUE_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Value Date")
+            @i18n:Tooltip (en="Indicates the Value date of the Contract")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=4.0, core=true, t24Name=VALUE.DATE)
+        VAL_IN_SETT_CCY -> byValue SC_SctOrderCapture:SEC_OPEN_ORDER__VAL_IN_SETT_CCY *
+            @t24:i (t24Name=VAL.IN.SETT.CCY)
+/* System updated field
+Validation Rules
+
+Up to 40 SWIFT characters (No Input) */
+        VERIFY_BY_DEALER : T24BusinessTypes:S
+            @i18n:Label (en="Verify By Dealer")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=96.0, core=true, t24Name=VERIFY.BY.DEALER)
+/* Indicates the Tax code from the TAX.TYPE.CONDITION / TAX file. Defaults from the field SHARE.TAX / BOND.TAX from the file TXN.TAX.CODE.
+
+Validation Rules
+
+
+No input field */
+        WHT_TAX_CODE : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=16, sysNumber=115.0, core=true, t24Name=WHT.TAX.CODE)
+    }
+    SEC_OPEN_ORDER__ACCT_NARRATIVE
+    {
+/* Optional narrative field for any narrative for the account officer.
+Field for narrative associated with the Account Officer.
+Validation Rules
+Up to 40 alpahnueric characters (Optional Input). */
+        ACCT_NARRATIVE : T24BusinessTypes:A
+            @i18n:Label (en="Account Narrative")
+            @i18n:Tooltip (en="Narration associated with the Account Officer")
+            @t24:i (align=L, inputBehaviour=I, maxLength=40, sysNumber=61.0, core=true, t24Name=ACCT.NARRATIVE)
+    }
+    SEC_OPEN_ORDER__ACTIVITY_CODE
+    {
+/* System maintained field.  This field holds the activity number, which is triggered by the latest activity in the life-cycle of the transaction. The activity is 4 digit number composed of three main parts:  First indicates the operation  1 -Inputting a SEC.OPEN.ORDER
+Second indicates the type of instrument  1 - New order  2 - Modified order 3 - Cancelled order
+And the last two digit indicate the detail activity related to the function For example. : For the input/authorize function, last two digit will be  01. For Reversal function, last two digits will be 02. Thus, the activity for new order will be SC-1101.
+Validation Rules
+
+Up to 7 Alpha numeric characters */
+        ACTIVITY_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Activity Code")
+            @i18n:Tooltip (en="Indicates activity code")
+            @t24:i (align=L, inputBehaviour=I, maxLength=7, sysNumber=105.0, core=true, t24Name=ACTIVITY.CODE, mvSvExpansionAccess=NOEXPAND)
+/* Identifies the broker for whom the message is to be sent
+Validation Rules */
+        MSG_BROKER : T24BusinessTypes:N
+            @i18n:Label (en="Message Broker")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=106.0, core=true, t24Name=MSG.BROKER)
+/* An integral part of the Delivery multi-value set, this field contains a message class ID, (defined in EB.ADVICES). There may be many classes specified, but only classes, which are related to the operation, will be triggered. For example, the EB.ADVICES number SC-1101 (New order) may have the following classes and messages:
+Message No. : 502
+EB.MESSAGE.CLASS : NEWORDER
+And let us assume that the EB.MESSAGE.CLASS ID has been mapped to SC internal class specified in SC.PARAMETER as follows:
+
+NEW. MESSAGE
+
+In the SEC.OPEN.ORDER, the NEWORDER class will only be triggered for MT502, when BROKER.TYPE is BROKER and CONFIRMATION is YES. You can choose whether you want to produce the messages by flipping the YES/NO flag - SEND. ADVICE */
+        MSG_CLASS : T24BusinessTypes:A
+            @i18n:Label (en="Message Class")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=108.0, core=true, t24Name=MSG.CLASS)
+/* An integral part of the Delivery multi-set, this field is used to determine the message type to which the user wishes to amend the delivery and is used exclusively with the fields MSG.CLASS, OVR.CARRIER, OVR.ADDRESS and SEND. ADVICE.
+Validation Rules
+Up to 4 numeric characters */
+        MSG_NO -> DE_Config:DE_MESSAGE
+            @i18n:Label (en="Message Number")
+            @t24:i (align=R, inputBehaviour=I, maxLength=4, sysNumber=107.0, core=true, t24Name=MSG.NO)
+/* This field enables the user to divert a particular message type to another (third) party.   The user has a number of options:  Simple insertion of a name or address. This will re-route the message in PRINT format to the named party.  The code TX- followed by a telex number. This will re-route the message by TELEX to the number detailed.  The code SW- followed by a S.W.I.F.T. code. This will re-route the message by SWIFT to the respective bank.  The code C- followed by a valid customer number or mnemonic. This will re-route the message in PRINT format to the customer indicated.
+Validation Rules  35 Alphanumeric character field. */
+        OVR_ADDRESS : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=110.0, core=true, t24Name=OVR.ADDRESS)
+        /* An integral part of the Delivery multi-value set, this field enables the user to override the defaulted carrier for a particular message type and select a new carrier.  For example : If a specific message is generated by SWIFT, the user is able to override this by choosing other available options from the CARRIER table, e.g. TELEX or PRINT.    Validation Rules  Must be a valid record in the CARRIER table. */
+        OVR_CARRIER -> DE_Config:DE_CARRIER
+            @i18n:Label (en="Delivery Mode")
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=109.0, core=true, businessType=A, t24Name=OVR.CARRIER)
+        /* Acting as part of the delivery multivalue set, this field provides the user with the ability to decide whether to send or withhold sending the delivery of any message produced under the contract.  Validation Rules  Options available are (Y)es - Send Message or (N)o - Do Not Send Message  Default is (Y)es */
+        SEND_ADVICE : SC_SctOrderCapture:SEC_OPEN_ORDER__ACTIVITY_CODE__SEND_ADVICE
+            @i18n:Label (en="Send Advice")
+            @i18n:Tooltip (en="Transmission of the advice")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=111.0, core=true, t24Name=SEND.ADVICE)
+/* Holds the delivery reference of MT502
+Validation Rules
+Up to 35 characters in length */
+        SOFT_DLVRY_KEY : T24BusinessTypes:A
+            @i18n:Label (en="Soft delivery key")
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=112.0, core=true, t24Name=SOFT.DLVRY.KEY)
+    }
+    SEC_OPEN_ORDER__BROKER
+    {
+/* Specifies the particular amount of an order which has been placed with the previously defined Broker.
+The multi value fields 21, 22  23 can be used by the Dealers to record the fact that a particular order for a particular amount of stock has already been placed with a particular Broker. The responsibility for monitoring these limits will then fall on the Broker himself.
+The multi value facility is to allow more than one Broker should the Dealer wish to spread the Order amongst several Brokers.
+These fields however are initially an aide memoire for the Dealer involved as he need not actually deal with the specified Broker. He is at liberty to trade with others and when he processes the execution T24 will allow him the opportunity to enter a different Broker. Care should be taken from a procedural point of view, however, that the deal is not duplicated.
+Validation Rules
+Numeric input. (Optional Input) */
+        AMT_TO_BROKER : T24BusinessTypes:NOMAMT
+            @i18n:Label (en="Amount To Broker")
+            @i18n:Tooltip (en="Specifies amount of an order placed with Broker")
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=65.0, core=true, t24Name=AMT.TO.BROKER)
+/* Bank Correspondent field.
+
+Validation Rules
+15 alphanumeric characters */
+        BANK_CORRES : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=75.0, core=true, t24Name=BANK.CORRES)
+/* Specifies the counterparty with whom the trade is to be effected.
+If an Investment Manager would like a particular trade passed onto a particular broker he could enter a preference at this point with perhaps a reason in the free format narrative field. Normally however the choice of the broker would be left to the Dealers themselves. The CUSTOMER thus entered must be defined as BROKER, CLIENT, COUNTERPARTY in CUSTOMER.TYPE field of CUSTOMER.SECURITY. If a CUSTOMER is defined as CUSTOMER in CUSTOMER.TYPE field of CUSTOMER.SECURITY, a check will be made to see if the CUSTOMER has any DEALER BOOK accounts. If the CUSTOMER has a dealer book portfolio then the customer will be allowed as a valid input.
+Validation Rules
+
+1 - 6 Numeric Customer code within the range 1 - 999999. or 3 - 10 type MNE (uppercase alpha or numeric or . ) character Mnemonic Customer ID. (Optional Input).
+Must exist as a Customer type Broker, Counterparty, Client on the Customer Security File.
+If a CUSTOMER id with dealer book portfolio will be allowed. */
+        BROKER -> SC_Config:CUSTOMER_SECURITY
+            @i18n:Label (en=Broker)
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=62.0, core=true, businessType=CUS, t24Name=BROKER)
+/* BROKER.TYPE field will allow the following options BROKER/ COUNTERPARTY/ CLIENT/ BANK - PORTFOLIO. Input in this field will be checked with the CUSTOMER.TYPE field in CUSTOMER.SECURITY. If the BROKER field contains a CUSTOMER.NO (Defined as customer in CUSTOMER.SECURITY) and if the CUSTOMER has a Dealer Book portfolio, then the BROKER.TYPE field will default to BANK-PORTFOLIO.
+Validation Rules
+
+Valid input will be BROKER/COUNTERPART/CLIENT/BANK-PORTFOLIO */
+        BROKER_TYPE : SC_SctOrderCapture:SEC_OPEN_ORDER__BROKER__BROKER_TYPE
+            @i18n:Label (en="Broker Type")
+            @i18n:Tooltip (en="Indicates the broker type")
+            @t24:i (align=L, inputBehaviour=I, maxLength=14, sysNumber=68.0, core=true, t24Name=BROKER.TYPE)
+/* This field can be used to decide if you want a SEC.OPEN.ORDER confirmation to be produced or not.
+Inputting YES in this field will result in a SEC.OPEN.ORDER confirmation being produced at authorisation. Inputting NO will result in no confirmation being produced. Default is no confirmation being produced.
+Validation Rules
+YES or NO (Optional Input) */
+        BROK_CORRES : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=76.0, core=true, t24Name=BROK.CORRES)
+/* This field will automatically populate the currency of the account number entered in BR.ACC.NO field. This field will be allowed for input only if DEAL.STATUS field is set to TRADED. If this field has any value then the same will be defaulted in BR.ACCOUNT.CCY field in SEC.TRADE.
+Validation Rules
+
+CCY must always be same as TRADE.CCY
+CCY must be same as of CCY of BR.ACC.NO */
+        BR_ACCOUNT_CCY : T24BusinessTypes:CCY
+            @i18n:Label (en="Broker Account Currency")
+            @i18n:Tooltip (en="Indicates the currency of the Broker Account")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=71.0, core=true, t24Name=BR.ACCOUNT.CCY)
+/* Identifies the Account over which financial entries relating to the Broker for the trade, are to be passed. This field will be allowed for input only when DEAL.STATUS field has a value TRADED. If this field is input then the BR.ACC.NO field in SEC.TRADE will be defaulted with the same account number.
+Validation Rules
+
+Must be the Id of a valid Account.
+Default value = the Nostro.Account for the Trade Currency */
+        BR_ACC_NO : T24BusinessTypes:ANT
+            @i18n:Label (en="Broker Acc No")
+            @i18n:Tooltip (en="Broker Account to post financial entries ")
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=70.0, core=true, t24Name=BR.ACC.NO)
+        BR_CASH_AMT : T24BusinessTypes:AMT
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=66.0, core=true, t24Name=BR.CASH.AMT)
+/* This field contains the delivery instruction to broker. System indicator which is used to define whether the delivery is to be made free of payment or against payment. This field will be defaulted to the related DELIVERY.INSTR field of the BROKER in SC.EXE.SEC.ORDERS. In Orders with DEAL.STATUS set to TRADED, this field will default to CU.DELIV.INSTR and BR.DELIV.INSTR.
+Validation Rules
+
+Must be the key to a valid entry on the SC.DEL.INSTR         file.
+1 to 3 alpha code. */
+        BR_DELIV_INSTR -> SC_Config:SC_DEL_INSTR
+            @i18n:Label (en="Broker Deliver Instruction")
+            @i18n:Tooltip (en="The delivery instruction to broker")
+            @t24:i (align=L, inputBehaviour=N, maxLength=10, sysNumber=73.0, core=true, businessType=A, t24Name=BR.DELIV.INSTR)
+        /* This field will give the exchange rate between the TRADE.CCY and BR.ACCOUNT.CCY. This field will be allowed for input only if DEAL.STATUS is set to TRADED. If this field has any value then the same will be defaulted in BR.EX.RATE.ACC field in SEC.TRADE. Buy rate will be used for calculating the exchange rate. */
+        BR_EX_RATE_ACC : T24BusinessTypes:R
+            @i18n:Label (en="Broker Exchange Rate Account")
+            @i18n:Tooltip (en="Exchange rate between Trade and Broker Account Ccy")
+            @t24:i (align=R, inputBehaviour=I, maxLength=8, sysNumber=72.0, core=true, t24Name=BR.EX.RATE.ACC)
+/* BR.PRICE field will contain the execution price. Input will be allowed to this field only when DEAL.STATUS field is set to TRADED.The price entered in this field will be used as execution price in SEC.TRADE previously traded orders.
+Validation Rules
+
+Standard Numeric field
+Input allowed only if DEAL.STATUS is equal to TRADED */
+        BR_PRICE : T24BusinessTypes:R
+            @i18n:Label (en="Broker Price")
+            @i18n:Tooltip (en="Holds the Broker execution price")
+            @t24:i (align=R, inputBehaviour=I, maxLength=16, sysNumber=67.0, core=true, t24Name=BR.PRICE)
+/* This field will be allowed for input only if BROKER.TYPE field is set to BANK - PORTFOLIO. This field will allow a SEC.ACC.MASTER set as a dealer book portfolio.
+Validation Rules
+
+A Valid SEC.ACC.MASTER id will be allowed as input.
+SEC.ACC.MASTER must be a dealer book portolio.
+Input allowed only when BROKER.TYPE field is set to BANK - PORTFOLIO. */
+        BR_SEC_ACCT -> SC_ScoPortfolioMaintenance:SEC_ACC_MASTER
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=69.0, core=true, businessType=A, t24Name=BR.SEC.ACCT)
+/* Indication only of the type of transaction as regards the Broker side of the transaction.
+When transaction code entered at field 6 for the client the system reads the SC.TRANS.TYPE file in which are stored sets of transaction codes and defaults to the reverse code for the Broker side of a particular transaction.
+Validation Rules
+1 - 3 type S (uppercase alpha) character SC.Trans.Name Code. (Automatic Default)
+Must exist as a valid transaction code on the SC.TRANS.NAME file. */
+        CONFIRMATION : SC_SctOrderCapture:SEC_OPEN_ORDER__BROKER__CONFIRMATION
+            @i18n:Label (en=Confirmation)
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=77.0, core=true, t24Name=CONFIRMATION)
+/* Specifies the date a particular Order has been placed with the Broker/Counterparty in Field 21.
+The multi value fields 21,22  23 can be used by the Dealers to record the fact that a particular order has already been placed with a particular Broker.
+The responsibility for monitoring these limits will then fall on the Broker himself. It is multi value to allow more than one Broker should the Dealer wish to spread the Order with more than a single Broker.
+However he need not actually deal with the specified Broker as he is at liberty to trade with others and when he processes the execution he will have the opportunity to specify a different Broker.
+From a proceedural point of view he will obviously have to be careful that the deal is not duplicated.
+Validation Rules
+Up to 9 type D date characters,(Standard Date format in range 1950 - 2049). */
+        DATE_TO_BROKER : T24BusinessTypes:D
+            @i18n:Label (en="Date to Broker")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=63.0, core=true, t24Name=DATE.TO.BROKER)
+/* Records the key of any delivery produced by this SEC.OPEN.ORDER.
+System generated field that records the ID of any delivery produced by this SEC.OPEN.ORDER.
+Validation Rules
+10 alpha numeric characters (No input allowed) */
+        DELIVERY_KEY : T24BusinessTypes:N
+            @i18n:Label (en="Delivery Key")
+            @i18n:Tooltip (en="IDs of the delivery records related to transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=10, sysNumber=78.0, core=true, t24Name=DELIVERY.KEY)
+/* No input field which records the actual amount traded for any particular order.
+Where an Order has only been partially completed then this field is updated with the actual amount traded as opposed to the amount of the Order itself.The partially completed Order will remain outstanding until it is either fully completed or until the Order reaches its expiry date.
+Validation Rules
+No input. System generated field. */
+        EXE_BY_BROKER : T24BusinessTypes:NOMAMT
+            @i18n:Label (en="Executed by Broker")
+            @i18n:Tooltip (en="Actual amount traded for any particular order")
+            @t24:i (align=R, inputBehaviour=E, maxLength=18, sysNumber=74.0, core=true, t24Name=EXE.BY.BROKER)
+/* Specifies the time a particular Order has been placed with the Broker/Counterparty in the BROKER field.
+The multi value fields BROKER, DATE.TO.BROKER and TIME.TO.BROKER can be used by the Dealers to record the fact that a particular order has already been placed with a particular Broker.
+This field associated with the DATE.TO.BROKER field will record the time and date the order was sent to a broker.
+Validation Rules
+
+Up to 9 type T time characters,(Standard time format in the form HH:MM:SS).
+Optional input.
+If TRADE.TIME.FLAG is set to YES in SC.STD.SEC.TRADE then the value of this field will be defaulted from the current system time. */
+        TIME_TO_BROKER : T24BusinessTypes:TIME
+            @i18n:Label (en="Time to Broker")
+            @i18n:Tooltip (en="Time of Order placement with Broker/Counterparty ")
+            @t24:i (align=L, inputBehaviour=I, maxLength=11, sysNumber=64.0, core=true, t24Name=TIME.TO.BROKER, typeModifiers=S)
+    }
+    SEC_OPEN_ORDER__CUM_EX_IND
+    {
+/* Cum and Ex Indicators for the transaction
+This field allows entry of Cum and Ex indicators relating to the Transaction. Where these apply, they will be mapped onto the relevant SWIFT message and are mandatory from a business point of view.
+NB. These codes are validated against DE.TRANSLATION to ensure that they exist and are prefixed with SW (i.e. SWIFT).
+The list of valid codes must also be entered in the application SM.PARAMETER, key SYSTEM.
+Values entered here will be carried forward to SC.EXE.SEC.ORDERS and then to SEC.TRADE.
+Validation Rules
+
+10 Type A (alphanumeric) characters. */
+        CUM_EX_IND : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=114.0, core=true, t24Name=CUM.EX.IND)
+    }
+    SEC_OPEN_ORDER__CUST_DEPO
+    {
+        CUST_DEPO -> byValue SC_SctOrderCapture:SEC_OPEN_ORDER__CUST_DEPO__CUST_DEPO *
+            @t24:i (t24Name=CUST.DEPO)
+        CU_DEPO_NOM -> byValue SC_SctOrderCapture:SEC_OPEN_ORDER__CUST_DEPO__CU_DEPO_NOM *
+            @t24:i (t24Name=CU.DEPO.NOM)
+    }
+    SEC_OPEN_ORDER__CUST_DEPO__CUST_DEPO
+    {
+/* This is a system updated multi-value field. This field will be updated for SELL orders. This field will contain the customers existing depositories for the SECURITY.MASTER and SEC.ACC.MASTER used in the order.
+Validation Rules
+
+1 - 6 character customer number (No input) */
+        CUST_DEPO -> SC_Config:CUSTOMER_SECURITY
+            @i18n:Label (en="Customer Depository")
+            @t24:i (align=R, inputBehaviour=N, maxLength=10, sysNumber=98.0, core=true, businessType=CUS, t24Name=CUST.DEPO)
+    }
+    SEC_OPEN_ORDER__CUST_DEPO__CU_DEPO_NOM
+    {
+/* Validation Rules
+Up to 14 currency dependent amount (No input) */
+        CU_DEPO_NOM : T24BusinessTypes:NOMAMT
+            @t24:i (align=R, inputBehaviour=N, maxLength=18, sysNumber=99.0, core=true, t24Name=CU.DEPO.NOM)
+/* Validation Rules
+Up to 5 SWIFT characters (No input) */
+        CU_NOM_CODE -> SC_Config:NOMINEE_CODE
+            @t24:i (align=L, inputBehaviour=N, maxLength=5, sysNumber=100.0, core=true, businessType=S, t24Name=CU.NOM.CODE)
+    }
+    SEC_OPEN_ORDER__CUST_NUMBER
+    {
+/* If the CASH.ROUNDING field is set to EXACT then this field becomes active to determine whether to reduce the commission in order to make the total trade match the cash amount exactly.
+If set to YES and the value of the total trade does not match the cash amount, the system will check to see if there is enough commission to cover the difference between the two figures. If there is the system will reduce of commission (and tax on commission) to make the values match. If there is not enough commission to achieve this an error message will be displayed  the user will have to choose another option if they require the trade to proceed. If set to NO and the value of the total trade does not match the cash amount an error message will be displayed  the user will have to choose another option if they require the trade to proceed. Validation Rules
+
+MANDATORY field if the CASH.ROUNDING field is set to EXACT otherwise a NOINPUT field.
+YES or NO */
+        ADJUST_COMM : SC_SctOrderCapture:SEC_OPEN_ORDER__CUST_NUMBER__ADJUST_COMM
+            @i18n:Label (en="Adjust Commission")
+            @i18n:Tooltip (en="Adjust commission to match trade and cash amount ")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=19.0, core=true, t24Name=ADJUST.COMM)
+        /* Buying power of the portfolio on placement of order */
+        BUYING_POWER : T24BusinessTypes:BMT
+            @t24:i (align=R, inputBehaviour=N, maxLength=18, sysNumber=50.0, core=true, t24Name=BUYING.POWER, typeModifiers="9.XD")
+/* This field can be modified with the following results  YES - CU.COMMISSION, CU.COMM.TAX, CU.STAMP.TAX  CU.EBV.FEES will be recalculated. If CASH.CHRGS is set to NET then the nominal will be recalculated taking into account any values that are in fields CU.BRKR.COMM, CU.FOREIGN.FEE, CU.COMMISSION, CU.COMM.TAX, CU.STAMP.TAX  CU.EBV.FEES, CU.FEES.MISC or CU.DISC.PCENT. NO - No charge/commissions will be recalculated, however, if CASH.CHRGS is set to NET  there are any values in CU.BRKR.COMM, CU.FOREIGN.FEE, CU.COMMISSION, CU.COMM.TAX, CU.STAMP.TAX  CU.EBV.FEES, CU.FEES.MISC or CU.DISC.PCENT then the nominal will be recalculated.
+Validation Rules
+
+Mandatory if transaction is cash
+YES or NO */
+        CALC_CHRGS : SC_SctOrderCapture:SEC_OPEN_ORDER__CUST_NUMBER__CALC_CHRGS
+            @i18n:Label (en="Calculate Charges")
+            @i18n:Tooltip (en="Customer charges to be calculated or not")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=15.0, core=true, t24Name=CALC.CHRGS)
+/* This field determines whether the cash amount entered in CU.CASH.AMOUNT field is to include charges (NET) or have charges applied in addition (GROSS).
+NET - The nominal will be calculated so that when the charges are added to the trade, the total value of the trade matches the CU.CASH.AMOUNT. GROSS - The nominal is calculated  then the charges are added to the CU.CASH.AMOUNT.
+Validation Rules
+
+Mandatory Input if CU.CASH.AMOUNT field is used.
+NET or GROSS */
+        CASH_CHRGS : SC_SctOrderCapture:SEC_OPEN_ORDER__CUST_NUMBER__CASH_CHRGS
+            @i18n:Label (en="Cash Charges")
+            @t24:i (align=L, inputBehaviour=I, maxLength=5, sysNumber=16.0, core=true, t24Name=CASH.CHRGS)
+/* Each time the NET option is used the system always tries to match the cash amount exactly, however, sometimes this is not possible  this field determines what to do with the transaction.
+If set to UNDER/OVER the system will calculate to the nearest trading unit under the cash amount for a purchase  to the nearest trading unit over the cash amount for a sale. If set to EXACT the system will then allow the user to use the ADJUST.COMM field to determine whether to adjust the commission down to make the total trade equal the cash amount.
+Validation Rules
+
+MANDATORY field if the CASH.CHRGS field is set to NET otherwise a NOINPUT field.
+UNDER/OVER or EXACT */
+        CASH_ROUNDING : SC_SctOrderCapture:SEC_OPEN_ORDER__CUST_NUMBER__CASH_ROUNDING
+            @i18n:Label (en="Cash Rounding")
+            @t24:i (align=L, inputBehaviour=I, maxLength=10, sysNumber=18.0, core=true, t24Name=CASH.ROUNDING)
+/* This field is populated only when the transaction is for cash.
+Customer commissions in SEC.OPEN.ORDER are defaulted from the CUSTOMER.CHARGE record for the customer using the SC.APPLICATION set of fields. It will use the set of fields linked to SC.TRADING if they are present and default to ALL otherwise. From there the system links to the SCTR.GROUP.CONDITION application and then onto the SCTR.CHARGE.PARAMETER application to get the actual FT.COMMISSION.TYPE record used.
+When the customer commissions are worked out the FT.COMMISSION.TYPE code used is put in this field.
+Validation Rules
+
+No input field automatically updated by the system. */
+        COMM_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Commission Code")
+            @i18n:Tooltip (en="Indicates the commission code")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=38.0, core=true, t24Name=COMM.CODE)
+/* This field is populated only when the transaction is for cash.
+Customer commissions in SEC.OPEN.ORDER are defaulted from the CUSTOMER.CHARGE record for the customer using the SC.APPLICATION set of fields. It will use the set of fields linked to SC.TRADING if they are present and default to ALL otherwise. From there the system links to the SCTR.GROUP.CONDITION application and then onto the SCTR.CHARGE.PARAMETER application to get the actual FT.COMMISSION.TYPE record used.
+When the customer commission is calculated the percentage used to calculate the commission will be recorded in this field.
+Validation Rules
+
+No input field automatically updated by the system. */
+        COMM_PERCENT : T24BusinessTypes:NOMAMT
+            @i18n:Label (en="Commission (%)")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=39.0, core=true, t24Name=COMM.PERCENT)
+/* This field is populated only when the transaction is for cash.
+Customer commissions in SEC.OPEN.ORDER are defaulted from the CUSTOMER.CHARGE record for the customer using the SC.APPLICATION set of fields. It will use the set of fields linked to SC.TRADING if they are present and default to ALL otherwise. From there the system links to the SCTR.GROUP.CONDITION application and then onto the SCTR.CHARGE.PARAMETER application to get the actual FT.COMMISSION.TYPE record used. Some commissions have a tax code associated with them which is used to charge tax on the commission.
+If Tax is raised on the customer commission then the amount of tax raised in the local currency of the system is recorded in this field.
+Validation Rules
+
+No input field automatically updated by the system. */
+        COM_TAX_BCUR : T24BusinessTypes:NOMAMT
+            @i18n:Label (en="Commission Tax Bank Ccy")
+            @i18n:Tooltip (en="Indicates the local currencuy of commission tax")
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=41.0, core=true, t24Name=COM.TAX.BCUR)
+/* This field is populated only when the transaction is for cash.
+Customer commissions in SEC.OPEN.ORDER are defaulted from the CUSTOMER.CHARGE record for the customer using the SC.APPLICATION set of fields. It will use the set of fields linked to SC.TRADING if they are present and default to ALL otherwise. From there the system links to the SCTR.GROUP.CONDITION application and then onto the SCTR.CHARGE.PARAMETER application to get the actual FT.COMMISSION.TYPE record used. Some commissions have a tax code associated with them which is used to charge tax on the commission.
+If Tax is raised on the customer commission then the Tax Code used (from the TAX file) to calculate the tax on the commission is recorded in this field.
+Validation Rules
+
+No input field automatically updated by the system. */
+        COM_TAX_CODE : T24BusinessTypes:A
+            @i18n:Label (en="Commission Tax code")
+            @i18n:Tooltip (en="Indicates the commission tax code")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=40.0, core=true, t24Name=COM.TAX.CODE)
+/* This field is populated only when the transaction is for cash.
+Customer commissions in SEC.OPEN.ORDER are defaulted from the CUSTOMER.CHARGE record for the customer using the SC.APPLICATION set of fields. It will use the set of fields linked to SC.TRADING if they are present and default to ALL otherwise. From there the system links to the SCTR.GROUP.CONDITION application and then onto the SCTR.CHARGE.PARAMETER application to get the actual FT.COMMISSION.TYPE record used. Some commissions have a tax code associated with them which is used to charge tax on the commission.
+If Tax is raised on the customer commission then the amount is calculated in the local currency of the system and recorded in the COM.TAX.BCUR field. This field will contain the exchange rate used between the local currency of the system and the trade currency of the ORDER.BY.CUST, used in calculating the amount of tax in the Local currency.
+Validation Rules
+
+No input field automatically updated by the system. */
+        COM_TAX_XRTE : T24BusinessTypes:R
+            @i18n:Label (en="Commission Tax Exch Rate")
+            @i18n:Tooltip (en="Indicates the commission Tax Exchange Rate ")
+            @t24:i (align=R, inputBehaviour=I, maxLength=16, sysNumber=42.0, core=true, t24Name=COM.TAX.XRTE)
+/* If ORDER.TYPE field is set to CASH then this field is used to calculate how much nominal to trade, calculated from the CU.CASH.AMOUNT field.
+If the record was created by the ORDER.BY.CUST application then this field will be defaulted from either the MARKET.PRICE or MARKET.PRICE.CR depending on the type of trade.
+If this field is left blank then it will defaulted from the LAST.PRICE field in the SECURITY.MASTER record.
+Validation Rules
+
+Valid price for the transaction */
+        CURR_PRICE : T24BusinessTypes:PRICE
+            @i18n:Label (en="Current Price")
+            @t24:i (align=L, inputBehaviour=I, maxLength=18, sysNumber=14.0, core=true, t24Name=CURR.PRICE)
+/* Identifies the customers account over which the financial entries relative to the underlying transaction are to be passed.
+Will default according to the definitions recorded in the customers portfolio as defined in the SECURITY.ACCNT field.
+Validation Rules
+
+Will default according to definitions on the customers SEC.ACC.MASTER account
+May be changed but must be a valid account, recorded on the underlying SEC.ACC.MASTER account
+Accepts alpha and/or numeric values or MNEMONIC id of an account */
+        CUST_ACC_NO -> AC_AccountOpening:ACCOUNT
+            @i18n:Label (en="Cu Account No")
+            @i18n:Tooltip (en="Identifies the customer account")
+            @t24:i (align=R, inputBehaviour=I, maxLength=36, sysNumber=21.0, core=true, businessType=ACC, t24Name=CUST.ACC.NO)
+/* Identifies the Customer with whom the trade is made.
+This field is not multivalue as it is intended as a single client,single order entry. For Block bookings the ORDER BY SECURITY application would be used.
+The field is optional as a Dealer/Investment Manager may well wish to pass an order for say 10,000 shares and only after execution decide which of his clients to involve and for how much.
+Validation Rules
+1-10 numeric character Customer ID Number or    3-10 type MNE (uppercase alpha or numeric  or .) character Mnemonic Customer id. (Optional Input) */
+        CUST_NUMBER -> SC_Config:CUSTOMER_SECURITY
+            @i18n:Label (en="Customer No")
+            @i18n:Tooltip (en="Identifies the Customer for the transaction.")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=10.0, core=true, businessType=CUS, t24Name=CUST.NUMBER)
+/* Specifies the amount of Broker Commission charged to the Customer for the trade
+Validation Rules
+
+Field length is 1-15 numeric characters with 0-9 decimal places.
+The number of decimal places is dependant on the number of decimal places stated on the CURRENCY file, for the TRADE.CCY
+Input will be carried forward into the subsequent field on SC.EXE.SEC.ORDERS record created */
+        CU_BRKR_COMM : T24BusinessTypes:A
+            @i18n:Label (en="Customer Broker Commission")
+            @i18n:Tooltip (en="Amount of Broker Commission charged to customer")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=24.0, core=true, t24Name=CU.BRKR.COMM)
+/* The field identifies the broker related to the customer and would default from Customer Broker specified for the company in SC.SPLIT.TRADE.PARAM. If specified in a multi-company order routing scenario where portfolios are shared across companies, the input here would identify the customers for whom the order needs to be routed through the routing company.
+Validation Rules
+
+Must be a valid BROKER as defined in CUSTOMER.SECURITY. */
+        CU_BROKER_NO -> SC_Config:CUSTOMER_SECURITY
+            @i18n:Label (en="Customer Broker Number")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=46.0, core=true, businessType=CUS, t24Name=CU.BROKER.NO)
+/* This field contains the cash amount that is to be traded.
+If the CASH.CHRGS field is set to GROSS then the cash amount will be used to calculate the nominal  any charges/commissions that apply will be added to this value, however, if the CASH.CHRGS field is set to NET the cash amount will include all charges/commissions, adjusting the nominal to achieve this.
+Validation Rules
+
+Mandatory if ORDER.TYPE is CASH */
+        CU_CASH_AMOUNT : T24BusinessTypes:AMT
+            @i18n:Label (en="Cash Amount")
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=13.0, core=true, t24Name=CU.CASH.AMOUNT, typeModifiers="9")
+/* Records the Commission amount charged to the Customer for the trade.
+Validation Rules
+
+Field length is 1-15 numeric characters with 0-9 decimal places
+The number of decimal places is dependant on the number of decimal places stated on the CURRENCY file for the TRADE.CCY
+Input will be carried forward into the subsequent field on SC.EXE.SEC.ORDERS record created */
+        CU_COMMISSION : T24BusinessTypes:A
+            @i18n:Label (en="Cu Commission")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=29.0, core=true, t24Name=CU.COMMISSION)
+/* This is the tax amount based on the commision charged.
+This field is automatically updated when the CU.COMMISSION field is populated.
+Validation Rules
+
+NOINPUT field */
+        CU_COMM_TAX : T24BusinessTypes:A
+            @i18n:Label (en="Customer Commission Tax")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=30.0, core=true, t24Name=CU.COMM.TAX)
+/* A valid CUSTOMER.SECURITY record defined as DEPOSITORY in CUSTOMER.TYPE field is allowed to be input. This field defaults the DEPOSITORY only if DEF.CUST.DEPO field in SC.PARAMETER is set to YES. If DEF.CUST.DEPO field in SC.PARAMETER is set to YES then the defaulting of depository is done from different applications in the following hierarchy.
+
+SEC.ACC.MASTER
+
+CUSTOMER.SECURITY
+
+SC.CU.DEPO.DEFAULT
+
+SECURITY.POSITION
+
+SECURITY.MASTER.
+If CU.DEPOSITORY field is populated then this DEPOSITORY will be used for updating the Open Order position in SECURITY.POSITION. If this field is populated then the same is defaulted in CU.DEPOSITORY field in SC.EXE.SEC.ORDERS.
+Validation Rules
+
+Accepts 1 - 10 numeric characters.
+Input must be a valid CUSTOMER.SECURITY record defined as DEPOSITORY in the CUSTOMER.TYPE field.
+No Change field. */
+        CU_DEPOSITORY -> SC_Config:CUSTOMER_SECURITY
+            @i18n:Label (en="Customer Depository")
+            @t24:i (align=R, inputBehaviour=F, maxLength=10, sysNumber=43.0, core=true, businessType=CUS, t24Name=CU.DEPOSITORY)
+/* This field is populated automatically when the transaction is cash  is calculated using CU.DISC.PCENT
+Validation Rules
+
+NOINPUT field */
+        CU_DISC_AMT : T24BusinessTypes:R
+            @i18n:Label (en="Customer Discount Amount")
+            @i18n:Tooltip (en="Indicates the customer discount amount")
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=35.0, core=true, t24Name=CU.DISC.AMT)
+/* Multi-valued optional input field detailling the percentage customer discount in percentage terms. This discount will be defaulted from the SCTR.GROUP.CONDITION record associated with the customer. It will feed through to the CU.DISC.PCENT field on the subsequent SEC.TRADE.
+Validation Rules
+Optional numeric input. */
+        CU_DISC_PCENT : T24BusinessTypes:R
+            @i18n:Label (en="Customer Discount Percentage")
+            @i18n:Tooltip (en="Customer discount applied to CU.NET.AM.TRD")
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=34.0, core=true, t24Name=CU.DISC.PCENT)
+/* Records the amount of EBV Fees charged to the Customer for the trade.
+Validation Rules
+
+Field length is 1-15 numeric characters with 0-9 decimal places
+The number of decimal places is dependant on the number of decimal places stated on the CURRENCY file for the TRADE.CCY
+Input will be carried forward into the subsequent field on SC.EXE.SEC.ORDERS record created */
+        CU_EBV_FEES : T24BusinessTypes:A
+            @i18n:Label (en="Customer EBV Fees")
+            @i18n:Tooltip (en="Amount of EBV Fees charged to the Customer")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=32.0, core=true, t24Name=CU.EBV.FEES)
+/* ENTITLEMENT number from which this trade has been generated.
+
+Validation Rules
+
+Noinput field */
+        CU_ENTL_ID : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=35, sysNumber=48.0, core=true, t24Name=CU.ENTL.ID)
+/* This field contains the exchange rate applicable between the currency of the customers account and the settlement currency of the transaction.
+Initially this will default but may be changed by the User if found to be necessary.
+Changing the CUST.ACC.NO field will result in a manually entered rate being refreshed.
+Validation Rules
+
+Defaults to the current rate calculated using the currency files
+Rate may be changed if required */
+        CU_EX_RATE_ACC : T24BusinessTypes:R
+            @i18n:Label (en=Exch.Rate)
+            @t24:i (align=R, inputBehaviour=I, maxLength=11, sysNumber=22.0, core=true, t24Name=CU.EX.RATE.ACC)
+/* Records the amount of Miscellaneous Fees charged to the Customer for the trade.
+Validation Rules
+
+Field length is 1-15 numeric characters with 0-9 decimal places
+The number of decimal places is dependant on the number of decimal places stated on the CURRENCY file for the TRADE.CCY
+Input will be carried forward into the subsequent field on SC.EXE.SEC.ORDERS record created */
+        CU_FEES_MISC : T24BusinessTypes:A
+            @i18n:Label (en="Customer Miscellaneous Fees")
+            @i18n:Tooltip (en="Indicates the customer miscellaneous fees")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=33.0, core=true, t24Name=CU.FEES.MISC)
+/* Records the Foreign Fee amount charged to the Customer for the trade.
+Validation Rules
+
+Field length is 1-15 numeric characters with 0-9 decimal places
+The number of decimal places is dependant on the number of decimal places stated on the CURRENCY file for the TRADE.CCY
+Input will be carried forward into the subsequent field on SC.EXE.SEC.ORDERS record created */
+        CU_FOREIGN_FEE : T24BusinessTypes:A
+            @i18n:Label (en="Cu Fgn Fee")
+            @i18n:Tooltip (en="Foreign Fee amount charged to the Customer ")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=28.0, core=true, t24Name=CU.FOREIGN.FEE)
+        CU_INCOME_ACC -> AC_AccountOpening:ACCOUNT
+            @i18n:Label (en="Seg Income Account")
+            @i18n:Tooltip (en="Segregated Income Account")
+            @t24:i (align=L, inputBehaviour=I, maxLength=36, sysNumber=52.0, core=true, businessType=ANT, t24Name=CU.INCOME.ACC)
+        CU_INCOME_CCY -> ST_CurrencyConfig:CURRENCY
+            @t24:i (align=R, inputBehaviour=N, maxLength=3, sysNumber=53.0, core=true, t24Name=CU.INCOME.CCY)
+        /* Interest counter for the associated customer, applicable to shares only. */
+        CU_INT_CTR : T24BusinessTypes:R
+            @t24:i (align=R, inputBehaviour=I, maxLength=15, sysNumber=49.0, core=true, t24Name=CU.INT.CTR)
+        CU_NOTES -> byValue SC_SctOrderCapture:SEC_OPEN_ORDER__CUST_NUMBER__CU_NOTES *
+            @t24:i (t24Name=CU.NOTES)
+/* Records the Stamp Tax amount charged to the Customer for the trade.
+Validation Rules
+
+Field length is 1-15 numeric characters with 0-9 decimal places
+The number of decimal places is dependant on the number of decimal places stated on the CURRENCY file for the TRADE.CCY
+Input will be carried forward into the subsequent field on SC.EXE.SEC.ORDERS record created */
+        CU_STAMP_TAX : T24BusinessTypes:A
+            @i18n:Label (en="Cu Stamp Tax")
+            @i18n:Tooltip (en="Stamp Tax amount charged to the Customer ")
+            @t24:i (align=L, inputBehaviour=I, maxLength=15, sysNumber=31.0, core=true, t24Name=CU.STAMP.TAX)
+/* Multi-valued field detailing the percentage
+Tax rate in percentage terms. This tax rate will be defaulted from the TAX record associated with
+the customer / depository
+.
+
+Validation Rules
+
+No input field */
+        CU_WHT_PERC : T24BusinessTypes:N
+            @i18n:Label (en="Pourcentage retenu")
+            @t24:i (align=R, inputBehaviour=N, maxLength=5, sysNumber=36.0, core=true, t24Name=CU.WHT.PERC)
+        CU_WHT_TAX -> byValue SC_SctOrderCapture:SEC_OPEN_ORDER__CUST_NUMBER__CU_WHT_TAX *
+            @t24:i (t24Name=CU.WHT.TAX)
+/* To identify the external custodian where position is held.
+Validation Rules
+Mandatory, if TRANSACTION.CODE matches to EXT.CR.TXN or EXT.DR.TXN of SC.PARAMETER. Once it matches and EXT.CUSTODIAN is not set; then it will be defaulted from SC.PARAMETER */
+        EXT_CUSTODIAN -> ST_Customer:CUSTOMER
+            @i18n:Label (en="External Custodian")
+            @t24:i (align=R, inputBehaviour=I, maxLength=10, sysNumber=51.0, core=true, businessType=CUS, t24Name=EXT.CUSTODIAN)
+        NARRATIVE -> byValue SC_SctOrderCapture:SEC_OPEN_ORDER__CUST_NUMBER__NARRATIVE *
+            @t24:i (t24Name=NARRATIVE)
+/* Specifies the Nominal Amount (i.e. the face value) of the Security as detailed in Field 4. to be bought or sold.
+Validation Rules
+
+1-18 numeric characters (including up to 6 decimal         places)\
+
+The following multipliers may be used:-
+T = x 1,000         eg. 1T = 1,000
+M = x 1,000,000 eg. 1M = 1,000,000
+Mandatory Input */
+        NO_NOMINAL : T24BusinessTypes:NOMAMT
+            @i18n:Label (en=Nominal)
+            @t24:i (align=R, inputBehaviour=I, maxLength=18, sysNumber=12.0, core=true, t24Name=NO.NOMINAL, typeModifiers="3")
+/* Identifies the constraint related to the customer. Based on the constraint specified, constraint checks would be performed for the portfolio. If no constraint is specified and a constraint record exists for the portfolio, the checks would still be performed
+Validation Rules
+
+Accepts a valid PORTFOLIO.CONSTRAINT ID */
+        PORT_CONST_NO -> SC_SctConstraints:PORTFOLIO_CONSTRAINT
+            @t24:i (align=L, inputBehaviour=I, maxLength=22, sysNumber=45.0, core=true, businessType=A, t24Name=PORT.CONST.NO)
+        RESERVED_8 : T24BusinessTypes:S
+            @t24:i (align=L, inputBehaviour=N, maxLength=0, sysNumber=27.0, core=true, t24Name=RESERVED.8)
+        RESERVED_9 : T24BusinessTypes:S
+            @t24:i (align=L, inputBehaviour=N, maxLength=0, sysNumber=26.0, core=true, t24Name=RESERVED.9)
+/* This field will automatically default to the Safecustody account of the Client entered in field 2. However the user may wish to override this and choose a different account.
+Validation Rules
+Standard Security Account Master ID; 1-10 numeric character customer ID separated by - from 1-3 numeric character Security Account ID. (Mandatory Input.) Default value = the Customers first Security account number i.e. nnnnnn-001.
+Must be a valid security account number which is contained within the Sec.Acc.Master file. */
+        SECURITY_ACCNT -> SC_ScoPortfolioMaintenance:SEC_ACC_MASTER
+            @i18n:Label (en="Portfolio No")
+            @i18n:Tooltip (en="Indicates the Portfolio Account of the customer")
+            @t24:i (align=L, inputBehaviour=I, maxLength=14, sysNumber=11.0, core=true, businessType=A, t24Name=SECURITY.ACCNT)
+/* This is the currency the resulting SEC.TRADE is to be settled in.
+Will default to the TRADE.CCY if no currency is input.
+Validation Rules
+3 Swift currency characters Must exist on the CURRENCY file */
+        SETTLEMENT_CCY -> ST_CurrencyConfig:CURRENCY
+            @i18n:Label (en="Settle Ccy")
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=23.0, core=true, businessType=CCY, t24Name=SETTLEMENT.CCY)
+/* This field is only populated if the SEC.OPEN.ORDER record was created from the ORDER.BY.CUST application  the transaction was a SWITCH with a value in the SPLIT.CHRGS field.
+NULL - If this field is blank then any commission calculated will be charged on both the purchase  the sale at the full rate. XX% - The percentage of the charges to be applied to the trade .
+Validation Rules
+
+NULL, or percentage between 0%  100% */
+        SPLIT_CHRGS : T24BusinessTypes:A
+            @i18n:Label (en="Split Charges")
+            @t24:i (align=L, inputBehaviour=I, maxLength=18, sysNumber=17.0, core=true, t24Name=SPLIT.CHRGS)
+/* Specifies the sub account for depository.
+SUB.ACCOUNT must be defined in the CUSTOMER.SECURITY record of the respective DEPOSITORY.
+This field will be defaulted from SC.SUB.ACC.ROUTING application.
+If CU.DEPOSITORY has a value, then SUB.ACCOUNT will validate with this DEPOSITORY.
+Multi valued field associated with all the fields from CUST.NUMBER and CU.DISC.PCENT
+Validation Rules
+
+1-16 numeric characters
+Must be defined in CUSTOMER.SECURITY record for the depository
+Optional field. */
+        SUB_ACCOUNT : T24BusinessTypes:A
+            @i18n:Label (en="Sub Account")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=44.0, core=true, t24Name=SUB.ACCOUNT)
+        WAIVE_CU_BR_COM : SC_SctOrderCapture:SEC_OPEN_ORDER__CUST_NUMBER__WAIVE_CU_BR_COM
+            @t24:i (align=L, inputBehaviour=I, maxLength=3, sysNumber=25.0, core=true, t24Name=WAIVE.CU.BR.COM)
+    }
+    SEC_OPEN_ORDER__CUST_NUMBER__CU_NOTES
+    {
+/* Free format field for carrying forward user specified information, if any. Authomatically carried forward from sec open order to trade, if input.
+Validation Rules
+
+
+1-35 Alphanumeric input (Optional Input) */
+        CU_NOTES : T24BusinessTypes:A
+            @i18n:Label (en="Customer Notes")
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=47.0, core=true, t24Name=CU.NOTES)
+    }
+    SEC_OPEN_ORDER__CUST_NUMBER__CU_WHT_TAX
+    {
+/* Specifies the amount of Tax on the Securities up to the Value Date of the trade. The calculation is used for Tax payable on any Bond / Share on Sale.
+
+The Tax rate to be applied is fetched from the field CU.WHT.PERC. This is the estimate of tax which would be charged on execution of trade and would be recalculated in SC.EXE.SEC.ORDERS and SEC.TRADE based on actual trade consideration
+
+Validation Rules
+
+1-18 numeric characters (including up to 3 decimal places, dependant on currency). */
+        CU_WHT_TAX : T24BusinessTypes:AMT
+            @i18n:Label (en="Customer Withhold Tax")
+            @i18n:Tooltip (en="Securities Tax up to the Value Date of the trade")
+            @t24:i (align=R, inputBehaviour=N, maxLength=18, sysNumber=37.0, core=true, t24Name=CU.WHT.TAX)
+    }
+    SEC_OPEN_ORDER__CUST_NUMBER__NARRATIVE
+    {
+/* Free format text field for input of additional Client/Investment Manager comments.
+If entered this field will be automatically carried through to the Trade Open Order Application,to inform the Dealer of any additional qualifications or important details regarding the Security Open Order.
+Automatically this will also be carried through to the automatically created Security Trade record - thus completing the link between Back Office, Dealers and Asset Management for any specific details relating to the Order, Settlement or Customer instructions.
+Validation Rules
+1-40 alpha numeric type input. (Optional Input) */
+        NARRATIVE : T24BusinessTypes:A
+            @i18n:Label (en=Narrative)
+            @i18n:Tooltip (en="Any narrative to be input for user information")
+            @t24:i (align=L, inputBehaviour=I, maxLength=40, sysNumber=20.0, core=true, t24Name=NARRATIVE)
+    }
+    SEC_OPEN_ORDER__DATE_TIME
+    {
+        DATE_TIME : T24BusinessTypes:RELTIME
+            @i18n:Label (en="Date time")
+            @i18n:Tooltip (en="Date and time when record was input or authorised")
+            @t24:i (align=L, inputBehaviour=N, maxLength=15, sysNumber=156.0, core=true, t24Name=DATE.TIME, mask="RDD DD  DD ##:##")
+    }
+    SEC_OPEN_ORDER__DEAL_NARRATIVE
+    {
+/* Validation Rules
+40 alphanumeric characters (Optional Input) */
+        DEAL_NARRATIVE : T24BusinessTypes:A
+            @i18n:Label (en="Deal Narrative")
+            @i18n:Tooltip (en="Indicates the deal Narrative")
+            @t24:i (align=L, inputBehaviour=I, maxLength=40, sysNumber=94.0, core=true, t24Name=DEAL.NARRATIVE)
+    }
+    SEC_OPEN_ORDER__INPUTTER
+    {
+        INPUTTER : T24BusinessTypes:A
+            @i18n:Label (en=Inputter)
+            @i18n:Tooltip (en="The user who last updated the record")
+            @t24:i (align=L, inputBehaviour=N, maxLength=40, sysNumber=155.0, core=true, t24Name=INPUTTER)
+    }
+    SEC_OPEN_ORDER__INTEG_DATA_ITEM
+    {
+        INTEG_DATA_ITEM : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=I, maxLength=35, sysNumber=144.0, core=true, t24Name=INTEG.DATA.ITEM)
+        INTEG_DATA_VALUE : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=I, maxLength=21, sysNumber=145.0, core=true, t24Name=INTEG.DATA.VALUE)
+    }
+    SEC_OPEN_ORDER__LINK_ORDER_NO
+    {
+/* As an aide memoir the user may if he wishes link a particular Security Open Order with another by entering at this point the relative Security Open Order transaction reference number.
+At a later date it may be possible to link Purchase and Sale Orders together for the purpose of reporting overall positions by Customer/Security. Or possibly for Risk Management. The idea behind this field was to make one transaction dependent on another. That is to say a purchase could not be effected until sufficient funds had been raised by the sale of existing securities which would happen only when an Open Order for the Sale had been executed.
+Validation Rules
+10 Numeric characters prefixed by OPODSC,i.e. OPODSCyydddnnnnn yy = year (e.g.85 = 1985) ddd = julian dater (i.e 01/jan =001, 02/jan = 002, 01/feb = 032, etc.) nnnnn = transaction sequence number. (Mandatory Input).
+Must exist as a valid Security Open Order Transaction on the Security Open Order File. */
+        LINK_ORDER_NO : T24BusinessTypes:S
+            @t24:i (align=L, inputBehaviour=I, maxLength=16, sysNumber=57.0, core=true, t24Name=LINK.ORDER.NO)
+    }
+    SEC_OPEN_ORDER__OUTSTAND_NOM
+    {
+        /* The nominal that is outstanding after the partial execution of an order. */
+        OUTSTAND_NOM : T24BusinessTypes:N
+            @i18n:Label (en="Outstanding Nominal")
+            @t24:i (align=R, inputBehaviour=N, maxLength=18, sysNumber=123.0, core=true, t24Name=OUTSTAND.NOM)
+    }
+    SEC_OPEN_ORDER__OVERRIDE
+    {
+/* Contains details of any overrides applicable to this Account.
+Standard T24 override field.
+Validation Rules
+Up to 35 type A (alphanumeric) characters. Multivalue field. (Internal field.) */
+        OVERRIDE : T24BusinessTypes:A
+            @i18n:Label (en=Override)
+            @i18n:Tooltip (en="Overrides generated by this transaction")
+            @t24:i (align=L, inputBehaviour=N, maxLength=50, sysNumber=152.0, core=true, t24Name=OVERRIDE)
+    }
+    SEC_OPEN_ORDER__REFERENCE_NO
+    {
+/* The ID of the Broker (or brokers) that the order is placed with.
+
+Validation Rules
+Upto 10 alphanumeric customer number / mnemonic (No input, external field) */
+        BROKER_NO -> SC_Config:CUSTOMER_SECURITY
+            @i18n:Label (en="Broker No")
+            @t24:i (align=R, inputBehaviour=N, maxLength=21, sysNumber=83.0, core=true, businessType=CUS, t24Name=BROKER.NO)
+/* Multivalue field used to store the Customer Number of the client when an order is partially completed.
+Fields 22 to 28 contain details of a partially completed Open Order. They are all Multivalue and are used to store the Reference number,the amount filled, the price paid or received and the trade date of each transaction.
+Note:     Just as the Security Trade reference number is stored at           this level as a full audit check and for ease when following           a transaction through so to the Open Order reference           number is passed onto the Security Trade itself and stored           within field 45.1.1 CU.ORDER.NOS.
+Validation Rules
+(Automatic Default) */
+        CUSTOMER_NO -> SC_Config:CUSTOMER_SECURITY
+            @i18n:Label (en="Customer No")
+            @i18n:Tooltip (en="Identifies the Customer for the transaction.")
+            @t24:i (align=R, inputBehaviour=N, maxLength=21, sysNumber=81.0, core=true, businessType=CUS, t24Name=CUSTOMER.NO)
+        EXE_DETAIL -> byValue SC_SctOrderCapture:SEC_OPEN_ORDER__REFERENCE_NO__EXE_DETAIL *
+            @t24:i (t24Name=EXE.DETAIL)
+/* Used when a Security Open Order is only partially filled and the amount of that transaction is stored here.
+Along with the multivalue fields  22 to 28 this field  contains relating to a partially filled Security Open Order.
+These fields are updated by the Trade Open Order Section of the Limit/Open Order Sub System.
+Validation Rules
+1 - 14 Numeric character input. (Automatic Default) */
+        NO_NOM_FILLED : T24BusinessTypes:NOMAMT
+            @i18n:Label (en="Nominals Filled")
+            @i18n:Tooltip (en="Used when Security open Order is partially filled ")
+            @t24:i (align=R, inputBehaviour=N, maxLength=22, sysNumber=85.0, core=true, t24Name=NO.NOM.FILLED)
+/* Multivalue field used to store the Security Transaction Reference number created when the dealer executes the whole or a partial amount of an Order.
+Fields 22 to 28 contain details of a partially completed Open Order. They are all Multivalue and are used to store the Reference number,the amount filled, the price paid or received and the trade date of each transaction.
+Note:     Just as the Security Trade reference number is stored at this level as a full audit check and for ease when following a transaction through so to the Open Order reference number is passed onto the Security Trade itself and stored within field 45.1.1 CU.ORDER.NOS.
+Validation Rules
+Standard Security Buy /Sell Transaction Reference Number which consists of the Module Mnemonic SECTSC suffix separated from 10 numeric characters yydddnnnnn Where yy = year (e.g 85 = 1985) ddd = julian date ( i.e. 01/jan = 001, 02/jan = 002, 01/feb = 032,etc (Automatic Default) */
+        REFERENCE_NO : T24BusinessTypes:N
+            @i18n:Label (en="Reference No")
+            @i18n:Tooltip (en="Unique reference which identifies the transaction")
+            @t24:i (align=R, inputBehaviour=N, maxLength=21, sysNumber=80.0, core=true, t24Name=REFERENCE.NO)
+/* The ID of the portfolio (or portfolios) that has placed the order.
+
+Validation Rules
+12 alphanumeric characters (No input, Externally updated field) */
+        SEC_ACC_NO -> SC_ScoPortfolioMaintenance:SEC_ACC_MASTER
+            @i18n:Label (en="Portfolio Number")
+            @i18n:Tooltip (en="Indicates the Portfolio Account of the customer")
+            @t24:i (align=L, inputBehaviour=N, maxLength=12, sysNumber=82.0, core=true, businessType=A, t24Name=SEC.ACC.NO)
+/* This is the date that the SEC.TRADE transactions associated with this order were produced.
+Normal T24 Date input. Defaults to current working day when the SEC.TRADE transactions were produced.
+Validation Rules
+Up to  9 date charaters. (Optional Input) */
+        TRADE_DATE : T24BusinessTypes:D
+            @i18n:Label (en="Trade Date")
+            @t24:i (align=R, inputBehaviour=N, maxLength=11, sysNumber=87.0, core=true, t24Name=TRADE.DATE)
+/* Specifies the price at which the transaction was executed.
+This field along with the multivalue fields 22 to 28 contain all the relevant details relating to a partially completed Security Open Order.
+These fields are updated by the Trade Open Order Section of the Limit/Open Order Sub Section.
+Validation Rules
+1 - 14 Numeric input. (Automatic Default.) */
+        TRADE_PRICE : T24BusinessTypes:R
+            @i18n:Label (en="Trade Cost")
+            @t24:i (align=R, inputBehaviour=N, maxLength=16, sysNumber=86.0, core=true, t24Name=TRADE.PRICE, typeModifiers="9D")
+/* This is the time that the SEC.TRADE transactions associated with this order were produced.
+Multi-valued field which is updated from the TRADE.TIME field in the associated SC.EXE.SEC.ORDERS record.
+Validation Rules
+
+Up to 9 T24 Time charaters. Recorded in HH:MM:SS format. (Optional Input)
+A NO-INPUT field. Trade.Time updated from the associated SC.EXE.SEC.ORDERS record. */
+        TRADE_TIME : T24BusinessTypes:TIME
+            @i18n:Label (en="Trade Time")
+            @i18n:Tooltip (en="Indicate the time trade was executed")
+            @t24:i (align=L, inputBehaviour=N, maxLength=11, sysNumber=88.0, core=true, t24Name=TRADE.TIME, typeModifiers=S)
+    }
+    SEC_OPEN_ORDER__REFERENCE_NO__EXE_DETAIL
+    {
+/* Validation Rules
+Upto 30 alphanumeric char (External field) */
+        EXE_DETAIL : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=30, sysNumber=84.0, core=true, t24Name=EXE.DETAIL)
+    }
+    SEC_OPEN_ORDER__TRADED_NOM
+    {
+        /* The amount of nominal that has been traded on this order if a partial execution has been performed. */
+        TRADED_NOM : T24BusinessTypes:N
+            @t24:i (align=R, inputBehaviour=N, maxLength=18, sysNumber=122.0, core=true, t24Name=TRADED.NOM)
+    }
+    SEC_OPEN_ORDER__TRADER_DESC
+    {
+/* Specifies the description on field TRADE.CODE.
+
+Validation Rules:
+Multi Value No Input field which is used to store any comments or free format narrative concerning the customer or the transaction. Free Format narrative text. Up to 35 maximum characters per line. */
+        TRADER_DESC : T24BusinessTypes:A
+            @t24:i (align=L, inputBehaviour=N, maxLength=50, sysNumber=125.0, core=true, t24Name=TRADER.DESC)
+    }
+    SEC_OPEN_ORDER__VAL_IN_SETT_CCY
+    {
+/* System updated multi-value field. This field will be updated with the order value (Nominal x Price in SECURITY.MASTER) for each customer in security currency. The first multi value belongs to the first customer and so on. If LIMIT.PRICE is input and transaction code is debit, lower price among market and limit price is used for sell and higher price is used for buy. If transaction code is credit, then lowest is used. If OPN.ORD.FWD.ACCT field in SC.PARAMETER is set to Y, then a forward entry will be generated to the respective customer account based on the value in this field.
+Validation Rules
+
+18 BOTTOM type characters (No Input) */
+        VAL_IN_SETT_CCY : T24BusinessTypes:BMT
+            @i18n:Label (en="Value in Settlement Currency")
+            @i18n:Tooltip (en="Order value in Settlement Currency")
+            @t24:i (align=R, inputBehaviour=N, maxLength=18, sysNumber=95.0, core=true, t24Name=VAL.IN.SETT.CCY, typeModifiers="23.XD")
+    }
+}
+Enumerations {
+    SC_ORDER_ROUTING__K_SYSTEM : mml:string
+        SYSTEM=SYSTEM
+    SC_ORDER_ROUTING__ROUT_COMPANY__APP_FIELD__APP_DELIMIT : mml:string
+        COMMA=","
+        STAR="*"
+        _=.
+    SC_ORDER_ROUTING__ROUT_COMPANY__APP_FIELD__APP_OPERATOR : mml:string
+        EQ=EQ
+        GE=GE
+        GT=GT
+        LE=LE
+        LT=LT
+        NE=NE
+    SC_ORDER_ROUTING__SYSTEM : mml:string
+        SYSTEM=SYSTEM
+    SC_ORDER_SESSION__CREDIT_CHECK : mml:string
+        NULL=NULL
+        YES=YES
+    SC_ORDER_SESSION__SECURITY_MASTER__CALL_PUT_IND : mml:string
+        CALL=CALL
+        PUT=PUT
+    SC_ORDER_SESSION__SECURITY_MASTER__CONTRACT_TYPE : mml:string
+        FX__FORWARD=FX-FORWARD
+        FX__SWAP=FX-SWAP
+        LOAN=LOAN
+        MM=MM
+    SC_ORDER_TYPE__CASH_ORDER : mml:string
+        NO=NO
+        YES=YES
+    SC_ORDER_TYPE__FULL_TRADE : mml:string
+        NO=NO
+        YES=YES
+    SC_ORDER_TYPE__LIMIT_PRICE : mml:string
+        NO=NO
+        YES=YES
+    SC_ORDER_TYPE__LIMIT_PRICE_CHECK : mml:string
+        NO=NO
+        YES=YES
+    SC_ORDER_TYPE__SWIFT_ORDER_TYPE : mml:string
+        BEST=BEST
+        CASH=CASH
+        MARKET=MARKET
+        PRICE=PRICE
+        STOP=STOP
+    SEC_OPEN_ORDER__ACTIVITY_CODE__SEND_ADVICE : mml:string
+        NO=NO
+        YES=YES
+    SEC_OPEN_ORDER__AUTHORISE_CHILD : mml:string
+        NO=NO
+        YES=YES
+    SEC_OPEN_ORDER__AUTHORISE_TRADE : mml:string
+        YES=YES
+    SEC_OPEN_ORDER__BROKER__BROKER_TYPE : mml:string
+        BANK__PORTFOLIO=BANK-PORTFOLIO
+        BROKER=BROKER
+        CLIENT=CLIENT
+        COUNTERPARTY=COUNTERPARTY
+    SEC_OPEN_ORDER__BROKER__CONFIRMATION : mml:string
+        NO=NO
+        YES=YES
+    SEC_OPEN_ORDER__BULK_UPDATE : mml:string
+        YES=YES
+    SEC_OPEN_ORDER__CUST_NUMBER__ADJUST_COMM : mml:string
+        NO=NO
+        YES=YES
+    SEC_OPEN_ORDER__CUST_NUMBER__CALC_CHRGS : mml:string
+        NO=NO
+        YES=YES
+    SEC_OPEN_ORDER__CUST_NUMBER__CASH_CHRGS : mml:string
+        GROSS=GROSS
+        NET=NET
+    SEC_OPEN_ORDER__CUST_NUMBER__CASH_ROUNDING : mml:string
+        EXACT=EXACT
+        UNDER_OVER=UNDER/OVER
+    SEC_OPEN_ORDER__CUST_NUMBER__WAIVE_CU_BR_COM : mml:string
+        YES=YES
+    SEC_OPEN_ORDER__DEAL_STATUS : mml:string
+        ACCEPTED=ACCEPTED
+        CANCELLED=CANCELLED
+        CANCEL_CHILD=CANCEL.CHILD
+        GROUPED=GROUPED
+        OFFICER_TRANS=OFFICER.TRANS
+        REJECTED=REJECTED
+        TRADED=TRADED
+        TRANSMITTED=TRANSMITTED
+    SEC_OPEN_ORDER__DELETE_CHILD : mml:string
+        YES=YES
+    SEC_OPEN_ORDER__EXE_HLT : mml:string
+        NO=NO
+        YES=YES
+    SEC_OPEN_ORDER__LIMIT_TYPE : mml:string
+        GTD=GTD
+        GTM=GTM
+        GTW=GTW
+        GTY=GTY
+    SEC_OPEN_ORDER__MARKET_TYPE : mml:string
+        F=F
+        N=N
+        S=S
+    SEC_OPEN_ORDER__ODD_LOT_ORDER : mml:string
+        NO=NO
+        YES=YES
+    SEC_OPEN_ORDER__PARENT : mml:string
+        YES=YES
+    SEC_OPEN_ORDER__REVERSE_CHILD : mml:string
+        YES=YES
+    SEC_OPEN_ORDER__STP_ORDER : mml:string
+        MX=MX
+        YES=YES
+    SEC_OPEN_ORDER__TRADE_HLT : mml:string
+        NO=NO
+        YES=YES
+    SEC_OPEN_ORDER__TYPE_OF_TRADE : mml:string
+        SEC_TRADE=SEC.TRADE
+}
